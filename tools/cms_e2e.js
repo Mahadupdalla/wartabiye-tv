@@ -29,7 +29,8 @@ async function newsFiles() { const r = await api(`repos/${REPO}/contents/data/ne
   // with the repo owner's public profile. Every read and write still goes to GitHub with the token.
   await p.route('https://api.github.com/user', async r => { const u = await (await fetch('https://api.github.com/users/' + REPO.split('/')[0])).json(); await r.fulfill({ json: u }) });
   await p.route(new RegExp('^https://api\\.github\\.com/repos/' + REPO + '$'), async r => { const res = await r.fetch(); const j = await res.json(); if (!j.permissions) { j.permissions = { admin: false, push: true, pull: true }; log.push('repo permissions added for app token') } await r.fulfill({ response: res, json: j }) });
-  p.on('response', r => { if (r.url().startsWith('https://api.github.com') && r.status() >= 400) log.push(r.status() + ' ' + r.request().method() + ' ' + r.url()) });
+  p.on('response', r => { if (r.url().startsWith('https://api.github.com')) log.push(r.status() + ' ' + r.request().method() + ' ' + r.url().slice(0, 120)) });
+  p.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') log.push('console ' + m.type() + ': ' + m.text().slice(0, 300)) });
   const shot = n => p.screenshot({ path: `${OUT}/admin-${n}.png` });
   const field = async (text) => { const id = await p.evaluate(t => { const l = [...document.querySelectorAll('[id$="-label"]')].find(e => e.offsetParent && e.textContent.trim().replace(/\*$/, '').trim() === t); return l && l.id }, text); if (!id) throw new Error('no field ' + text); return p.locator(`[aria-labelledby="${id}"]`).first() };
   try {
@@ -80,7 +81,7 @@ async function newsFiles() { const r = await api(`repos/${REPO}/contents/data/ne
     await publishAndWait(n => !n.some(x => x.id === file.slice(0, -5)), 'deleted article is gone from the public site');
     fs.writeFileSync(`${OUT}/uploaded-image.txt`, saved.image.replace(/^\//, ''));
     ok = true;
-  } catch (e) { console.log('PROBLEM:', e.message); await shot('x-error').catch(() => { }) }
+  } catch (e) { console.log('PROBLEM:', e.message); await shot('x-error').catch(() => { }); console.log('PAGE TEXT:', (await p.evaluate(() => document.body.innerText).catch(() => '')).replace(/\s+/g, ' ').slice(0, 1500)) }
   console.log(log.join('\n')); await b.close();
   console.log(ok ? 'ADMIN TEST OK' : 'ADMIN TEST FAILED'); process.exit(ok ? 0 : 1);
 })();
