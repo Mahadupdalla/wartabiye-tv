@@ -64,14 +64,20 @@ async function newsFiles() { const r = await api(`repos/${REPO}/contents/data/ne
     await p.getByRole('button', { name: 'Cancel Editing' }).click().catch(() => { }); await sleep(1500);
     await p.getByText(TITLE).first().click(); await sleep(2000);
     await (await field('Cinwaanka')).fill(TITLE + ' (la beddelay)');
+    // English translation, typed in the dashboard (the English group is folded: open it first)
+    await p.evaluate(() => { const l = [...document.querySelectorAll('[id$="-label"]')].find(e => e.textContent.includes('English (Ingiriisi)')); let n = l; while (n && !n.querySelector('button[aria-expanded="false"]')) n = n.parentElement; const b = n && n.querySelector('button[aria-expanded="false"]'); if (b) b.click() }); await sleep(800);
+    await (await field('Cinwaanka (EN)')).fill(TITLE + ' (English)');
     await (await field('La daabacay (bogga ka muuqda)')).click();
     await p.getByRole('button', { name: 'Save' }).click(); await sleep(8000); await shot('4-edited');
-    await publishAndWait(n => n.some(x => x.title === TITLE + ' (la beddelay)'), 'edited article is on the public site');
+    await publishAndWait(n => n.some(x => x.title === TITLE + ' (la beddelay)' && x.en && x.en.title === TITLE + ' (English)'), 'edited article with its English translation is on the public site');
     const pg = await b.newPage({ viewport: { width: 390, height: 844 } });
     await pg.goto(SITE + '#war-' + file.slice(0, -5), { waitUntil: 'networkidle' }); await sleep(1500);
     const shown = await pg.evaluate(() => document.body.innerText);
     if (!shown.includes(TITLE + ' (la beddelay)')) throw new Error('article page does not show the edited title');
     await pg.screenshot({ path: `${OUT}/admin-5-live-article.png` }); console.log('LIVE article page shows the edited title');
+    await pg.goto(SITE + '?lang=en#war-' + file.slice(0, -5), { waitUntil: 'networkidle' }); await sleep(1500);
+    if (!(await pg.evaluate(() => document.body.innerText)).includes(TITLE + ' (English)')) throw new Error('English article page does not show the English title');
+    await pg.screenshot({ path: `${OUT}/admin-5b-live-article-en.png` }); console.log('LIVE article page in English shows the English title');
     // delete
     await p.getByRole('button', { name: 'Cancel Editing' }).click().catch(() => { }); await sleep(1500);
     await p.getByText(TITLE + ' (la beddelay)').first().click(); await sleep(2000);

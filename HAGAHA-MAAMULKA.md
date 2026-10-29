@@ -43,13 +43,24 @@ Browser: isticmaal Chrome, Edge, Safari ama Firefox oo la cusboonaysiiyay (Chrom
 - **Qaybaha bogga hore:** shid/dami wararka waaweyn, liiska cusub, sidebar-ka, barnaamijyada iyo wararka footer-ka.
 - **Barnaamijyada:** magac, sharaxaad iyo goor.
 
+## Luqadaha (Soomaali, English, العربية, Français)
+
+Booqdayaashu waxay luqadda ka doortaan badhanka calanka leh ee **midigta sare**. Soomaaligu waa luqadda caadiga ah; doorashada booqde kasta browser-kiisa ayaa xusuusta. Carabigu wuxuu u socdaa midig ilaa bidix (RTL).
+
+- **War kasta** wuxuu leeyahay saddex qaybood oo laalaab ah oo hoose: 🇬🇧 English, 🇸🇦 العربية, 🇫🇷 Français. Fur, beddel cinwaanka/soo koobidda/qoraalka, kadibna **Save**.
+- Marka aad saxdo turjumaad otomaatig ah, **Xaaladda** u beddel **Gacan**. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".
+- **Eeg luqad kasta:** editor-ka ⋮ → **View on Live Site** wuxuu furaa warka bogga (xitaa qabyo), kadibna luqadda ka beddel midigta sare. Ama ku dar `?lang=en`, `?lang=ar`, `?lang=fr` link-ga bogga.
+- **Hawsha 06:00** waxay turjuntaa wararka cusub (Claude ayaa turjuma, adeeg lacag ah lama isticmaalo). Kaliya waxay buuxisaa turjumaad **maqan**; waligeed ma beddesho turjumaad jirta ama mid aad saxday. Si ay mar kale u turjunto, faaruqi cinwaanka luqaddaas.
+- Haddii war aan weli la turjumin, bogga wuxuu muujinayaa qoraalka Soomaaliga oo leh calaamad cad ("weli lama turjumin").
+- **Dejinta bogga** waxay leedahay qaybo 🇬🇧/🇸🇦/🇫🇷 ah: magaalada, hal-ku-dhegga, banner-ka, ogeysiiska, barnaamijyada. Menu-ga iyo lixda qaybood si toos ah ayaa loo turjumaa.
+
 ## Goorma ayuu bogga isbeddelaa?
 
 Marka aad riixdo **Save**, GitHub ayaa kaydiya. Workflow-ga **"Daabac bogga"** ayaa hubiya (taariikh, sawir, nuqul) oo bogga cusbooneysiiya. Bogga tooska ahi wuxuu isbeddelaa **1–3 daqiiqo** gudahood. Haddii hubintu fashilanto (tusaale sawir maqan), bogga hore sidiisa ayuu ahaanayaa, GitHub-na wuxuu kuu soo diraa email.
 
 ## Hawsha 06:00
 
-Hawsha maalinlaha ah ee 06:00 waxay **kaliya ku daraysaa wararka cusub** (fayl cusub mid kasta). Waligeed ma beddesho, ma tirtirto, mana dib u qorto war jira ama dejintaada. Sidaas darteed wax-ka-beddelkaaga gacanta waa ammaan.
+Hawsha maalinlaha ah ee 06:00 waxay **kaliya ku daraysaa wararka cusub** (fayl cusub mid kasta) iyo turjumaadaha maqan. Waligeed ma beddesho, ma tirtirto, mana dib u qorto war jira, turjumaad jirta ama dejintaada. Sidaas darteed wax-ka-beddelkaaga gacanta waa ammaan.
 
 ## Kharash
 

@@ -19,10 +19,17 @@ for n in items:
         if not img.startswith('img/'): errors.append(f'{nid}: image must be a local img/ path, got {img}')
         elif not os.path.isfile(os.path.join(root, img)): errors.append(f'{nid}: image file missing {img}')
         if n.get('by') != 'admin' and (not n.get('imageCredit') or not n.get('imageLicense')): errors.append(f'{nid}: image without credit/licence')
+    for lang in ('en', 'ar', 'fr'):
+        t = n.get(lang)
+        if t is None: continue
+        if not isinstance(t, dict): errors.append(f'{nid}: translation {lang} is not an object')
+        elif any(k in t and not isinstance(t[k], str) for k in ('title', 'summary', 'body', 'imageAlt')): errors.append(f'{nid}: translation {lang} has a non-text field')
 with_img = sum(1 for n in items if n.get('image'))
 print(f'articles={len(items)} with_image={with_img} placeholder={len(items)-with_img}')
 meta = news.get('updatedAt') if isinstance(news, dict) else None
 print('updatedAt', meta)
+# a missing translation is not an error: the page then shows the Somali original with a clear label
+print('translated', ' '.join(f"{l}={sum(1 for n in items if isinstance(n.get(l), dict))}/{len(items)}" for l in ('en', 'ar', 'fr')))
 if errors:
     print('\n'.join(errors)); sys.exit(1)
 print('OK')

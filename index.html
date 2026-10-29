@@ -9,7 +9,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Wartabiye TV: wararka Soomaaliya iyo adduunka oo af-Soomaali ah, iyo barnaamijyo maalinle ah.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500..900&family=Noto+Sans+Arabic:wght@400..700&display=swap">
 <style>
 /* Single light look in the Wartabiye palette only. Layout: news-portal desk — dark-blue top bar, white logo band, blue sticky menu, DEGDEG ticker, mosaic of 5 stories, list + sidebar, single-story reading view, four-column footer */
 :root{
@@ -38,8 +38,8 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0}
 .topbar{background:var(--bar);color:var(--bar-fg);font-size:12.5px}
 .topbar .wrap{display:flex;align-items:center;gap:18px;padding-block:7px;flex-wrap:wrap}
 .topbar .dt{font-weight:600;color:#fff}
-.topbar .city::before{content:"";display:inline-block;width:6px;height:6px;background:var(--red);transform:rotate(45deg);margin-right:8px;vertical-align:2px}
-.topbar .soc{margin-left:auto;display:flex;gap:6px}
+.topbar .city::before{content:"";display:inline-block;width:6px;height:6px;background:var(--red);transform:rotate(45deg);margin-inline-end:8px;vertical-align:2px}
+.topbar .soc{margin-inline-start:auto;display:flex;gap:6px}
 .topbar .soc a{width:26px;height:26px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.14)}
 .topbar .soc a:hover{background:var(--red)}
 .topbar svg{width:13px;height:13px;fill:#fff}
@@ -51,7 +51,7 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0}
 .brand>span{min-width:0}
 .brand img{width:64px;height:64px;border-radius:50%;background:#fff;box-shadow:0 0 0 1px var(--line)}
 .brand b{font-family:var(--display);font-weight:900;font-stretch:88%;font-size:34px;letter-spacing:.02em;line-height:1;color:var(--blue)}
-.brand b span{background:var(--red);color:#fff;padding:2px 8px;border-radius:5px;margin-left:6px;font-size:.8em;vertical-align:3px}
+.brand b span{background:var(--red);color:#fff;padding:2px 8px;border-radius:5px;margin-inline-start:6px;font-size:.8em;vertical-align:3px}
 .brand small{display:block;font:600 11.5px var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 
 /* menu */
@@ -61,7 +61,7 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .links{display:flex;flex-wrap:wrap;gap:0;min-width:0}
 .links a{font:700 14px var(--display);font-stretch:92%;text-transform:uppercase;letter-spacing:.03em;padding:14px 13px;display:block}
 .links a:hover,.links a.on{background:var(--blue-d)}
-.tools{margin-left:auto;display:flex;align-items:center;gap:6px}
+.tools{margin-inline-start:auto;display:flex;align-items:center;gap:6px}
 .icobtn{background:none;border:0;color:#fff;width:40px;height:40px;display:grid;place-items:center;cursor:pointer;border-radius:4px}
 .icobtn:hover{background:var(--blue-d)}
 .icobtn svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
@@ -75,7 +75,7 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .search input{width:100%;font:500 15px var(--body);padding:10px 14px;border:0;border-radius:4px;background:#fff;color:#0b1c33}
 
 /* ticker */
-.promo{margin-left:auto;display:flex;align-items:stretch;max-width:560px;flex:1 1 380px;min-width:0;border-radius:6px;overflow:hidden;background:linear-gradient(100deg,var(--blue-d),var(--blue));color:#fff}
+.promo{margin-inline-start:auto;display:flex;align-items:stretch;max-width:560px;flex:1 1 380px;min-width:0;border-radius:6px;overflow:hidden;background:linear-gradient(100deg,var(--blue-d),var(--blue));color:#fff}
 .promo .ph{width:120px;flex:none;background-position:center 18%;background-size:cover}
 .promo .in{padding:12px 16px;display:grid;gap:4px;min-width:0}
 .promo .soon{font:800 11px var(--display);letter-spacing:.14em;color:#fff;background:var(--red);padding:3px 7px;border-radius:3px;width:max-content}
@@ -89,8 +89,8 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .degdeg .wrap{display:flex;align-items:stretch;overflow:hidden}
 .degdeg .lab{background:var(--red);color:#fff;padding:9px 14px;flex:none;font:800 12px var(--display);letter-spacing:.16em;display:flex;align-items:center}
 .tick{overflow:hidden;flex:1;min-width:0;display:flex;align-items:center}
-.tick-track{display:flex;gap:44px;white-space:nowrap;padding-left:18px;animation:tick 42s linear infinite;font-weight:600;font-size:14px}
-.tick-track a::before{content:"";display:inline-block;width:6px;height:6px;background:var(--blue);transform:rotate(45deg);margin-right:12px;vertical-align:2px}
+.tick-track{display:flex;gap:44px;white-space:nowrap;padding-inline-start:18px;animation:tick 42s linear infinite;font-weight:600;font-size:14px}
+.tick-track a::before{content:"";display:inline-block;width:6px;height:6px;background:var(--blue);transform:rotate(45deg);margin-inline-end:12px;vertical-align:2px}
 .tick-track a:hover{color:var(--blue)}
 @keyframes tick{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.live i,.tick-track{animation:none!important}}
@@ -107,7 +107,7 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .tile .ph .phc b,.tile .ph .phc i{display:none}
 .mini .ph .phc svg{width:28px;height:28px}.mini .ph .phc b,.mini .ph .phc i{display:none}
 .rgrid .ph .phc i,.row .ph .phc i{display:none}
-.ph .illus{position:absolute;right:8px;top:8px;z-index:1;background:rgba(11,28,51,.72);color:#fff;font:700 10.5px var(--body);padding:3px 7px;border-radius:3px}
+.ph .illus{position:absolute;inset-inline-end:8px;top:8px;z-index:1;background:rgba(11,28,51,.72);color:#fff;font:700 10.5px var(--body);padding:3px 7px;border-radius:3px}
 .ph.none{background-image:linear-gradient(135deg,var(--blue),var(--blue-d));position:relative;overflow:hidden}
 .ph.none::after{content:none;position:absolute;right:12px;bottom:10px;font:900 13px var(--display);letter-spacing:.14em;color:rgba(255,255,255,.55)}
 .ph.none::before{content:"";position:absolute;width:62%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);background:url(img/logo.png) center/contain no-repeat;opacity:.13;border-radius:50%}
@@ -132,12 +132,12 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:36px;padding-block:24px 10px}
 .blockhead{display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--blue);margin-bottom:18px}
 .blockhead h2{background:var(--blue);color:#fff;font:800 14px var(--display);letter-spacing:.08em;text-transform:uppercase;padding:8px 14px}
-.blockhead span{margin-left:auto;color:var(--muted);font-size:12.5px;font-weight:600}
+.blockhead span{margin-inline-start:auto;color:var(--muted);font-size:12.5px;font-weight:600}
 .list{display:grid;gap:22px}
 .row{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;padding-bottom:22px;border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}
 .row .ph{aspect-ratio:16/10;max-width:100%;border-radius:3px;display:block;position:relative}
-.row .ph .cat{position:absolute;left:10px;bottom:10px}
+.row .ph .cat{position:absolute;inset-inline-start:10px;bottom:10px}
 .row .tx{display:grid;gap:8px;align-content:start;min-width:0}
 .row h3{font-size:21px;line-height:1.2;font-weight:800;font-stretch:92%}
 .row h3 a:hover{color:var(--blue)}
@@ -166,7 +166,7 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .prow .acts{display:flex;gap:8px;flex-wrap:wrap}
 .logs{overflow-x:auto}
 .logs table{border-collapse:collapse;width:100%;font-size:13px;min-width:560px}
-.logs th,.logs td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.logs th,.logs td{text-align:start;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 .logs th{font:700 12px var(--display);text-transform:uppercase;letter-spacing:.06em}
 .ok{color:var(--blue);font-weight:700}.bad{color:var(--red);font-weight:700}
 .empty{color:var(--muted);background:var(--soft);border:1px dashed var(--line);border-radius:6px;padding:22px}
@@ -208,7 +208,7 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .figure figcaption b{color:var(--red);font-weight:700}
 .body{font-size:18px;line-height:1.75;max-width:68ch}
 .body p{margin:0 0 18px}
-.srcbox{border-left:4px solid var(--red);background:var(--soft);padding:14px 18px;border-radius:0 4px 4px 0;font-size:14.5px;max-width:68ch}
+.srcbox{border-inline-start:4px solid var(--red);background:var(--soft);padding:14px 18px;border-radius:0 4px 4px 0;font-size:14.5px;max-width:68ch}
 .srcbox a{color:var(--blue);font-weight:700;text-decoration:underline;text-underline-offset:3px;word-break:break-word}
 .related{margin-top:34px}
 .rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
@@ -260,6 +260,39 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
 .motto{font:700 13px var(--display);letter-spacing:.06em;color:#fff}
 .motto i{font-style:normal;color:var(--red);margin:0 8px}
 
+/* language switcher (top right) */
+.lang{position:relative;flex:none}
+.lang-btn{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:14px;height:28px;padding:0 10px 0 6px;font:700 12.5px var(--body);cursor:pointer}
+[dir=rtl] .lang-btn{padding:0 6px 0 10px}
+.lang-btn:hover,.lang-btn[aria-expanded=true]{background:var(--red)}
+.lang img{width:20px;height:14px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(11,28,51,.18);flex:none;display:block}
+.lang-btn svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.lang-btn .lc{display:none}
+.lang-menu{position:absolute;inset-inline-end:0;top:calc(100% + 6px);z-index:30;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:4px;box-shadow:0 10px 30px rgba(11,28,51,.18);min-width:190px;padding:6px;display:grid;gap:2px}
+.lang-menu[hidden]{display:none}
+.lang-menu button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:9px 10px;border-radius:3px;font:600 14px var(--body);color:var(--fg);cursor:pointer;text-align:start}
+.lang-menu button:hover{background:var(--chip);color:var(--blue)}
+.lang-menu button[aria-checked=true]{background:var(--blue);color:#fff}
+.lang-menu button small{margin-inline-start:auto;font:700 11px var(--display);letter-spacing:.08em;opacity:.75}
+.lang-menu [lang=ar]{font-family:"Noto Sans Arabic",Tahoma,sans-serif}
+/* translation notes */
+.trnote{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--blue);padding:10px 14px;border-radius:4px;font-size:13.5px;font-weight:600;margin:0 0 18px;max-width:68ch}
+.trnote button{background:none;border:0;color:var(--blue);font:700 13.5px var(--body);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0}
+.olang{display:inline-block;font:700 10.5px var(--body);color:var(--blue);background:var(--chip);border:1px solid var(--line);border-radius:3px;padding:1px 6px;letter-spacing:.02em}
+.pvbar{background:var(--red);color:#fff;font:700 13.5px var(--body);padding:10px 14px;border-radius:4px;margin-bottom:14px}
+/* Arabic: right-to-left, Arabic fonts, no letter-spacing (it breaks joined letters) */
+html[lang=ar]{--display:"Archivo","Noto Kufi Arabic","Noto Sans Arabic",Tahoma,sans-serif;--body:"Public Sans","Noto Sans Arabic",Tahoma,sans-serif}
+html[lang=ar] *{letter-spacing:0!important}
+html[lang=ar] .article h1{line-height:1.4}
+html[lang=ar] .body{line-height:1.95}
+html[lang=ar] .row h3,html[lang=ar] .tile h2,html[lang=ar] .tile h3{line-height:1.4}
+[dir=rtl] .srcbox{border-radius:4px 0 0 4px}
+/* the language switcher stays in the top-right corner in every language */
+[dir=rtl] .topbar .lang{order:-1}
+[dir=rtl] .lang-menu{inset-inline-end:auto;inset-inline-start:0}
+[dir=rtl] .tick-track{animation-name:tickr}
+@keyframes tickr{to{transform:translateX(50%)}}
+
 @media (max-width:1000px){
   .layout{grid-template-columns:minmax(0,1fr)}
   .sidebar{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -270,7 +303,7 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
   .links a{padding:14px 9px;font-size:13px}
 }
 @media (max-width:820px){
-  .promo{margin-left:0}
+  .promo{margin-inline-start:0}
   .menu-btn{display:inline-flex}
   .links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--blue-d);flex-direction:column;padding:6px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px))}
   .links.open{display:flex}
@@ -300,6 +333,13 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
   .blockhead{flex-wrap:wrap;row-gap:6px}
   .blockhead h2{white-space:nowrap}
 }
+@media (max-width:640px){
+  .lang-btn .ln{display:none}.lang-btn .lc{display:inline}
+  .topbar .wrap{flex-wrap:nowrap}
+  .topbar .dt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .topbar .soc{gap:4px}
+  .lang-btn{padding:0 8px 0 6px;gap:6px}
+}
 @media (max-width:440px){
   .topbar .city{display:none}
 }
@@ -311,50 +351,59 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
 <div class="topbar" id="top">
   <div class="wrap">
     <span class="dt" id="today">Wartabiye TV</span>
-    <span class="city" id="city">Muqdisho, Soomaaliya</span>
+    <span class="city" id="city" data-i18n="city">Muqdisho, Soomaaliya</span>
     <span class="soc">
       <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z"/></svg></a>
       <a href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.6v13.3a2.9 2.9 0 1 1-2.1-2.8V8.8a6.6 6.6 0 1 0 5.7 6.5V8.6a8.4 8.4 0 0 0 4.4 1.3V6.3a4.5 4.5 0 0 1-4.4-4.3z"/></svg></a>
       <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12z"/></svg></a>
     </span>
+    <div class="lang" id="lang">
+      <button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-controls="langMenu" data-i18n-aria="langAria" aria-label="Luqadda"><img id="langFlag" src="img/flags/so.svg" alt="" width="20" height="14"><span class="ln" id="langName">Soomaali</span><span class="lc" id="langCode">SO</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></button>
+      <div class="lang-menu" id="langMenu" role="menu" hidden>
+        <button type="button" role="menuitemradio" data-lang="so" lang="so" aria-checked="true"><img src="img/flags/so.svg" alt="" width="20" height="14">Soomaali<small>SO</small></button>
+        <button type="button" role="menuitemradio" data-lang="en" lang="en" aria-checked="false"><img src="img/flags/gb.svg" alt="" width="20" height="14">English<small>EN</small></button>
+        <button type="button" role="menuitemradio" data-lang="ar" lang="ar" dir="rtl" aria-checked="false"><img src="img/flags/sa.png" alt="" width="20" height="14">العربية<small>AR</small></button>
+        <button type="button" role="menuitemradio" data-lang="fr" lang="fr" aria-checked="false"><img src="img/flags/fr.svg" alt="" width="20" height="14">Français<small>FR</small></button>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="logoband">
   <div class="wrap">
-    <a class="brand" href="#hoyga"><img src="img/logo.png" alt="Wartabiye TV logo"><span><b>WARTABIYE<span>TV</span></b><small id="tagline">Wararka · Wareysiyada · Barnaamijyada</small></span></a>
+    <a class="brand" href="#hoyga"><img src="img/logo.png" alt="Wartabiye TV logo"><span><b>WARTABIYE<span>TV</span></b><small id="tagline" data-i18n="tagline">Wararka · Wareysiyada · Barnaamijyada</small></span></a>
   </div>
 </div>
 
-<nav class="menu" aria-label="Menu-ga guud">
+<nav class="menu" aria-label="Menu-ga guud" data-i18n-aria="navAria">
   <div class="wrap">
-    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="links"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>MENU</button>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="links"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg><span data-i18n="menu">MENU</span></button>
     <div class="links" id="links">
-      <a href="#hoyga" data-nav="hoyga">Hoyga</a>
+      <a href="#hoyga" data-nav="hoyga" data-i18n="home">Hoyga</a>
       <a href="#qayb-siyaasadda" data-nav="qayb-siyaasadda">Siyaasadda</a>
       <a href="#qayb-amniga" data-nav="qayb-amniga">Amniga</a>
       <a href="#qayb-bulshada" data-nav="qayb-bulshada">Bulshada</a>
       <a href="#qayb-dhaqaalaha" data-nav="qayb-dhaqaalaha">Dhaqaalaha</a>
       <a href="#qayb-adduunka" data-nav="qayb-adduunka">Adduunka</a>
       <a href="#qayb-ciyaaraha" data-nav="qayb-ciyaaraha">Ciyaaraha</a>
-      <a href="#barnaamijyada">Barnaamijyada</a>
+      <a href="#barnaamijyada" data-i18n="programmes">Barnaamijyada</a>
     </div>
     <div class="tools">
-      <button class="icobtn" id="searchBtn" aria-label="Raadi" aria-expanded="false" aria-controls="searchBar"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></button>
-      <a class="live" href="#nala-soco"><i></i>LIVE</a>
+      <button class="icobtn" id="searchBtn" aria-label="Raadi" data-i18n-aria="search" aria-expanded="false" aria-controls="searchBar"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></button>
+      <a class="live" href="#nala-soco"><i></i><span data-i18n="live">LIVE</span></a>
     </div>
   </div>
   <div class="search" id="searchBar" hidden>
-    <div class="wrap"><label for="q" class="sr" hidden>Raadi</label><input id="q" type="search" placeholder="Ku qor erayga aad raadinayso…" autocomplete="off"></div>
+    <div class="wrap"><label for="q" class="sr" hidden data-i18n="search">Raadi</label><input id="q" type="search" data-i18n-ph="searchPh" placeholder="Ku qor erayga aad raadinayso…" autocomplete="off"></div>
   </div>
 </nav>
 
-<div class="notice" id="notice" hidden><div class="wrap"><b id="noticeLab">OGEYSIIS</b><span id="noticeText"></span></div></div>
+<div class="notice" id="notice" hidden><div class="wrap"><b id="noticeLab" data-i18n="noticeLabel">OGEYSIIS</b><span id="noticeText"></span></div></div>
 
 <div class="degdeg">
   <div class="wrap">
-    <div class="lab" id="tickLab">DEGDEG</div>
-    <div class="tick"><div class="tick-track" id="tick"><a>Wararkii ugu danbeeyay ee Wartabiye TV ayaa soo dhacaya…</a></div></div>
+    <div class="lab" id="tickLab" data-i18n="breakingLabel">DEGDEG</div>
+    <div class="tick"><div class="tick-track" id="tick"><a data-i18n="tickLoading">Wararkii ugu danbeeyay ee Wartabiye TV ayaa soo dhacaya…</a></div></div>
   </div>
 </div>
 
@@ -362,14 +411,14 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
   <!-- HOME -->
   <div id="homeView">
     <div class="wrap"><div class="mosaic" id="mosaic">
-      <a class="tile big" href="#hoyga"><span class="ph none"></span><span class="in"><span class="cat">Wararka</span><h2>Wararkii ugu danbeeyay ayaa soo dhacaya</h2></span></a>
+      <a class="tile big" href="#hoyga"><span class="ph none"></span><span class="in"><span class="cat" data-i18n="news">Wararka</span><h2 data-i18n="mosaicLoading">Wararkii ugu danbeeyay ayaa soo dhacaya</h2></span></a>
     </div></div>
 
     <div class="wrap layout">
       <div>
-        <div class="blockhead"><h2 id="listTitle">Wararka cusub</h2><span id="updated">Maalin kasta 06:00 subaxnimo waa la cusbooneysiiyaa</span></div>
+        <div class="blockhead"><h2 id="listTitle" data-i18n="latest">Wararka cusub</h2><span id="updated" data-i18n="updatedDaily">Maalin kasta 06:00 subaxnimo waa la cusbooneysiiyaa</span></div>
         <div class="list" id="list"></div>
-        <p class="empty" id="empty" hidden>Weli war lama dhigin. Wararka cusub waxay halkan ka soo muuqan doonaan maalin kasta 06:00 subaxnimo.</p>
+        <p class="empty" id="empty" hidden data-i18n="noNews">Weli war lama dhigin. Wararka cusub waxay halkan ka soo muuqan doonaan maalin kasta 06:00 subaxnimo.</p>
       </div>
       <aside class="sidebar" data-side></aside>
     </div>
@@ -415,7 +464,7 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
 
   <section class="band" id="barnaamijyada">
     <div class="wrap">
-      <div class="blockhead"><h2 id="progTitle">Barnaamijyada</h2><span id="progSub">Maalin kasta</span></div>
+      <div class="blockhead"><h2 id="progTitle" data-i18n="programmes">Barnaamijyada</h2><span id="progSub" data-i18n="everyDay">Maalin kasta</span></div>
       <div class="progs" id="progs">
         <div class="prog"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg></div><h3>Wararka</h3><p>Warkii ugu danbeeyay ee Soomaaliya iyo adduunka, xog la hubiyay.</p><span class="when">Maalin kasta 06:00 subaxnimo</span></div>
         <div class="prog"><div class="ic"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M8 2.5l4 3.5 4-3.5M10 10v5l4-2.5z"/></svg></div><h3>Fiiro gaar ah</h3><p>Falanqayn qoto dheer oo ku saabsan arrimaha taagan.</p><span class="when">Toddobaad kasta</span></div>
@@ -428,23 +477,23 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
   <div class="wrap fcols">
     <div>
       <span class="brand"><img src="img/logo.png" alt=""><b>WARTABIYE<span>TV</span></b></span>
-      <p id="about">Wartabiye TV waa telefishin iyo bog wararka af-Soomaaliga ah. Xog dhab ah. Aragti cusub. Daawasho wacan.</p>
+      <p id="about" data-i18n="about">Wartabiye TV waa telefishin iyo bog wararka af-Soomaaliga ah. Xog dhab ah. Aragti cusub. Daawasho wacan.</p>
     </div>
     <div>
       <h4>Wartabiye TV</h4>
-      <div class="flinks"><a href="#hoyga">Hoyga</a><a href="#barnaamijyada">Barnaamijyada</a><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></div>
+      <div class="flinks"><a href="#hoyga" data-i18n="home">Hoyga</a><a href="#barnaamijyada" data-i18n="programmes">Barnaamijyada</a><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></div>
     </div>
     <div>
-      <h4>Ugu dambeeyay</h4>
+      <h4 data-i18n="latestShort">Ugu dambeeyay</h4>
       <div class="ftrend" id="ftrend"></div>
     </div>
     <div>
-      <h4>Qaybaha</h4>
+      <h4 data-i18n="categories">Qaybaha</h4>
       <div class="fcats" id="fcats"></div>
     </div>
   </div>
   <div class="fbot"><div class="wrap">
-    <span>© <span id="yr">2026</span> Wartabiye TV. Xuquuqda oo dhan way xifdisan tahay.</span>
+    <span>© <span id="yr">2026</span> Wartabiye TV. <span data-i18n="rights">Xuquuqda oo dhan way xifdisan tahay.</span></span>
     <span class="motto" id="motto">Wararka<i>◆</i>Wareysiyada<i>◆</i>Barnaamijyada</span>
   </div></div>
 </footer>
@@ -455,6 +504,118 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
   var DAYS=['Axad','Isniin','Talaado','Arbaco','Khamiis','Jimce','Sabti'];
   var MONTHS=['Janaayo','Febraayo','Maarso','Abriil','Maajo','Juun','Luulyo','Ogost','Sebtembar','Oktoobar','Nofembar','Desembar'];
   var $=function(id){return document.getElementById(id)};
+
+  // ---- Languages: Somali (default), English, Arabic (right-to-left), French ----
+  // Interface text lives here; article translations live in each article ("en"/"ar"/"fr"), site settings in data/site.json.
+  var LANGS={so:{name:'Soomaali',code:'SO',flag:'img/flags/so.svg',dir:'ltr',loc:'so'},en:{name:'English',code:'EN',flag:'img/flags/gb.svg',dir:'ltr',loc:'en-GB'},
+    ar:{name:'العربية',code:'AR',flag:'img/flags/sa.png',dir:'rtl',loc:'ar-u-nu-latn'},fr:{name:'Français',code:'FR',flag:'img/flags/fr.svg',dir:'ltr',loc:'fr-FR'}};
+  var I18N={
+    so:{menu:'MENU',navAria:'Menu-ga guud',search:'Raadi',searchPh:'Ku qor erayga aad raadinayso…',live:'LIVE',langAria:'Luqadda',
+      tickLoading:'Wararkii ugu danbeeyay ee Wartabiye TV ayaa soo dhacaya…',news:'Wararka',mosaicLoading:'Wararkii ugu danbeeyay ayaa soo dhacaya',
+      latest:'Wararka cusub',updatedDaily:'Maalin kasta 06:00 subaxnimo waa la cusbooneysiiyaa',updated:'La cusbooneysiiyay: ',
+      noNews:'Weli war lama dhigin. Wararka cusub waxay halkan ka soo muuqan doonaan maalin kasta 06:00 subaxnimo.',noMatch:'War ku habboon lama helin.',
+      searchResults:'Natiijada raadinta',loadError:'Wararka lama soo rari karin ({e}). Fadlan dib u cusbooneysii bogga.',
+      home:'Hoyga',programmes:'Barnaamijyada',everyDay:'Maalin kasta',latestShort:'Ugu dambeeyay',categories:'Qaybaha',follow:'Nala soco',rights:'Xuquuqda oo dhan way xifdisan tahay.',
+      noticeLabel:'OGEYSIIS',breakingLabel:'DEGDEG',breaking:'Degdeg',readMore:'Akhri warka →',original:'Asalka',sourceWord:'ilaha',sources:'Ilaha',
+      illus:'Sawir muujin ah',illusNote:' (ma aha sawirka dhacdada). ',photo:'Sawir',noImg:'Sawir lama hayo',now:'Hadda',
+      timeUnverified:'waqti lama hubo',timeUnknown:'Waqti lama hubo',timeUnverifiedLong:'Waqtiga saxda ah lama xaqiijin',
+      notFound:'Warkan lama helin. Waxaa laga yaabaa in la tirtiray.',loadingStory:'Warka waa la soo rarayaa…',back:'← Ku noqo Hoyga',sep:'›',
+      copy:'Koobi',copied:'La koobiyeeyay',related:'Akhri wax kale',somaliOnly:'',noTr:'',autoTr:'',readSo:'',
+      city:'Muqdisho, Soomaaliya',tagline:'Wararka · Wareysiyada · Barnaamijyada',motto:'Wararka · Wareysiyada · Barnaamijyada',
+      about:'Wartabiye TV waa telefishin iyo bog wararka af-Soomaaliga ah. Xog dhab ah. Aragti cusub. Daawasho wacan.',
+      desc:'Wartabiye TV: wararka Soomaaliya iyo adduunka oo af-Soomaali ah, iyo barnaamijyo maalinle ah.'},
+    en:{menu:'MENU',navAria:'Main menu',search:'Search',searchPh:'Type the word you are looking for…',live:'LIVE',langAria:'Language',
+      tickLoading:'The latest Wartabiye TV news is loading…',news:'News',mosaicLoading:'The latest news is loading',
+      latest:'Latest news',updatedDaily:'Updated every day at 06:00',updated:'Updated: ',
+      noNews:'No news has been posted yet. New stories will appear here every day at 06:00.',noMatch:'No matching news found.',
+      searchResults:'Search results',loadError:'The news could not be loaded ({e}). Please refresh the page.',
+      home:'Home',programmes:'Programmes',everyDay:'Every day',latestShort:'Latest',categories:'Categories',follow:'Follow us',rights:'All rights reserved.',
+      noticeLabel:'NOTICE',breakingLabel:'BREAKING',breaking:'Breaking',readMore:'Read more →',original:'Original',sourceWord:'source',sources:'Source',
+      illus:'Illustrative photo',illusNote:' (not a photo of the event). ',photo:'Photo',noImg:'No image available',now:'Just now',
+      timeUnverified:'time not verified',timeUnknown:'Time not verified',timeUnverifiedLong:'Exact time not confirmed',
+      notFound:'This article was not found. It may have been removed.',loadingStory:'Loading the article…',back:'← Back to Home',sep:'›',
+      copy:'Copy',copied:'Copied',related:'Read more',somaliOnly:'Somali only',
+      noTr:'This article is not yet available in English. You are reading the original Somali version.',
+      autoTr:'This article was translated automatically from Somali. The Somali version is the original.',readSo:'Read in Somali',
+      city:'Mogadishu, Somalia',tagline:'News · Interviews · Programmes',motto:'News · Interviews · Programmes',
+      about:'Wartabiye TV is a Somali-language television channel and news website. Real information. A fresh perspective. Great viewing.',
+      desc:'Wartabiye TV: news from Somalia and the world, and daily programmes.'},
+    ar:{menu:'القائمة',navAria:'القائمة الرئيسية',search:'بحث',searchPh:'اكتب الكلمة التي تبحث عنها…',live:'مباشر',langAria:'اللغة',
+      tickLoading:'يجري تحميل آخر أخبار Wartabiye TV…',news:'الأخبار',mosaicLoading:'يجري تحميل آخر الأخبار',
+      latest:'آخر الأخبار',updatedDaily:'يُحدَّث يوميًا الساعة 06:00 صباحًا',updated:'آخر تحديث: ',
+      noNews:'لم تُنشر أي أخبار بعد. ستظهر الأخبار الجديدة هنا يوميًا الساعة 06:00 صباحًا.',noMatch:'لم يُعثر على أخبار مطابقة.',
+      searchResults:'نتائج البحث',loadError:'تعذّر تحميل الأخبار ({e}). يُرجى تحديث الصفحة.',
+      home:'الرئيسية',programmes:'البرامج',everyDay:'يوميًا',latestShort:'الأحدث',categories:'الأقسام',follow:'تابعنا',rights:'جميع الحقوق محفوظة.',
+      noticeLabel:'تنبيه',breakingLabel:'عاجل',breaking:'عاجل',readMore:'اقرأ الخبر ←',original:'المصدر الأصلي',sourceWord:'المصدر',sources:'المصدر',
+      illus:'صورة توضيحية',illusNote:' (ليست صورة من الحدث). ',photo:'صورة',noImg:'لا تتوفر صورة',now:'الآن',
+      timeUnverified:'الوقت غير مؤكد',timeUnknown:'الوقت غير مؤكد',timeUnverifiedLong:'لم يُتحقق من الوقت الدقيق',
+      notFound:'لم يُعثر على هذا الخبر. ربما حُذف.',loadingStory:'جارٍ تحميل الخبر…',back:'→ العودة إلى الرئيسية',sep:'‹',
+      copy:'نسخ',copied:'تم النسخ',related:'اقرأ أيضًا',somaliOnly:'بالصومالية فقط',
+      noTr:'هذا الخبر غير متوفر بعد باللغة العربية. أنت تقرأ النص الصومالي الأصلي.',
+      autoTr:'تُرجم هذا الخبر آليًا من الصومالية، والنص الصومالي هو الأصل.',readSo:'اقرأ بالصومالية',
+      city:'مقديشو، الصومال',tagline:'أخبار · مقابلات · برامج',motto:'أخبار · مقابلات · برامج',
+      about:'Wartabiye TV قناة تلفزيونية وموقع إخباري باللغة الصومالية. معلومات حقيقية. رؤية جديدة. مشاهدة ممتعة.',
+      desc:'Wartabiye TV: أخبار الصومال والعالم، وبرامج يومية.'},
+    fr:{menu:'MENU',navAria:'Menu principal',search:'Rechercher',searchPh:'Saisissez le mot recherché…',live:'DIRECT',langAria:'Langue',
+      tickLoading:'Les dernières informations de Wartabiye TV arrivent…',news:'Actualités',mosaicLoading:'Les dernières informations arrivent',
+      latest:'Dernières actualités',updatedDaily:'Mis à jour chaque jour à 06h00',updated:'Mis à jour : ',
+      noNews:'Aucune actualité publiée pour le moment. Les nouveaux articles apparaîtront ici chaque jour à 06h00.',noMatch:'Aucun article correspondant.',
+      searchResults:'Résultats de recherche',loadError:'Impossible de charger les actualités ({e}). Veuillez actualiser la page.',
+      home:'Accueil',programmes:'Programmes',everyDay:'Chaque jour',latestShort:'Derniers articles',categories:'Rubriques',follow:'Suivez-nous',rights:'Tous droits réservés.',
+      noticeLabel:'AVIS',breakingLabel:'URGENT',breaking:'Urgent',readMore:'Lire l’article →',original:'Original',sourceWord:'source',sources:'Source',
+      illus:'Photo d’illustration',illusNote:' (pas une photo de l’événement). ',photo:'Photo',noImg:'Aucune image disponible',now:'À l’instant',
+      timeUnverified:'heure non vérifiée',timeUnknown:'Heure non vérifiée',timeUnverifiedLong:'Heure exacte non confirmée',
+      notFound:'Cet article est introuvable. Il a peut-être été supprimé.',loadingStory:'Chargement de l’article…',back:'← Retour à l’accueil',sep:'›',
+      copy:'Copier',copied:'Copié',related:'À lire aussi',somaliOnly:'En somali uniquement',
+      noTr:'Cet article n’est pas encore disponible en français. Vous lisez la version originale en somali.',
+      autoTr:'Cet article a été traduit automatiquement du somali. La version somalie fait foi.',readSo:'Lire en somali',
+      city:'Mogadiscio, Somalie',tagline:'Actualités · Entretiens · Programmes',motto:'Actualités · Entretiens · Programmes',
+      about:'Wartabiye TV est une chaîne de télévision et un site d’information en langue somalie. Des informations fiables. Un regard neuf. Un plaisir à regarder.',
+      desc:'Wartabiye TV : l’actualité de la Somalie et du monde, et des programmes quotidiens.'}
+  };
+  var CATN={en:{Siyaasadda:'Politics',Amniga:'Security',Bulshada:'Society',Dhaqaalaha:'Economy',Adduunka:'World',Ciyaaraha:'Sports',Wararka:'News'},
+    ar:{Siyaasadda:'السياسة',Amniga:'الأمن',Bulshada:'المجتمع',Dhaqaalaha:'الاقتصاد',Adduunka:'العالم',Ciyaaraha:'الرياضة',Wararka:'الأخبار'},
+    fr:{Siyaasadda:'Politique',Amniga:'Sécurité',Bulshada:'Société',Dhaqaalaha:'Économie',Adduunka:'Monde',Ciyaaraha:'Sport',Wararka:'Actualités'}};
+  var LS_KEY='wartabiye-lang', PARAMS=new URLSearchParams(location.search);
+  // Somali for first-time visitors; ?lang=xx (used by the admin preview links) wins without being remembered.
+  var L=(function(){var u=PARAMS.get('lang');if(LANGS[u])return u;try{var s=localStorage.getItem(LS_KEY);if(LANGS[s])return s}catch(e){}return 'so'})();
+  function tr(k){var D=I18N[L]||I18N.so;return D[k]!=null&&D[k]!==''?D[k]:I18N.so[k]}
+  function catName(k){if(L==='so'||!k)return k;var o=SITE&&SITE[L];if(o&&Array.isArray(o.categories)){var m=o.categories.find(function(c){return c&&c.so===k&&c.name});if(m)return m.name}return CATN[L]&&CATN[L][k]||k}
+  // article text in the current language, or null when this article has no translation for it
+  function trOf(it){var x=L!=='so'&&it&&it[L];return x&&typeof x==='object'&&typeof x.title==='string'&&x.title.trim()?x:null}
+  function F(it,f){var x=trOf(it);if(x)return typeof x[f]==='string'?x[f]:'';return typeof it[f]==='string'?it[f]:''}
+  function isSo(it){return L!=='so'&&!trOf(it)}
+  // text shown in Somali inside another language keeps Somali direction and pronunciation hints
+  function soAttr(e,on){if(on){e.lang='so';e.dir='ltr'}else{e.removeAttribute('lang');e.removeAttribute('dir')}return e}
+  function tEl(tag,cls,it,f){return soAttr(el(tag,cls,F(it,f)),isSo(it))}
+  function soBadge(it){return isSo(it)?el('span','olang',tr('somaliOnly')):null}
+  function renderMotto(txt){var mo=$('motto');mo.innerHTML='';String(txt).split('·').map(function(w){return w.trim()}).filter(Boolean).forEach(function(w,i){if(i)mo.append(el('i',null,'◆'));mo.append(w)})}
+  function applyLang(){
+    var H=document.documentElement;H.lang=L;H.dir=LANGS[L].dir;
+    var md=document.querySelector('meta[name=description]');if(md)md.content=tr('desc');
+    document.querySelectorAll('[data-i18n]').forEach(function(e){e.textContent=tr(e.dataset.i18n)});
+    document.querySelectorAll('[data-i18n-ph]').forEach(function(e){e.placeholder=tr(e.dataset.i18nPh)});
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(e){e.setAttribute('aria-label',tr(e.dataset.i18nAria))});
+    renderMotto(tr('motto'));
+    $('today').textContent=fullDate(new Date());
+    $('langFlag').src=LANGS[L].flag;$('langName').textContent=LANGS[L].name;$('langCode').textContent=LANGS[L].code;
+    $('langName').lang=L;$('langMenu').querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-checked',String(b.dataset.lang===L))});
+  }
+  function setLang(l){
+    if(!LANGS[l])return;L=l;try{localStorage.setItem(LS_KEY,l)}catch(e){}
+    if(PARAMS.has('lang')){PARAMS.delete('lang');var qs=PARAMS.toString();try{history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash)}catch(e){}}
+    applyLang();applySite();renderAll();
+  }
+  // switcher: opens on click, closes on choice, outside click or Escape
+  var lb=$('langBtn'),lm=$('langMenu');
+  function langMenu(open){lm.hidden=!open;lb.setAttribute('aria-expanded',String(open));if(open){var c=lm.querySelector('[aria-checked=true]');if(c)c.focus()}}
+  lb.addEventListener('click',function(e){e.stopPropagation();langMenu(lm.hidden)});
+  lm.addEventListener('click',function(e){var b=e.target.closest('[data-lang]');if(!b)return;langMenu(false);lb.focus();setLang(b.dataset.lang)});
+  lm.addEventListener('keydown',function(e){var bs=[].slice.call(lm.querySelectorAll('[data-lang]')),i=bs.indexOf(document.activeElement);
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();bs[(i+(e.key==='ArrowDown'?1:bs.length-1))%bs.length].focus()}});
+  document.addEventListener('click',function(e){if(!lm.hidden&&!e.target.closest('#lang'))langMenu(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lm.hidden){langMenu(false);lb.focus()}});
+
 
   // menu + search
   var mb=$('menuBtn'), links=$('links');
@@ -471,16 +632,23 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
       return {wd:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday),d:+p.day,m:+p.month-1,y:+p.year,t:(p.hour==='24'?'00':p.hour)+':'+p.minute}}
     catch(e){return {wd:d.getDay(),d:d.getDate(),m:d.getMonth(),y:d.getFullYear(),t:''}}
   }
-  function fullDate(d){var p=parts(d);return DAYS[p.wd]+', '+p.d+' '+MONTHS[p.m]+' '+p.y}
-  $('today').textContent=fullDate(new Date());
+  // other languages: the browser's own date names for that language, Mogadishu time
+  function fmt(d,o){try{return new Intl.DateTimeFormat(LANGS[L].loc,Object.assign({timeZone:'Africa/Mogadishu'},o)).format(d)}catch(e){return d.toDateString()}}
+  function fullDate(d){if(L!=='so')return fmt(d,{weekday:'long',day:'numeric',month:'long',year:'numeric'});var p=parts(d);return DAYS[p.wd]+', '+p.d+' '+MONTHS[p.m]+' '+p.y}
+  function dayMonthYear(d){if(L!=='so')return fmt(d,{day:'numeric',month:'long',year:'numeric'});var p=parts(d);return p.d+' '+MONTHS[p.m]+' '+p.y}
+  function dayMonth(d){if(L!=='so')return fmt(d,{day:'numeric',month:'long'});var p=parts(d);return p.d+' '+MONTHS[p.m]}
   function ago(iso){
     var d=new Date(iso); if(isNaN(d))return '';
     var m=Math.round((Date.now()-d.getTime())/60000);
-    if(m<2)return 'Hadda';
+    if(m<2)return tr('now');
+    var h=Math.round(m/60), dd=Math.round(h/24);
+    if(L!=='so'){try{var rf=new Intl.RelativeTimeFormat(LANGS[L].loc,{numeric:'always'});
+      if(m<60)return rf.format(-m,'minute');if(h<24)return rf.format(-h,'hour');if(dd<7)return rf.format(-dd,'day')}catch(e){}
+      return dayMonthYear(d)}
     if(m<60)return m+' daqiiqo kahor';
-    var h=Math.round(m/60); if(h<24)return h+' saac kahor';
-    var dd=Math.round(h/24); if(dd<7)return dd+' maalin kahor';
-    var p=parts(d); return p.d+' '+MONTHS[p.m]+' '+p.y;
+    if(h<24)return h+' saac kahor';
+    if(dd<7)return dd+' maalin kahor';
+    return dayMonthYear(d);
   }
 
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
@@ -495,30 +663,30 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
     Dhaqaalaha:'M3 20h18M6 17v-4M11 17V9M16 17v-6M4 9l5-4 4 3 7-5',Adduunka:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3.5 3.5 3.5 14.5 0 18M12 3c-3.5 3.5-3.5 14.5 0 18',
     Ciyaaraha:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7.5l4 2.9-1.5 4.6h-5L8 10.4z',_:'M3 7h18v13H3zM8 3l4 4 4-4'};
   function ph(it,cls){
-    var hasImg=false;var s=el('span','ph'+(cls?' '+cls:''));s.dataset.label=String(it.category||'Wararka').toUpperCase();
+    var hasImg=false;var s=el('span','ph'+(cls?' '+cls:''));var cn=catName(it.category)||tr('news');s.dataset.label=String(cn).toUpperCase();
     var iu=imgUrl(it.image);
     if(iu&&!broken[it._id]){
       var im=document.createElement('img');im.loading='lazy';im.decoding='async';
-      im.alt=typeof it.imageAlt==='string'&&it.imageAlt?it.imageAlt:it.title;
+      im.alt=F(it,'imageAlt')||F(it,'title');
       im.addEventListener('error',function(){im.remove();s.classList.add('none');var ill=s.querySelector('.illus');if(ill)ill.remove();s.querySelector('.phc').hidden=false;if(!broken[it._id]){broken[it._id]=1;if(window.__dashStats)window.__dashStats();clearTimeout(window.__rr);window.__rr=setTimeout(function(){renderAll()},300)}});
       im.src=iu;s.append(im);hasImg=true;
-      if(it.imageKind==='illustrative')s.append(el('span','illus','Sawir muujin ah'));
-    }else{s.classList.add('none');s.setAttribute('role','img');s.setAttribute('aria-label',(it.category||'Wararka')+': sawir lama hayo')}
+      if(it.imageKind==='illustrative')s.append(el('span','illus',tr('illus')));
+    }else{s.classList.add('none');s.setAttribute('role','img');s.setAttribute('aria-label',cn+': '+tr('noImg'))}
     var c=el('span','phc');if(hasImg)c.hidden=true;c.setAttribute('aria-hidden','true');c.innerHTML='<svg viewBox="0 0 24 24"><path d="'+(ICONS[it.category]||ICONS._)+'"/></svg>';
-    c.append(el('b',null,it.category||'Wararka'),el('i',null,'Sawir lama hayo'));s.append(c);
+    c.append(el('b',null,cn),el('i',null,tr('noImg')));s.append(c);
     return s;
   }
   // DEGDEG label only while the story is fresh (12 saac); older stories lose it automatically.
   var BREAK_MS=12*3600e3;
   function isBreaking(it){if(!it.breaking)return false;var d=new Date(it.publishedAt);return !isNaN(d)&&Date.now()-d.getTime()<BREAK_MS}
-  function catTag(it){if(isBreaking(it))return el('span','cat red','Degdeg');return it.category?el('span','cat',it.category):null}
+  function catTag(it){if(isBreaking(it))return el('span','cat red',tr('breaking'));return it.category?el('span','cat',catName(it.category)):null}
   function author(it){return 'Wartabiye TV'}
   // Stories whose exact time could not be verified carry timeVerified:false: show the date only.
-  function whenText(it){var d=new Date(it.publishedAt);if(isNaN(d))return 'Waqti lama hubo';if(it.timeVerified===false){var p=parts(d);return p.d+' '+MONTHS[p.m]+' · waqti lama hubo'}return ago(it.publishedAt)}
+  function whenText(it){var d=new Date(it.publishedAt);if(isNaN(d))return tr('timeUnknown');if(it.timeVerified===false)return dayMonth(d)+' · '+tr('timeUnverified');return ago(it.publishedAt)}
   function meta(it,withSrc){
     var m=el('div','meta'); var b=el('b',null,author(it)); m.append(b);
     var w=whenText(it); if(w)m.append(el('span',null,w));
-    if(withSrc&&it.source){var s=el('span',null,'Ilaha: ');var su=safeUrl(it.sourceUrl);if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';s.append(a)}else s.append(it.source);m.append(s)}
+    if(withSrc&&it.source){var s=el('span',null,tr('sources')+': ');var su=safeUrl(it.sourceUrl);if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';s.append(a)}else s.append(it.source);m.append(s)}
     return m;
   }
 
@@ -527,17 +695,17 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
   function leadOf(list){return list.find(function(x){return imgUrl(x.image)&&!broken[x._id]})||list[0]}
 
   function renderTicker(){
-    var t=$('tick'); var tk=items.filter(isBreaking).concat(items.filter(function(x){return !isBreaking(x)})).slice(0,8).map(function(x){return {title:x.title,link:href(x)}});
-    var bk=SITE&&SITE.breaking||{};if(bk.mode==='manual')tk=[];if(Array.isArray(bk.items))tk=bk.items.filter(function(x){return x&&x.text}).map(function(x){return {title:x.text,link:x.link||'#hoyga'}}).concat(tk);
-    if(!tk.length)return; t.innerHTML='';
-    [0,1].forEach(function(k){tk.forEach(function(x){var a=el('a',null,x.title);a.href=safeLink(x.link);if(k)a.setAttribute('aria-hidden','true'),a.tabIndex=-1;t.append(a)})});
+    var t=$('tick'); var tk=items.filter(isBreaking).concat(items.filter(function(x){return !isBreaking(x)})).slice(0,8).map(function(x){return {title:F(x,'title'),link:href(x),so:isSo(x)}});
+    var bk=SITE&&SITE.breaking||{};if(bk.mode==='manual')tk=[];if(Array.isArray(bk.items))tk=bk.items.filter(function(x){return x&&x.text}).map(function(x){var o=L!=='so'&&typeof x[L]==='string'&&x[L].trim();return {title:o||x.text,link:x.link||'#hoyga',so:L!=='so'&&!o}}).concat(tk);
+    if(!tk.length){t.innerHTML='';t.append(el('a',null,tr('tickLoading')));return} t.innerHTML='';
+    [0,1].forEach(function(k){tk.forEach(function(x){var a=soAttr(el('a',null,x.title),x.so);a.href=safeLink(x.link);if(k)a.setAttribute('aria-hidden','true'),a.tabIndex=-1;t.append(a)})});
   }
 
   function renderSidebars(){
     document.querySelectorAll('[data-side]').forEach(function(S){
       S.innerHTML='';
       // follow
-      var f=el('div');f.append(head('Nala soco'));
+      var f=el('div');f.append(head(tr('follow')));
       var fl=el('div','follow');
       [['fb','Facebook','https://www.facebook.com/','M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z'],
        ['tt','TikTok','https://www.tiktok.com/','M16.6 2h-3.6v13.3a2.9 2.9 0 1 1-2.1-2.8V8.8a6.6 6.6 0 1 0 5.7 6.5V8.6a8.4 8.4 0 0 0 4.4 1.3V6.3a4.5 4.5 0 0 1-4.4-4.3z'],
@@ -545,27 +713,27 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
       ].forEach(function(s){var a=el('a',s[0]);a.href=s[2];a.target='_blank';a.rel='noopener';a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+s[3]+'"/></svg>';a.append(s[1]);fl.append(a)});
       f.append(fl);S.append(f);
       // latest
-      if(items.length&&sec('sidebarLatest')){var l=el('div');l.append(head('Ugu dambeeyay'));var mi=el('div','mini');
-        items.slice(0,5).forEach(function(it){var a=el('a');a.href=href(it);var tx=el('span');tx.append(el('h4',null,it.title),meta(it));a.append(ph(it),tx);mi.append(a)});
+      if(items.length&&sec('sidebarLatest')){var l=el('div');l.append(head(tr('latestShort')));var mi=el('div','mini');
+        items.slice(0,5).forEach(function(it){var a=el('a');a.href=href(it);var tx=el('span');tx.append(tEl('h4',null,it,'title'),meta(it));a.append(ph(it),tx);mi.append(a)});
         l.append(mi);S.append(l);}
       // categories
-      var c=el('div');c.append(head('Qaybaha'));var cl=el('div','cats');
-      CATS.forEach(function(k){var n=items.filter(function(x){return x.category===k}).length;var a=el('a');a.href='#qayb-'+slug(k);a.append(k,el('span',null,String(n)));cl.append(a)});
+      var c=el('div');c.append(head(tr('categories')));var cl=el('div','cats');
+      CATS.forEach(function(k){var n=items.filter(function(x){return x.category===k}).length;var a=el('a');a.href='#qayb-'+slug(k);a.append(catName(k),el('span',null,String(n)));cl.append(a)});
       c.append(cl);S.append(c);
     });
     // footer
-    var ft=$('ftrend');ft.innerHTML='';items.slice(0,3).forEach(function(it){var a=el('a');a.href=href(it);a.append(it.title,el('small',null,ago(it.publishedAt)));ft.append(a)});
-    var fc=$('fcats');fc.innerHTML='';CATS.forEach(function(k){var a=el('a');a.href='#qayb-'+slug(k);a.append(k,el('span',null,String(items.filter(function(x){return x.category===k}).length)));fc.append(a)});
+    var ft=$('ftrend');ft.innerHTML='';items.slice(0,3).forEach(function(it){var a=el('a');a.href=href(it);a.append(tEl('span',null,it,'title'),el('small',null,ago(it.publishedAt)));ft.append(a)});
+    var fc=$('fcats');fc.innerHTML='';CATS.forEach(function(k){var a=el('a');a.href='#qayb-'+slug(k);a.append(catName(k),el('span',null,String(items.filter(function(x){return x.category===k}).length)));fc.append(a)});
   }
   function head(t){var h=el('div','blockhead');h.append(el('h2',null,t));return h}
 
   function row(it){
     var r=el('article','row');
     var pa=el('a');pa.href=href(it);pa.setAttribute('tabindex','-1');pa.setAttribute('aria-hidden','true');var p=ph(it);var ct=catTag(it);if(ct)p.append(ct);pa.append(p);
-    var tx=el('div','tx');var h=el('h3');var a=el('a',null,it.title);a.href=href(it);h.append(a);tx.append(h,meta(it,true));
-    if(it.summary)tx.append(el('p',null,it.summary));
-    var mo=el('div','more');var rd=el('a',null,'Akhri warka →');rd.href=href(it);mo.append(rd);
-    var ou=safeUrl(it.sourceUrl);if(ou){var oa=el('a','orig','Asalka: '+(it.source||'ilaha')+' ↗');oa.href=ou;oa.target='_blank';oa.rel='noopener';mo.append(oa)}
+    var tx=el('div','tx');var h=el('h3');var a=tEl('a',null,it,'title');a.href=href(it);h.append(a);var mt=meta(it,true);var sb=soBadge(it);if(sb)mt.append(sb);tx.append(h,mt);
+    if(F(it,'summary'))tx.append(tEl('p',null,it,'summary'));
+    var mo=el('div','more');var rd=el('a',null,tr('readMore'));rd.href=href(it);mo.append(rd);
+    var ou=safeUrl(it.sourceUrl);if(ou){var oa=el('a','orig',tr('original')+': '+(it.source||tr('sourceWord'))+' ↗');oa.href=ou;oa.target='_blank';oa.rel='noopener';mo.append(oa)}
     if(isAdmin&&newsCol){var x=el('button','del','Tirtir');x.type='button';x.addEventListener('click',function(){x.disabled=true;newsCol.doc(it._id).delete().catch(function(){x.disabled=false})});mo.append(x)}
     tx.append(mo);r.append(pa,tx);return r;
   }
@@ -573,8 +741,8 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
   function renderHome(cat){
     var list=items;
     if(cat)list=list.filter(function(x){return slug(x.category)===cat});
-    if(query)list=list.filter(function(x){return (x.title+' '+(x.summary||'')).toLowerCase().indexOf(query)>=0});
-    var M=$('mosaic'), L=$('list');
+    if(query)list=list.filter(function(x){var t=x[L]&&typeof x[L]==='object'?x[L]:{};return [x.title,x.summary,t.title,t.summary,catName(x.category)].join(' ').toLowerCase().indexOf(query)>=0});
+    var M=$('mosaic'), LI=$('list');
     var showMosaic=!cat&&!query&&list.length>0&&sec('featured');
     M.hidden=!showMosaic&&loaded;
     var rest=list;
@@ -584,66 +752,72 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
       var four=others.slice(0,4);
       [lead].concat(four).forEach(function(it,i){
         var a=el('a','tile'+(i===0?' big':''));a.href=href(it);
-        var inn=el('span','in');var ct=catTag(it);if(ct)inn.append(ct);inn.append(el(i===0?'h2':'h3',null,it.title));if(i===0)inn.append(meta(it));
+        var inn=el('span','in');var ct=catTag(it);if(ct)inn.append(ct);inn.append(tEl(i===0?'h2':'h3',null,it,'title'));if(i===0)inn.append(meta(it));
         a.append(ph(it),inn);M.append(a);
       });
       rest=others.slice(4);
     }
-    var catName=cat?CATS.find(function(k){return slug(k)===cat}):null;
-    $('listTitle').textContent=query?'Natiijada raadinta':(catName||'Wararka cusub');
-    L.innerHTML='';if(sec('latest')||cat||query)rest.slice(0,24).forEach(function(it){L.append(row(it))});
+    var catSo=cat?CATS.find(function(k){return slug(k)===cat}):null;
+    $('listTitle').textContent=query?tr('searchResults'):(catSo?catName(catSo):tr('latest'));
+    LI.innerHTML='';if(sec('latest')||cat||query)rest.slice(0,24).forEach(function(it){LI.append(row(it))});
     var em=$('empty');
     em.hidden=!loaded||rest.length>0||(showMosaic&&list.length>0);
-    if(loadError){em.hidden=false;em.textContent=loadError;return}
-    em.textContent=(cat||query)&&!list.length?'War ku habboon lama helin.':'Weli war lama dhigin. Wararka cusub waxay halkan ka soo muuqan doonaan maalin kasta 06:00 subaxnimo.';
-    if(items[0])$('updated').textContent='La cusbooneysiiyay: '+ago(items[0].publishedAt);
+    if(loadError){em.hidden=false;em.textContent=tr('loadError').replace('{e}',loadError);return}
+    em.textContent=(cat||query)&&!list.length?tr('noMatch'):tr('noNews');
+    $('updated').textContent=items[0]?tr('updated')+ago(items[0].publishedAt):tr('updatedDaily');
   }
 
   function renderStory(id){
     var it=items.find(function(x){return x._id===id});
     var A=$('story');A.innerHTML='';
-    if(!it){A.append(el('p','empty',loaded?'Warkan lama helin. Waxaa laga yaabaa in la tirtiray.':'Warka waa la soo rarayaa…'));var b0=el('a','back','← Ku noqo Hoyga');b0.href='#hoyga';A.append(b0);return}
-    var cr=el('nav','crumbs');var h0=el('a',null,'Hoyga');h0.href='#hoyga';cr.append(h0,el('span',null,'›'));
-    if(it.category){var c0=el('a',null,it.category);c0.href='#qayb-'+slug(it.category);cr.append(c0)}
+    if(!it){A.append(el('p','empty',loaded?tr('notFound'):tr('loadingStory')));var b0=el('a','back',tr('back'));b0.href='#hoyga';A.append(b0);return}
+    if(it._preview)A.append(el('div','pvbar','MUUQAAL HORE (preview) · '+(it.published===false?'Qabyo: warkan bogga weli kama muuqdo.':'Warkan waa la daabacay.')+' Luqadda ka beddel midigta sare si aad u eegto turjumaad kasta.'));
+    var cr=el('nav','crumbs');var h0=el('a',null,tr('home'));h0.href='#hoyga';cr.append(h0,el('span',null,tr('sep')));
+    if(it.category){var c0=el('a',null,catName(it.category));c0.href='#qayb-'+slug(it.category);cr.append(c0)}
     A.append(cr);
     var ct=catTag(it);if(ct)A.append(ct);
-    A.append(el('h1',null,it.title));
+    // translation status: machine translation, or not translated yet (the Somali original is shown)
+    var tx=trOf(it);
+    if(L!=='so'&&(!tx||tx.status!=='manual')){var nt=el('p','trnote');nt.append(el('span',null,tx?tr('autoTr'):tr('noTr')));
+      if(tx){var rs=el('button',null,tr('readSo'));rs.type='button';rs.lang='so';rs.addEventListener('click',function(){setLang('so')});nt.append(rs)}
+      A.append(nt)}
+    A.append(tEl('h1',null,it,'title'));
     var by=el('div','byline');var lg=el('img');lg.src='img/logo.png';lg.alt='';by.append(lg);
-    var m=el('div','meta');m.append(el('b',null,author(it)));var d=new Date(it.publishedAt);if(!isNaN(d)){if(it.timeVerified===false)m.append(el('span',null,fullDate(d)+' · Waqtiga saxda ah lama xaqiijin'));else{m.append(el('span',null,fullDate(d)+(parts(d).t?' · '+parts(d).t:'')));m.append(el('span',null,ago(it.publishedAt)))}}
+    var m=el('div','meta');m.append(el('b',null,author(it)));var d=new Date(it.publishedAt);if(!isNaN(d)){if(it.timeVerified===false)m.append(el('span',null,fullDate(d)+' · '+tr('timeUnverifiedLong')));else{m.append(el('span',null,fullDate(d)+(parts(d).t?' · '+parts(d).t:'')));m.append(el('span',null,ago(it.publishedAt)))}}
     by.append(m);A.append(by);
     // share
-    var sh=el('div','share');var su=safeUrl(it.sourceUrl);var text=it.title+(su?' '+su:'')+' — Wartabiye TV';
+    var sh=el('div','share');var su=safeUrl(it.sourceUrl);var text=F(it,'title')+(su?' '+su:'')+' — Wartabiye TV';
     var enc=encodeURIComponent(text);
     function sbtn(cls,label,url,path){var a=el('a',cls);a.href=url;a.target='_blank';a.rel='noopener';a.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+path+'"/></svg>';a.append(label);sh.append(a)}
     if(su)sbtn('fb','Facebook','https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(su),'M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z');
     sbtn('x','X','https://x.com/intent/post?text='+enc,'M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.2L5.9 22H3.1l7-8L2 2h6.1l4.3 5.7zm-1 18h1.6L7 3.7H5.3z');
     sbtn('wa','WhatsApp','https://wa.me/?text='+enc,'M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.7-.1 1.3z');
-    var cp=el('button','cp');cp.type='button';cp.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11h-2V5H8zM4 7h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/></svg>';cp.append('Koobi');
-    cp.addEventListener('click',function(){var done=function(){cp.lastChild.textContent='La koobiyeeyay'};try{navigator.clipboard.writeText(text).then(done,function(){})}catch(e){}});
+    var cp=el('button','cp');cp.type='button';cp.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11h-2V5H8zM4 7h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/></svg>';cp.append(tr('copy'));
+    cp.addEventListener('click',function(){var done=function(){cp.lastChild.textContent=tr('copied')};try{navigator.clipboard.writeText(text).then(done,function(){})}catch(e){}});
     sh.append(cp);A.append(sh);
     var fig=el('figure','figure');fig.append(ph(it,'hero'));
     if(imgUrl(it.image)){var fc=el('figcaption');
-      if(it.imageKind==='illustrative')fc.append(el('b',null,'Sawir muujin ah'),' (ma aha sawirka dhacdada). ');
+      if(it.imageKind==='illustrative')fc.append(el('b',null,tr('illus')),tr('illusNote'));
       var cr2=typeof it.imageCredit==='string'&&it.imageCredit?it.imageCredit:(it.by==='admin'?'Wartabiye TV':'');
-      if(cr2){fc.append('Sawir: ');var iu2=safeUrl(it.imageSourceUrl);if(iu2){var ca=el('a',null,cr2);ca.href=iu2;ca.target='_blank';ca.rel='noopener';fc.append(ca)}else fc.append(cr2);
+      if(cr2){fc.append(tr('photo')+': ');var iu2=safeUrl(it.imageSourceUrl);if(iu2){var ca=el('a',null,cr2);ca.href=iu2;ca.target='_blank';ca.rel='noopener';fc.append(ca)}else fc.append(cr2);
         if(it.imageLicense)fc.append(' · '+it.imageLicense)}
       if(fc.childNodes.length)fig.append(fc)}
-    else{var fn=el('figcaption');fn.append('Sawir lama hayo'+(typeof it.imageNote==='string'&&it.imageNote?': '+it.imageNote:'.'));fig.append(fn)}
+    else{var fn=el('figcaption');fn.append(tr('noImg')+(L==='so'&&typeof it.imageNote==='string'&&it.imageNote?': '+it.imageNote:'.'));fig.append(fn)}
     A.append(fig);
-    var body=el('div','body');
-    var txt=[it.summary,it.body].filter(function(x){return typeof x==='string'&&x.trim()}).join('\n');
+    var body=soAttr(el('div','body'),isSo(it));
+    var txt=[F(it,'summary'),F(it,'body')].filter(function(x){return typeof x==='string'&&x.trim()}).join('\n');
     if(txt)txt.split(/\n+/).forEach(function(p){if(p.trim())body.append(el('p',null,p.trim()))});
-    else body.append(el('p',null,it.title));
+    else body.append(el('p',null,F(it,'title')));
     A.append(body);
-    if(it.source){var sb=el('div','srcbox');sb.append('Ilaha: ');if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';sb.append(a)}else sb.append(el('b',null,it.source));A.append(sb)}
+    if(it.source){var sb=el('div','srcbox');sb.append(tr('sources')+': ');if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';sb.append(a)}else sb.append(el('b',null,it.source));A.append(sb)}
     if(isAdmin&&newsCol){var x=el('button','del','Tirtir warkan');x.type='button';x.style.marginTop='16px';x.addEventListener('click',function(){x.disabled=true;newsCol.doc(it._id).delete().then(function(){location.hash='hoyga'},function(){x.disabled=false})});A.append(x)}
     // related
     var others=items.filter(function(x){return x!==it});
     var rel=others.filter(function(x){return x.category===it.category}).concat(others.filter(function(x){return x.category!==it.category})).slice(0,3);
-    if(rel.length){var r=el('section','related');r.append(head('Akhri wax kale'));var g=el('div','rgrid');
-      rel.forEach(function(x){var a=el('a');a.href=href(x);var c=catTag(x);a.append(ph(x));if(c)a.append(c);a.append(el('h4',null,x.title),meta(x));g.append(a)});
+    if(rel.length){var r=el('section','related');r.append(head(tr('related')));var g=el('div','rgrid');
+      rel.forEach(function(x){var a=el('a');a.href=href(x);var c=catTag(x);a.append(ph(x));if(c)a.append(c);a.append(tEl('h4',null,x,'title'),meta(x));g.append(a)});
       r.append(g);A.append(r)}
-    var bk=el('a','back','← Ku noqo Hoyga');bk.href='#hoyga';A.append(bk);
+    var bk=el('a','back',tr('back'));bk.href='#hoyga';A.append(bk);
   }
 
   // ---- Admin dashboard ----
@@ -768,27 +942,48 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
 
   function sec(k){return !(SITE&&SITE.sections&&SITE.sections[k]===false)}
   function safeLink(u){u=String(u||'');return /^(#|https?:\/\/)/.test(u)?u:'#hoyga'}
-  function setText(id,v){if(typeof v==='string'&&v.trim()&&$(id))$(id).textContent=v}
   function applySite(){
     if(!SITE)return;var S=SITE;
+    // site texts: the translation from data/site.json ("en"/"ar"/"fr") or, when there is none, the Somali text marked as Somali
+    var T=L!=='so'&&S[L]&&typeof S[L]==='object'?S[L]:{};
+    function v(k,so){var t=T[k];if(L!=='so'&&typeof t==='string'&&t.trim())return {t:t,so:false};return {t:so,so:L!=='so'}}
+    function put(id,k,so){var x=v(k,so);if(typeof x.t==='string'&&x.t.trim()&&$(id)){$(id).textContent=x.t;soAttr($(id),x.so)}}
     if(Array.isArray(S.categories)){var cs=S.categories.map(function(c){return typeof c==='string'?c:c&&c.name}).filter(Boolean);if(cs.length)CATS=cs}
-    setText('city',S.city);setText('tagline',S.tagline);setText('about',S.about);if(typeof S.motto==='string'&&S.motto.trim()){var mo=$('motto');mo.innerHTML='';S.motto.split('·').map(function(w){return w.trim()}).filter(Boolean).forEach(function(w,i){if(i)mo.append(el('i',null,'◆'));mo.append(w)})}setText('tickLab',S.breaking&&S.breaking.label);
-    if(Array.isArray(S.nav)&&S.nav.length){var L=$('links');L.innerHTML='';S.nav.forEach(function(n){if(!n||!n.label)return;var a=el('a',null,n.label);var u=safeLink(n.link);a.href=u;if(/^#(hoyga|qayb-)/.test(u))a.dataset.nav=u.slice(1);if(/^https?:/.test(u)){a.target='_blank';a.rel='noopener'}L.append(a)})}
-    var nb=S.announcement||{};$('notice').hidden=!(nb.enabled&&nb.text);if(!$('notice').hidden){setText('noticeLab',nb.label);var nt=$('noticeText');nt.innerHTML='';if(nb.link){var na=el('a',null,nb.text);na.href=safeLink(nb.link);nt.append(na)}else nt.textContent=nb.text}
+    put('city','city',S.city);put('tagline','tagline',S.tagline);put('about','about',S.about);
+    var mt=v('motto',S.motto);if(typeof mt.t==='string'&&mt.t.trim()){renderMotto(mt.t);soAttr($('motto'),mt.so)}
+    put('tickLab','breakingLabel',S.breaking&&S.breaking.label);
+    if(Array.isArray(S.nav)&&S.nav.length){var Ln=$('links');Ln.innerHTML='';S.nav.forEach(function(n){if(!n||!n.label)return;var u=safeLink(n.link);
+      // menu labels follow the language: Home, the category names, Programmes; other links keep their label
+      var lab=n.label,so=false;if(L!=='so'){var ck=/^#qayb-/.test(u)?CATS.find(function(k){return '#qayb-'+slug(k)===u}):null;
+        if(u==='#hoyga')lab=tr('home');else if(ck)lab=catName(ck);else if(u==='#barnaamijyada')lab=v('programmesTitle','').t||tr('programmes');else so=true}
+      var a=soAttr(el('a',null,lab),so);a.href=u;if(/^#(hoyga|qayb-)/.test(u))a.dataset.nav=u.slice(1);if(/^https?:/.test(u)){a.target='_blank';a.rel='noopener'}Ln.append(a)})}
+    var nb=S.announcement||{};$('notice').hidden=!(nb.enabled&&nb.text);if(!$('notice').hidden){put('noticeLab','announcementLabel',nb.label);var nx=v('announcementText',nb.text);var nt=$('noticeText');nt.innerHTML='';soAttr(nt,nx.so);if(nb.link){var na=el('a',null,nx.t);na.href=safeLink(nb.link);nt.append(na)}else nt.textContent=nx.t}
     var bn=S.banner||{},old=document.querySelector('.logoband .promo');if(old)old.remove();
-    if(bn.enabled&&bn.title){var pr=el('a','promo');pr.href=safeLink(bn.link||'#hoyga');var bimg=imgUrl(String(bn.image||'').replace(/^\//,''));if(bimg){var bi=el('span','ph');bi.style.backgroundImage='url("'+bimg.replace(/["\\()]/g,'')+'")';bi.setAttribute('role','img');bi.setAttribute('aria-label',bn.title);pr.append(bi)}
-      var bin=el('span','in');if(bn.label)bin.append(el('span','soon',bn.label));bin.append(el('h3',null,bn.title));if(bn.text)bin.append(el('p',null,bn.text));pr.append(bin);document.querySelector('.logoband .wrap').append(pr)}
-    var pg=$('barnaamijyada');if(pg){pg.hidden=!sec('programmes');setText('progTitle',S.programmesTitle);setText('progSub',S.programmesSubtitle);
-      if(Array.isArray(S.programmes)&&S.programmes.length){var P=$('progs');var icons=[].map.call(P.querySelectorAll('.ic'),function(x){return x.innerHTML});P.innerHTML='';S.programmes.forEach(function(g,i){if(!g||!g.title)return;var c=el('div','prog');var ic=el('div','ic');ic.innerHTML=icons[i%icons.length]||'';c.append(ic,el('h3',null,g.title));if(g.text)c.append(el('p',null,g.text));if(g.when)c.append(el('span','when',g.when));P.append(c)})}}
+    if(bn.enabled&&bn.title){var pr=el('a','promo');pr.href=safeLink(bn.link||'#hoyga');var bt=v('bannerTitle',bn.title);var bimg=imgUrl(String(bn.image||'').replace(/^\//,''));if(bimg){var bi=el('span','ph');bi.style.backgroundImage='url("'+bimg.replace(/["\\()]/g,'')+'")';bi.setAttribute('role','img');bi.setAttribute('aria-label',bt.t);pr.append(bi)}
+      var bin=el('span','in');if(bn.label){var bl=v('bannerLabel',bn.label);bin.append(soAttr(el('span','soon',bl.t),bl.so))}bin.append(soAttr(el('h3',null,bt.t),bt.so));if(bn.text){var bx=v('bannerText',bn.text);bin.append(soAttr(el('p',null,bx.t),bx.so))}pr.append(bin);document.querySelector('.logoband .wrap').append(pr)}
+    var pg=$('barnaamijyada');if(pg){pg.hidden=!sec('programmes');put('progTitle','programmesTitle',S.programmesTitle);put('progSub','programmesSubtitle',S.programmesSubtitle);
+      if(Array.isArray(S.programmes)&&S.programmes.length){var P=$('progs');var icons=[].map.call(P.querySelectorAll('.ic'),function(x){return x.innerHTML});P.innerHTML='';var TP=Array.isArray(T.programmes)?T.programmes:[];
+        S.programmes.forEach(function(g,i){if(!g||!g.title)return;var tg=L!=='so'&&TP[i]&&TP[i].title?TP[i]:null;var so=L!=='so'&&!tg;var x=tg||g;var c=soAttr(el('div','prog'),so);var ic=el('div','ic');ic.innerHTML=icons[i%icons.length]||'';c.append(ic,el('h3',null,x.title));if(x.text)c.append(el('p',null,x.text));if(x.when)c.append(el('span','when',x.when));P.append(c)})}}
     document.querySelectorAll('[data-side]').forEach(function(x){x.hidden=!sec('sidebar')});
     var lay=document.querySelectorAll('.layout');lay.forEach(function(x){x.classList.toggle('noside',!sec('sidebar'))});
     var ftr=$('ftrend');if(ftr)ftr.parentNode.hidden=!sec('footerLatest');
   }
   function renderAll(){renderTicker();renderSidebars();route()}
+  applyLang();
   renderAll();
 
   (async function(){
-    if(window.WARTABIYE_PUBLIC||!window.claude||!window.claude.use){try{var r=await fetch('data/news.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status+' data/news.json');var j=await r.json();items=(Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt;}catch(e){console.error('Wartabiye: news.json load failed',e);loadError='Wararka lama soo rari karin ('+(e&&e.message||e)+'). Fadlan dib u cusbooneysii bogga.';}try{var rs=await fetch('data/site.json?v='+Date.now(),{cache:'no-store'});if(rs.ok){SITE=await rs.json();applySite()}}catch(e){console.error('Wartabiye: site.json load failed',e)}loaded=true;renderAll();return}
+    if(window.WARTABIYE_PUBLIC||!window.claude||!window.claude.use){
+      try{var r=await fetch('data/news.json?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status+' data/news.json');var j=await r.json();
+        items=(Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});
+        if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt;}
+      catch(e){console.error('Wartabiye: news.json load failed',e);loadError=String(e&&e.message||e);}
+      // admin preview link (?preview=<article id>): shows that article, even a draft, straight from data/news/<id>.json
+      var pv=(PARAMS.get('preview')||'').replace(/\.json$/,'');
+      if(/^[a-z0-9-]+$/i.test(pv)){try{var rp=await fetch('data/news/'+pv+'.json?v='+Date.now(),{cache:'no-store'});if(rp.ok){var po=await rp.json();po._id=po.id=pv;po._preview=true;
+        items=items.filter(function(x){return x._id!==pv}).concat([po]).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(location.hash.indexOf('#war-')!==0)history.replaceState(null,'','#war-'+encodeURIComponent(pv))}}catch(e){console.error('Wartabiye: preview load failed',e)}}
+      try{var rs=await fetch('data/site.json?v='+Date.now(),{cache:'no-store'});if(rs.ok){SITE=await rs.json();applySite()}}catch(e){console.error('Wartabiye: site.json load failed',e)}
+      loaded=true;renderAll();return}
     var db=await window.claude.use('db');
     var user=await window.claude.use('user');
     var assets=await window.claude.use('assets');
@@ -798,7 +993,7 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
     newsCol.orderBy('publishedAt','desc').limit(60).onSnapshot(function(snap){
       items=snap.docs.map(function(d){var o=Object.assign({},d.data());o._id=d.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title});
       loaded=true;renderAll();
-    },function(e){console.error('Wartabiye: news load failed',e);loadError='Wararka lama soo rari karin. Fadlan dib u cusbooneysii bogga.';loaded=true;renderAll()});
+    },function(e){console.error('Wartabiye: news load failed',e);loadError='database';loaded=true;renderAll()});
 
     if(isAdmin){
       $('admin').hidden=false;
