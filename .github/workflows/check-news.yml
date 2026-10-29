@@ -1,0 +1,27 @@
+name: Hubi wararka (news health check)
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 06:45 Africa/Nairobi (03:45 UTC), after the 06:00 news update
+    - cron: '45 3 * * *'
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check news.json and images
+        run: python3 tools/check_site.py
+      - name: Check the update ran today
+        if: github.event_name == 'schedule'
+        run: |
+          python3 - <<'PY'
+          import json, datetime, sys
+          d = json.load(open('data/news.json', encoding='utf-8'))
+          u = d.get('lastRunAt') or d.get('updatedAt')
+          now = datetime.datetime.now(datetime.timezone.utc)
+          ok = u and (now - datetime.datetime.fromisoformat(u.replace('Z', '+00:00'))).total_seconds() < 26*3600
+          print('lastRunAt', u, 'fresh' if ok else 'STALE')
+          sys.exit(0 if ok else 1)
+          PY
