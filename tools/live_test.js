@@ -34,6 +34,9 @@ const fs = require('fs');
     const { p, errs } = await open(w, h, '');
     const r = await slots(p); console.log(name, JSON.stringify(r), errs);
     if (r.blank || r.message || r.cards < Math.min(news.length, 10) || r.overflow || errs.length) problems.push(name + ' homepage');
+    // the removed interviews section must not come back
+    const iv = await p.evaluate(() => !!document.getElementById('wareysiyo') || /wareysiyo gaar/i.test(document.body.innerText));
+    console.log(name, 'interviews section present:', iv); if (iv) problems.push(name + ' interviews section is back');
     await p.screenshot({ path: `${outDir}/live-${name}.png`, fullPage: true }); await p.close();
   }
   const { p } = await open(1280, 900, '');
