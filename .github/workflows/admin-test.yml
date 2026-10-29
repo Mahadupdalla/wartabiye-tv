@@ -43,7 +43,7 @@ jobs:
         with:
           node-version: '20'
       - name: Install browser
-        run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+        run: npm install --no-save playwright@1.63.0 && npx playwright install --with-deps chromium
       - name: Add, edit, publish and delete an article through the dashboard
         env:
           GH_TOKEN: ${{ github.token }}
