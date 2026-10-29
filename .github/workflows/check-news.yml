@@ -25,3 +25,27 @@ jobs:
           print('lastRunAt', u, 'fresh' if ok else 'STALE')
           sys.exit(0 if ok else 1)
           PY
+  live:
+    # Checks the real public website (GitHub Pages) after each update.
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for GitHub Pages to publish
+        if: github.event_name == 'push'
+        run: sleep 90
+      - name: Compare the live site with the repo
+        run: |
+          URL="https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}"
+          echo "Live site: $URL/"
+          curl -fsS "$URL/" -o live.html
+          grep -q "WARTABIYE" live.html
+          curl -fsS "$URL/data/news.json?ts=$(date +%s)" -o live.json
+          python3 - <<'PY'
+          import json, sys
+          repo = json.load(open('data/news.json', encoding='utf-8'))
+          live = json.load(open('live.json', encoding='utf-8'))
+          r, l = len(repo['news']), len(live['news'])
+          print('articles repo', r, 'live', l, '| lastRunAt repo', repo.get('lastRunAt'), 'live', live.get('lastRunAt'))
+          sys.exit(0 if (r == l and repo.get('lastRunAt') == live.get('lastRunAt')) else 1)
+          PY
