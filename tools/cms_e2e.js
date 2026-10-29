@@ -65,7 +65,7 @@ async function newsFiles() { const r = await api(`repos/${REPO}/contents/data/ne
     await p.getByText(TITLE).first().click(); await sleep(2000);
     await (await field('Cinwaanka')).fill(TITLE + ' (la beddelay)');
     // English translation, typed in the dashboard (the English group is folded: open it first)
-    await p.evaluate(() => { const l = [...document.querySelectorAll('[id$="-label"]')].find(e => e.textContent.includes('English (Ingiriisi)')); let n = l; while (n && !n.querySelector('button[aria-expanded="false"]')) n = n.parentElement; const b = n && n.querySelector('button[aria-expanded="false"]'); if (b) b.click() }); await sleep(800);
+    const enToggle = p.locator('button[aria-expanded="false"][aria-label="Expand"]').first(); await enToggle.scrollIntoViewIfNeeded(); await enToggle.click(); await sleep(800);
     await (await field('Cinwaanka (EN)')).fill(TITLE + ' (English)');
     await (await field('La daabacay (bogga ka muuqda)')).click();
     await p.getByRole('button', { name: 'Save' }).click(); await sleep(8000); await shot('4-edited');
