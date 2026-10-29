@@ -1,0 +1,65 @@
+name: Tijaabo maamulka (admin + security test)
+# Run by hand from the Actions tab. Proves that:
+#  1. nobody without a valid GitHub login can change the site,
+#  2. no password, token or secret is in the public files,
+#  3. the admin dashboard can add, edit, publish and delete an article on the live site.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+  pages: write
+concurrency:
+  group: admin-test
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Writing without a login is refused by GitHub
+        run: |
+          body='{"message":"anonymous write test","content":"dGVzdA=="}'
+          a=$(curl -s -o /dev/null -w '%{http_code}' -X PUT -d "$body" https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/data/news/anon-test.json)
+          b=$(curl -s -o /dev/null -w '%{http_code}' -X PUT -H 'Authorization: Bearer ghp_invalidtoken000000000000000000000000' -d "$body" https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/data/news/anon-test.json)
+          echo "no login: HTTP $a   fake token: HTTP $b"
+          [ "$a" = 401 ] || [ "$a" = 404 ] || [ "$a" = 403 ]
+          [ "$b" = 401 ]
+      - name: The public site has no passwords or keys
+        run: |
+          if grep -rniE 'ghp_[A-Za-z0-9]{20}|github_pat_|password *[:=]|client_secret|api[_-]?key *[:=]|BEGIN (RSA|OPENSSH) PRIVATE' --include='*.html' --include='*.yml' --include='*.json' --include='*.js' . --exclude-dir=.git --exclude-dir=vendor --exclude=admin-test.yml; then echo "FOUND something that looks like a secret"; exit 1; fi
+          echo "no secrets found"
+      - name: There is no sign-up page; the dashboard only offers GitHub token sign-in
+        run: |
+          grep -q 'auth_methods: \[token\]' admin/config.yml
+          URL="https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}"
+          curl -fsS "$URL/admin/config.yml" | grep -q 'auth_methods: \[token\]'
+          echo "live admin config: token sign-in only, write access checked by GitHub"
+  admin:
+    runs-on: ubuntu-latest
+    needs: security
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install browser
+        run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - name: Add, edit, publish and delete an article through the dashboard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: mkdir -p shots && node tools/cms_e2e.js shots
+      - name: Remove the test image
+        if: always()
+        run: |
+          [ -f shots/uploaded-image.txt ] || exit 0
+          git pull -q origin main
+          f=$(cat shots/uploaded-image.txt)
+          [ -f "$f" ] || { echo "no test image to remove"; exit 0; }
+          git config user.name "wartabiye-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -q "$f" && git commit -q -m "Tijaabo: tirtir sawirka tijaabada" && git push -q origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: admin-test-screenshots
+          path: shots/

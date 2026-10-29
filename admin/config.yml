@@ -22,6 +22,8 @@ logo:
 media_folder: img/news
 public_folder: img/news
 media_libraries:
+  # no stock-photo sites: only images you upload yourself
+  stock_assets: false
   default:
     config:
       max_file_size: 8000000
@@ -64,7 +66,7 @@ collections:
       - {name: publishedAt, label: Taariikhda la daabacay, widget: datetime, format: 'YYYY-MM-DDTHH:mm:ssZ', default: '{{now}}'}
       - {name: published, label: La daabacay (bogga ka muuqda), widget: boolean, default: true}
       - {name: breaking, label: Degdeg (12 saac), widget: boolean, default: false}
-      - {name: image, label: Sawirka, widget: image, required: false, hint: 'Isticmaal sawir aad leedahay ama mid sharci ahaan la oggol yahay. Haddii aan sawir jirin, bogga wuxuu muujinayaa sawir-beddel.'}
+      - {name: image, label: Sawirka, widget: image, choose_url: false, required: false, hint: 'Isticmaal sawir aad leedahay ama mid sharci ahaan la oggol yahay. Haddii aan sawir jirin, bogga wuxuu muujinayaa sawir-beddel.'}
       - {name: imageAlt, label: Sharaxaadda sawirka, widget: string, required: false}
       - {name: imageCredit, label: Sawirka waxaa leh, widget: string, required: false}
       - {name: imageLicense, label: Ruqsadda sawirka, widget: string, required: false}
@@ -118,7 +120,7 @@ collections:
               - {name: label, label: Calaamad yar, widget: string, required: false}
               - {name: title, label: Cinwaan, widget: string, required: false}
               - {name: text, label: Qoraal, widget: string, required: false}
-              - {name: image, label: Sawir, widget: image, required: false}
+              - {name: image, label: Sawir, widget: image, choose_url: false, required: false}
               - {name: link, label: Link, widget: string, required: false}
           - name: breaking
             label: Degdeg (ticker)
