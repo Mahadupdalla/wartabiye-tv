@@ -25,10 +25,12 @@ async function newsFiles() { const r = await api(`repos/${REPO}/contents/data/ne
   const b = await chromium.launch(); let ok = false;
   const p = await b.newPage({ viewport: { width: 1280, height: 900 } }); const log = [];
   p.on('pageerror', e => log.push('ERR ' + e.message));
-  // The workflow token is an app token, which GitHub does not allow to read /user; answer that one call
-  // with the repo owner's public profile. Every read and write still goes to GitHub with the token.
+  // The workflow token is an app token: GitHub does not let it read /user, and the repo info does not list it
+  // as a collaborator. The dashboard checks both before it opens, so the test answers those two checks
+  // (owner's public profile; push allowed, which this job's token really has via contents: write).
+  // Every read and every save still goes to GitHub with the token, and GitHub decides whether it is allowed.
   await p.route('https://api.github.com/user', async r => { const u = await (await fetch('https://api.github.com/users/' + REPO.split('/')[0])).json(); await r.fulfill({ json: u }) });
-  await p.route(new RegExp('^https://api\\.github\\.com/repos/' + REPO + '$'), async r => { const res = await r.fetch(); const j = await res.json(); if (!j.permissions) { j.permissions = { admin: false, push: true, pull: true }; log.push('repo permissions added for app token') } await r.fulfill({ response: res, json: j }) });
+  await p.route(new RegExp('^https://api\\.github\\.com/repos/' + REPO + '$'), async r => { const res = await r.fetch(); const j = await res.json(); log.push('repo permissions reported for the app token: ' + JSON.stringify(j.permissions)); j.permissions = { ...(j.permissions || {}), push: true, pull: true }; await r.fulfill({ response: res, json: j }) });
   p.on('response', r => { if (r.url().startsWith('https://api.github.com')) log.push(r.status() + ' ' + r.request().method() + ' ' + r.url().slice(0, 120)) });
   p.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') log.push('console ' + m.type() + ': ' + m.text().slice(0, 300)) });
   const shot = n => p.screenshot({ path: `${OUT}/admin-${n}.png` });
