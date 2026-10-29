@@ -32,10 +32,25 @@ jobs:
           git add data/news.json
           git commit -m "Daabac: cusboonaysii news.json"
           for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 5; done
-      - name: Ask GitHub Pages to rebuild
+      - name: Make sure GitHub Pages publishes the newest version
+        # Several saves in a row start several Pages builds, and GitHub refuses a build while another
+        # is deploying. Wait, ask again, and only finish when the newest commit is really live.
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" || echo "Pages build request failed (Pages will still build from the push)"
+        run: |
+          git fetch -q origin main
+          for i in $(seq 1 40); do
+            head=$(git rev-parse origin/main)
+            read -r status commit <<<"$(gh api "repos/${GITHUB_REPOSITORY}/pages/builds/latest" -q '.status+" "+.commit')"
+            echo "try $i: newest $head | Pages latest $commit $status"
+            if [ "$commit" = "$head" ] && [ "$status" = built ]; then echo "Pages is live with $head"; exit 0; fi
+            if [ "$status" != building ] && [ "$status" != queued ]; then
+              gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" -q .status || true
+            fi
+            sleep 20
+            git fetch -q origin main
+          done
+          echo "GitHub Pages did not publish $head in time"; exit 1
       - name: Start the live-site check
         env:
           GH_TOKEN: ${{ github.token }}
