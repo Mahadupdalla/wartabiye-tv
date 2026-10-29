@@ -46,6 +46,8 @@ collections:
     delete: true
     identifier_field: title
     slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    # "View on live site" opens the article on the public site, drafts included; switch language there (top right)
+    preview_path: '?preview={{filename}}'
     summary: '{{title}}'
     sortable_fields: [publishedAt, title, category]
     view_filters:
@@ -77,6 +79,49 @@ collections:
       - {name: sourceUrl, label: Link-ga isha, widget: string, required: false}
       - {name: timeVerified, label: Waqtiga waa la hubiyay, widget: boolean, default: true}
       - {name: by, label: Qoraa, widget: hidden, default: admin}
+      # translations: shown on the site when a visitor picks English, Arabic or French
+      - name: en
+        label: '🇬🇧 English (Ingiriisi)'
+        widget: object
+        collapsed: true
+        required: false
+        summary: '{{fields.title}}'
+        hint: 'Turjumaadda English (Ingiriisi). Hawsha 06:00 waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=en'
+        fields:
+          - {name: title, label: 'Cinwaanka (EN)', widget: string, required: false}
+          - {name: summary, label: 'Soo koobid (EN)', widget: text, required: false}
+          - {name: body, label: 'Qoraalka buuxa (EN)', widget: text, required: false}
+          - {name: imageAlt, label: 'Sharaxaadda sawirka (EN)', widget: string, required: false}
+          - {name: status, label: 'Xaaladda (EN)', widget: select, default: manual, options: [{label: 'Gacan: adiga ayaa qoray / saxay', value: manual}, {label: 'Otomaatig (mashiin)', value: auto}], hint: 'Marka aad saxdo turjumaad otomaatig ah, dooro Gacan. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".'}
+          - {name: hash, label: Hash, widget: hidden}
+      - name: ar
+        label: '🇸🇦 العربية (Carabi)'
+        widget: object
+        collapsed: true
+        required: false
+        summary: '{{fields.title}}'
+        hint: 'Turjumaadda العربية (Carabi). Hawsha 06:00 waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=ar'
+        fields:
+          - {name: title, label: 'Cinwaanka (AR)', widget: string, required: false}
+          - {name: summary, label: 'Soo koobid (AR)', widget: text, required: false}
+          - {name: body, label: 'Qoraalka buuxa (AR)', widget: text, required: false}
+          - {name: imageAlt, label: 'Sharaxaadda sawirka (AR)', widget: string, required: false}
+          - {name: status, label: 'Xaaladda (AR)', widget: select, default: manual, options: [{label: 'Gacan: adiga ayaa qoray / saxay', value: manual}, {label: 'Otomaatig (mashiin)', value: auto}], hint: 'Marka aad saxdo turjumaad otomaatig ah, dooro Gacan. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".'}
+          - {name: hash, label: Hash, widget: hidden}
+      - name: fr
+        label: '🇫🇷 Français (Faransiis)'
+        widget: object
+        collapsed: true
+        required: false
+        summary: '{{fields.title}}'
+        hint: 'Turjumaadda Français (Faransiis). Hawsha 06:00 waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=fr'
+        fields:
+          - {name: title, label: 'Cinwaanka (FR)', widget: string, required: false}
+          - {name: summary, label: 'Soo koobid (FR)', widget: text, required: false}
+          - {name: body, label: 'Qoraalka buuxa (FR)', widget: text, required: false}
+          - {name: imageAlt, label: 'Sharaxaadda sawirka (FR)', widget: string, required: false}
+          - {name: status, label: 'Xaaladda (FR)', widget: select, default: manual, options: [{label: 'Gacan: adiga ayaa qoray / saxay', value: manual}, {label: 'Otomaatig (mashiin)', value: auto}], hint: 'Marka aad saxdo turjumaad otomaatig ah, dooro Gacan. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".'}
+          - {name: hash, label: Hash, widget: hidden}
 
   - name: settings
     label: Dejinta bogga
@@ -134,6 +179,9 @@ collections:
                 required: false
                 fields:
                   - {name: text, label: Qoraal, widget: string}
+                  - {name: en, label: 'Qoraal (English)', widget: string, required: false}
+                  - {name: ar, label: 'Qoraal (العربية)', widget: string, required: false}
+                  - {name: fr, label: 'Qoraal (Français)', widget: string, required: false}
                   - {name: link, label: Link, widget: string, required: false}
           - name: featured
             label: Wararka la soo xulay (kan koowaad waa kan weyn)
@@ -163,3 +211,109 @@ collections:
               - {name: title, label: Magac, widget: string}
               - {name: text, label: Sharaxaad, widget: string}
               - {name: when, label: Goorta, widget: string}
+          # translations of the texts above (the site switches with the language selector)
+          - name: en
+            label: '🇬🇧 English'
+            widget: object
+            collapsed: true
+            required: false
+            hint: 'Qoraallada bogga ee English. Meel banaan = qoraalka Soomaaliga ayaa muuqda. Menu-ga iyo qaybaha (Siyaasadda…) si toos ah ayaa loo turjumaa.'
+            fields:
+              - {name: city, label: 'Magaalada (EN)', widget: string, required: false}
+              - {name: tagline, label: 'Hal-ku-dhegga (EN)', widget: string, required: false}
+              - {name: about, label: 'Ku saabsan (EN)', widget: text, required: false}
+              - {name: motto, label: 'Halku-dhegga footer-ka (EN)', widget: string, required: false}
+              - {name: announcementLabel, label: 'Ogeysiis: calaamad (EN)', widget: string, required: false}
+              - {name: announcementText, label: 'Ogeysiis: qoraal (EN)', widget: string, required: false}
+              - {name: bannerLabel, label: 'Banner: calaamad (EN)', widget: string, required: false}
+              - {name: bannerTitle, label: 'Banner: cinwaan (EN)', widget: string, required: false}
+              - {name: bannerText, label: 'Banner: qoraal (EN)', widget: string, required: false}
+              - {name: breakingLabel, label: 'Degdeg: calaamad (EN)', widget: string, required: false}
+              - {name: programmesTitle, label: 'Cinwaanka Barnaamijyada (EN)', widget: string, required: false}
+              - {name: programmesSubtitle, label: 'Qoraal yar Barnaamijyada (EN)', widget: string, required: false}
+              - name: programmes
+                label: 'Barnaamijyada (EN), isla kala horreynta Soomaaliga'
+                widget: list
+                required: false
+                fields:
+                  - {name: title, label: Magac, widget: string}
+                  - {name: text, label: Sharaxaad, widget: string, required: false}
+                  - {name: when, label: Goorta, widget: string, required: false}
+              - name: categories
+                label: 'Magacyada qaybaha cusub (EN)'
+                widget: list
+                required: false
+                hint: 'Kaliya haddii aad qayb cusub ku darto. Lixda qaybood ee hadda jira si toos ah ayaa loo turjumaa.'
+                fields:
+                  - {name: so, label: Qaybta (Soomaali), widget: string}
+                  - {name: name, label: Magaca la turjumay, widget: string}
+          - name: ar
+            label: '🇸🇦 العربية'
+            widget: object
+            collapsed: true
+            required: false
+            hint: 'Qoraallada bogga ee العربية. Meel banaan = qoraalka Soomaaliga ayaa muuqda. Menu-ga iyo qaybaha (Siyaasadda…) si toos ah ayaa loo turjumaa.'
+            fields:
+              - {name: city, label: 'Magaalada (AR)', widget: string, required: false}
+              - {name: tagline, label: 'Hal-ku-dhegga (AR)', widget: string, required: false}
+              - {name: about, label: 'Ku saabsan (AR)', widget: text, required: false}
+              - {name: motto, label: 'Halku-dhegga footer-ka (AR)', widget: string, required: false}
+              - {name: announcementLabel, label: 'Ogeysiis: calaamad (AR)', widget: string, required: false}
+              - {name: announcementText, label: 'Ogeysiis: qoraal (AR)', widget: string, required: false}
+              - {name: bannerLabel, label: 'Banner: calaamad (AR)', widget: string, required: false}
+              - {name: bannerTitle, label: 'Banner: cinwaan (AR)', widget: string, required: false}
+              - {name: bannerText, label: 'Banner: qoraal (AR)', widget: string, required: false}
+              - {name: breakingLabel, label: 'Degdeg: calaamad (AR)', widget: string, required: false}
+              - {name: programmesTitle, label: 'Cinwaanka Barnaamijyada (AR)', widget: string, required: false}
+              - {name: programmesSubtitle, label: 'Qoraal yar Barnaamijyada (AR)', widget: string, required: false}
+              - name: programmes
+                label: 'Barnaamijyada (AR), isla kala horreynta Soomaaliga'
+                widget: list
+                required: false
+                fields:
+                  - {name: title, label: Magac, widget: string}
+                  - {name: text, label: Sharaxaad, widget: string, required: false}
+                  - {name: when, label: Goorta, widget: string, required: false}
+              - name: categories
+                label: 'Magacyada qaybaha cusub (AR)'
+                widget: list
+                required: false
+                hint: 'Kaliya haddii aad qayb cusub ku darto. Lixda qaybood ee hadda jira si toos ah ayaa loo turjumaa.'
+                fields:
+                  - {name: so, label: Qaybta (Soomaali), widget: string}
+                  - {name: name, label: Magaca la turjumay, widget: string}
+          - name: fr
+            label: '🇫🇷 Français'
+            widget: object
+            collapsed: true
+            required: false
+            hint: 'Qoraallada bogga ee Français. Meel banaan = qoraalka Soomaaliga ayaa muuqda. Menu-ga iyo qaybaha (Siyaasadda…) si toos ah ayaa loo turjumaa.'
+            fields:
+              - {name: city, label: 'Magaalada (FR)', widget: string, required: false}
+              - {name: tagline, label: 'Hal-ku-dhegga (FR)', widget: string, required: false}
+              - {name: about, label: 'Ku saabsan (FR)', widget: text, required: false}
+              - {name: motto, label: 'Halku-dhegga footer-ka (FR)', widget: string, required: false}
+              - {name: announcementLabel, label: 'Ogeysiis: calaamad (FR)', widget: string, required: false}
+              - {name: announcementText, label: 'Ogeysiis: qoraal (FR)', widget: string, required: false}
+              - {name: bannerLabel, label: 'Banner: calaamad (FR)', widget: string, required: false}
+              - {name: bannerTitle, label: 'Banner: cinwaan (FR)', widget: string, required: false}
+              - {name: bannerText, label: 'Banner: qoraal (FR)', widget: string, required: false}
+              - {name: breakingLabel, label: 'Degdeg: calaamad (FR)', widget: string, required: false}
+              - {name: programmesTitle, label: 'Cinwaanka Barnaamijyada (FR)', widget: string, required: false}
+              - {name: programmesSubtitle, label: 'Qoraal yar Barnaamijyada (FR)', widget: string, required: false}
+              - name: programmes
+                label: 'Barnaamijyada (FR), isla kala horreynta Soomaaliga'
+                widget: list
+                required: false
+                fields:
+                  - {name: title, label: Magac, widget: string}
+                  - {name: text, label: Sharaxaad, widget: string, required: false}
+                  - {name: when, label: Goorta, widget: string, required: false}
+              - name: categories
+                label: 'Magacyada qaybaha cusub (FR)'
+                widget: list
+                required: false
+                hint: 'Kaliya haddii aad qayb cusub ku darto. Lixda qaybood ee hadda jira si toos ah ayaa loo turjumaa.'
+                fields:
+                  - {name: so, label: Qaybta (Soomaali), widget: string}
+                  - {name: name, label: Magaca la turjumay, widget: string}

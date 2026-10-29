@@ -7,6 +7,8 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `index.html` | Bogga (naqshadda Wartabiye TV, aan la beddelin) |
 | `data/news.json` | Dhammaan wararka (keyd joogto ah, taariikhdu waxay ku jirtaa git) |
 | `img/news/` | Sawirrada wararka (Wikimedia Commons / VOA, liisan sharci ah) |
+| `tools/translations.py` | Turjumaadda wararka (en/ar/fr): liiska kuwa maqan, ku darid aan waxba dib u qorin, hubin |
+| `tools/lang_test.js` | Tijaabada badhanka luqadda (4 luqadood, desktop + mobile, RTL) |
 | `tools/check_site.py` | Hubinta: JSON sax ah, taariikh sax ah, URL aan labanlaabmin, sawir kasta wuu jiraa |
 | `.github/workflows/check-news.yml` | GitHub Actions: hubinta mar kasta oo wax la shubo iyo 06:45 Nairobi maalin kasta |
 
