@@ -55,6 +55,7 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0}
 .brand small{display:block;font:600 11.5px var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 
 /* menu */
+html{scroll-padding-top:72px}
 nav.menu{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--blue);color:var(--on-blue);border-bottom:3px solid var(--red)}
 nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .links{display:flex;flex-wrap:wrap;gap:0;min-width:0}
@@ -286,9 +287,21 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
   .rgrid{grid-template-columns:minmax(0,1fr)}
   .progs{grid-template-columns:minmax(0,1fr)}
   .fcols{grid-template-columns:minmax(0,1fr)}
-  .topbar .city{display:none}
-  .live{display:none}
+  .topbar .wrap{gap:10px}
+  .topbar .dt,.topbar .city{font-size:12px}
+  .live{padding:7px 9px;font-size:11px;letter-spacing:.1em}
+  .tools{gap:8px}
   .body{font-size:17px}
+  .mosaic{grid-template-rows:330px}
+  .tile.big::after{background:linear-gradient(180deg,rgba(2,99,179,.08) 0%,rgba(2,99,179,.55) 38%,rgba(2,99,179,.95) 100%)}
+  .tile.big h2{font-size:25px}
+  .tile.big .in{padding:18px}
+  .tile::after{background:linear-gradient(180deg,rgba(2,99,179,0) 15%,rgba(2,99,179,.95) 100%)}
+  .blockhead{flex-wrap:wrap;row-gap:6px}
+  .blockhead h2{white-space:nowrap}
+}
+@media (max-width:440px){
+  .topbar .city{display:none}
 }
 </style>
 </head>
