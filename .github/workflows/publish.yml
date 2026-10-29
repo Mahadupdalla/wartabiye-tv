@@ -1,0 +1,42 @@
+name: Daabac bogga (publish)
+# Runs whenever the admin dashboard or the daily task saves content.
+# Rebuilds data/news.json from data/news/*.json, checks it, and publishes it to GitHub Pages.
+on:
+  push:
+    branches: [main]
+    paths: ['data/news/**', 'data/site.json', 'data/status.json', 'img/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  actions: write
+concurrency:
+  group: publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Build news.json
+        run: python3 tools/build_news.py
+      - name: Check news, dates and images (nothing is published if this fails)
+        run: python3 tools/check_site.py && python3 -c "import json;json.load(open('data/site.json'))"
+      - name: Commit news.json
+        run: |
+          if git diff --quiet -- data/news.json; then echo "news.json already up to date"; exit 0; fi
+          git config user.name "wartabiye-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/news.json
+          git commit -m "Daabac: cusboonaysii news.json"
+          for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 5; done
+      - name: Ask GitHub Pages to rebuild
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" || echo "Pages build request failed (Pages will still build from the push)"
+      - name: Start the live-site check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run check-news.yml --ref main

@@ -1,0 +1,163 @@
+# Wartabiye TV admin dashboard (Sveltia CMS).
+# Login is GitHub: only accounts with write access to Mahadupdalla/wartabiye-tv can save.
+# Nothing secret lives in this file.
+backend:
+  name: github
+  repo: Mahadupdalla/wartabiye-tv
+  branch: main
+  # sign-in only with a GitHub access token (no third-party OAuth server)
+  auth_methods: [token]
+  commit_messages:
+    create: 'Maamul: war cusub "{{slug}}"'
+    update: 'Maamul: wax ka beddel "{{slug}}"'
+    delete: 'Maamul: tirtir "{{slug}}"'
+    uploadMedia: 'Maamul: sawir "{{path}}"'
+    deleteMedia: 'Maamul: tirtir sawir "{{path}}"'
+
+site_url: https://mahadupdalla.github.io/wartabiye-tv/
+display_url: https://mahadupdalla.github.io/wartabiye-tv/
+logo:
+  src: ../img/logo.png
+
+media_folder: img/news
+public_folder: img/news
+media_libraries:
+  default:
+    config:
+      max_file_size: 8000000
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 1600
+          height: 1600
+
+collections:
+  - name: news
+    label: Wararka
+    label_singular: War
+    description: Ku dar, beddel ama tirtir war. "La daabacay" dami si aad u kaydiso qabyo aan bogga ka muuqan.
+    folder: data/news
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: title
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{title}}'
+    sortable_fields: [publishedAt, title, category]
+    view_filters:
+      - {label: Qabyo, field: published, pattern: false}
+      - {label: Degdeg, field: breaking, pattern: true}
+    fields:
+      - {name: title, label: Cinwaanka, widget: string}
+      - {name: summary, label: Soo koobid, widget: text}
+      - {name: body, label: Qoraalka buuxa, widget: text, required: false, hint: 'Ikhtiyaari. Qoraal adiga kuu gaar ah; ha koobiyeyn qoraalka wargeysyada kale.'}
+      - name: category
+        label: Qaybta
+        widget: relation
+        collection: settings
+        file: site
+        search_fields: ['categories.*']
+        value_field: 'categories.*'
+        display_fields: ['categories.*']
+      - {name: publishedAt, label: Taariikhda la daabacay, widget: datetime, format: 'YYYY-MM-DDTHH:mm:ssZ', default: '{{now}}'}
+      - {name: published, label: La daabacay (bogga ka muuqda), widget: boolean, default: true}
+      - {name: breaking, label: Degdeg (12 saac), widget: boolean, default: false}
+      - {name: image, label: Sawirka, widget: image, required: false, hint: 'Isticmaal sawir aad leedahay ama mid sharci ahaan la oggol yahay. Haddii aan sawir jirin, bogga wuxuu muujinayaa sawir-beddel.'}
+      - {name: imageAlt, label: Sharaxaadda sawirka, widget: string, required: false}
+      - {name: imageCredit, label: Sawirka waxaa leh, widget: string, required: false}
+      - {name: imageLicense, label: Ruqsadda sawirka, widget: string, required: false}
+      - {name: imageSourceUrl, label: Isha sawirka (link), widget: string, required: false}
+      - {name: imageKind, label: Nooca sawirka, widget: select, required: false, options: [{label: 'Sawirka dhacdada', value: actual}, {label: 'Sawir muujin ah', value: illustrative}]}
+      - {name: imageNote, label: Xusuus sawir, widget: string, required: false}
+      - {name: source, label: Isha warka, widget: string, default: Wartabiye TV}
+      - {name: sourceUrl, label: Link-ga isha, widget: string, required: false}
+      - {name: timeVerified, label: Waqtiga waa la hubiyay, widget: boolean, default: true}
+      - {name: by, label: Qoraa, widget: hidden, default: admin}
+
+  - name: settings
+    label: Dejinta bogga
+    editor:
+      preview: false
+    files:
+      - name: site
+        label: Bogga guud
+        file: data/site.json
+        format: json
+        fields:
+          - {name: city, label: Magaalada (xariijinta sare), widget: string}
+          - {name: tagline, label: Hal-ku-dhegga hoos yimaada magaca, widget: string}
+          - {name: about, label: Ku saabsan (footer), widget: text}
+          - {name: motto, label: Halku-dhegga footer-ka (ku kala qaybi ·), widget: string}
+          - name: categories
+            label: Qaybaha
+            widget: list
+            field: {name: name, label: Qayb, widget: string}
+          - name: nav
+            label: Menu-ga (nav links)
+            widget: list
+            summary: '{{label}} → {{link}}'
+            hint: 'Link-gu wuxuu noqon karaa #hoyga, #qayb-<qayb>, #barnaamijyada ama https://...'
+            fields:
+              - {name: label, label: Magaca, widget: string}
+              - {name: link, label: Link, widget: string}
+          - name: announcement
+            label: Ogeysiis (xariijin buluug ah)
+            widget: object
+            fields:
+              - {name: enabled, label: Muuji, widget: boolean, default: false}
+              - {name: label, label: Calaamad, widget: string, default: OGEYSIIS}
+              - {name: text, label: Qoraal, widget: string, required: false}
+              - {name: link, label: Link, widget: string, required: false}
+          - name: banner
+            label: Banner (madaxa bogga)
+            widget: object
+            fields:
+              - {name: enabled, label: Muuji, widget: boolean, default: false}
+              - {name: label, label: Calaamad yar, widget: string, required: false}
+              - {name: title, label: Cinwaan, widget: string, required: false}
+              - {name: text, label: Qoraal, widget: string, required: false}
+              - {name: image, label: Sawir, widget: image, required: false}
+              - {name: link, label: Link, widget: string, required: false}
+          - name: breaking
+            label: Degdeg (ticker)
+            widget: object
+            fields:
+              - {name: mode, label: Habka, widget: select, options: [{label: 'Toos: wararka ugu dambeeyay + kuwan', value: auto}, {label: 'Gacan: kaliya kuwan hoose', value: manual}]}
+              - {name: label, label: Calaamad, widget: string, default: DEGDEG}
+              - name: items
+                label: Qoraallo degdeg ah
+                widget: list
+                required: false
+                fields:
+                  - {name: text, label: Qoraal, widget: string}
+                  - {name: link, label: Link, widget: string, required: false}
+          - name: featured
+            label: Wararka la soo xulay (kan koowaad waa kan weyn)
+            widget: relation
+            collection: news
+            search_fields: [title]
+            value_field: '{{slug}}'
+            display_fields: [title]
+            multiple: true
+            required: false
+          - name: sections
+            label: Qaybaha bogga hore (shid/dami)
+            widget: object
+            fields:
+              - {name: featured, label: Wararka waaweyn (sare), widget: boolean, default: true}
+              - {name: latest, label: Wararka cusub (liiska), widget: boolean, default: true}
+              - {name: sidebar, label: Dhinaca (sidebar), widget: boolean, default: true}
+              - {name: sidebarLatest, label: Ugu dambeeyay (sidebar), widget: boolean, default: true}
+              - {name: programmes, label: Barnaamijyada, widget: boolean, default: true}
+              - {name: footerLatest, label: Wararka footer-ka, widget: boolean, default: true}
+          - {name: programmesTitle, label: Cinwaanka Barnaamijyada, widget: string}
+          - {name: programmesSubtitle, label: Qoraal yar oo Barnaamijyada, widget: string}
+          - name: programmes
+            label: Barnaamijyada
+            widget: list
+            fields:
+              - {name: title, label: Magac, widget: string}
+              - {name: text, label: Sharaxaad, widget: string}
+              - {name: when, label: Goorta, widget: string}

@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Wait for GitHub Pages to publish this commit
-        if: github.event_name == 'push'
+        if: github.event_name != 'schedule'
         run: sleep 120
       - name: Live data matches the repo
         run: |

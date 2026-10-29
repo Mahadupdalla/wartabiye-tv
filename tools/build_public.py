@@ -1,6 +1,7 @@
 """Build the public (GitHub Pages) index.html from the artifact page source.
-Adds a document skeleton and makes the page read data/news.json instead of the claude.ai database.
-On the public site the claude.ai runtime is never used, even if a browser exposes window.claude."""
+Adds a document skeleton and makes the page read data/news.json and data/site.json
+instead of the claude.ai database. On the public site the claude.ai runtime is never used,
+even if a browser exposes window.claude."""
 import sys
 src, dst = sys.argv[1], sys.argv[2]
 s = open(src, encoding='utf-8').read()
@@ -14,6 +15,10 @@ new = ("if(window.WARTABIYE_PUBLIC||!window.claude||!window.claude.use){"
        "if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt;}"
        "catch(e){console.error('Wartabiye: news.json load failed',e);"
        "loadError='Wararka lama soo rari karin ('+(e&&e.message||e)+'). Fadlan dib u cusbooneysii bogga.';}"
+       # site settings are optional: without them the page keeps its built-in defaults
+       "try{var rs=await fetch('data/site.json?v='+Date.now(),{cache:'no-store'});"
+       "if(rs.ok){SITE=await rs.json();applySite()}}"
+       "catch(e){console.error('Wartabiye: site.json load failed',e)}"
        "loaded=true;renderAll();return}")
 assert s.count(old) == 1, 'loader marker not found'
 s = s.replace(old, new)
