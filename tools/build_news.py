@@ -6,7 +6,7 @@ afterwards in /admin/ is published as "manual", so the page no longer labels it 
 import json, os, glob, datetime
 from translations import LANGS, text_hash, has
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-news = []
+news, pending = [], []
 for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     n = json.load(open(f, encoding='utf-8'))
     n['id'] = os.path.basename(f)[:-5]
@@ -14,6 +14,10 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         continue
     if n.get('image') and n['image'].startswith('/'):
         n['image'] = n['image'].lstrip('/')
+    # Rule: no article goes public without its own photo. An article without a photo file (or whose photo is
+    # missing) stays pending for review in /admin/ ("Sugaya sawir") until a legal, relevant photo is added.
+    if not n.get('image') or not os.path.isfile(os.path.join(root, n['image'])):
+        pending.append(n['id']); continue
     # small card image made by tools/make_thumbs.py (publish workflow); cards fall back to the full image without it
     n.pop('thumb', None)
     if n.get('image'):
@@ -56,6 +60,9 @@ fidx = {'leagues': sorted(os.path.basename(f)[:-5] for f in glob.glob(os.path.jo
 fpath = os.path.join(fdir, 'index.json')
 if not os.path.exists(fpath) or json.load(open(fpath, encoding='utf-8')) != fidx:
     json.dump(fidx, open(fpath, 'w', encoding='utf-8'))
+
+if pending:
+    print(f'{len(pending)} article(s) waiting for a photo, not published: ' + ', '.join(pending))
 
 status = {}
 p = os.path.join(root, 'data', 'status.json')

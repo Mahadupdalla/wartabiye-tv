@@ -92,9 +92,10 @@
     if(iu&&!broken[it._id]){
       var im=document.createElement('img');im.loading='lazy';im.decoding='async';im.alt=F(it,'imageAlt')||F(it,'title');
       if(big&&small&&full){im.srcset=small+' 480w, '+full+' 1200w';im.sizes='(max-width:1000px) 100vw, 860px'}
-      im.addEventListener('error',function(){im.remove();s.classList.add('none');var ill=s.querySelector('.illus');if(ill)ill.remove();s.querySelector('.phc').hidden=false;if(!broken[it._id]){broken[it._id]=1}});
+      var FOC={top:'50% 15%',bottom:'50% 85%',left:'20% 50%',right:'80% 50%'};if(FOC[it.imageFocus])im.style.objectPosition=FOC[it.imageFocus];
+      im.addEventListener('error',function(){im.remove();s.classList.add('none');var ill=s.querySelector('.illus');if(ill)ill.remove();s.querySelector('.phc').hidden=false;s.append(el('span','illus phtag',tr('phTag')));if(!broken[it._id]){broken[it._id]=1}});
       im.src=iu;s.append(im);has=true;if(it.imageKind==='illustrative')s.append(el('span','illus',tr('illus')));
-    }else{s.classList.add('none');s.setAttribute('role','img');s.setAttribute('aria-label',cn+': '+tr('noImg'))}
+    }else{s.classList.add('none');s.setAttribute('role','img');s.setAttribute('aria-label',cn+': '+tr('phTag'));s.append(el('span','illus phtag',tr('phTag')))}
     var c=el('span','phc');if(has)c.hidden=true;c.setAttribute('aria-hidden','true');
     var icon=section(it)==='sports'&&it.sport&&SPORT_IC[it.sport]||ICONS[it.category]||ICONS._;c.innerHTML=svg(icon);c.append(el('b',null,cn),el('i',null,tr('noImg')));s.append(c);
     return s;

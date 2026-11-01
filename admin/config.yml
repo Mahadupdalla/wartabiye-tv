@@ -52,6 +52,7 @@ collections:
     sortable_fields: [publishedAt, title, category]
     view_filters:
       - {label: Qabyo, field: published, pattern: false}
+      - {label: 'Sugaya sawir', field: imagePending, pattern: true}
       - {label: Degdeg, field: breaking, pattern: true}
       - {label: Ciyaaraha, field: section, pattern: sports}
       - {label: Caalamka, field: section, pattern: world}
@@ -86,7 +87,9 @@ collections:
       - {name: topic, label: 'Mowduuca (Caalamka oo kaliya)', widget: select, required: false, options: [{label: 'Siyaasadda caalamka', value: politics}, {label: 'Dhaqaalaha adduunka', value: economy}, {label: 'Sayniska', value: science}, {label: 'Tignoolajiyadda', value: technology}, {label: 'Amniga internetka', value: cybersecurity}, {label: 'Cimilada iyo deegaanka', value: climate}, {label: 'Waxbarashada', value: education}, {label: 'Caafimaadka', value: health}]}
       - {name: sponsored, label: 'Xayeysiis (maqaal lacag lagu bixiyay)', widget: boolean, default: false, required: false, hint: 'Bogga wuxuu ku muujinayaa calaamadda XAYEYSIIS. Kama soo muuqdo Degdeg iyo Muhiim hadda.'}
       - {name: sponsor, label: 'Cidda bixisay (xayeysiis)', widget: string, required: false}
-      - {name: image, label: Sawirka, widget: image, choose_url: false, required: false, hint: 'Isticmaal sawir aad leedahay ama mid sharci ahaan la oggol yahay. Haddii aan sawir jirin, bogga wuxuu muujinayaa sawir-beddel.'}
+      - {name: image, label: Sawirka, widget: image, choose_url: false, required: false, hint: 'Soo geli (Upload), beddel (Replace) ama ka saar (Remove). Isticmaal sawir aad leedahay ama mid sharci ahaan la oggol yahay. Warka aan sawir lahayn bogga kama muuqdo: wuxuu sugayaa ilaa aad sawir geliso. Sawir kasta war keliya ha u ahaado.'}
+      - {name: imagePending, label: 'Sugaya sawir', widget: boolean, default: false, required: false, hint: 'Hawsha 06:00 ayaa shidda marka aan sawir sharci ah oo warka khuseeya la helin. Warku bogga kama muuqdo ilaa sawir la geliyo. Marka aad sawir geliso, dami.'}
+      - {name: imageFocus, label: 'Goobta la jarayo (crop)', widget: select, required: false, default: center, hint: 'Kaararka iyo bogga hore sawirka waa la jaraa si uu u buuxsho. Dooro qaybta sawirka ee had iyo jeer muuqanaysa, tusaale wejiga qofka.', options: [{label: 'Dhexda', value: center}, {label: 'Sare (wejiyada)', value: top}, {label: 'Hoose', value: bottom}, {label: 'Bidix', value: left}, {label: 'Midig', value: right}]}
       - {name: imageAlt, label: Sharaxaadda sawirka, widget: string, required: false}
       - {name: imageCredit, label: Sawirka waxaa leh, widget: string, required: false}
       - {name: imageLicense, label: Ruqsadda sawirka, widget: string, required: false}

@@ -1,10 +1,11 @@
-"""Health check for the public site: valid news.json, required fields, real dates, no duplicate URLs, every image file present,
+"""Health check for the public site: valid news.json, required fields, real dates, no duplicate URLs, every article has its
+own photo (present, described, credited, not shared with another article),
 known section / sport / region values, sponsored articles named, and every advert in data/ads.json labelled and well formed."""
 import json, os, sys, datetime
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 news = json.load(open(os.path.join(root, 'data', 'news.json'), encoding='utf-8'))
 items = news['news'] if isinstance(news, dict) else news
-errors, seen = [], set()
+errors, seen, used_imgs = [], set(), {}
 for n in items:
     nid = n.get('id', '?')
     for k in ('id', 'title', 'category', 'publishedAt'):
@@ -16,6 +17,10 @@ for n in items:
         if u in seen: errors.append(f'{nid}: duplicate sourceUrl {u}')
         seen.add(u)
     img = n.get('image')
+    if not img: errors.append(f'{nid}: published without a photo (every article needs its own photo)')
+    elif img in used_imgs: errors.append(f'{nid}: uses the same photo as {used_imgs[img]} (every article needs its own photo)')
+    else: used_imgs[img] = nid
+    if img and not n.get('imageAlt'): errors.append(f'{nid}: photo needs a description (imageAlt)')
     if img:
         if not img.startswith('img/'): errors.append(f'{nid}: image must be a local img/ path, got {img}')
         elif not os.path.isfile(os.path.join(root, img)): errors.append(f'{nid}: image file missing {img}')
