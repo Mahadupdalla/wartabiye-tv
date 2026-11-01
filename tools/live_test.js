@@ -51,6 +51,14 @@ const fs = require('fs');
     console.log('article', it.id, r.title ? 'opens' : 'DOES NOT OPEN', r.image);
     if (!r.title || r.image === 'BLANK') problems.push('article ' + it.id);
   }
+  // every article also has its own page (war/<id>.html) for search engines and shared links
+  for (const it of news.slice(0, 5)) {
+    await p.goto(base + 'war/' + it.id + '.html', { waitUntil: 'networkidle' }); await p.waitForTimeout(300);
+    const r = await p.evaluate(() => ({ h1: (document.querySelector('#story h1') || {}).textContent, canon: (document.querySelector('link[rel=canonical]') || {}).href }));
+    console.log('page', it.id, r.h1 === it.title ? 'opens' : 'WRONG', r.canon);
+    if (r.h1 !== it.title || !r.canon) problems.push('article page ' + it.id);
+  }
+  await p.goto(base, { waitUntil: 'networkidle' });
   for (const c of ['siyaasadda', 'amniga', 'bulshada', 'dhaqaalaha', 'adduunka', 'ciyaaraha']) {
     await p.evaluate(c => location.hash = 'qayb-' + c, c); await p.waitForTimeout(300);
     const t = await p.evaluate(() => document.getElementById('listTitle').textContent);

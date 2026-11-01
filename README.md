@@ -4,7 +4,8 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 
 | Qayb | Waxa ay tahay |
 |---|---|
-| `index.html` | Bogga (naqshadda Wartabiye TV, aan la beddelin) |
+| `index.html` | Bogga (naqshad wargeys: madax, menu, DEGDEG, warka weyn, qaybaha, dhinaca midig, footer) |
+| `war/<id>.html`, `sitemap.xml` | Bog gaar ah oo war kasta leh (SEO, link-ga la wadaago); `tools/build_pages.py` ayaa sameeya, publish.yml ayaa si toos ah u cusbooneysiiya |
 | `data/news.json` | Dhammaan wararka (keyd joogto ah, taariikhdu waxay ku jirtaa git) |
 | `img/news/` | Sawirrada wararka (Wikimedia Commons / VOA, liisan sharci ah) |
 | `tools/translations.py` | Turjumaadda wararka (en/ar/fr): liiska kuwa maqan, ku darid aan waxba dib u qorin, hubin |

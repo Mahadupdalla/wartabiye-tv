@@ -1,10 +1,11 @@
 name: Daabac bogga (publish)
 # Runs whenever the admin dashboard or the daily task saves content.
-# Rebuilds data/news.json from data/news/*.json, checks it, and publishes it to GitHub Pages.
+# Rebuilds data/news.json from data/news/*.json, checks it, builds one page per article (war/) and sitemap.xml,
+# and publishes them to GitHub Pages.
 on:
   push:
     branches: [main]
-    paths: ['data/news/**', 'data/site.json', 'data/status.json', 'img/**']
+    paths: ['data/news/**', 'data/site.json', 'data/status.json', 'img/**', 'index.html', 'tools/build_pages.py']
   workflow_dispatch:
 permissions:
   contents: write
@@ -24,13 +25,15 @@ jobs:
         run: python3 tools/build_news.py
       - name: Check news, dates and images (nothing is published if this fails)
         run: python3 tools/check_site.py && python3 -c "import json;json.load(open('data/site.json'))"
-      - name: Commit news.json
+      - name: Build article pages (war/<id>.html) and sitemap.xml
+        run: python3 tools/build_pages.py
+      - name: Commit news.json, article pages and sitemap
         run: |
-          if git diff --quiet -- data/news.json; then echo "news.json already up to date"; exit 0; fi
+          git add -A data/news.json war sitemap.xml
+          if git diff --cached --quiet; then echo "news.json and article pages already up to date"; exit 0; fi
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/news.json
-          git commit -m "Daabac: cusboonaysii news.json"
+          git commit -m "Daabac: cusboonaysii news.json iyo bogagga wararka"
           for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 5; done
       - name: Make sure GitHub Pages publishes the newest version
         # Several saves in a row start several Pages builds, and GitHub refuses a build while another
