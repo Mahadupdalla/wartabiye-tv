@@ -1,4 +1,5 @@
-"""Health check for the public site: valid news.json, required fields, real dates, no duplicate URLs, every image file present."""
+"""Health check for the public site: valid news.json, required fields, real dates, no duplicate URLs, every image file present,
+known section / sport / region values, sponsored articles named, and every advert in data/ads.json labelled and well formed."""
 import json, os, sys, datetime
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 news = json.load(open(os.path.join(root, 'data', 'news.json'), encoding='utf-8'))
@@ -24,6 +25,22 @@ for n in items:
         if t is None: continue
         if not isinstance(t, dict): errors.append(f'{nid}: translation {lang} is not an object')
         elif any(k in t and not isinstance(t[k], str) for k in ('title', 'summary', 'body', 'imageAlt')): errors.append(f'{nid}: translation {lang} has a non-text field')
+    if n.get('section') not in (None, '', 'somalia', 'world', 'sports'): errors.append(f'{nid}: unknown section {n.get("section")!r}')
+    if n.get('sponsored') and not n.get('sponsor'): errors.append(f'{nid}: sponsored article must name the sponsor')
+    if n.get('tags') is not None and not isinstance(n['tags'], list): errors.append(f'{nid}: tags must be a list')
+    if n.get('sourceUrl') and not str(n['sourceUrl']).startswith(('https://', 'http://')): errors.append(f'{nid}: bad sourceUrl')
+p_ads = os.path.join(root, 'data', 'ads.json')
+ads = json.load(open(p_ads, encoding='utf-8'))['ads'] if os.path.exists(p_ads) else []
+POS = {'home', 'sidebar', 'card', 'article', 'mobile', 'spotlight', 'video'}
+for ad in ads:
+    aid = ad.get('id', '?')
+    if not ad.get('title') or not ad.get('advertiser'): errors.append(f'ad {aid}: needs a title and the advertiser name')
+    if not ad.get('positions') or not set(ad['positions']) <= POS: errors.append(f'ad {aid}: bad positions {ad.get("positions")}')
+    if ad.get('image') and not os.path.isfile(os.path.join(root, ad['image'])): errors.append(f'ad {aid}: image file missing {ad["image"]}')
+    if ad.get('image') and not ad.get('imageAlt'): errors.append(f'ad {aid}: image needs a description (imageAlt)')
+    if ad.get('link') and not str(ad['link']).startswith('https://'): errors.append(f'ad {aid}: link must start with https://')
+    if ad.get('video') and 'youtu' not in str(ad['video']): errors.append(f'ad {aid}: only YouTube video links are supported')
+print(f'adverts={len(ads)}')
 with_img = sum(1 for n in items if n.get('image'))
 print(f'articles={len(items)} with_image={with_img} placeholder={len(items)-with_img}')
 meta = news.get('updatedAt') if isinstance(news, dict) else None

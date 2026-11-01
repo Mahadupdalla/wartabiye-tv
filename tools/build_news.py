@@ -14,6 +14,12 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         continue
     if n.get('image') and n['image'].startswith('/'):
         n['image'] = n['image'].lstrip('/')
+    # small card image made by tools/make_thumbs.py (publish workflow); cards fall back to the full image without it
+    n.pop('thumb', None)
+    if n.get('image'):
+        t = os.path.join('img', 'news', 'w480', os.path.splitext(os.path.basename(n['image']))[0] + '.webp')
+        if os.path.isfile(os.path.join(root, t)):
+            n['thumb'] = t
     for lang in LANGS:
         if not has(n, lang):
             n.pop(lang, None); continue
@@ -23,6 +29,25 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         n[lang] = t
     news.append(n)
 news.sort(key=lambda x: x.get('publishedAt') or '', reverse=True)
+# adverts: data/ads/<id>.json (edited in /admin/) -> data/ads.json; paused and expired ones are left out
+ads = []
+for f in sorted(glob.glob(os.path.join(root, 'data', 'ads', '*.json'))):
+    a = json.load(open(f, encoding='utf-8'))
+    a['id'] = os.path.basename(f)[:-5]
+    if a.get('active') is False:
+        continue
+    if a.get('end') and str(a['end'])[:10] < datetime.date.today().isoformat():
+        continue
+    if a.get('image') and str(a['image']).startswith('/'):
+        a['image'] = a['image'].lstrip('/')
+    ads.append({k: v for k, v in a.items() if k in ('id', 'title', 'advertiser', 'text', 'positions', 'image', 'imageAlt', 'link', 'video', 'start', 'end', 'active', 'en', 'ar', 'fr')})
+ads_path = os.path.join(root, 'data', 'ads.json')
+ads_out = {'ads': ads}
+old_ads = json.load(open(ads_path, encoding='utf-8')) if os.path.exists(ads_path) else None
+if old_ads != ads_out:
+    json.dump(ads_out, open(ads_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    print(f'{len(ads)} active adverts -> data/ads.json')
+
 status = {}
 p = os.path.join(root, 'data', 'status.json')
 if os.path.exists(p):

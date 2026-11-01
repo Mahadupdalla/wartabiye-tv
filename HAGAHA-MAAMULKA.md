@@ -33,7 +33,26 @@ Browser: isticmaal Chrome, Edge, Safari ama Firefox oo la cusboonaysiiyay (Chrom
 - **Tirtir:** fur warka → ⋮ (sare, midig) → **Delete**.
 - **Degdeg (12 saac):** wuxuu warka ku tusaa calaamad DEGDEG ah 12 saac.
 
+- **Qaybta weyn (section):** Soomaaliya, Caalamka ama Ciyaaraha. Haddii aad banaanayso, qaybta (category) ayaa go'aamisa.
+- **Ciyaaraha:** dooro **Nooca ciyaarta** (kubadda cagta, orodka, F1 …), **Tartanka** (Premier League, AFCON …) iyo **Nooca warka** (suuq-geynta, warbixin ciyaar, ciyaaryahan, koox). Bogga Ciyaaraha wuxuu ku shaandheeyaa.
+- **Caalamka:** dooro **Gobolka** (Afrika, Bariga Dhexe …) iyo **Mawduuca** (siyaasadda, dhaqaalaha, caafimaadka …).
+- **Muhiim:** warku wuxuu galaa "Kuwa la akhriyo" 72 saac (shuruud tifaftir, ma aha tiro been ah).
+- **La kafaalaqaaday (sponsored):** shid, kuna qor magaca kafaala-qaadaha. Bogga wuxuu muujinayaa calaamad "Xayeysiis".
+
+**Xayeysiisyada (Xayeysiis)**
+- **New:** cinwaan, magaca xayeysiiyaha, qoraal gaaban, sawir (iyo sharaxaad sawir), link (https), ama link YouTube.
+- **Meelaha:** bogga hore, sidebar, dhex-wararka, gudaha warka, mobile, kaar weyn, video. Xayeysiis kasta wuxuu leeyahay calaamad "Xayeysiis".
+- **Taariikhda bilowga/dhammaadka:** xayeysiisku wuxuu muuqdaa kaliya inta u dhaxaysa. **Firfircoon** dami si aad u joojiso; **Delete** si aad u tirtirto.
+- Repo-gu waa public: **ha ku qorin** telefoonka, email-ka ama qiimaha xayeysiiyaha halkan. Kuwaas waxay galaan maamulka gaarka ah (hoos eeg).
+
+**Boggaga (Nagu Saabsan, Anshaxa, Saxitaannada, Asturnaanta, Siyaasadda Xayeysiiska)**
+- Qoraal kasta 4 luqadood. Beddel kadibna **Save**.
+
 **Dejinta bogga**
+- **Kuwa la akhriyo (trending):** dooro wararka aad rabto; haddii aad banaanayso, bogga wuxuu doortaa degdeg, muhiim (72 saac) iyo kuwa ugu cusub.
+- **Baraha bulshada:** link-yada Facebook, TikTok, YouTube.
+- **Foomamka:** furaha Web3Forms (hoos eeg).
+- **Qiimaha xayeysiiska:** kaliya haddii aad shiddo **Muuji** ayuu bogga ka muuqdaa. Qiime been ah ha qorin.
 - Magaalada, hal-ku-dhegga, qoraalka "ku saabsan", footer-ka.
 - **Qaybaha** (categories) iyo **menu-ga** (nav links).
 - **Ogeysiis:** xariijin buluug ah oo bogga sare ka muuqata (shid/dami).
@@ -54,9 +73,26 @@ Booqdayaashu waxay luqadda ka doortaan badhanka calanka leh ee **midigta sare**.
 - Haddii war aan weli la turjumin, bogga wuxuu muujinayaa qoraalka Soomaaliga oo leh calaamad cad ("weli lama turjumin").
 - **Dejinta bogga** waxay leedahay qaybo 🇬🇧/🇸🇦/🇫🇷 ah: magaalada, hal-ku-dhegga, banner-ka, ogeysiiska, barnaamijyada. Menu-ga iyo lixda qaybood si toos ah ayaa loo turjumaa.
 
+## Codsiyada xayeysiiska iyo fariimaha (gaar)
+
+Foomka **Hadda Dalbo Xayeysiis** iyo foomka **Nala Soo Xiriir** waxay fariimaha u diraan **email-kaaga** iyada oo loo marayo Web3Forms (bilaash: 250 fariin bishii, kaarka bangiga looma baahna). Waxba lagama kaydiyo repo-ga public-ka ah.
+
+1. Tag <https://web3forms.com>, geli email-kaaga, riix **Create Access Key**. Furaha email ayaa laguugu soo diraa.
+2. `/admin/` → **Dejinta bogga** → **Foomamka** → ku dheji furaha → **Save**. (Furahani sir ma aha; wuxuu kaliya u oggolaanayaa in fariimo lagu soo diro email-kaaga.)
+3. Ilaa furaha la geliyo, foomamku waxay muujinayaan "foomka weli lama furin" iyo email-kaaga link ahaan.
+
+Ilaalinta spam-ka: god-dabin qarsoon (honeypot), hubin waqti (3 ilbiriqsi), hal fariin daqiiqaddii, iyo hubinta beeraha.
+
+**Maamulka gaarka ah ee codsiyada:** `/admin/codsiyada/` wuxuu kaydiyaa codsiyada (xaaladda: cusub, la xiriiray, la oggolaaday, la diiday, dhammaaday), qiimaha la isku afgartay iyo xiriirka xayeysiiyayaasha, **repo private ah** dhexdiisa. Mar kaliya:
+1. GitHub-ka ka samee repo cusub oo **Private** ah: `Mahadupdalla/wartabiye-codsiyada`.
+2. Token-kaaga GitHub sii fasax repo-gaas (Contents: Read and write).
+3. Fur `/admin/codsiyada/`, gal token-ka. Email kasta oo codsi ah halkaas ku dar.
+
+Lacag-bixin online ah lama shidin.
+
 ## Goorma ayuu bogga isbeddelaa?
 
-Marka aad riixdo **Save**, GitHub ayaa kaydiya. Workflow-ga **"Daabac bogga"** ayaa hubiya (taariikh, sawir, nuqul) oo bogga cusbooneysiiya. Bogga tooska ahi wuxuu isbeddelaa **1–3 daqiiqo** gudahood. Haddii hubintu fashilanto (tusaale sawir maqan), bogga hore sidiisa ayuu ahaanayaa, GitHub-na wuxuu kuu soo diraa email.
+Marka aad riixdo **Save**, GitHub ayaa kaydiya. Workflow-ga **"Daabac bogga"** ayaa hubiya (taariikh, sawir, nuqul, xayeysiisyada), sameeya sawirro yaryar (webp), bog gaar ah war kasta (`war/<id>.html`), `sitemap.xml` iyo `rss.xml`, kadibna bogga cusbooneysiiya. Bogga tooska ahi wuxuu isbeddelaa **1–3 daqiiqo** gudahood. Haddii hubintu fashilanto (tusaale sawir maqan), bogga hore sidiisa ayuu ahaanayaa, GitHub-na wuxuu kuu soo diraa email.
 
 ## Hawsha 06:00
 
@@ -64,4 +100,4 @@ Hawsha maalinlaha ah ee 06:00 waxay **kaliya ku daraysaa wararka cusub** (fayl c
 
 ## Kharash
 
-Dhammaan waa bilaash: GitHub Pages, GitHub Actions (repo public ah = daqiiqado aan xad lahayn), Sveltia CMS (MIT, bilaash) iyo token-ka GitHub. Wax adeeg lacag ah lama isticmaalin.
+Dhammaan waa bilaash: GitHub Pages, Web3Forms (qorshaha bilaashka ah), GitHub Actions (repo public ah = daqiiqado aan xad lahayn), Sveltia CMS (MIT, bilaash) iyo token-ka GitHub. Wax adeeg lacag ah lama isticmaalin.

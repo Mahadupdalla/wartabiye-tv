@@ -1,0 +1,68 @@
+# Private dashboard: advertising requests and advertiser contacts.
+# Everything here is stored in the PRIVATE repository Mahadupdalla/wartabiye-codsiyada (create it once, see HAGAHA-MAAMULKA.md).
+# Nothing is written to the public website repository, so contact details are never published.
+backend:
+  name: github
+  repo: Mahadupdalla/wartabiye-codsiyada
+  branch: main
+  auth_methods: [token]
+  commit_messages:
+    create: 'Codsi cusub "{{slug}}"'
+    update: 'Codsi: wax ka beddel "{{slug}}"'
+    delete: 'Codsi: tirtir "{{slug}}"'
+logo:
+  src: ../../img/logo.png
+media_folder: files
+collections:
+  - name: requests
+    label: Codsiyada xayeysiiska
+    label_singular: Codsi
+    description: 'Codsiyada ka yimid foomka bogga Xayeysiimaha (email-kaaga ayay ku yimaadaan). Halkan ku keydi, kadibna Ansixi ama Diid. Xayeysiiska la ansixiyay waxaa lagu daraa dashboard-ka guud → Xayeysiisyada.'
+    folder: requests
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: business
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{business}} · {{status}} · {{receivedAt}}'
+    sortable_fields: [receivedAt, business, status]
+    view_filters:
+      - {label: Cusub, field: status, pattern: new}
+      - {label: La ansixiyay, field: status, pattern: approved}
+      - {label: La diiday, field: status, pattern: rejected}
+    fields:
+      - {name: business, label: Magaca ganacsiga ama shirkadda, widget: string}
+      - {name: person, label: Qofka la xiriirayo, widget: string}
+      - {name: email, label: Email, widget: string, required: false}
+      - {name: phone, label: Taleefan, widget: string, required: false}
+      - {name: adType, label: Nooca xayeysiiska, widget: string, required: false}
+      - {name: period, label: Muddada, widget: string, required: false}
+      - {name: campaign, label: Sharaxaadda ololaha, widget: text, required: false}
+      - {name: message, label: Fariin dheeraad ah, widget: text, required: false}
+      - {name: receivedAt, label: Taariikhda la helay, widget: datetime, default: '{{now}}'}
+      - name: status
+        label: Xaaladda
+        widget: select
+        default: new
+        options: [{label: Cusub, value: new}, {label: 'La la xiriiray', value: contacted}, {label: 'La ansixiyay', value: approved}, {label: 'La diiday', value: rejected}, {label: 'Dhammaaday', value: done}]
+      - {name: price, label: 'Qiimaha la isku raacay', widget: string, required: false}
+      - {name: notes, label: Xusuus qoraal (adiga oo kaliya), widget: text, required: false}
+  - name: advertisers
+    label: Xayeysiiyayaasha (xiriirka)
+    label_singular: Xayeysiiye
+    folder: advertisers
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: business
+    slug: '{{slug}}'
+    summary: '{{business}} · {{person}}'
+    fields:
+      - {name: business, label: Ganacsiga, widget: string}
+      - {name: person, label: Qofka, widget: string, required: false}
+      - {name: email, label: Email, widget: string, required: false}
+      - {name: phone, label: Taleefan, widget: string, required: false}
+      - {name: address, label: Cinwaanka, widget: string, required: false}
+      - {name: notes, label: Xusuus qoraal, widget: text, required: false}
