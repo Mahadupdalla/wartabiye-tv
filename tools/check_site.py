@@ -24,6 +24,18 @@ for n in items:
         if t is None: continue
         if not isinstance(t, dict): errors.append(f'{nid}: translation {lang} is not an object')
         elif any(k in t and not isinstance(t[k], str) for k in ('title', 'summary', 'body', 'imageAlt')): errors.append(f'{nid}: translation {lang} has a non-text field')
+# photo rule (from 2026-11-02): every automatic article has its own image, never shared with another article
+RULE_FROM = '2026-11-02'
+users = {}
+for n in items:
+    for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
+        if key: users.setdefault(key, []).append(n)
+for n in items:
+    if n.get('by') == 'admin' or (n.get('publishedAt') or '')[:10] < RULE_FROM: continue
+    if not n.get('image'): errors.append(f"{n.get('id')}: published without its own photo (should be a draft under Sugaya sawir)")
+    for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
+        if key and len(users.get(key, [])) > 1:
+            errors.append(f"{n.get('id')}: photo {key} is also used by " + ', '.join(o.get('id', '?') for o in users[key] if o is not n))
 with_img = sum(1 for n in items if n.get('image'))
 print(f'articles={len(items)} with_image={with_img} placeholder={len(items)-with_img}')
 meta = news.get('updatedAt') if isinstance(news, dict) else None

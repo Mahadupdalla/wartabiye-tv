@@ -50,7 +50,7 @@ Booqdayaashu waxay luqadda ka doortaan badhanka calanka leh ee **midigta sare**.
 - **War kasta** wuxuu leeyahay saddex qaybood oo laalaab ah oo hoose: 🇬🇧 English, 🇸🇦 العربية, 🇫🇷 Français. Fur, beddel cinwaanka/soo koobidda/qoraalka, kadibna **Save**.
 - Marka aad saxdo turjumaad otomaatig ah, **Xaaladda** u beddel **Gacan**. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".
 - **Eeg luqad kasta:** editor-ka ⋮ → **View on Live Site** wuxuu furaa warka bogga (xitaa qabyo), kadibna luqadda ka beddel midigta sare. Ama ku dar `?lang=en`, `?lang=ar`, `?lang=fr` link-ga bogga.
-- **Hawsha 06:00** waxay turjuntaa wararka cusub (Claude ayaa turjuma, adeeg lacag ah lama isticmaalo). Kaliya waxay buuxisaa turjumaad **maqan**; waligeed ma beddesho turjumaad jirta ama mid aad saxday. Si ay mar kale u turjunto, faaruqi cinwaanka luqaddaas.
+- **Hawsha 08:00 / 18:00** waxay turjuntaa wararka cusub (Claude ayaa turjuma, adeeg lacag ah lama isticmaalo). Kaliya waxay buuxisaa turjumaad **maqan**; waligeed ma beddesho turjumaad jirta ama mid aad saxday. Si ay mar kale u turjunto, faaruqi cinwaanka luqaddaas.
 - Haddii war aan weli la turjumin, bogga wuxuu muujinayaa qoraalka Soomaaliga oo leh calaamad cad ("weli lama turjumin").
 - **Dejinta bogga** waxay leedahay qaybo 🇬🇧/🇸🇦/🇫🇷 ah: magaalada, hal-ku-dhegga, banner-ka, ogeysiiska, barnaamijyada. Menu-ga iyo lixda qaybood si toos ah ayaa loo turjumaa.
 
@@ -58,9 +58,11 @@ Booqdayaashu waxay luqadda ka doortaan badhanka calanka leh ee **midigta sare**.
 
 Marka aad riixdo **Save**, GitHub ayaa kaydiya. Workflow-ga **"Daabac bogga"** ayaa hubiya (taariikh, sawir, nuqul) oo bogga cusbooneysiiya. Bogga tooska ahi wuxuu isbeddelaa **1–3 daqiiqo** gudahood. Haddii hubintu fashilanto (tusaale sawir maqan), bogga hore sidiisa ayuu ahaanayaa, GitHub-na wuxuu kuu soo diraa email.
 
-## Hawsha 06:00
+## Hawsha 08:00 iyo 18:00
 
-Hawsha maalinlaha ah ee 06:00 waxay **kaliya ku daraysaa wararka cusub** (fayl cusub mid kasta) iyo turjumaadaha maqan. Waligeed ma beddesho, ma tirtirto, mana dib u qorto war jira, turjumaad jirta ama dejintaada. Sidaas darteed wax-ka-beddelkaaga gacanta waa ammaan.
+Hawsha socota maalin kasta 08:00 iyo 18:00 (Nairobi) waxay **kaliya ku daraysaa wararka cusub** (fayl cusub mid kasta) iyo turjumaadaha maqan. Waligeed ma beddesho, ma tirtirto, mana dib u qorto war jira, turjumaad jirta ama dejintaada. Sidaas darteed wax-ka-beddelkaaga gacanta waa ammaan. War aad tirtirto ama qabyo ka dhigto dib looma soo celiyo.
+
+**Sugaya sawir:** war aan lahayn sawir u gaar ah oo sharci ah lama daabaco. Wuxuu ku jiraa /admin/ → Wararka → filter-ka **Sugaya sawir**. Si aad u daabacdo: ku dar sawir (iyo cidda leh iyo ruqsadda), dami "Sugaya sawir", shid "La daabacay", kadibna **Save**.
 
 ## Kharash
 

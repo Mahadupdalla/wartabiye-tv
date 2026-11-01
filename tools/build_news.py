@@ -5,12 +5,27 @@ Translations ("en", "ar", "fr") are kept; a machine translation ("status": "auto
 afterwards in /admin/ is published as "manual", so the page no longer labels it as machine-translated."""
 import json, os, glob, datetime
 from translations import LANGS, text_hash, has
+PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
+
+
+def needs_photo(n):
+    return n.get('by') != 'admin' and (n.get('publishedAt') or '')[:10] >= PHOTO_RULE_FROM
+
+
+def image_ok(n):
+    img = (n.get('image') or '').lstrip('/')
+    return img.startswith('img/') and os.path.isfile(os.path.join(root, img))
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 news = []
 for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     n = json.load(open(f, encoding='utf-8'))
     n['id'] = os.path.basename(f)[:-5]
     if n.get('published', True) is False:
+        continue
+    # photo rule: an automatic article from the photo-rule date on is only published with its own image file;
+    # otherwise it stays a draft in /admin/ under "Sugaya sawir" until the owner adds a photo
+    if needs_photo(n) and not image_ok(n):
+        print(f"{n['id']}: no image file, kept as draft (Sugaya sawir)")
         continue
     if n.get('image') and n['image'].startswith('/'):
         n['image'] = n['image'].lstrip('/')

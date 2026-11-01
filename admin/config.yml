@@ -53,6 +53,7 @@ collections:
     view_filters:
       - {label: Qabyo, field: published, pattern: false}
       - {label: Degdeg, field: breaking, pattern: true}
+      - {label: Sugaya sawir, field: imagePending, pattern: true}
     fields:
       - {name: title, label: Cinwaanka, widget: string}
       - {name: summary, label: Soo koobid, widget: text}
@@ -75,6 +76,7 @@ collections:
       - {name: imageSourceUrl, label: Isha sawirka (link), widget: string, required: false}
       - {name: imageKind, label: Nooca sawirka, widget: select, required: false, options: [{label: 'Sawirka dhacdada', value: actual}, {label: 'Sawir muujin ah', value: illustrative}]}
       - {name: imageNote, label: Xusuus sawir, widget: string, required: false}
+      - {name: imagePending, label: 'Sugaya sawir (ku dar sawir, dami tan, kadibna daabac)', widget: boolean, default: false, required: false}
       - {name: source, label: Isha warka, widget: string, default: Wartabiye TV}
       - {name: sourceUrl, label: Link-ga isha, widget: string, required: false}
       - {name: timeVerified, label: Waqtiga waa la hubiyay, widget: boolean, default: true}
