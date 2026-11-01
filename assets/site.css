@@ -71,8 +71,8 @@ p{text-wrap:pretty}
 nav.menu{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--blue);color:var(--on-blue);border-bottom:3px solid var(--red);box-shadow:0 6px 18px rgba(2,99,179,.18)}
 nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .links{display:flex;flex-wrap:wrap;gap:0;min-width:0}
-.links a{font:700 13.5px var(--display);font-stretch:92%;text-transform:uppercase;letter-spacing:.03em;padding:14px 12px;display:block;position:relative;transition:background .2s}
-.links a::after{content:"";position:absolute;inset-inline:12px;bottom:6px;height:2px;background:#fff;transform:scaleX(0);transition:transform .25s;border-radius:2px}
+.links a{font:700 13px var(--display);font-stretch:92%;text-transform:uppercase;letter-spacing:.03em;padding:14px 10px;display:block;position:relative;transition:background .2s}
+.links a::after{content:"";position:absolute;inset-inline:10px;bottom:6px;height:2px;background:#fff;transform:scaleX(0);transition:transform .25s;border-radius:2px}
 .links a:hover,.links a.on{background:var(--blue-d)}
 .links a.on::after,.links a:hover::after{transform:scaleX(1)}
 .links a.ad-link{color:#fff}
@@ -463,12 +463,15 @@ h1[lang=so],h2[lang=so],h3[lang=so],h4[lang=so],.tile [lang=so]{font-family:"Arc
   .sform{grid-template-columns:1fr 1fr 1fr}
   .sform label:first-child{grid-column:1/-1}
 }
+@media (max-width:1320px){.links a{padding:14px 7px;font-size:12.5px;letter-spacing:.02em}}
+@media (max-width:1180px){.links a{padding:13px 5px;font-size:11.5px;letter-spacing:0}}
+@media (max-width:960px) and (min-width:861px){.links a{padding:13px 3px;font-size:10.5px}}
 @media (max-width:1000px){
   .layout{grid-template-columns:minmax(0,1fr)}
   .sidebar{grid-template-columns:repeat(2,minmax(0,1fr))}
   .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:320px 200px 200px}
   .tile.big{grid-column:span 2;grid-row:auto}
-  .links a{padding:14px 9px;font-size:12.5px}
+
   .adwhy{grid-template-columns:repeat(2,minmax(0,1fr))}
   .adhero .wrap{grid-template-columns:1fr}
   .adhero .art{max-width:520px}
@@ -579,3 +582,22 @@ h1[lang=so],h2[lang=so],h3[lang=so],h4[lang=so],.tile [lang=so]{font-family:"Arc
 .datacredit{font-size:12.5px;color:var(--muted);margin-top:14px}
 .datacredit a{color:var(--link);font-weight:600}
 @media (max-width:640px){.lgrid{grid-auto-columns:minmax(140px,1fr)}.hubhead.league .wrap{grid-template-columns:minmax(0,1fr)}.hubhead .offsite{justify-self:start}}
+
+/* ---------- videos (#muuqaal) ---------- */
+.hubhead.videos{background:linear-gradient(120deg,var(--blue-d),var(--blue))}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin:6px 0 14px}
+.vcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.vplay,.vframe{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;margin:0;background:var(--blue-d);cursor:pointer;overflow:hidden}
+.vplay img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.vplay:hover img,.vplay:focus-visible img{transform:scale(1.03)}
+.vicon{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:var(--red);display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.vicon svg{width:26px;height:26px;fill:#fff;stroke:none;margin-left:3px}
+.vdur{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.75);color:#fff;font-size:12px;font-weight:700;padding:2px 6px;border-radius:4px}
+.vframe iframe,.vframe video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.vtx{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px}
+.vtx h3{margin:0;font-size:16px;line-height:1.35;color:var(--fg)}
+.vtx p{margin:0;font-size:14px;color:var(--muted)}
+.vkind{align-self:flex-start;background:var(--blue);color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:4px}
+.vmeta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted)}
+.vmeta a{color:var(--link)}
+.vnote{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}

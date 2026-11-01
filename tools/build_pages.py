@@ -87,8 +87,9 @@ for f in glob.glob(os.path.join(out_dir, '*.html')):
 
 # 2. section and information pages: route -> (title, description, key in pages.json or None)
 SECTIONS = {
-    'ciyaaraha': ('Ciyaaraha', 'Wararka ciyaaraha: kubadda cagta, orodka, kubadda koleyga, feerka, Formula 1, kirikitka iyo ciyaaraha Soomaalida.', None),
-    'caalamka': ('Wararka Caalamka', 'Wararka caalamka: Afrika, Bariga Dhexe, Yurub, Aasiya iyo Ameerika, siyaasadda, dhaqaalaha, caafimaadka iyo tiknoolajiyadda.', None),
+    'ciyaaraha': ('Ciyaaraha', 'Wararka ciyaaraha ugu muhiimsan ee maalinta, hal meel: kubadda cagta, kubadda koleyga, teniska, Formula 1, feerka, orodka, esports iyo kuwo kale.', None),
+    'caalamka': ('Wararka Caalamka', 'Wararka caalamka oo dhan oo hal meel isugu jira. Kuwa ugu cusub ayaa ugu horreeya.', None),
+    'muuqaal': ('Muuqaalada', 'Muuqaallada wararka Wartabiye TV: Soomaaliya, caalamka, ciyaaraha iyo wareysiyo, kaliya kuwa si sharci ah loo daabici karo.', None),
     'xayeysiimaha': ('Ku Xayeysiiso Ganacsigaaga Wartabiye TV', 'Gaadhsii ganacsigaaga akhristayaasha iyo daawadayaasha Wartabiye TV. Codso xayeysiis.', None),
     'xiriir': ('Nala Soo Xiriir', 'La xiriir tifaftirka Wartabiye TV: talo, sixitaan ama war.', None),
     'nagu-saabsan': (None, None, 'about'),
