@@ -3,8 +3,10 @@ on:
   push:
     branches: [main]
   schedule:
-    # 06:45 Africa/Nairobi (03:45 UTC), after the 06:00 news update
-    - cron: '45 3 * * *'
+    # The news update itself is NOT scheduled here: it is the Claude scheduled task at 08:00 and 18:00
+    # Africa/Nairobi (05:00 and 15:00 UTC). GitHub only publishes (publish.yml, on push) and checks.
+    # This check runs 2h20m after each update: 10:20 and 20:20 Nairobi (07:20 and 17:20 UTC).
+    - cron: '20 7,17 * * *'
   workflow_dispatch:
 jobs:
   check:
@@ -13,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check news.json and images
         run: python3 tools/check_site.py
-      - name: Check the update ran today
+      - name: Check the 08:00 / 18:00 update ran (lastRunAt under 4 hours old)
         if: github.event_name == 'schedule'
         run: |
           python3 - <<'PY'
@@ -21,7 +23,7 @@ jobs:
           d = json.load(open('data/news.json', encoding='utf-8'))
           u = d.get('lastRunAt') or d.get('updatedAt')
           now = datetime.datetime.now(datetime.timezone.utc)
-          ok = u and (now - datetime.datetime.fromisoformat(u.replace('Z', '+00:00'))).total_seconds() < 26*3600
+          ok = u and (now - datetime.datetime.fromisoformat(u.replace('Z', '+00:00'))).total_seconds() < 4*3600
           print('lastRunAt', u, 'fresh' if ok else 'STALE')
           sys.exit(0 if ok else 1)
           PY
