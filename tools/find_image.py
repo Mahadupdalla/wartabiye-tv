@@ -1,4 +1,4 @@
-"""Find and attach a legal, story-specific photo from Wikimedia Commons (used by the 06:00 run and by hand).
+"""Find and attach a legal, story-specific photo from Wikimedia Commons (used by the daily news runs and by hand).
 
   python3 tools/find_image.py search "Stamford Bridge stadium" ["cat:Stamford Bridge (stadium)" ...]
       Lists files with a free licence (CC0, CC BY, CC BY-SA, public domain): title, licence, author, description.

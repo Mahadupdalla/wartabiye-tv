@@ -6,8 +6,8 @@ window.WT_I18N = {
 so: {
   menu:'MENU', navAria:'Menu-ga guud', search:'Raadi', searchPh:'Ku qor erayga aad raadinayso…', live:'LIVE', langAria:'Luqadda',
   tickLoading:'Wararkii ugu danbeeyay ee Wartabiye TV ayaa soo dhacaya…', news:'Wararka', mosaicLoading:'Wararkii ugu danbeeyay ayaa soo dhacaya',
-  latest:'Wararka cusub', updatedDaily:'Maalin kasta 06:00 subaxnimo waa la cusbooneysiiyaa', updated:'La cusbooneysiiyay: ',
-  noNews:'Weli war lama dhigin. Wararka cusub waxay halkan ka soo muuqan doonaan maalin kasta 06:00 subaxnimo.', noMatch:'War ku habboon lama helin.',
+  latest:'Wararka cusub', updatedDaily:'Maalin kasta 08:00 iyo 18:00 waa la cusbooneysiiyaa', updated:'La cusbooneysiiyay: ',
+  noNews:'Weli war lama dhigin. Wararka cusub waxay halkan ka soo muuqan doonaan maalin kasta 08:00 iyo 18:00.', noMatch:'War ku habboon lama helin.',
   searchResults:'Natiijada raadinta', loadError:'Wararka lama soo rari karin ({e}). Fadlan dib u cusbooneysii bogga.',
   home:'Hoyga', programmes:'Barnaamijyada', everyDay:'Maalin kasta', latestShort:'Ugu dambeeyay', categories:'Qaybaha', follow:'Nala soco', rights:'Xuquuqda oo dhan way xifdisan tahay.',
   noticeLabel:'OGEYSIIS', breakingLabel:'DEGDEG', breaking:'Degdeg', readMore:'Akhri warka →', original:'Asalka', sourceWord:'ilaha', sources:'Ilaha',
@@ -77,8 +77,8 @@ so: {
 en: {
   menu:'MENU', navAria:'Main menu', search:'Search', searchPh:'Type the word you are looking for…', live:'LIVE', langAria:'Language',
   tickLoading:'The latest Wartabiye TV news is loading…', news:'News', mosaicLoading:'The latest news is loading',
-  latest:'Latest news', updatedDaily:'Updated every day at 06:00', updated:'Updated: ',
-  noNews:'No news has been posted yet. New stories will appear here every day at 06:00.', noMatch:'No matching news found.',
+  latest:'Latest news', updatedDaily:'Updated every day at 08:00 and 18:00', updated:'Updated: ',
+  noNews:'No news has been posted yet. New stories will appear here every day at 08:00 and 18:00.', noMatch:'No matching news found.',
   searchResults:'Search results', loadError:'The news could not be loaded ({e}). Please refresh the page.',
   home:'Home', programmes:'Programmes', everyDay:'Every day', latestShort:'Latest', categories:'Categories', follow:'Follow us', rights:'All rights reserved.',
   noticeLabel:'NOTICE', breakingLabel:'BREAKING', breaking:'Breaking', readMore:'Read more →', original:'Original', sourceWord:'source', sources:'Source',
@@ -141,8 +141,8 @@ en: {
 ar: {
   menu:'القائمة', navAria:'القائمة الرئيسية', search:'بحث', searchPh:'اكتب الكلمة التي تبحث عنها…', live:'مباشر', langAria:'اللغة',
   tickLoading:'يجري تحميل آخر أخبار Wartabiye TV…', news:'الأخبار', mosaicLoading:'يجري تحميل آخر الأخبار',
-  latest:'آخر الأخبار', updatedDaily:'يُحدَّث يوميًا الساعة 06:00 صباحًا', updated:'آخر تحديث: ',
-  noNews:'لم تُنشر أي أخبار بعد. ستظهر الأخبار الجديدة هنا يوميًا الساعة 06:00 صباحًا.', noMatch:'لم يُعثر على أخبار مطابقة.',
+  latest:'آخر الأخبار', updatedDaily:'يُحدَّث يوميًا الساعة 08:00 و18:00', updated:'آخر تحديث: ',
+  noNews:'لم تُنشر أي أخبار بعد. ستظهر الأخبار الجديدة هنا يوميًا الساعة 08:00 و18:00.', noMatch:'لم يُعثر على أخبار مطابقة.',
   searchResults:'نتائج البحث', loadError:'تعذّر تحميل الأخبار ({e}). يُرجى تحديث الصفحة.',
   home:'الرئيسية', programmes:'البرامج', everyDay:'يوميًا', latestShort:'الأحدث', categories:'الأقسام', follow:'تابعنا', rights:'جميع الحقوق محفوظة.',
   noticeLabel:'تنبيه', breakingLabel:'عاجل', breaking:'عاجل', readMore:'اقرأ الخبر ←', original:'المصدر الأصلي', sourceWord:'المصدر', sources:'المصدر',
@@ -205,8 +205,8 @@ ar: {
 fr: {
   menu:'MENU', navAria:'Menu principal', search:'Rechercher', searchPh:'Saisissez le mot recherché…', live:'DIRECT', langAria:'Langue',
   tickLoading:'Les dernières informations de Wartabiye TV arrivent…', news:'Actualités', mosaicLoading:'Les dernières informations arrivent',
-  latest:'Dernières actualités', updatedDaily:'Mis à jour chaque jour à 06h00', updated:'Mis à jour : ',
-  noNews:'Aucune actualité publiée pour le moment. Les nouveaux articles apparaîtront ici chaque jour à 06h00.', noMatch:'Aucun article correspondant.',
+  latest:'Dernières actualités', updatedDaily:'Mis à jour chaque jour à 08h00 et 18h00', updated:'Mis à jour : ',
+  noNews:'Aucune actualité publiée pour le moment. Les nouveaux articles apparaîtront ici chaque jour à 08h00 et 18h00.', noMatch:'Aucun article correspondant.',
   searchResults:'Résultats de recherche', loadError:'Impossible de charger les actualités ({e}). Veuillez actualiser la page.',
   home:'Accueil', programmes:'Programmes', everyDay:'Chaque jour', latestShort:'Derniers articles', categories:'Rubriques', follow:'Suivez-nous', rights:'Tous droits réservés.',
   noticeLabel:'AVIS', breakingLabel:'URGENT', breaking:'Urgent', readMore:'Lire l’article →', original:'Original', sourceWord:'source', sources:'Source',

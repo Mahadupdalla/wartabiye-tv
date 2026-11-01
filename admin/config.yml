@@ -88,7 +88,7 @@ collections:
       - {name: sponsored, label: 'Xayeysiis (maqaal lacag lagu bixiyay)', widget: boolean, default: false, required: false, hint: 'Bogga wuxuu ku muujinayaa calaamadda XAYEYSIIS. Kama soo muuqdo Degdeg iyo Muhiim hadda.'}
       - {name: sponsor, label: 'Cidda bixisay (xayeysiis)', widget: string, required: false}
       - {name: image, label: Sawirka, widget: image, choose_url: false, required: false, hint: 'Soo geli (Upload), beddel (Replace) ama ka saar (Remove). Isticmaal sawir aad leedahay ama mid sharci ahaan la oggol yahay. Warka aan sawir lahayn bogga kama muuqdo: wuxuu sugayaa ilaa aad sawir geliso. Sawir kasta war keliya ha u ahaado.'}
-      - {name: imagePending, label: 'Sugaya sawir', widget: boolean, default: false, required: false, hint: 'Hawsha 06:00 ayaa shidda marka aan sawir sharci ah oo warka khuseeya la helin. Warku bogga kama muuqdo ilaa sawir la geliyo. Marka aad sawir geliso, dami.'}
+      - {name: imagePending, label: 'Sugaya sawir', widget: boolean, default: false, required: false, hint: 'Hawsha wararka (08:00 iyo 18:00) ayaa shidda marka aan sawir sharci ah oo warka khuseeya la helin. Warku bogga kama muuqdo ilaa sawir la geliyo. Marka aad sawir geliso, dami.'}
       - {name: imageFocus, label: 'Goobta la jarayo (crop)', widget: select, required: false, default: center, hint: 'Kaararka iyo bogga hore sawirka waa la jaraa si uu u buuxsho. Dooro qaybta sawirka ee had iyo jeer muuqanaysa, tusaale wejiga qofka.', options: [{label: 'Dhexda', value: center}, {label: 'Sare (wejiyada)', value: top}, {label: 'Hoose', value: bottom}, {label: 'Bidix', value: left}, {label: 'Midig', value: right}]}
       - {name: imageAlt, label: Sharaxaadda sawirka, widget: string, required: false}
       - {name: imageCredit, label: Sawirka waxaa leh, widget: string, required: false}
@@ -107,7 +107,7 @@ collections:
         collapsed: true
         required: false
         summary: '{{fields.title}}'
-        hint: 'Turjumaadda English (Ingiriisi). Hawsha 06:00 waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=en'
+        hint: 'Turjumaadda English (Ingiriisi). Hawsha wararka waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=en'
         fields:
           - {name: title, label: 'Cinwaanka (EN)', widget: string, required: false}
           - {name: summary, label: 'Soo koobid (EN)', widget: text, required: false}
@@ -121,7 +121,7 @@ collections:
         collapsed: true
         required: false
         summary: '{{fields.title}}'
-        hint: 'Turjumaadda العربية (Carabi). Hawsha 06:00 waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=ar'
+        hint: 'Turjumaadda العربية (Carabi). Hawsha wararka waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=ar'
         fields:
           - {name: title, label: 'Cinwaanka (AR)', widget: string, required: false}
           - {name: summary, label: 'Soo koobid (AR)', widget: text, required: false}
@@ -135,7 +135,7 @@ collections:
         collapsed: true
         required: false
         summary: '{{fields.title}}'
-        hint: 'Turjumaadda Français (Faransiis). Hawsha 06:00 waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=fr'
+        hint: 'Turjumaadda Français (Faransiis). Hawsha wararka waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=fr'
         fields:
           - {name: title, label: 'Cinwaanka (FR)', widget: string, required: false}
           - {name: summary, label: 'Soo koobid (FR)', widget: text, required: false}

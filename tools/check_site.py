@@ -46,6 +46,18 @@ for ad in ads:
     if ad.get('link') and not str(ad['link']).startswith('https://'): errors.append(f'ad {aid}: link must start with https://')
     if ad.get('video') and 'youtu' not in str(ad['video']): errors.append(f'ad {aid}: only YouTube video links are supported')
 print(f'adverts={len(ads)}')
+# photo rule (from 2026-11-02): every automatic article has its own image, never shared with another article
+RULE_FROM = '2026-11-02'
+users = {}
+for n in items:
+    for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
+        if key: users.setdefault(key, []).append(n)
+for n in items:
+    if n.get('by') == 'admin' or (n.get('publishedAt') or '')[:10] < RULE_FROM: continue
+    if not n.get('image'): errors.append(f"{n.get('id')}: published without its own photo (should be a draft under Sugaya sawir)")
+    for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
+        if key and len(users.get(key, [])) > 1:
+            errors.append(f"{n.get('id')}: photo {key} is also used by " + ', '.join(o.get('id', '?') for o in users[key] if o is not n))
 with_img = sum(1 for n in items if n.get('image'))
 print(f'articles={len(items)} with_image={with_img} placeholder={len(items)-with_img}')
 meta = news.get('updatedAt') if isinstance(news, dict) else None
