@@ -57,6 +57,34 @@ const fs = require('fs');
     console.log('category', c, '->', t);
     if (t.toLowerCase() !== c) problems.push('category ' + c);
   }
+  // Sports and World hubs, the pages, and their own addresses (/ciyaaraha/ …) open without errors or sideways scrolling
+  for (const [w, h, name] of [[1280, 900, 'desktop'], [390, 844, 'mobile']]) {
+    for (const path of ['#ciyaaraha', '#ciyaaraha?c=premier-league', '#ciyaaraha?c=la-liga&v=table', '#caalamka', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
+      const { p: q, errs } = await open(w, h, path);
+      const r = await q.evaluate(() => { const v = document.getElementById('pageView'); return { shown: !v.hidden && v.innerText.trim().length > 20, overflow: document.documentElement.scrollWidth > innerWidth, h: (v.querySelector('h1') || {}).textContent } });
+      console.log(name, 'page', path, JSON.stringify(r), errs);
+      if (!r.shown || r.overflow || errs.length) problems.push(name + ' page ' + path);
+      if (path === '#ciyaaraha') {
+        // the five big European leagues and the cup competitions must always have their own menu entries
+        const lg = await q.evaluate(() => [...document.querySelectorAll('.leaguenav .lg')].map(a => new URLSearchParams(a.getAttribute('href').split('?')[1]).get('c')));
+        const need = ['premier-league', 'la-liga', 'serie-a', 'bundesliga', 'ligue-1', 'champions-league', 'europa-league', 'conference-league', 'afcon', 'world-cup'];
+        const miss = need.filter(k => !lg.includes(k)); console.log(name, 'league menu', miss.length ? 'MISSING ' + miss : 'all ' + need.length);
+        if (miss.length) problems.push(name + ' league menu');
+      }
+      if (path === '#xayeysiimaha') {
+        const f = await q.evaluate(() => ({ heading: /Ku Xayeysiiso Ganacsigaaga Wartabiye TV/.test(document.body.innerText), form: !!document.querySelector('#pageView form'), examples: document.querySelectorAll('#pageView .adopt').length }));
+        console.log(name, 'advertising page', JSON.stringify(f)); if (!f.heading || !f.form || f.examples !== 8) problems.push(name + ' advertising page');
+      }
+      await q.close();
+    }
+  }
+  // article pages for search engines (war/<id>.html) open on their article
+  for (const it of news.slice(0, 3)) {
+    const { p: q, errs } = await open(1280, 900, 'war/' + it.id + '.html');
+    const t = await q.evaluate(() => (document.querySelector('#story h1') || {}).textContent);
+    console.log('article page', it.id, t === it.title ? 'OK' : 'WRONG ' + t, errs); if (t !== it.title || errs.length) problems.push('article page ' + it.id);
+    await q.close();
+  }
   await b.close();
   console.log(problems.length ? 'PROBLEMS: ' + problems.join(', ') : 'LIVE SITE OK');
   process.exit(problems.length ? 1 : 0);
