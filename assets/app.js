@@ -202,13 +202,15 @@
     var rest=list;
     if(showMosaic){
       M.innerHTML='';var fe=(SITE&&Array.isArray(SITE.featured)?SITE.featured:[]).map(function(f){var id=typeof f==='string'?f:f&&f.article;return list.find(function(x){return x._id===id})}).filter(Boolean);
-      var lead=fe[0]||leadOf(list);var others=fe.slice(1).concat(list.filter(function(x){return fe.indexOf(x)<0&&x!==lead&&!x.sponsored}));
+      // the front page leads with Somali news; Sports and World have their own blocks further down
+      var so=list.filter(function(x){return section(x)==='somalia'});var pool=so.length>=5?so:list;
+      var lead=fe[0]||leadOf(pool);var others=fe.slice(1).concat(pool.filter(function(x){return fe.indexOf(x)<0&&x!==lead&&!x.sponsored}));
       [lead].concat(others.slice(0,4)).forEach(function(it,i){
         var a=el('a','tile'+(i===0?' big':''));a.href=href(it);var inn=el('span','in');var ct=catTag(it);if(ct)inn.append(ct);
         inn.append(tEl(i===0?'h2':'h3',null,it,'title'));if(i===0){if(F(it,'summary'))inn.append(tEl('p',null,it,'summary'));inn.append(meta(it))}
         a.append(ph(it,null,i===0),inn);M.append(a);
       });
-      rest=list.filter(function(x){return x!==lead&&others.slice(0,4).indexOf(x)<0});
+      rest=list.filter(function(x){return x!==lead&&others.slice(0,4).indexOf(x)<0&&(pool===list||section(x)==='somalia')});
     }
     var catSo=cat?CATS.find(function(k){return slug(k)===cat}):null;
     $('listTitle').textContent=query?tr('searchResults'):(catSo?catName(catSo):tr('latest'));
