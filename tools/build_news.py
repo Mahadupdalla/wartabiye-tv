@@ -48,6 +48,15 @@ if old_ads != ads_out:
     json.dump(ads_out, open(ads_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'{len(ads)} active adverts -> data/ads.json')
 
+# football data files (data/football/<league>.json, written by tools/fetch_football.py) -> data/football/index.json,
+# so league pages only ask for files that exist
+fdir = os.path.join(root, 'data', 'football')
+os.makedirs(fdir, exist_ok=True)
+fidx = {'leagues': sorted(os.path.basename(f)[:-5] for f in glob.glob(os.path.join(fdir, '*.json')) if not f.endswith('index.json'))}
+fpath = os.path.join(fdir, 'index.json')
+if not os.path.exists(fpath) or json.load(open(fpath, encoding='utf-8')) != fidx:
+    json.dump(fidx, open(fpath, 'w', encoding='utf-8'))
+
 status = {}
 p = os.path.join(root, 'data', 'status.json')
 if os.path.exists(p):

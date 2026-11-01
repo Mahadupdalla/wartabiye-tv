@@ -59,11 +59,18 @@ const fs = require('fs');
   }
   // Sports and World hubs, the pages, and their own addresses (/ciyaaraha/ …) open without errors or sideways scrolling
   for (const [w, h, name] of [[1280, 900, 'desktop'], [390, 844, 'mobile']]) {
-    for (const path of ['#ciyaaraha', '#caalamka', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
+    for (const path of ['#ciyaaraha', '#ciyaaraha?c=premier-league', '#ciyaaraha?c=la-liga&v=table', '#caalamka', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
       const { p: q, errs } = await open(w, h, path);
       const r = await q.evaluate(() => { const v = document.getElementById('pageView'); return { shown: !v.hidden && v.innerText.trim().length > 20, overflow: document.documentElement.scrollWidth > innerWidth, h: (v.querySelector('h1') || {}).textContent } });
       console.log(name, 'page', path, JSON.stringify(r), errs);
       if (!r.shown || r.overflow || errs.length) problems.push(name + ' page ' + path);
+      if (path === '#ciyaaraha') {
+        // the five big European leagues and the cup competitions must always have their own menu entries
+        const lg = await q.evaluate(() => [...document.querySelectorAll('.leaguenav .lg')].map(a => new URLSearchParams(a.getAttribute('href').split('?')[1]).get('c')));
+        const need = ['premier-league', 'la-liga', 'serie-a', 'bundesliga', 'ligue-1', 'champions-league', 'europa-league', 'conference-league', 'afcon', 'world-cup'];
+        const miss = need.filter(k => !lg.includes(k)); console.log(name, 'league menu', miss.length ? 'MISSING ' + miss : 'all ' + need.length);
+        if (miss.length) problems.push(name + ' league menu');
+      }
       if (path === '#xayeysiimaha') {
         const f = await q.evaluate(() => ({ heading: /Ku Xayeysiiso Ganacsigaaga Wartabiye TV/.test(document.body.innerText), form: !!document.querySelector('#pageView form'), examples: document.querySelectorAll('#pageView .adopt').length }));
         console.log(name, 'advertising page', JSON.stringify(f)); if (!f.heading || !f.form || f.examples !== 8) problems.push(name + ' advertising page');

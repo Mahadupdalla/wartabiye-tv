@@ -322,12 +322,72 @@
   function hubHead(kind){var h=el('section','hubhead '+kind);var w=el('div','wrap');var t=el('h1');t.append(tr(kind==='sports'?'sportsTitle':'worldTitle'));
     if(L!=='so')t.append(el('span',null,kind==='sports'?'CIYAARAHA':'WARARKA CAALAMKA'));else t.append(el('span',null,kind==='sports'?'SPORTS':'WORLD NEWS'));
     w.append(t,el('p',null,tr(kind==='sports'?'sportsSub':'worldSub')));h.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="'+DECO[kind]+'"/></svg>';h.append(w);return h}
+  // ---------- FOOTBALL LEAGUES ----------
+  // The five big European leagues first, then the cup competitions. Each has its own page: #ciyaaraha?c=<key>&v=<tab>.
+  var LEAGUES=[
+    ['premier-league','ENG',['Ingiriiska','England','إنجلترا','Angleterre'],'https://www.premierleague.com'],
+    ['la-liga','ESP',['Isbaanish','Spain','إسبانيا','Espagne'],'https://www.laliga.com'],
+    ['serie-a','ITA',['Talyaani','Italy','إيطاليا','Italie'],'https://www.legaseriea.it'],
+    ['bundesliga','GER',['Jarmal','Germany','ألمانيا','Allemagne'],'https://www.bundesliga.com'],
+    ['ligue-1','FRA',['Faransiis','France','فرنسا','France'],'https://ligue1.com'],
+    ['champions-league','UCL',['Yurub (UEFA)','Europe (UEFA)','أوروبا (يويفا)','Europe (UEFA)'],'https://www.uefa.com/uefachampionsleague/'],
+    ['europa-league','UEL',['Yurub (UEFA)','Europe (UEFA)','أوروبا (يويفا)','Europe (UEFA)'],'https://www.uefa.com/uefaeuropaleague/'],
+    ['conference-league','UECL',['Yurub (UEFA)','Europe (UEFA)','أوروبا (يويفا)','Europe (UEFA)'],'https://www.uefa.com/uefaconferenceleague/'],
+    ['afcon','CAF',['Afrika (CAF)','Africa (CAF)','أفريقيا (كاف)','Afrique (CAF)'],'https://www.cafonline.com'],
+    ['world-cup','FIFA',['Adduunka (FIFA)','World (FIFA)','العالم (فيفا)','Monde (FIFA)'],'https://www.fifa.com']
+  ];
+  var LEAGUE={};LEAGUES.forEach(function(l){LEAGUE[l[0]]={key:l[0],code:l[1],country:l[2],url:l[3],top5:LEAGUES.indexOf(l)<5}});
+  var FB={};// data/football/<key>.json, loaded once per league; null when the data source is not switched on
+  var FBI=null;function fbIndex(cb){if(FBI)return cb(FBI);fetch('data/football/index.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}).then(function(d){FBI=d&&Array.isArray(d.leagues)?d.leagues:[];cb(FBI)})}
+  function loadFootball(k,cb){if(k in FB)return cb(FB[k]);fbIndex(function(ix){if(ix.indexOf(k)<0){FB[k]=null;return cb(null)}fetch('data/football/'+k+'.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}).then(function(d){FB[k]=d&&d.competition?d:null;cb(FB[k])})})}
+  function leagueStrip(cur,all){var w=el('nav','leaguenav');w.setAttribute('aria-label',tr('leaguesNav'));var k=el('span','k',tr('leaguesNav'));var r=el('div','lgrid');
+    LEAGUES.forEach(function(l){var m=LEAGUE[l[0]];var a=el('a','lg'+(m.top5?' top5':'')+(cur===m.key?' on':''));a.href=hubHash('ciyaaraha',{c:m.key});if(cur===m.key)a.setAttribute('aria-current','page');
+      var b=el('b','code',m.code);var t=el('span','nm');t.append(el('strong',null,taxName('competition',m.key)),el('small',null,m.country[LANGS[L].i]||m.country[0]));
+      var n=all.filter(function(x){return x.competition===m.key}).length;a.append(b,t);if(n)a.append(el('i',null,String(n)));r.append(a)});
+    w.append(k,r);return w}
+  function fmtMatchDate(s){try{return new Date(s).toLocaleString(LANGS[L].loc||undefined,{timeZone:'Africa/Mogadishu',weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}catch(e){return s}}
+  function dataTable(cols,rows){var wrap=el('div','tblwrap');var t=el('table','ftbl');var th=el('tr');cols.forEach(function(c){th.append(el('th',c[1]||null,c[0]))});var hd=el('thead');hd.append(th);var bd=el('tbody');
+    rows.forEach(function(r){var tr_=el('tr');r.forEach(function(v,i){tr_.append(el('td',cols[i][1]||null,v==null?'':String(v)))});bd.append(tr_)});t.append(hd,bd);wrap.append(t);return wrap}
+  function matchList(ms,withScore){var u=el('ul','matches');ms.forEach(function(m){var li=el('li');li.append(el('time',null,fmtMatchDate(m.date)));var row=el('div','mrow');
+      row.append(el('span','tm h',m.home),el('b','sc',withScore&&m.hs!=null?m.hs+' – '+m.as:'vs'),el('span','tm a',m.away));li.append(row);if(m.stage)li.append(el('small',null,m.stage));u.append(li)});return u}
+  function renderLeague(V,P,all){
+    var m=LEAGUE[P.c];var tab=P.v||'news';var mine=all.filter(function(x){return x.competition===m.key});
+    setTitle(taxName('competition',m.key));
+    var h=el('section','hubhead sports league');var w=el('div','wrap');var t=el('h1');t.append(taxName('competition',m.key),el('span',null,m.country[LANGS[L].i]||m.country[0]));
+    var off=el('a','offsite',tr('officialSite')+' ↗');off.href=m.url;off.target='_blank';off.rel='noopener';w.append(t,off);h.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="'+DECO.sports+'"/></svg>';h.append(w);
+    var bar=el('div','hubbar');var bw=el('div','wrap');bar.append(bw);bw.append(leagueStrip(m.key,all));
+    var TABS=[['news','leagueNews'],['results','resultsTab'],['fixtures','fixtures'],['table','table'],['scorers','scorers'],['transfer','transfers'],['team','teamPlayer'],['featured','featuredMatches']];
+    var tb=el('div','chips tabs');tb.setAttribute('role','tablist');TABS.forEach(function(x){var a=chip(tr(x[1]),tab===x[0],hubHash('ciyaaraha',{c:m.key,v:x[0]==='news'?'':x[0]}));a.setAttribute('role','tab');a.setAttribute('aria-selected',String(tab===x[0]));tb.append(a)});bw.append(tb);
+    var lay=el('div','wrap layout');var main=el('div');var side=el('aside','sidebar');lay.append(main,side);
+    var title=tr((TABS.find(function(x){return x[0]===tab})||TABS[0])[1]);
+    function newsBlock(list){main.append(head(title));if(!list.length){main.append(el('p','empty',loaded?tr('noLeagueNews'):tr('loadingStory')));return}main.append(cardsGrid(list.slice(0,30),true))}
+    if(tab==='news')newsBlock(mine);
+    else if(tab==='transfer'||tab==='team')newsBlock(mine.filter(function(x){var g=tags(x);return tab==='transfer'?g.indexOf('transfer')>=0:(g.indexOf('team')>=0||g.indexOf('player')>=0)}));
+    else{
+      main.append(head(title));var box=el('div','fdata');box.append(el('p','empty',tr('loadingStory')));main.append(box);
+      loadFootball(m.key,function(d){box.innerHTML='';
+        var reports=mine.filter(function(x){return tags(x).indexOf('match-report')>=0});
+        if(!d){var n=el('div','datanote');n.append(el('p',null,tr('dataPending')));var a=el('a',null,tr('officialSite')+': '+m.url.replace(/^https:\/\/(www\.)?/,'').replace(/\/$/,'')+' ↗');a.href=m.url;a.target='_blank';a.rel='noopener';n.append(a);box.append(n);
+          if(tab==='featured'&&reports.length)box.append(cardsGrid(reports.slice(0,9)));return}
+        if(tab==='table'){var rows=(d.standings||[]).map(function(r){return [r.pos,r.team,r.played,r.won,r.draw,r.lost,(r.gd>0?'+':'')+r.gd,r.points]});
+          box.append(rows.length?dataTable([[tr('colPos'),'n'],[tr('colTeam'),'tm'],[tr('colP'),'n'],[tr('colW'),'n'],[tr('colD'),'n'],[tr('colL'),'n'],[tr('colGD'),'n'],[tr('colPts'),'n pts']],rows):el('p','empty',tr('noData')))}
+        else if(tab==='scorers'){var sr=(d.scorers||[]).map(function(r,i){return [i+1,r.player,r.team,r.goals]});box.append(sr.length?dataTable([[tr('colPos'),'n'],[tr('colPlayer'),'tm'],[tr('colTeam')],[tr('colGoals'),'n pts']],sr):el('p','empty',tr('noData')))}
+        else if(tab==='results'){var rs=(d.results||[]).slice(0,30);box.append(rs.length?matchList(rs,true):el('p','empty',tr('noData')))}
+        else if(tab==='fixtures'){var fx=(d.fixtures||[]).slice(0,30);box.append(fx.length?matchList(fx,false):el('p','empty',tr('noData')))}
+        else if(tab==='featured'){if(reports.length)box.append(cardsGrid(reports.slice(0,9)));var nx=(d.fixtures||[]).slice(0,6);if(nx.length)box.append(matchList(nx,false));if(!reports.length&&!nx.length)box.append(el('p','empty',tr('noData')))}
+        var cr=el('p','datacredit');cr.append(tr('dataCredit')+' ');var sa=el('a',null,d.source||'');if(d.sourceUrl){sa.href=d.sourceUrl;sa.target='_blank';sa.rel='noopener'}cr.append(sa);if(d.updatedAt)cr.append(' · '+tr('dataUpdated')+' '+ago(d.updatedAt));box.append(cr)});
+    }
+    var sb=el('div');sb.append(head(tr('allLeagues')));var cl=el('div','complist');LEAGUES.forEach(function(l){var a=el('a');a.href=hubHash('ciyaaraha',{c:l[0]});a.append(taxName('competition',l[0]),el('span',null,String(all.filter(function(x){return x.competition===l[0]}).length)));cl.append(a)});sb.append(cl);
+    fillSide(side,[sb,adSlot('sidebar'),sideLatest(all.filter(function(x){return x.competition!==m.key})),sideFollow()]);
+    V.append(h,bar,lay);
+  }
   function renderHub(kind,h){
     var V=$('pageView');V.innerHTML='';var P=hashParams(h);var base=kind==='sports'?'ciyaaraha':'caalamka';
     setTitle(tr(kind==='sports'?'sportsTitle':'worldTitle'));
     var all=items.filter(function(x){return section(x)===kind});
+    if(kind==='sports'&&P.c&&LEAGUE[P.c]&&!P.s&&!P.t){renderLeague(V,P,all);return}
     var list=all;var bar=el('div','hubbar');var bw=el('div','wrap');bar.append(bw);
-    if(kind==='sports'){
+    if(kind==='sports'){bw.append(leagueStrip(null,all));
       var cnt=function(k,v){return all.filter(function(x){return x[k]===v}).length};
       var sp=[chip(tr('allSports'),!P.s,hubHash(base,{}),all.length)].concat(Object.keys(TAX.sport).map(function(k){return chip(taxName('sport',k),P.s===k,hubHash(base,{s:k}),cnt('sport',k),SPORT_IC[k])}));
       bw.append(chipRow(tr('sportFilter'),sp));
@@ -350,7 +410,7 @@
     si.addEventListener('input',draw);draw();
     // sidebar: competitions (sport) or regions (world) with counts, latest, ads
     var sb=el('div');sb.append(head(tr(kind==='sports'?'competitions':'regions'),kind==='sports'?'green':'navy'));var cl=el('div','complist');
-    if(kind==='sports'){Object.keys(TAX.competition).forEach(function(k){var n=all.filter(function(x){return x.competition===k}).length;var a=el('a');a.href=hubHash(base,{s:'football',c:k});a.append(taxName('competition',k),el('span',null,String(n)));cl.append(a)})}
+    if(kind==='sports'){Object.keys(TAX.competition).forEach(function(k){var n=all.filter(function(x){return x.competition===k}).length;var a=el('a');a.href=LEAGUE[k]?hubHash(base,{c:k}):hubHash(base,{s:'football',c:k});a.append(taxName('competition',k),el('span',null,String(n)));cl.append(a)})}
     else Object.keys(TAX.region).forEach(function(k){var a=el('a');a.href=hubHash(base,{r:k});a.append(taxName('region',k),el('span',null,String(all.filter(function(x){return x.region===k}).length)));cl.append(a)});
     sb.append(cl);fillSide(side,[sb,adSlot('sidebar'),sideLatest(items.filter(function(x){return section(x)!==kind})),sideFollow()]);
     V.append(hubHead(kind),bar,lay);
