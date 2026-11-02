@@ -152,13 +152,17 @@
   }
 
   // ---------- sidebars + footer ----------
-  var SOC=[['fb','Facebook','M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z'],
-    ['tt','TikTok','M16.6 2h-3.6v13.3a2.9 2.9 0 1 1-2.1-2.8V8.8a6.6 6.6 0 1 0 5.7 6.5V8.6a8.4 8.4 0 0 0 4.4 1.3V6.3a4.5 4.5 0 0 1-4.4-4.3z'],
-    ['yt','YouTube','M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12z']];
-  function socUrl(k){var s=SITE&&SITE.social||{};var u=safeUrl(s[k==='fb'?'facebook':k==='tt'?'tiktok':'youtube']);return u||{fb:'https://www.facebook.com/',tt:'https://www.tiktok.com/',yt:'https://www.youtube.com/'}[k]}
+  // Wartabiye TV's own accounts. data/site.json (admin: Dejinta) can change them; these are the fallbacks.
+  var SOC_URL={fb:'https://www.facebook.com/share/18bkUUeoJx/?mibextid=wwXIfr',yt:'https://www.youtube.com/@WarTabiye-channel',tt:'https://www.tiktok.com/@wartabiyetv'};
+  var SOC_KEY={fb:'facebook',yt:'youtube',tt:'tiktok'};
+  // Official brand marks (shapes from Simple Icons, CC0), in their own colours.
+  var SOC_ICON={"fb": "<svg class=\"bi\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"11.6\" style=\"fill:#fff\"/><path style=\"fill:#0866FF\" d=\"M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z\"/></svg>", "yt": "<svg class=\"bi\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path style=\"fill:#FF0000\" d=\"M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z\"/><path style=\"fill:#fff\" d=\"M9.545 15.568V8.432L15.818 12z\"/></svg>", "tt": "<svg class=\"bi\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"24\" height=\"24\" rx=\"5.5\" style=\"fill:#000\"/><g transform=\"translate(5.05 5.05) scale(.58)\"><path style=\"fill:#25F4EE\" transform=\"translate(-.9 -.9)\" d=\"M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z\"/><path style=\"fill:#FE2C55\" transform=\"translate(.9 .9)\" d=\"M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z\"/><path style=\"fill:#fff\" d=\"M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z\"/></g></svg>"};
+  var SOC=[['fb','Facebook'],['yt','YouTube'],['tt','TikTok']];
+  var FB_MONO='M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z';
+  function socUrl(k){var s=SITE&&SITE.social||{};return safeUrl(s[SOC_KEY[k]])||SOC_URL[k]}
   function head(t,cls,allHref){var h=el('div','blockhead'+(cls?' '+cls:''));h.append(el('h2',null,t));if(allHref){var a=el('a','all',tr('seeAll')+' →');a.href=allHref;h.append(a)}return h}
   function box(t,cls){var d=el('div');d.append(head(t,cls));return d}
-  function sideFollow(){var f=box(tr('follow'));var fl=el('div','follow');SOC.forEach(function(s){var a=el('a',s[0]);a.href=socUrl(s[0]);a.target='_blank';a.rel='noopener';a.innerHTML=svg(s[2]);a.append(s[1]);fl.append(a)});f.append(fl);return f}
+  function sideFollow(){var f=box(tr('follow'));var fl=el('div','follow');SOC.forEach(function(s){var a=el('a',s[0]);a.dataset.soc=s[0];a.href=socUrl(s[0]);a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Wartabiye TV · '+s[1]);a.innerHTML=SOC_ICON[s[0]];a.append(el('span',null,s[1]));fl.append(a)});f.append(fl);return f}
   function sideTrending(){var T=trendingList();if(!T.list.length)return null;var d=box(tr('trending'),'red');var ol=el('ol','trend');
     T.list.forEach(function(it){var li=el('li');var w=el('div');var a=tEl('a',null,it,'title');a.href=href(it);w.append(a,meta(it));li.append(w);ol.append(li)});
     d.append(ol,el('p','trend-note',T.editor?tr('trendingNote'):tr('trendingAuto')));return d}
@@ -279,7 +283,7 @@
     var url=articleUrl(it),title=F(it,'title'),enc=encodeURIComponent(url),txt=encodeURIComponent(title+' — Wartabiye TV');
     var sh=el('div','share');sh.setAttribute('aria-label',tr('share'));
     function sbtn(cls,label,u,path){var a=el('a',cls);a.href=u;a.target='_blank';a.rel='noopener';a.innerHTML=svg(path);a.append(label);sh.append(a)}
-    sbtn('fb','Facebook','https://www.facebook.com/sharer/sharer.php?u='+enc,SOC[0][2]);
+    sbtn('fb','Facebook','https://www.facebook.com/sharer/sharer.php?u='+enc,FB_MONO);
     sbtn('wa','WhatsApp','https://wa.me/?text='+txt+'%20'+enc,'M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.7-.1 1.3z');
     sbtn('x','X','https://x.com/intent/post?text='+txt+'&url='+enc,'M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.2L5.9 22H3.1l7-8L2 2h6.1l4.3 5.7zm-1 18h1.6L7 3.7H5.3z');
     sbtn('tg','Telegram','https://t.me/share/url?url='+enc+'&text='+txt,'M21.5 3.5 2.8 10.7c-1.3.5-1.2 1.3-.2 1.6l4.8 1.5 1.8 5.6c.2.7.4.9.9.9.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.4-1.6zM8.9 13.4l9.3-5.9c.4-.3.8-.1.5.2l-7.9 7.2-.3 3.2z');
@@ -566,7 +570,7 @@
     document.querySelectorAll('[data-side]').forEach(function(x){x.hidden=!sec('sidebar')});
     document.querySelectorAll('#homeView .layout').forEach(function(x){x.classList.toggle('noside',!sec('sidebar'))});
     var ftr=$('ftrend');if(ftr)ftr.parentNode.hidden=!sec('footerLatest');
-    document.querySelectorAll('[data-soc]').forEach(function(a){a.href=socUrl(a.dataset.soc)});
+    document.querySelectorAll('a[data-soc]').forEach(function(a){a.href=socUrl(a.dataset.soc)});
   }
 
   // ---------- language ----------
