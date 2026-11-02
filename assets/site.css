@@ -52,6 +52,9 @@ p{text-wrap:pretty}
 .topbar .soc{margin-inline-start:auto;display:flex;gap:6px;align-items:center}
 .topbar .soc a,.tbtn{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.14);border:0;color:#fff;cursor:pointer;padding:0;transition:background .2s}
 .topbar .soc a:hover,.tbtn:hover{background:var(--red)}
+.topbar .soc a.sm{background:#fff;transition:transform .2s,box-shadow .2s}
+.topbar .soc a.sm:hover,.topbar .soc a.sm:focus-visible{background:#fff;transform:translateY(-1px);box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+.topbar .soc a.sm svg{width:16px;height:16px}
 .topbar svg{width:13px;height:13px;fill:#fff}
 .tbtn svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;width:14px;height:14px}
 
@@ -211,9 +214,14 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .sidebar .blockhead{margin:-16px -16px 14px;border-radius:var(--r) var(--r) 0 0;overflow:hidden}
 .sidebar .blockhead h2{border-radius:0}
 .follow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.follow a{display:grid;justify-items:center;gap:4px;padding:12px 6px;border-radius:8px;color:#fff;font:700 12px var(--display);letter-spacing:.04em;background:var(--blue);transition:background .2s,transform .2s}
-.follow a:hover{background:var(--blue-d);transform:translateY(-2px)}
-.follow svg{width:20px;height:20px;fill:#fff}
+.follow a{display:grid;justify-items:center;gap:6px;padding:12px 6px;border-radius:8px;color:var(--fg);font:700 12px var(--display);letter-spacing:.04em;background:var(--surface);border:1px solid var(--line);transition:border-color .2s,box-shadow .2s,transform .2s}
+.follow a:hover,.follow a:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow-2)}
+.follow a.fb:hover,.follow a.fb:focus-visible{border-color:#0866FF}
+.follow a.yt:hover,.follow a.yt:focus-visible{border-color:#FF0000}
+.follow a.tt:hover,.follow a.tt:focus-visible{border-color:#FE2C55}
+.follow svg{width:26px;height:26px}
+/* Official social brand marks keep their own colours everywhere */
+svg.bi{display:block;flex:none}
 .mini{display:grid;gap:14px}
 .mini a{display:grid;grid-template-columns:92px minmax(0,1fr);gap:12px;align-items:start}
 .mini .ph{aspect-ratio:4/3;max-width:100%;border-radius:var(--r-sm)}
@@ -413,6 +421,10 @@ footer h4{color:#fff;font:800 14px var(--display);letter-spacing:.08em;text-tran
 footer .brand b{color:#fff;font-size:24px}
 footer .brand img{width:48px;height:48px;box-shadow:none}
 footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
+.fsoc{display:flex;gap:10px;margin-top:16px}
+.fsoc a{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:#fff;transition:transform .2s,box-shadow .2s}
+.fsoc a:hover,.fsoc a:focus-visible{transform:translateY(-2px);box-shadow:0 0 0 3px rgba(255,255,255,.45)}
+.fsoc svg{width:22px;height:22px}
 .flinks{display:grid;gap:8px;font-size:14.5px}
 .flinks a:hover,.fcats a:hover,.ftrend a:hover{color:#fff;text-decoration:underline}
 .ftrend{display:grid;gap:12px}
