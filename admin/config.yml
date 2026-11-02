@@ -100,7 +100,7 @@ collections:
       - {name: sourceUrl, label: Link-ga isha, widget: string, required: false}
       - {name: timeVerified, label: Waqtiga waa la hubiyay, widget: boolean, default: true}
       - {name: by, label: Qoraa, widget: hidden, default: admin}
-      # translations: shown on the site when a visitor picks English, Arabic, French, Dutch or Italian
+      # translations: shown on the site when a visitor picks English, Arabic, French, Dutch, Italian, German or Turkish
       - name: en
         label: '🇬🇧 English (Ingiriisi)'
         widget: object
@@ -171,6 +171,34 @@ collections:
           - {name: imageAlt, label: 'Sharaxaadda sawirka (IT)', widget: string, required: false}
           - {name: status, label: 'Xaaladda (IT)', widget: select, default: manual, options: [{label: 'Gacan: adiga ayaa qoray / saxay', value: manual}, {label: 'Otomaatig (mashiin)', value: auto}], hint: 'Marka aad saxdo turjumaad otomaatig ah, dooro Gacan. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".'}
           - {name: hash, label: Hash, widget: hidden}
+      - name: de
+        label: '🇩🇪 Deutsch (Jarmal)'
+        widget: object
+        collapsed: true
+        required: false
+        summary: '{{fields.title}}'
+        hint: 'Turjumaadda Deutsch (Jarmal). Hawsha wararka waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=de'
+        fields:
+          - {name: title, label: 'Cinwaanka (DE)', widget: string, required: false}
+          - {name: summary, label: 'Soo koobid (DE)', widget: text, required: false}
+          - {name: body, label: 'Qoraalka buuxa (DE)', widget: text, required: false}
+          - {name: imageAlt, label: 'Sharaxaadda sawirka (DE)', widget: string, required: false}
+          - {name: status, label: 'Xaaladda (DE)', widget: select, default: manual, options: [{label: 'Gacan: adiga ayaa qoray / saxay', value: manual}, {label: 'Otomaatig (mashiin)', value: auto}], hint: 'Marka aad saxdo turjumaad otomaatig ah, dooro Gacan. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".'}
+          - {name: hash, label: Hash, widget: hidden}
+      - name: tr
+        label: '🇹🇷 Türkçe (Turki)'
+        widget: object
+        collapsed: true
+        required: false
+        summary: '{{fields.title}}'
+        hint: 'Turjumaadda Türkçe (Turki). Hawsha wararka waxay buuxisaa oo kaliya turjumaad maqan; waligeed ma beddesho mid jirta. Si ay mar kale u turjunto, faaruqi cinwaanka. Bogga: ?lang=tr'
+        fields:
+          - {name: title, label: 'Cinwaanka (TR)', widget: string, required: false}
+          - {name: summary, label: 'Soo koobid (TR)', widget: text, required: false}
+          - {name: body, label: 'Qoraalka buuxa (TR)', widget: text, required: false}
+          - {name: imageAlt, label: 'Sharaxaadda sawirka (TR)', widget: string, required: false}
+          - {name: status, label: 'Xaaladda (TR)', widget: select, default: manual, options: [{label: 'Gacan: adiga ayaa qoray / saxay', value: manual}, {label: 'Otomaatig (mashiin)', value: auto}], hint: 'Marka aad saxdo turjumaad otomaatig ah, dooro Gacan. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".'}
+          - {name: hash, label: Hash, widget: hidden}
 
   - name: settings
     label: Dejinta bogga
@@ -233,6 +261,8 @@ collections:
                   - {name: fr, label: 'Qoraal (Français)', widget: string, required: false}
                   - {name: nl, label: 'Qoraal (Nederlands)', widget: string, required: false}
                   - {name: it, label: 'Qoraal (Italiano)', widget: string, required: false}
+                  - {name: de, label: 'Qoraal (Deutsch)', widget: string, required: false}
+                  - {name: tr, label: 'Qoraal (Türkçe)', widget: string, required: false}
                   - {name: link, label: Link, widget: string, required: false}
           - name: featured
             label: Wararka la soo xulay (kan koowaad waa kan weyn)
@@ -477,6 +507,76 @@ collections:
                 fields:
                   - {name: so, label: Qaybta (Soomaali), widget: string}
                   - {name: name, label: Magaca la turjumay, widget: string}
+          - name: de
+            label: '🇩🇪 Deutsch'
+            widget: object
+            collapsed: true
+            required: false
+            hint: 'Qoraallada bogga ee Deutsch. Meel banaan = qoraalka Soomaaliga ayaa muuqda. Menu-ga iyo qaybaha (Siyaasadda…) si toos ah ayaa loo turjumaa.'
+            fields:
+              - {name: city, label: 'Magaalada (DE)', widget: string, required: false}
+              - {name: tagline, label: 'Hal-ku-dhegga (DE)', widget: string, required: false}
+              - {name: about, label: 'Ku saabsan (DE)', widget: text, required: false}
+              - {name: motto, label: 'Halku-dhegga footer-ka (DE)', widget: string, required: false}
+              - {name: announcementLabel, label: 'Ogeysiis: calaamad (DE)', widget: string, required: false}
+              - {name: announcementText, label: 'Ogeysiis: qoraal (DE)', widget: string, required: false}
+              - {name: bannerLabel, label: 'Banner: calaamad (DE)', widget: string, required: false}
+              - {name: bannerTitle, label: 'Banner: cinwaan (DE)', widget: string, required: false}
+              - {name: bannerText, label: 'Banner: qoraal (DE)', widget: string, required: false}
+              - {name: breakingLabel, label: 'Degdeg: calaamad (DE)', widget: string, required: false}
+              - {name: programmesTitle, label: 'Cinwaanka Barnaamijyada (DE)', widget: string, required: false}
+              - {name: programmesSubtitle, label: 'Qoraal yar Barnaamijyada (DE)', widget: string, required: false}
+              - name: programmes
+                label: 'Barnaamijyada (DE), isla kala horreynta Soomaaliga'
+                widget: list
+                required: false
+                fields:
+                  - {name: title, label: Magac, widget: string}
+                  - {name: text, label: Sharaxaad, widget: string, required: false}
+                  - {name: when, label: Goorta, widget: string, required: false}
+              - name: categories
+                label: 'Magacyada qaybaha cusub (DE)'
+                widget: list
+                required: false
+                hint: 'Kaliya haddii aad qayb cusub ku darto. Lixda qaybood ee hadda jira si toos ah ayaa loo turjumaa.'
+                fields:
+                  - {name: so, label: Qaybta (Soomaali), widget: string}
+                  - {name: name, label: Magaca la turjumay, widget: string}
+          - name: tr
+            label: '🇹🇷 Türkçe'
+            widget: object
+            collapsed: true
+            required: false
+            hint: 'Qoraallada bogga ee Türkçe. Meel banaan = qoraalka Soomaaliga ayaa muuqda. Menu-ga iyo qaybaha (Siyaasadda…) si toos ah ayaa loo turjumaa.'
+            fields:
+              - {name: city, label: 'Magaalada (TR)', widget: string, required: false}
+              - {name: tagline, label: 'Hal-ku-dhegga (TR)', widget: string, required: false}
+              - {name: about, label: 'Ku saabsan (TR)', widget: text, required: false}
+              - {name: motto, label: 'Halku-dhegga footer-ka (TR)', widget: string, required: false}
+              - {name: announcementLabel, label: 'Ogeysiis: calaamad (TR)', widget: string, required: false}
+              - {name: announcementText, label: 'Ogeysiis: qoraal (TR)', widget: string, required: false}
+              - {name: bannerLabel, label: 'Banner: calaamad (TR)', widget: string, required: false}
+              - {name: bannerTitle, label: 'Banner: cinwaan (TR)', widget: string, required: false}
+              - {name: bannerText, label: 'Banner: qoraal (TR)', widget: string, required: false}
+              - {name: breakingLabel, label: 'Degdeg: calaamad (TR)', widget: string, required: false}
+              - {name: programmesTitle, label: 'Cinwaanka Barnaamijyada (TR)', widget: string, required: false}
+              - {name: programmesSubtitle, label: 'Qoraal yar Barnaamijyada (TR)', widget: string, required: false}
+              - name: programmes
+                label: 'Barnaamijyada (TR), isla kala horreynta Soomaaliga'
+                widget: list
+                required: false
+                fields:
+                  - {name: title, label: Magac, widget: string}
+                  - {name: text, label: Sharaxaad, widget: string, required: false}
+                  - {name: when, label: Goorta, widget: string, required: false}
+              - name: categories
+                label: 'Magacyada qaybaha cusub (TR)'
+                widget: list
+                required: false
+                hint: 'Kaliya haddii aad qayb cusub ku darto. Lixda qaybood ee hadda jira si toos ah ayaa loo turjumaa.'
+                fields:
+                  - {name: so, label: Qaybta (Soomaali), widget: string}
+                  - {name: name, label: Magaca la turjumay, widget: string}
   - name: ads
     label: Xayeysiisyada
     label_singular: Xayeysiis
@@ -553,6 +653,24 @@ collections:
           - {name: title, label: Titolo, widget: string, required: false}
           - {name: text, label: Testo, widget: string, required: false}
           - {name: imageAlt, label: Descrizione dell’immagine, widget: string, required: false}
+      - name: de
+        label: '🇩🇪 Deutsch'
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - {name: title, label: Titel, widget: string, required: false}
+          - {name: text, label: Text, widget: string, required: false}
+          - {name: imageAlt, label: Bildbeschreibung, widget: string, required: false}
+      - name: tr
+        label: '🇹🇷 Türkçe'
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - {name: title, label: Başlık, widget: string, required: false}
+          - {name: text, label: Metin, widget: string, required: false}
+          - {name: imageAlt, label: Görsel açıklaması, widget: string, required: false}
   - name: videos
     label: Muuqaalada
     label_singular: Muuqaal
@@ -620,6 +738,22 @@ collections:
         fields:
           - {name: title, label: Titolo, widget: string, required: false}
           - {name: summary, label: Riassunto, widget: text, required: false}
+      - name: de
+        label: '🇩🇪 Deutsch'
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - {name: title, label: Titel, widget: string, required: false}
+          - {name: summary, label: Zusammenfassung, widget: text, required: false}
+      - name: tr
+        label: '🇹🇷 Türkçe'
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - {name: title, label: Başlık, widget: string, required: false}
+          - {name: summary, label: Özet, widget: text, required: false}
   - name: pages
     label: Bogagga (Nagu Saabsan, siyaasadaha)
     editor:
@@ -723,6 +857,40 @@ collections:
                       - {name: p, label: Qoraal, widget: text, required: false}
               - name: it
                 label: 'Italiano'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: de
+                label: 'Deutsch'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: tr
+                label: 'Türkçe'
                 widget: object
                 collapsed: true
                 required: false
@@ -845,6 +1013,40 @@ collections:
                     fields:
                       - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
                       - {name: p, label: Qoraal, widget: text, required: false}
+              - name: de
+                label: 'Deutsch'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: tr
+                label: 'Türkçe'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
           - name: corrections
             label: 'Saxitaannada'
             widget: object
@@ -937,6 +1139,40 @@ collections:
                       - {name: p, label: Qoraal, widget: text, required: false}
               - name: it
                 label: 'Italiano'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: de
+                label: 'Deutsch'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: tr
+                label: 'Türkçe'
                 widget: object
                 collapsed: true
                 required: false
@@ -1059,6 +1295,40 @@ collections:
                     fields:
                       - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
                       - {name: p, label: Qoraal, widget: text, required: false}
+              - name: de
+                label: 'Deutsch'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: tr
+                label: 'Türkçe'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
           - name: adpolicy
             label: 'Siyaasadda Xayeysiiska'
             widget: object
@@ -1151,6 +1421,40 @@ collections:
                       - {name: p, label: Qoraal, widget: text, required: false}
               - name: it
                 label: 'Italiano'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: de
+                label: 'Deutsch'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: tr
+                label: 'Türkçe'
                 widget: object
                 collapsed: true
                 required: false

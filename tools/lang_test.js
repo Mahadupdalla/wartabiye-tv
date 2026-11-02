@@ -1,4 +1,4 @@
-// Browser test of the language switcher (Somali, English, Arabic, French, Dutch, Italian) on desktop and mobile.
+// Browser test of the language switcher (Somali, English, Arabic, French, Dutch, Italian, German, Turkish) on desktop and mobile.
 // Usage: node tools/lang_test.js <site url> [screenshot dir]. Exit code 1 on any problem.
 const { chromium } = require('playwright');
 const fs = require('fs');
@@ -7,7 +7,7 @@ const fs = require('fs');
   const news = JSON.parse(fs.readFileSync('data/news.json', 'utf8')).news;
   const b = await chromium.launch(); const problems = [];
   const fail = m => { problems.push(m); console.log('PROBLEM:', m) };
-  const LANGS = { so: 'ltr', en: 'ltr', ar: 'rtl', fr: 'ltr', nl: 'ltr', it: 'ltr' };
+  const LANGS = { so: 'ltr', en: 'ltr', ar: 'rtl', fr: 'ltr', nl: 'ltr', it: 'ltr', de: 'ltr', tr: 'ltr' };
   for (const [w, h, name] of [[1280, 900, 'desktop'], [390, 844, 'mobile']]) {
     const ctx = await b.newContext({ viewport: { width: w, height: h } });
     const p = await ctx.newPage(); const errs = [];

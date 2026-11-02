@@ -10,12 +10,15 @@
   var $=function(id){return document.getElementById(id)};
   var LANGS={so:{name:'Soomaali',code:'SO',flag:'img/flags/so.svg',dir:'ltr',loc:'so',i:0},en:{name:'English',code:'EN',flag:'img/flags/gb.svg',dir:'ltr',loc:'en-GB',i:1},
     ar:{name:'العربية',code:'AR',flag:'img/flags/sa.png',dir:'rtl',loc:'ar-u-nu-latn',i:2},fr:{name:'Français',code:'FR',flag:'img/flags/fr.svg',dir:'ltr',loc:'fr-FR',i:3},
-    nl:{name:'Nederlands',code:'NL',flag:'img/flags/nl.svg',dir:'ltr',loc:'nl-NL',i:4},it:{name:'Italiano',code:'IT',flag:'img/flags/it.svg',dir:'ltr',loc:'it-IT',i:5}};
+    nl:{name:'Nederlands',code:'NL',flag:'img/flags/nl.svg',dir:'ltr',loc:'nl-NL',i:4},it:{name:'Italiano',code:'IT',flag:'img/flags/it.svg',dir:'ltr',loc:'it-IT',i:5},
+    de:{name:'Deutsch',code:'DE',flag:'img/flags/de.svg',dir:'ltr',loc:'de-DE',i:6},tr:{name:'Türkçe',code:'TR',flag:'img/flags/tr.svg',dir:'ltr',loc:'tr-TR',i:7}};
   var CATN={en:{Siyaasadda:'Politics',Amniga:'Security',Bulshada:'Society',Dhaqaalaha:'Economy',Adduunka:'World',Ciyaaraha:'Sport',Aragtida:'Opinion',Wararka:'News'},
     ar:{Siyaasadda:'السياسة',Amniga:'الأمن',Bulshada:'المجتمع',Dhaqaalaha:'الاقتصاد',Adduunka:'العالم',Ciyaaraha:'الرياضة',Aragtida:'رأي',Wararka:'الأخبار'},
     fr:{Siyaasadda:'Politique',Amniga:'Sécurité',Bulshada:'Société',Dhaqaalaha:'Économie',Adduunka:'Monde',Ciyaaraha:'Sport',Aragtida:'Opinion',Wararka:'Actualités'},
     nl:{Siyaasadda:'Politiek',Amniga:'Veiligheid',Bulshada:'Samenleving',Dhaqaalaha:'Economie',Adduunka:'Wereld',Ciyaaraha:'Sport',Aragtida:'Opinie',Wararka:'Nieuws'},
-    it:{Siyaasadda:'Politica',Amniga:'Sicurezza',Bulshada:'Società',Dhaqaalaha:'Economia',Adduunka:'Mondo',Ciyaaraha:'Sport',Aragtida:'Opinione',Wararka:'Notizie'}};
+    it:{Siyaasadda:'Politica',Amniga:'Sicurezza',Bulshada:'Società',Dhaqaalaha:'Economia',Adduunka:'Mondo',Ciyaaraha:'Sport',Aragtida:'Opinione',Wararka:'Notizie'},
+    de:{Siyaasadda:'Politik',Amniga:'Sicherheit',Bulshada:'Gesellschaft',Dhaqaalaha:'Wirtschaft',Adduunka:'Welt',Ciyaaraha:'Sport',Aragtida:'Meinung',Wararka:'Nachrichten'},
+    tr:{Siyaasadda:'Siyaset',Amniga:'Güvenlik',Bulshada:'Toplum',Dhaqaalaha:'Ekonomi',Adduunka:'Dünya',Ciyaaraha:'Spor',Aragtida:'Görüş',Wararka:'Haberler'}};
   var LS={lang:'wartabiye-lang',theme:'wartabiye-theme',fs:'wartabiye-fs',saved:'wartabiye-saved',sent:'wartabiye-sent'};
   function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
   function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
@@ -418,7 +421,7 @@
     var t=x.t;soAttr(d,x.so);setTitle(t.title);d.append(el('h1',null,t.title));if(t.intro)d.append(el('p','intro',t.intro));
     (t.sections||[]).forEach(function(s){if(s.h)d.append(el('h2',null,s.h));String(s.p||'').split(/\n+/).forEach(function(line){line=line.trim();if(!line)return;
       if(/^[-•] /.test(line)){var ul=d.lastChild&&d.lastChild.tagName==='UL'?d.lastChild:d.appendChild(el('ul'));ul.append(el('li',null,line.slice(2)))}else d.append(el('p',null,line))})});
-    if(PAGES.updated)d.append(el('p','upd',(L==='so'?'La cusbooneysiiyay: ':L==='ar'?'آخر تحديث: ':L==='fr'?'Mis à jour : ':L==='nl'?'Laatst bijgewerkt: ':L==='it'?'Ultimo aggiornamento: ':'Last updated: ')+dayMonthYear(new Date(PAGES.updated+'T12:00:00+03:00'))));
+    if(PAGES.updated)d.append(el('p','upd',(L==='so'?'La cusbooneysiiyay: ':L==='ar'?'آخر تحديث: ':L==='fr'?'Mis à jour : ':L==='nl'?'Laatst bijgewerkt: ':L==='it'?'Ultimo aggiornamento: ':L==='de'?'Zuletzt aktualisiert: ':L==='tr'?'Son güncelleme: ':'Last updated: ')+dayMonthYear(new Date(PAGES.updated+'T12:00:00+03:00'))));
     var c=el('p');var a=el('a','btn primary',tr('contact'));a.href='#xiriir';c.append(a);c.style.marginTop='22px';d.append(c);
   }
 
