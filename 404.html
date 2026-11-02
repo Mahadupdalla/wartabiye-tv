@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="so" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Boggan lama helin · Wartabiye TV</title>
+<link rel="icon" href="/wartabiye-tv/img/logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;600&display=swap">
+<link rel="stylesheet" href="/wartabiye-tv/assets/site.css?v=20261108">
+<style>
+  .nf{max-width:640px;margin:0 auto;padding:56px 16px 72px;text-align:center}
+  .nf img{width:96px;height:auto}
+  .nf .code{font:900 72px/1 var(--display);color:var(--red);margin:18px 0 6px}
+  .nf h1{font:800 26px/1.25 var(--display);margin:0 0 10px;color:var(--fg)}
+  .nf p{color:var(--muted);font:500 16px/1.6 var(--body);margin:0 0 24px}
+  .nf a.home{display:inline-block;background:var(--blue);color:#fff;font:700 15px var(--body);padding:12px 22px;border-radius:999px;text-decoration:none}
+  .nf a.home:hover{background:var(--blue-d)}
+  [dir=rtl] .nf{font-family:"Noto Sans Arabic",Tahoma,sans-serif}
+</style>
+</head>
+<body>
+<main class="nf">
+  <a href="/wartabiye-tv/"><img src="/wartabiye-tv/img/logo.png" alt="Wartabiye TV"></a>
+  <div class="code">404</div>
+  <h1 id="t">Boggan lama helin</h1>
+  <p id="m">Bogga aad raadinayso ma jiro ama waa la raray.</p>
+  <a class="home" id="h" href="/wartabiye-tv/">← Ku noqo Hoyga</a>
+</main>
+<script>
+(function(){
+  var T={
+    so:['Boggan lama helin','Bogga aad raadinayso ma jiro ama waa la raray.','← Ku noqo Hoyga'],
+    en:['Page not found','The page you are looking for does not exist or has moved.','← Back to Home'],
+    ar:['الصفحة غير موجودة','الصفحة التي تبحث عنها غير موجودة أو تم نقلها.','→ العودة إلى الرئيسية'],
+    fr:['Page introuvable','La page que vous cherchez n’existe pas ou a été déplacée.','← Retour à l’accueil'],
+    nl:['Pagina niet gevonden','De pagina die u zoekt bestaat niet of is verplaatst.','← Terug naar de startpagina'],
+    it:['Pagina non trovata','La pagina che cerchi non esiste o è stata spostata.','← Torna alla home'],
+    tr:['Sayfa bulunamadı','Aradığınız sayfa mevcut değil ya da taşındı.','← Ana sayfaya dön'],
+    de:['Seite nicht gefunden','Die gesuchte Seite existiert nicht oder wurde verschoben.','← Zurück zur Startseite']
+  };
+  var L='so';
+  try{var q=new URLSearchParams(location.search).get('lang');var s=localStorage.getItem('wartabiye-lang');L=T[q]?q:(T[s]?s:'so')}catch(e){}
+  try{if(localStorage.getItem('wartabiye-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}
+  var t=T[L];document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';
+  document.title=t[0]+' · Wartabiye TV';
+  document.getElementById('t').textContent=t[0];document.getElementById('m').textContent=t[1];document.getElementById('h').textContent=t[2];
+})();
+</script>
+</body>
+</html>
