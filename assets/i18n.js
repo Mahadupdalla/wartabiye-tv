@@ -372,3 +372,47 @@ fr: {
   howTitle:'Comment ça marche', h1:'Demandez', h1t:'Remplissez le formulaire ci-dessous ou contactez-nous.', h2:'Concevez', h2t:'Envoyez-nous votre visuel, ou notre équipe vous aidera à le préparer.', h3:'Publiez', h3t:'Après validation, votre annonce paraît aux emplacements et aux dates choisis.'
 }
 };
+
+/* Animated promo presentation, business categories and form labels on the Xayeysiimaha page (merged into WT_ADDEMO). */
+(function(){var X={
+so:{
+  promoTitle:'Bandhigga Wartabiye TV', promoNote:'Bandhig firfircoon oo web ah (HTML/CSS), maaha fayl muuqaal ah, codna ma leh.',
+  v1:'Ma leedahay ganacsi ama shirkad?', v2:'Ma rabtaa in ganacsigaagu gaaro macaamiil cusub?', v3:'Wartabiye TV wuxuu kuu diyaariyey fursad xayeysiis oo heer sare ah!',
+  v4:'Ku soo bandhig shirkaddaada, badeecadahaaga iyo adeegyadaada.', v5:'Ganacsi yar ama shirkad weyn — fursaddu waa kuu furan tahay!', v6:'KU XAYEYSIISO GANACSIGAAGA WARTABIYE TV', vCta:'HADDA DALBO XAYEYSIIS',
+  wCo:'Shirkad', wPr:'Badeecado', wSv:'Adeegyo',
+  play:'Daar', pause:'Jooji', replay:'Dib u bilow', cc:'Qoraal hoosaad', scene:'Muuqaal',
+  catTitle:'Yaa ku xayeysiin kara Wartabiye TV?', catSub:'Waxaan soo dhaweynaynaa ganacsi kasta oo sharci ah, mid yar iyo mid weyn.',
+  cats:[['Shirkadaha iyo hay’adaha','Soo bandhig astaantaada iyo adeegyadaada.'],['Dukaamada iyo suuqyada','Badeecado cusub, qiimo dhimis iyo dalabyo.'],['Hoteellada iyo makhaayadaha','Cuntooyin, qolal iyo dalabyo xilliyeed.'],['Dugsiyada iyo jaamacadaha','Diiwaangelin, koorsooyin iyo deeqo waxbarasho.'],['Ganacsiyada tiknoolajiyada','Apps, adeegyo internet iyo qalab casri ah.'],['Shirkadaha guryaha','Guryo, dhul iyo xafiisyo iib ama kiro ah.'],['Gaadiidka iyo saadka','Safar, xamuul iyo gaarsiin degdeg ah.'],['Dukaamada online-ka','U jiheeye macaamiisha dukaankaaga online-ka.'],['Adeegyada xirfadlayaasha','Sharci, xisaabaad, caafimaad iyo la-talin.'],['Ganacsiyada yaryar iyo kuwa dhexe','Fursad ku habboon miisaaniyad kasta.'],['Ururrada iyo ganacsiyada kale ee sharciga ah','Ganacsi kasta oo sharci ah waa la soo dhaweynayaa.']],
+  fCat:'Nooca ganacsiga', fMsg:'Fariintaada'
+},
+en:{
+  promoTitle:'The Wartabiye TV showcase', promoNote:'Animated web presentation (HTML/CSS), not a video file, with no sound.',
+  v1:'Do you have a business or a company?', v2:'Do you want your business to reach new customers?', v3:'Wartabiye TV has prepared a premium advertising opportunity for you!',
+  v4:'Showcase your company, your products and your services.', v5:'Small business or large company — the opportunity is open to you!', v6:'ADVERTISE YOUR BUSINESS ON WARTABIYE TV', vCta:'REQUEST AN ADVERT NOW',
+  wCo:'Company', wPr:'Products', wSv:'Services',
+  play:'Play', pause:'Pause', replay:'Replay', cc:'Subtitles', scene:'Scene',
+  catTitle:'Who can advertise on Wartabiye TV?', catSub:'We welcome every lawful business, small or large.',
+  cats:[['Companies and corporations','Present your brand and services.'],['Shops and retail','New products, discounts and offers.'],['Hotels and restaurants','Menus, rooms and seasonal offers.'],['Schools and universities','Enrolment, courses and scholarships.'],['Technology businesses','Apps, internet services and modern devices.'],['Real estate companies','Homes, land and offices for sale or rent.'],['Transport and logistics','Travel, freight and fast delivery.'],['E-commerce stores','Send customers to your online shop.'],['Professional services','Legal, accounting, health and consulting.'],['Small and medium businesses','An option for every budget.'],['Other lawful businesses and organisations','Every lawful business is welcome.']],
+  fCat:'Business category', fMsg:'Your message'
+},
+ar:{
+  promoTitle:'عرض Wartabiye TV', promoNote:'عرض متحرك على الويب (HTML/CSS)، وليس ملف فيديو، وبدون صوت.',
+  v1:'هل لديك نشاط تجاري أو شركة؟', v2:'هل تريد أن يصل نشاطك التجاري إلى عملاء جدد؟', v3:'أعدّ لك Wartabiye TV فرصة إعلانية مميزة!',
+  v4:'اعرض شركتك ومنتجاتك وخدماتك.', v5:'نشاط صغير أو شركة كبيرة — الفرصة متاحة لك!', v6:'أعلن عن نشاطك التجاري على Wartabiye TV', vCta:'اطلب إعلانك الآن',
+  wCo:'شركة', wPr:'منتجات', wSv:'خدمات',
+  play:'تشغيل', pause:'إيقاف مؤقت', replay:'إعادة', cc:'الترجمة', scene:'مشهد',
+  catTitle:'من يمكنه الإعلان على Wartabiye TV؟', catSub:'نرحّب بكل نشاط تجاري مشروع، صغيرًا كان أو كبيرًا.',
+  cats:[['الشركات والمؤسسات','اعرض علامتك التجارية وخدماتك.'],['المتاجر وتجارة التجزئة','منتجات جديدة وتخفيضات وعروض.'],['الفنادق والمطاعم','قوائم طعام وغرف وعروض موسمية.'],['المدارس والجامعات','التسجيل والدورات والمنح الدراسية.'],['شركات التكنولوجيا','تطبيقات وخدمات إنترنت وأجهزة حديثة.'],['شركات العقارات','منازل وأراضٍ ومكاتب للبيع أو الإيجار.'],['النقل والخدمات اللوجستية','السفر والشحن والتوصيل السريع.'],['المتاجر الإلكترونية','وجّه العملاء إلى متجرك الإلكتروني.'],['الخدمات المهنية','القانون والمحاسبة والصحة والاستشارات.'],['الشركات الصغيرة والمتوسطة','خيار يناسب كل ميزانية.'],['الأعمال والمنظمات المشروعة الأخرى','نرحّب بكل نشاط تجاري مشروع.']],
+  fCat:'فئة النشاط التجاري', fMsg:'رسالتك'
+},
+fr:{
+  promoTitle:'La vitrine Wartabiye TV', promoNote:'Présentation web animée (HTML/CSS), pas un fichier vidéo, sans son.',
+  v1:'Vous avez une entreprise ou une société ?', v2:'Vous voulez que votre entreprise touche de nouveaux clients ?', v3:'Wartabiye TV vous propose une opportunité publicitaire premium !',
+  v4:'Présentez votre société, vos produits et vos services.', v5:'Petite entreprise ou grande société : l’opportunité vous est ouverte !', v6:'FAITES LA PROMOTION DE VOTRE ENTREPRISE SUR WARTABIYE TV', vCta:'DEMANDEZ UNE PUBLICITÉ',
+  wCo:'Société', wPr:'Produits', wSv:'Services',
+  play:'Lecture', pause:'Pause', replay:'Rejouer', cc:'Sous-titres', scene:'Scène',
+  catTitle:'Qui peut annoncer sur Wartabiye TV ?', catSub:'Nous accueillons toute activité légale, petite ou grande.',
+  cats:[['Entreprises et groupes','Présentez votre marque et vos services.'],['Boutiques et commerce','Nouveautés, remises et offres.'],['Hôtels et restaurants','Menus, chambres et offres saisonnières.'],['Écoles et universités','Inscriptions, formations et bourses.'],['Entreprises technologiques','Applications, services internet et appareils modernes.'],['Agences immobilières','Maisons, terrains et bureaux à vendre ou à louer.'],['Transport et logistique','Voyages, fret et livraison rapide.'],['Boutiques en ligne','Amenez les clients vers votre boutique en ligne.'],['Services professionnels','Droit, comptabilité, santé et conseil.'],['PME','Une formule pour chaque budget.'],['Autres entreprises et organisations légales','Toute activité légale est la bienvenue.']],
+  fCat:'Catégorie d’activité', fMsg:'Votre message'
+}};
+for(var k in X){window.WT_ADDEMO[k]=window.WT_ADDEMO[k]||{};for(var j in X[k])window.WT_ADDEMO[k][j]=X[k][j]}})();
