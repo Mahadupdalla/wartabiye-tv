@@ -912,3 +912,20 @@ html[lang=ar] .dm strong,html[lang=ar] .adband h2,html[lang=ar] .acat b{line-hei
   .sky .bld{transform:scaleY(1)!important}.cust i span{transform:translateX(225%)!important}
   .steam path{opacity:.6}.pulse{stroke-dashoffset:0}.d-camp .cf,.d-ban .shine{display:none}
 }
+/* language menu: native language name with its country underneath */
+.lang-menu .lt{display:flex;flex-direction:column;gap:1px;line-height:1.2;min-width:0}
+.lang-menu .lt small{margin:0;font:500 12px var(--body);letter-spacing:0;opacity:.72}
+.lang-menu button[aria-checked=true] .lt small{opacity:.9}
+.lang-menu img{flex:none;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.12)}
+/* official brand icons keep their own shapes: no outline from the generic .bi icon style */
+a[data-soc] svg.bi,a[data-soc] svg.bi *{stroke:none}
+/* social accounts inside the mobile menu */
+.links .msoc{display:none}
+@media (max-width:860px){
+  .links .msoc{display:flex;align-items:center;gap:12px;padding:14px 4px 4px}
+  .links .msoc span{font:700 12px var(--display);text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.85);margin-inline-end:auto}
+  .links .msoc a{width:40px;height:40px;padding:0;border:0;border-radius:50%;background:#fff;display:grid;place-items:center;letter-spacing:0}
+  .links .msoc a::before,.links .msoc a::after{display:none}
+  .links .msoc a:hover{background:#fff;transform:translateY(-1px)}
+  .links .msoc svg{width:22px;height:22px}
+}
