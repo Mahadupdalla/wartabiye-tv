@@ -643,9 +643,10 @@
       if(PROMO.playing){PROMO.t+=dt;if(PROMO.t>=SCN_MS){if(PROMO.i<SCN_N-1)go(PROMO.i+1);else{PROMO.t=SCN_MS;setPlaying(false)}}paint()}
       requestAnimationFrame(loop)}
     setCC(PROMO.cc);go(PROMO.i);var t0=PROMO.t;PROMO.t=t0;
-    if(PROMO.playing===null){setPlaying(false);if(!reduceMotion()){
-      if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!PROMO.seen){PROMO.seen=true;setPlaying(true);io.disconnect()}},{threshold:.35});io.observe(box)}else{PROMO.seen=true;setPlaying(true)}}}
-    else setPlaying(PROMO.playing);
+    // autoplay once, when the presentation first comes into view (the page can be re-rendered before that, e.g. when settings load)
+    setPlaying(PROMO.playing===true);if(PROMO.io){PROMO.io.disconnect();PROMO.io=null}
+    if(!PROMO.seen&&!reduceMotion()){
+      if('IntersectionObserver' in window){var io=PROMO.io=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!PROMO.seen){PROMO.seen=true;setPlaying(true);io.disconnect()}},{threshold:.35});io.observe(box)}else{PROMO.seen=true;setPlaying(true)}}
     requestAnimationFrame(loop);
     var wrapEl=el('div','adshow-wrap');wrapEl.append(box,note);return wrapEl}
 
