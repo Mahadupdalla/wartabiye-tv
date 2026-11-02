@@ -3,7 +3,7 @@
   python3 tools/find_image.py search "Stamford Bridge stadium" ["cat:Stamford Bridge (stadium)" ...]
       Lists files with a free licence (CC0, CC BY, CC BY-SA, public domain): title, licence, author, description.
   python3 tools/find_image.py attach <article-id> "File:Name.jpg" --alt "<Somali description>"
-          [--alt-en ... --alt-ar ... --alt-fr ...] [--credit "<author>"] [--kind illustrative|actual]
+          [--alt-en ... --alt-ar ... --alt-fr ... --alt-nl ... --alt-it ...] [--credit "<author>"] [--kind illustrative|actual]
       Downloads a 960 px copy, checks it is a real JPEG/PNG at least 800 px wide, checks that no other article
       already uses the same photo, saves it as img/news/<article-id>.jpg and fills image, imageAlt, imageCredit,
       imageLicense, imageSourceUrl and imageKind (and imageAlt in the en/ar/fr translations). Clears imagePending.
@@ -101,7 +101,7 @@ def save(p, n):
         f.write('\n')
 
 
-def attach(nid, title, alt, alt_en=None, alt_ar=None, alt_fr=None, credit=None, kind='illustrative'):
+def attach(nid, title, alt, alt_en=None, alt_ar=None, alt_fr=None, credit=None, kind='illustrative', alt_nl=None, alt_it=None):
     p, n = load(nid)
     thumb, page = urls(title)
     for f in os.listdir(os.path.join(root, 'data', 'news')):
@@ -141,7 +141,7 @@ def attach(nid, title, alt, alt_en=None, alt_ar=None, alt_fr=None, credit=None, 
             out.update(fields)
     if 'image' not in out:
         out.update(fields)
-    for lang, t in (('en', alt_en), ('ar', alt_ar), ('fr', alt_fr)):
+    for lang, t in (('en', alt_en), ('ar', alt_ar), ('fr', alt_fr), ('nl', alt_nl), ('it', alt_it)):
         if t and isinstance(out.get(lang), dict):
             out[lang]['imageAlt'] = t
     if n.get('imagePending'):
@@ -166,7 +166,7 @@ if __name__ == '__main__':
         search(a[1:])
     elif a[0] == 'attach' and len(a) >= 3:
         attach(a[1], a[2], opt('--alt') or sys.exit('--alt is required'), opt('--alt-en'), opt('--alt-ar'), opt('--alt-fr'),
-               opt('--credit'), opt('--kind') or 'illustrative')
+               opt('--credit'), opt('--kind') or 'illustrative', opt('--alt-nl'), opt('--alt-it'))
     elif a[0] == 'pending' and len(a) >= 2:
         pending(a[1], opt('--note') or 'sawir sharci ah oo warkan khuseeya weli lama helin')
     else:

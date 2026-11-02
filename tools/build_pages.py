@@ -72,7 +72,7 @@ for n in news:
     if n.get('sponsored'):
         art['@type'] = 'AdvertiserContentArticle'
     alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{url}?lang={l}">\n'
-                   for l in ('en', 'ar', 'fr') if isinstance(n.get(l), dict) and n[l].get('title'))
+                   for l in ('en', 'ar', 'fr', 'nl', 'it') if isinstance(n.get(l), dict) and n[l].get('title'))
     if alts:
         alts = f'<link rel="alternate" hreflang="so" href="{url}">\n' + alts
     extra = (alts + f'<meta property="article:published_time" content="{esc(n.get("publishedAt"))}">\n' + ld(art)

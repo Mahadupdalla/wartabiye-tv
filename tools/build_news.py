@@ -1,7 +1,7 @@
 """Build data/news.json (what the public page reads) from the editable sources:
 data/news/<id>.json (one file per article; the admin dashboard and the daily task write these)
 and data/status.json (last automatic run). Articles with "published": false are drafts and are left out.
-Translations ("en", "ar", "fr") are kept; a machine translation ("status": "auto") whose text was edited
+Translations ("en", "ar", "fr", "nl", "it") are kept; a machine translation ("status": "auto") whose text was edited
 afterwards in /admin/ is published as "manual", so the page no longer labels it as machine-translated."""
 import json, os, glob, datetime
 from translations import LANGS, text_hash, has
@@ -59,7 +59,7 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'ads', '*.json'))):
         continue
     if a.get('image') and str(a['image']).startswith('/'):
         a['image'] = a['image'].lstrip('/')
-    ads.append({k: v for k, v in a.items() if k in ('id', 'title', 'advertiser', 'text', 'positions', 'image', 'imageAlt', 'link', 'video', 'start', 'end', 'active', 'en', 'ar', 'fr')})
+    ads.append({k: v for k, v in a.items() if k in ('id', 'title', 'advertiser', 'text', 'positions', 'image', 'imageAlt', 'link', 'video', 'start', 'end', 'active', 'en', 'ar', 'fr', 'nl', 'it')})
 ads_path = os.path.join(root, 'data', 'ads.json')
 ads_out = {'ads': ads}
 old_ads = json.load(open(ads_path, encoding='utf-8')) if os.path.exists(ads_path) else None
@@ -82,7 +82,7 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'videos', '*.json'))):
         print(f"{v['id']}: video skipped (needs a YouTube link or an .mp4/.webm file)")
         continue
     videos.append({k: v[k] for k in ('id', 'title', 'summary', 'kind', 'youtube', 'file', 'thumbnail', 'duration', 'publishedAt',
-                                       'source', 'sourceUrl', 'credit', 'license', 'en', 'ar', 'fr') if v.get(k) not in (None, '')})
+                                       'source', 'sourceUrl', 'credit', 'license', 'en', 'ar', 'fr', 'nl', 'it') if v.get(k) not in (None, '')})
 videos.sort(key=lambda x: x.get('publishedAt') or '', reverse=True)
 vpath = os.path.join(root, 'data', 'videos.json')
 vout = {'videos': videos}
