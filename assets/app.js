@@ -321,24 +321,21 @@
   var DECO={sports:'M100 10a90 90 0 1 0 0 180 90 90 0 0 0 0-180zM100 55l43 31-16 50H73L57 86zM100 10v45M143 86l42-14M127 136l26 38M73 136l-26 38M57 86L15 72',
     world:'M100 10a90 90 0 1 0 0 180 90 90 0 0 0 0-180zM10 100h180M100 10c40 40 40 140 0 180M100 10c-40 40-40 140 0 180M24 55h152M24 145h152'};
   function hubHead(kind){var h=el('section','hubhead '+kind);var w=el('div','wrap');var t=el('h1');t.append(tr(kind==='sports'?'sportsTitle':'worldTitle'));
-    if(L!=='so')t.append(el('span',null,kind==='sports'?'CIYAARAHA':'WARARKA CAALAMKA'));else t.append(el('span',null,kind==='sports'?'SPORTS':'WORLD NEWS'));
     w.append(t,el('p',null,tr(kind==='sports'?'sportsSub':'worldSub')));h.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="'+DECO[kind]+'"/></svg>';h.append(w);return h}
   // One unified feed per hub (owner's decision, 2026-11-01): no leagues, sports, regions or topic filters. Newest first.
   function renderHub(kind,h){
     var V=$('pageView');V.innerHTML='';var P=hashParams(h);
     setTitle(tr(kind==='sports'?'sportsTitle':'worldTitle'));
     var list=items.filter(function(x){return section(x)===kind}).sort(function(a,b){return (b.publishedAt||'')<(a.publishedAt||'')?-1:1});
-    var bar=el('div','hubbar');var bw=el('div','wrap');bar.append(bw);
-    var sf=el('div','hubsearch');var si=el('input');si.type='search';si.placeholder=tr(kind==='sports'?'searchSportsPh':'searchWorldPh');si.setAttribute('aria-label',si.placeholder);si.value=P.q||'';sf.append(si);bw.append(sf);
     var lay=el('div','wrap layout');var main=el('div');var side=el('aside','sidebar');lay.append(main,side);
-    function draw(){main.innerHTML='';var q=si.value.trim().toLowerCase();var l=q?list.filter(function(x){return matches(x,q)}):list;
+    function draw(){main.innerHTML='';var q='';var l=list;
       if(!l.length){main.append(head(tr(kind==='sports'?'latestSports':'latestWorld')),el('p','empty',loaded?(q?tr('noMatch'):tr(kind==='sports'?'noSports':'noWorld')):tr('loadingStory')));return}
       var lead=l[0];var rest=l.slice(1);
       main.append(head(tr(kind==='sports'?'latestSports':'latestWorld')),cardsGrid([lead],true,'one'));
-      if(rest.length){var s2=el('section','secblock');s2.append(cardsGrid(rest.slice(0,40)));main.append(s2)}}
-    si.addEventListener('input',draw);draw();
+      if(rest.length){var s2=el('section','secblock');s2.append(cardsGrid(rest));main.append(s2)}}
+    draw();
     fillSide(side,[adSlot('sidebar'),sideLatest(items.filter(function(x){return section(x)!==kind})),sideFollow()]);
-    V.append(hubHead(kind),bar,lay);
+    V.append(hubHead(kind),lay);
   }
 
   // ---------- VIDEOS (#muuqaal) ----------
