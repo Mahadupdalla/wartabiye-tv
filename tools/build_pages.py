@@ -89,7 +89,6 @@ for f in glob.glob(os.path.join(out_dir, '*.html')):
 SECTIONS = {
     'ciyaaraha': ('Ciyaaraha', 'Wararka ciyaaraha ugu muhiimsan ee maalinta, hal meel: kubadda cagta, kubadda koleyga, teniska, Formula 1, feerka, orodka, esports iyo kuwo kale.', None),
     'caalamka': ('Wararka Caalamka', 'Wararka caalamka oo dhan oo hal meel isugu jira. Kuwa ugu cusub ayaa ugu horreeya.', None),
-    'muuqaal': ('Muuqaalada', 'Muuqaallada wararka Wartabiye TV: Soomaaliya, caalamka, ciyaaraha iyo wareysiyo, kaliya kuwa si sharci ah loo daabici karo.', None),
     'xayeysiimaha': ('Ku Xayeysiiso Ganacsigaaga Wartabiye TV', 'Gaadhsii ganacsigaaga akhristayaasha iyo daawadayaasha Wartabiye TV. Codso xayeysiis.', None),
     'xiriir': ('Nala Soo Xiriir', 'La xiriir tifaftirka Wartabiye TV: talo, sixitaan ama war.', None),
     'nagu-saabsan': (None, None, 'about'),

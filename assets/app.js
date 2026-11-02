@@ -481,33 +481,89 @@
     spotlight:'<rect x="4" y="4" width="312" height="172" rx="8" fill="var(--surface)" stroke="var(--line-2)"/><rect x="16" y="16" width="288" height="148" rx="8" fill="#0263b3"/><circle cx="72" cy="90" r="38" fill="#037BDC"/><path d="M58 92l10 10 20-24" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/><text x="126" y="80" fill="#fff" font-size="14" font-weight="900" font-family="Archivo,Arial">{S}</text><rect x="126" y="92" width="150" height="8" rx="3" fill="#ffffff55"/><rect x="126" y="108" width="110" height="8" rx="3" fill="#ffffff55"/><rect x="126" y="126" width="70" height="20" rx="5" fill="#F2060A"/>',
     campaign:'<rect x="4" y="4" width="312" height="172" rx="8" fill="var(--surface)" stroke="var(--line-2)"/><rect x="16" y="16" width="288" height="28" rx="5" fill="#F2060A" opacity=".85"/><rect x="16" y="54" width="186" height="110" rx="6" fill="var(--chip)"/><rect x="212" y="54" width="92" height="52" rx="6" fill="#037BDC"/><rect x="212" y="112" width="92" height="52" rx="6" fill="#ffffff" stroke="#BDBEC0"/><text x="160" y="35" fill="#fff" font-size="11" font-weight="800" text-anchor="middle" font-family="Archivo,Arial">{S}</text>'
   };
-  var SAMPLES={home:'Hilaac Electronics',sidebar:['Xarun','Caafimaad'],article:'',card:'Barwaaqo Café',video:'Badweyn Travel',mobile:'Dalab App',spotlight:'Nabad Bakery',campaign:'Sahan Telecom'};
-  function adArt(){return '<svg class="art" viewBox="0 0 480 380" role="img" aria-label="Wartabiye TV"><defs><linearGradient id="ag" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".95"/><stop offset="1" stop-color="#f4f7fb" stop-opacity=".95"/></linearGradient></defs>'+
-    '<rect x="40" y="40" width="330" height="230" rx="18" fill="url(#ag)"/><rect x="40" y="40" width="330" height="36" rx="18" fill="#037BDC"/><rect x="40" y="62" width="330" height="14" fill="#037BDC"/><circle cx="66" cy="58" r="7" fill="#F2060A"/>'+
-    '<rect x="62" y="96" width="286" height="62" rx="10" fill="#F2060A"/><text x="205" y="134" fill="#fff" font-size="20" font-weight="900" text-anchor="middle" font-family="Archivo,Arial">'+escapeXml(tr('adLabel').toUpperCase())+'</text>'+
-    '<rect x="62" y="172" width="170" height="78" rx="10" fill="#f4f7fb"/><rect x="246" y="172" width="102" height="34" rx="8" fill="#f4f7fb"/><rect x="246" y="216" width="102" height="34" rx="8" fill="#f4f7fb"/>'+
-    '<rect x="300" y="150" width="130" height="210" rx="22" fill="#0b1c33"/><rect x="310" y="168" width="110" height="176" rx="12" fill="#fff"/><rect x="318" y="178" width="94" height="14" rx="4" fill="#037BDC"/><rect x="318" y="200" width="94" height="58" rx="6" fill="#F2060A"/><rect x="318" y="266" width="94" height="10" rx="4" fill="#f4f7fb"/><rect x="318" y="282" width="70" height="10" rx="4" fill="#f4f7fb"/><rect x="318" y="302" width="94" height="30" rx="6" fill="#f4f7fb"/>'+
-    '<circle cx="70" cy="300" r="34" fill="#F2060A"/><path d="M58 300l9 9 17-20" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'+
-    '<g fill="#fff" opacity=".9"><circle cx="440" cy="60" r="6"/><circle cx="20" cy="200" r="4"/><circle cx="455" cy="120" r="3"/></g></svg>'}
+  // Demo advert visuals: plain HTML and CSS, so every word comes from WT_ADDEMO and follows the site language (RTL in Arabic).
+  function ad(k){var D=window.WT_ADDEMO||{};var x=(D[L]||{})[k];return escapeXml(x!=null?x:((D.so||{})[k]||''))}
   function escapeXml(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  var ADI={ // small stroke icons used inside the demo adverts
+    arr:'<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+    star:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>',
+    plus:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+    cup:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3c-1 1.2 1 2 0 3.5M12 3c-1 1.2 1 2 0 3.5"/></svg>',
+    bread:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11a4 4 0 0 1 1-7.5C8 2.8 10 3 12 3s4-.2 6 .5A4 4 0 0 1 19 11v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M9 9v3M15 9v3"/></svg>',
+    bag:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/></svg>',
+    wifi:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.6 16a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.5" r="1.2"/></svg>',
+    ok:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    pin:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+    phone:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',
+    mega:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4h3l7 4V6L6 10zM16 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></svg>'
+  };
+  function adTag(){return '<span class="dtag">'+escapeXml(tr('adLabel'))+'</span>'}
+  function heroMock(){
+    return '<div class="hmock" aria-hidden="true"><div class="hbrow"><div class="hbar"><i></i><i></i><i></i></div>'+
+      '<div class="hhead"><img src="img/logo.png" alt="" width="22" height="22"><b dir="ltr">WARTABIYE<span>TV</span></b><s></s><s></s><s></s></div>'+
+      '<div class="hban">'+adTag()+'<div><span class="k">'+ADI.star+ad('p4')+'</span><strong>'+ad('p3')+'</strong><span class="t">'+ad('p2')+'</span></div><span class="hcta">'+ad('p5')+ADI.arr+'</span></div>'+
+      '<div class="hgrid"><div><u></u><s></s><s></s><s class="sh"></s></div><div><u></u><s></s><s class="sh"></s></div></div></div>'+
+      '<div class="hphone"><div class="hscr"><div class="hpb"><img src="img/logo.png" alt="" width="14" height="14"></div><s></s><s class="sh"></s>'+
+      '<div class="hpad">'+adTag()+'<b>'+ad('p1')+'</b><span>'+ad('p5')+'</span></div><s></s><s class="sh"></s></div></div>'+
+      '<span class="hok">'+ADI.ok+'</span></div>'}
+  function demo(cls,title,size,body){return '<figure class="dm '+cls+'"><figcaption><b>'+escapeXml(title)+'</b><span class="sz" dir="ltr">'+size+'</span></figcaption>'+
+    '<div class="stage"><span class="ribbon">'+escapeXml(tr('adExample'))+'</span>'+body+'</div></figure>'}
+  function demoGallery(){
+    var T={};tr('adTypes').forEach(function(t){T[t[0]]=t[1]});
+    var banner='<div class="d-ban">'+adTag()+'<div class="logo"><span>'+ADI.mega+'</span><small>'+ad('yourLogo')+'</small></div>'+
+      '<div class="txt"><span class="k">'+ad('p4')+'</span><strong>'+ad('p1')+'</strong><p>'+ad('p2')+' · '+ad('hbSub')+'</p></div>'+
+      '<span class="cta">'+ad('p5')+ADI.arr+'</span></div>';
+    var side='<div class="d-side">'+adTag()+'<div class="top"><span class="ic">'+ADI.plus+'</span><b>'+ad('sbBrand')+'</b></div>'+
+      '<strong>'+ad('sbHead')+'</strong><ul><li>'+ADI.ok+ad('sbL1')+'</li><li>'+ADI.ok+ad('sbL2')+'</li><li>'+ADI.ok+ad('sbL3')+'</li></ul>'+
+      '<span class="cta">'+ad('sbCta')+ADI.arr+'</span></div>';
+    var post='<article class="d-post"><div class="pimg"><span class="ic">'+ADI.cup+'</span>'+adTag()+'</div><div class="bd">'+
+      '<span class="spon">'+escapeXml(tr('sponsoredBy'))+' <b>'+ad('spBrand')+'</b></span><strong>'+ad('spHead')+'</strong><p>'+ad('spText')+'</p>'+
+      '<span class="pmore">'+ad('spMore')+ADI.arr+'</span></div></article>';
+    var mob='<div class="d-mob"><div class="scr"><div class="mh"><img src="img/logo.png" alt="" width="18" height="18"><b dir="ltr">WARTABIYE<span>TV</span></b></div>'+
+      '<div class="ml"><span class="mlab">'+ad('news')+'</span><s></s><s class="sh"></s><u></u><s></s><s class="sh"></s></div>'+
+      '<div class="mad">'+adTag()+'<span class="ic">'+ADI.bag+'</span><div><b>'+ad('mbBrand')+'</b><strong>'+ad('mbHead')+'</strong><small>'+ad('mbText')+'</small></div><span class="cta">'+ad('mbCta')+'</span></div></div></div>';
+    var spot='<div class="d-spot">'+adTag()+'<span class="rib">'+ADI.star+ad('slTag')+'</span><div class="sprow"><span class="logo">'+ADI.bread+'</span>'+
+      '<div><b>'+ad('slBrand')+'</b><span class="loc">'+ADI.pin+ad('slLoc')+'</span></div></div><strong>'+ad('slHead')+'</strong><p>'+ad('slText')+'</p>'+
+      '<div class="spchips"><span>'+ADI.ok+ad('slF1')+'</span><span>'+ADI.ok+ad('slF2')+'</span><span>'+ADI.ok+ad('slF3')+'</span></div>'+
+      '<span class="cta">'+ADI.phone+ad('slCta')+'</span></div>';
+    var camp='<div class="d-camp">'+adTag()+'<span class="badge">'+ad('cpBadge')+'</span><span class="k">'+ad('cpKick')+'</span>'+
+      '<div class="cbrand"><span class="ic">'+ADI.wifi+'</span><b>'+ad('cpBrand')+'</b></div><strong>'+ad('cpHead')+'</strong><p>'+ad('cpText')+'</p>'+
+      '<span class="cta">'+ad('cpCta')+ADI.arr+'</span><span class="plan">'+ad('cpPlan')+'</span></div>';
+    return '<div class="adgal">'+demo('g-ban',T.home,'970 × 250',banner)+demo('g-post',T.article,'640 × 360',post)+demo('g-side',T.sidebar,'300 × 600',side)+
+      demo('g-mob',T.mobile,'320 × 100',mob)+demo('g-spot',T.spotlight,'600 × 400',spot)+demo('g-camp',T.campaign,'1200 × 628',camp)+'</div>'}
   function renderAdsPage(){
     var V=$('pageView');V.innerHTML='';setTitle(tr('adHero'));
-    var hero=el('section','adhero');var hw=el('div','wrap');var l=el('div');l.append(el('span','kick',tr('advertise')),el('h1',null,tr('adHero')),el('p',null,tr('adHeroSub')));
-    var ctas=el('div','ctas');var b1=el('a','btn primary',tr('adOrder'));b1.href='#xayeysiimaha';b1.addEventListener('click',function(e){e.preventDefault();var t=$('adForm');if(t){t.scrollIntoView({behavior:'smooth'});var i=t.querySelector('input');if(i)setTimeout(function(){i.focus()},400)}});
-    var b2=el('a','btn ghost',tr('adContact'));b2.href='#xiriir';ctas.append(b1,b2);l.append(ctas);var r=el('div');r.innerHTML=adArt();hw.append(l,r);hero.append(hw);V.append(hero);
+    function toForm(e){e.preventDefault();var t=$('adForm');if(t){t.scrollIntoView({behavior:'smooth'});var i=t.querySelector('input');if(i)setTimeout(function(){i.focus({preventScroll:true})},500)}}
+    function ctaPair(){var c=el('div','ctas');var b1=el('a','btn primary',tr('adOrder'));b1.href='#xayeysiimaha';b1.addEventListener('click',toForm);
+      var b2=el('a','btn ghost',tr('adContact'));b2.href='#xiriir';c.append(b1,b2);return c}
+    var hero=el('section','adhero');var hw=el('div','wrap');var l=el('div');l.append(el('span','kick',tr('advertise')),el('h1',null,tr('adHero')),el('p',null,tr('adHeroSub')),ctaPair());
+    var r=el('div');r.innerHTML=heroMock();hw.append(l,r);hero.append(hw);V.append(hero);
     var w=el('div','wrap page');
     var why=el('section');why.append(head(tr('adWhy')));var wg=el('div','adwhy');
     [['adWhy1','M4 5h16v11H4zM8 20h8M12 16v4M7 9h4M7 12h7'],['adWhy2','M7 3h10v18H7zM11 18h2'],['adWhy3','M4 7h16v10H4zM8 12h8M4 7l4-4h8l4 4'],['adWhy4','M4 6h16v14H4zM4 10h16M9 3v5M15 3v5']].forEach(function(x){var d=el('div');d.innerHTML=svg(x[1]);d.append(el('b',null,tr(x[0])),el('span',null,tr(x[0]+'t')));wg.append(d)});
     why.append(wg);w.append(why);
+    // demo advert gallery, with a quick language switch so the visitor can see the text change
+    var gs=el('section','secblock');gs.id='adDemos';gs.append(head(ad('gallery').replace(/&amp;/g,'&'),'red'));
+    var gi=el('div','adgal-intro');var gp=el('p','trend-note');gp.innerHTML=ad('gallerySub');var sw=el('div','langsw');sw.append(el('span',null,(window.WT_ADDEMO[L]||window.WT_ADDEMO.so).tryLang));
+    Object.keys(LANGS).forEach(function(k){var b=el('button',k===L?'on':null,LANGS[k].name);b.type='button';b.lang=k;b.setAttribute('aria-pressed',String(k===L));
+      b.addEventListener('click',function(){if(k===L)return;var y=$('adDemos').getBoundingClientRect().top;setLang(k);function keep(){var n=$('adDemos');if(n)window.scrollTo(0,window.scrollY+n.getBoundingClientRect().top-y)}keep();requestAnimationFrame(keep);setTimeout(keep,250)});sw.append(b)});
+    gi.append(gp,sw);gs.append(gi);var gw=el('div');gw.innerHTML=demoGallery();gs.append(gw.firstChild);w.append(gs);
+    // placements: where each format appears on the page (diagrams only, no text inside)
     var op=el('section','secblock');op.append(head(tr('adOptions'),'red'),el('p','trend-note',tr('adOptionsSub')));var og=el('div','adopts');
     var prices=SITE&&SITE.adPrices||{};var showP=prices.show===true&&Array.isArray(prices.items);
-    tr('adTypes').forEach(function(t,i){var c=el('article','adopt');var pv=el('div','pv');var s=SAMPLES[t[0]];
-      var art=(AD_PV[t[0]]||'').replace('{S}',escapeXml(typeof s==='string'?s:'')).replace('{S1}',escapeXml(s&&s[0]||'')).replace('{S2}',escapeXml(s&&s[1]||''));
-      pv.innerHTML='<svg viewBox="0 0 320 180" role="img" aria-label="'+escapeXml(t[1]+' — '+tr('adExample'))+'">'+art+'</svg>';pv.append(el('span','ex',tr('adExample')+(s?' · '+tr('adSample'):'')));
+    tr('adTypes').forEach(function(t,i){var c=el('article','adopt');var pv=el('div','pv');
+      var art=(AD_PV[t[0]]||'').replace(/<text[^>]*>[^<]*<\/text>/g,'');
+      pv.innerHTML='<svg viewBox="0 0 320 180" role="img" aria-label="'+escapeXml(t[1])+'">'+art+'</svg>';pv.append(el('span','ex',(window.WT_ADDEMO[L]||window.WT_ADDEMO.so).where));
       var ob=el('div','ob');ob.append(el('span','num',String(i+1).padStart(2,'0')),el('b',null,t[1]),el('span',null,t[2]));
       var pr=showP&&prices.items.find(function(p){return p&&p.type===t[0]&&p.price});ob.append(el('span','pr',pr?tr('price')+': '+pr.price+(pr.period?' / '+pr.period:''):tr('priceOnRequest')));
       c.append(pv,ob);og.append(c)});
     op.append(og);w.append(op);
+    // how it works
+    var hs=el('section','secblock');hs.append(head((window.WT_ADDEMO[L]||window.WT_ADDEMO.so).howTitle));var hg=el('ol','adsteps');
+    ['h1','h2','h3'].forEach(function(k,i){var li=el('li');li.append(el('span','n',String(i+1)),el('b',null,(window.WT_ADDEMO[L]||window.WT_ADDEMO.so)[k]),el('span',null,(window.WT_ADDEMO[L]||window.WT_ADDEMO.so)[k+'t']));hg.append(li)});
+    hs.append(hg);w.append(hs);
+    // call-to-action band
+    var cb=el('section','adband');var ct=el('div');var D=window.WT_ADDEMO[L]||window.WT_ADDEMO.so;ct.append(el('span','k',D.p4),el('h2',null,D.p1),el('p',null,D.p2+' · '+D.p3));cb.append(ct,ctaPair());w.append(cb);
     var fs=el('section','secblock');fs.id='adForm';fs.append(head(tr('adFormTitle'),'red'),el('p','trend-note',tr('adFormSub')));
     var types=tr('adTypes').map(function(t){return [t[1],t[1]]});var periods=tr('aPeriodOpts').split('|').map(function(x){return [x,x]});
     var g1=el('div','grid2'),g2=el('div','grid2'),g3=el('div','grid2');

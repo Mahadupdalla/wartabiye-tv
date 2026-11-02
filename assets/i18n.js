@@ -319,3 +319,56 @@ window.WT_TAX = {
     education:['Waxbarashada','Education','التعليم','Éducation'], health:['Caafimaadka','Health','الصحة','Santé']
   }
 };
+
+/* Text inside the demo advert visuals on the Xayeysiimaha page (#xayeysiimaha). The visuals are built from HTML and CSS,
+   so every word below changes with the site language. All businesses are fictional examples. */
+window.WT_ADDEMO = {
+so: {
+  p1:'Ku Xayeysiiso Ganacsigaaga Halkan', p2:'Gaarsii Macaamiil Badan', p3:'Kor u Qaad Summaddaada', p4:'Fursad Xayeysiis oo Heer Sare ah', p5:'Nala Soo Xiriir Maanta',
+  gallery:'Tusaalooyinka xayeysiiska', gallerySub:'Sidan ayuu xayeysiiskaagu uga muuqan karaa Wartabiye TV. Dhammaan waa tusaalooyin ganacsiyo male-awaal ah, qoraalkooduna wuu isbeddelaa marka luqadda la beddelo.',
+  tryLang:'Ku eeg luqad kale:', where:'MEESHA', yourLogo:'Astaantaada', news:'Wararka',
+  hbSub:'Ganacsigaaga ha arkaan akhristayaasha Wartabiye TV ee af-Soomaaliga, English, Carabi iyo Faransiis.',
+  sbBrand:'Xarunta Caafimaadka Shifo', sbHead:'Caafimaadkaagu waa mudnaanteenna', sbL1:'Dhakhaatiir khibrad leh', sbL2:'Shaybaar casri ah', sbL3:'Furan 24 saac', sbCta:'Ballan qabso',
+  spCat:'GANACSI', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café oo laan cusub ka furtay Muqdisho', spText:'Qaxwo Soomaaliyeed, cunto fudud iyo meel nasasho leh oo qoyska oo dhan ku habboon.', spMore:'Akhri wax badan',
+  slTag:'Iftiinka Ganacsiga', slBrand:'Nabad Bakery', slHead:'Rooti cusub subax kasta', slText:'Keeg, rooti iyo macmacaan lagu dubay xarunteenna, oo gurigaaga laguu keeno.', slF1:'Gaarsiin bilaash ah', slF2:'Dalabyada xafladaha', slF3:'Furan 6:00 – 22:00', slCta:'Wac hadda', slLoc:'Hodan, Muqdisho',
+  mbBrand:'Dalab App', mbHead:'Dalbo cunto, gurigaaga ha laguu keeno', mbText:'Makhaayadaha ugu fiican hal meel.', mbCta:'Soo deji',
+  cpKick:'Olole xilliyeed', cpBrand:'Sahan Telecom', cpHead:'Internet degdeg ah, qiime jaban', cpText:'Isku xir qoyska oo dhan. Dalabku muddo kooban ayuu socdaa.', cpBadge:'-30%', cpCta:'Hadda ka qayb gal', cpPlan:'Banner + dhinac + taleefan · 4 toddobaad',
+  howTitle:'Sida ay u shaqeyso', h1:'Codso', h1t:'Buuxi foomka hoose ama nala soo xiriir.', h2:'Naqshadee', h2t:'Noo soo dir naqshaddaada, ama kooxdeenna ayaa kaa caawin doonta diyaarinteeda.', h3:'Daabac', h3t:'Kadib ansixinta, xayeysiiskaagu wuxuu ka soo baxaa meelaha iyo taariikhaha aad dooratay.'
+},
+en: {
+  p1:'Advertise Your Business Here', p2:'Reach More Customers', p3:'Grow Your Brand', p4:'Premium Advertising Opportunity', p5:'Contact Us Today',
+  gallery:'Example adverts', gallerySub:'This is how your advert could look on Wartabiye TV. All of them are examples with fictional businesses, and their text changes when you change the language.',
+  tryLang:'View in:', where:'PLACEMENT', yourLogo:'Your logo', news:'News',
+  hbSub:'Put your business in front of Wartabiye TV readers in Somali, English, Arabic and French.',
+  sbBrand:'Shifo Medical Centre', sbHead:'Your health is our priority', sbL1:'Experienced doctors', sbL2:'Modern laboratory', sbL3:'Open 24 hours', sbCta:'Book an appointment',
+  spCat:'BUSINESS', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café opens a new branch in Mogadishu', spText:'Somali coffee, light meals and a relaxing space for the whole family.', spMore:'Read more',
+  slTag:'Business spotlight', slBrand:'Nabad Bakery', slHead:'Fresh bread every morning', slText:'Cakes, bread and pastries baked in-house and delivered to your door.', slF1:'Free delivery', slF2:'Party orders', slF3:'Open 6:00 – 22:00', slCta:'Call now', slLoc:'Hodan, Mogadishu',
+  mbBrand:'Dalab App', mbHead:'Order food, delivered to your home', mbText:'The best restaurants in one place.', mbCta:'Download',
+  cpKick:'Seasonal campaign', cpBrand:'Sahan Telecom', cpHead:'Fast internet, low prices', cpText:'Connect the whole family. Limited-time offer.', cpBadge:'-30%', cpCta:'Join now', cpPlan:'Banner + sidebar + mobile · 4 weeks',
+  howTitle:'How it works', h1:'Request', h1t:'Fill in the form below or contact us.', h2:'Design', h2t:'Send us your artwork, or our team will help you prepare it.', h3:'Publish', h3t:'Once approved, your advert appears in the placements and on the dates you chose.'
+},
+ar: {
+  p1:'أعلن عن نشاطك التجاري هنا', p2:'صل إلى المزيد من العملاء', p3:'طوّر علامتك التجارية', p4:'فرصة إعلانية مميزة', p5:'تواصل معنا اليوم',
+  gallery:'نماذج إعلانية', gallerySub:'هكذا يمكن أن يظهر إعلانك على Wartabiye TV. جميعها نماذج لشركات وهمية، ويتغيّر نصّها عند تغيير اللغة.',
+  tryLang:'اعرض باللغة:', where:'الموضع', yourLogo:'شعارك', news:'الأخبار',
+  hbSub:'اعرض نشاطك التجاري أمام قرّاء Wartabiye TV بالصومالية والإنجليزية والعربية والفرنسية.',
+  sbBrand:'مركز الشفاء الطبي', sbHead:'صحتك أولويتنا', sbL1:'أطباء ذوو خبرة', sbL2:'مختبر حديث', sbL3:'مفتوح على مدار الساعة', sbCta:'احجز موعدًا',
+  spCat:'أعمال', spBrand:'مقهى برواقو', spHead:'مقهى برواقو يفتتح فرعًا جديدًا في مقديشو', spText:'قهوة صومالية ووجبات خفيفة ومكان مريح يناسب العائلة كلها.', spMore:'اقرأ المزيد',
+  slTag:'أضواء على الأعمال', slBrand:'مخبز نباد', slHead:'خبز طازج كل صباح', slText:'كعك وخبز ومعجنات تُخبز في مخبزنا وتُوصَّل إلى باب منزلك.', slF1:'توصيل مجاني', slF2:'طلبات الحفلات', slF3:'مفتوح 6:00 – 22:00', slCta:'اتصل الآن', slLoc:'حودن، مقديشو',
+  mbBrand:'تطبيق دلب', mbHead:'اطلب طعامك ويصلك إلى البيت', mbText:'أفضل المطاعم في مكان واحد.', mbCta:'حمّل التطبيق',
+  cpKick:'حملة موسمية', cpBrand:'ساحان تيليكوم', cpHead:'إنترنت سريع بأسعار منخفضة', cpText:'اربط العائلة كلها. العرض لفترة محدودة.', cpBadge:'‎-30%', cpCta:'اشترك الآن', cpPlan:'لافتة + شريط جانبي + جوال · 4 أسابيع',
+  howTitle:'كيف يعمل', h1:'اطلب', h1t:'املأ النموذج أدناه أو تواصل معنا.', h2:'صمّم', h2t:'أرسل لنا تصميمك، أو سيساعدك فريقنا في إعداده.', h3:'انشر', h3t:'بعد الموافقة يظهر إعلانك في المواضع والتواريخ التي اخترتها.'
+},
+fr: {
+  p1:'Annoncez votre entreprise ici', p2:'Touchez plus de clients', p3:'Développez votre marque', p4:'Opportunité publicitaire premium', p5:'Contactez-nous aujourd’hui',
+  gallery:'Exemples d’annonces', gallerySub:'Voici à quoi votre annonce pourrait ressembler sur Wartabiye TV. Ce sont des exemples avec des entreprises fictives, et leur texte change avec la langue.',
+  tryLang:'Voir en :', where:'EMPLACEMENT', yourLogo:'Votre logo', news:'Actualités',
+  hbSub:'Présentez votre entreprise aux lecteurs de Wartabiye TV en somali, anglais, arabe et français.',
+  sbBrand:'Centre médical Shifo', sbHead:'Votre santé, notre priorité', sbL1:'Médecins expérimentés', sbL2:'Laboratoire moderne', sbL3:'Ouvert 24 h/24', sbCta:'Prendre rendez-vous',
+  spCat:'ENTREPRISE', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café ouvre une nouvelle adresse à Mogadiscio', spText:'Café somalien, petite restauration et un espace détente pour toute la famille.', spMore:'Lire la suite',
+  slTag:'Entreprise à la une', slBrand:'Nabad Bakery', slHead:'Du pain frais chaque matin', slText:'Gâteaux, pains et pâtisseries faits maison, livrés chez vous.', slF1:'Livraison gratuite', slF2:'Commandes pour fêtes', slF3:'Ouvert 6 h – 22 h', slCta:'Appeler', slLoc:'Hodan, Mogadiscio',
+  mbBrand:'Dalab App', mbHead:'Commandez, on vous livre à domicile', mbText:'Les meilleurs restaurants au même endroit.', mbCta:'Télécharger',
+  cpKick:'Campagne saisonnière', cpBrand:'Sahan Telecom', cpHead:'Internet rapide, petits prix', cpText:'Connectez toute la famille. Offre limitée.', cpBadge:'-30 %', cpCta:'J’en profite', cpPlan:'Bannière + latéral + mobile · 4 semaines',
+  howTitle:'Comment ça marche', h1:'Demandez', h1t:'Remplissez le formulaire ci-dessous ou contactez-nous.', h2:'Concevez', h2t:'Envoyez-nous votre visuel, ou notre équipe vous aidera à le préparer.', h3:'Publiez', h3t:'Après validation, votre annonce paraît aux emplacements et aux dates choisis.'
+}
+};
