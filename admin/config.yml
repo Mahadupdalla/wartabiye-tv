@@ -435,6 +435,57 @@ collections:
           - {name: title, label: Titre, widget: string, required: false}
           - {name: text, label: Texte, widget: string, required: false}
           - {name: imageAlt, label: Description de l’image, widget: string, required: false}
+  - name: videos
+    label: Muuqaalada
+    label_singular: Muuqaal
+    description: 'Muuqaallada bogga "Muuqaalada". Kaliya muuqaal aad oggolaansho u haysato: muuqaalladaada (YouTube-ka Wartabiye TV ama fayl .mp4), muuqaal YouTube rasmi ah oo kanaalkiisu oggol yahay in la embed-gareeyo, ama muuqaal VOA ah (public domain). Ha soo dejin oo ha dib u daabicin muuqaal qof kale leeyahay. Mar kasta qor isha iyo cidda leh.'
+    folder: data/videos
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: title
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{title}} · {{source}}'
+    sortable_fields: [publishedAt, title]
+    fields:
+      - {name: title, label: Cinwaanka, widget: string}
+      - {name: summary, label: Soo koobid, widget: text, required: false}
+      - {name: kind, label: Nooca, widget: select, default: somalia, options: [{label: 'Wararka Soomaaliya', value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: 'Ciyaaraha', value: sports}, {label: 'Wareysi', value: interview}, {label: 'Warbixin', value: report}]}
+      - {name: youtube, label: 'Link YouTube (https://www.youtube.com/watch?v=...)', widget: string, required: false, hint: 'Kaliya kanaal rasmi ah oo oggol embed. Muuqaalka wuxuu ka daarmayaa YouTube.'}
+      - {name: file, label: 'Ama fayl muuqaal (.mp4)', widget: file, choose_url: true, required: false, media_folder: /videos, public_folder: videos, hint: 'Muuqaal Wartabiye TV leedahay, ama link https://... .mp4 oo public domain ah (tusaale VOA).'}
+      - {name: thumbnail, label: 'Sawirka muuqaalka (ikhtiyaari; YouTube wuu keenaa)', widget: image, choose_url: false, required: false}
+      - {name: duration, label: 'Dhererka (tusaale 2:35)', widget: string, required: false}
+      - {name: publishedAt, label: Taariikhda la daabacay, widget: datetime}
+      - {name: source, label: 'Isha (tusaale Wartabiye TV, VOA Somali)', widget: string, default: Wartabiye TV}
+      - {name: sourceUrl, label: Link-ga isha, widget: string, required: false}
+      - {name: credit, label: Cidda muuqaalka leh / sawirtay, widget: string, required: false}
+      - {name: license, label: Oggolaanshaha, widget: select, default: 'Wartabiye TV', options: ['Wartabiye TV', 'YouTube embed (shuruudaha YouTube)', 'Public domain (VOA)', 'Oggolaansho qoran']}
+      - {name: published, label: 'Daabacan (dami si aad u qariso)', widget: boolean, default: true}
+      - name: en
+        label: '🇬🇧 English'
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - {name: title, label: Title, widget: string, required: false}
+          - {name: summary, label: Summary, widget: text, required: false}
+      - name: ar
+        label: '🇸🇦 العربية'
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - {name: title, label: العنوان, widget: string, required: false}
+          - {name: summary, label: الملخص, widget: text, required: false}
+      - name: fr
+        label: '🇫🇷 Français'
+        widget: object
+        collapsed: true
+        required: false
+        fields:
+          - {name: title, label: Titre, widget: string, required: false}
+          - {name: summary, label: Résumé, widget: text, required: false}
   - name: pages
     label: Bogagga (Nagu Saabsan, siyaasadaha)
     editor:

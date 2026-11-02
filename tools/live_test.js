@@ -59,17 +59,21 @@ const fs = require('fs');
   }
   // Sports and World hubs, the pages, and their own addresses (/ciyaaraha/ …) open without errors or sideways scrolling
   for (const [w, h, name] of [[1280, 900, 'desktop'], [390, 844, 'mobile']]) {
-    for (const path of ['#ciyaaraha', '#ciyaaraha?c=premier-league', '#ciyaaraha?c=la-liga&v=table', '#caalamka', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
+    for (const path of ['#ciyaaraha', '#caalamka', '#muuqaal', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
       const { p: q, errs } = await open(w, h, path);
       const r = await q.evaluate(() => { const v = document.getElementById('pageView'); return { shown: !v.hidden && v.innerText.trim().length > 20, overflow: document.documentElement.scrollWidth > innerWidth, h: (v.querySelector('h1') || {}).textContent } });
       console.log(name, 'page', path, JSON.stringify(r), errs);
       if (!r.shown || r.overflow || errs.length) problems.push(name + ' page ' + path);
-      if (path === '#ciyaaraha') {
-        // the five big European leagues and the cup competitions must always have their own menu entries
-        const lg = await q.evaluate(() => [...document.querySelectorAll('.leaguenav .lg')].map(a => new URLSearchParams(a.getAttribute('href').split('?')[1]).get('c')));
-        const need = ['premier-league', 'la-liga', 'serie-a', 'bundesliga', 'ligue-1', 'champions-league', 'europa-league', 'conference-league', 'afcon', 'world-cup'];
-        const miss = need.filter(k => !lg.includes(k)); console.log(name, 'league menu', miss.length ? 'MISSING ' + miss : 'all ' + need.length);
-        if (miss.length) problems.push(name + ' league menu');
+      if (path === '#ciyaaraha' || path === '#caalamka') {
+        // owner's rule: one feed per hub, newest first, with no league, sport, region or topic menus
+        const f = await q.evaluate(() => { const t = [...document.querySelectorAll('#pageView .card time, #pageView .card .meta')].length;
+          return { menus: document.querySelectorAll('#pageView .leaguenav, #pageView .hubbar .chips').length, cards: document.querySelectorAll('#pageView .card').length } });
+        console.log(name, path, 'single feed', JSON.stringify(f));
+        if (f.menus || !f.cards) problems.push(name + ' single feed ' + path);
+      }
+      if (path === '#muuqaal') {
+        const f = await q.evaluate(() => ({ heading: !!document.querySelector('#pageView h1'), cards: document.querySelectorAll('#pageView .vcard').length, iframes: document.querySelectorAll('#pageView iframe').length }));
+        console.log(name, 'video page', JSON.stringify(f)); if (!f.heading || f.iframes) problems.push(name + ' video page');
       }
       if (path === '#xayeysiimaha') {
         const f = await q.evaluate(() => ({ heading: /Ku Xayeysiiso Ganacsigaaga Wartabiye TV/.test(document.body.innerText), form: !!document.querySelector('#pageView form'), examples: document.querySelectorAll('#pageView .adopt').length }));

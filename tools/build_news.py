@@ -67,14 +67,28 @@ if old_ads != ads_out:
     json.dump(ads_out, open(ads_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'{len(ads)} active adverts -> data/ads.json')
 
-# football data files (data/football/<league>.json, written by tools/fetch_football.py) -> data/football/index.json,
-# so league pages only ask for files that exist
-fdir = os.path.join(root, 'data', 'football')
-os.makedirs(fdir, exist_ok=True)
-fidx = {'leagues': sorted(os.path.basename(f)[:-5] for f in glob.glob(os.path.join(fdir, '*.json')) if not f.endswith('index.json'))}
-fpath = os.path.join(fdir, 'index.json')
-if not os.path.exists(fpath) or json.load(open(fpath, encoding='utf-8')) != fidx:
-    json.dump(fidx, open(fpath, 'w', encoding='utf-8'))
+# videos: data/videos/<id>.json (edited in /admin/ "Muuqaalada") -> data/videos.json; drafts are left out.
+# Only an official YouTube link (played as an embed) or a .mp4/.webm file that Wartabiye TV may publish is accepted.
+import re as _re
+videos = []
+for f in sorted(glob.glob(os.path.join(root, 'data', 'videos', '*.json'))):
+    v = json.load(open(f, encoding='utf-8'))
+    v['id'] = os.path.basename(f)[:-5]
+    if v.get('published') is False:
+        continue
+    yt = _re.search(r'(?:youtu\.be/|v=|embed/|shorts/)([A-Za-z0-9_-]{11})', str(v.get('youtube') or ''))
+    ok_file = _re.match(r'^(https://|videos/)\S+\.(mp4|webm)(\?\S*)?$', str(v.get('file') or ''), _re.I)
+    if not (yt or ok_file):
+        print(f"{v['id']}: video skipped (needs a YouTube link or an .mp4/.webm file)")
+        continue
+    videos.append({k: v[k] for k in ('id', 'title', 'summary', 'kind', 'youtube', 'file', 'thumbnail', 'duration', 'publishedAt',
+                                       'source', 'sourceUrl', 'credit', 'license', 'en', 'ar', 'fr') if v.get(k) not in (None, '')})
+videos.sort(key=lambda x: x.get('publishedAt') or '', reverse=True)
+vpath = os.path.join(root, 'data', 'videos.json')
+vout = {'videos': videos}
+if not os.path.exists(vpath) or json.load(open(vpath, encoding='utf-8')) != vout:
+    json.dump(vout, open(vpath, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    print(f'{len(videos)} videos -> data/videos.json')
 
 if pending:
     print(f'{len(pending)} article(s) waiting for a photo, not published: ' + ', '.join(pending))
