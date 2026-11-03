@@ -159,13 +159,13 @@
      "url": "https://addisstandard.com/feed/"
     },
     {
-     "type": "html",
-     "url": "https://addisstandard.com/",
-     "linkPattern": "^https://addisstandard\\.com/[a-z0-9-]{12,}/?$"
+     "type": "telegram",
+     "url": "https://t.me/s/AddisstandardEng",
+     "linkPattern": "^https://(www\\.)?addisstandard\\.com/(\\?p=\\d+|[a-z0-9-]{12,}/?)$"
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Ethiopian news site (Addis Abeba). Official WordPress RSS feed. Photos are its own or agency photos, all rights reserved: never reused."
+   "notes": "Ethiopian news site (Addis Abeba). Its website and official RSS feed (/feed/) answer automated readers with 403 Forbidden, so the collector reads the publisher's OFFICIAL Telegram channel (t.me/AddisstandardEng), public web preview, and keeps only posts that link to an addisstandard.com article. Headline/summary are the publisher's own post text; the date is the post time. Photos are its own or agency photos, all rights reserved: never reused."
   }
  ]
 }
