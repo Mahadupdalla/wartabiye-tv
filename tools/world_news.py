@@ -148,10 +148,15 @@ def parse_telegram(page, pattern=None):
         lines = [re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', l))).strip() for l in text.split('\n')]
         lines = [l for l in lines if l and not re.match(r'(?i)^(read more|details|more|link|full story)\b', l) and not re.search(r'https?://', l)]
         if not lines: continue
-        title = re.sub(r'^[^\w"“‘\']+', '', lines[0]).strip()
+        title = re.sub(r'#(\w)', r'\1', lines[0]).replace('_', ' ')
+        title = re.sub(r'\s+([,.;:!?’])', r'\1', title)
+        lab = re.match(r'(?i)^\W*(news analysis|news alert|news|analysis|commentary|op-?ed|opinion|feature|interview|editorial|breaking)\s*:\s*', title)
+        label = lab.group(1).title() if lab else None
+        if lab: title = title[lab.end():]
+        title = re.sub(r'^[^\w"“‘\']+', '', title).strip()
         if len(title) < 15: continue
         dt = parse_date(m.group(1))
-        out.append({'url': url.split('#')[0], 'title': title[:250], 'description': ' '.join(lines[1:])[:600] or None,
+        out.append({'url': url.split('#')[0], 'title': title[:250], 'description': re.sub(r'#(\w)', r'\1', ' '.join(lines[1:])).replace('_', ' ')[:600] or None, 'postLabel': label,
                     'publishedAt': iso(dt) if dt else None, 'image': None, 'dateSource': 'official Telegram post time',
                     'channelPost': 'https://t.me/' + post})
     return out
@@ -287,6 +292,7 @@ def fetch(args):
                   'timeVerified': bool(g.get('publishedAt'))}
             if g.get('dateSource'): it['dateSource'] = g['dateSource']
             if g.get('channelPost'): it['channelPost'] = g['channelPost']
+            if g.get('postLabel'): it['postLabel'] = g['postLabel']
             try:
                 if rep.get('_telegram'):
                     # the publisher's own site refuses automated readers (403): the official channel post is the source
@@ -351,7 +357,9 @@ def norm_url(u):
     p = urllib.parse.urlsplit(u.strip())
     host = p.netloc.lower().removeprefix('www.').removeprefix('edition.').removeprefix('amp.')
     path = re.sub(r'/(amp|index\.html?)$', '', p.path.rstrip('/'))
-    return (host + path).lower()
+    # WordPress short links (/?p=60265) and similar: the id in the query IS the article
+    q = [f'{k}={v}' for k, v in urllib.parse.parse_qsl(p.query) if k in ('p', 'id', 'page_id', 'story', 'article', 'aid')]
+    return (host + path + ('?' + '&'.join(q) if q else '')).lower()
 
 
 def skel(w):
@@ -583,7 +591,7 @@ def dedup(args):
 
 def pub(x):
     return {k: x.get(k) for k in ('source', 'sourceName', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
-                                  'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError') if x.get(k) not in (None, '')}
+                                  'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel') if x.get(k) not in (None, '')}
 
 
 # ---------------------------------------------------------------- report / status
