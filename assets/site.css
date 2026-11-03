@@ -104,6 +104,20 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .promo .soon{font:800 11px var(--display);letter-spacing:.14em;color:#fff;background:var(--red);padding:3px 7px;border-radius:3px;width:max-content}
 .promo h3{font-size:19px;font-weight:800;font-stretch:90%;line-height:1.15}
 .promo p{margin:0;font-size:13px;color:#fff}
+/* Somali flag and independence banner (banner.style = "calan") */
+.promo.calan{max-width:640px;flex-basis:460px;position:relative;background:linear-gradient(110deg,var(--blue-d) 0%,var(--blue) 70%,#2b93e6 100%)}
+.promo.calan:hover{transform:none;box-shadow:var(--shadow-1)}
+.promo.calan::after{content:"";position:absolute;inset-inline:0;bottom:0;height:3px;background:var(--red)}
+.promo.calan .flag{flex:none;display:grid;place-items:center;padding:14px;padding-inline-end:4px}
+.promo.calan .flag img{display:block;width:132px;height:auto;aspect-ratio:3/2;border-radius:4px;border:2px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.28)}
+.promo.calan .in{padding:12px 16px 14px;gap:8px;flex:1}
+.promo.calan h3{font-size:18px;line-height:1.2;display:flex;align-items:center;gap:8px}
+.promo.calan h3::before{content:"";flex:none;width:4px;height:1.05em;border-radius:2px;background:var(--red)}
+.promo.calan .facts{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px}
+.promo.calan .fact{min-width:0;padding-inline-start:9px;border-inline-start:2px solid rgba(255,255,255,.35)}
+.promo.calan .fact.wide{grid-column:1/-1}
+.promo.calan dt{font:600 11px/1.3 var(--body);color:rgba(255,255,255,.85)}
+.promo.calan dd{margin:1px 0 0;font:800 13.5px/1.25 var(--display);color:#fff}
 .notice{background:var(--blue-d);color:#fff}
 .notice .wrap{padding-block:9px;font:600 14px var(--body);display:flex;gap:10px;align-items:center}
 .notice b{background:var(--red);font:800 11px var(--display);letter-spacing:.14em;padding:3px 7px;border-radius:3px;flex:none}
@@ -507,6 +521,15 @@ h1[lang=so],h2[lang=so],h3[lang=so],h4[lang=so],.tile [lang=so]{font-family:"Arc
   .brand b{font-size:27px}.brand img{width:52px;height:52px}
   .brand small{letter-spacing:.06em;font-size:10.5px}
   .promo .ph{width:90px}
+  .promo.calan{flex-basis:100%}
+  .promo.calan{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center}
+  .promo.calan .in{display:contents}
+  .promo.calan .flag{padding:12px 4px 10px 12px;padding-inline:12px 4px}
+  .promo.calan .flag img{width:72px}
+  .promo.calan h3{font-size:17px;padding:12px 12px 10px 8px;padding-inline:8px 12px}
+  .promo.calan .facts{grid-column:1/-1;gap:8px 12px;padding:2px 14px 15px}
+  .promo.calan dt{font-size:10.5px}
+  .promo.calan dd{font-size:12.5px}
   .mosaic{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-auto-rows:220px}
   .mosaic{grid-template-rows:340px}
   .tile.big{grid-column:auto}

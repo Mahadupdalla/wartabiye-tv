@@ -1,5 +1,5 @@
-/* Wartabiye TV interface text in eight languages: Somali (default), English, Arabic (right-to-left), French, Dutch, Italian, German, Turkish.
-   Article text is NOT here: each article keeps its own translations in data/news/<id>.json ("en", "ar", "fr", "nl", "it", "de", "tr").
+/* Wartabiye TV interface text in nine languages: Somali (default), English, Arabic (right-to-left), French, Dutch, Italian, German, Turkish, Spanish.
+   Article text is NOT here: each article keeps its own translations in data/news/<id>.json ("en", "ar", "fr", "nl", "it", "de", "tr", "es").
    Long page texts (About, Privacy, Editorial standards, Advertising policy, Corrections) live in data/pages.json,
    which the owner can edit in /admin/. */
 window.WT_I18N = {
@@ -62,7 +62,7 @@ so: {
   adHeroSub:'Ma leedahay ganacsi, shirkad ama adeeg aad rabto in dad badan ay arkaan? Wartabiye TV wuxuu kuu diyaariyey fursad aad ku soo bandhigi karto ganacsigaaga, badeecadahaaga iyo adeegyadaada.',
   adOrder:'Hadda Dalbo Xayeysiis', adContact:'Nala Soo Xiriir', adOptions:'Fursadaha xayeysiiska', adOptionsSub:'Dooro meesha iyo qaabka kuugu habboon. Muuqaal kasta hoose waa tusaale, ganacsiyadu waa male-awaal.',
   adExample:'TUSAALE', adSample:'Ganacsi tusaale ah', adWhy:'Maxaa Wartabiye TV loo doortaa?',
-  adWhy1:'Siddeed luqadood', adWhy1t:'Bogga wuxuu ku shaqeeyaa af-Soomaali, English, Carabi, Faransiis, Nederlandays, Talyaani, Jarmal iyo Turki.',
+  adWhy1:'Sagaal luqadood', adWhy1t:'Bogga wuxuu ku shaqeeyaa af-Soomaali, English, Carabi, Faransiis, Nederlandays, Talyaani, Jarmal, Turki iyo Isbaanish.',
   adWhy2:'Taleefan iyo kombiyuutar', adWhy2t:'Xayeysiisku si fiican ayuu uga muuqdaa shaashad kasta.',
   adWhy3:'Calaamad cad', adWhy3t:'Xayeysiis kasta wuxuu leeyahay calaamadda "Xayeysiis", sidaas darteed akhristuhu wuu kala garanayaa wararka.',
   adWhy4:'Waqti aad doorato', adWhy4t:'Adiga ayaa dooranaya taariikhda bilowga iyo dhammaadka ololahaaga.',
@@ -127,7 +127,7 @@ en: {
   adHeroSub:'Do you have a business, company or service you want many people to see? Wartabiye TV gives you the opportunity to showcase your business, products and services.',
   adOrder:'Request an advert now', adContact:'Contact us', adOptions:'Advertising options', adOptionsSub:'Choose the placement and format that suit you. Every preview below is an example; the businesses are fictional.',
   adExample:'EXAMPLE', adSample:'Sample business', adWhy:'Why Wartabiye TV?',
-  adWhy1:'Eight languages', adWhy1t:'The site works in Somali, English, Arabic, French, Dutch, Italian, German and Turkish.',
+  adWhy1:'Nine languages', adWhy1t:'The site works in Somali, English, Arabic, French, Dutch, Italian, German, Turkish and Spanish.',
   adWhy2:'Mobile and desktop', adWhy2t:'Adverts display well on every screen size.',
   adWhy3:'Clearly labelled', adWhy3t:'Every advert carries an "Advertisement" label, so readers can always tell it apart from the news.',
   adWhy4:'Dates you choose', adWhy4t:'You choose the start and end dates of your campaign.',
@@ -192,7 +192,7 @@ ar: {
   adHeroSub:'هل لديك نشاط تجاري أو شركة أو خدمة تريد أن يراها كثيرون؟ يتيح لك Wartabiye TV فرصة لعرض نشاطك ومنتجاتك وخدماتك.',
   adOrder:'اطلب إعلانك الآن', adContact:'اتصل بنا', adOptions:'خيارات الإعلان', adOptionsSub:'اختر المكان والشكل المناسبين لك. كل معاينة أدناه مثال، والأنشطة التجارية فيها خيالية.',
   adExample:'مثال', adSample:'نشاط تجاري تجريبي', adWhy:'لماذا Wartabiye TV؟',
-  adWhy1:'ثماني لغات', adWhy1t:'يعمل الموقع بالصومالية والإنجليزية والعربية والفرنسية والهولندية والإيطالية والألمانية والتركية.',
+  adWhy1:'تسع لغات', adWhy1t:'يعمل الموقع بالصومالية والإنجليزية والعربية والفرنسية والهولندية والإيطالية والألمانية والتركية والإسبانية.',
   adWhy2:'الهاتف والحاسوب', adWhy2t:'تظهر الإعلانات بشكل جيد على كل الشاشات.',
   adWhy3:'تمييز واضح', adWhy3t:'يحمل كل إعلان عبارة "إعلان" حتى يميّزه القارئ دائمًا عن الأخبار.',
   adWhy4:'مواعيد تختارها', adWhy4t:'أنت تختار تاريخ بداية حملتك ونهايتها.',
@@ -257,7 +257,7 @@ fr: {
   adHeroSub:'Vous avez une entreprise, une société ou un service que vous voulez faire connaître au plus grand nombre ? Wartabiye TV vous offre l’occasion de présenter votre activité, vos produits et vos services.',
   adOrder:'Demander une publicité', adContact:'Nous contacter', adOptions:'Formats publicitaires', adOptionsSub:'Choisissez l’emplacement et le format qui vous conviennent. Chaque aperçu ci-dessous est un exemple ; les entreprises sont fictives.',
   adExample:'EXEMPLE', adSample:'Entreprise fictive', adWhy:'Pourquoi Wartabiye TV ?',
-  adWhy1:'Huit langues', adWhy1t:'Le site fonctionne en somali, anglais, arabe, français, néerlandais, italien, allemand et turc.',
+  adWhy1:'Neuf langues', adWhy1t:'Le site fonctionne en somali, anglais, arabe, français, néerlandais, italien, allemand, turc et espagnol.',
   adWhy2:'Mobile et ordinateur', adWhy2t:'Les publicités s’affichent correctement sur tous les écrans.',
   adWhy3:'Clairement signalée', adWhy3t:'Chaque publicité porte la mention « Publicité » afin que le lecteur la distingue toujours de l’information.',
   adWhy4:'Dates à votre choix', adWhy4t:'Vous choisissez les dates de début et de fin de votre campagne.',
@@ -322,7 +322,7 @@ nl: {
   adHeroSub:'Heb je een bedrijf, onderneming of dienst die veel mensen moeten zien? Wartabiye TV geeft je de kans om je bedrijf, producten en diensten te presenteren.',
   adOrder:'Vraag nu een advertentie aan', adContact:'Neem contact op', adOptions:'Advertentiemogelijkheden', adOptionsSub:'Kies de plaatsing en het formaat die bij je passen. Elk voorbeeld hieronder is een voorbeeld; de bedrijven zijn fictief.',
   adExample:'VOORBEELD', adSample:'Voorbeeldbedrijf', adWhy:'Waarom Wartabiye TV?',
-  adWhy1:'Acht talen', adWhy1t:'De website werkt in het Somalisch, Engels, Arabisch, Frans, Nederlands, Italiaans, Duits en Turks.',
+  adWhy1:'Negen talen', adWhy1t:'De website werkt in het Somalisch, Engels, Arabisch, Frans, Nederlands, Italiaans, Duits, Turks en Spaans.',
   adWhy2:'Mobiel en desktop', adWhy2t:'Advertenties worden goed weergegeven op elk schermformaat.',
   adWhy3:'Duidelijk aangeduid', adWhy3t:'Elke advertentie draagt het label „Advertentie”, zodat lezers die altijd van het nieuws kunnen onderscheiden.',
   adWhy4:'Data naar keuze', adWhy4t:'Jij kiest de begin- en einddatum van je campagne.',
@@ -387,7 +387,7 @@ it: {
   adHeroSub:'Hai un’attività, un’azienda o un servizio che vuoi far conoscere a molte persone? Wartabiye TV ti offre l’opportunità di presentare la tua attività, i tuoi prodotti e i tuoi servizi.',
   adOrder:'Richiedi ora una pubblicità', adContact:'Contattaci', adOptions:'Formati pubblicitari', adOptionsSub:'Scegli la posizione e il formato più adatti a te. Ogni anteprima qui sotto è un esempio; le aziende sono di fantasia.',
   adExample:'ESEMPIO', adSample:'Azienda di esempio', adWhy:'Perché Wartabiye TV?',
-  adWhy1:'Otto lingue', adWhy1t:'Il sito funziona in somalo, inglese, arabo, francese, olandese, italiano, tedesco e turco.',
+  adWhy1:'Nove lingue', adWhy1t:'Il sito funziona in somalo, inglese, arabo, francese, olandese, italiano, tedesco, turco e spagnolo.',
   adWhy2:'Mobile e desktop', adWhy2t:'Le pubblicità si vedono bene su ogni dimensione di schermo.',
   adWhy3:'Chiaramente indicata', adWhy3t:'Ogni pubblicità porta l’etichetta «Pubblicità», così i lettori la distinguono sempre dalle notizie.',
   adWhy4:'Date a tua scelta', adWhy4t:'Scegli tu le date di inizio e fine della tua campagna.',
@@ -452,7 +452,7 @@ de: {
   adHeroSub:'Haben Sie ein Geschäft, ein Unternehmen oder eine Dienstleistung, die viele Menschen sehen sollen? Wartabiye TV bietet Ihnen die Möglichkeit, Ihr Unternehmen, Ihre Produkte und Ihre Dienstleistungen zu präsentieren.',
   adOrder:'Jetzt Anzeige anfragen', adContact:'Kontakt aufnehmen', adOptions:'Werbemöglichkeiten', adOptionsSub:'Wählen Sie die Platzierung und das Format, die zu Ihnen passen. Jede Vorschau unten ist ein Beispiel; die Unternehmen sind erfunden.',
   adExample:'BEISPIEL', adSample:'Beispielunternehmen', adWhy:'Warum Wartabiye TV?',
-  adWhy1:'Acht Sprachen', adWhy1t:'Die Website funktioniert auf Somali, Englisch, Arabisch, Französisch, Niederländisch, Italienisch, Deutsch und Türkisch.',
+  adWhy1:'Neun Sprachen', adWhy1t:'Die Website funktioniert auf Somali, Englisch, Arabisch, Französisch, Niederländisch, Italienisch, Deutsch, Türkisch und Spanisch.',
   adWhy2:'Handy und Desktop', adWhy2t:'Anzeigen werden auf jeder Bildschirmgröße gut dargestellt.',
   adWhy3:'Klar gekennzeichnet', adWhy3t:'Jede Anzeige trägt den Hinweis „Anzeige“, damit Leser sie immer von den Nachrichten unterscheiden können.',
   adWhy4:'Wunschtermine', adWhy4t:'Sie wählen Start- und Enddatum Ihrer Kampagne.',
@@ -517,7 +517,7 @@ tr: {
   adHeroSub:'Birçok kişinin görmesini istediğiniz bir işletmeniz, şirketiniz ya da hizmetiniz mi var? Wartabiye TV size işletmenizi, ürünlerinizi ve hizmetlerinizi tanıtma fırsatı sunuyor.',
   adOrder:'Hemen reklam talep edin', adContact:'Bize ulaşın', adOptions:'Reklam seçenekleri', adOptionsSub:'Size uygun yeri ve biçimi seçin. Aşağıdaki her önizleme bir örnektir; işletmeler hayalidir.',
   adExample:'ÖRNEK', adSample:'Örnek işletme', adWhy:'Neden Wartabiye TV?',
-  adWhy1:'Sekiz dil', adWhy1t:'Site Somalice, İngilizce, Arapça, Fransızca, Felemenkçe, İtalyanca, Almanca ve Türkçe çalışır.',
+  adWhy1:'Dokuz dil', adWhy1t:'Site Somalice, İngilizce, Arapça, Fransızca, Felemenkçe, İtalyanca, Almanca, Türkçe ve İspanyolca olarak çalışır.',
   adWhy2:'Mobil ve masaüstü', adWhy2t:'Reklamlar her ekran boyutunda düzgün görünür.',
   adWhy3:'Açıkça belirtilir', adWhy3t:'Her reklamda “Reklam” etiketi bulunur; böylece okurlar onu haberlerden her zaman ayırt edebilir.',
   adWhy4:'Tarihleri siz seçin', adWhy4t:'Kampanyanızın başlangıç ve bitiş tarihlerini siz belirlersiniz.',
@@ -529,54 +529,55 @@ tr: {
     ['article','Sponsorlu haber','İşletmeniz hakkında “Reklam” etiketli bir yazı.'],['card','Tanıtım kartı','Haber listesinin içinde küçük bir kart.'],
     ['video','Sponsorlu video','Sitedeki videonuz; yalnızca ziyaretçi oynata bastığında yüklenir.'],['mobile','Mobil reklam','Telefon ekranları için tasarlanmış bir banner.'],
     ['spotlight','Öne çıkan işletme','Ana sayfada işletmenizi tanıtan özel bir bölüm.'],['campaign','Kampanya paketi','Seçtiğiniz süre için birden fazla yer bir arada.']]
-}
+},
+es: {"menu": "MENÚ", "navAria": "Menú principal", "search": "Buscar", "searchPh": "Escribe la palabra que buscas…", "live": "EN DIRECTO", "langAria": "Idioma", "tickLoading": "Cargando las últimas noticias de Wartabiye TV…", "news": "Noticias", "mosaicLoading": "Cargando las últimas noticias", "latest": "Últimas noticias", "updatedDaily": "Actualizado cada día a las 08:00 y a las 18:00", "updated": "Actualizado: ", "noNews": "Todavía no se ha publicado ninguna noticia. Las nuevas noticias aparecerán aquí cada día a las 08:00 y a las 18:00.", "noMatch": "No se han encontrado noticias que coincidan.", "searchResults": "Resultados de la búsqueda", "loadError": "No se han podido cargar las noticias ({e}). Por favor, actualiza la página.", "home": "Inicio", "programmes": "Programas", "everyDay": "Cada día", "latestShort": "Lo último", "categories": "Categorías", "follow": "Síguenos", "rights": "Todos los derechos reservados.", "noticeLabel": "AVISO", "breakingLabel": "ÚLTIMA HORA", "breaking": "Última hora", "readMore": "Leer más →", "original": "Original", "sourceWord": "fuente", "sources": "Fuente", "phTag": "Imagen provisional", "illus": "Foto ilustrativa", "illusNote": " (no es una foto del suceso). ", "photo": "Foto", "noImg": "Imagen no disponible", "now": "Ahora mismo", "timeUnverified": "hora no verificada", "timeUnknown": "Hora no verificada", "timeUnverifiedLong": "Hora exacta no confirmada", "notFound": "No se ha encontrado este artículo. Es posible que se haya eliminado.", "loadingStory": "Cargando el artículo…", "back": "← Volver al inicio", "sep": "›", "copy": "Copiar enlace", "copied": "Copiado", "related": "Noticias relacionadas", "somaliOnly": "Solo en somalí", "noTr": "Este artículo aún no está disponible en español. Estás leyendo la versión original en somalí.", "autoTr": "Este artículo se ha traducido automáticamente del somalí. La versión en somalí es la original.", "readSo": "Leer en somalí", "city": "Mogadiscio, Somalia", "tagline": "Noticias · Entrevistas · Programas", "motto": "Noticias · Entrevistas · Programas", "about": "Wartabiye TV es un canal de televisión y un sitio de noticias en lengua somalí. Información real. Una mirada nueva. Gran contenido.", "desc": "Wartabiye TV: noticias de Somalia, África, el mundo y el deporte, y programas diarios.", "somalia": "Somalia", "world": "Mundo", "sports": "Deportes", "advertise": "Publicidad", "aboutUs": "Quiénes somos", "contact": "Contacto", "saved": "Artículos guardados", "privacy": "Privacidad", "editorial": "Normas editoriales", "adPolicy": "Política de publicidad", "corrections": "Correcciones", "policies": "Políticas", "skip": "Ir al contenido", "theme": "Colores de la página", "themeLight": "Claro", "themeDark": "Oscuro", "pauseTicker": "Pausar el teletipo de noticias", "playTicker": "Reanudar el teletipo de noticias", "topStories": "Noticias destacadas", "trendingAuto": "Noticias de última hora y lo más reciente de cada sección", "trending": "Importante ahora", "trendingNote": "Seleccionado por la redacción de Wartabiye TV", "seeAll": "Ver todo", "somaliaBlock": "Noticias de Somalia", "worldBlock": "Noticias del mundo", "sportsBlock": "Deportes", "textSize": "Tamaño del texto", "smaller": "Texto más pequeño", "larger": "Texto más grande", "save": "Guardar", "savedBtn": "Guardado", "share": "Compartir", "shareMore": "Más opciones", "prev": "Artículo anterior", "next": "Artículo siguiente", "readTime": "{n} min de lectura", "srcNote": "Esta noticia fue publicada primero por {src}. Wartabiye TV la ha resumido con sus propias palabras y cita la fuente.", "readOriginal": "Leer la información original", "sponsored": "PUBLICIDAD", "sponsoredBy": "Patrocinado por", "adLabel": "Publicidad", "leaguesNav": "Grandes ligas", "leagueNews": "Noticias", "resultsTab": "Resultados", "fixtures": "Calendario", "table": "Clasificación", "scorers": "Goleadores", "transfers": "Fichajes", "teamPlayer": "Equipos y jugadores", "featuredMatches": "Partidos destacados", "allLeagues": "Todas las ligas", "dataPending": "Los resultados, el calendario y las clasificaciones aún no están conectados. Aparecerán cuando se active la fuente de datos gratuita aprobada. No se inventa ninguna cifra.", "officialSite": "Sitio oficial", "dataCredit": "Datos de fútbol:", "dataUpdated": "Actualizado", "noLeagueNews": "Todavía no hay noticias verificadas sobre esta competición.", "colPos": "#", "colTeam": "Equipo", "colP": "PJ", "colW": "G", "colD": "E", "colL": "P", "colGD": "DG", "colPts": "Pts", "colPlayer": "Jugador", "colGoals": "Goles", "noData": "Aún no hay datos.", "country": "País", "videosNav": "Vídeos", "videosTitle": "VÍDEOS", "videosSub": "Vídeos de noticias: Somalia, el mundo, deportes y entrevistas. Solo vídeos que tenemos permiso para mostrar o que podemos insertar legalmente.", "latestVideos": "Últimos vídeos", "playVideo": "Reproducir vídeo", "videoCredit": "Vídeo", "noVideos": "Todavía no se ha publicado ningún vídeo. Aquí aparecerán los vídeos de Wartabiye TV y de fuentes autorizadas.", "videoRule": "Cada vídeo indica su fuente y su propietario. Los vídeos de YouTube se reproducen desde YouTube (inserción oficial); nunca descargamos ni volvemos a publicar el vídeo de otro medio sin permiso.", "vk_somalia": "Somalia", "vk_world": "Mundo", "vk_sports": "Deportes", "vk_interview": "Entrevista", "vk_report": "Reportaje", "sportsTitle": "DEPORTES", "sportsSub": "Las noticias deportivas más importantes del día en un solo lugar: fútbol, baloncesto, tenis, Fórmula 1, boxeo, atletismo, deportes electrónicos y más. Lo más reciente primero.", "allSports": "Todos", "featuredSports": "Noticia deportiva destacada", "latestSports": "Últimas noticias deportivas", "competitions": "Grandes competiciones", "sportFilter": "Deporte", "compFilter": "Competición", "topicFilter": "Tipo de noticia", "searchSportsPh": "Buscar noticias deportivas…", "noSports": "Todavía no hay noticias verificadas en esta sección. Aquí aparecerán nuevas noticias verificadas.", "football": "Fútbol", "footballLeagues": "Competiciones de fútbol", "worldTitle": "NOTICIAS DEL MUNDO", "worldSub": "Noticias internacionales en un solo canal. Lo más reciente primero.", "regions": "Regiones", "topics": "Temas", "allRegions": "Todo el mundo", "allTopics": "Todos los temas", "searchWorldPh": "Buscar noticias del mundo…", "noWorld": "Todavía no hay noticias verificadas en esta sección. Aquí aparecerán nuevas noticias verificadas.", "latestWorld": "Últimas noticias del mundo", "advSearch": "Búsqueda avanzada", "keyword": "Palabra o titular", "category": "Categoría", "section": "Sección", "fromDate": "Desde", "toDate": "Hasta", "any": "Todas", "results": "{n} resultados", "clear": "Borrar filtros", "doSearch": "Buscar", "savedEmpty": "Todavía no has guardado ningún artículo. Pulsa «Guardar» en un artículo para leerlo más tarde.", "savedNote": "Los artículos guardados solo se conservan en tu navegador. No necesitas ninguna cuenta.", "fName": "Tu nombre", "fEmail": "Correo electrónico", "fPhone": "Número de teléfono", "fSubject": "Asunto", "fMessage": "Tu mensaje", "fSend": "Enviar mensaje", "fSending": "Enviando…", "fSent": "¡Gracias! Hemos recibido tu mensaje. Te responderemos.", "fError": "El mensaje no se ha enviado. Por favor, inténtalo de nuevo.", "fRequired": "Este campo es obligatorio.", "fBadEmail": "Introduce una dirección de correo válida.", "fBadPhone": "Introduce un número de teléfono válido (por ejemplo +252 61 0000000).", "fTooFast": "Revisa el formulario y vuelve a enviarlo.", "fConsent": "Acepto que esta información se use solo para responderme.", "fPrivate": "Tus datos se envían de forma privada y nunca se muestran en el sitio web.", "fOff": "Este formulario aún no está abierto. Contáctanos en las redes sociales.", "fOptional": "(opcional)", "contactTitle": "Contacto", "contactSub": "¿Una pregunta, una sugerencia, una corrección o una pista informativa? Envíanosla aquí.", "contactTopics": "Pregunta general|Corrección|Pista informativa|Publicidad|Otro", "contactSocial": "Redes sociales", "adHero": "Anuncia tu negocio en Wartabiye TV", "adHeroSub": "¿Tienes un negocio, una empresa o un servicio que quieres que vea mucha gente? Wartabiye TV te ofrece la oportunidad de dar a conocer tu negocio, tus productos y tus servicios.", "adOrder": "Solicita un anuncio ahora", "adContact": "Contacto", "adOptions": "Opciones de publicidad", "adOptionsSub": "Elige la ubicación y el formato que mejor te convengan. Cada vista previa es un ejemplo; las empresas son ficticias.", "adExample": "EJEMPLO", "adSample": "Empresa de ejemplo", "adWhy": "¿Por qué Wartabiye TV?", "adWhy1": "Nueve idiomas", "adWhy1t": "El sitio funciona en somalí, inglés, árabe, francés, neerlandés, italiano, alemán, turco y español.", "adWhy2": "Móvil y ordenador", "adWhy2t": "Los anuncios se ven bien en cualquier tamaño de pantalla.", "adWhy3": "Claramente identificados", "adWhy3t": "Cada anuncio lleva la etiqueta «Publicidad», para que los lectores siempre lo distingan de las noticias.", "adWhy4": "Fechas a tu elección", "adWhy4t": "Tú eliges las fechas de inicio y fin de tu campaña.", "adFormTitle": "Solicitud de publicidad", "adFormSub": "Rellena el formulario y el equipo de Wartabiye TV se pondrá en contacto contigo. En este sitio web no se realiza ningún pago.", "aBiz": "Nombre del negocio o empresa", "aPerson": "Persona de contacto", "aType": "Tipo de publicidad", "aDesc": "Descripción de la campaña", "aPeriod": "Periodo de publicidad preferido", "aMsg": "Mensaje adicional", "aPeriodOpts": "1 semana|2 semanas|1 mes|3 meses|6 meses|Otro", "priceOnRequest": "Precio: a consultar", "price": "Precio", "adNote": "Los anuncios se revisan antes de publicarse y deben ser adecuados para todos los públicos.", "adTypes": [["home", "Banner de portada", "Un banner ancho en la parte superior de la portada."], ["sidebar", "Anuncio lateral", "Un recuadro junto a las noticias."], ["article", "Artículo patrocinado", "Un artículo sobre tu negocio, con la etiqueta «Publicidad»."], ["card", "Tarjeta promocional", "Una pequeña tarjeta dentro de la lista de noticias."], ["video", "Vídeo patrocinado", "Tu vídeo en el sitio; solo se carga cuando el visitante pulsa reproducir."], ["mobile", "Anuncio para móvil", "Un banner diseñado para pantallas de teléfono."], ["spotlight", "Empresa destacada", "Una sección propia en la portada que presenta tu negocio."], ["campaign", "Paquete de campaña", "Varias ubicaciones combinadas durante el periodo que elijas."]]}
 };
 
 /* Section taxonomies. Keys are stored in articles ("sport", "competition", "region", "topic", "tags"); names are shown per language. */
 window.WT_TAX = {
   sport: {
-    football:['Kubadda Cagta','Football','كرة القدم','Football','Voetbal','Calcio','Fußball','Futbol'], basketball:['Kubadda Koleyga','Basketball','كرة السلة','Basketball','Basketbal','Basket','Basketball','Basketbol'],
-    tennis:['Teniska','Tennis','التنس','Tennis','Tennis','Tennis','Tennis','Tenis'], formula1:['Formula 1','Formula 1','فورمولا 1','Formule 1','Formule 1','Formula 1','Formel 1','Formula 1'],
-    motorsport:['Tartanka Baabuurta','Motorsport','رياضة السيارات','Sport automobile','Autosport','Motorsport','Motorsport','Motor sporları'], boxing:['Feerka','Boxing','الملاكمة','Boxe','Boksen','Pugilato','Boxen','Boks'],
-    athletics:['Ciyaaraha Fudud','Athletics','ألعاب القوى','Athlétisme','Atletiek','Atletica','Leichtathletik','Atletizm'], cricket:['Kirikit','Cricket','الكريكيت','Cricket','Cricket','Cricket','Cricket','Kriket'],
-    volleyball:['Kubadda Laliska','Volleyball','الكرة الطائرة','Volley-ball','Volleybal','Pallavolo','Volleyball','Voleybol'], rugby:['Ragbi','Rugby','الرغبي','Rugby','Rugby','Rugby','Rugby','Ragbi'],
-    swimming:['Dabaasha','Swimming','السباحة','Natation','Zwemmen','Nuoto','Schwimmen','Yüzme'], cycling:['Baaskiil-wadista','Cycling','الدراجات','Cyclisme','Wielrennen','Ciclismo','Radsport','Bisiklet'],
-    baseball:['Beysbool','Baseball','البيسبول','Baseball','Honkbal','Baseball','Baseball','Beyzbol'], golf:['Golf','Golf','الغولف','Golf','Golf','Golf','Golf','Golf'],
-    handball:['Kubadda Gacanta','Handball','كرة اليد','Handball','Handbal','Pallamano','Handball','Hentbol'], badminton:['Badminton','Badminton','الريشة الطائرة','Badminton','Badminton','Badminton','Badminton','Badminton'],
-    olympics:['Olombikada','Olympics','الألعاب الأولمبية','Jeux olympiques','Olympische Spelen','Olimpiadi','Olympische Spiele','Olimpiyatlar'], esports:['Ciyaaraha Elektaroonigga','Esports','الرياضات الإلكترونية','E-sport','Esports','Esport','E-Sport','E-spor'],
-    other:['Ciyaaro kale','Other sports','رياضات أخرى','Autres sports','Andere sporten','Altri sport','Andere Sportarten','Diğer sporlar']
+    football:['Kubadda Cagta','Football','كرة القدم','Football','Voetbal','Calcio','Fußball','Futbol','Fútbol'], basketball:['Kubadda Koleyga','Basketball','كرة السلة','Basketball','Basketbal','Basket','Basketball','Basketbol','Baloncesto'],
+    tennis:['Teniska','Tennis','التنس','Tennis','Tennis','Tennis','Tennis','Tenis','Tenis'], formula1:['Formula 1','Formula 1','فورمولا 1','Formule 1','Formule 1','Formula 1','Formel 1','Formula 1','Fórmula 1'],
+    motorsport:['Tartanka Baabuurta','Motorsport','رياضة السيارات','Sport automobile','Autosport','Motorsport','Motorsport','Motor sporları','Automovilismo'], boxing:['Feerka','Boxing','الملاكمة','Boxe','Boksen','Pugilato','Boxen','Boks','Boxeo'],
+    athletics:['Ciyaaraha Fudud','Athletics','ألعاب القوى','Athlétisme','Atletiek','Atletica','Leichtathletik','Atletizm','Atletismo'], cricket:['Kirikit','Cricket','الكريكيت','Cricket','Cricket','Cricket','Cricket','Kriket','Críquet'],
+    volleyball:['Kubadda Laliska','Volleyball','الكرة الطائرة','Volley-ball','Volleybal','Pallavolo','Volleyball','Voleybol','Voleibol'], rugby:['Ragbi','Rugby','الرغبي','Rugby','Rugby','Rugby','Rugby','Ragbi','Rugby'],
+    swimming:['Dabaasha','Swimming','السباحة','Natation','Zwemmen','Nuoto','Schwimmen','Yüzme','Natación'], cycling:['Baaskiil-wadista','Cycling','الدراجات','Cyclisme','Wielrennen','Ciclismo','Radsport','Bisiklet','Ciclismo'],
+    baseball:['Beysbool','Baseball','البيسبول','Baseball','Honkbal','Baseball','Baseball','Beyzbol','Béisbol'], golf:['Golf','Golf','الغولف','Golf','Golf','Golf','Golf','Golf','Golf'],
+    handball:['Kubadda Gacanta','Handball','كرة اليد','Handball','Handbal','Pallamano','Handball','Hentbol','Balonmano'], badminton:['Badminton','Badminton','الريشة الطائرة','Badminton','Badminton','Badminton','Badminton','Badminton','Bádminton'],
+    olympics:['Olombikada','Olympics','الألعاب الأولمبية','Jeux olympiques','Olympische Spelen','Olimpiadi','Olympische Spiele','Olimpiyatlar','Juegos Olímpicos'], esports:['Ciyaaraha Elektaroonigga','Esports','الرياضات الإلكترونية','E-sport','Esports','Esport','E-Sport','E-spor','Deportes electrónicos'],
+    other:['Ciyaaro kale','Other sports','رياضات أخرى','Autres sports','Andere sporten','Altri sport','Andere Sportarten','Diğer sporlar','Otros deportes']
   },
   competition: {
-    'premier-league':['Premier League','Premier League','الدوري الإنجليزي الممتاز','Premier League','Premier League','Premier League','Premier League','Premier Lig'],
-    'la-liga':['La Liga','La Liga','الدوري الإسباني','Liga','La Liga','Liga spagnola','La Liga','La Liga'],
-    'serie-a':['Serie A','Serie A','الدوري الإيطالي','Serie A','Serie A','Serie A','Serie A','Serie A'],
-    'bundesliga':['Bundesliga','Bundesliga','الدوري الألماني','Bundesliga','Bundesliga','Bundesliga','Bundesliga','Bundesliga'],
-    'ligue-1':['Ligue 1','Ligue 1','الدوري الفرنسي','Ligue 1','Ligue 1','Ligue 1','Ligue 1','Ligue 1'],
-    'champions-league':['Champions League','Champions League','دوري أبطال أوروبا','Ligue des champions','Champions League','Champions League','Champions League','Şampiyonlar Ligi'],
-    'europa-league':['Europa League','Europa League','الدوري الأوروبي','Ligue Europa','Europa League','Europa League','Europa League','Avrupa Ligi'],
-    'conference-league':['Conference League','Conference League','دوري المؤتمر الأوروبي','Ligue Conférence','Conference League','Conference League','Conference League','Konferans Ligi'],
-    'afcon':['Koobka Qaramada Afrika (AFCON)','AFCON','كأس الأمم الأفريقية','CAN','Afrika Cup','Coppa d’Africa','Afrika-Cup','Afrika Uluslar Kupası'],
-    'world-cup':['Koobka Adduunka FIFA','FIFA World Cup','كأس العالم','Coupe du monde','FIFA WK','Mondiali FIFA','FIFA-WM','FIFA Dünya Kupası'],
-    'african-football':['Kubadda Cagta Afrika','African football','كرة القدم الأفريقية','Football africain','Afrikaans voetbal','Calcio africano','Afrikanischer Fußball','Afrika futbolu'],
-    'caf':['Tartamada CAF','CAF competitions','مسابقات الكاف','Compétitions de la CAF','CAF-toernooien','Competizioni CAF','CAF-Wettbewerbe','CAF turnuvaları'],
-    'somali-football':['Kubadda Cagta Soomaaliya','Somali football','كرة القدم الصومالية','Football somalien','Somalisch voetbal','Calcio somalo','Somalischer Fußball','Somali futbolu'],
-    'international':['Kubadda Cagta Caalamka','International football','كرة القدم الدولية','Football international','Internationaal voetbal','Calcio internazionale','Internationaler Fußball','Uluslararası futbol']
+    'premier-league':['Premier League','Premier League','الدوري الإنجليزي الممتاز','Premier League','Premier League','Premier League','Premier League','Premier Lig','Premier League'],
+    'la-liga':['La Liga','La Liga','الدوري الإسباني','Liga','La Liga','Liga spagnola','La Liga','La Liga','LaLiga'],
+    'serie-a':['Serie A','Serie A','الدوري الإيطالي','Serie A','Serie A','Serie A','Serie A','Serie A','Serie A'],
+    'bundesliga':['Bundesliga','Bundesliga','الدوري الألماني','Bundesliga','Bundesliga','Bundesliga','Bundesliga','Bundesliga','Bundesliga'],
+    'ligue-1':['Ligue 1','Ligue 1','الدوري الفرنسي','Ligue 1','Ligue 1','Ligue 1','Ligue 1','Ligue 1','Ligue 1'],
+    'champions-league':['Champions League','Champions League','دوري أبطال أوروبا','Ligue des champions','Champions League','Champions League','Champions League','Şampiyonlar Ligi','Liga de Campeones'],
+    'europa-league':['Europa League','Europa League','الدوري الأوروبي','Ligue Europa','Europa League','Europa League','Europa League','Avrupa Ligi','Europa League'],
+    'conference-league':['Conference League','Conference League','دوري المؤتمر الأوروبي','Ligue Conférence','Conference League','Conference League','Conference League','Konferans Ligi','Conference League'],
+    'afcon':['Koobka Qaramada Afrika (AFCON)','AFCON','كأس الأمم الأفريقية','CAN','Afrika Cup','Coppa d’Africa','Afrika-Cup','Afrika Uluslar Kupası','Copa Africana de Naciones'],
+    'world-cup':['Koobka Adduunka FIFA','FIFA World Cup','كأس العالم','Coupe du monde','FIFA WK','Mondiali FIFA','FIFA-WM','FIFA Dünya Kupası','Mundial de la FIFA'],
+    'african-football':['Kubadda Cagta Afrika','African football','كرة القدم الأفريقية','Football africain','Afrikaans voetbal','Calcio africano','Afrikanischer Fußball','Afrika futbolu','Fútbol africano'],
+    'caf':['Tartamada CAF','CAF competitions','مسابقات الكاف','Compétitions de la CAF','CAF-toernooien','Competizioni CAF','CAF-Wettbewerbe','CAF turnuvaları','Competiciones de la CAF'],
+    'somali-football':['Kubadda Cagta Soomaaliya','Somali football','كرة القدم الصومالية','Football somalien','Somalisch voetbal','Calcio somalo','Somalischer Fußball','Somali futbolu','Fútbol somalí'],
+    'international':['Kubadda Cagta Caalamka','International football','كرة القدم الدولية','Football international','Internationaal voetbal','Calcio internazionale','Internationaler Fußball','Uluslararası futbol','Fútbol internacional']
   },
   sportTopic: {
-    transfer:['Iibka ciyaartoyda','Transfer news','أخبار الانتقالات','Transferts','Transfernieuws','Calciomercato','Transfernachrichten','Transfer haberleri'], 'match-report':['Warbixinta ciyaaraha','Match reports','تقارير المباريات','Comptes rendus','Wedstrijdverslagen','Cronache delle partite','Spielberichte','Maç raporları'],
-    player:['Wararka ciyaartoyda','Player news','أخبار اللاعبين','Joueurs','Spelersnieuws','Notizie sui giocatori','Spielernachrichten','Oyuncu haberleri'], team:['Wararka kooxaha','Team news','أخبار الفرق','Équipes','Clubnieuws','Notizie sulle squadre','Vereinsnachrichten','Takım haberleri']
+    transfer:['Iibka ciyaartoyda','Transfer news','أخبار الانتقالات','Transferts','Transfernieuws','Calciomercato','Transfernachrichten','Transfer haberleri','Fichajes'], 'match-report':['Warbixinta ciyaaraha','Match reports','تقارير المباريات','Comptes rendus','Wedstrijdverslagen','Cronache delle partite','Spielberichte','Maç raporları','Crónicas de partidos'],
+    player:['Wararka ciyaartoyda','Player news','أخبار اللاعبين','Joueurs','Spelersnieuws','Notizie sui giocatori','Spielernachrichten','Oyuncu haberleri','Noticias de jugadores'], team:['Wararka kooxaha','Team news','أخبار الفرق','Équipes','Clubnieuws','Notizie sulle squadre','Vereinsnachrichten','Takım haberleri','Noticias de equipos']
   },
   region: {
-    africa:['Afrika','Africa','أفريقيا','Afrique','Afrika','Africa','Afrika','Afrika'], 'middle-east':['Bariga Dhexe','Middle East','الشرق الأوسط','Moyen-Orient','Midden-Oosten','Medio Oriente','Naher Osten','Orta Doğu'],
-    europe:['Yurub','Europe','أوروبا','Europe','Europa','Europa','Europa','Avrupa'], asia:['Aasiya','Asia','آسيا','Asie','Azië','Asia','Asien','Asya'],
-    'north-america':['Waqooyiga Ameerika','North America','أمريكا الشمالية','Amérique du Nord','Noord-Amerika','America del Nord','Nordamerika','Kuzey Amerika'], 'south-america':['Koonfurta Ameerika','South America','أمريكا الجنوبية','Amérique du Sud','Zuid-Amerika','America del Sud','Südamerika','Güney Amerika'],
-    international:['Caalami','International','دولي','International','Internationaal','Internazionale','International','Uluslararası']
+    africa:['Afrika','Africa','أفريقيا','Afrique','Afrika','Africa','Afrika','Afrika','África'], 'middle-east':['Bariga Dhexe','Middle East','الشرق الأوسط','Moyen-Orient','Midden-Oosten','Medio Oriente','Naher Osten','Orta Doğu','Oriente Medio'],
+    europe:['Yurub','Europe','أوروبا','Europe','Europa','Europa','Europa','Avrupa','Europa'], asia:['Aasiya','Asia','آسيا','Asie','Azië','Asia','Asien','Asya','Asia'],
+    'north-america':['Waqooyiga Ameerika','North America','أمريكا الشمالية','Amérique du Nord','Noord-Amerika','America del Nord','Nordamerika','Kuzey Amerika','América del Norte'], 'south-america':['Koonfurta Ameerika','South America','أمريكا الجنوبية','Amérique du Sud','Zuid-Amerika','America del Sud','Südamerika','Güney Amerika','América del Sur'],
+    international:['Caalami','International','دولي','International','Internationaal','Internazionale','International','Uluslararası','Internacional']
   },
   worldTopic: {
-    politics:['Siyaasadda caalamka','International politics','السياسة الدولية','Politique internationale','Internationale politiek','Politica internazionale','Internationale Politik','Uluslararası siyaset'], economy:['Dhaqaalaha adduunka','Global economy','الاقتصاد العالمي','Économie mondiale','Wereldeconomie','Economia globale','Weltwirtschaft','Küresel ekonomi'],
-    science:['Sayniska','Science','العلوم','Sciences','Wetenschap','Scienza','Wissenschaft','Bilim'], technology:['Tignoolajiyadda','Technology','التكنولوجيا','Technologie','Technologie','Tecnologia','Technologie','Teknoloji'],
-    cybersecurity:['Amniga internetka','Cybersecurity','الأمن السيبراني','Cybersécurité','Cyberveiligheid','Sicurezza informatica','Cybersicherheit','Siber güvenlik'], climate:['Cimilada iyo deegaanka','Climate and environment','المناخ والبيئة','Climat et environnement','Klimaat en milieu','Clima e ambiente','Klima und Umwelt','İklim ve çevre'],
-    education:['Waxbarashada','Education','التعليم','Éducation','Onderwijs','Istruzione','Bildung','Eğitim'], health:['Caafimaadka','Health','الصحة','Santé','Gezondheid','Salute','Gesundheit','Sağlık']
+    politics:['Siyaasadda caalamka','International politics','السياسة الدولية','Politique internationale','Internationale politiek','Politica internazionale','Internationale Politik','Uluslararası siyaset','Política internacional'], economy:['Dhaqaalaha adduunka','Global economy','الاقتصاد العالمي','Économie mondiale','Wereldeconomie','Economia globale','Weltwirtschaft','Küresel ekonomi','Economía mundial'],
+    science:['Sayniska','Science','العلوم','Sciences','Wetenschap','Scienza','Wissenschaft','Bilim','Ciencia'], technology:['Tignoolajiyadda','Technology','التكنولوجيا','Technologie','Technologie','Tecnologia','Technologie','Teknoloji','Tecnología'],
+    cybersecurity:['Amniga internetka','Cybersecurity','الأمن السيبراني','Cybersécurité','Cyberveiligheid','Sicurezza informatica','Cybersicherheit','Siber güvenlik','Ciberseguridad'], climate:['Cimilada iyo deegaanka','Climate and environment','المناخ والبيئة','Climat et environnement','Klimaat en milieu','Clima e ambiente','Klima und Umwelt','İklim ve çevre','Clima y medio ambiente'],
+    education:['Waxbarashada','Education','التعليم','Éducation','Onderwijs','Istruzione','Bildung','Eğitim','Educación'], health:['Caafimaadka','Health','الصحة','Santé','Gezondheid','Salute','Gesundheit','Sağlık','Salud']
   }
 };
 
@@ -587,7 +588,7 @@ so: {
   p1:'Ku Xayeysiiso Ganacsigaaga Halkan', p2:'Gaarsii Macaamiil Badan', p3:'Kor u Qaad Summaddaada', p4:'Fursad Xayeysiis oo Heer Sare ah', p5:'Nala Soo Xiriir Maanta',
   gallery:'Tusaalooyinka xayeysiiska', gallerySub:'Sidan ayuu xayeysiiskaagu uga muuqan karaa Wartabiye TV. Dhammaan waa tusaalooyin ganacsiyo male-awaal ah, qoraalkooduna wuu isbeddelaa marka luqadda la beddelo.',
   tryLang:'Ku eeg luqad kale:', where:'MEESHA', yourLogo:'Astaantaada', news:'Wararka',
-  hbSub:'Ganacsigaaga ha arkaan akhristayaasha Wartabiye TV ee siddeedda luqadood: af-Soomaali, English, Carabi, Faransiis, Nederlandays, Talyaani, Jarmal iyo Turki.',
+  hbSub:'Ganacsigaaga ha arkaan akhristayaasha Wartabiye TV ee sagaalka luqadood: af-Soomaali, English, Carabi, Faransiis, Nederlandays, Talyaani, Jarmal, Turki iyo Isbaanish.',
   sbBrand:'Xarunta Caafimaadka Shifo', sbHead:'Caafimaadkaagu waa mudnaanteenna', sbL1:'Dhakhaatiir khibrad leh', sbL2:'Shaybaar casri ah', sbL3:'Furan 24 saac', sbCta:'Ballan qabso',
   spCat:'GANACSI', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café oo laan cusub ka furtay Muqdisho', spText:'Qaxwo Soomaaliyeed, cunto fudud iyo meel nasasho leh oo qoyska oo dhan ku habboon.', spMore:'Akhri wax badan',
   slTag:'Iftiinka Ganacsiga', slBrand:'Nabad Bakery', slHead:'Rooti cusub subax kasta', slText:'Keeg, rooti iyo macmacaan lagu dubay xarunteenna, oo gurigaaga laguu keeno.', slF1:'Gaarsiin bilaash ah', slF2:'Dalabyada xafladaha', slF3:'Furan 6:00 – 22:00', slCta:'Wac hadda', slLoc:'Hodan, Muqdisho',
@@ -599,7 +600,7 @@ en: {
   p1:'Advertise Your Business Here', p2:'Reach More Customers', p3:'Grow Your Brand', p4:'Premium Advertising Opportunity', p5:'Contact Us Today',
   gallery:'Example adverts', gallerySub:'This is how your advert could look on Wartabiye TV. All of them are examples with fictional businesses, and their text changes when you change the language.',
   tryLang:'View in:', where:'PLACEMENT', yourLogo:'Your logo', news:'News',
-  hbSub:'Put your business in front of Wartabiye TV readers in eight languages: Somali, English, Arabic, French, Dutch, Italian, German and Turkish.',
+  hbSub:'Put your business in front of Wartabiye TV readers in nine languages: Somali, English, Arabic, French, Dutch, Italian, German, Turkish and Spanish.',
   sbBrand:'Shifo Medical Centre', sbHead:'Your health is our priority', sbL1:'Experienced doctors', sbL2:'Modern laboratory', sbL3:'Open 24 hours', sbCta:'Book an appointment',
   spCat:'BUSINESS', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café opens a new branch in Mogadishu', spText:'Somali coffee, light meals and a relaxing space for the whole family.', spMore:'Read more',
   slTag:'Business spotlight', slBrand:'Nabad Bakery', slHead:'Fresh bread every morning', slText:'Cakes, bread and pastries baked in-house and delivered to your door.', slF1:'Free delivery', slF2:'Party orders', slF3:'Open 6:00 – 22:00', slCta:'Call now', slLoc:'Hodan, Mogadishu',
@@ -611,7 +612,7 @@ ar: {
   p1:'أعلن عن نشاطك التجاري هنا', p2:'صل إلى المزيد من العملاء', p3:'طوّر علامتك التجارية', p4:'فرصة إعلانية مميزة', p5:'تواصل معنا اليوم',
   gallery:'نماذج إعلانية', gallerySub:'هكذا يمكن أن يظهر إعلانك على Wartabiye TV. جميعها نماذج لشركات وهمية، ويتغيّر نصّها عند تغيير اللغة.',
   tryLang:'اعرض باللغة:', where:'الموضع', yourLogo:'شعارك', news:'الأخبار',
-  hbSub:'اعرض نشاطك التجاري أمام قرّاء Wartabiye TV بثماني لغات: الصومالية والإنجليزية والعربية والفرنسية والهولندية والإيطالية والألمانية والتركية.',
+  hbSub:'اعرض نشاطك التجاري أمام قرّاء Wartabiye TV بتسع لغات: الصومالية والإنجليزية والعربية والفرنسية والهولندية والإيطالية والألمانية والتركية والإسبانية.',
   sbBrand:'مركز الشفاء الطبي', sbHead:'صحتك أولويتنا', sbL1:'أطباء ذوو خبرة', sbL2:'مختبر حديث', sbL3:'مفتوح على مدار الساعة', sbCta:'احجز موعدًا',
   spCat:'أعمال', spBrand:'مقهى برواقو', spHead:'مقهى برواقو يفتتح فرعًا جديدًا في مقديشو', spText:'قهوة صومالية ووجبات خفيفة ومكان مريح يناسب العائلة كلها.', spMore:'اقرأ المزيد',
   slTag:'أضواء على الأعمال', slBrand:'مخبز نباد', slHead:'خبز طازج كل صباح', slText:'كعك وخبز ومعجنات تُخبز في مخبزنا وتُوصَّل إلى باب منزلك.', slF1:'توصيل مجاني', slF2:'طلبات الحفلات', slF3:'مفتوح 6:00 – 22:00', slCta:'اتصل الآن', slLoc:'حودن، مقديشو',
@@ -623,7 +624,7 @@ fr: {
   p1:'Annoncez votre entreprise ici', p2:'Touchez plus de clients', p3:'Développez votre marque', p4:'Opportunité publicitaire premium', p5:'Contactez-nous aujourd’hui',
   gallery:'Exemples d’annonces', gallerySub:'Voici à quoi votre annonce pourrait ressembler sur Wartabiye TV. Ce sont des exemples avec des entreprises fictives, et leur texte change avec la langue.',
   tryLang:'Voir en :', where:'EMPLACEMENT', yourLogo:'Votre logo', news:'Actualités',
-  hbSub:'Présentez votre entreprise aux lecteurs de Wartabiye TV en huit langues : somali, anglais, arabe, français, néerlandais, italien, allemand et turc.',
+  hbSub:'Présentez votre entreprise aux lecteurs de Wartabiye TV en neuf langues : somali, anglais, arabe, français, néerlandais, italien, allemand, turc et espagnol.',
   sbBrand:'Centre médical Shifo', sbHead:'Votre santé, notre priorité', sbL1:'Médecins expérimentés', sbL2:'Laboratoire moderne', sbL3:'Ouvert 24 h/24', sbCta:'Prendre rendez-vous',
   spCat:'ENTREPRISE', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café ouvre une nouvelle adresse à Mogadiscio', spText:'Café somalien, petite restauration et un espace détente pour toute la famille.', spMore:'Lire la suite',
   slTag:'Entreprise à la une', slBrand:'Nabad Bakery', slHead:'Du pain frais chaque matin', slText:'Gâteaux, pains et pâtisseries faits maison, livrés chez vous.', slF1:'Livraison gratuite', slF2:'Commandes pour fêtes', slF3:'Ouvert 6 h – 22 h', slCta:'Appeler', slLoc:'Hodan, Mogadiscio',
@@ -635,7 +636,7 @@ nl: {
   p1:'Adverteer hier met je bedrijf', p2:'Bereik meer klanten', p3:'Laat je merk groeien', p4:'Premium advertentiekans', p5:'Neem vandaag contact op',
   gallery:'Voorbeeldadvertenties', gallerySub:'Zo kan je advertentie eruitzien op Wartabiye TV. Het zijn allemaal voorbeelden met fictieve bedrijven, en hun tekst verandert mee als je de taal wijzigt.',
   tryLang:'Bekijk in:', where:'PLAATSING', yourLogo:'Jouw logo', news:'Nieuws',
-  hbSub:'Breng je bedrijf onder de aandacht van Wartabiye TV-lezers in acht talen: Somalisch, Engels, Arabisch, Frans, Nederlands, Italiaans, Duits en Turks.',
+  hbSub:'Breng je bedrijf onder de aandacht van Wartabiye TV-lezers in negen talen: Somalisch, Engels, Arabisch, Frans, Nederlands, Italiaans, Duits, Turks en Spaans.',
   sbBrand:'Medisch Centrum Shifo', sbHead:'Jouw gezondheid is onze prioriteit', sbL1:'Ervaren artsen', sbL2:'Modern laboratorium', sbL3:'24 uur per dag open', sbCta:'Maak een afspraak',
   spCat:'ZAKELIJK', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café opent nieuwe vestiging in Mogadishu', spText:'Somalische koffie, lichte maaltijden en een ontspannen plek voor het hele gezin.', spMore:'Lees meer',
   slTag:'Bedrijf in de schijnwerpers', slBrand:'Nabad Bakery', slHead:'Elke ochtend vers brood', slText:'Taarten, brood en gebak uit eigen bakkerij, aan huis bezorgd.', slF1:'Gratis bezorging', slF2:'Bestellingen voor feesten', slF3:'Open 6:00 – 22:00', slCta:'Bel nu', slLoc:'Hodan, Mogadishu',
@@ -647,7 +648,7 @@ it: {
   p1:'Pubblicizza qui la tua attività', p2:'Raggiungi più clienti', p3:'Fai crescere il tuo marchio', p4:'Opportunità pubblicitaria premium', p5:'Contattaci oggi',
   gallery:'Esempi di pubblicità', gallerySub:'Ecco come potrebbe apparire la tua pubblicità su Wartabiye TV. Sono tutti esempi con aziende di fantasia, e il loro testo cambia quando cambi lingua.',
   tryLang:'Guarda in:', where:'POSIZIONE', yourLogo:'Il tuo logo', news:'Notizie',
-  hbSub:'Fai conoscere la tua attività ai lettori di Wartabiye TV in otto lingue: somalo, inglese, arabo, francese, olandese, italiano, tedesco e turco.',
+  hbSub:'Fai conoscere la tua attività ai lettori di Wartabiye TV in nove lingue: somalo, inglese, arabo, francese, olandese, italiano, tedesco, turco e spagnolo.',
   sbBrand:'Centro Medico Shifo', sbHead:'La tua salute è la nostra priorità', sbL1:'Medici esperti', sbL2:'Laboratorio moderno', sbL3:'Aperto 24 ore su 24', sbCta:'Prenota una visita',
   spCat:'AZIENDE', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café apre una nuova sede a Mogadiscio', spText:'Caffè somalo, piatti leggeri e uno spazio rilassante per tutta la famiglia.', spMore:'Leggi di più',
   slTag:'Attività in primo piano', slBrand:'Nabad Bakery', slHead:'Pane fresco ogni mattina', slText:'Torte, pane e dolci sfornati da noi e consegnati a casa tua.', slF1:'Consegna gratuita', slF2:'Ordini per feste', slF3:'Aperto 6:00 – 22:00', slCta:'Chiama ora', slLoc:'Hodan, Mogadiscio',
@@ -659,7 +660,7 @@ de: {
   p1:'Werben Sie hier für Ihr Unternehmen', p2:'Erreichen Sie mehr Kunden', p3:'Stärken Sie Ihre Marke', p4:'Premium-Werbemöglichkeit', p5:'Kontaktieren Sie uns noch heute',
   gallery:'Beispielanzeigen', gallerySub:'So könnte Ihre Anzeige auf Wartabiye TV aussehen. Alle sind Beispiele mit erfundenen Unternehmen, und ihr Text ändert sich, wenn Sie die Sprache wechseln.',
   tryLang:'Ansehen auf:', where:'PLATZIERUNG', yourLogo:'Ihr Logo', news:'Nachrichten',
-  hbSub:'Präsentieren Sie Ihr Unternehmen den Leserinnen und Lesern von Wartabiye TV in acht Sprachen: Somali, Englisch, Arabisch, Französisch, Niederländisch, Italienisch, Deutsch und Türkisch.',
+  hbSub:'Präsentieren Sie Ihr Unternehmen den Leserinnen und Lesern von Wartabiye TV in neun Sprachen: Somali, Englisch, Arabisch, Französisch, Niederländisch, Italienisch, Deutsch, Türkisch und Spanisch.',
   sbBrand:'Medizinisches Zentrum Shifo', sbHead:'Ihre Gesundheit ist unsere Priorität', sbL1:'Erfahrene Ärzte', sbL2:'Modernes Labor', sbL3:'Rund um die Uhr geöffnet', sbCta:'Termin vereinbaren',
   spCat:'WIRTSCHAFT', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café eröffnet neue Filiale in Mogadischu', spText:'Somalischer Kaffee, leichte Gerichte und ein entspannter Ort für die ganze Familie.', spMore:'Weiterlesen',
   slTag:'Unternehmen im Rampenlicht', slBrand:'Nabad Bakery', slHead:'Jeden Morgen frisches Brot', slText:'Kuchen, Brot und Gebäck aus eigener Backstube, bis an Ihre Tür geliefert.', slF1:'Kostenlose Lieferung', slF2:'Bestellungen für Feiern', slF3:'Geöffnet 6:00 – 22:00', slCta:'Jetzt anrufen', slLoc:'Hodan, Mogadischu',
@@ -671,14 +672,15 @@ tr: {
   p1:'İşletmenizin reklamını burada yapın', p2:'Daha fazla müşteriye ulaşın', p3:'Markanızı büyütün', p4:'Seçkin reklam fırsatı', p5:'Bugün bize ulaşın',
   gallery:'Örnek reklamlar', gallerySub:'Reklamınız Wartabiye TV’de böyle görünebilir. Hepsi hayali işletmelerle hazırlanmış örneklerdir ve dili değiştirdiğinizde metinleri de değişir.',
   tryLang:'Şu dilde gör:', where:'YER', yourLogo:'Logonuz', news:'Haberler',
-  hbSub:'İşletmenizi Wartabiye TV okurlarına sekiz dilde tanıtın: Somalice, İngilizce, Arapça, Fransızca, Felemenkçe, İtalyanca, Almanca ve Türkçe.',
+  hbSub:'İşletmenizi Wartabiye TV okurlarına dokuz dilde tanıtın: Somalice, İngilizce, Arapça, Fransızca, Felemenkçe, İtalyanca, Almanca, Türkçe ve İspanyolca.',
   sbBrand:'Shifo Tıp Merkezi', sbHead:'Sağlığınız bizim önceliğimiz', sbL1:'Deneyimli doktorlar', sbL2:'Modern laboratuvar', sbL3:'7/24 açık', sbCta:'Randevu alın',
   spCat:'İŞ DÜNYASI', spBrand:'Barwaaqo Café', spHead:'Barwaaqo Café Mogadişu’da yeni şube açtı', spText:'Somali kahvesi, hafif yemekler ve tüm aile için huzurlu bir mekân.', spMore:'Devamını oku',
   slTag:'Öne çıkan işletme', slBrand:'Nabad Bakery', slHead:'Her sabah taze ekmek', slText:'Kendi fırınımızda pişen pasta, ekmek ve tatlılar kapınıza kadar gelir.', slF1:'Ücretsiz teslimat', slF2:'Kutlama siparişleri', slF3:'Açık 6:00 – 22:00', slCta:'Hemen arayın', slLoc:'Hodan, Mogadişu',
   mbBrand:'Dalab App', mbHead:'Yemek sipariş edin, evinize gelsin', mbText:'En iyi restoranlar tek yerde.', mbCta:'İndir',
   cpKick:'Sezon kampanyası', cpBrand:'Sahan Telecom', cpHead:'Hızlı internet, düşük fiyat', cpText:'Tüm aileyi bağlayın. Sınırlı süreli teklif.', cpBadge:'%30 indirim', cpCta:'Hemen katılın', cpPlan:'Banner + yan sütun + mobil · 4 hafta',
   howTitle:'Nasıl çalışır', h1:'Talep edin', h1t:'Aşağıdaki formu doldurun ya da bize ulaşın.', h2:'Tasarlayın', h2t:'Tasarımınızı bize gönderin ya da ekibimiz hazırlamanıza yardım etsin.', h3:'Yayımlayın', h3t:'Onaydan sonra reklamınız seçtiğiniz yerlerde ve tarihlerde yayımlanır.'
-}
+},
+es: {"p1": "Anuncia tu negocio aquí", "p2": "Llega a más clientes", "p3": "Haz crecer tu marca", "p4": "Oportunidad publicitaria premium", "p5": "Contáctanos hoy", "gallery": "Anuncios de ejemplo", "gallerySub": "Así podría verse tu anuncio en Wartabiye TV. Todos son ejemplos con empresas ficticias, y su texto cambia cuando cambias de idioma.", "tryLang": "Ver en:", "where": "UBICACIÓN", "yourLogo": "Tu logotipo", "news": "Noticias", "hbSub": "Presenta tu negocio a los lectores de Wartabiye TV en nueve idiomas: somalí, inglés, árabe, francés, neerlandés, italiano, alemán, turco y español.", "sbBrand": "Centro Médico Shifo", "sbHead": "Tu salud es nuestra prioridad", "sbL1": "Médicos con experiencia", "sbL2": "Laboratorio moderno", "sbL3": "Abierto 24 horas", "sbCta": "Pide cita", "spCat": "NEGOCIOS", "spBrand": "Barwaaqo Café", "spHead": "Barwaaqo Café abre un nuevo local en Mogadiscio", "spText": "Café somalí, comidas ligeras y un espacio tranquilo para toda la familia.", "spMore": "Leer más", "slTag": "Empresa destacada", "slBrand": "Nabad Bakery", "slHead": "Pan recién hecho cada mañana", "slText": "Tartas, pan y bollería de horno propio, a domicilio.", "slF1": "Entrega gratuita", "slF2": "Pedidos para fiestas", "slF3": "Abierto de 6:00 a 22:00", "slCta": "Llama ahora", "slLoc": "Hodan, Mogadiscio", "mbBrand": "Dalab App", "mbHead": "Pide comida y recíbela en casa", "mbText": "Los mejores restaurantes en un solo lugar.", "mbCta": "Descargar", "cpKick": "Campaña de temporada", "cpBrand": "Sahan Telecom", "cpHead": "Internet rápido, precios bajos", "cpText": "Conecta a toda la familia. Oferta por tiempo limitado.", "cpBadge": "-30 %", "cpCta": "Únete ahora", "cpPlan": "Banner + lateral + móvil · 4 semanas", "howTitle": "Cómo funciona", "h1": "Solicita", "h1t": "Rellena el formulario de abajo o contáctanos.", "h2": "Diseña", "h2t": "Envíanos tu diseño o nuestro equipo te ayudará a prepararlo.", "h3": "Publica", "h3t": "Una vez aprobado, tu anuncio aparece en las ubicaciones y en las fechas que hayas elegido.", "promoTitle": "La presentación de Wartabiye TV", "promoNote": "Presentación web animada (HTML/CSS), no es un archivo de vídeo, sin sonido.", "v1": "¿Tienes un negocio o una empresa?", "v2": "¿Quieres que tu negocio llegue a nuevos clientes?", "v3": "¡Wartabiye TV ha preparado para ti una oportunidad publicitaria premium!", "v4": "Da a conocer tu empresa, tus productos y tus servicios.", "v5": "Pequeño negocio o gran empresa: ¡la oportunidad está abierta para ti!", "v6": "ANUNCIA TU NEGOCIO EN WARTABIYE TV", "vCta": "SOLICITA UN ANUNCIO AHORA", "wCo": "Empresa", "wPr": "Productos", "wSv": "Servicios", "play": "Reproducir", "pause": "Pausa", "replay": "Volver a ver", "cc": "Subtítulos", "scene": "Escena", "catTitle": "¿Quién puede anunciarse en Wartabiye TV?", "catSub": "Damos la bienvenida a todo negocio legal, pequeño o grande.", "cats": [["Empresas y corporaciones", "Presenta tu marca y tus servicios."], ["Tiendas y comercio", "Nuevos productos, descuentos y ofertas."], ["Hoteles y restaurantes", "Menús, habitaciones y ofertas de temporada."], ["Escuelas y universidades", "Matrículas, cursos y becas."], ["Empresas tecnológicas", "Aplicaciones, servicios de internet y dispositivos modernos."], ["Inmobiliarias", "Casas, terrenos y oficinas en venta o alquiler."], ["Transporte y logística", "Viajes, carga y entrega rápida."], ["Tiendas en línea", "Lleva clientes a tu tienda en línea."], ["Servicios profesionales", "Derecho, contabilidad, salud y consultoría."], ["Pequeñas y medianas empresas", "Una opción para cada presupuesto."], ["Otros negocios y organizaciones legales", "Todo negocio legal es bienvenido."]], "fCat": "Tipo de negocio", "fMsg": "Tu mensaje"}
 };
 
 /* Animated promo presentation, business categories and form labels on the Xayeysiimaha page (merged into WT_ADDEMO). */
@@ -764,3 +766,43 @@ tr:{
   fCat:'İşletme türü', fMsg:'Mesajınız'
 }};
 for(var k in X){window.WT_ADDEMO[k]=window.WT_ADDEMO[k]||{};for(var j in X[k])window.WT_ADDEMO[k][j]=X[k][j]}})();
+
+/* Somali flag and independence banner in the header (site.json banner.style = "calan"). */
+window.WT_CALAN = {
+so:{title:'Calanka iyo Xornimada Soomaaliya', flagAlt:'Calanka Soomaaliya', facts:[
+  ['Calanka Soomaaliya la ansixiyey','12 Oktoobar 1954'],['Naqshadeeyey','Maxamed Cawaale Liibaan'],
+  ['Gobollada Waqooyi waxay xorriyad qaateen','26 Juun 1960'],['Jamhuuriyadda Soomaaliya waxay dhalatay','1 Luulyo 1960'],
+  ['Midowgii labada gobol','British Somaliland iyo Italian Somaliland']]},
+en:{title:'The Flag and Independence of Somalia', flagAlt:'Flag of Somalia', facts:[
+  ['Somali flag adopted','12 October 1954'],['Designed by','Mohammed Awale Liban'],
+  ['Northern regions gained independence','26 June 1960'],['Somali Republic was born','1 July 1960'],
+  ['Union of the two regions','British Somaliland and Italian Somaliland']]},
+ar:{title:'علم الصومال واستقلالها', flagAlt:'علم الصومال', facts:[
+  ['اعتماد علم الصومال','12 أكتوبر 1954'],['صمّمه','محمد عوالي ليبان'],
+  ['استقلال الأقاليم الشمالية','26 يونيو 1960'],['قيام الجمهورية الصومالية','1 يوليو 1960'],
+  ['اتحاد الإقليمين','الصومال البريطاني والصومال الإيطالي']]},
+fr:{title:'Le drapeau et l’indépendance de la Somalie', flagAlt:'Drapeau de la Somalie', facts:[
+  ['Adoption du drapeau somalien','12 octobre 1954'],['Conçu par','Mohammed Awale Liban'],
+  ['Indépendance des régions du Nord','26 juin 1960'],['Naissance de la République somalienne','1er juillet 1960'],
+  ['Union des deux territoires','Somaliland britannique et Somalie italienne']]},
+nl:{title:'De vlag en onafhankelijkheid van Somalië', flagAlt:'Vlag van Somalië', facts:[
+  ['Somalische vlag aangenomen','12 oktober 1954'],['Ontworpen door','Mohammed Awale Liban'],
+  ['Noordelijke regio’s onafhankelijk','26 juni 1960'],['Republiek Somalië geboren','1 juli 1960'],
+  ['Unie van de twee gebieden','Brits-Somaliland en Italiaans-Somaliland']]},
+it:{title:'La bandiera e l’indipendenza della Somalia', flagAlt:'Bandiera della Somalia', facts:[
+  ['Bandiera somala adottata','12 ottobre 1954'],['Ideata da','Mohammed Awale Liban'],
+  ['Indipendenza delle regioni del Nord','26 giugno 1960'],['Nascita della Repubblica Somala','1º luglio 1960'],
+  ['Unione dei due territori','Somaliland britannico e Somalia italiana']]},
+de:{title:'Flagge und Unabhängigkeit Somalias', flagAlt:'Flagge Somalias', facts:[
+  ['Somalische Flagge eingeführt','12. Oktober 1954'],['Entworfen von','Mohammed Awale Liban'],
+  ['Unabhängigkeit der Nordregionen','26. Juni 1960'],['Gründung der Republik Somalia','1. Juli 1960'],
+  ['Union der beiden Gebiete','Britisch-Somaliland und Italienisch-Somaliland']]},
+tr:{title:'Somali’nin Bayrağı ve Bağımsızlığı', flagAlt:'Somali bayrağı', facts:[
+  ['Somali bayrağı kabul edildi','12 Ekim 1954'],['Tasarlayan','Mohammed Awale Liban'],
+  ['Kuzey bölgeleri bağımsızlığını kazandı','26 Haziran 1960'],['Somali Cumhuriyeti kuruldu','1 Temmuz 1960'],
+  ['İki bölgenin birleşmesi','İngiliz Somaliland ve İtalyan Somaliland']]},
+es:{title:'La bandera y la independencia de Somalia', flagAlt:'Bandera de Somalia', facts:[
+  ['Adopción de la bandera somalí','12 de octubre de 1954'],['Diseñada por','Mohammed Awale Liban'],
+  ['Independencia de las regiones del norte','26 de junio de 1960'],['Nacimiento de la República de Somalia','1 de julio de 1960'],
+  ['Unión de los dos territorios','Somalilandia británica y Somalia italiana']]}
+};

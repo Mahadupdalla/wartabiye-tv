@@ -59,7 +59,7 @@ async function newsFiles() { const r = await api(`repos/${REPO}/contents/data/ne
     const saved = JSON.parse(Buffer.from((await (await api(`repos/${REPO}/contents/data/news/${file}?ref=main`)).json()).content, 'base64').toString());
     if (saved.published !== false || !saved.image) throw new Error('draft not saved as expected: ' + JSON.stringify(saved));
     console.log('draft has image', saved.image);
-    if (!['en', 'ar', 'fr', 'nl', 'it', 'de', 'tr'].every(k => k in saved)) throw new Error('translation fields (en/ar/fr/nl/it/de/tr) missing from the saved file');
+    if (!['en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es'].every(k => k in saved)) throw new Error('translation fields (en/ar/fr/nl/it/de/tr/es) missing from the saved file');
     console.log('saved file has the translation fields en/ar/fr/nl/it/de/tr');
     await publishAndWait(n => !n.some(x => x.id === file.slice(0, -5)) && true, 'draft is NOT on the public site');
     // edit headline and publish
