@@ -1,24 +1,171 @@
 {
  "note": "The eight World News (Wararka Caalamka) sources. Edited in /admin/ under 'Wararka Caalamka: ilaha'. A source with enabled false is skipped. Only the publisher's own RSS feed, news sitemap or public pages are used, and only where robots.txt allows it.",
- "perSource": {"min": 5, "max": 10},
+ "perSource": {
+  "min": 5,
+  "max": 10
+ },
  "sources": [
-  {"id": "source-1", "name": "Source 1 (not identified yet)", "shareLink": "https://share.google/Wbb7OpLUsDELzrjSf", "homepage": "", "enabled": false, "verified": false, "priority": 70, "feeds": [], "imagePolicy": "unknown", "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."},
-  {"id": "source-2", "name": "Source 2 (not identified yet)", "shareLink": "https://share.google/hdRsw4UuVgMn56BSh", "homepage": "", "enabled": false, "verified": false, "priority": 70, "feeds": [], "imagePolicy": "unknown", "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."},
-  {"id": "turkiyetoday", "name": "Türkiye Today", "shareLink": "https://share.google/uIlJxEOb8HQkfTm8U", "homepage": "https://www.turkiyetoday.com/", "enabled": true, "verified": true, "priority": 70,
-   "feeds": [{"type": "rss", "url": "https://www.turkiyetoday.com/rss"}, {"type": "html", "url": "https://www.turkiyetoday.com/", "linkPattern": "^https://www\\.turkiyetoday\\.com/(region|world|nation|business|culture|lifestyle|sports|opinion|tech|science)/[a-z0-9-]+-\\d{6,}$"}],
-   "imagePolicy": "all-rights-reserved", "notes": "Photos are mostly AFP/AA/agency photos: never reused."},
-  {"id": "dailysabah", "name": "Daily Sabah", "shareLink": "https://share.google/PSZ1Ty4vv7YOuI63O", "homepage": "https://www.dailysabah.com/", "enabled": true, "verified": true, "priority": 75,
-   "feeds": [{"type": "rss", "url": "https://www.dailysabah.com/rss/world"}, {"type": "rss", "url": "https://www.dailysabah.com/rss/politics"}],
-   "imagePolicy": "all-rights-reserved", "notes": "Photos are AFP/AA/Reuters/AP: never reused."},
-  {"id": "cnn", "name": "CNN", "shareLink": "https://share.google/Fu0nqw7vFiUavDCJN", "homepage": "https://edition.cnn.com/world", "enabled": true, "verified": true, "priority": 90,
-   "feeds": [{"type": "rss", "url": "http://rss.cnn.com/rss/edition_world.rss", "maxAgeDays": 3}, {"type": "sitemap", "url": "https://edition.cnn.com/sitemap/news.xml", "linkPattern": "^https://(edition|www)\\.cnn\\.com/\\d{4}/\\d{2}/\\d{2}/(world|africa|middleeast|europe|asia|americas|us|politics|business|climate|health|science)/"}],
-   "imagePolicy": "all-rights-reserved", "notes": "CNN's legacy RSS feed is no longer updated; the news sitemap is used only if robots.txt allows it. Photos (Getty/AP/Reuters/CNN) are never reused."},
-  {"id": "euronews", "name": "Euronews", "shareLink": "https://share.google/yMVRVu9cDDyuYx8EI", "homepage": "https://www.euronews.com/", "enabled": true, "verified": true, "priority": 85,
-   "feeds": [{"type": "rss", "url": "https://www.euronews.com/rss?level=theme&name=news"}, {"type": "rss", "url": "https://www.euronews.com/rss"}],
-   "imagePolicy": "all-rights-reserved", "notes": "Photos are AP/Reuters/AFP/Euronews: never reused. Video-only items (/video/) are skipped."},
-  {"id": "source-7", "name": "Source 7 (not identified yet)", "shareLink": "https://share.google/VWDZMzZlps6MB1tQn", "homepage": "", "enabled": false, "verified": false, "priority": 70, "feeds": [], "imagePolicy": "unknown", "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."},
-  {"id": "igad", "name": "IGAD", "shareLink": "https://share.google/ysZjrOWgx5nayA2S8", "homepage": "https://igad.int/", "enabled": true, "verified": true, "priority": 80,
-   "feeds": [{"type": "rss", "url": "https://igad.int/feed/"}],
-   "imagePolicy": "all-rights-reserved", "notes": "Official site of the Intergovernmental Authority on Development (© IGAD, all rights reserved). Many posts use a generic text thumbnail, which is never used as a story photo."}
+  {
+   "id": "source-1",
+   "name": "Source 1 (not identified yet)",
+   "shareLink": "https://share.google/Wbb7OpLUsDELzrjSf",
+   "homepage": "",
+   "enabled": false,
+   "verified": false,
+   "priority": 70,
+   "feeds": [],
+   "imagePolicy": "unknown",
+   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+  },
+  {
+   "id": "source-2",
+   "name": "Source 2 (not identified yet)",
+   "shareLink": "https://share.google/hdRsw4UuVgMn56BSh",
+   "homepage": "",
+   "enabled": false,
+   "verified": false,
+   "priority": 70,
+   "feeds": [],
+   "imagePolicy": "unknown",
+   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+  },
+  {
+   "id": "turkiyetoday",
+   "name": "Türkiye Today",
+   "shareLink": "https://share.google/uIlJxEOb8HQkfTm8U",
+   "homepage": "https://www.turkiyetoday.com/",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.turkiyetoday.com/rss"
+    },
+    {
+     "type": "html",
+     "url": "https://www.turkiyetoday.com/",
+     "linkPattern": "^https://www\\.turkiyetoday\\.com/(region|world|nation|business|culture|lifestyle|sports|opinion|tech|science)/[a-z0-9-]+-\\d{6,}$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Photos are mostly AFP/AA/agency photos: never reused."
+  },
+  {
+   "id": "dailysabah",
+   "name": "Daily Sabah",
+   "shareLink": "https://share.google/PSZ1Ty4vv7YOuI63O",
+   "homepage": "https://www.dailysabah.com/",
+   "enabled": true,
+   "verified": true,
+   "priority": 75,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.dailysabah.com/rss/world"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.dailysabah.com/rss/politics"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Photos are AFP/AA/Reuters/AP: never reused."
+  },
+  {
+   "id": "cnn",
+   "name": "CNN",
+   "shareLink": "https://share.google/Fu0nqw7vFiUavDCJN",
+   "homepage": "https://edition.cnn.com/world",
+   "enabled": true,
+   "verified": true,
+   "priority": 90,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "http://rss.cnn.com/rss/edition_world.rss",
+     "maxAgeDays": 3
+    },
+    {
+     "type": "sitemap",
+     "url": "https://edition.cnn.com/sitemap/news.xml",
+     "linkPattern": "^https://(edition|www)\\.cnn\\.com/\\d{4}/\\d{2}/\\d{2}/(world|africa|middleeast|europe|asia|americas|us|politics|business|climate|health|science)/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "CNN's legacy RSS feed is no longer updated; the news sitemap is used only if robots.txt allows it. Photos (Getty/AP/Reuters/CNN) are never reused."
+  },
+  {
+   "id": "euronews",
+   "name": "Euronews",
+   "shareLink": "https://share.google/yMVRVu9cDDyuYx8EI",
+   "homepage": "https://www.euronews.com/",
+   "enabled": true,
+   "verified": true,
+   "priority": 85,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.euronews.com/rss?level=theme&name=news"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.euronews.com/rss"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Photos are AP/Reuters/AFP/Euronews: never reused. Video-only items (/video/) are skipped."
+  },
+  {
+   "id": "source-7",
+   "name": "Source 7 (not identified yet)",
+   "shareLink": "https://share.google/VWDZMzZlps6MB1tQn",
+   "homepage": "",
+   "enabled": false,
+   "verified": false,
+   "priority": 70,
+   "feeds": [],
+   "imagePolicy": "unknown",
+   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+  },
+  {
+   "id": "igad",
+   "name": "IGAD",
+   "shareLink": "https://share.google/ysZjrOWgx5nayA2S8",
+   "homepage": "https://igad.int/",
+   "enabled": true,
+   "verified": true,
+   "priority": 80,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://igad.int/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Official site of the Intergovernmental Authority on Development (© IGAD, all rights reserved). Many posts use a generic text thumbnail, which is never used as a story photo."
+  },
+  {
+   "id": "addisstandard",
+   "name": "Addis Standard",
+   "shareLink": "",
+   "homepage": "https://addisstandard.com/",
+   "enabled": true,
+   "verified": true,
+   "priority": 75,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://addisstandard.com/feed/"
+    },
+    {
+     "type": "html",
+     "url": "https://addisstandard.com/",
+     "linkPattern": "^https://addisstandard\\.com/[a-z0-9-]{12,}/?$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Ethiopian news site (Addis Abeba). Official WordPress RSS feed. Photos are its own or agency photos, all rights reserved: never reused."
+  }
  ]
 }
