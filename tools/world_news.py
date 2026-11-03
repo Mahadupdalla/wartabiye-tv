@@ -248,9 +248,12 @@ def fetch(args):
     since = parse_date(opt(args, '--since', None))
     items, report = [], []
     for s in cfg['sources']:
-        rep = {'id': s['id'], 'name': s['name'], 'homepage': s.get('homepage'), 'enabled': s.get('enabled', True),
+        rep = {'id': s['id'], 'name': s['name'], 'homepage': s.get('homepage'), 'section': s.get('section', 'world'),
+               'enabled': s.get('enabled', True), 'searchOnly': bool(s.get('searchOnly')),
                'method': None, 'found': 0, 'collected': 0, 'errors': []}
         report.append(rep)
+        if s.get('searchOnly') and s.get('enabled', True):
+            rep['errors'].append('no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch'); continue
         if not s.get('enabled', True) or not s.get('feeds'):
             rep['errors'].append(s.get('notes') or 'disabled'); continue
         listing = []
@@ -287,7 +290,7 @@ def fetch(args):
         for g in listing[:per * 2]:
             if rep['collected'] >= per: break
             if since and g.get('publishedAt') and parse_date(g['publishedAt']) < since: continue
-            it = {'source': s['id'], 'sourceName': s['name'], 'url': g['url'], 'title': g.get('title'),
+            it = {'source': s['id'], 'sourceName': s['name'], 'section': s.get('section', 'world'), 'url': g['url'], 'title': g.get('title'),
                   'description': g.get('description'), 'publishedAt': g.get('publishedAt'), 'image': g.get('image'),
                   'timeVerified': bool(g.get('publishedAt'))}
             if g.get('dateSource'): it['dateSource'] = g['dateSource']
@@ -311,6 +314,7 @@ def fetch(args):
             if not it.get('title'): continue
             if it.get('title'):
                 it['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', it['title'])
+                it['title'] = re.sub(r'\s+[-|–]\s+(' + re.escape(s['name']) + r'|BBC( News)?( Somali| Sport)?|DW|France 24|Al Jazeera|UN News|ESPN|Hiiraan Online|Garowe Online|VOA Somali)\s*$', '', it['title'])
             items.append(it); rep['collected'] += 1
             time.sleep(0.5)
         mine = items[first:]
@@ -485,6 +489,10 @@ def image_check(x, cfg_src):
     if x.get('imageLicenseHint') == 'free':
         return 'reusable', 'caption states a free licence (verify on the publisher page)'
     pol = (cfg_src or {}).get('imagePolicy', 'unknown')
+    if pol == 'public-domain-unless-agency':
+        if x.get('imageCredit') or x.get('imageCaption') and AGENCY.search(x['imageCaption']):
+            return 'not-reusable', 'agency photo on a VOA page, all rights reserved'
+        return 'check', 'VOA page photo: reusable only if the caption credits VOA staff (US government work, public domain); check the page'
     if pol == 'all-rights-reserved':
         return 'not-reusable', f"{(cfg_src or {}).get('name')} photos are all rights reserved"
     return 'unknown', 'licence not stated: treated as not reusable'
@@ -590,7 +598,7 @@ def dedup(args):
 
 
 def pub(x):
-    return {k: x.get(k) for k in ('source', 'sourceName', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
+    return {k: x.get(k) for k in ('source', 'sourceName', 'section', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
                                   'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel') if x.get(k) not in (None, '')}
 
 
@@ -598,13 +606,18 @@ def pub(x):
 def report(args):
     p = json.load(open(args[0], encoding='utf-8'))
     L = []
-    L.append(f"World News test — fetched {p.get('fetchedAt')}  window since {p.get('since') or '-'}")
+    L.append(f"News sources test — fetched {p.get('fetchedAt')}  window since {p.get('since') or '-'}")
     L.append('')
-    L.append(f"{'source':<16}{'method / error':<62}{'got':>4}{'kept':>5}{'dup':>5}{'known':>6}")
+    L.append(f"{'source':<22}{'section':<9}{'state':<9}{'method / error':<70}{'got':>4}{'kept':>5}{'dup':>5}{'known':>6}")
     for s in p['sources']:
         c = p['counts'].get(s['id'], {})
-        m = s.get('method') or ('FAILED: ' + '; '.join(s.get('errors') or ['-']))
-        L.append(f"{s['name'][:15]:<16}{m[:61]:<62}{s.get('collected', 0):>4}{c.get('kept', 0):>5}{c.get('duplicates', 0):>5}{c.get('known', 0):>6}")
+        st = source_state(s)
+        m = s.get('method') or '; '.join(s.get('errors') or ['-'])
+        L.append(f"{s['name'][:21]:<22}{s.get('section', 'world')[:8]:<9}{st:<9}{m[:69]:<70}{s.get('collected', 0):>4}{c.get('kept', 0):>5}{c.get('duplicates', 0):>5}{c.get('known', 0):>6}")
+    L.append('')
+    L.append('ERRORS (full)')
+    for s in p['sources']:
+        if not s.get('method'): L.append(f"  {s['name']}: " + ' | '.join(s.get('errors') or ['-'])[:600])
     L.append('')
     img = {}
     for e in p['stories']: img[e['imageStatus']] = img.get(e['imageStatus'], 0) + 1
@@ -619,9 +632,17 @@ def report(args):
     L.append('FEED (newest first)')
     for e in p['stories']:
         also = ' + ' + ', '.join(a['source'] for a in e['alsoReportedBy']) if e['alsoReportedBy'] else ''
-        L.append(f"  {e['publishedAt'][:16]}  [{e['sourceName']}{also}] {e['title'][:95]}")
+        L.append(f"  {e['publishedAt'][:16]}  {e.get('section', 'world')[:6]:<7}[{e['sourceName']}{also}] {e['title'][:95]}")
         L.append(f"      image: {e['imageStatus']} ({e['imageReason']})" + (f"  related: {len(e['related'])}" if e['related'] else ''))
     print('\n'.join(L))
+
+
+def source_state(s):
+    """working | search (no feed: the news task checks it with WebSearch) | blocked | inactive"""
+    if s.get('method'): return 'working'
+    if not s.get('enabled', True): return 'inactive'
+    if s.get('searchOnly'): return 'search'
+    return 'blocked'
 
 
 def status(args):
@@ -633,7 +654,8 @@ def status(args):
     for s in p['sources']:
         c = p['counts'].get(s['id'], {})
         r = (run.get('perSource') or {}).get(s['id'], {})
-        srcs.append({'id': s['id'], 'name': s['name'], 'homepage': s.get('homepage') or '', 'working': bool(s.get('method')),
+        srcs.append({'id': s['id'], 'name': s['name'], 'homepage': s.get('homepage') or '', 'section': s.get('section', 'world'),
+                     'state': source_state(s), 'working': bool(s.get('method')),
                      'method': s.get('method') or '', 'collected': s.get('collected', 0), 'duplicates': c.get('duplicates', 0),
                      'published': r.get('published', 0), 'pendingImage': r.get('pendingImage', 0),
                      'errors': '; '.join(s.get('errors') or [])[:500]})

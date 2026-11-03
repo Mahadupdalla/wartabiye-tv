@@ -1,8 +1,9 @@
-name: Wararka Caalamka – ilaha (World News feeds)
-# Reads the eight World News sources (data/world/sources.json) shortly BEFORE the 08:00 and 18:00 Nairobi update:
-# RSS / news sitemap / public pages only, robots.txt respected. It publishes NOTHING: it removes duplicate stories,
-# checks the publisher photos, and saves the candidate list on the separate branch "world-feed". The Claude news task
-# reads that list, writes the Somali stories and translations, finds licensed photos and publishes.
+name: Ilaha wararka – ururin (news sources: Somali, World, Sports)
+# Reads EVERY news source in data/world/sources.json (Somali News, World News, Sports) shortly BEFORE the 08:00 and
+# 18:00 Nairobi update: RSS / news sitemap / public pages / official Telegram channel only, robots.txt respected. It
+# publishes NOTHING: it removes duplicate stories, checks the publisher photos, and saves the candidate list on branch
+# "world-feed". The Claude news task reads that list, writes the Somali stories and translations, finds licensed photos
+# and publishes.
 on:
   schedule:
     # 07:20 and 17:20 Africa/Nairobi (04:20 and 14:20 UTC), 40 minutes before each update
@@ -20,12 +21,12 @@ concurrency:
 jobs:
   feeds:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0   # full history: deleted / unpublished articles are never brought back
-      - name: Read the eight sources
+      - name: Read all news sources (Somali, World, Sports)
         # the last 48 hours; the news task then keeps only what was published since its last successful update
         run: python3 tools/world_news.py fetch --since "$(date -u -d '48 hours ago' +%FT%TZ)" --out /tmp/world/candidates.json
       - name: Remove duplicates and check images

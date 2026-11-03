@@ -639,8 +639,8 @@ collections:
                   - {name: so, label: Qaybta (Soomaali), widget: string}
                   - {name: name, label: Magaca la turjumay, widget: string}
   - name: world
-    label: 'Wararka Caalamka: xaaladda iyo ilaha'
-    description: 'Siddeeda ilood ee Wararka Caalamka. "Xaaladda" waxaa qora hawsha wararka (08:00 iyo 18:00) orod kasta: ilaha shaqeeya, tirada wararka la ururiyay, nuqullada la saaray, kuwa sugaya sawir iyo khaladaadka. War gaar ah wax ka beddel, tirtir ama qabyo ka dhig qaybta Wararka (filter: Caalamka / Sugaya sawir).'
+    label: 'Ilaha wararka: xaaladda (Soomaali, Caalamka, Ciyaaraha)'
+    description: 'Dhammaan ilaha wararka ee Wartabiye TV (Wararka Soomaaliyeed, Wararka Caalamka iyo Ciyaaraha). "Xaaladda" waxaa qora hawsha wararka (08:00 iyo 18:00) orod kasta: ilaha shaqeeya, tirada wararka la ururiyay, nuqullada la saaray, kuwa sugaya sawir iyo khaladaadka. War gaar ah wax ka beddel, tirtir ama qabyo ka dhig qaybta Wararka (filter: Caalamka / Sugaya sawir).'
     editor:
       preview: false
     files:
@@ -668,10 +668,12 @@ collections:
             label: 'Ilaha (orodkii u dambeeyay)'
             widget: list
             required: false
-            summary: '{{fields.name}}: {{fields.collected}} la ururiyay, {{fields.published}} la daabacay'
+            summary: '{{fields.name}} ({{fields.section}}, {{fields.state}}): {{fields.collected}} la ururiyay, {{fields.published}} la daabacay'
             fields:
               - {name: name, label: Isha, widget: string}
               - {name: homepage, label: Website, widget: string, required: false}
+              - {name: section, label: Qaybta, widget: string, required: false}
+              - {name: state, label: 'Xaaladda (working = way shaqeysaa, search = WebSearch, blocked = waa xannibantahay, inactive = dami)', widget: string, required: false}
               - {name: working, label: 'Way shaqeysaa', widget: boolean, required: false}
               - {name: method, label: 'Habka (RSS / sitemap / bog)', widget: string, required: false}
               - {name: collected, label: 'La ururiyay', widget: number, required: false}
@@ -707,12 +709,14 @@ collections:
             label: Ilaha
             widget: list
             allow_add: false
-            summary: '{{fields.name}}'
+            summary: '{{fields.name}} ({{fields.section}})'
             fields:
               - {name: id, label: Id, widget: string}
               - {name: name, label: Magaca, widget: string}
               - {name: homepage, label: Website, widget: string, required: false}
               - {name: shareLink, label: 'Link-gii la bixiyay', widget: string, required: false}
+              - {name: section, label: Qaybta, widget: select, default: world, options: [{label: 'Wararka Soomaaliyeed', value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: Ciyaaraha, value: sports}]}
+              - {name: searchOnly, label: 'Feed ma leh (hawsha ayaa WebSearch ku hubisa)', widget: boolean, required: false}
               - {name: enabled, label: Shaqeyso, widget: boolean, default: true}
               - {name: verified, label: 'La hubiyay', widget: boolean, required: false}
               - {name: priority, label: 'Mudnaanta (nuqul marka la doorto)', widget: number, value_type: int, required: false}
@@ -722,11 +726,11 @@ collections:
                 required: false
                 summary: '{{fields.type}} {{fields.url}}'
                 fields:
-                  - {name: type, label: Nooca, widget: select, options: [rss, sitemap, html]}
+                  - {name: type, label: Nooca, widget: select, options: [rss, sitemap, html, telegram]}
                   - {name: url, label: URL, widget: string}
                   - {name: linkPattern, label: 'Qaabka link-ga (ikhtiyaari)', widget: string, required: false}
                   - {name: maxAgeDays, label: 'Feed duug ah kadib (maalmo)', widget: number, required: false}
-              - {name: imagePolicy, label: 'Sawirrada isha', widget: select, options: [{label: 'Xuquuqdu way dhowran tahay (lama isticmaalo)', value: all-rights-reserved}, {label: 'Liisan furan (CC / public domain)', value: free}, {label: 'Lama yaqaan', value: unknown}]}
+              - {name: imagePolicy, label: 'Sawirrada isha', widget: select, options: [{label: 'Xuquuqdu way dhowran tahay (lama isticmaalo)', value: all-rights-reserved}, {label: 'Liisan furan (CC / public domain)', value: free}, {label: 'VOA: public domain haddii aanu ahayn sawir wakaalad', value: public-domain-unless-agency}, {label: 'Lama yaqaan', value: unknown}]}
               - {name: notes, label: Xusuus, widget: text, required: false}
   - name: ads
     label: Xayeysiisyada
