@@ -7,7 +7,7 @@ const fs = require('fs');
   const news = JSON.parse(fs.readFileSync('data/news.json', 'utf8')).news;
   const b = await chromium.launch(); const problems = [];
   const fail = m => { problems.push(m); console.log('PROBLEM:', m) };
-  const LANGS = { so: 'ltr', en: 'ltr', ar: 'rtl', fr: 'ltr', nl: 'ltr', it: 'ltr', de: 'ltr', tr: 'ltr' };
+  const LANGS = { so: 'ltr', en: 'ltr', ar: 'rtl', fr: 'ltr', nl: 'ltr', it: 'ltr', de: 'ltr', tr: 'ltr', es: 'ltr' };
   for (const [w, h, name] of [[1280, 900, 'desktop'], [390, 844, 'mobile']]) {
     const ctx = await b.newContext({ viewport: { width: w, height: h } });
     const p = await ctx.newPage(); const errs = [];
