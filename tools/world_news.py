@@ -194,11 +194,11 @@ def article(url):
         if not out['publishedAt'] and x.get('datePublished'):
             d = parse_date(x['datePublished'])
             if d: out['publishedAt'] = iso(d)
-        if out['title']:
-        out['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', out['title'])
-    if not out['author'] and isinstance(x.get('author'), (dict, list)):
+        if not out['author'] and isinstance(x.get('author'), (dict, list)):
             a = x['author'][0] if isinstance(x['author'], list) and x['author'] else x['author']
             if isinstance(a, dict): out['author'] = a.get('name')
+    if out['title']:
+        out['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', out['title'])
     out['_paras'] = [t for t in p.paras if len(t) > 60][:25]
     text = ' '.join(out['_paras'])
     cap = ' | '.join(p.caps[:2])
