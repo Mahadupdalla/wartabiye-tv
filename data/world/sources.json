@@ -39,13 +39,21 @@
    "priority": 80,
    "feeds": [
     {
+     "type": "rss",
+     "url": "https://www.voasomali.com/api/zoju_l-vomx-tpep_jy"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.voasomali.com/api/zubjil-vomx-tpegvrqm"
+    },
+    {
      "type": "html",
      "url": "https://www.voasomali.com/",
      "linkPattern": "^https://www\\.voasomali\\.com/a/[^/]+/\\d+\\.html$"
     }
    ],
    "imagePolicy": "public-domain-unless-agency",
-   "notes": "VOA staff photos are US government work (public domain); agency photos (AP, Reuters, AFP) on VOA pages are not."
+   "notes": "VOA staff photos are US government work (public domain); agency photos (AP, Reuters, AFP) on VOA pages are not. Official RSS feeds listed at voasomali.com/rssfeeds (Soomaaliya, then Breaking News)."
   },
   {
    "id": "hiiraan",
@@ -60,7 +68,7 @@
     {
      "type": "html",
      "url": "https://www.hiiraan.com/",
-     "linkPattern": "^https?://(www\\.)?hiiraan\\.com/news[24]/\\d{4}/[A-Za-z]{3}/\\d+/[^/]+\\.aspx$"
+     "linkPattern": "^https?://(www\\.)?hiiraan\\.com/news[24]/20(2[5-9]|[3-9]\\d)/[A-Za-z]{3}/\\d+/[^/]+\\.aspx$"
     }
    ],
    "imagePolicy": "all-rights-reserved",
@@ -149,12 +157,13 @@
      "url": "https://goobjoog.com/feed/"
     },
     {
-     "type": "rss",
-     "url": "https://goobjoog.com/english/feed/"
+     "type": "html",
+     "url": "https://goobjoog.com/",
+     "linkPattern": "^https://goobjoog\\.com/20\\d\\d/\\d\\d/\\d\\d/[a-z0-9-]{15,}/?$"
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": ""
+   "notes": "No RSS feed (goobjoog.com/feed/ answers 404): the collector reads the public homepage; the date comes from the article URL (/YYYY/MM/DD/, date only)."
   },
   {
    "id": "radiodalsan",
@@ -215,12 +224,13 @@
      "url": "https://sonna.so/feed/"
     },
     {
-     "type": "rss",
-     "url": "https://sonna.so/en/feed/"
+     "type": "html",
+     "url": "https://sonna.so/en",
+     "linkPattern": "^https://sonna\\.so/(en|so)/article/[A-Za-z0-9-]{15,}$"
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Somali National News Agency: always label it as the state news agency."
+   "notes": "Somali National News Agency: always label it as the state news agency. No RSS feed: the collector reads the public homepage; the date comes from the article dateline."
   },
   {
    "id": "source-1",
@@ -554,6 +564,19 @@
     {
      "type": "rss",
      "url": "https://www.espn.com/espn/rss/news"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.espn.com/espn/rss/soccer/news"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.espn.co.uk/espn/rss/football/news"
+    },
+    {
+     "type": "html",
+     "url": "https://www.espn.com/soccer/",
+     "linkPattern": "^https://www\\.espn\\.com/(soccer|nba|f1|tennis|boxing|mma|cricket)/story/_/id/\\d+/[a-z0-9-]+$"
     }
    ],
    "imagePolicy": "all-rights-reserved",

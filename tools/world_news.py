@@ -165,7 +165,7 @@ def parse_telegram(page, pattern=None):
 class Meta(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
-        self.meta, self.canon, self.ld, self.paras, self.caps, self.links = {}, None, [], [], [], []
+        self.meta, self.canon, self.ld, self.paras, self.caps, self.links, self.times = {}, None, [], [], [], [], []
         self._in = None; self._buf = []
 
     def handle_starttag(self, tag, a):
@@ -177,6 +177,8 @@ class Meta(HTMLParser):
             self.canon = a['href']
         elif tag == 'a' and a.get('href'):
             self.links.append(a['href'])
+        elif tag == 'time' and a.get('datetime'):
+            self.times.append(a['datetime'])
         elif tag == 'script' and 'ld+json' in (a.get('type') or ''):
             self._in, self._buf = 'ld', []
         elif tag in ('p', 'figcaption') and self._in is None:
@@ -230,6 +232,14 @@ def article(url):
         if not out['author'] and isinstance(x.get('author'), (dict, list)):
             a = x['author'][0] if isinstance(x['author'], list) and x['author'] else x['author']
             if isinstance(a, dict): out['author'] = a.get('name')
+    if not out['publishedAt']:
+        for t in p.times[:3]:
+            d = parse_date(t)
+            if d: out['publishedAt'] = iso(d); out['dateSource'] = 'page <time> element'; break
+    if not out['publishedAt']:
+        # date only (no time): the URL /YYYY/MM/DD/ or the article's own dateline ("MUQDISHO, 3 Nofeembar 2026")
+        d = date_only(url, p.paras[:3])
+        if d: out['publishedAt'], out['dateOnly'], out['dateSource'] = iso(d[0]), True, d[1]
     if out['title']:
         out['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', out['title'])
     out['_paras'] = [t for t in p.paras if len(t) > 60][:25]
@@ -240,6 +250,35 @@ def article(url):
     out['imageCredit'] = credit.group(1) if credit else None
     out['imageLicenseHint'] = 'free' if FREE.search(cap) else None
     return out
+
+
+MONTHS = {'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10, 'nov': 11, 'dec': 12,
+          # Somali month names
+          'janaayo': 1, 'febraayo': 2, 'maarso': 3, 'abriil': 4, 'abril': 4, 'maajo': 5, 'juun': 6, 'luulyo': 7, 'agoosto': 8,
+          'sebtembar': 9, 'sibtembar': 9, 'oktoobar': 10, 'nofeembar': 11, 'noofembar': 11, 'nofembar': 11, 'diseembar': 12, 'disembar': 12}
+_MON = r'(janaayo|febraayo|maarso|abriil|abril|maajo|juun|luulyo|agoosto|sebtembar|sibtembar|oktoobar|nofeembar|noofembar|nofembar|diseembar|disembar|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?'
+
+
+def date_only(url, first_paras):
+    """A publication DATE without a time, never guessed: from the URL path or the dateline at the start of the article."""
+    tz = datetime.timezone(datetime.timedelta(hours=3))
+    m = re.search(r'/(20\d\d)/(\d\d)/(\d\d)/', url)
+    if m:
+        try: return datetime.datetime(int(m[1]), int(m[2]), int(m[3]), tzinfo=tz), 'date in the article URL (no time)'
+        except ValueError: pass
+    for t in first_paras:
+        head = t[:120].lower()
+        m = re.search(r'\b(\d{1,2})(?:da|aad|kii|th|st|nd|rd)?\s+' + _MON + r'\s*,?\s+(20\d\d)\b', head) or None
+        if m: dd, mon, yy = m[1], m[2], m[3]
+        else:
+            m = re.search(r'\b' + _MON + r'\s+(\d{1,2}),?\s+(20\d\d)\b', head)
+            if not m: continue
+            mon, dd, yy = m[1], m[2], m[3]
+        if not re.fullmatch(r"[^\W\d][\w\s'’./-]{1,40},\s*(\w+\s+)?|\s*", head[:m.start()]): continue  # only a dateline: "PLACE, <date>"
+        mo = MONTHS.get(mon) or MONTHS.get(mon[:3])
+        try: return datetime.datetime(int(yy), mo, int(dd), tzinfo=tz), 'dateline at the start of the article (no time)'
+        except (TypeError, ValueError): continue
+    return None
 
 
 def fetch(args):
@@ -304,13 +343,17 @@ def fetch(args):
                 for k, v in a.items():
                     if v and (k in ('canonicalUrl', '_paras', 'imageCaption', 'imageCredit', 'imageLicenseHint', 'author') or not it.get(k)):
                         it[k] = v
-                if a.get('publishedAt'): it['publishedAt'] = a['publishedAt']; it['timeVerified'] = True
+                if a.get('publishedAt') and not (a.get('dateOnly') and it.get('publishedAt')):
+                    it['publishedAt'] = a['publishedAt']; it['timeVerified'] = not a.get('dateOnly')
                 if a.get('image'): it['image'] = a['image']
             except Exception as e:
                 it['articleError'] = f'{type(e).__name__}: {e}'[:200]
             if not it.get('publishedAt'):
                 rep['errors'].append(f"no verifiable publication date: {g['url']}"); continue
-            if since and parse_date(it['publishedAt']) < since: continue
+            if since and parse_date(it['publishedAt']) < since:
+                # a date-only article (no time given by the publisher) counts if its date is on or after the window's date
+                if not (it.get('timeVerified') is False and parse_date(it['publishedAt']).date() >= since.astimezone(parse_date(it['publishedAt']).tzinfo).date()):
+                    continue
             if not it.get('title'): continue
             if it.get('title'):
                 it['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', it['title'])
