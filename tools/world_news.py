@@ -194,11 +194,13 @@ def article(url):
         if not out['publishedAt'] and x.get('datePublished'):
             d = parse_date(x['datePublished'])
             if d: out['publishedAt'] = iso(d)
-        if not out['author'] and isinstance(x.get('author'), (dict, list)):
+        if out['title']:
+        out['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', out['title'])
+    if not out['author'] and isinstance(x.get('author'), (dict, list)):
             a = x['author'][0] if isinstance(x['author'], list) and x['author'] else x['author']
             if isinstance(a, dict): out['author'] = a.get('name')
-    text = ' '.join(t for t in p.paras if len(t) > 60)
-    out['excerpt'] = text[:1000]
+    out['_paras'] = [t for t in p.paras if len(t) > 60][:25]
+    text = ' '.join(out['_paras'])
     cap = ' | '.join(p.caps[:2])
     out['imageCaption'] = cap[:300] or None
     credit = AGENCY.search(cap) or AGENCY.search(m.get('og:image:alt') or '') or AGENCY.search(text[:300])
@@ -242,8 +244,10 @@ def fetch(args):
             except Exception as e:
                 rep['errors'].append(f"{f['type']} {f['url']}: {type(e).__name__}: {e}"[:300])
         if not listing: continue
+        first = len(items)
         rep['found'] = len(listing)
-        listing = [g for g in listing if '/video/' not in g['url'] or s['id'] != 'euronews']
+        # video clips, galleries and live blogs are not articles
+        listing = [g for g in listing if not re.search(r'/(video|videos|gallery|live-news|live)/', g['url'])]
         listing.sort(key=lambda g: g.get('publishedAt') or '', reverse=True)
         for g in listing[:per * 2]:
             if rep['collected'] >= per: break
@@ -254,7 +258,7 @@ def fetch(args):
             try:
                 a = article(g['url'])
                 for k, v in a.items():
-                    if v and (k in ('canonicalUrl', 'excerpt', 'imageCaption', 'imageCredit', 'imageLicenseHint', 'author') or not it.get(k)):
+                    if v and (k in ('canonicalUrl', '_paras', 'imageCaption', 'imageCredit', 'imageLicenseHint', 'author') or not it.get(k)):
                         it[k] = v
                 if a.get('publishedAt'): it['publishedAt'] = a['publishedAt']; it['timeVerified'] = True
                 if a.get('image'): it['image'] = a['image']
@@ -264,8 +268,17 @@ def fetch(args):
                 rep['errors'].append(f"no verifiable publication date: {g['url']}"); continue
             if since and parse_date(it['publishedAt']) < since: continue
             if not it.get('title'): continue
+            if it.get('title'):
+                it['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', it['title'])
             items.append(it); rep['collected'] += 1
             time.sleep(0.5)
+        mine = items[first:]
+        seenp = {}
+        for it in mine:
+            for t in set(it.get('_paras') or []): seenp[t] = seenp.get(t, 0) + 1
+        for it in mine:
+            body = [t for t in it.pop('_paras', None) or [] if seenp.get(t, 0) < 2]
+            it['excerpt'] = ' '.join(body)[:1000] or None
     out = {'fetchedAt': iso(now()), 'since': iso(since) if since else None, 'sources': report, 'items': items}
     save(opt(args, '--out', '-'), out)
 
@@ -390,7 +403,7 @@ def compare(a, b, idf):
     reasons = [f'headline {t:.2f}', f'content {c:.2f}', f'names {e:.2f}', 'places ' + (','.join(sorted(shared_places)) or '-'), f'{hours:.0f}h apart']
     # conflicting key figures in the headline (e.g. a new death toll, a new vote result) mean a new development
     nums_conflict = fa['nums'] and fb['nums'] and not (fa['nums'] & fb['nums']) and t < 0.5
-    same_place = bool(shared_places) or e >= 0.3
+    same_place = (bool(shared_places) and (e >= 0.2 or t >= 0.5)) or e >= 0.3
     if same_place and hours <= 36 and not nums_conflict and (score >= 0.40 or (t >= 0.5 and c >= 0.3) or (e >= 0.45 and c >= 0.45) or (e >= 0.55 and c >= 0.3)):
         return 'duplicate', score, reasons
     if same_place and score >= 0.25:
@@ -481,7 +494,7 @@ def dedup(args):
     for x in sorted(left, key=lambda i: i.get('publishedAt') or ''):
         hit = None
         for g in groups:
-            for y in g:
+            for y in g[:1]:
                 v, sc, why = compare(x, y, idf)
                 if v == 'duplicate': hit = (g, y, sc, why); break
             if hit: break
@@ -499,8 +512,9 @@ def dedup(args):
         entry = {**pub(main), 'imageStatus': st, 'imageReason': why,
                  'alsoReportedBy': [{'source': y['sourceName'], 'url': y['url']} for y in g[1:]], 'related': []}
         for y in g[1:]:
-            rejected.append({**pub(y), 'why': 'duplicate', 'of': main['url'], 'score': y.get('_dupof', (0, 0))[1],
-                             'detail': (y.get('_dupof') or ('', 0, ''))[2] + f" | kept {main['sourceName']}"})
+            v, sc, why = compare(y, main, idf)
+            rejected.append({**pub(y), 'why': 'duplicate', 'of': main['url'], 'score': round(sc, 2),
+                             'detail': '; '.join(why) + f" | kept {main['sourceName']} (more complete / more reliable)"})
         plan.append(entry)
     # 4. related coverage (same ongoing story, separate development): kept, but linked so the writer can tell them apart
     for e in plan:
