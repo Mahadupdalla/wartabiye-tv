@@ -129,6 +129,39 @@ def parse_feed(data):
     return out
 
 
+def parse_telegram(page, pattern=None):
+    """Public web preview of a publisher's OFFICIAL Telegram channel (https://t.me/s/<channel>).
+    Keeps only posts that link to one of the publisher's articles; the headline and summary are the publisher's
+    own post text, the time is the post time (<time datetime>). Photos are never taken from the channel."""
+    out = []
+    for chunk in page.split('data-post="')[1:]:
+        post = chunk.split('"', 1)[0]
+        m = re.search(r'<time[^>]*datetime="([^"]+)"', chunk)
+        tm = re.search(r'(?s)class="tgme_widget_message_text[^"]*"[^>]*>(.*?)</div>', chunk)
+        if not m or not tm: continue
+        body = tm.group(1)
+        links = [html.unescape(h) for h in re.findall(r'href="([^"]+)"', body)]
+        links += [html.unescape(h) for h in re.findall(r'<a[^>]*tgme_widget_message_link_preview[^>]*>', chunk) for h in re.findall(r'href="([^"]+)"', h)]
+        url = next((u for u in links if not pattern or re.match(pattern, u)), None)
+        if not url: continue
+        text = re.sub(r'(?i)<br\s*/?>', '\n', body)
+        lines = [re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', l))).strip() for l in text.split('\n')]
+        lines = [l for l in lines if l and not re.match(r'(?i)^(read more|details|more|link|full story)\b', l) and not re.search(r'https?://', l)]
+        if not lines: continue
+        title = re.sub(r'#(\w)', r'\1', lines[0]).replace('_', ' ')
+        title = re.sub(r'\s+([,.;:!?’])', r'\1', title)
+        lab = re.match(r'(?i)^\W*(news analysis|news alert|news|analysis|commentary|op-?ed|opinion|feature|interview|editorial|breaking)\s*:\s*', title)
+        label = lab.group(1).title() if lab else None
+        if lab: title = title[lab.end():]
+        title = re.sub(r'^[^\w"“‘\']+', '', title).strip()
+        if len(title) < 15: continue
+        dt = parse_date(m.group(1))
+        out.append({'url': url.split('#')[0], 'title': title[:250], 'description': re.sub(r'#(\w)', r'\1', ' '.join(lines[1:])).replace('_', ' ')[:600] or None, 'postLabel': label,
+                    'publishedAt': iso(dt) if dt else None, 'image': None, 'dateSource': 'official Telegram post time',
+                    'channelPost': 'https://t.me/' + post})
+    return out
+
+
 class Meta(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -224,7 +257,9 @@ def fetch(args):
         for f in s['feeds']:
             try:
                 data = get(f['url'])
-                if f['type'] in ('rss', 'sitemap'):
+                if f['type'] == 'telegram':
+                    got = parse_telegram(data.decode('utf-8', 'replace'), f.get('linkPattern'))
+                elif f['type'] in ('rss', 'sitemap'):
                     if not data.lstrip()[:200].lower().startswith((b'<?xml', b'<rss', b'<feed', b'<urlset')) and b'<rss' not in data[:500]:
                         raise ValueError('not a feed (the address answers with a web page)')
                     got = parse_feed(data)
@@ -234,13 +269,13 @@ def fetch(args):
                     for h in p.links:
                         u = urllib.parse.urljoin(f['url'], h).split('#')[0]
                         if u not in seen and re.match(f['linkPattern'], u): seen.add(u); got.append({'url': u})
-                if f.get('linkPattern') and f['type'] != 'html':
+                if f.get('linkPattern') and f['type'] not in ('html', 'telegram'):
                     got = [g for g in got if re.match(f['linkPattern'], g['url'])]
                 if not got: raise ValueError('feed has no items')
                 dated = [parse_date(g.get('publishedAt')) for g in got if g.get('publishedAt')]
                 if f.get('maxAgeDays') and dated and max(dated) < now() - datetime.timedelta(days=f['maxAgeDays']):
                     raise ValueError(f'feed is stale (newest item {iso(max(dated))[:10]})')
-                listing = got; rep['method'] = f"{f['type']} {f['url']}"; break
+                listing = got; rep['method'] = f"{f['type']} {f['url']}"; rep['_telegram'] = f['type'] == 'telegram'; break
             except Exception as e:
                 rep['errors'].append(f"{f['type']} {f['url']}: {type(e).__name__}: {e}"[:300])
         if not listing: continue
@@ -255,7 +290,13 @@ def fetch(args):
             it = {'source': s['id'], 'sourceName': s['name'], 'url': g['url'], 'title': g.get('title'),
                   'description': g.get('description'), 'publishedAt': g.get('publishedAt'), 'image': g.get('image'),
                   'timeVerified': bool(g.get('publishedAt'))}
+            if g.get('dateSource'): it['dateSource'] = g['dateSource']
+            if g.get('channelPost'): it['channelPost'] = g['channelPost']
+            if g.get('postLabel'): it['postLabel'] = g['postLabel']
             try:
+                if rep.get('_telegram'):
+                    # the publisher's own site refuses automated readers (403): the official channel post is the source
+                    raise PermissionError('article page not opened: the publisher site refuses automated readers; text from its official channel post')
                 a = article(g['url'])
                 for k, v in a.items():
                     if v and (k in ('canonicalUrl', '_paras', 'imageCaption', 'imageCredit', 'imageLicenseHint', 'author') or not it.get(k)):
@@ -279,6 +320,7 @@ def fetch(args):
         for it in mine:
             body = [t for t in it.pop('_paras', None) or [] if seenp.get(t, 0) < 2]
             it['excerpt'] = ' '.join(body)[:1000] or None
+    for r in report: r.pop('_telegram', None)
     out = {'fetchedAt': iso(now()), 'since': iso(since) if since else None, 'sources': report, 'items': items}
     save(opt(args, '--out', '-'), out)
 
@@ -315,7 +357,9 @@ def norm_url(u):
     p = urllib.parse.urlsplit(u.strip())
     host = p.netloc.lower().removeprefix('www.').removeprefix('edition.').removeprefix('amp.')
     path = re.sub(r'/(amp|index\.html?)$', '', p.path.rstrip('/'))
-    return (host + path).lower()
+    # WordPress short links (/?p=60265) and similar: the id in the query IS the article
+    q = [f'{k}={v}' for k, v in urllib.parse.parse_qsl(p.query) if k in ('p', 'id', 'page_id', 'story', 'article', 'aid')]
+    return (host + path + ('?' + '&'.join(q) if q else '')).lower()
 
 
 def skel(w):
@@ -547,7 +591,7 @@ def dedup(args):
 
 def pub(x):
     return {k: x.get(k) for k in ('source', 'sourceName', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
-                                  'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError') if x.get(k) not in (None, '')}
+                                  'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel') if x.get(k) not in (None, '')}
 
 
 # ---------------------------------------------------------------- report / status
