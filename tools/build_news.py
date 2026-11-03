@@ -3,13 +3,24 @@ data/news/<id>.json (one file per article; the admin dashboard and the daily tas
 and data/status.json (last automatic run). Articles with "published": false are drafts and are left out.
 Translations ("en", "ar", "fr", "nl", "it", "de", "tr") are kept; a machine translation ("status": "auto") whose text was edited
 afterwards in /admin/ is published as "manual", so the page no longer labels it as machine-translated."""
-import json, os, glob, datetime
+import json, os, glob, datetime, re
 from translations import LANGS, text_hash, has
 PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
 
 
 def needs_photo(n):
     return n.get('by') != 'admin' and (n.get('publishedAt') or '')[:10] >= PHOTO_RULE_FROM
+
+
+OFFICIAL_POST = re.compile(r'^https://(?:(?:www\.)?(?:x|twitter)\.com/[A-Za-z0-9_]{1,15}/status/\d{5,25}'
+                           r'|(?:www\.)?instagram\.com/(?:p|reel)/[A-Za-z0-9_-]{5,40}'
+                           r'|(?:www\.|m\.)?facebook\.com/[^?#\s]+/(?:posts|photos|videos)/\S+)')
+
+
+def official_embed(n):
+    """A football result may be published without a photo file when it shows the club's own post through the
+    platform's official embed (X, Instagram or Facebook): the club's image is shown, never copied."""
+    return bool(OFFICIAL_POST.match(str(n.get('officialPost') or ''))) and not n.get('imagePending')
 
 
 def image_ok(n):
@@ -24,14 +35,14 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         continue
     # photo rule: an automatic article from the photo-rule date on is only published with its own image file;
     # otherwise it stays a draft in /admin/ under "Sugaya sawir" until the owner adds a photo
-    if needs_photo(n) and not image_ok(n):
+    if needs_photo(n) and not image_ok(n) and not official_embed(n):
         print(f"{n['id']}: no image file, kept as draft (Sugaya sawir)")
         continue
     if n.get('image') and n['image'].startswith('/'):
         n['image'] = n['image'].lstrip('/')
     # Rule: no article goes public without its own photo. An article without a photo file (or whose photo is
     # missing) stays pending for review in /admin/ ("Sugaya sawir") until a legal, relevant photo is added.
-    if not n.get('image') or not os.path.isfile(os.path.join(root, n['image'])):
+    if (not n.get('image') or not os.path.isfile(os.path.join(root, n['image']))) and not official_embed(n):
         pending.append(n['id']); continue
     # small card image made by tools/make_thumbs.py (publish workflow); cards fall back to the full image without it
     n.pop('thumb', None)

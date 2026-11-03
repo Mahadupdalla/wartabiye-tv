@@ -100,6 +100,8 @@ Hawsha socota maalin kasta 08:00 iyo 18:00 (Nairobi) waxay **kaliya ku daraysaa 
 
 **Sugaya sawir:** war aan lahayn sawir u gaar ah oo sharci ah lama daabaco. Wuxuu ku jiraa /admin/ → Wararka → filter-ka **Sugaya sawir**. Si aad u daabacdo: ku dar sawir (iyo cidda leh iyo ruqsadda), dami "Sugaya sawir", shid "La daabacay", kadibna **Save**.
 
+**Natiijooyinka kubadda cagta:** war natiijo kulan kubadda cagta ah wuxuu isticmaalaa oo keliya sawirka rasmiga ah ee kooxda, sidii ay u daabacday. Haddii ogolaansho dib-u-daabacaad la heli waayo (inta badan), warku wuxuu galaa **Sugaya sawir** iyadoo xusuusta sawirka ay ku qoran yihiin link-yada rasmiga ah ee la helay. Si aad u daabacdo: geli link-ga boostada natiijada ee koontada rasmiga ah ee kooxda (X, Instagram ama Facebook) beerta **"Boostada rasmiga ah ee kooxda"**, dami "Sugaya sawir", shid "La daabacay", kadibna **Save**. Bogga warka wuxuu muujinayaa boostada rasmiga ah (embed); sawirka lama koobiyeeyo.
+
 ## Kharash
 
 Dhammaan waa bilaash: GitHub Pages, Web3Forms (qorshaha bilaashka ah), GitHub Actions (repo public ah = daqiiqado aan xad lahayn), Sveltia CMS (MIT, bilaash) iyo token-ka GitHub. Wax adeeg lacag ah lama isticmaalin.
