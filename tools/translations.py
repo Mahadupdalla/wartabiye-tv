@@ -1,20 +1,20 @@
-"""Article translations (English, Arabic, French, Dutch, Italian, German, Turkish) for the daily task and for checks.
+"""Article translations (English, Arabic, French, Dutch, Italian, German, Turkish, Spanish) for the daily task and for checks.
 
 Each article file data/news/<id>.json keeps the original Somali text in title/summary/body/imageAlt.
-A translation is stored in the same file under "en", "ar", "fr", "nl", "it", "de" or "tr":
+A translation is stored in the same file under "en", "ar", "fr", "nl", "it", "de", "tr" or "es":
   "en": {"title": ..., "summary": ..., "body": ..., "imageAlt": ..., "status": "auto", "hash": ...}
 "status" is "auto" for a machine translation and "manual" for one the owner wrote or corrected in /admin/.
 "hash" fingerprints the text as it was machine-translated; if someone edits it later, build_news.py
 reports it as "manual". A translation that already exists is NEVER overwritten by this tool.
 
   python3 tools/translations.py missing            list articles that lack a translation (JSON, Somali text included)
-  python3 tools/translations.py add <file.json>    add translations: {"<id>": {"en": {...}, "ar": {...}, "fr": {...}, "nl": {...}, "it": {...}, "de": {...}, "tr": {...}}}
+  python3 tools/translations.py add <file.json>    add translations: {"<id>": {"en": {...}, "ar": {...}, "fr": {...}, "nl": {...}, "it": {...}, "de": {...}, "tr": {...}, "es": {...}}}
   python3 tools/translations.py verify [<ref>]     check that existing article files only GAINED translations since <ref> (default HEAD)
 """
 import json, os, sys, glob, re, hashlib, subprocess
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NEWS = os.path.join(root, 'data', 'news')
-LANGS = ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr')
+LANGS = ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')
 FIELDS = ('title', 'summary', 'body', 'imageAlt')
 
 
