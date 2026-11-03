@@ -239,6 +239,7 @@ collections:
             widget: object
             fields:
               - {name: enabled, label: Muuji, widget: boolean, default: false}
+              - {name: style, label: Nooca banner-ka, widget: select, required: false, options: [{label: 'Calanka iyo Xornimada Soomaaliya', value: calan}, {label: 'Banner caadi ah (sawir iyo qoraal)', value: 'caadi'}]}
               - {name: label, label: Calaamad yar, widget: string, required: false}
               - {name: title, label: Cinwaan, widget: string, required: false}
               - {name: text, label: Qoraal, widget: string, required: false}

@@ -764,3 +764,43 @@ tr:{
   fCat:'İşletme türü', fMsg:'Mesajınız'
 }};
 for(var k in X){window.WT_ADDEMO[k]=window.WT_ADDEMO[k]||{};for(var j in X[k])window.WT_ADDEMO[k][j]=X[k][j]}})();
+
+/* Somali flag and independence banner in the header (site.json banner.style = "calan"). */
+window.WT_CALAN = {
+so:{title:'Calanka iyo Xornimada Soomaaliya', flagAlt:'Calanka Soomaaliya', facts:[
+  ['Calanka Soomaaliya la ansixiyey','12 Oktoobar 1954'],['Naqshadeeyey','Maxamed Cawaale Liibaan'],
+  ['Gobollada Waqooyi waxay xorriyad qaateen','26 Juun 1960'],['Jamhuuriyadda Soomaaliya waxay dhalatay','1 Luulyo 1960'],
+  ['Midowgii labada gobol','British Somaliland iyo Italian Somaliland']]},
+en:{title:'The Flag and Independence of Somalia', flagAlt:'Flag of Somalia', facts:[
+  ['Somali flag adopted','12 October 1954'],['Designed by','Mohammed Awale Liban'],
+  ['Northern regions gained independence','26 June 1960'],['Somali Republic was born','1 July 1960'],
+  ['Union of the two regions','British Somaliland and Italian Somaliland']]},
+ar:{title:'علم الصومال واستقلالها', flagAlt:'علم الصومال', facts:[
+  ['اعتماد علم الصومال','12 أكتوبر 1954'],['صمّمه','محمد عوالي ليبان'],
+  ['استقلال الأقاليم الشمالية','26 يونيو 1960'],['قيام الجمهورية الصومالية','1 يوليو 1960'],
+  ['اتحاد الإقليمين','الصومال البريطاني والصومال الإيطالي']]},
+fr:{title:'Le drapeau et l’indépendance de la Somalie', flagAlt:'Drapeau de la Somalie', facts:[
+  ['Adoption du drapeau somalien','12 octobre 1954'],['Conçu par','Mohammed Awale Liban'],
+  ['Indépendance des régions du Nord','26 juin 1960'],['Naissance de la République somalienne','1er juillet 1960'],
+  ['Union des deux territoires','Somaliland britannique et Somalie italienne']]},
+nl:{title:'De vlag en onafhankelijkheid van Somalië', flagAlt:'Vlag van Somalië', facts:[
+  ['Somalische vlag aangenomen','12 oktober 1954'],['Ontworpen door','Mohammed Awale Liban'],
+  ['Noordelijke regio’s onafhankelijk','26 juni 1960'],['Republiek Somalië geboren','1 juli 1960'],
+  ['Unie van de twee gebieden','Brits-Somaliland en Italiaans-Somaliland']]},
+it:{title:'La bandiera e l’indipendenza della Somalia', flagAlt:'Bandiera della Somalia', facts:[
+  ['Bandiera somala adottata','12 ottobre 1954'],['Ideata da','Mohammed Awale Liban'],
+  ['Indipendenza delle regioni del Nord','26 giugno 1960'],['Nascita della Repubblica Somala','1º luglio 1960'],
+  ['Unione dei due territori','Somaliland britannico e Somalia italiana']]},
+de:{title:'Flagge und Unabhängigkeit Somalias', flagAlt:'Flagge Somalias', facts:[
+  ['Somalische Flagge eingeführt','12. Oktober 1954'],['Entworfen von','Mohammed Awale Liban'],
+  ['Unabhängigkeit der Nordregionen','26. Juni 1960'],['Gründung der Republik Somalia','1. Juli 1960'],
+  ['Union der beiden Gebiete','Britisch-Somaliland und Italienisch-Somaliland']]},
+tr:{title:'Somali’nin Bayrağı ve Bağımsızlığı', flagAlt:'Somali bayrağı', facts:[
+  ['Somali bayrağı kabul edildi','12 Ekim 1954'],['Tasarlayan','Mohammed Awale Liban'],
+  ['Kuzey bölgeleri bağımsızlığını kazandı','26 Haziran 1960'],['Somali Cumhuriyeti kuruldu','1 Temmuz 1960'],
+  ['İki bölgenin birleşmesi','İngiliz Somaliland ve İtalyan Somaliland']]},
+es:{title:'La bandera y la independencia de Somalia', flagAlt:'Bandera de Somalia', facts:[
+  ['Adopción de la bandera somalí','12 de octubre de 1954'],['Diseñada por','Mohammed Awale Liban'],
+  ['Independencia de las regiones del norte','26 de junio de 1960'],['Nacimiento de la República de Somalia','1 de julio de 1960'],
+  ['Unión de los dos territorios','Somalilandia británica y Somalia italiana']]}
+};
