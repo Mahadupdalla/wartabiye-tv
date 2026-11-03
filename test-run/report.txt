@@ -1,0 +1,387 @@
+News sources test — fetched 2026-11-04T00:30:38+03:00  window since 2026-11-02T00:27:06+03:00
+
+source                section  state    method / error                                                         got kept  dup known
+BBC Somali            somalia  working  rss https://feeds.bbci.co.uk/somali/rss.xml                             10    9    1     0
+VOA Somali            somalia  working  html https://www.voasomali.com/                                          3    1    2     0
+Hiiraan Online        somalia  working  html https://www.hiiraan.com/                                            6    6    0     0
+Garowe Online         somalia  working  html https://www.garoweonline.com/en                                     5    4    0     1
+Dawan Africa          somalia  working  html https://www.dawan.africa/                                          10    9    1     0
+Somali Guardian       somalia  working  rss https://www.somaliguardian.com/feed/                                 3    1    0     2
+Goobjoog News         somalia  working  html https://goobjoog.com/                                              10   10    0     0
+Radio Dalsan          somalia  working  rss https://www.radiodalsan.com/feed/                                    2    1    1     0
+Horseed Media         somalia  working  rss https://horseedmedia.net/feed/                                      10    7    0     3
+SONNA (state news age somalia  working  html https://sonna.so/en                                                 7    7    0     0
+Source 1 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+Source 2 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+Türkiye Today         world    working  html https://www.turkiyetoday.com/                                      10    6    4     0
+Daily Sabah           world    working  rss https://www.dailysabah.com/rss/world                                10    7    3     0
+CNN                   world    working  sitemap https://edition.cnn.com/sitemap/news.xml                        10    9    1     0
+Euronews              world    working  rss https://www.euronews.com/rss?level=theme&name=news                  10    9    1     0
+Source 7 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+IGAD                  world    working  rss https://igad.int/feed/                                               1    1    0     0
+Addis Standard        world    working  telegram https://t.me/s/AddisstandardEng                                 8    8    0     0
+UN News               world    working  rss https://news.un.org/feed/subscribe/en/news/region/africa/feed/rss    1    1    0     0
+AP (Associated Press) world    search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+Reuters               world    search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+BBC News World        world    working  rss https://feeds.bbci.co.uk/news/world/rss.xml                         10    7    3     0
+Al Jazeera English    world    working  rss https://www.aljazeera.com/xml/rss/all.xml                           10   10    0     0
+DW                    world    working  rss https://rss.dw.com/xml/rss-en-world                                 10    8    2     0
+France 24             world    working  rss https://www.france24.com/en/rss                                     10   10    0     0
+BBC Sport             sports   working  rss https://feeds.bbci.co.uk/sport/rss.xml                              10    9    1     0
+ESPN                  sports   blocked  rss https://www.espn.com/espn/rss/news: ValueError: not a feed (the a    0    0    0     0
+Official competition  sports   search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+
+ERRORS (full)
+  Source 1 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  Source 2 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  Source 7 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  AP (Associated Press): no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+  Reuters: no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+  ESPN: rss https://www.espn.com/espn/rss/news: ValueError: not a feed (the address answers with a web page) | rss https://www.espn.com/espn/rss/soccer/news: ValueError: not a feed (the address answers with a web page) | rss https://www.espn.co.uk/espn/rss/football/news: ValueError: not a feed (the address answers with a web page)
+  Official competition sites: no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+
+stories kept: 140   duplicates removed: 20   already known: 6   images: generic 4, none 9, not-reusable 127
+
+DUPLICATES
+  - [VOA Somali] VOA Somali Audio Tube
+      same event as https://www.voasomali.com/a/8213024.html
+      same article URL / canonical URL
+  - [VOA Somali] VOA Somali Audio Tube
+      same event as https://www.voasomali.com/a/8213024.html
+      same article URL / canonical URL
+  - [BBC Sport] The transplanted Scot doing famous father proud in New Zealand
+      same event as https://www.bbc.co.uk/sport/rugby-union/articles/c6ewerp0w5lvo?at_medium=RSS&at_campaign=rss
+      same article URL / canonical URL
+  - [Euronews] Asian Cup in Saudi Arabia postponed to December over regional security
+      same event as 2026-11-03-koobka-aasiya-2027-dib-u-dhac
+      headline 0.50; content 0.62; names 0.53; places saudi,saudi arabia; 4h apart
+  - [BBC News World] Death toll rises in Ukraine after Russia attacks aid centre, hospice and hospital
+      same event as 2026-11-02-zaporizhzhia-weerar-xarun-gargaar
+      headline 0.20; content 0.52; names 0.33; places russia,ukraine,zaporizhzhia; 22h apart
+  - [BBC News World] Trump to remove Rwanda and South Africa from US trade deal
+      same event as 2026-11-02-mareykanka-agoa-koonfur-afrika-rwanda
+      headline 0.40; content 0.40; names 0.23; places rwanda,usa; 1h apart
+  - [DW] US to drop South Africa, Rwanda from duty-free trade initiative
+      same event as 2026-11-02-mareykanka-agoa-koonfur-afrika-rwanda
+      headline 0.56; content 0.53; names 0.31; places rwanda,usa; 1h apart
+  - [Radio Dalsan] Only One in Ten Women Journalists Feel Safe at Work in Somalia, NUSOJ Report Finds
+      same event as https://www.hiiraan.com/news4/2026/Nov/206674/nusoj_report_finds_widespread_harassment_poor_working_conditions_for_women_journalists_in_somalia.aspx
+      headline 0.36; content 0.65; names 0.30; places mogadishu,somalia; 24h apart | kept Hiiraan Online (more complete / more reliable)
+  - [Türkiye Today] Erdogan arrives in Seoul as Türkiye seeks deal for 2nd nuclear plant
+      same event as https://www.euronews.com/2026/11/03/south-korea-and-turkey-sign-financing-pact-as-seoul-seeks-role-in-planned-nuclear-power-pl
+      headline 0.29; content 0.64; names 0.67; places korea,turkiye; 33h apart | kept Euronews (more complete / more reliable)
+  - [Türkiye Today] Türkiye, South Korea sign nuclear, energy and technology cooperation deals
+      same event as https://www.euronews.com/2026/11/03/south-korea-and-turkey-sign-financing-pact-as-seoul-seeks-role-in-planned-nuclear-power-pl
+      headline 0.29; content 0.65; names 0.80; places korea,turkiye; 6h apart | kept Euronews (more complete / more reliable)
+  - [BBC Somali] Dunida Iyo Maanta
+      same event as https://www.bbc.com/somali/bbc_somali_radio/w1730vsqfvnlslx?at_medium=RSS&at_campaign=rss
+      headline 1.00; content 1.00; names 1.00; places -; 24h apart | kept BBC Somali (more complete / more reliable)
+  - [DW] Can US midterm election really change Trump's Iran policy?
+      same event as https://www.dw.com/en/8-ways-the-us-midterm-election-could-affect-donald-trump-s-iran-policy/a-79831816?maca=en-rss-en-world-4025-xml-mrss
+      headline 0.50; content 0.35; names 0.40; places iran,usa; 21h apart | kept DW (more complete / more reliable)
+  - [Daily Sabah] At least 4 flights across Europe disrupted by hoax bomb threats
+      same event as https://www.bbc.co.uk/news/articles/c6x2wd4v04eeo?at_medium=RSS&at_campaign=rss
+      headline 0.50; content 0.45; names 0.10; places bulgaria,italy,poland,spain,uk; 3h apart | kept BBC News World (more complete / more reliable)
+  - [CNN] Trump’s Election Day bombshell on Israel points to historic shift in US politics
+      same event as https://www.cnn.com/2026/11/03/politics/trump-us-aid-israel
+      headline 0.14; content 0.41; names 0.67; places israel,usa; 7h apart | kept CNN (more complete / more reliable)
+  - [Daily Sabah] US to stop $3.8B military aid to Israel by end of 2026: Trump
+      same event as https://www.cnn.com/2026/11/03/politics/trump-us-aid-israel
+      headline 0.33; content 0.50; names 0.36; places israel,usa; 0h apart | kept CNN (more complete / more reliable)
+  - [Daily Sabah] Israeli opposition slams Netanyahu over Trump's decision to end US aid
+      same event as https://www.cnn.com/2026/11/03/politics/trump-us-aid-israel
+      headline 0.33; content 0.30; names 0.42; places israel,usa; 2h apart | kept CNN (more complete / more reliable)
+  - [Türkiye Today] Israeli opposition blames Netanyahu after Trump says US will end military aid
+      same event as https://www.cnn.com/2026/11/03/politics/trump-us-aid-israel
+      headline 0.33; content 0.48; names 0.33; places israel,usa; 3h apart; different figures | kept CNN (more complete / more reliable)
+  - [Dawan Africa] First Somali Takaful Insurance Named Company of the Year at EAC Awards 2026
+      same event as https://www.dawan.africa/news/somalias-tabaarak-ict-wins-service-of-the-year-at-eac-awards-2026
+      headline 0.33; content 0.72; names 0.25; places mogadishu,somalia; 0h apart | kept Dawan Africa (more complete / more reliable)
+  - [Türkiye Today] Israel tells US Iran may be weighing chemical weapons use, drawing alarm and doubt
+      same event as https://www.dailysabah.com/world/mid-east/israeli-claims-of-iran-chemical-weapons-threat-divide-us-officials
+      headline 0.29; content 0.67; names 0.50; places iran,israel,usa; 0h apart | kept Daily Sabah (more complete / more reliable)
+  - [BBC News World] Spanish transport minister resigns days after deadly train crash
+      same event as https://www.cnn.com/2026/11/03/americas/spain-transport-minister-resigns-intl-latam
+      headline 1.00; content 0.59; names 0.20; places spain; 0h apart | kept CNN (more complete / more reliable)
+
+FEED (newest first)
+  2026-11-04T00:27  somali [VOA Somali] VOA Somali Audio Tube
+      image: generic (generic thumbnail or logo, not a photo of this story)
+  2026-11-04T00:20  sports [BBC Sport] Man Utd eye Man City's Ait-Nouri - Wednesday's gossip
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-04T00:18  world  [France 24] South Africa braces for some job losses as AGOA ends
+      image: not-reusable (France 24 photos are all rights reserved)  related: 1
+  2026-11-04T00:16  world  [Türkiye Today] Qatar PM and Turkish top diplomat hold phone call on regional tensions
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-04T00:15  sports [BBC Sport] Ocon dropped by Haas for rest of season after row
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-03T23:56  world  [France 24] Trump promised a 'Golden Age'. What has he delivered at home?
+      image: not-reusable (France 24 photos are all rights reserved)
+  2026-11-03T23:54  world  [CNN] Justice Department sends criminal target letters in Alaska probe to people aligned with Democra
+      image: not-reusable (agency photo (Getty), all rights reserved)
+  2026-11-03T23:43  somali [Dawan Africa] Opinion: Diphtheria in Somalia — Why Children Still Die from a Vaccine-Preventable Disease
+      image: not-reusable (Dawan Africa photos are all rights reserved)
+  2026-11-03T23:43  world  [CNN + BBC News World] Spanish transport minister resigns after two deadly train crashes in one year
+      image: not-reusable (agency photo (Getty), all rights reserved)
+  2026-11-03T23:37  world  [Türkiye Today] Ballot machine failures in New York’s Westchester County fuel unfounded fraud claims
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-03T23:32  somali [Dawan Africa] Opinion - Somalia’s Political Talks: Who Is Speaking for the Next Generation?
+      image: not-reusable (Dawan Africa photos are all rights reserved)
+  2026-11-03T23:26  sports [BBC Sport] Death threats for Briton Burrage on WTA Tour return
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-03T23:19  somali [Goobjoog News] Taliyaha Ciidanka Xoogga Dalka oo Baraawe kulamo amni ka yeeshay, xilli xiisadda Koonfur Galbee
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T23:11  somali [Dawan Africa] Somalia Sets Minimum Learning Hours for Primary, Secondary Schools
+      image: not-reusable (Dawan Africa photos are all rights reserved)
+  2026-11-03T22:46  world  [Türkiye Today] Galatasaray beat Stuttgart 2-0  in Champions League as Batrakov scores twice
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-03T22:38  somali [Goobjoog News] Cabdul El-Sayed Iyo Michigan Oo Xuddun U Noqoday Doorashada Mareykanka Iyo Loollanka Senate-ka
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T22:24  somali [Dawan Africa] Somalia Rejects Israel’s Accreditation of Ambassador in Hargeisa
+      image: not-reusable (Dawan Africa photos are all rights reserved)  related: 3
+  2026-11-03T22:22  world  [CNN] Supreme Court prepared to rule that publicly funded religious schools can reject children of sa
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-03T22:19  somali [Dawan Africa] SomBank Adds Global Pay to Kulmiye Internet Banking Platform
+      image: not-reusable (Dawan Africa photos are all rights reserved)
+  2026-11-03T22:18  world  [France 24] Trickle or tsunami? Democrats eye gains in US midterm elections
+      image: not-reusable (agency photo (REUTERS), all rights reserved)
+  2026-11-03T22:16  somali [Dawan Africa] Somaliland President Accuses Somalia of Seeking to Deploy Troops to Eastern Sool
+      image: not-reusable (Dawan Africa photos are all rights reserved)  related: 1
+  2026-11-03T22:15  world  [Daily Sabah + Türkiye Today] Israeli claims of Iran chemical weapons threat divide US officials
+      image: not-reusable (Daily Sabah photos are all rights reserved)
+  2026-11-03T22:13  world  [Al Jazeera English] Michigan US Senate race: Rogers, El-Sayed urge turnout for critical race
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-03T22:09  world  [Al Jazeera English] Yemen gov’t accuses IRGC, Hezbollah of sending 21 experts to back Houthis
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-03T21:59  somali [Dawan Africa] Banadiria Coffee Wins Exporter of the Year at the EAC Awards 2026
+      image: not-reusable (Dawan Africa photos are all rights reserved)  related: 1
+  2026-11-03T21:42  world  [France 24] 🔴 Midterms live: Voting under way to determine control of Congress and the future of Trump's ag
+      image: none (no image in the feed or Open Graph data)
+  2026-11-03T21:32  world  [Al Jazeera English] UK’s King Charles expresses ‘sorrow’ in Antigua over slave trade
+      image: not-reusable (agency photo (AFP), all rights reserved)  related: 1
+  2026-11-03T21:26  sports [BBC Sport] Kenny's background 'not that important' to O'Neill
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-03T21:17  world  [CNN] Convicted murderer who escaped through Tennessee prison fence is captured, officials say
+      image: not-reusable (CNN photos are all rights reserved)
+  2026-11-03T21:14  world  [Daily Sabah] Israeli ex-generals stand with Palestinians amid settler violence
+      image: not-reusable (Daily Sabah photos are all rights reserved)
+  2026-11-03T21:10  world  [Euronews] Trump says US will end military aid to Israel as Americans vote in midterms
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-03T21:05  world  [Al Jazeera English] Greenland parliament approves security deal with US, Denmark
+      image: not-reusable (agency photo (Getty), all rights reserved)
+  2026-11-03T21:05  sports [BBC Sport] Warrington head coach Burgess signs new deal
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-03T20:50  sports [BBC Sport] The transplanted Scot doing famous father proud in New Zealand
+      image: generic (generic thumbnail or logo, not a photo of this story)
+  2026-11-03T20:40  somali [Dawan Africa] Hormuud University, Somali National University Sign MoU on Research and Faculty Exchange
+      image: not-reusable (Dawan Africa photos are all rights reserved)
+  2026-11-03T20:38  somali [Dawan Africa + Dawan Africa] Somalia's Tabaarak ICT Wins Service of the Year at EAC Awards 2026
+      image: not-reusable (Dawan Africa photos are all rights reserved)  related: 1
+  2026-11-03T20:37  sports [BBC Sport] What will 'exciting' McNamara bring to Leinster?
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-03T20:34  world  [France 24] France's dermatology crisis: Patients desperate for appointments
+      image: not-reusable (France 24 photos are all rights reserved)
+  2026-11-03T20:30  world  [France 24] Family wealth, Epstein, ‘vanity projects’: How Democrats plan to investigate Trump after midter
+      image: not-reusable (France 24 photos are all rights reserved)
+  2026-11-03T20:22  world  [Al Jazeera English] South Carolina shrimpers weigh costs, vote in crucial US midterms
+      image: not-reusable (Al Jazeera English photos are all rights reserved)
+  2026-11-03T20:03  world  [Al Jazeera English] Darfur survivors vow to tell story of those killed after Sudan camp attacks
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-03T20:00  world  [Al Jazeera English] Barcelona vs Aston Villa LIVE: Champions League
+      image: not-reusable (Al Jazeera English photos are all rights reserved)
+  2026-11-03T19:53  somali [Goobjoog News] Hay’adda SARIS oo ka digtay adeegsiga kiimikooyinka lagu dedejiyo bislaanshaha miraha
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T19:52  somali [Goobjoog News] Soomaaliya, Qaramada Midoobay iyo Midowga Afrika oo isku raacay sii wadista taageerada howlgala
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T19:52  world  [France 24] Ukraine and Russia are taking the war underground as drones saturate the battlefield
+      image: not-reusable (France 24 photos are all rights reserved)  related: 2
+  2026-11-03T19:50  somali [Goobjoog News] Soomaaliya iyo UK oo ka wada hadlay dib-u-habeynta dhaqaalaha iyo kordhinta dakhliga gudaha
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T19:49  world  [Al Jazeera English] Israel political deadlock leaves Netanyahu’s future hanging in the balance
+      image: not-reusable (agency photo (AFP), all rights reserved)  related: 1
+  2026-11-03T19:41  world  [France 24] Election officials brace for possible Trump interference in the midterms
+      image: not-reusable (agency photo (AFP), all rights reserved)  related: 1
+  2026-11-03T19:39  world  [Al Jazeera English] Opposition party organiser killed before South Africa elections
+      image: not-reusable (agency photo (EPA), all rights reserved)
+  2026-11-03T19:22  world  [Al Jazeera English] Ukraine’s Zelenskyy hopes Abu Dhabi talks will open path to Putin meeting
+      image: not-reusable (agency photo (Pool via), all rights reserved)
+  2026-11-03T19:20  world  [BBC News World] Irish Olympian Ciara Mageean was a 'talented and inspirational human being'
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-03T19:19  world  [BBC News World] Binance says fake job interviews used as part of $6.3bn crypto hack
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-03T19:11  world  [Euronews] The Senate on a razor’s edge: The races that will decide America's midterms
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-03T19:05  world  [France 24] Trump focused on 'what's important to him': 'Tone-deaf for a normally shrewd populist operator'
+      image: not-reusable (France 24 photos are all rights reserved)
+  2026-11-03T18:41  world  [France 24] Bomb threats against European airlines force Warsaw airport closure, affect several flights
+      image: not-reusable (France 24 photos are all rights reserved)  related: 1
+  2026-11-03T18:21  world  [Euronews + Türkiye Today, Türkiye Today] South Korea and Turkey sign financing pact as Seoul seeks role in planned nuclear power plant
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-03T18:06  world  [DW] Why South Africa's local elections matter
+      image: not-reusable (agency photo (AP Photo), all rights reserved)  related: 1
+  2026-11-03T18:05  world  [BBC News World] Mining giant joins fight to stop killer toad march across Australia
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-03T17:58  somali [BBC Somali] Dadka doomaha ku gala Ingiriiska oo laga yaabao inay ilaa 30 sano sugaan helitaanka deganaansho
+      image: not-reusable (BBC Somali photos are all rights reserved)
+  2026-11-03T17:56  world  [BBC News World] Libya's top religious authority rules against wearing Nike clothes
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-03T17:48  somali [Horseed Media] Puntland iyo Jubbaland oo go’aamo wadajir ah ka soo saaraya xaaladda Somalia.
+      image: not-reusable (Horseed Media photos are all rights reserved)
+  2026-11-03T17:48  world  [DW] China and India achieved diplomatic thaw. Now the border is flaring up
+      image: not-reusable (agency photo (AFP), all rights reserved)
+  2026-11-03T17:28  world  [DW] Cyprus: From ties with Russia to a strategic alignment with the US
+      image: not-reusable (agency photo (AFP), all rights reserved)
+  2026-11-03T17:26  world  [DW] What US midterm elections mean for Ukraine, Iran and elsewhere
+      image: not-reusable (agency photo (AP Photo), all rights reserved)  related: 1
+  2026-11-03T17:21  world  [CNN + CNN, Daily Sabah, Daily Sabah, Türkiye Today] Trump says US is cutting off aid to Israel at year’s end because ‘they don’t need it’
+      image: not-reusable (agency photo (AFP), all rights reserved)
+  2026-11-03T17:19  world  [Addis Standard] Ethiopia’s governance trajectory shows ‘warning signs’ despite modest gains: Ibrahim Index
+      image: none (no image in the feed or Open Graph data)
+  2026-11-03T17:18  world  [DW] Yemen: Houthi clashes near Taiz leave residents in a 'state of panic'
+      image: not-reusable (agency photo (AP Photo), all rights reserved)
+  2026-11-03T17:18  world  [Türkiye Today]  Turkic states plan space days and joint satellite
+      image: not-reusable (agency photo (Anadolu), all rights reserved)
+  2026-11-03T17:15  world  [Türkiye Today] Nordic countries refuse to play Russia at ice hockey championships
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-03T17:02  sports [BBC Sport] RFL backs Wilkin's £30m funding plea to Burnham
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-03T16:35  world  [CNN] Bomb threats on flights in Europe cause disruption, no devices found
+      image: not-reusable (agency photo (Reuters), all rights reserved)  related: 1
+  2026-11-03T16:26  world  [Euronews] Qatar sees 'hope' for US-Iran deal despite fresh US strikes as mediators exchange proposals in 
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-03T16:20  sports [BBC Sport] Sussex appoint Barrett-Wild as first female CEO
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-03T16:12  world  [BBC News World] Europe on alert after supermarket freezers hit by cyber-attacks in 10 countries
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-03T16:08  somali [Goobjoog News] SOOMAALIYA IYO JARMALKA OO KA WADA HADLAY XOOJINTA ISKAASHIGA DHINACYADA DIFAACA IYO AMNIGA
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T15:50  world  [Daily Sabah] Israeli oppositions discuss ousting Netanyahu in nod for Eisenkot
+      image: not-reusable (Daily Sabah photos are all rights reserved)  related: 1
+  2026-11-03T15:47  world  [Daily Sabah] 5 things you need to know about 2026 US midterm elections
+      image: not-reusable (agency photo (Reuters), all rights reserved)  related: 1
+  2026-11-03T15:40  world  [Addis Standard] Long after Ethiopia completes GERD, Egypt, Sudan invoke Nile water rights under colonial-era ag
+      image: none (no image in the feed or Open Graph data)
+  2026-11-03T15:35  somali [BBC Somali] Weerar dhanka internet-ka ah oo 7 dal oo Yurub ah gilgilay: Qaboojiyeyaashii dukaamada oo shaqa
+      image: not-reusable (BBC Somali photos are all rights reserved)
+  2026-11-03T15:26  world  [Euronews] Turkey's justice minister says 'criminal network' behind billion-dollar fund scandal
+      image: not-reusable (agency photo (AP Photo), all rights reserved)
+  2026-11-03T14:47  world  [Daily Sabah] Widening Russia-Ukraine naval war tests NATO's Black Sea limits
+      image: not-reusable (Daily Sabah photos are all rights reserved)
+  2026-11-03T14:29  world  [Daily Sabah] Africa CDC revises latest Ebola outbreak toll to over 5,300
+      image: not-reusable (Daily Sabah photos are all rights reserved)
+  2026-11-03T14:26  world  [CNN] At least 33 dead after Russia drops nine bombs on a Ukrainian school building
+      image: not-reusable (agency photo (Reuters), all rights reserved)  related: 3
+  2026-11-03T14:25  world  [Addis Standard] The Battle for Baidoa: Testing Somalia’s federalism and limits of presidential power
+      image: none (no image in the feed or Open Graph data)
+  2026-11-03T14:22  world  [BBC News World + Daily Sabah] Seven flights across Europe targeted by suspected bomb threats
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-03T14:16  somali [Horseed Media] Golaha Wakiillada Puntland oo la xisaabtamay Wasaaradaha Caafimaadka iyo Arrimaha Gudaha
+      image: not-reusable (Horseed Media photos are all rights reserved)
+  2026-11-03T13:27  world  [DW] Could the AI boom make borrowing more expensive in Europe?
+      image: not-reusable (DW photos are all rights reserved)
+  2026-11-03T13:26  world  [Türkiye Today] Cazart! the age of magical thinking has become dangerous
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-03T13:21  world  [Addis Standard] Sudan lodges formal complaints against Ethiopia with UNSC, AU Peace and Security Council
+      image: none (no image in the feed or Open Graph data)
+  2026-11-03T13:19  world  [Euronews] Iran warns of ‘new battlefield’ after reported US strike on Qeshm
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-03T13:00  world  [CNN] ‘Mayday, mayday.’ A flight from Texas to the Bahamas ended in tragedy. What investigators are e
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-03T12:59  world  [Daily Sabah] Warsaw airport shut after flight from London lands over bomb threat
+      image: not-reusable (Daily Sabah photos are all rights reserved)
+  2026-11-03T12:51  world  [Euronews] US midterm elections results 2026: Live updates in maps and charts
+      image: not-reusable (Euronews photos are all rights reserved)  related: 1
+  2026-11-03T12:31  world  [IGAD] IGAD Calls for Stronger Alignment of National and Regional Migration Policies in Djibouti
+      image: not-reusable (IGAD photos are all rights reserved)
+  2026-11-03T12:11  world  [Addis Standard] Kenya begins registering Ethiopian refugees fleeing Moyale clashes; arrivals surpass 50,000
+      image: none (no image in the feed or Open Graph data)
+  2026-11-03T11:38  somali [Goobjoog News] Madaxweyne Xasan Sheekh oo Madaxtooyada ku qaabilay madax-dhaqameed ka yimid gobollada Waqooyi
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T11:31  somali [Horseed Media] Mareykanka oo duqeymo xaddidan ka fuliyay Jasiiradda Qeshm ee Iiraan
+      image: not-reusable (Horseed Media photos are all rights reserved)
+  2026-11-03T11:26  somali [BBC Somali] Maraykanka oo ay ka dhacayaan doorashooyin laga yaabo inay qeexaan cutubka ugu dambeeya ee xill
+      image: not-reusable (BBC Somali photos are all rights reserved)
+  2026-11-03T11:26  world  [Euronews] King Charles and Queen Camilla caught in heavy rain during Antigua celebrations
+      image: not-reusable (Euronews photos are all rights reserved)  related: 1
+  2026-11-03T11:21  somali [Horseed Media] Puntland oo 45 maalmood xirtay dhul xeebeed dhererkiisu yahay 39 KM
+      image: not-reusable (Horseed Media photos are all rights reserved)
+  2026-11-03T10:12  somali [BBC Somali] Filin: Waa maxay sababta uu khatar u yahay gantaalkan cusub ee Ruushka?
+      image: not-reusable (BBC Somali photos are all rights reserved)
+  2026-11-03T09:53  world  [Euronews] North Korea slams FBI claims it was behind €5bn Binance hack and test fires missiles
+      image: not-reusable (agency photo (AP Photo), all rights reserved)
+  2026-11-03T09:20  somali [BBC Somali] Tobankii gabdhood ee sahmiyeyaasha ahaa ee wax ka beddelay aragtida ay dunidu ka qabtay Afrika
+      image: not-reusable (BBC Somali photos are all rights reserved)
+  2026-11-03T09:18  somali [Goobjoog News] Maxaa Soomaaliya ka Hortaagan inay si Buuxda uga Faa’iidaysto Kheyraadkeeda Kalluumeysiga?
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T08:09  somali [Horseed Media] Golaha Wasiirrada Puntland oo Ansixiyey Miisaaniyadda Dowladda ee 2027-ka oo ka badan $308 Mily
+      image: not-reusable (Horseed Media photos are all rights reserved)
+  2026-11-03T07:29  somali [BBC Somali] Idaacadda Subaxnimo
+      image: generic (generic thumbnail or logo, not a photo of this story)
+  2026-11-03T06:40  somali [Goobjoog News] Suudaan oo Itoobiya ka Gudbisay Dacwad ku Saabsan Weerarro Diyaaradaha aan Duuliyaha lahayn loo
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T06:11  somali [BBC Somali] Qoys ka kooban 5 qof oo sababsaday bahal laga helo inta badan guryaha Soomaalida
+      image: not-reusable (BBC Somali photos are all rights reserved)
+  2026-11-03T06:09  somali [Goobjoog News] Soomaaliya iyo Jabuuti oo Heshiis Is-afgarad ah ku Kala Saxiixday Iskaashiga Labada Baarlamaan
+      image: not-reusable (Goobjoog News photos are all rights reserved)
+  2026-11-03T02:44  world  [BBC News World] Jet may have broken apart before Florida crash, officials say, as family named among victims
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-03T00:00  somali [Hiiraan Online] Somalia, Djibouti sign agreement to strengthen parliamentary cooperation
+      image: not-reusable (Hiiraan Online photos are all rights reserved)  related: 1
+  2026-11-03T00:00  somali [Hiiraan Online] Somaliland police report 82 homicides, 254 rape cases in 2026
+      image: not-reusable (Hiiraan Online photos are all rights reserved)
+  2026-11-03T00:00  somali [Hiiraan Online] Cyberattacks Disrupt Supermarket Refrigeration Systems Across Europe, Spoiling Food
+      image: not-reusable (Hiiraan Online photos are all rights reserved)
+  2026-11-03T00:00  somali [Hiiraan Online] Somalia Produces Just 5% of Estimated Annual Fishery Capacity
+      image: not-reusable (Hiiraan Online photos are all rights reserved)
+  2026-11-03T00:00  somali [Hiiraan Online] Former Somali prime minister outlines five pillars for rebuilding the country’s Third Republic
+      image: not-reusable (Hiiraan Online photos are all rights reserved)
+  2026-11-03T00:00  somali [Garowe Online] Somalia: Puntland Health Minister Pledges World-Class Hospital to Expand Medical Services
+      image: not-reusable (Garowe Online photos are all rights reserved)
+  2026-11-03T00:00  somali [Garowe Online] Indian airborne commandos recapture ship off Somalia
+      image: not-reusable (Garowe Online photos are all rights reserved)
+  2026-11-03T00:00  somali [SONNA (state news agency)] Somali Army Commander Holds Security Meetings in Baraawe
+      image: not-reusable (SONNA (state news agency) photos are all rights reserved)
+  2026-11-03T00:00  somali [SONNA (state news agency)] Speaker of the House of the People Visits Key Ports and Free Zone in Djibouti
+      image: not-reusable (SONNA (state news agency) photos are all rights reserved)  related: 1
+  2026-11-03T00:00  somali [SONNA (state news agency)] Petroleum Minister Meets Turkish Ambassador to Discuss Energy Cooperation
+      image: not-reusable (SONNA (state news agency) photos are all rights reserved)
+  2026-11-03T00:00  somali [SONNA (state news agency)] Somalia, UNSOS and AUSSOM Reaffirm Commitment to Security Coordination
+      image: not-reusable (SONNA (state news agency) photos are all rights reserved)
+  2026-11-03T00:00  somali [SONNA (state news agency)] Immigration and Citizenship Agency Unveils New Somali Passport Design
+      image: not-reusable (SONNA (state news agency) photos are all rights reserved)
+  2026-11-03T00:00  somali [SONNA (state news agency)] Djibouti Hosts Welcome Dinner for Somali House Speaker and Delegation
+      image: not-reusable (SONNA (state news agency) photos are all rights reserved)  related: 2
+  2026-11-03T00:00  somali [SONNA (state news agency)] Somalia Participates in International Solar Alliance General Assembly in New Delhi
+      image: not-reusable (SONNA (state news agency) photos are all rights reserved)
+  2026-11-02T22:13  world  [DW] Supreme Court rejects Trump bid to block 20,000 California ballots
+      image: not-reusable (agency photo (Getty), all rights reserved)
+  2026-11-02T21:02  somali [Horseed Media] Howlgalkii Nabad Ilaalinta Qaramada Midoobay ee Galbeedka Saxaraha oo dhammaanaya kaddib 35 san
+      image: not-reusable (Horseed Media photos are all rights reserved)
+  2026-11-02T20:28  somali [Somali Guardian] Uganda begins withdrawing troops deployed bilaterally in Somalia
+      image: not-reusable (Somali Guardian photos are all rights reserved)
+  2026-11-02T20:00  world  [CNN] An hour-by-hour guide to election night poll closings
+      image: not-reusable (CNN photos are all rights reserved)
+  2026-11-02T19:18  somali [BBC Somali] Guddoomiyaha u magacaaban gobolka Hiiraan oo BBC-da u sheegay sida ay u arkaan amarka la siiyay
+      image: not-reusable (BBC Somali photos are all rights reserved)
+  2026-11-02T18:58  world  [UN News] Ethiopia: Violence in the north is pushing health system to the brink, WHO chief warns
+      image: not-reusable (UN News photos are all rights reserved)
+  2026-11-02T18:34  somali [Radio Dalsan] Haweenka Suxufiyiinta Soomaaliya oo Weerarro Wajahaya
+      image: not-reusable (Radio Dalsan photos are all rights reserved)
+  2026-11-02T18:25  world  [DW + DW] 8 ways the US midterm election could affect Donald Trump's Iran policy
+      image: not-reusable (agency photo (Reuters), all rights reserved)  related: 1
+  2026-11-02T17:59  somali [BBC Somali + BBC Somali] Dunida Iyo Maanta
+      image: generic (generic thumbnail or logo, not a photo of this story)
+  2026-11-02T17:46  somali [Horseed Media] Puntland oo eedaymo u jeedisey qaxootiga Oromada ee ku sugan Garoowe.
+      image: not-reusable (Horseed Media photos are all rights reserved)
+  2026-11-02T17:27  world  [Addis Standard] Authority suspends registration of Ethiopia’s oldest independent newspaper indefinitely
+      image: none (no image in the feed or Open Graph data)
+  2026-11-02T16:57  world  [Addis Standard] Ethiopia: Oromia says 73 detained over Arsi killings as residents report post-attack arrests
+      image: none (no image in the feed or Open Graph data)
+  2026-11-02T16:17  world  [Addis Standard] Survivors flee Hayiq Jari IDP camp after deadly drone strike
+      image: none (no image in the feed or Open Graph data)
+  2026-11-02T00:00  somali [Hiiraan Online + Radio Dalsan] NUSOJ report finds widespread harassment, poor working conditions for women journalists in Soma
+      image: not-reusable (Hiiraan Online photos are all rights reserved)
+  2026-11-02T00:00  somali [Garowe Online] Somalia Faces Mounting Security and Political Pressures as Foreign Troops Prepare to Withdraw
+      image: not-reusable (Garowe Online photos are all rights reserved)
+  2026-11-02T00:00  somali [Garowe Online] Mo Ibrahim Warns African Leaders Are Increasingly Embracing Authoritarian Rule
+      image: not-reusable (Garowe Online photos are all rights reserved)
