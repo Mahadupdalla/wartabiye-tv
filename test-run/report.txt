@@ -1,16 +1,16 @@
-World News test — fetched 2026-11-03T19:17:07+03:00  window since 2026-11-01T19:16:31+03:00
+World News test — fetched 2026-11-03T19:20:18+03:00  window since 2026-11-01T19:19:42+03:00
 
 source          method / error                                                 got kept  dup known
 Source 1 (not i FAILED: The Google share link cannot be opened from the cloud    0    0    0     0
 Source 2 (not i FAILED: The Google share link cannot be opened from the cloud    0    0    0     0
 Türkiye Today   html https://www.turkiyetoday.com/                              10    7    3     0
-Daily Sabah     rss https://www.dailysabah.com/rss/world                        10    9    1     0
+Daily Sabah     rss https://www.dailysabah.com/rss/world                        10    8    2     0
 CNN             sitemap https://edition.cnn.com/sitemap/news.xml                10   10    0     0
 Euronews        rss https://www.euronews.com/rss?level=theme&name=news          10    8    2     0
 Source 7 (not i FAILED: The Google share link cannot be opened from the cloud    0    0    0     0
 IGAD            rss https://igad.int/feed/                                       1    1    0     0
 
-stories kept: 35   duplicates removed: 6   already known: 0   images: not-reusable 35
+stories kept: 34   duplicates removed: 7   already known: 0   images: not-reusable 34
 
 DUPLICATES
   - [Euronews] Asian Cup in Saudi Arabia postponed to December over regional security
@@ -28,9 +28,12 @@ DUPLICATES
   - [Daily Sabah] At least 4 flights across Europe disrupted by hoax bomb threats
       same event as https://www.cnn.com/2026/11/03/europe/bomb-threat-airport-warsaw-intl
       headline 0.33; content 0.57; names 0.43; places bulgaria,poland,sofia,uk; 1h apart | kept CNN (more complete / more reliable)
+  - [Daily Sabah] US to stop $3.8B military aid to Israel by end of 2026: Trump
+      same event as https://www.cnn.com/2026/11/03/politics/trump-us-aid-israel
+      headline 0.33; content 0.52; names 0.36; places israel,usa; 0h apart | kept CNN (more complete / more reliable)
   - [Türkiye Today] Trump says $4B yearly Israel aid ends this year under Netanyahu deal
-      same event as https://www.dailysabah.com/world/americas/us-to-stop-38b-military-aid-to-israel-by-end-of-2026-trump
-      headline 0.23; content 0.82; names 0.25; places israel,usa; 0h apart | kept Daily Sabah (more complete / more reliable)
+      same event as https://www.cnn.com/2026/11/03/politics/trump-us-aid-israel
+      headline 0.23; content 0.57; names 0.25; places israel,usa; 1h apart | kept CNN (more complete / more reliable)
 
 FEED (newest first)
   2026-11-03T19:11  [Euronews] The Senate on a razor’s edge: The races that will decide America's midterms
@@ -41,7 +44,7 @@ FEED (newest first)
       image: not-reusable (Türkiye Today photos are all rights reserved)  related: 1
   2026-11-03T18:21  [Euronews + Türkiye Today, Türkiye Today] South Korea and Turkey sign financing pact as Seoul seeks role in planned nuclear power plant
       image: not-reusable (Euronews photos are all rights reserved)
-  2026-11-03T17:21  [CNN] Trump says US is cutting off aid to Israel at year’s end because ‘they don’t need it’
+  2026-11-03T17:21  [CNN + Daily Sabah, Türkiye Today] Trump says US is cutting off aid to Israel at year’s end because ‘they don’t need it’
       image: not-reusable (agency photo (AFP), all rights reserved)
   2026-11-03T17:20  [Türkiye Today] Syria says it foiled Hezbollah-linked plot to attack Homs oil refinery
       image: not-reusable (Türkiye Today photos are all rights reserved)
@@ -55,8 +58,6 @@ FEED (newest first)
       image: not-reusable (Türkiye Today photos are all rights reserved)
   2026-11-03T16:55  [Türkiye Today] Eisenkot bloc vows 'national emergency government' to replace Netanyahu
       image: not-reusable (Türkiye Today photos are all rights reserved)  related: 1
-  2026-11-03T16:53  [Daily Sabah + Türkiye Today] US to stop $3.8B military aid to Israel by end of 2026: Trump
-      image: not-reusable (Daily Sabah photos are all rights reserved)
   2026-11-03T16:38  [CNN] Exit polls have become the CNN Voter Poll. Here’s what that means
       image: not-reusable (agency photo (Reuters), all rights reserved)
   2026-11-03T16:35  [CNN + Daily Sabah] Bomb threats on flights in Europe cause disruption but no devices found

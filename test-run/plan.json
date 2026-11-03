@@ -1,7 +1,7 @@
 {
- "plannedAt": "2026-11-03T19:17:12+03:00",
- "fetchedAt": "2026-11-03T19:17:07+03:00",
- "since": "2026-11-01T19:16:31+03:00",
+ "plannedAt": "2026-11-03T19:20:23+03:00",
+ "fetchedAt": "2026-11-03T19:20:18+03:00",
+ "since": "2026-11-01T19:19:42+03:00",
  "sources": [
   {
    "id": "source-1",
@@ -55,7 +55,7 @@
    "homepage": "https://edition.cnn.com/world",
    "enabled": true,
    "method": "sitemap https://edition.cnn.com/sitemap/news.xml",
-   "found": 114,
+   "found": 115,
    "collected": 10,
    "errors": [
     "rss http://rss.cnn.com/rss/edition_world.rss: ValueError: feed is stale (newest item 2023-09-18)"
@@ -118,8 +118,8 @@
   },
   "dailysabah": {
    "collected": 10,
-   "kept": 9,
-   "duplicates": 1,
+   "kept": 8,
+   "duplicates": 2,
    "known": 0,
    "old": 0
   },
@@ -251,7 +251,16 @@
    "author": "Kit Maher, Oren Liebermann",
    "imageStatus": "not-reusable",
    "imageReason": "agency photo (AFP), all rights reserved",
-   "alsoReportedBy": [],
+   "alsoReportedBy": [
+    {
+     "source": "Daily Sabah",
+     "url": "https://www.dailysabah.com/world/americas/us-to-stop-38b-military-aid-to-israel-by-end-of-2026-trump"
+    },
+    {
+     "source": "Türkiye Today",
+     "url": "https://www.turkiyetoday.com/world/trump-says-4-billion-yearly-israel-aid-ends-this-year-under-netanyahu-deal-3231657"
+    }
+   ],
    "related": []
   },
   {
@@ -362,28 +371,6 @@
      "score": 0.38
     }
    ]
-  },
-  {
-   "source": "dailysabah",
-   "sourceName": "Daily Sabah",
-   "url": "https://www.dailysabah.com/world/americas/us-to-stop-38b-military-aid-to-israel-by-end-of-2026-trump",
-   "canonicalUrl": "https://www.dailysabah.com/world/americas/us-to-stop-38b-military-aid-to-israel-by-end-of-2026-trump",
-   "title": "US to stop $3.8B military aid to Israel by end of 2026: Trump",
-   "description": "President Donald Trump said Tuesday he reached a deal with Prime Minister Benjamin Netanyahu to end $4 billion in U.S. funding to Israel by the end of 2026. Speaking to Fox News' F...",
-   "excerpt": "President Donald Trump said Tuesday he reached a deal with Prime Minister Benjamin Netanyahu to end $4 billion in U.S. funding to Israel by the end of 2026. Speaking to Fox News' Fox ⁠and Friends, Trump said Israel no longer needed the funding and that some Democrats and left-wing politicians were using the U.S. financial support ​to Israel as a talking point to criticize Republicans. \"Now, ​as far ⁠as paying Israel, Bibi Netanyahu and I have made a deal that we give Israel $4 billion a year and we made a deal months ago that we're stopping,\" Trump said. \"We've already agreed that by the end of this year we won't be paying Israel. Now we'll help Israel if they need it,\" he added. There was no immediate comment from Netanyahu's office on Trump's remarks. It was not immediately clear which exact funding Trump meant. A memorandum of understanding that provides $3.8 billion annual US military aid to ⁠Israel ⁠is approaching its expiration date in 2028 and conversations have been under way o",
-   "publishedAt": "2026-11-03T16:53:00+03:00",
-   "timeVerified": true,
-   "image": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/11/03/thumbs/1200x675/468936.jpg",
-   "author": "Daily Sabah with Agencies",
-   "imageStatus": "not-reusable",
-   "imageReason": "Daily Sabah photos are all rights reserved",
-   "alsoReportedBy": [
-    {
-     "source": "Türkiye Today",
-     "url": "https://www.turkiyetoday.com/world/trump-says-4-billion-yearly-israel-aid-ends-this-year-under-netanyahu-deal-3231657"
-    }
-   ],
-   "related": []
   },
   {
    "source": "cnn",
@@ -959,6 +946,23 @@
    "detail": "headline 0.33; content 0.57; names 0.43; places bulgaria,poland,sofia,uk; 1h apart | kept CNN (more complete / more reliable)"
   },
   {
+   "source": "dailysabah",
+   "sourceName": "Daily Sabah",
+   "url": "https://www.dailysabah.com/world/americas/us-to-stop-38b-military-aid-to-israel-by-end-of-2026-trump",
+   "canonicalUrl": "https://www.dailysabah.com/world/americas/us-to-stop-38b-military-aid-to-israel-by-end-of-2026-trump",
+   "title": "US to stop $3.8B military aid to Israel by end of 2026: Trump",
+   "description": "President Donald Trump said Tuesday he reached a deal with Prime Minister Benjamin Netanyahu to end $4 billion in U.S. funding to Israel by the end of 2026. Speaking to Fox News' F...",
+   "excerpt": "President Donald Trump said Tuesday he reached a deal with Prime Minister Benjamin Netanyahu to end $4 billion in U.S. funding to Israel by the end of 2026. Speaking to Fox News' Fox ⁠and Friends, Trump said Israel no longer needed the funding and that some Democrats and left-wing politicians were using the U.S. financial support ​to Israel as a talking point to criticize Republicans. \"Now, ​as far ⁠as paying Israel, Bibi Netanyahu and I have made a deal that we give Israel $4 billion a year and we made a deal months ago that we're stopping,\" Trump said. \"We've already agreed that by the end of this year we won't be paying Israel. Now we'll help Israel if they need it,\" he added. There was no immediate comment from Netanyahu's office on Trump's remarks. It was not immediately clear which exact funding Trump meant. A memorandum of understanding that provides $3.8 billion annual US military aid to ⁠Israel ⁠is approaching its expiration date in 2028 and conversations have been under way o",
+   "publishedAt": "2026-11-03T16:53:00+03:00",
+   "timeVerified": true,
+   "image": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/11/03/thumbs/1200x675/468936.jpg",
+   "author": "Daily Sabah with Agencies",
+   "why": "duplicate",
+   "of": "https://www.cnn.com/2026/11/03/politics/trump-us-aid-israel",
+   "score": 0.47,
+   "detail": "headline 0.33; content 0.52; names 0.36; places israel,usa; 0h apart | kept CNN (more complete / more reliable)"
+  },
+  {
    "source": "turkiyetoday",
    "sourceName": "Türkiye Today",
    "url": "https://www.turkiyetoday.com/world/trump-says-4-billion-yearly-israel-aid-ends-this-year-under-netanyahu-deal-3231657",
@@ -971,9 +975,9 @@
    "image": "https://img.turkiyetoday.com/images/2026/11/3/trump-says-4b-yearly-israel-aid-ends-this-year-under-netanyahu-deal-3231657_20261103164707_20261103164707.jpg",
    "author": "Newsroom",
    "why": "duplicate",
-   "of": "https://www.dailysabah.com/world/americas/us-to-stop-38b-military-aid-to-israel-by-end-of-2026-trump",
-   "score": 0.48,
-   "detail": "headline 0.23; content 0.82; names 0.25; places israel,usa; 0h apart | kept Daily Sabah (more complete / more reliable)"
+   "of": "https://www.cnn.com/2026/11/03/politics/trump-us-aid-israel",
+   "score": 0.4,
+   "detail": "headline 0.23; content 0.57; names 0.25; places israel,usa; 1h apart | kept CNN (more complete / more reliable)"
   }
  ]
 }
