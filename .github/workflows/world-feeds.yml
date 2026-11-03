@@ -32,9 +32,12 @@ jobs:
         run: python3 tools/world_news.py dedup /tmp/world/candidates.json --out /tmp/world/plan.json
       - name: Report
         run: python3 tools/world_news.py report /tmp/world/plan.json | tee /tmp/world/report.txt
-      - name: Test-run data (work branches only)
+      - name: Keep the test result on the work branch (work branches only, removed before merging)
         if: github.ref != 'refs/heads/main'
-        run: echo "PLAN_GZ_B64 $(gzip -9c /tmp/world/plan.json | base64 -w0)"
+        run: |
+          mkdir -p test-run && cp /tmp/world/plan.json /tmp/world/report.txt test-run/
+          git add test-run && git -c user.name=wartabiye-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -q -m "World News test run $(date -u +%FT%TZ)"
+          git push origin HEAD:${{ github.ref_name }}
       - uses: actions/upload-artifact@v4
         with:
           name: world-news-${{ github.run_id }}
