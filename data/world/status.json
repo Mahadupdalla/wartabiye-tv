@@ -1,0 +1,126 @@
+{
+ "lastRunAt": "2026-11-03T19:20:00+03:00",
+ "lastSuccessAt": "2026-11-03T19:20:00+03:00",
+ "lastRun": {
+  "at": "2026-11-03T19:20:00+03:00",
+  "ok": true,
+  "collected": 41,
+  "duplicatesRemoved": 7,
+  "alreadyKnown": 0,
+  "published": 0,
+  "pendingImage": 0,
+  "pendingIds": [],
+  "imageErrors": [],
+  "errors": [
+   "Test run before go-live: nothing published. Sources 1, 2 and 7 not identified yet (share.google links)."
+  ]
+ },
+ "sources": [
+  {
+   "id": "source-1",
+   "name": "Source 1 (not identified yet)",
+   "homepage": "",
+   "working": false,
+   "method": "",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+  },
+  {
+   "id": "source-2",
+   "name": "Source 2 (not identified yet)",
+   "homepage": "",
+   "working": false,
+   "method": "",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+  },
+  {
+   "id": "turkiyetoday",
+   "name": "Türkiye Today",
+   "homepage": "https://www.turkiyetoday.com/",
+   "working": true,
+   "method": "html https://www.turkiyetoday.com/",
+   "collected": 10,
+   "duplicates": 3,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": "rss https://www.turkiyetoday.com/rss: ValueError: not a feed (the address answers with a web page)"
+  },
+  {
+   "id": "dailysabah",
+   "name": "Daily Sabah",
+   "homepage": "https://www.dailysabah.com/",
+   "working": true,
+   "method": "rss https://www.dailysabah.com/rss/world",
+   "collected": 10,
+   "duplicates": 2,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
+  },
+  {
+   "id": "cnn",
+   "name": "CNN",
+   "homepage": "https://edition.cnn.com/world",
+   "working": true,
+   "method": "sitemap https://edition.cnn.com/sitemap/news.xml",
+   "collected": 10,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": "rss http://rss.cnn.com/rss/edition_world.rss: ValueError: feed is stale (newest item 2023-09-18)"
+  },
+  {
+   "id": "euronews",
+   "name": "Euronews",
+   "homepage": "https://www.euronews.com/",
+   "working": true,
+   "method": "rss https://www.euronews.com/rss?level=theme&name=news",
+   "collected": 10,
+   "duplicates": 2,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
+  },
+  {
+   "id": "source-7",
+   "name": "Source 7 (not identified yet)",
+   "homepage": "",
+   "working": false,
+   "method": "",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+  },
+  {
+   "id": "igad",
+   "name": "IGAD",
+   "homepage": "https://igad.int/",
+   "working": true,
+   "method": "rss https://igad.int/feed/",
+   "collected": 1,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
+  }
+ ],
+ "history": [
+  {
+   "at": "2026-11-03T19:20:00+03:00",
+   "ok": true,
+   "collected": 41,
+   "duplicatesRemoved": 7,
+   "published": 0,
+   "pendingImage": 0
+  }
+ ]
+}

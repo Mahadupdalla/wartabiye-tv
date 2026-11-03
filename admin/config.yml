@@ -98,6 +98,16 @@ collections:
       - {name: imageNote, label: Xusuus sawir, widget: string, required: false}
       - {name: source, label: Isha warka, widget: string, default: Wartabiye TV}
       - {name: sourceUrl, label: Link-ga isha, widget: string, required: false}
+      - name: alsoReportedBy
+        label: 'Ilo kale oo isla warkan qoray (Caalamka)'
+        widget: list
+        required: false
+        hint: 'Hawsha wararka ayaa buuxisa marka dhowr ilood isla dhacdada qoraan: hal war oo keliya ayaa la daabacaa.'
+        summary: '{{fields.source}}'
+        fields:
+          - {name: source, label: Isha, widget: string}
+          - {name: url, label: Link, widget: string}
+      - {name: worldSource, label: 'Isha Caalamka (id)', widget: string, required: false}
       - {name: timeVerified, label: Waqtiga waa la hubiyay, widget: boolean, default: true}
       - {name: by, label: Qoraa, widget: hidden, default: admin}
       # translations: shown on the site when a visitor picks English, Arabic, French, Dutch, Italian, German or Turkish
@@ -628,6 +638,96 @@ collections:
                 fields:
                   - {name: so, label: Qaybta (Soomaali), widget: string}
                   - {name: name, label: Magaca la turjumay, widget: string}
+  - name: world
+    label: 'Wararka Caalamka: xaaladda iyo ilaha'
+    description: 'Siddeeda ilood ee Wararka Caalamka. "Xaaladda" waxaa qora hawsha wararka (08:00 iyo 18:00) orod kasta: ilaha shaqeeya, tirada wararka la ururiyay, nuqullada la saaray, kuwa sugaya sawir iyo khaladaadka. War gaar ah wax ka beddel, tirtir ama qabyo ka dhig qaybta Wararka (filter: Caalamka / Sugaya sawir).'
+    editor:
+      preview: false
+    files:
+      - name: status
+        label: 'Xaaladda cusbooneysiintii u dambeysay (waxaa qora hawsha, ha beddelin)'
+        file: data/world/status.json
+        format: json
+        fields:
+          - {name: lastRunAt, label: 'Orodkii u dambeeyay', widget: string, required: false}
+          - {name: lastSuccessAt, label: 'Cusbooneysiintii u dambeysay ee guulaysatay', widget: string, required: false}
+          - name: lastRun
+            label: 'Orodkii u dambeeyay: tirooyinka'
+            widget: object
+            required: false
+            fields:
+              - {name: collected, label: 'Wararka la ururiyay (dhammaan ilaha)', widget: number, required: false}
+              - {name: duplicatesRemoved, label: 'Nuqullada la saaray', widget: number, required: false}
+              - {name: alreadyKnown, label: 'Horey bogga ugu jiray (ama aad tirtirtay)', widget: number, required: false}
+              - {name: published, label: 'Warar cusub oo la daabacay', widget: number, required: false}
+              - {name: pendingImage, label: 'Sugaya sawir', widget: number, required: false}
+              - {name: pendingIds, label: 'Wararka sugaya sawir (id)', widget: list, required: false}
+              - {name: imageErrors, label: 'Khaladaadka sawirrada', widget: list, required: false}
+              - {name: errors, label: 'Khaladaad kale', widget: list, required: false}
+          - name: sources
+            label: 'Ilaha (orodkii u dambeeyay)'
+            widget: list
+            required: false
+            summary: '{{fields.name}}: {{fields.collected}} la ururiyay, {{fields.published}} la daabacay'
+            fields:
+              - {name: name, label: Isha, widget: string}
+              - {name: homepage, label: Website, widget: string, required: false}
+              - {name: working, label: 'Way shaqeysaa', widget: boolean, required: false}
+              - {name: method, label: 'Habka (RSS / sitemap / bog)', widget: string, required: false}
+              - {name: collected, label: 'La ururiyay', widget: number, required: false}
+              - {name: duplicates, label: 'Nuqul', widget: number, required: false}
+              - {name: published, label: 'La daabacay', widget: number, required: false}
+              - {name: pendingImage, label: 'Sugaya sawir', widget: number, required: false}
+              - {name: errors, label: 'Khalad', widget: text, required: false}
+          - name: history
+            label: 'Taariikhda orodyada (30 kii u dambeeyay)'
+            widget: list
+            required: false
+            summary: '{{fields.at}}: {{fields.collected}} la ururiyay, {{fields.duplicatesRemoved}} nuqul, {{fields.published}} la daabacay, {{fields.pendingImage}} sugaya sawir'
+            fields:
+              - {name: at, label: Waqtiga, widget: string}
+              - {name: ok, label: Guul, widget: boolean, required: false}
+              - {name: collected, label: 'La ururiyay', widget: number, required: false}
+              - {name: duplicatesRemoved, label: Nuqul, widget: number, required: false}
+              - {name: published, label: 'La daabacay', widget: number, required: false}
+              - {name: pendingImage, label: 'Sugaya sawir', widget: number, required: false}
+      - name: sources
+        label: 'Ilaha (dami "Shaqeyso" si aad isha u joojiso)'
+        file: data/world/sources.json
+        format: json
+        fields:
+          - {name: note, label: Xusuus, widget: text, required: false}
+          - name: perSource
+            label: 'Tirada isha kasta (orod kasta)'
+            widget: object
+            fields:
+              - {name: min, label: Ugu yaraan, widget: number, value_type: int}
+              - {name: max, label: Ugu badnaan, widget: number, value_type: int}
+          - name: sources
+            label: Ilaha
+            widget: list
+            allow_add: false
+            summary: '{{fields.name}}'
+            fields:
+              - {name: id, label: Id, widget: string}
+              - {name: name, label: Magaca, widget: string}
+              - {name: homepage, label: Website, widget: string, required: false}
+              - {name: shareLink, label: 'Link-gii la bixiyay', widget: string, required: false}
+              - {name: enabled, label: Shaqeyso, widget: boolean, default: true}
+              - {name: verified, label: 'La hubiyay', widget: boolean, required: false}
+              - {name: priority, label: 'Mudnaanta (nuqul marka la doorto)', widget: number, value_type: int, required: false}
+              - name: feeds
+                label: 'RSS / sitemap / bog'
+                widget: list
+                required: false
+                summary: '{{fields.type}} {{fields.url}}'
+                fields:
+                  - {name: type, label: Nooca, widget: select, options: [rss, sitemap, html]}
+                  - {name: url, label: URL, widget: string}
+                  - {name: linkPattern, label: 'Qaabka link-ga (ikhtiyaari)', widget: string, required: false}
+                  - {name: maxAgeDays, label: 'Feed duug ah kadib (maalmo)', widget: number, required: false}
+              - {name: imagePolicy, label: 'Sawirrada isha', widget: select, options: [{label: 'Xuquuqdu way dhowran tahay (lama isticmaalo)', value: all-rights-reserved}, {label: 'Liisan furan (CC / public domain)', value: free}, {label: 'Lama yaqaan', value: unknown}]}
+              - {name: notes, label: Xusuus, widget: text, required: false}
   - name: ads
     label: Xayeysiisyada
     label_singular: Xayeysiis

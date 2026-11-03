@@ -1,0 +1,52 @@
+name: Wararka Caalamka – ilaha (World News feeds)
+# Reads the eight World News sources (data/world/sources.json) shortly BEFORE the 08:00 and 18:00 Nairobi update:
+# RSS / news sitemap / public pages only, robots.txt respected. It publishes NOTHING: it removes duplicate stories,
+# checks the publisher photos, and saves the candidate list on the separate branch "world-feed". The Claude news task
+# reads that list, writes the Somali stories and translations, finds licensed photos and publishes.
+on:
+  schedule:
+    # 07:20 and 17:20 Africa/Nairobi (04:20 and 14:20 UTC), 40 minutes before each update
+    - cron: '20 4,14 * * *'
+  workflow_dispatch:
+  push:
+    # test run on a work branch when the collector changes (nothing is saved, only the report and an artifact)
+    branches-ignore: [main, world-feed]
+    paths: ['tools/world_news.py', 'data/world/sources.json', '.github/workflows/world-feeds.yml']
+permissions:
+  contents: write
+concurrency:
+  group: world-feeds-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history: deleted / unpublished articles are never brought back
+      - name: Read the eight sources
+        # the last 48 hours; the news task then keeps only what was published since its last successful update
+        run: python3 tools/world_news.py fetch --since "$(date -u -d '48 hours ago' +%FT%TZ)" --out /tmp/world/candidates.json
+      - name: Remove duplicates and check images
+        run: python3 tools/world_news.py dedup /tmp/world/candidates.json --out /tmp/world/plan.json
+      - name: Report
+        run: python3 tools/world_news.py report /tmp/world/plan.json | tee /tmp/world/report.txt
+      - name: Keep the test result on the work branch (work branches only, removed before merging)
+        if: github.ref != 'refs/heads/main'
+        run: |
+          mkdir -p test-run && cp /tmp/world/plan.json /tmp/world/report.txt test-run/
+          git add test-run && git -c user.name=wartabiye-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -q -m "World News test run $(date -u +%FT%TZ)"
+          git push origin HEAD:${{ github.ref_name }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: world-news-${{ github.run_id }}
+          path: /tmp/world/
+          retention-days: 14
+      - name: Save for the 08:00 / 18:00 update (branch world-feed)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd /tmp/world && git init -q -b world-feed && cp report.txt README.txt
+          git add candidates.json plan.json README.txt
+          git -c user.name=wartabiye-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -q -m "World News feeds $(date -u +%FT%TZ)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" world-feed
