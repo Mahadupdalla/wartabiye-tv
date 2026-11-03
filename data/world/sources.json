@@ -1,10 +1,239 @@
 {
- "note": "The eight World News (Wararka Caalamka) sources. Edited in /admin/ under 'Wararka Caalamka: ilaha'. A source with enabled false is skipped. Only the publisher's own RSS feed, news sitemap or public pages are used, and only where robots.txt allows it.",
+ "note": "ALL news sources of Wartabiye TV (Somali News, World News, Sports) in ONE list. GitHub Actions reads every enabled source with a feed before each 08:00/18:00 update; sources marked searchOnly are checked by the news task with WebSearch. Never remove an approved source without the owner's permission.",
  "perSource": {
   "min": 5,
   "max": 10
  },
  "sources": [
+  {
+   "id": "bbc-somali",
+   "name": "BBC Somali",
+   "shareLink": "",
+   "homepage": "https://www.bbc.com/somali",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 80,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://feeds.bbci.co.uk/somali/rss.xml"
+    },
+    {
+     "type": "html",
+     "url": "https://www.bbc.com/somali",
+     "linkPattern": "^https://www\\.bbc\\.com/somali/articles/[a-z0-9]+$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "BBC photos are all rights reserved."
+  },
+  {
+   "id": "voa-somali",
+   "name": "VOA Somali",
+   "shareLink": "",
+   "homepage": "https://www.voasomali.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 80,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.voasomali.com/api/zoju_l-vomx-tpep_jy",
+     "maxAgeDays": 3
+    },
+    {
+     "type": "rss",
+     "url": "https://www.voasomali.com/api/zubjil-vomx-tpegvrqm",
+     "maxAgeDays": 3
+    },
+    {
+     "type": "html",
+     "url": "https://www.voasomali.com/",
+     "linkPattern": "^https://www\\.voasomali\\.com/a/([^/]+/)?\\d+\\.html$"
+    }
+   ],
+   "imagePolicy": "public-domain-unless-agency",
+   "notes": "VOA staff photos are US government work (public domain); agency photos (AP, Reuters, AFP) on VOA pages are not. Its official RSS feeds (voasomali.com/rssfeeds) have not been updated since March 2025, so the collector reads the public homepage."
+  },
+  {
+   "id": "hiiraan",
+   "name": "Hiiraan Online",
+   "shareLink": "",
+   "homepage": "https://www.hiiraan.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "feeds": [
+    {
+     "type": "html",
+     "url": "https://www.hiiraan.com/",
+     "linkPattern": "^https?://(www\\.)?hiiraan\\.com/news[24]/20(2[5-9]|[3-9]\\d)/[A-Za-z]{3}/\\d+/[^/]+\\.aspx$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "garoweonline",
+   "name": "Garowe Online",
+   "shareLink": "",
+   "homepage": "https://www.garoweonline.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.garoweonline.com/en/rss"
+    },
+    {
+     "type": "html",
+     "url": "https://www.garoweonline.com/en",
+     "linkPattern": "^https://(www\\.)?garoweonline\\.com/(en|so)/news/[a-z0-9-]+/[a-z0-9-]{12,}$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "dawan",
+   "name": "Dawan Africa",
+   "shareLink": "",
+   "homepage": "https://www.dawan.africa",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 65,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.dawan.africa/feed/"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.dawan.africa/rss/"
+    },
+    {
+     "type": "html",
+     "url": "https://www.dawan.africa/",
+     "linkPattern": "^https://(www\\.)?dawan\\.africa/[a-z0-9-]+/[a-z0-9-]{15,}/?$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "somaliguardian",
+   "name": "Somali Guardian",
+   "shareLink": "",
+   "homepage": "https://www.somaliguardian.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 65,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.somaliguardian.com/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "goobjoog",
+   "name": "Goobjoog News",
+   "shareLink": "",
+   "homepage": "https://goobjoog.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 65,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://goobjoog.com/feed/"
+    },
+    {
+     "type": "html",
+     "url": "https://goobjoog.com/",
+     "linkPattern": "^https://goobjoog\\.com/20\\d\\d/\\d\\d/\\d\\d/[a-z0-9-]{15,}/?$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "No RSS feed (goobjoog.com/feed/ answers 404): the collector reads the public homepage; the date comes from the article URL (/YYYY/MM/DD/, date only)."
+  },
+  {
+   "id": "radiodalsan",
+   "name": "Radio Dalsan",
+   "shareLink": "",
+   "homepage": "https://www.radiodalsan.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 60,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.radiodalsan.com/feed/"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.radiodalsan.com/so/feed/"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.radiodalsan.com/en/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "horseedmedia",
+   "name": "Horseed Media",
+   "shareLink": "",
+   "homepage": "https://horseedmedia.net",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 60,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://horseedmedia.net/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "sonna",
+   "name": "SONNA (state news agency)",
+   "shareLink": "",
+   "homepage": "https://sonna.so",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 55,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://sonna.so/feed/"
+    },
+    {
+     "type": "html",
+     "url": "https://sonna.so/en",
+     "linkPattern": "^https://sonna\\.so/(en|so)/article/[A-Za-z0-9-]{15,}$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Somali National News Agency: always label it as the state news agency. No RSS feed: the collector reads the public homepage; the date comes from the article dateline."
+  },
   {
    "id": "source-1",
    "name": "Source 1 (not identified yet)",
@@ -15,7 +244,8 @@
    "priority": 70,
    "feeds": [],
    "imagePolicy": "unknown",
-   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.",
+   "section": "world"
   },
   {
    "id": "source-2",
@@ -27,7 +257,8 @@
    "priority": 70,
    "feeds": [],
    "imagePolicy": "unknown",
-   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.",
+   "section": "world"
   },
   {
    "id": "turkiyetoday",
@@ -49,7 +280,8 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Photos are mostly AFP/AA/agency photos: never reused."
+   "notes": "Photos are mostly AFP/AA/agency photos: never reused.",
+   "section": "world"
   },
   {
    "id": "dailysabah",
@@ -70,7 +302,8 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Photos are AFP/AA/Reuters/AP: never reused."
+   "notes": "Photos are AFP/AA/Reuters/AP: never reused.",
+   "section": "world"
   },
   {
    "id": "cnn",
@@ -93,7 +326,8 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "CNN's legacy RSS feed is no longer updated; the news sitemap is used only if robots.txt allows it. Photos (Getty/AP/Reuters/CNN) are never reused."
+   "notes": "CNN's legacy RSS feed is no longer updated; the news sitemap is used only if robots.txt allows it. Photos (Getty/AP/Reuters/CNN) are never reused.",
+   "section": "world"
   },
   {
    "id": "euronews",
@@ -114,7 +348,8 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Photos are AP/Reuters/AFP/Euronews: never reused. Video-only items (/video/) are skipped."
+   "notes": "Photos are AP/Reuters/AFP/Euronews: never reused. Video-only items (/video/) are skipped.",
+   "section": "world"
   },
   {
    "id": "source-7",
@@ -126,7 +361,8 @@
    "priority": 70,
    "feeds": [],
    "imagePolicy": "unknown",
-   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address."
+   "notes": "The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.",
+   "section": "world"
   },
   {
    "id": "igad",
@@ -143,7 +379,8 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Official site of the Intergovernmental Authority on Development (© IGAD, all rights reserved). Many posts use a generic text thumbnail, which is never used as a story photo."
+   "notes": "Official site of the Intergovernmental Authority on Development (© IGAD, all rights reserved). Many posts use a generic text thumbnail, which is never used as a story photo.",
+   "section": "world"
   },
   {
    "id": "addisstandard",
@@ -165,7 +402,196 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Ethiopian news site (Addis Abeba). Its website and official RSS feed (/feed/) answer automated readers with 403 Forbidden, so the collector reads the publisher's OFFICIAL Telegram channel (t.me/AddisstandardEng), public web preview, and keeps only posts that link to an addisstandard.com article. Headline/summary are the publisher's own post text; the date is the post time. Photos are its own or agency photos, all rights reserved: never reused."
+   "notes": "Ethiopian news site (Addis Abeba). Its website and official RSS feed (/feed/) answer automated readers with 403 Forbidden, so the collector reads the publisher's OFFICIAL Telegram channel (t.me/AddisstandardEng), public web preview, and keeps only posts that link to an addisstandard.com article. Headline/summary are the publisher's own post text; the date is the post time. Photos are its own or agency photos, all rights reserved: never reused.",
+   "section": "world"
+  },
+  {
+   "id": "un-news",
+   "name": "UN News",
+   "shareLink": "",
+   "homepage": "https://news.un.org",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 85,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://news.un.org/feed/subscribe/en/news/region/africa/feed/rss.xml"
+    },
+    {
+     "type": "rss",
+     "url": "https://news.un.org/feed/subscribe/en/news/all/rss.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Somalia stories go to Somali News, the rest to World News. UN Photo images are not under a free licence."
+  },
+  {
+   "id": "ap",
+   "name": "AP (Associated Press)",
+   "shareLink": "",
+   "homepage": "https://apnews.com",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 90,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "No public RSS feed: the 08:00/18:00 task finds AP articles with WebSearch and opens them. Used for Somali, World and Sports news. AP photos are never reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "reuters",
+   "name": "Reuters",
+   "shareLink": "",
+   "homepage": "https://www.reuters.com",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 90,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "No public RSS feed and the site blocks automated readers: the 08:00/18:00 task finds Reuters articles with WebSearch. Used for Somali, World and Sports news. Reuters photos are never reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "bbc-world",
+   "name": "BBC News World",
+   "shareLink": "",
+   "homepage": "https://www.bbc.com/news/world",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 85,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://feeds.bbci.co.uk/news/world/rss.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "aljazeera",
+   "name": "Al Jazeera English",
+   "shareLink": "",
+   "homepage": "https://www.aljazeera.com",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 80,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.aljazeera.com/xml/rss/all.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "dw",
+   "name": "DW",
+   "shareLink": "",
+   "homepage": "https://www.dw.com",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 75,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://rss.dw.com/xml/rss-en-world"
+    },
+    {
+     "type": "rss",
+     "url": "https://rss.dw.com/rdf/rss-en-world"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "france24",
+   "name": "France 24",
+   "shareLink": "",
+   "homepage": "https://www.france24.com",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 75,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.france24.com/en/rss"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "bbc-sport",
+   "name": "BBC Sport",
+   "shareLink": "",
+   "homepage": "https://www.bbc.com/sport",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 80,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://feeds.bbci.co.uk/sport/rss.xml"
+    },
+    {
+     "type": "rss",
+     "url": "https://feeds.bbci.co.uk/sport/football/rss.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": ""
+  },
+  {
+   "id": "espn",
+   "name": "ESPN",
+   "shareLink": "",
+   "homepage": "https://www.espn.com",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 75,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.espn.com/espn/rss/news"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.espn.com/espn/rss/soccer/news"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.espn.co.uk/espn/rss/football/news"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "ESPN's RSS addresses answer with a web page from GitHub's servers, so the 08:00/18:00 task checks ESPN with WebSearch / WebFetch. ESPN photos are never reused."
+  },
+  {
+   "id": "official-sports",
+   "name": "Official competition sites",
+   "shareLink": "",
+   "homepage": "https://www.uefa.com",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 85,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "premierleague.com, laliga.com, legaseriea.it, bundesliga.com, ligue1.com, uefa.com, fifa.com, nba.com, atptour.com, wtatennis.com, formula1.com, worldathletics.org: checked by the 08:00/18:00 task to confirm results (WebFetch / WebSearch). League and club photos are never reused.",
+   "searchOnly": true
   }
  ]
 }

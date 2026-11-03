@@ -165,7 +165,7 @@ def parse_telegram(page, pattern=None):
 class Meta(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
-        self.meta, self.canon, self.ld, self.paras, self.caps, self.links = {}, None, [], [], [], []
+        self.meta, self.canon, self.ld, self.paras, self.caps, self.links, self.times = {}, None, [], [], [], [], []
         self._in = None; self._buf = []
 
     def handle_starttag(self, tag, a):
@@ -177,6 +177,8 @@ class Meta(HTMLParser):
             self.canon = a['href']
         elif tag == 'a' and a.get('href'):
             self.links.append(a['href'])
+        elif tag == 'time' and a.get('datetime'):
+            self.times.append(a['datetime'])
         elif tag == 'script' and 'ld+json' in (a.get('type') or ''):
             self._in, self._buf = 'ld', []
         elif tag in ('p', 'figcaption') and self._in is None:
@@ -215,7 +217,8 @@ GENERIC = re.compile(r'(logo|placeholder|default|thumbnail-?\d|text-thumbnail|fa
 def article(url):
     """Open the article page; return the verified metadata (never the full text)."""
     p = Meta()
-    p.feed(get(url).decode('utf-8', 'replace'))
+    raw = get(url).decode('utf-8', 'replace')
+    p.feed(raw)
     m = p.meta
     out = {'canonicalUrl': p.canon or m.get('og:url'), 'title': m.get('og:title') or m.get('twitter:title'),
            'description': m.get('og:description') or m.get('description'),
@@ -230,6 +233,14 @@ def article(url):
         if not out['author'] and isinstance(x.get('author'), (dict, list)):
             a = x['author'][0] if isinstance(x['author'], list) and x['author'] else x['author']
             if isinstance(a, dict): out['author'] = a.get('name')
+    if not out['publishedAt']:
+        for t in p.times[:3]:
+            d = parse_date(t)
+            if d: out['publishedAt'] = iso(d); out['dateSource'] = 'page <time> element'; break
+    if not out['publishedAt']:
+        # date only (no time): the URL /YYYY/MM/DD/ or the article's own dateline ("MUQDISHO, 3 Nofeembar 2026")
+        d = date_only(url, p.paras[:3], raw)
+        if d: out['publishedAt'], out['dateOnly'], out['dateSource'] = iso(d[0]), True, d[1]
     if out['title']:
         out['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', out['title'])
     out['_paras'] = [t for t in p.paras if len(t) > 60][:25]
@@ -242,15 +253,63 @@ def article(url):
     return out
 
 
+MONTHS = {'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10, 'nov': 11, 'dec': 12,
+          # Somali month names
+          'janaayo': 1, 'febraayo': 2, 'maarso': 3, 'abriil': 4, 'abril': 4, 'maajo': 5, 'juun': 6, 'luulyo': 7, 'agoosto': 8,
+          'sebtembar': 9, 'sibtembar': 9, 'oktoobar': 10, 'nofeembar': 11, 'noofembar': 11, 'nofembar': 11, 'diseembar': 12, 'disembar': 12}
+_MON = r'(janaayo|febraayo|maarso|abriil|abril|maajo|juun|luulyo|agoosto|sebtembar|sibtembar|oktoobar|nofeembar|noofembar|nofembar|diseembar|disembar|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?'
+
+
+def date_only(url, first_paras, raw=''):
+    """A publication DATE without a time, never guessed: from the URL path or the dateline at the start of the article."""
+    tz = datetime.timezone(datetime.timedelta(hours=3))
+    m = re.search(r'/(20\d\d)/(\d\d)/(\d\d)/', url)
+    if m:
+        try: return datetime.datetime(int(m[1]), int(m[2]), int(m[3]), tzinfo=tz), 'date in the article URL (no time)'
+        except ValueError: pass
+    # "Posted On 03-11-2026, 06:02AM" (Garowe Online): the time has no time zone, so only the date is kept
+    m = re.search(r'(?i)\b(?:posted|published)\s+on\s*:?\s*(\d{1,2})[-/.](\d{1,2})[-/.](20\d\d)\b', strip_tags(raw[:300000]) if raw else '')
+    if m:
+        try: return datetime.datetime(int(m[3]), int(m[2]), int(m[1]), tzinfo=tz), 'date shown on the article page (no time zone, date only)'
+        except ValueError: pass
+    # the date printed right under the headline ("3 November 2026"): SONNA, Hiiraan
+    if raw and '<h1' in raw:
+        after = strip_tags(raw[raw.index('<h1'):][:20000])[:400].lower()
+        m = (re.search(r'\b(\d{1,2})\s+' + _MON + r'\s*,?\s+(20\d\d)\b', after))
+        m2 = re.search(r'\b' + _MON + r'\s+(\d{1,2}),?\s+(20\d\d)\b', after)
+        for mm, order in ((m, 'dmy'), (m2, 'mdy')):
+            if not mm: continue
+            dd, mon, yy = (mm[1], mm[2], mm[3]) if order == 'dmy' else (mm[2], mm[1], mm[3])
+            mo = MONTHS.get(mon) or MONTHS.get(mon[:3])
+            try: return datetime.datetime(int(yy), mo, int(dd), tzinfo=tz), 'date printed under the headline (no time)'
+            except (TypeError, ValueError): pass
+    for t in first_paras:
+        head = t[:120].lower()
+        m = re.search(r'\b(\d{1,2})(?:da|aad|kii|th|st|nd|rd)?\s+' + _MON + r'\s*,?\s+(20\d\d)\b', head) or None
+        if m: dd, mon, yy = m[1], m[2], m[3]
+        else:
+            m = re.search(r'\b' + _MON + r'\s+(\d{1,2}),?\s+(20\d\d)\b', head)
+            if not m: continue
+            mon, dd, yy = m[1], m[2], m[3]
+        if not re.fullmatch(r"[^\W\d][\w\s'’./-]{1,40},\s*(\w+,?\s+)?|\s*((mon|tues|wednes|thurs|fri|satur|sun)day|isniin|talaado|arbaco|khamiis|jimce|sabti|axad),?\s*", head[:m.start()]): continue  # only a dateline: "PLACE, <date>"
+        mo = MONTHS.get(mon) or MONTHS.get(mon[:3])
+        try: return datetime.datetime(int(yy), mo, int(dd), tzinfo=tz), 'dateline at the start of the article (no time)'
+        except (TypeError, ValueError): continue
+    return None
+
+
 def fetch(args):
     cfg = json.load(open(SOURCES, encoding='utf-8'))
     per = int(opt(args, '--per', cfg.get('perSource', {}).get('max', 10)))
     since = parse_date(opt(args, '--since', None))
     items, report = [], []
     for s in cfg['sources']:
-        rep = {'id': s['id'], 'name': s['name'], 'homepage': s.get('homepage'), 'enabled': s.get('enabled', True),
+        rep = {'id': s['id'], 'name': s['name'], 'homepage': s.get('homepage'), 'section': s.get('section', 'world'),
+               'enabled': s.get('enabled', True), 'searchOnly': bool(s.get('searchOnly')),
                'method': None, 'found': 0, 'collected': 0, 'errors': []}
         report.append(rep)
+        if s.get('searchOnly') and s.get('enabled', True):
+            rep['errors'].append('no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch'); continue
         if not s.get('enabled', True) or not s.get('feeds'):
             rep['errors'].append(s.get('notes') or 'disabled'); continue
         listing = []
@@ -287,7 +346,7 @@ def fetch(args):
         for g in listing[:per * 2]:
             if rep['collected'] >= per: break
             if since and g.get('publishedAt') and parse_date(g['publishedAt']) < since: continue
-            it = {'source': s['id'], 'sourceName': s['name'], 'url': g['url'], 'title': g.get('title'),
+            it = {'source': s['id'], 'sourceName': s['name'], 'section': s.get('section', 'world'), 'url': g['url'], 'title': g.get('title'),
                   'description': g.get('description'), 'publishedAt': g.get('publishedAt'), 'image': g.get('image'),
                   'timeVerified': bool(g.get('publishedAt'))}
             if g.get('dateSource'): it['dateSource'] = g['dateSource']
@@ -301,16 +360,21 @@ def fetch(args):
                 for k, v in a.items():
                     if v and (k in ('canonicalUrl', '_paras', 'imageCaption', 'imageCredit', 'imageLicenseHint', 'author') or not it.get(k)):
                         it[k] = v
-                if a.get('publishedAt'): it['publishedAt'] = a['publishedAt']; it['timeVerified'] = True
+                if a.get('publishedAt') and not (a.get('dateOnly') and it.get('publishedAt')):
+                    it['publishedAt'] = a['publishedAt']; it['timeVerified'] = not a.get('dateOnly')
                 if a.get('image'): it['image'] = a['image']
             except Exception as e:
                 it['articleError'] = f'{type(e).__name__}: {e}'[:200]
             if not it.get('publishedAt'):
                 rep['errors'].append(f"no verifiable publication date: {g['url']}"); continue
-            if since and parse_date(it['publishedAt']) < since: continue
+            if since and parse_date(it['publishedAt']) < since:
+                # a date-only article (no time given by the publisher) counts if its date is on or after the window's date
+                if not (it.get('timeVerified') is False and parse_date(it['publishedAt']).date() >= since.astimezone(parse_date(it['publishedAt']).tzinfo).date()):
+                    continue
             if not it.get('title'): continue
             if it.get('title'):
                 it['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', it['title'])
+                it['title'] = re.sub(r'\s+[-|–]\s+(' + re.escape(s['name']) + r'|BBC( News)?( Somali| Sport)?|DW|France 24|Al Jazeera|UN News|ESPN|Hiiraan Online|Garowe Online|VOA Somali)\s*$', '', it['title'])
             items.append(it); rep['collected'] += 1
             time.sleep(0.5)
         mine = items[first:]
@@ -485,6 +549,10 @@ def image_check(x, cfg_src):
     if x.get('imageLicenseHint') == 'free':
         return 'reusable', 'caption states a free licence (verify on the publisher page)'
     pol = (cfg_src or {}).get('imagePolicy', 'unknown')
+    if pol == 'public-domain-unless-agency':
+        if x.get('imageCredit') or x.get('imageCaption') and AGENCY.search(x['imageCaption']):
+            return 'not-reusable', 'agency photo on a VOA page, all rights reserved'
+        return 'check', 'VOA page photo: reusable only if the caption credits VOA staff (US government work, public domain); check the page'
     if pol == 'all-rights-reserved':
         return 'not-reusable', f"{(cfg_src or {}).get('name')} photos are all rights reserved"
     return 'unknown', 'licence not stated: treated as not reusable'
@@ -590,7 +658,7 @@ def dedup(args):
 
 
 def pub(x):
-    return {k: x.get(k) for k in ('source', 'sourceName', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
+    return {k: x.get(k) for k in ('source', 'sourceName', 'section', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
                                   'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel') if x.get(k) not in (None, '')}
 
 
@@ -598,13 +666,18 @@ def pub(x):
 def report(args):
     p = json.load(open(args[0], encoding='utf-8'))
     L = []
-    L.append(f"World News test — fetched {p.get('fetchedAt')}  window since {p.get('since') or '-'}")
+    L.append(f"News sources test — fetched {p.get('fetchedAt')}  window since {p.get('since') or '-'}")
     L.append('')
-    L.append(f"{'source':<16}{'method / error':<62}{'got':>4}{'kept':>5}{'dup':>5}{'known':>6}")
+    L.append(f"{'source':<22}{'section':<9}{'state':<9}{'method / error':<70}{'got':>4}{'kept':>5}{'dup':>5}{'known':>6}")
     for s in p['sources']:
         c = p['counts'].get(s['id'], {})
-        m = s.get('method') or ('FAILED: ' + '; '.join(s.get('errors') or ['-']))
-        L.append(f"{s['name'][:15]:<16}{m[:61]:<62}{s.get('collected', 0):>4}{c.get('kept', 0):>5}{c.get('duplicates', 0):>5}{c.get('known', 0):>6}")
+        st = source_state(s)
+        m = s.get('method') or '; '.join(s.get('errors') or ['-'])
+        L.append(f"{s['name'][:21]:<22}{s.get('section', 'world')[:8]:<9}{st:<9}{m[:69]:<70}{s.get('collected', 0):>4}{c.get('kept', 0):>5}{c.get('duplicates', 0):>5}{c.get('known', 0):>6}")
+    L.append('')
+    L.append('ERRORS (full)')
+    for s in p['sources']:
+        if not s.get('method'): L.append(f"  {s['name']}: " + ' | '.join(s.get('errors') or ['-'])[:600])
     L.append('')
     img = {}
     for e in p['stories']: img[e['imageStatus']] = img.get(e['imageStatus'], 0) + 1
@@ -619,9 +692,17 @@ def report(args):
     L.append('FEED (newest first)')
     for e in p['stories']:
         also = ' + ' + ', '.join(a['source'] for a in e['alsoReportedBy']) if e['alsoReportedBy'] else ''
-        L.append(f"  {e['publishedAt'][:16]}  [{e['sourceName']}{also}] {e['title'][:95]}")
+        L.append(f"  {e['publishedAt'][:16]}  {e.get('section', 'world')[:6]:<7}[{e['sourceName']}{also}] {e['title'][:95]}")
         L.append(f"      image: {e['imageStatus']} ({e['imageReason']})" + (f"  related: {len(e['related'])}" if e['related'] else ''))
     print('\n'.join(L))
+
+
+def source_state(s):
+    """working | search (no feed: the news task checks it with WebSearch) | blocked | inactive"""
+    if s.get('method'): return 'working'
+    if not s.get('enabled', True): return 'inactive'
+    if s.get('searchOnly'): return 'search'
+    return 'blocked'
 
 
 def status(args):
@@ -633,7 +714,8 @@ def status(args):
     for s in p['sources']:
         c = p['counts'].get(s['id'], {})
         r = (run.get('perSource') or {}).get(s['id'], {})
-        srcs.append({'id': s['id'], 'name': s['name'], 'homepage': s.get('homepage') or '', 'working': bool(s.get('method')),
+        srcs.append({'id': s['id'], 'name': s['name'], 'homepage': s.get('homepage') or '', 'section': s.get('section', 'world'),
+                     'state': source_state(s), 'working': bool(s.get('method')),
                      'method': s.get('method') or '', 'collected': s.get('collected', 0), 'duplicates': c.get('duplicates', 0),
                      'published': r.get('published', 0), 'pendingImage': r.get('pendingImage', 0),
                      'errors': '; '.join(s.get('errors') or [])[:500]})
