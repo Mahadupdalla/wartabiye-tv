@@ -40,20 +40,22 @@
    "feeds": [
     {
      "type": "rss",
-     "url": "https://www.voasomali.com/api/zoju_l-vomx-tpep_jy"
+     "url": "https://www.voasomali.com/api/zoju_l-vomx-tpep_jy",
+     "maxAgeDays": 3
     },
     {
      "type": "rss",
-     "url": "https://www.voasomali.com/api/zubjil-vomx-tpegvrqm"
+     "url": "https://www.voasomali.com/api/zubjil-vomx-tpegvrqm",
+     "maxAgeDays": 3
     },
     {
      "type": "html",
      "url": "https://www.voasomali.com/",
-     "linkPattern": "^https://www\\.voasomali\\.com/a/[^/]+/\\d+\\.html$"
+     "linkPattern": "^https://www\\.voasomali\\.com/a/([^/]+/)?\\d+\\.html$"
     }
    ],
    "imagePolicy": "public-domain-unless-agency",
-   "notes": "VOA staff photos are US government work (public domain); agency photos (AP, Reuters, AFP) on VOA pages are not. Official RSS feeds listed at voasomali.com/rssfeeds (Soomaaliya, then Breaking News)."
+   "notes": "VOA staff photos are US government work (public domain); agency photos (AP, Reuters, AFP) on VOA pages are not. Its official RSS feeds (voasomali.com/rssfeeds) have not been updated since March 2025, so the collector reads the public homepage."
   },
   {
    "id": "hiiraan",
@@ -572,15 +574,10 @@
     {
      "type": "rss",
      "url": "https://www.espn.co.uk/espn/rss/football/news"
-    },
-    {
-     "type": "html",
-     "url": "https://www.espn.com/soccer/",
-     "linkPattern": "^https://www\\.espn\\.com/(soccer|nba|f1|tennis|boxing|mma|cricket)/story/_/id/\\d+/[a-z0-9-]+$"
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": ""
+   "notes": "ESPN's RSS addresses answer with a web page from GitHub's servers, so the 08:00/18:00 task checks ESPN with WebSearch / WebFetch. ESPN photos are never reused."
   },
   {
    "id": "official-sports",

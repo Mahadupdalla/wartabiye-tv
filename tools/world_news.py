@@ -217,7 +217,8 @@ GENERIC = re.compile(r'(logo|placeholder|default|thumbnail-?\d|text-thumbnail|fa
 def article(url):
     """Open the article page; return the verified metadata (never the full text)."""
     p = Meta()
-    p.feed(get(url).decode('utf-8', 'replace'))
+    raw = get(url).decode('utf-8', 'replace')
+    p.feed(raw)
     m = p.meta
     out = {'canonicalUrl': p.canon or m.get('og:url'), 'title': m.get('og:title') or m.get('twitter:title'),
            'description': m.get('og:description') or m.get('description'),
@@ -238,7 +239,7 @@ def article(url):
             if d: out['publishedAt'] = iso(d); out['dateSource'] = 'page <time> element'; break
     if not out['publishedAt']:
         # date only (no time): the URL /YYYY/MM/DD/ or the article's own dateline ("MUQDISHO, 3 Nofeembar 2026")
-        d = date_only(url, p.paras[:3])
+        d = date_only(url, p.paras[:3], raw)
         if d: out['publishedAt'], out['dateOnly'], out['dateSource'] = iso(d[0]), True, d[1]
     if out['title']:
         out['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', out['title'])
@@ -259,13 +260,29 @@ MONTHS = {'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5, 'jun': 6, 'jul': 7, 
 _MON = r'(janaayo|febraayo|maarso|abriil|abril|maajo|juun|luulyo|agoosto|sebtembar|sibtembar|oktoobar|nofeembar|noofembar|nofembar|diseembar|disembar|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?'
 
 
-def date_only(url, first_paras):
+def date_only(url, first_paras, raw=''):
     """A publication DATE without a time, never guessed: from the URL path or the dateline at the start of the article."""
     tz = datetime.timezone(datetime.timedelta(hours=3))
     m = re.search(r'/(20\d\d)/(\d\d)/(\d\d)/', url)
     if m:
         try: return datetime.datetime(int(m[1]), int(m[2]), int(m[3]), tzinfo=tz), 'date in the article URL (no time)'
         except ValueError: pass
+    # "Posted On 03-11-2026, 06:02AM" (Garowe Online): the time has no time zone, so only the date is kept
+    m = re.search(r'(?i)\b(?:posted|published)\s+on\s*:?\s*(\d{1,2})[-/.](\d{1,2})[-/.](20\d\d)\b', strip_tags(raw[:300000]) if raw else '')
+    if m:
+        try: return datetime.datetime(int(m[3]), int(m[2]), int(m[1]), tzinfo=tz), 'date shown on the article page (no time zone, date only)'
+        except ValueError: pass
+    # the date printed right under the headline ("3 November 2026"): SONNA, Hiiraan
+    if raw and '<h1' in raw:
+        after = strip_tags(raw[raw.index('<h1'):][:20000])[:400].lower()
+        m = (re.search(r'\b(\d{1,2})\s+' + _MON + r'\s*,?\s+(20\d\d)\b', after))
+        m2 = re.search(r'\b' + _MON + r'\s+(\d{1,2}),?\s+(20\d\d)\b', after)
+        for mm, order in ((m, 'dmy'), (m2, 'mdy')):
+            if not mm: continue
+            dd, mon, yy = (mm[1], mm[2], mm[3]) if order == 'dmy' else (mm[2], mm[1], mm[3])
+            mo = MONTHS.get(mon) or MONTHS.get(mon[:3])
+            try: return datetime.datetime(int(yy), mo, int(dd), tzinfo=tz), 'date printed under the headline (no time)'
+            except (TypeError, ValueError): pass
     for t in first_paras:
         head = t[:120].lower()
         m = re.search(r'\b(\d{1,2})(?:da|aad|kii|th|st|nd|rd)?\s+' + _MON + r'\s*,?\s+(20\d\d)\b', head) or None
@@ -274,7 +291,7 @@ def date_only(url, first_paras):
             m = re.search(r'\b' + _MON + r'\s+(\d{1,2}),?\s+(20\d\d)\b', head)
             if not m: continue
             mon, dd, yy = m[1], m[2], m[3]
-        if not re.fullmatch(r"[^\W\d][\w\s'’./-]{1,40},\s*(\w+\s+)?|\s*", head[:m.start()]): continue  # only a dateline: "PLACE, <date>"
+        if not re.fullmatch(r"[^\W\d][\w\s'’./-]{1,40},\s*(\w+,?\s+)?|\s*((mon|tues|wednes|thurs|fri|satur|sun)day|isniin|talaado|arbaco|khamiis|jimce|sabti|axad),?\s*", head[:m.start()]): continue  # only a dateline: "PLACE, <date>"
         mo = MONTHS.get(mon) or MONTHS.get(mon[:3])
         try: return datetime.datetime(int(yy), mo, int(dd), tzinfo=tz), 'dateline at the start of the article (no time)'
         except (TypeError, ValueError): continue
