@@ -495,7 +495,10 @@ def dedup(args):
     for x in sorted(left, key=lambda i: i.get('publishedAt') or ''):
         hit = None
         for g in groups:
-            for y in g[:1]:
+            # same event as a member of the group, and at least the same story as the group's first report (no chaining
+            # from one development to the next)
+            if compare(x, g[0], idf)[0] is None: continue
+            for y in g:
                 v, sc, why = compare(x, y, idf)
                 if v == 'duplicate': hit = (g, y, sc, why); break
             if hit: break
