@@ -1,11 +1,16 @@
 """Health check for the public site: valid news.json, required fields, real dates, no duplicate URLs, every article has its
 own photo (present, described, credited, not shared with another article),
 known section / sport / region values, sponsored articles named, and every advert in data/ads.json labelled and well formed."""
-import json, os, sys, datetime
+import json, os, sys, datetime, re
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 news = json.load(open(os.path.join(root, 'data', 'news.json'), encoding='utf-8'))
 items = news['news'] if isinstance(news, dict) else news
 errors, seen, used_imgs = [], set(), {}
+# football results may show the club's own post through the official X / Instagram / Facebook embed instead of a photo file
+OFFICIAL_POST = re.compile(r'^https://(?:(?:www\.)?(?:x|twitter)\.com/[A-Za-z0-9_]{1,15}/status/\d{5,25}'
+                           r'|(?:www\.)?instagram\.com/(?:p|reel)/[A-Za-z0-9_-]{5,40}'
+                           r'|(?:www\.|m\.)?facebook\.com/[^?#\s]+/(?:posts|photos|videos)/\S+)')
+embed = lambda n: bool(OFFICIAL_POST.match(str(n.get('officialPost') or '')))
 for n in items:
     nid = n.get('id', '?')
     for k in ('id', 'title', 'category', 'publishedAt'):
@@ -17,7 +22,9 @@ for n in items:
         if u in seen: errors.append(f'{nid}: duplicate sourceUrl {u}')
         seen.add(u)
     img = n.get('image')
-    if not img: errors.append(f'{nid}: published without a photo (every article needs its own photo)')
+    if n.get('officialPost') and not embed(n): errors.append(f'{nid}: officialPost must be a link to one X, Instagram or Facebook post')
+    if not img and embed(n): pass
+    elif not img: errors.append(f'{nid}: published without a photo (every article needs its own photo)')
     elif img in used_imgs: errors.append(f'{nid}: uses the same photo as {used_imgs[img]} (every article needs its own photo)')
     else: used_imgs[img] = nid
     if img and not n.get('imageAlt'): errors.append(f'{nid}: photo needs a description (imageAlt)')
@@ -54,7 +61,7 @@ for n in items:
         if key: users.setdefault(key, []).append(n)
 for n in items:
     if n.get('by') == 'admin' or (n.get('publishedAt') or '')[:10] < RULE_FROM: continue
-    if not n.get('image'): errors.append(f"{n.get('id')}: published without its own photo (should be a draft under Sugaya sawir)")
+    if not n.get('image') and not embed(n): errors.append(f"{n.get('id')}: published without its own photo (should be a draft under Sugaya sawir)")
     for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
         if key and len(users.get(key, [])) > 1:
             errors.append(f"{n.get('id')}: photo {key} is also used by " + ', '.join(o.get('id', '?') for o in users[key] if o is not n))

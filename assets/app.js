@@ -36,6 +36,20 @@
   function tEl(tag,cls,it,f){return soAttr(el(tag,cls,F(it,f)),isSo(it))}
   function soBadge(it){return isSo(it)?el('span','olang',tr('somaliOnly')):null}
   function svg(path,cls){var s='<svg viewBox="0 0 24 24" aria-hidden="true"'+(cls?' class="'+cls+'"':'')+'><path d="'+path+'"/></svg>';return s}
+  // football results: the club's own post, shown with the platform's official embed (the image is never copied)
+  function officialEmbed(u){if(typeof u!=='string')return null;var m;
+    if(m=u.match(/^https:\/\/(?:www\.)?(?:x|twitter)\.com\/([A-Za-z0-9_]{1,15})\/status\/(\d{5,25})/))return{kind:'x',site:'X @'+m[1],url:'https://twitter.com/'+m[1]+'/status/'+m[2]};
+    if(m=u.match(/^https:\/\/(?:www\.)?instagram\.com\/(p|reel)\/([A-Za-z0-9_-]{5,40})/))return{kind:'ig',site:'Instagram',url:'https://www.instagram.com/'+m[1]+'/'+m[2]+'/'};
+    if(/^https:\/\/(?:www\.|m\.)?facebook\.com\/[^?#\s]+\/(?:posts|photos|videos)\/[^\s]+$/.test(u))return{kind:'fb',site:'Facebook',url:u};
+    return null}
+  var embedJs={};
+  function loadJs(src,done){if(embedJs[src]){if(embedJs[src]===2)done();return}embedJs[src]=1;var sc=document.createElement('script');sc.async=true;sc.src=src;sc.onload=function(){embedJs[src]=2;done()};document.head.append(sc)}
+  function embedBox(oe){var b=el('div','oembed');b.style.cssText='display:flex;justify-content:center;min-height:120px';
+    if(oe.kind==='fb'){var f=document.createElement('iframe');f.src='https://www.facebook.com/plugins/post.php?href='+encodeURIComponent(oe.url)+'&show_text=true&width=500';f.title=tr('officialPost');f.loading='lazy';f.style.cssText='border:0;width:100%;max-width:500px;height:640px';f.setAttribute('allow','encrypted-media');b.append(f);return b}
+    var q=el('blockquote',oe.kind==='x'?'twitter-tweet':'instagram-media');var a=el('a',null,tr('officialPost')+' ('+oe.site+') ↗');a.href=oe.url;a.target='_blank';a.rel='noopener';q.append(a);
+    if(oe.kind==='x'){q.setAttribute('data-dnt','true');b.append(q);loadJs('https://platform.twitter.com/widgets.js',function(){try{window.twttr.widgets.load(b)}catch(e){}})}
+    else{q.setAttribute('data-instgrm-permalink',oe.url);q.setAttribute('data-instgrm-version','14');q.style.cssText='max-width:540px;width:100%;margin:0';b.append(q);loadJs('https://www.instagram.com/embed.js',function(){try{window.instgrm.Embeds.process()}catch(e){}})}
+    return b}
   function safeUrl(u){return typeof u==='string'&&/^https?:\/\//.test(u)?u:null}
   function safeLink(u){u=String(u||'');return /^(#|https?:\/\/|mailto:|tel:)/.test(u)?u:'#hoyga'}
   function imgUrl(u){if(typeof u!=='string'||!u)return null;u=u.replace(/^\//,'');if(/^(img\/|https:\/\/)/.test(u))return u;return null}
@@ -298,12 +312,15 @@
     cp.addEventListener('click',function(){var done=function(){cp.lastChild.textContent=tr('copied')};try{navigator.clipboard.writeText(url).then(done,function(){})}catch(e){}});sh.append(cp);
     if(navigator.share){var ns=el('button','ns');ns.type='button';ns.innerHTML=svg('M18 8a3 3 0 1 0-2.8-4M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8.6 13.5l6.8 4M15.4 6.5l-6.8 4');ns.append(tr('shareMore'));ns.addEventListener('click',function(){navigator.share({title:title,url:url}).catch(function(){})});sh.append(ns)}
     A.append(sh);
-    var fig=el('figure','figure');fig.append(ph(it,'hero',true));
+    var oe=officialEmbed(it.officialPost),fig=el('figure','figure');
+    if(!imgUrl(it.image)&&oe){fig.append(embedBox(oe));var fe=el('figcaption');fe.append(tr('officialPost')+': ');var oa=el('a',null,(typeof it.officialAccount==='string'&&it.officialAccount?it.officialAccount:oe.site)+' ↗');oa.href=oe.url;oa.target='_blank';oa.rel='noopener';fe.append(oa);fig.append(fe)}
+    else fig.append(ph(it,'hero',true));
     if(imgUrl(it.image)){var fc=el('figcaption');if(it.imageKind==='illustrative')fc.append(el('b',null,tr('illus')),tr('illusNote'));
       var cr2=typeof it.imageCredit==='string'&&it.imageCredit?it.imageCredit:(it.by==='admin'?'Wartabiye TV':'');
       if(cr2){fc.append(tr('photo')+': ');var iu2=safeUrl(it.imageSourceUrl);if(iu2){var ca=el('a',null,cr2);ca.href=iu2;ca.target='_blank';ca.rel='noopener';fc.append(ca)}else fc.append(cr2);if(it.imageLicense)fc.append(' · '+it.imageLicense)}
+      if(oe){fc.append(' · ');var ob=el('a',null,tr('officialPost')+' ↗');ob.href=oe.url;ob.target='_blank';ob.rel='noopener';fc.append(ob)}
       if(fc.childNodes.length)fig.append(fc)}
-    else{var fn=el('figcaption');fn.append(tr('noImg')+(L==='so'&&typeof it.imageNote==='string'&&it.imageNote?': '+it.imageNote:'.'));fig.append(fn)}
+    else if(!oe){var fn=el('figcaption');fn.append(tr('noImg')+(L==='so'&&typeof it.imageNote==='string'&&it.imageNote?': '+it.imageNote:'.'));fig.append(fn)}
     A.append(fig);
     var bd=soAttr(el('div','body'),isSo(it));var txt2=(body||sum||F(it,'title'));
     txt2.split(/\n+/).forEach(function(p){if(p.trim())bd.append(el('p',null,p.trim()))});A.append(bd);

@@ -94,8 +94,10 @@ collections:
       - {name: imageCredit, label: Sawirka waxaa leh, widget: string, required: false}
       - {name: imageLicense, label: Ruqsadda sawirka, widget: string, required: false}
       - {name: imageSourceUrl, label: Isha sawirka (link), widget: string, required: false}
-      - {name: imageKind, label: Nooca sawirka, widget: select, required: false, options: [{label: 'Sawirka dhacdada', value: actual}, {label: 'Sawir muujin ah', value: illustrative}]}
+      - {name: imageKind, label: Nooca sawirka, widget: select, required: false, options: [{label: 'Sawirka dhacdada', value: actual}, {label: 'Sawir muujin ah', value: illustrative}, {label: 'Sawirka rasmiga ah ee kooxda (ogolaansho la helay)', value: official}]}
       - {name: imageNote, label: Xusuus sawir, widget: string, required: false}
+      - {name: officialPost, label: 'Boostada rasmiga ah ee kooxda (natiijada kubadda cagta)', widget: string, required: false, hint: 'Link-ga boostada natiijada ee koontada rasmiga ah ee kooxda: X (x.com/<koonto>/status/...), Instagram (instagram.com/p/...) ama Facebook (facebook.com/<bog>/posts/...). Haddii aan sawir la gelin, bogga wuxuu muujinayaa boostada rasmiga ah (embed); sawirka lama koobiyeeyo. Kadib dami "Sugaya sawir".'}
+      - {name: officialAccount, label: 'Koontada rasmiga ah (magaca)', widget: string, required: false, hint: 'Tusaale: Real Madrid C.F. (@realmadrid)'}
       - {name: source, label: Isha warka, widget: string, default: Wartabiye TV}
       - {name: sourceUrl, label: Link-ga isha, widget: string, required: false}
       - {name: timeVerified, label: Waqtiga waa la hubiyay, widget: boolean, default: true}
