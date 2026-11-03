@@ -32,6 +32,9 @@ jobs:
         run: python3 tools/world_news.py dedup /tmp/world/candidates.json --out /tmp/world/plan.json
       - name: Report
         run: python3 tools/world_news.py report /tmp/world/plan.json | tee /tmp/world/report.txt
+      - name: Test-run data (work branches only)
+        if: github.ref != 'refs/heads/main'
+        run: echo "PLAN_GZ_B64 $(gzip -9c /tmp/world/plan.json | base64 -w0)"
       - uses: actions/upload-artifact@v4
         with:
           name: world-news-${{ github.run_id }}

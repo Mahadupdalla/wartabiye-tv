@@ -404,7 +404,8 @@ def compare(a, b, idf):
     # conflicting key figures in the headline (e.g. a new death toll, a new vote result) mean a new development
     nums_conflict = fa['nums'] and fb['nums'] and not (fa['nums'] & fb['nums']) and t < 0.5
     same_place = (bool(shared_places) and (e >= 0.2 or t >= 0.5)) or e >= 0.3
-    if same_place and hours <= 36 and not nums_conflict and (score >= 0.40 or (t >= 0.5 and c >= 0.3) or (e >= 0.45 and c >= 0.45) or (e >= 0.55 and c >= 0.3)):
+    late = hours > 24 and score < 0.5  # a day later with a weaker match is usually the next development
+    if same_place and hours <= 36 and not late and not nums_conflict and (score >= 0.40 or (t >= 0.5 and c >= 0.3) or (e >= 0.45 and c >= 0.45) or (e >= 0.55 and c >= 0.3)):
         return 'duplicate', score, reasons
     if same_place and score >= 0.25:
         return 'related', score, reasons + (['different figures'] if nums_conflict else [])
