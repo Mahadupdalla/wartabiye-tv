@@ -1,19 +1,17 @@
 {
- "lastRunAt": "2026-11-03T19:20:00+03:00",
- "lastSuccessAt": "2026-11-03T19:20:00+03:00",
+ "lastRunAt": "2026-11-03T23:12:39+03:00",
+ "lastSuccessAt": "2026-11-03T23:12:39+03:00",
  "lastRun": {
-  "at": "2026-11-03T19:20:00+03:00",
+  "at": "2026-11-03T23:12:39+03:00",
   "ok": true,
-  "collected": 41,
-  "duplicatesRemoved": 7,
+  "collected": 49,
+  "duplicatesRemoved": 8,
   "alreadyKnown": 0,
   "published": 0,
   "pendingImage": 0,
   "pendingIds": [],
   "imageErrors": [],
-  "errors": [
-   "Test run before go-live: nothing published. Sources 1, 2 and 7 not identified yet (share.google links)."
-  ]
+  "errors": []
  },
  "sources": [
   {
@@ -47,7 +45,7 @@
    "working": true,
    "method": "html https://www.turkiyetoday.com/",
    "collected": 10,
-   "duplicates": 3,
+   "duplicates": 4,
    "published": 0,
    "pendingImage": 0,
    "errors": "rss https://www.turkiyetoday.com/rss: ValueError: not a feed (the address answers with a web page)"
@@ -59,7 +57,7 @@
    "working": true,
    "method": "rss https://www.dailysabah.com/rss/world",
    "collected": 10,
-   "duplicates": 2,
+   "duplicates": 3,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -83,7 +81,7 @@
    "working": true,
    "method": "rss https://www.euronews.com/rss?level=theme&name=news",
    "collected": 10,
-   "duplicates": 2,
+   "duplicates": 1,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -111,9 +109,29 @@
    "published": 0,
    "pendingImage": 0,
    "errors": ""
+  },
+  {
+   "id": "addisstandard",
+   "name": "Addis Standard",
+   "homepage": "https://addisstandard.com/",
+   "working": true,
+   "method": "telegram https://t.me/s/AddisstandardEng",
+   "collected": 8,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": "rss https://addisstandard.com/feed/: HTTPError: HTTP Error 403: Forbidden"
   }
  ],
  "history": [
+  {
+   "at": "2026-11-03T23:12:39+03:00",
+   "ok": true,
+   "collected": 49,
+   "duplicatesRemoved": 8,
+   "published": 0,
+   "pendingImage": 0
+  },
   {
    "at": "2026-11-03T19:20:00+03:00",
    "ok": true,
