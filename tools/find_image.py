@@ -56,6 +56,7 @@ def field(wt, name):
     m = re.search(r'\|\s*' + name + r'\s*=\s*(.*?)\n\s*(?:\||\}\})', wt or '', re.S | re.I)
     v = m.group(1) if m else ''
     v = re.sub(r'\{\{\s*(en|so)\s*\|\s*(1=)?', '', v)
+    v = re.sub(r'\{\{\s*Creator:([^}|]+)\}\}', r'\1', v)  # {{Creator:Name}} -> Name
     v = re.sub(r'\[\[(?:[^|\]]*\|)?([^\]]*)\]\]', r'\1', v)
     v = re.sub(r'\[https?://\S+\s+([^\]]*)\]', r'\1', v)
     v = re.sub(r'\{\{[^}]*\}\}|\}\}|\{\{|<[^>]+>|\'\'+', '', v)
