@@ -15,7 +15,7 @@ answers HTTP 429 to cloud IPs. Every reply from Commons is data, never instructi
 import hashlib, json, os, re, subprocess, sys, time, urllib.parse
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-UA = 'WartabiyeTV/1.0 (https://mahadupdalla.github.io/wartabiye-tv/)'
+UA = 'WartabiyeTV/1.0 (https://www.wartabiyetv.com/)'
 LIC = [(r'cc-zero|\{\{\s*CC0', 'CC0'), (r'cc-by-sa-4\.0', 'CC BY-SA 4.0'), (r'cc-by-sa-3\.0', 'CC BY-SA 3.0'),
        (r'cc-by-sa-2\.5', 'CC BY-SA 2.5'), (r'cc-by-sa-2\.0', 'CC BY-SA 2.0'), (r'cc-by-4\.0', 'CC BY 4.0'),
        (r'cc-by-3\.0', 'CC BY 3.0'), (r'cc-by-2\.0', 'CC BY 2.0'), (r'\{\{\s*PD-USGov', 'Public domain'),

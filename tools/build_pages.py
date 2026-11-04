@@ -8,7 +8,7 @@
 import json, os, glob, html, datetime
 from email.utils import format_datetime
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE_URL = 'https://mahadupdalla.github.io/wartabiye-tv/'
+SITE_URL = 'https://www.wartabiyetv.com/'
 esc = lambda s: html.escape(str(s or ''), quote=True)
 
 tpl = open(os.path.join(root, 'index.html'), encoding='utf-8').read()

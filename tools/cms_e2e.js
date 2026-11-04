@@ -5,7 +5,8 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 const TOKEN = process.env.GH_TOKEN, REPO = process.env.GITHUB_REPOSITORY;
-const SITE = `https://${REPO.split('/')[0].toLowerCase()}.github.io/${REPO.split('/')[1]}/`;
+// The live site is served on the custom domain in CNAME (e.g. www.wartabiyetv.com).
+const SITE = `https://${fs.readFileSync(require('path').join(__dirname, '..', 'CNAME'), 'utf8').trim()}/`;
 const OUT = process.argv[2] || '.';
 const TITLE = 'TIJAABO maamul ' + Date.now();
 const api = (path, opt = {}) => fetch('https://api.github.com/' + path, { ...opt, headers: { Authorization: 'Bearer ' + TOKEN, Accept: 'application/vnd.github+json', ...(opt.headers || {}) } });

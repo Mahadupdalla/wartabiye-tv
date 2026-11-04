@@ -38,7 +38,7 @@ jobs:
         run: sleep 120
       - name: Live data matches the repo
         run: |
-          URL="https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}"
+          URL="https://$(tr -d '[:space:]' < CNAME)"
           echo "Live site: $URL/"
           curl -fsS "$URL/data/news.json?ts=$(date +%s)" -o live.json
           python3 - <<'PY'
@@ -56,11 +56,11 @@ jobs:
         run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
       - name: Browser test of the live site
         run: |
-          URL="https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}/"
+          URL="https://$(tr -d '[:space:]' < CNAME)/"
           mkdir -p shots && node tools/live_test.js "$URL" shots
       - name: Language switcher test (Somali, English, Arabic, French; desktop and mobile)
         run: |
-          URL="https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}/"
+          URL="https://$(tr -d '[:space:]' < CNAME)/"
           node tools/lang_test.js "$URL" shots
       - uses: actions/upload-artifact@v4
         if: always()
