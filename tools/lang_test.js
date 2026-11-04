@@ -19,9 +19,9 @@ const fs = require('fs');
     if (first.lang !== 'so' || first.dir !== 'ltr') fail(name + ': first visit is not Somali');
     const soCards = await p.evaluate(() => new Set([...document.querySelectorAll('#homeView a[href^="#war-"]')].map(a => a.getAttribute('href'))).size);
     for (const lang of Object.keys(LANGS)) {
-      // the switcher must be visible inside the top-right corner
+      // the switcher must be visible in the header (logo band), inside the screen
       const box = await p.locator('#langBtn').boundingBox();
-      if (!box || box.x + box.width > w + 1 || box.y > 60) fail(`${name}: switcher not visible at top right (${JSON.stringify(box)})`);
+      if (!box || box.x < 0 || box.x + box.width > w + 1 || box.y > 160) fail(`${name}: switcher not visible in the header (${JSON.stringify(box)})`);
       await p.click('#langBtn'); await p.waitForTimeout(150);
       const mbox = await p.locator('#langMenu').boundingBox();
       if (!mbox || mbox.x < 0 || mbox.x + mbox.width > w + 1) fail(`${name}: language menu outside the screen (${JSON.stringify(mbox)})`);

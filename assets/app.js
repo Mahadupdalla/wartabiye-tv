@@ -65,8 +65,13 @@
   }
 
   // ---------- state ----------
-  var items=[],SITE=null,PAGES=null,ADS=[],loaded=false,loadError='',query='';
+  var ALL=[],items=[],HIDDEN=0,SITE=null,PAGES=null,ADS=[],loaded=false,loadError='',query='';
   // which hub an article belongs to: explicit "section" or derived from the category (old articles have no section)
+  // In a language other than Somali, only articles that have a real translation in that language are listed.
+  // Untranslated articles are never mixed into the lists in Somali; a notice says how many are waiting and offers to switch.
+  function syncItems(){items=L==='so'?ALL.slice():ALL.filter(function(x){return trOf(x)||x._preview});HIDDEN=ALL.length-items.length}
+  function trGap(){if(L==='so'||!HIDDEN||!loaded)return null;var d=el('div','trgap');d.setAttribute('role','note');
+    d.append(el('span',null,trf('trHidden',{n:HIDDEN})));var b=el('button',null,tr('readSo'));b.type='button';b.lang='so';b.addEventListener('click',function(){setLang('so')});d.append(b);return d}
   function section(it){if(it.section==='sports'||it.section==='world'||it.section==='somalia')return it.section;if(it.category==='Ciyaaraha')return 'sports';if(it.category==='Adduunka')return 'world';return 'somalia'}
   function tags(it){return Array.isArray(it.tags)?it.tags:(typeof it.tags==='string'&&it.tags?[it.tags]:[])}
   // ---------- East Africa first (homepage editorial priority) ----------
@@ -119,12 +124,13 @@
     swimming:'M2 18c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1M7 13l4-4 3 2 4-3M16 6a2 2 0 1 0 0 .1',cycling:'M5 17a3 3 0 1 0 0 .1M19 17a3 3 0 1 0 0 .1M5 17l4-7h6l4 7M12 10l-2-4h-2',
     baseball:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM7 5c1.5 4 1.5 10 0 14M17 5c-1.5 4-1.5 10 0 14',golf:'M8 21V3l8 4-8 4M5 21h10',handball:ICONS.Ciyaaraha,badminton:'M6 18l6-6M12 12l5-8 3 3-8 5zM5 19a1.5 1.5 0 1 0 0 .1',
     olympics:'M5 10a3 3 0 1 0 0 .1M12 10a3 3 0 1 0 0 .1M19 10a3 3 0 1 0 0 .1M8.5 14a3 3 0 1 0 0 .1M15.5 14a3 3 0 1 0 0 .1',esports:'M6 9h12a3 3 0 0 1 3 3v2a3 3 0 0 1-5 2l-1-1H9l-1 1a3 3 0 0 1-5-2v-2a3 3 0 0 1 3-3zM8 11v3M6.5 12.5h3M16 12h.1M18 13h.1',other:'M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z'};
-  function ph(it,cls,big){
+  function ph(it,cls,big,sizes){
     var s=el('span','ph s-'+section(it)+(cls?' '+cls:''));var cn=catName(it.category)||tr('news');
     var full=imgUrl(it.image),small=imgUrl(it.thumb);var iu=big?full:(small||full);var has=false;
     if(iu&&!broken[it._id]){
-      var im=document.createElement('img');im.loading='lazy';im.decoding='async';im.alt=F(it,'imageAlt')||F(it,'title');
-      if(big&&small&&full){im.srcset=small+' 480w, '+full+' 1200w';im.sizes='(max-width:1000px) 100vw, 860px'}
+      var im=document.createElement('img');var hero=cls==='hero';im.loading=hero?'eager':'lazy';im.decoding='async';if(hero)im.setAttribute('fetchpriority','high');im.alt=F(it,'imageAlt')||F(it,'title');
+      // the browser picks the 480px version or the full photo for the size it is shown at, so cards stay sharp on phones
+      if(small&&full&&small!==full){im.srcset=small+' 480w, '+full+' 1200w';im.sizes=sizes||(big?'(max-width:1000px) 100vw, 860px':'(max-width:640px) 92vw, (max-width:1000px) 46vw, 320px')}
       var FOC={top:'50% 15%',bottom:'50% 85%',left:'20% 50%',right:'80% 50%'};if(FOC[it.imageFocus])im.style.objectPosition=FOC[it.imageFocus];
       im.addEventListener('error',function(){im.remove();s.classList.add('none');var ill=s.querySelector('.illus');if(ill)ill.remove();s.querySelector('.phc').hidden=false;s.append(el('span','illus phtag',tr('phTag')));if(!broken[it._id]){broken[it._id]=1}});
       im.src=iu;s.append(im);has=true;if(it.imageKind==='illustrative')s.append(el('span','illus',tr('illus')));
@@ -201,7 +207,7 @@
     T.list.forEach(function(it){var li=el('li');var w=el('div');var a=tEl('a',null,it,'title');a.href=href(it);w.append(a,meta(it));li.append(w);ol.append(li)});
     d.append(ol,el('p','trend-note',T.editor?tr('trendingNote'):tr('trendingAuto')));return d}
   function sideLatest(list){if(!list.length||!sec('sidebarLatest'))return null;var l=box(tr('latestShort'));var mi=el('div','mini');
-    list.slice(0,5).forEach(function(it){var a=el('a');a.href=href(it);var tx=el('span');tx.append(tEl('h4',null,it,'title'),meta(it));a.append(ph(it),tx);mi.append(a)});l.append(mi);return l}
+    list.slice(0,5).forEach(function(it){var a=el('a');a.href=href(it);var tx=el('span');tx.append(tEl('h4',null,it,'title'),meta(it));a.append(ph(it,null,false,'120px'),tx);mi.append(a)});l.append(mi);return l}
   function sideCats(){var c=box(tr('categories'));var cl=el('div','cats');
     CATS.forEach(function(k){var n=items.filter(function(x){return x.category===k}).length;var a=el('a');a.href='#qayb-'+slug(k);a.append(catName(k),el('span',null,String(n)));cl.append(a)});c.append(cl);return c}
   function fillSide(S,parts){S.innerHTML='';parts.forEach(function(p){if(p)S.append(p)})}
@@ -259,7 +265,7 @@
     }
     var catSo=cat?CATS.find(function(k){return slug(k)===cat}):null;
     $('listTitle').textContent=query?tr('searchResults'):(catSo?catName(catSo):tr('latest'));
-    LI.innerHTML='';
+    LI.innerHTML='';var gap=trGap();if(gap)LI.append(gap);
     var home=!cat&&!query;
     var shown=[];if(sec('latest')||cat||query){shown=rest.slice(0,home?10:40);shown.forEach(function(it,i){LI.append(row(it));if(home&&i===3){var ad=adSlot('card');if(ad)LI.append(ad)}})}
     var em=$('empty');em.hidden=!loaded||rest.length>0||(showMosaic&&list.length>0);
@@ -293,18 +299,27 @@
   function fsGet(){var v=parseInt(lsGet(LS.fs),10);return v>=15&&v<=24?v:0}
   function fsApply(){var v=fsGet();document.documentElement.style.setProperty('--fs-article',v?v+'px':'')}
   function renderStory(id){
-    var it=items.find(function(x){return x._id===id});
+    var it=ALL.find(function(x){return x._id===id});
     var A=$('story');A.innerHTML='';fillSide($('storySide'),[]);
     if(!it){A.append(el('p','empty',loaded?tr('notFound'):tr('loadingStory')));var b0=el('a','back',tr('back'));b0.href='#hoyga';A.append(b0);return}
     setTitle(F(it,'title'));
     if(it._preview)A.append(el('div','pvbar','MUUQAAL HORE (preview) · '+(it.published===false?'Qabyo: warkan bogga weli kama muuqdo.':'Warkan waa la daabacay.')+' Luqadda ka beddel midigta sare si aad u eegto turjumaad kasta.'));
     var cr=el('nav','crumbs');cr.setAttribute('aria-label','breadcrumb');var h0=el('a',null,tr('home'));h0.href='#hoyga';cr.append(h0,el('span',null,tr('sep')));
     var s=section(it);if(s!=='somalia'){var hs=el('a',null,tr(s==='sports'?'sports':'world'));hs.href=s==='sports'?'#ciyaaraha':'#caalamka';cr.append(hs,el('span',null,tr('sep')))}
-    if(it.category){var c0=el('a',null,catName(it.category));c0.href='#qayb-'+slug(it.category);cr.append(c0)}
+    if(it.category&&!(s!=='somalia'&&catName(it.category)===tr(s==='sports'?'sports':'world'))){var c0=el('a',null,catName(it.category));c0.href='#qayb-'+slug(it.category);cr.append(c0)}
     A.append(cr);
     var ct=catTag(it);if(ct)A.append(ct);
     if(it.sponsored)A.append(el('p','spon-note',tr('sponsored')+(it.sponsor?' · '+tr('sponsoredBy')+': '+it.sponsor:'')));
     var tx=trOf(it);
+    if(L!=='so'&&!tx&&!it._preview){
+      // no translation in the chosen language: say so plainly and offer the languages this article does exist in. No Somali text is shown here.
+      setTitle(tr('trNoneTitle'));var un=el('section','trnone');un.setAttribute('role','status');
+      un.append(el('h1',null,tr('trNoneTitle')),el('p',null,tr('trNoneText')));var bs=el('div','trnone-btns');
+      Object.keys(LANGS).forEach(function(l){if(l===L)return;var ok=l==='so'||(it[l]&&typeof it[l]==='object'&&typeof it[l].title==='string'&&it[l].title.trim());if(!ok)return;
+        var b=el('button',l==='so'?'pri':null,LANGS[l].name);b.type='button';b.lang=l;if(LANGS[l].dir==='rtl')b.dir='rtl';b.addEventListener('click',function(){setLang(l)});bs.append(b)});
+      un.append(bs);A.append(un);var fg0=el('figure','figure');fg0.append(ph(it,'hero',true));A.append(fg0);
+      var bk0=el('a','back',tr('back'));bk0.href='#hoyga';A.append(bk0);
+      fillSide($('storySide'),[sideTrending(),sideLatest(items.filter(function(x){return x!==it})),sideFollow()]);return}
     if(L!=='so'&&(!tx||tx.status!=='manual')){var nt=el('p','trnote');nt.append(el('span',null,tx?tr('autoTr'):tr('noTr')));
       if(tx){var rs=el('button',null,tr('readSo'));rs.type='button';rs.lang='so';rs.addEventListener('click',function(){setLang('so')});nt.append(rs)}A.append(nt)}
     A.append(tEl('h1',null,it,'title'));
@@ -373,7 +388,7 @@
     setTitle(tr(kind==='sports'?'sportsTitle':'worldTitle'));
     var list=items.filter(function(x){return section(x)===kind}).sort(function(a,b){return (b.publishedAt||'')<(a.publishedAt||'')?-1:1});
     var lay=el('div','wrap layout');var main=el('div');var side=el('aside','sidebar');lay.append(main,side);
-    function draw(){main.innerHTML='';var q='';var l=list;
+    function draw(){main.innerHTML='';var q='';var l=list;var hidden=L==='so'?0:ALL.filter(function(x){return section(x)===kind&&items.indexOf(x)<0}).length;if(hidden){var gp=trGap();if(gp){gp.firstChild.textContent=trf('trHidden',{n:hidden});main.append(gp)}}
       if(!l.length){main.append(head(tr(kind==='sports'?'latestSports':'latestWorld')),el('p','empty',loaded?(q?tr('noMatch'):tr(kind==='sports'?'noSports':'noWorld')):tr('loadingStory')));return}
       var lead=l[0];var rest=l.slice(1);
       main.append(head(tr(kind==='sports'?'latestSports':'latestWorld')),cardsGrid([lead],true,'one'));
@@ -787,10 +802,8 @@
       var a=soAttr(el('a',null,lab),so);a.href=u;if(/^#/.test(u)&&u!=='#barnaamijyada')a.dataset.nav=u.slice(1);if(u==='#xayeysiimaha')a.className='ad-link';if(/^https?:/.test(u)){a.target='_blank';a.rel='noopener'}Ln.append(a)})}
     var nb=S.announcement||{};$('notice').hidden=!(nb.enabled&&nb.text);if(!$('notice').hidden){put('noticeLab','announcementLabel',nb.label);var nx=v('announcementText',nb.text);var nt=$('noticeText');nt.innerHTML='';soAttr(nt,nx.so);if(nb.link){var na=el('a',null,nx.t);na.href=safeLink(nb.link);nt.append(na)}else nt.textContent=nx.t}
     var bn=S.banner||{},old=document.querySelector('.logoband .promo');if(old)old.remove();
-    if(bn.enabled&&bn.style==='calan'){var CA=window.WT_CALAN||{},cz=CA[L]||CA.so;if(cz){var pr=el('section','promo calan');pr.setAttribute('aria-label',cz.title);
-      var fg=el('span','flag');var fi=el('img');fi.src='img/flags/so.svg';fi.alt=cz.flagAlt;fi.width=150;fi.height=100;fi.decoding='async';fg.append(fi);
-      var cin=el('div','in');cin.append(el('h3',null,cz.title));var dl=el('dl','facts');cz.facts.forEach(function(f,i){var d=el('div','fact'+(i===cz.facts.length-1?' wide':''));d.append(el('dt',null,f[0]),el('dd',null,f[1]));dl.append(d)});cin.append(dl);
-      pr.append(fg,cin);document.querySelector('.logoband .wrap').append(pr)}}
+    // the Somali flag panel (style "calan") is no longer shown in the header: that space now holds the social, theme and language controls
+    if(bn.enabled&&bn.style==='calan'){}
     else if(bn.enabled&&bn.title){var pr=el('a','promo');pr.href=safeLink(bn.link||'#hoyga');var bt=v('bannerTitle',bn.title);var bimg=imgUrl(String(bn.image||''));if(bimg){var bi=el('span','ph');bi.style.backgroundImage='url("'+bimg.replace(/["\\()]/g,'')+'")';bi.setAttribute('role','img');bi.setAttribute('aria-label',bt.t);pr.append(bi)}
       var bin=el('span','in');if(bn.label){var bl=v('bannerLabel',bn.label);bin.append(soAttr(el('span','soon',bl.t),bl.so))}bin.append(soAttr(el('h3',null,bt.t),bt.so));if(bn.text){var bx=v('bannerText',bn.text);bin.append(soAttr(el('p',null,bx.t),bx.so))}pr.append(bin);document.querySelector('.logoband .wrap').append(pr)}
     var pg=$('barnaamijyada');if(pg){put('progTitle','programmesTitle',S.programmesTitle);put('progSub','programmesSubtitle',S.programmesSubtitle);
@@ -799,6 +812,7 @@
     document.querySelectorAll('[data-side]').forEach(function(x){x.hidden=!sec('sidebar')});
     document.querySelectorAll('#homeView .layout').forEach(function(x){x.classList.toggle('noside',!sec('sidebar'))});
     var ftr=$('ftrend');if(ftr)ftr.parentNode.hidden=!sec('footerLatest');
+    menuX();
     // mobile menu: the same three official accounts at the bottom of the drawer
     var Lk=$('links');if(Lk){var ms=Lk.querySelector('.msoc');if(!ms){ms=el('div','msoc');ms.append(el('span'));SOC.forEach(function(s){var a=el('a',s[0]);a.dataset.soc=s[0];a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Wartabiye TV · '+s[1]);a.title='Wartabiye TV · '+s[1];a.innerHTML=SOC_ICON[s[0]];ms.append(a)});Lk.append(ms)}ms.firstChild.textContent=tr('follow')}
     document.querySelectorAll('a[data-soc]').forEach(function(a){a.href=socUrl(a.dataset.soc)});
@@ -815,18 +829,18 @@
     renderMotto(tr('motto'));$('today').textContent=fullDate(new Date());
     $('langFlag').src=LANGS[L].flag;$('langName').textContent=LANGS[L].name;$('langCode').textContent=LANGS[L].code;
     $('langName').lang=L;$('langMenu').querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-checked',String(b.dataset.lang===L))});
-    themeBtn();tickBtn();
+    themeBtn();tickBtn();if(typeof menuX==='function'&&$('links'))try{menuX()}catch(e){}
   }
   function setLang(l){if(!LANGS[l])return;L=l;lsSet(LS.lang,l);
     if(PARAMS.has('lang')){PARAMS.delete('lang');var qs=PARAMS.toString();try{history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash)}catch(e){}}
-    applyLang();applySite();renderAll()}
+    syncItems();applyLang();applySite();renderAll()}
   var lb=$('langBtn'),lm=$('langMenu');
   function langMenu(open){lm.hidden=!open;lb.setAttribute('aria-expanded',String(open));if(open){var c=lm.querySelector('[aria-checked=true]');if(c)c.focus()}}
   lb.addEventListener('click',function(e){e.stopPropagation();langMenu(lm.hidden)});
   lm.addEventListener('click',function(e){var b=e.target.closest('[data-lang]');if(!b)return;langMenu(false);lb.focus();setLang(b.dataset.lang)});
   lm.addEventListener('keydown',function(e){var bs=[].slice.call(lm.querySelectorAll('[data-lang]')),i=bs.indexOf(document.activeElement);if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();bs[(i+(e.key==='ArrowDown'?1:bs.length-1))%bs.length].focus()}});
   document.addEventListener('click',function(e){if(!lm.hidden&&!e.target.closest('#lang'))langMenu(false)});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!lm.hidden){langMenu(false);lb.focus()}if(links.classList.contains('open')){links.classList.remove('open');mb.setAttribute('aria-expanded','false');mb.focus()}}});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!lm.hidden){langMenu(false);lb.focus()}if(menuOpen())closeMenu(true)}});
 
   // ---------- theme (light / dark) ----------
   function curTheme(){return document.documentElement.dataset.theme==='dark'?'dark':'light'}
@@ -835,9 +849,24 @@
   $('themeBtn').addEventListener('click',function(){var n=curTheme()==='dark'?'light':'dark';document.documentElement.dataset.theme=n;lsSet(LS.theme,n);themeBtn()});
 
   // ---------- menu, search, ticker, progress, back to top ----------
-  var mb=$('menuBtn'),links=$('links');
-  mb.addEventListener('click',function(){var o=links.classList.toggle('open');mb.setAttribute('aria-expanded',String(o))});
-  links.addEventListener('click',function(e){if(e.target.tagName==='A'){links.classList.remove('open');mb.setAttribute('aria-expanded','false')}});
+  // mobile menu: X button in its top corner, a link, a tap outside, Escape or a wider screen all close it; the page behind does not scroll while it is open
+  var mb=$('menuBtn'),links=$('links'),navEl=document.querySelector('nav.menu');
+  var scrim=el('div','menu-scrim');scrim.hidden=true;scrim.setAttribute('aria-hidden','true');document.body.append(scrim);
+  function menuX(){var x=links.querySelector('.menu-x');if(!x){x=el('button','menu-x');x.type='button';x.innerHTML=svg('M6 6l12 12M18 6 6 18');x.addEventListener('click',function(){closeMenu(true)});links.prepend(x)}
+    x.setAttribute('aria-label',tr('menuClose'));x.title=tr('menuClose')}
+  function menuOpen(){return links.classList.contains('open')}
+  function fitMenu(){var r=links.getBoundingClientRect();links.style.setProperty('--menu-max',Math.max(200,Math.floor(innerHeight-Math.max(0,r.top)))+'px')}
+  function openMenu(){menuX();var r=navEl.getBoundingClientRect();if(r.top>1){try{window.scrollTo({top:scrollY+r.top,behavior:'instant'})}catch(e){window.scrollTo(0,scrollY+r.top)}}
+    links.classList.add('open');mb.setAttribute('aria-expanded','true');scrim.hidden=false;document.documentElement.classList.add('menu-open');fitMenu();
+    var x=links.querySelector('.menu-x');if(x)x.focus({preventScroll:true})}
+  function closeMenu(focusBtn){if(!menuOpen())return;links.classList.remove('open');mb.setAttribute('aria-expanded','false');scrim.hidden=true;document.documentElement.classList.remove('menu-open');if(focusBtn)mb.focus({preventScroll:true})}
+  mb.addEventListener('click',function(){if(menuOpen())closeMenu(false);else openMenu()});
+  links.addEventListener('click',function(e){if(e.target.closest('a'))closeMenu(false)});
+  scrim.addEventListener('click',function(){closeMenu(false)});
+  document.addEventListener('click',function(e){if(menuOpen()&&!e.target.closest('#links')&&!e.target.closest('#menuBtn'))closeMenu(false)});
+  window.addEventListener('resize',function(){if(!menuOpen())return;if(innerWidth>860)closeMenu(false);else fitMenu()});
+  window.addEventListener('hashchange',function(){closeMenu(false)});
+  menuX();
   var sb=$('searchBtn'),sbar=$('searchBar'),q=$('q');
   sb.addEventListener('click',function(){sbar.hidden=!sbar.hidden;sb.setAttribute('aria-expanded',String(!sbar.hidden));if(!sbar.hidden)q.focus();else{q.value='';query='';route()}});
   q.addEventListener('input',function(){query=q.value.trim().toLowerCase();var b=location.hash.split('?')[0];if(b.indexOf('#war-')===0||(b&&b!=='#hoyga'&&b.indexOf('#qayb-')!==0)){location.hash='hoyga'}else route()});
@@ -857,7 +886,7 @@
   function getJSON(u){return fetch(u+(u.indexOf('?')<0?'?':'&')+'v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' '+u);return r.json()})}
   (async function(){
     var res=await Promise.allSettled([getJSON('data/news.json'),getJSON('data/site.json'),getJSON('data/pages.json'),getJSON('data/ads.json')]);
-    if(res[0].status==='fulfilled'){var j=res[0].value;items=(Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt}
+    if(res[0].status==='fulfilled'){var j=res[0].value;ALL=(Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt}
     else{console.error('Wartabiye: news.json load failed',res[0].reason);loadError=String(res[0].reason&&res[0].reason.message||res[0].reason)}
     if(res[1].status==='fulfilled'){SITE=res[1].value}else console.error('Wartabiye: site.json load failed',res[1].reason);
     if(res[2].status==='fulfilled')PAGES=res[2].value;
@@ -865,7 +894,7 @@
     // admin preview link (?preview=<article id>): shows that article, even a draft, straight from data/news/<id>.json
     var pv=(PARAMS.get('preview')||'').replace(/\.json$/,'');
     if(/^[a-z0-9-]+$/i.test(pv)){try{var po=await getJSON('data/news/'+pv+'.json');po._id=po.id=pv;po._preview=true;
-      items=items.filter(function(x){return x._id!==pv}).concat([po]).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(location.hash.indexOf('#war-')!==0)history.replaceState(null,'',location.pathname+location.search+'#war-'+encodeURIComponent(pv))}catch(e){console.error('Wartabiye: preview load failed',e)}}
-    loaded=true;applySite();renderAll();
+      ALL=ALL.filter(function(x){return x._id!==pv}).concat([po]).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(location.hash.indexOf('#war-')!==0)history.replaceState(null,'',location.pathname+location.search+'#war-'+encodeURIComponent(pv))}catch(e){console.error('Wartabiye: preview load failed',e)}}
+    loaded=true;syncItems();applySite();renderAll();
   })();
 })();
