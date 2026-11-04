@@ -27,7 +27,7 @@ import xml.etree.ElementTree as ET
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCES = os.path.join(root, 'data', 'world', 'sources.json')
 STATUS = os.path.join(root, 'data', 'world', 'status.json')
-UA = 'WartabiyeTV-WorldNews/1.0 (+https://mahadupdalla.github.io/wartabiye-tv/)'
+UA = 'WartabiyeTV-WorldNews/1.0 (+https://www.wartabiyetv.com/)'
 EAT = datetime.timezone(datetime.timedelta(hours=3))
 
 

@@ -1,6 +1,6 @@
 # Hagaha maamulka Wartabiye TV
 
-Dashboard-ka maamulka: **https://mahadupdalla.github.io/wartabiye-tv/admin/**
+Dashboard-ka maamulka: **https://www.wartabiyetv.com/admin/**
 
 ## Sida login-ku u shaqeeyo (amniga)
 

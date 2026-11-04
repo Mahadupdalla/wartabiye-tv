@@ -31,7 +31,7 @@ jobs:
       - name: There is no sign-up page; the dashboard only offers GitHub token sign-in
         run: |
           grep -q 'auth_methods: \[token\]' admin/config.yml
-          URL="https://${GITHUB_REPOSITORY_OWNER,,}.github.io/${GITHUB_REPOSITORY#*/}"
+          URL="https://$(tr -d '[:space:]' < CNAME)"
           curl -fsS "$URL/admin/config.yml" | grep -q 'auth_methods: \[token\]'
           echo "live admin config: token sign-in only, write access checked by GitHub"
   admin:
