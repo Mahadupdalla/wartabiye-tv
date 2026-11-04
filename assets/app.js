@@ -69,6 +69,31 @@
   // which hub an article belongs to: explicit "section" or derived from the category (old articles have no section)
   function section(it){if(it.section==='sports'||it.section==='world'||it.section==='somalia')return it.section;if(it.category==='Ciyaaraha')return 'sports';if(it.category==='Adduunka')return 'world';return 'somalia'}
   function tags(it){return Array.isArray(it.tags)?it.tags:(typeof it.tags==='string'&&it.tags?[it.tags]:[])}
+  // ---------- East Africa first (homepage editorial priority) ----------
+  // A story counts as East African when it is Somali news, when the news task marked its country
+  // ("country": so | ke | et | dj | ug | tz | rw | bi | ss | er, or "region": "east-africa"),
+  // or when its headline / summary names one of the ten countries, their capitals, leaders or regional bodies.
+  var EA_CODES=['so','ke','et','dj','ug','tz','rw','bi','ss','er'];
+  var EA_RE=new RegExp('(?:^|[^a-zÀ-ɏ])(?:'+[
+    'soomaal','somali','muqdisho','mogadishu','hargeys','hargeis','puntland','jubaland','jubbaland','galmudug','hirshabeel','koonfur galbeed','kismaa','kismay','garoowe','garowe','baydhabo','baidoa','beledweyn','gaalkacyo','galkayo','boosaaso','bosaso','berbera','baraawe','shabaab','aussom','amisom',
+    'kenya','kiiniya','nairobi','mombasa','garissa','gaarisa','mandera','wajeer','wajir',
+    'ethiopia','itoobiy','itobiy','addis aba','addis abe','tigray','tigraay','amhara','oromi','ogaden',
+    'djibouti','jabuuti','jibuuti','guelleh','geelle',
+    'uganda','ugandh','kampala','museveni',
+    'tanzania','tansaan','tanzaan','dodoma','dar es salaam','zanzibar','suluhu',
+    'rwanda','ruwanda','kigali','kagame',
+    'burundi','bujumbura','gitega','ndayishimiye',
+    'south sudan','koonfur suudaan','koofur suudaan','koonfurta suudaan','juba','salva kiir',
+    'eritrea','eritrean','ereteri','eritiri','asmara','asmera','afwerki','afewerki',
+    'bariga afrika','east africa','east african','geeska afrika','horn of africa'
+  ].join('|')+'|(?:igad|eac|ruto|abiy)(?![a-z]))','i');
+  function isEA(it){if(!it)return false;if(section(it)==='somalia')return true;
+    if(EA_CODES.indexOf(String(it.country||'').toLowerCase())>=0||it.region==='east-africa')return true;
+    var en=it.en&&typeof it.en==='object'?it.en:{};return EA_RE.test([it.title,it.summary,it.originalTitle,en.title,en.summary].filter(function(v){return typeof v==='string'}).join(' • ').toLowerCase())}
+  // Mix two newest-first queues at roughly 70% East Africa / 30% the rest (slots 3, 6, 9 … go to the rest).
+  // A flexible target: when one queue runs out the other fills the place, nothing is padded or repeated.
+  function mixEA(ea,other,n){var out=[],i=0,j=0;while(out.length<n&&(i<ea.length||j<other.length)){var restTurn=out.length%3===2;
+    if(restTurn&&j<other.length)out.push(other[j++]);else if(i<ea.length)out.push(ea[i++]);else out.push(other[j++])}return out}
   var BREAK_MS=12*3600e3;
   function isBreaking(it){if(!it.breaking)return false;var d=new Date(it.publishedAt);return !isNaN(d)&&Date.now()-d.getTime()<BREAK_MS}
   function catTag(it){if(it.sponsored)return el('span','cat spon',tr('sponsored'));if(isBreaking(it))return el('span','cat red',tr('breaking'));
@@ -139,7 +164,8 @@
   var tickPaused=false;
   function renderTicker(){
     var t=$('tick');var pool=items.filter(function(x){return !x.sponsored});
-    var tk=pool.filter(isBreaking).concat(pool.filter(function(x){return !isBreaking(x)})).slice(0,8).map(function(x){return {title:F(x,'title'),link:href(x),so:isSo(x)}});
+    var rest=pool.filter(function(x){return !isBreaking(x)});
+    var tk=pool.filter(isBreaking).concat(mixEA(rest.filter(isEA),rest.filter(function(x){return !isEA(x)}),8)).slice(0,8).map(function(x){return {title:F(x,'title'),link:href(x),so:isSo(x)}});
     var bk=SITE&&SITE.breaking||{};if(bk.mode==='manual')tk=[];
     if(Array.isArray(bk.items))tk=bk.items.filter(function(x){return x&&x.text}).map(function(x){var o=L!=='so'&&typeof x[L]==='string'&&x[L].trim();return {title:o||x.text,link:x.link||'#hoyga',so:L!=='so'&&!o}}).concat(tk);
     t.innerHTML='';if(!tk.length){t.append(el('a',null,tr('tickLoading')));return}
@@ -215,21 +241,27 @@
     var rest=list;
     if(showMosaic){
       M.innerHTML='';var fe=(SITE&&Array.isArray(SITE.featured)?SITE.featured:[]).map(function(f){var id=typeof f==='string'?f:f&&f.article;return list.find(function(x){return x._id===id})}).filter(Boolean);
-      // the front page leads with Somali news; Sports and World have their own blocks further down
-      var so=list.filter(function(x){return section(x)==='somalia'});var pool=so.length>=5?so:list;
+      // the front page leads with East African news (breaking first); editor's picks (data/site.json "featured") stay on top.
+      // Fresh East African stories (last 72 hours) fill the featured tiles; if there are fewer than five, the newest other stories top them up.
+      var now=Date.now();function fresh(x){var t=new Date(x.publishedAt).getTime();return !isNaN(t)&&now-t<72*3600e3}
+      var ea=list.filter(function(x){return isEA(x)&&!x.sponsored});var eaB=ea.filter(isBreaking).concat(ea.filter(function(x){return !isBreaking(x)}));
+      var eaF=eaB.filter(fresh);var pool=eaF.length>=5?eaF:eaF.concat(list.filter(function(x){return eaF.indexOf(x)<0&&!x.sponsored}));
       var lead=fe[0]||leadOf(pool);var others=fe.slice(1).concat(pool.filter(function(x){return fe.indexOf(x)<0&&x!==lead&&!x.sponsored}));
       [lead].concat(others.slice(0,4)).forEach(function(it,i){
         var a=el('a','tile'+(i===0?' big':''));a.href=href(it);var inn=el('span','in');var ct=catTag(it);if(ct)inn.append(ct);
         inn.append(tEl(i===0?'h2':'h3',null,it,'title'));if(i===0){if(F(it,'summary'))inn.append(tEl('p',null,it,'summary'));inn.append(meta(it))}
         a.append(ph(it,null,i===0),inn);M.append(a);
       });
-      rest=list.filter(function(x){return x!==lead&&others.slice(0,4).indexOf(x)<0&&(pool===list||section(x)==='somalia')});
+      var inMosaic=[lead].concat(others.slice(0,4));
+      // the "latest" feed below: about 70% East Africa, 30% world news and sports, newest first in each
+      var left=list.filter(function(x){return inMosaic.indexOf(x)<0});
+      rest=mixEA(left.filter(isEA),left.filter(function(x){return !isEA(x)}),left.length);
     }
     var catSo=cat?CATS.find(function(k){return slug(k)===cat}):null;
     $('listTitle').textContent=query?tr('searchResults'):(catSo?catName(catSo):tr('latest'));
     LI.innerHTML='';
     var home=!cat&&!query;
-    if(sec('latest')||cat||query){var shown=rest.slice(0,home?10:40);shown.forEach(function(it,i){LI.append(row(it));if(home&&i===3){var ad=adSlot('card');if(ad)LI.append(ad)}})}
+    var shown=[];if(sec('latest')||cat||query){shown=rest.slice(0,home?10:40);shown.forEach(function(it,i){LI.append(row(it));if(home&&i===3){var ad=adSlot('card');if(ad)LI.append(ad)}})}
     var em=$('empty');em.hidden=!loaded||rest.length>0||(showMosaic&&list.length>0);
     if(loadError){em.hidden=false;em.textContent=tr('loadError').replace('{e}',loadError)}else em.textContent=(cat||query)&&!list.length?tr('noMatch'):tr('noNews');
     $('updated').textContent=items[0]?tr('updated')+ago(items[0].publishedAt):tr('updatedDaily');
@@ -239,8 +271,9 @@
       var at=adSlot('home','ad-home');if(at)top.append(at);var am=adSlot('mobile','ad-mobile');if(am)mob.append(am);
       var sp=adSlot('spotlight');if(sp){var sd=el('section','secblock');sd.append(head(tr('adLabel')),sp);B.append(sd)}
       [['world','worldBlock','navy','#caalamka'],['sports','sportsBlock','green','#ciyaaraha'],['somalia','somaliaBlock','','#qayb-siyaasadda']].forEach(function(b){
-        var l=items.filter(function(x){return section(x)===b[0]&&!x.sponsored});if(!l.length)return;
-        if(b[0]==='somalia')return; // Somali news already fills the main list
+        if(b[0]==='somalia')return; // East African news already leads the page
+        // stories already on the page (featured tiles, latest feed) are not repeated in the World / Sports blocks
+        var l=items.filter(function(x){return section(x)===b[0]&&!x.sponsored&&shown.indexOf(x)<0&&(!showMosaic||inMosaic.indexOf(x)<0)});if(!l.length)return;
         var s=el('section','secblock');s.append(head(tr(b[1]),b[2],b[3]),cardsGrid(l.slice(0,3)));B.append(s)});
     }
   }
