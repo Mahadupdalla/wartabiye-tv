@@ -567,7 +567,7 @@ h1[lang=so],h2[lang=so],h3[lang=so],h4[lang=so],.tile [lang=so]{font-family:"Arc
 }
 @media (max-width:440px){.topbar .city{display:none}}
 @media print{
-  .topbar,.logoband .promo,nav.menu,.degdeg,.sidebar,.share,.rtools,.related,.pager,footer,.totop,.adslot,.progress{display:none!important}
+  .topbar,.logoband .promo,.hctl,nav.menu,.degdeg,.sidebar,.share,.rtools,.related,.pager,footer,.totop,.adslot,.progress{display:none!important}
   .layout{grid-template-columns:1fr}
   body{background:#fff;color:#000}
 }
@@ -952,3 +952,68 @@ a[data-soc] svg.bi,a[data-soc] svg.bi *{stroke:none}
   .links .msoc a:hover{background:#fff;transform:translateY(-1px)}
   .links .msoc svg{width:22px;height:22px}
 }
+
+/* ---------- header controls: social accounts, light/dark and language, together in the logo band ---------- */
+.hctl{margin-inline-start:auto;display:flex;align-items:center;gap:10px;flex:none;min-width:0}
+.hctl .soc{display:flex;gap:8px;align-items:center}
+.hctl .soc a.sm{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--surface);border:1px solid var(--line);transition:transform .2s,box-shadow .2s,border-color .2s}
+.hctl .soc a.sm svg{width:22px;height:22px;display:block}
+.hctl .soc a.sm:hover,.hctl .soc a.sm:focus-visible{transform:translateY(-1px);border-color:var(--blue);box-shadow:var(--shadow-1)}
+.hsep{width:1px;height:26px;background:var(--line);flex:none}
+.hctl .tbtn{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--chip);border:1px solid var(--line);color:var(--fg);cursor:pointer;padding:0;flex:none}
+.hctl .tbtn svg{stroke:var(--fg);width:17px;height:17px}
+.hctl .tbtn:hover{background:var(--blue);border-color:var(--blue)}
+.hctl .tbtn:hover svg{stroke:#fff}
+.hctl .lang-btn{height:36px;border-radius:18px;background:var(--blue);padding:0 12px 0 8px;font-size:13px}
+[dir=rtl] .hctl .lang-btn{padding:0 8px 0 12px}
+.hctl .lang-btn:hover,.hctl .lang-btn[aria-expanded=true]{background:var(--red)}
+.hctl .lang img{box-shadow:0 0 0 1px rgba(255,255,255,.5)}
+/* the menu opens under the button and grows towards the page, in left-to-right and right-to-left alike */
+.hctl .lang-menu,[dir=rtl] .hctl .lang-menu{inset-inline-start:auto;inset-inline-end:0;max-height:min(70vh,460px);overflow:auto}
+.logoband{position:relative;z-index:12}
+@media (max-width:640px){
+  .logoband .wrap{gap:10px;padding-block:12px}
+  .hctl{width:100%;margin-inline-start:0;padding-top:10px;border-top:1px solid var(--line);gap:8px}
+  .hctl .soc{margin-inline-end:auto;gap:8px}
+  .hsep{display:none}
+  .hctl .lang-btn .ln{display:inline}.hctl .lang-btn .lc{display:none}
+}
+@media (max-width:360px){
+  .hctl .soc a.sm,.hctl .tbtn{width:34px;height:34px}
+  .hctl .lang-btn .ln{display:none}.hctl .lang-btn .lc{display:inline}
+}
+
+/* ---------- mobile menu: close button, dimmed page behind, no background scrolling ---------- */
+.menu-x,.menu-scrim{display:none}
+@media (max-width:860px){
+  .links{max-height:var(--menu-max,calc(100vh - 60px));overscroll-behavior:contain;-webkit-overflow-scrolling:touch;z-index:2}
+  .links .menu-x{display:grid;place-items:center;position:sticky;top:0;align-self:flex-end;flex:none;width:44px;height:44px;margin:4px 0 4px;border-radius:50%;background:#fff;color:var(--blue-d);border:0;cursor:pointer;z-index:3;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+  .links .menu-x svg{width:22px;height:22px;stroke:currentColor;stroke-width:2.6;fill:none;stroke-linecap:round}
+  .links .menu-x:hover{background:var(--red);color:#fff}
+  .menu-scrim:not([hidden]){display:block;position:fixed;inset:0;z-index:8;background:rgba(11,28,51,.55)}
+  html.menu-open,html.menu-open body{overflow:hidden}
+}
+
+/* ---------- article and card images ---------- */
+/* cards and thumbnails: one size per layout, cropped from slightly above the centre so faces are kept */
+.ph>img{object-position:50% 30%}
+/* the main photo of an article is shown whole, at its own shape (landscape, portrait or square), never stretched */
+.figure .ph.hero{aspect-ratio:auto;display:grid;place-items:center;background:var(--chip);border:1px solid var(--line)}
+.figure .ph.hero>img{position:relative;inset:auto;width:100%;height:auto;max-height:min(78vh,720px);object-fit:contain;object-position:center;transform:none!important}
+.figure .ph.hero.none{aspect-ratio:16/9;border:0}
+@media (max-width:640px){.figure .ph.hero>img{max-height:72vh}}
+
+/* ---------- translation not available ---------- */
+.trnone{background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--red);border-radius:var(--r);padding:20px 22px;margin:4px 0 20px;display:grid;gap:10px}
+.trnone h1{font-size:clamp(22px,3vw,30px);line-height:1.2}
+.trnone p{margin:0;color:var(--muted)}
+.trnone-btns{display:flex;flex-wrap:wrap;gap:8px}
+.trnone-btns button{border:1px solid var(--blue);background:var(--surface);color:var(--link);font:700 14px var(--body);border-radius:6px;padding:9px 14px;cursor:pointer;min-height:40px}
+.trnone-btns button.pri,.trnone-btns button:hover{background:var(--blue);color:#fff}
+.trgap{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--blue);border-radius:6px;padding:10px 14px;font-size:13.5px;font-weight:600;margin:0 0 14px}
+.trgap button{background:none;border:0;color:var(--link);font:700 13.5px var(--body);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0}
+@media (max-width:360px){.motto{letter-spacing:.02em;font-size:12px}.motto i{margin:0 5px}}
+.motto{max-width:100%;overflow-wrap:anywhere}
+/* long Dutch and German compound words wrap instead of pushing the page sideways on small phones */
+h1,h2,h3,h4,.mini h4,.trend a,.ftrend a,.row p,.card p{overflow-wrap:break-word;hyphens:auto}
+@media (max-width:420px){h1,h2,h3,h4{overflow-wrap:anywhere}}
