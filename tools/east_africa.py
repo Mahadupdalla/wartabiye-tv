@@ -84,18 +84,31 @@ WEAK_RE = re.compile(r'(?<![a-z])(?:somalis?|soomaali)\b(?!\s+(?:region(?:al)?\b
 # ---------------------------------------------------------------- 3. the nine countries of the regional feed
 COUNTRIES = {
     'ke': r"kenya\w*|kiiniya\w*|nairobi|mombasa|kisumu|nakuru|eldoret|garissa|ruto|raila|odinga|gachagua|kindiki|kenyatta|kdf\b",
-    'et': r"ethiopia\w*|itoobiya\w*|addis\s+ababa|abiy|tigray\w*|amhara|oromia|oromo|afar\s+region|dire\s+dawa|tplf|fano\b|bahir\s+dar|mekelle|gerd\b",
+    'et': r"ethiopia\w*|itoobiya\w*|addis\s+ababa|abiy|tigray\w*|amhara|oromia|oromo|afar\s+region|dire\s+dawa|tplf|fano\b|mekelle|gerd\b",
     'tz': r"tanzania\w*|tansaaniya\w*|tanzaaniya\w*|dodoma|dar\s+es\s+salaam|zanzibar\w*|arusha|samia|suluhu|chadema|ccm\b",
     'ug': r"uganda\w*|ugaandha\w*|kampala|museveni|bobi\s+wine|kyagulanyi|entebbe|gulu\b|updf",
     'rw': r"rwanda\w*|ruwaanda\w*|kigali|kagame|rdf\b",
     'bi': r"burundi\w*|bujumbura|gitega|ndayishimiye",
-    'ss': r"south\s+sudan\w*|koonfur(?:ta)?\s+suudaan\w*|salva\s+kiir|riek\s+machar|machar|juba(?!\s*(?:land|river|valley))\b|unmiss",
+    'ss': r"south\s+sudan\w*|koonfur(?:ta)?\s+suudaan\w*|bahr\s+el\s+ghazal|equatoria|jonglei|unity\s+state|upper\s+nile|abyei|pibor|salva\s+kiir|riek\s+machar|machar|juba(?!\s*(?:land|river|valley))\b|unmiss",
     'dj': r"djibouti\w*|guelleh|jabuuti\w*|jibuuti\w*",
     'er': r"eritrea\w*|eriteriya\w*|ereteriya\w*|asmara|afwerki|afewerki|isaias",
 }
 CRE = {k: re.compile(r'(?<![a-z])(?:' + v + r')', re.I) for k, v in COUNTRIES.items()}
 REGION_RE = re.compile(r"(?<![a-z])(?:igad|east\s+african?\s+community|\beac\b|east\s+africa\w*|horn\s+of\s+africa|great\s+lakes\s+region|"
                        r"lake\s+victoria|bariga\s+afrika|geeska\s+afrika)", re.I)
+
+
+# places outside the nine countries: a headline that names one of them (and none of the nine) is an international story
+FOREIGN_RE = re.compile(r"(?<![a-z])(?:(?<!south\s)sudan(?:ese)?\b|khartoum|darfur|kordofan|nuba\s+mountains|congo\w*|drc\b|kinshasa|goma|"
+    r"egypt\w*|cairo|libya\w*|tunisia\w*|algeria\w*|morocc\w*|nigeria\w*|ghana\w*|senegal\w*|mali\b|malian|niger\b|chad\w*|"
+    r"cameroon\w*|ivory\s+coast|ivorian|south\s+africa\w*|zimbabwe\w*|zambia\w*|mozambique|malawi\w*|angola\w*|namibia\w*|"
+    r"botswana|madagascar|israel\w*|gaza|palestin\w*|iran\w*|iraq\w*|syria\w*|lebanon|yemen\w*|saudi|qatar\w*|emirat\w*|uae\b|"
+    r"turkey|t[uü]rkiye|turkish|russia\w*|ukrain\w*|kremlin|putin|zelensk\w*|china|chinese|beijing|xi\s+jinping|japan\w*|korea\w*|"
+    r"india\b|indian|pakistan\w*|afghan\w*|hong\s+kong|taiwan\w*|australia\w*|europe\w*|\beu\b|britain|british|\buk\b|"
+    r"london|france|french|paris|german\w*|berlin|spain|spanish|madrid|ital\w*|rome|vatican|pope|united\s+states|america\w*|"
+    r"\bus\b|\bu\.s\.|washington|trump|biden|vance|white\s+house|midterm\w*|canada|mexic\w*|brazil\w*|venezuela\w*|"
+    r"champions\s+league|premier\s+league|la\s?liga|serie\s+a|bundesliga|dortmund|napoli|porto|man(?:chester)?\s+city|haaland)", re.I)
+NOT_NEWS_RE = re.compile(r"^\W*(?:haddas\s+ertra|eritrea\s+(?:profile|haddas|alhaditha)|from\s+the\s+archives?)\b|^\W*pix\s+of\s+the\s+day", re.I)
 
 
 def _text(item):
@@ -121,15 +134,19 @@ def somalia_focused(item):
     return None
 
 
-def country(item, need=1):
+def country(item, need=1, home=None):
     """Main country code of the nine (ke et tz ug rw bi ss dj er), 'ea' for the region as a whole, or None.
-    The headline decides first; the summary counts only with at least `need` mentions (World News sources use 2,
-    so a world story that names Kenya once in passing stays in World News)."""
-    for txt, n in ((_titles(item), 1), (_text(item), need)):
+    The headline decides first. need=0: headline only (World News sources: a world story that names Kenya in its
+    summary stays in World News). home: a national outlet's own country, used when the headline names no other
+    country (local stories rarely name their own country), never when it names a place outside the nine."""
+    t = _titles(item)
+    for txt, n in ((t, 1), (_text(item), need)):
+        if not n: break
         hits = {k: len(r.findall(txt)) for k, r in CRE.items()}
         best = max(hits, key=hits.get)
         if hits[best] >= n: return best
         if len(REGION_RE.findall(txt)) >= n: return 'ea'
+        if txt is t and home: return None if FOREIGN_RE.search(t) else home
     return None
 
 
@@ -145,9 +162,14 @@ def gate(item, src=None):
     if why: return False, 'Somalia-focused article: ' + why
     sec = item.get('section') or (src or {}).get('section') or 'world'
     if sec == 'sports': return True, None
-    c = country(item, 1 if sec == 'somalia' else 2)
     if sec == 'somalia':  # the regional East Africa feed
+        if NOT_NEWS_RE.search(item.get('title') or ''): return False, 'not a news article (newspaper issue, archive or photo gallery)'
+        if re.search(r'/sports?/', urllib.parse.urlsplit(item.get('url') or '').path): return False, 'sports page of a regional outlet (Sports has its own sources)'
+        home = (src or {}).get('country') or item.get('homeCountry')
+        c = country(item, 1, home if home in COUNTRIES else None)
         if not c: return False, 'not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea'
+    else:
+        c = country(item, 0)  # World News: only a headline about one of the nine moves the story
     if c:
         item['region'] = 'east-africa'
         if c != 'ea': item['country'] = c
@@ -197,6 +219,14 @@ TESTS = [
     (False, 'Somalia-focused', {'url': 'https://x.example/5', 'title': 'Ethiopia and Somalia sign port deal', 'section': 'somalia'}),
     (True, 'world', {'url': 'https://www.dw.com/x', 'title': "Africa's shifting role in the global drug trade", 'description': 'Ports in Kenya and West Africa are transit points.', 'section': 'world'}),
     (False, 'not about', {'url': 'https://www.africanews.com/x', 'title': 'Nigeria raises fuel prices', 'section': 'somalia'}),
+    (True, 'ke', {'url': 'https://capitalfm.africa/eastleigh-building-collapse', 'title': 'Eastleigh building collapse death toll rises to four', 'section': 'somalia', 'homeCountry': 'ke'}),
+    (True, 'ss', {'url': 'https://eyeradio.org/x', 'title': 'Western Bahr el Ghazal governor pledges support', 'section': 'somalia'}),
+    (False, 'not about', {'url': 'https://nilepost.co.ug/news/1', 'title': "Israel's president begins consultations", 'section': 'somalia', 'homeCountry': 'ug'}),
+    (False, 'sports page', {'url': 'https://nilepost.co.ug/sports/384502/dortmund', 'title': 'Dortmund end Betis winning run', 'section': 'somalia', 'homeCountry': 'ug'}),
+    (False, 'not about', {'url': 'https://www.radiotamazuj.org/en/news/article/x', 'title': 'Sudan energy minister defends fuel supply', 'section': 'somalia'}),
+    (False, 'not about', {'url': 'https://www.ktpress.rw/x', 'title': 'Kilo of salt is $30 in Minembwe as DR Congo implements blockade', 'section': 'somalia', 'homeCountry': 'rw'}),
+    (False, 'not a news', {'url': 'https://shabait.com/x', 'title': 'Haddas Ertra 04 November 2026', 'section': 'somalia', 'homeCountry': 'er'}),
+    (True, 'world', {'url': 'https://www.france24.com/x', 'title': 'South Africans vote in key municipal elections', 'description': 'Abiy Ahmed of Ethiopia and Ethiopia observers watch.', 'section': 'world'}),
     (True, 'world', {'url': 'https://www.bbc.com/news/2', 'title': "Bulgaria's first woman president sworn in", 'section': 'world'}),
     (True, 'sports', {'url': 'https://www.bbc.com/sport/1', 'title': 'Arsenal beat Chelsea 2-1', 'section': 'sports'}),
     (True, 'sports', {'url': 'https://www.bbc.com/sport/2', 'title': 'Kipchoge wins Valencia marathon', 'section': 'sports'}),

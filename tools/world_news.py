@@ -699,7 +699,8 @@ def report(args):
              f"   already known: {sum(1 for r in p['rejected'] if r['why'] == 'known')}   images: " + ', '.join(f'{k} {v}' for k, v in sorted(img.items())))
     L.append('')
     exc = [r for r in p['rejected'] if r['why'] == 'excluded']
-    L.append(f'EXCLUDED BY THE EAST AFRICA RULE (Somalia sources / Somalia-focused / not East African): {len(exc)}')
+    nfetch = sum(len(s.get('excludedItems') or []) for s in p['sources'])
+    L.append(f'EXCLUDED BY THE EAST AFRICA RULE (Somalia sources / Somalia-focused / not East African / not news): {len(exc) + nfetch}')
     for r in exc: L.append(f"  - [{r['sourceName']}] {r['title'][:90]}\n      {r.get('detail', '')}")
     for s in p['sources']:
         for e in s.get('excludedItems') or []: L.append(f"  - [{s['name']}] {e[:200]}")

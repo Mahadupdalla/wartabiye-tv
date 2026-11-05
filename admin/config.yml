@@ -716,6 +716,7 @@ collections:
               - {name: homepage, label: Website, widget: string, required: false}
               - {name: shareLink, label: 'Link-gii la bixiyay', widget: string, required: false}
               - {name: section, label: Qaybta, widget: select, default: world, options: [{label: 'Bariga Afrika (gobolka)', value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: Ciyaaraha, value: sports}]}
+              - {name: country, label: 'Dalka warbaahinta (Bariga Afrika)', widget: select, required: false, options: [{label: Kenya, value: ke}, {label: Itoobiya, value: et}, {label: Tansaaniya, value: tz}, {label: Uganda, value: ug}, {label: Ruwaanda, value: rw}, {label: Burundi, value: bi}, {label: 'Koonfur Suudaan', value: ss}, {label: Jabuuti, value: dj}, {label: Eritreeya, value: er}]}
               - {name: searchOnly, label: 'Feed ma leh (hawsha ayaa WebSearch ku hubisa)', widget: boolean, required: false}
               - {name: enabled, label: Shaqeyso, widget: boolean, default: true}
               - {name: verified, label: 'La hubiyay', widget: boolean, required: false}
