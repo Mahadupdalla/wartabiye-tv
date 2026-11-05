@@ -78,8 +78,8 @@ collections:
         widget: select
         required: false
         default: somalia
-        hint: 'Soomaaliya = bogga hore; Caalamka = bogga Wararka Caalamka; Ciyaaraha = bogga Ciyaaraha. Haddii aad banaan ka tagto, Qaybta ayaa go''aamisa.'
-        options: [{label: Soomaaliya, value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: Ciyaaraha, value: sports}]
+        hint: 'Bariga Afrika = bogga hore (wararka gobolka); Caalamka = bogga Wararka Caalamka; Ciyaaraha = bogga Ciyaaraha. Haddii aad banaan ka tagto, Qaybta ayaa go''aamisa.'
+        options: [{label: 'Bariga Afrika (bogga hore)', value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: Ciyaaraha, value: sports}]
       - {name: sport, label: 'Ciyaarta (Ciyaaraha oo kaliya)', widget: select, required: false, options: [{label: 'Kubadda Cagta', value: football}, {label: 'Kubadda Koleyga', value: basketball}, {label: 'Teniska', value: tennis}, {label: 'Formula 1', value: formula1}, {label: 'Tartanka Baabuurta', value: motorsport}, {label: 'Feerka', value: boxing}, {label: 'Ciyaaraha Fudud', value: athletics}, {label: 'Kirikit', value: cricket}, {label: 'Kubadda Laliska', value: volleyball}, {label: 'Ragbi', value: rugby}, {label: 'Dabaasha', value: swimming}, {label: 'Baaskiil-wadista', value: cycling}, {label: 'Beysbool', value: baseball}, {label: 'Golf', value: golf}, {label: 'Kubadda Gacanta', value: handball}, {label: 'Badminton', value: badminton}, {label: 'Olombikada', value: olympics}, {label: 'Ciyaaraha Elektaroonigga', value: esports}, {label: 'Ciyaaro kale', value: other}]}
       - {name: competition, label: 'Horyaalka / tartanka (kubadda cagta)', widget: select, required: false, options: [{label: 'Premier League (Ingiriiska)', value: premier-league}, {label: 'La Liga (Isbaanish)', value: la-liga}, {label: 'Serie A (Talyaani)', value: serie-a}, {label: 'Bundesliga (Jarmal)', value: bundesliga}, {label: 'Ligue 1 (Faransiis)', value: ligue-1}, {label: 'UEFA Champions League', value: champions-league}, {label: 'UEFA Europa League', value: europa-league}, {label: 'UEFA Conference League', value: conference-league}, {label: 'AFCON', value: afcon}, {label: 'Koobka Adduunka FIFA', value: world-cup}, {label: 'Kubadda Cagta Afrika', value: african-football}, {label: 'Tartamada CAF', value: caf}, {label: 'Kubadda Cagta Soomaaliya', value: somali-football}, {label: 'Kubadda Cagta Caalamka', value: international}]}
       - {name: tags, label: 'Nooca warka ciyaaraha', widget: select, multiple: true, required: false, options: [{label: 'Iibka ciyaartoyda', value: transfer}, {label: 'Warbixinta ciyaarta', value: match-report}, {label: 'Wararka ciyaartoyda', value: player}, {label: 'Wararka kooxaha', value: team}]}
@@ -673,7 +673,7 @@ collections:
               - {name: name, label: Isha, widget: string}
               - {name: homepage, label: Website, widget: string, required: false}
               - {name: section, label: Qaybta, widget: string, required: false}
-              - {name: state, label: 'Xaaladda (working = way shaqeysaa, search = WebSearch, blocked = waa xannibantahay, inactive = dami)', widget: string, required: false}
+              - {name: state, label: 'Xaaladda (working = way shaqeysaa, search = WebSearch, blocked = waa xannibantahay, inactive = dami, excluded = la saaray (Soomaaliya))', widget: string, required: false}
               - {name: working, label: 'Way shaqeysaa', widget: boolean, required: false}
               - {name: method, label: 'Habka (RSS / sitemap / bog)', widget: string, required: false}
               - {name: collected, label: 'La ururiyay', widget: number, required: false}
@@ -715,7 +715,8 @@ collections:
               - {name: name, label: Magaca, widget: string}
               - {name: homepage, label: Website, widget: string, required: false}
               - {name: shareLink, label: 'Link-gii la bixiyay', widget: string, required: false}
-              - {name: section, label: Qaybta, widget: select, default: world, options: [{label: 'Wararka Soomaaliyeed', value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: Ciyaaraha, value: sports}]}
+              - {name: section, label: Qaybta, widget: select, default: world, options: [{label: 'Bariga Afrika (gobolka)', value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: Ciyaaraha, value: sports}]}
+              - {name: country, label: 'Dalka warbaahinta (Bariga Afrika)', widget: select, required: false, options: [{label: Kenya, value: ke}, {label: Itoobiya, value: et}, {label: Tansaaniya, value: tz}, {label: Uganda, value: ug}, {label: Ruwaanda, value: rw}, {label: Burundi, value: bi}, {label: 'Koonfur Suudaan', value: ss}, {label: Jabuuti, value: dj}, {label: Eritreeya, value: er}]}
               - {name: searchOnly, label: 'Feed ma leh (hawsha ayaa WebSearch ku hubisa)', widget: boolean, required: false}
               - {name: enabled, label: Shaqeyso, widget: boolean, default: true}
               - {name: verified, label: 'La hubiyay', widget: boolean, required: false}

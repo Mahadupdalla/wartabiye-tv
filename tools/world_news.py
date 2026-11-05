@@ -23,6 +23,8 @@ import urllib.request, urllib.parse, urllib.robotparser
 from email.utils import parsedate_to_datetime
 from html.parser import HTMLParser
 import xml.etree.ElementTree as ET
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import east_africa  # Somalia sources and Somalia-focused articles are refused; regional feed = East Africa
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCES = os.path.join(root, 'data', 'world', 'sources.json')
@@ -308,6 +310,11 @@ def fetch(args):
                'enabled': s.get('enabled', True), 'searchOnly': bool(s.get('searchOnly')),
                'method': None, 'found': 0, 'collected': 0, 'errors': []}
         report.append(rep)
+        ex = east_africa.excluded_source(s)
+        if ex:
+            # owner's rule (5 Nov 2026): never read again, even if switched back on in sources.json or /admin/
+            rep['enabled'] = False; rep['excluded'] = True
+            rep['errors'].append('excluded: ' + ex + ' (East Africa rule, no Somalia sources)'); continue
         if s.get('searchOnly') and s.get('enabled', True):
             rep['errors'].append('no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch'); continue
         if not s.get('enabled', True) or not s.get('feeds'):
@@ -372,6 +379,9 @@ def fetch(args):
                 if not (it.get('timeVerified') is False and parse_date(it['publishedAt']).date() >= since.astimezone(parse_date(it['publishedAt']).tzinfo).date()):
                     continue
             if not it.get('title'): continue
+            ok, why = east_africa.gate(it, s)
+            if not ok:
+                rep.setdefault('excludedItems', []).append(f"{why}: {it['url']}"[:300]); continue
             if it.get('title'):
                 it['title'] = re.sub(r'\s+[-|–]\s+(Türkiye Today|CNN( Politics| Business)?|Euronews|Daily Sabah|IGAD)\s*$', '', it['title'])
                 it['title'] = re.sub(r'\s+[-|–]\s+(' + re.escape(s['name']) + r'|BBC( News)?( Somali| Sport)?|DW|France 24|Al Jazeera|UN News|ESPN|Hiiraan Online|Garowe Online|VOA Somali)\s*$', '', it['title'])
@@ -583,6 +593,9 @@ def dedup(args):
     fresh = []
     for x in items:
         keys = {norm_url(x.get('url')), norm_url(x.get('canonicalUrl'))} - {''}
+        ok, why = east_africa.gate(x, cfg.get(x.get('source')))
+        if not ok:
+            rejected.append({**pub(x), 'why': 'excluded', 'detail': why}); continue
         if since and x.get('publishedAt') and parse_date(x['publishedAt']) < since:
             rejected.append({**pub(x), 'why': 'old', 'detail': 'published before the last successful update'}); continue
         if keys & known_urls:
@@ -646,11 +659,11 @@ def dedup(args):
     plan.sort(key=lambda e: e.get('publishedAt') or '', reverse=True)
     counts = {}
     for s in cand.get('sources', []):
-        c = {'collected': s.get('collected', 0), 'kept': 0, 'duplicates': 0, 'known': 0, 'old': 0}
+        c = {'collected': s.get('collected', 0), 'kept': 0, 'duplicates': 0, 'known': 0, 'old': 0, 'excluded': 0}
         counts[s['id']] = c
-    for e in plan: counts.setdefault(e['source'], {'collected': 0, 'kept': 0, 'duplicates': 0, 'known': 0, 'old': 0})['kept'] += 1
+    for e in plan: counts.setdefault(e['source'], {'collected': 0, 'kept': 0, 'duplicates': 0, 'known': 0, 'old': 0, 'excluded': 0})['kept'] += 1
     for r in rejected:
-        c = counts.setdefault(r['source'], {'collected': 0, 'kept': 0, 'duplicates': 0, 'known': 0, 'old': 0})
+        c = counts.setdefault(r['source'], {'collected': 0, 'kept': 0, 'duplicates': 0, 'known': 0, 'old': 0, 'excluded': 0})
         c['duplicates' if r['why'] in ('duplicate', 'on-site') else r['why']] += 1
     out = {'plannedAt': iso(now()), 'fetchedAt': cand.get('fetchedAt'), 'since': cand.get('since'), 'sources': cand.get('sources', []),
            'counts': counts, 'stories': plan, 'rejected': rejected}
@@ -659,7 +672,8 @@ def dedup(args):
 
 def pub(x):
     return {k: x.get(k) for k in ('source', 'sourceName', 'section', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
-                                  'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel') if x.get(k) not in (None, '')}
+                                  'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel',
+                                  'country', 'region') if x.get(k) not in (None, '')}
 
 
 # ---------------------------------------------------------------- report / status
@@ -684,6 +698,13 @@ def report(args):
     L.append(f"stories kept: {len(p['stories'])}   duplicates removed: {sum(1 for r in p['rejected'] if r['why'] in ('duplicate', 'on-site'))}"
              f"   already known: {sum(1 for r in p['rejected'] if r['why'] == 'known')}   images: " + ', '.join(f'{k} {v}' for k, v in sorted(img.items())))
     L.append('')
+    exc = [r for r in p['rejected'] if r['why'] == 'excluded']
+    nfetch = sum(len(s.get('excludedItems') or []) for s in p['sources'])
+    L.append(f'EXCLUDED BY THE EAST AFRICA RULE (Somalia sources / Somalia-focused / not East African / not news): {len(exc) + nfetch}')
+    for r in exc: L.append(f"  - [{r['sourceName']}] {r['title'][:90]}\n      {r.get('detail', '')}")
+    for s in p['sources']:
+        for e in s.get('excludedItems') or []: L.append(f"  - [{s['name']}] {e[:200]}")
+    L.append('')
     L.append('DUPLICATES')
     for r in p['rejected']:
         if r['why'] in ('duplicate', 'on-site'):
@@ -692,13 +713,15 @@ def report(args):
     L.append('FEED (newest first)')
     for e in p['stories']:
         also = ' + ' + ', '.join(a['source'] for a in e['alsoReportedBy']) if e['alsoReportedBy'] else ''
-        L.append(f"  {e['publishedAt'][:16]}  {e.get('section', 'world')[:6]:<7}[{e['sourceName']}{also}] {e['title'][:95]}")
+        sec = 'EA-' + (e.get('country') or 'reg') if e.get('region') == 'east-africa' else e.get('section', 'world')[:6]
+        L.append(f"  {e['publishedAt'][:16]}  {sec:<7}[{e['sourceName']}{also}] {e['title'][:95]}")
         L.append(f"      image: {e['imageStatus']} ({e['imageReason']})" + (f"  related: {len(e['related'])}" if e['related'] else ''))
     print('\n'.join(L))
 
 
 def source_state(s):
     """working | search (no feed: the news task checks it with WebSearch) | blocked | inactive"""
+    if s.get('excluded'): return 'excluded'
     if s.get('method'): return 'working'
     if not s.get('enabled', True): return 'inactive'
     if s.get('searchOnly'): return 'search'

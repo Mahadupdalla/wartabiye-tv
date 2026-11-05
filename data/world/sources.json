@@ -1,5 +1,5 @@
 {
- "note": "ALL news sources of Wartabiye TV (Somali News, World News, Sports) in ONE list. GitHub Actions reads every enabled source with a feed before each 08:00/18:00 update; sources marked searchOnly are checked by the news task with WebSearch. Never remove an approved source without the owner's permission.",
+ "note": "ALL news sources of Wartabiye TV in ONE list. Section \"somalia\" is the website's REGIONAL feed (homepage), which since 5 Nov 2026 is EAST AFRICA ONLY: Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti, Eritrea. Somalia-specific sources are switched off and refused by tools/east_africa.py, and Somalia-focused articles are dropped from every section. GitHub Actions reads every enabled source with a feed before each 08:00/18:00 update; sources marked searchOnly are checked by the news task with WebSearch.",
  "perSource": {
   "min": 5,
   "max": 10
@@ -11,7 +11,7 @@
    "shareLink": "",
    "homepage": "https://www.bbc.com/somali",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 80,
    "feeds": [
@@ -26,7 +26,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "BBC photos are all rights reserved."
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect. BBC photos are all rights reserved."
   },
   {
    "id": "voa-somali",
@@ -34,7 +34,7 @@
    "shareLink": "",
    "homepage": "https://www.voasomali.com",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 80,
    "feeds": [
@@ -55,7 +55,7 @@
     }
    ],
    "imagePolicy": "public-domain-unless-agency",
-   "notes": "VOA staff photos are US government work (public domain); agency photos (AP, Reuters, AFP) on VOA pages are not. Its official RSS feeds (voasomali.com/rssfeeds) have not been updated since March 2025, so the collector reads the public homepage."
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect. VOA staff photos are US government work (public domain); agency photos (AP, Reuters, AFP) on VOA pages are not. Its official RSS feeds (voasomali.com/rssfeeds) have not been updated since March 2025, so the collector reads the public homepage."
   },
   {
    "id": "hiiraan",
@@ -63,7 +63,7 @@
    "shareLink": "",
    "homepage": "https://www.hiiraan.com",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 70,
    "feeds": [
@@ -74,7 +74,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": ""
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
   },
   {
    "id": "garoweonline",
@@ -82,7 +82,7 @@
    "shareLink": "",
    "homepage": "https://www.garoweonline.com",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 70,
    "feeds": [
@@ -97,7 +97,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": ""
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
   },
   {
    "id": "dawan",
@@ -105,7 +105,7 @@
    "shareLink": "",
    "homepage": "https://www.dawan.africa",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 65,
    "feeds": [
@@ -124,7 +124,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": ""
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
   },
   {
    "id": "somaliguardian",
@@ -132,7 +132,7 @@
    "shareLink": "",
    "homepage": "https://www.somaliguardian.com",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 65,
    "feeds": [
@@ -142,7 +142,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": ""
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
   },
   {
    "id": "goobjoog",
@@ -150,7 +150,7 @@
    "shareLink": "",
    "homepage": "https://goobjoog.com",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 65,
    "feeds": [
@@ -165,7 +165,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "No RSS feed (goobjoog.com/feed/ answers 404): the collector reads the public homepage; the date comes from the article URL (/YYYY/MM/DD/, date only)."
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect. No RSS feed (goobjoog.com/feed/ answers 404): the collector reads the public homepage; the date comes from the article URL (/YYYY/MM/DD/, date only)."
   },
   {
    "id": "radiodalsan",
@@ -173,7 +173,7 @@
    "shareLink": "",
    "homepage": "https://www.radiodalsan.com",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 60,
    "feeds": [
@@ -191,7 +191,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": ""
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
   },
   {
    "id": "horseedmedia",
@@ -199,7 +199,7 @@
    "shareLink": "",
    "homepage": "https://horseedmedia.net",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 60,
    "feeds": [
@@ -209,7 +209,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": ""
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
   },
   {
    "id": "sonna",
@@ -217,7 +217,7 @@
    "shareLink": "",
    "homepage": "https://sonna.so",
    "section": "somalia",
-   "enabled": true,
+   "enabled": false,
    "verified": true,
    "priority": 55,
    "feeds": [
@@ -232,7 +232,388 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Somali National News Agency: always label it as the state news agency. No RSS feed: the collector reads the public homepage; the date comes from the article dateline."
+   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect. Somali National News Agency: always label it as the state news agency. No RSS feed: the collector reads the public homepage; the date comes from the article dateline."
+  },
+  {
+   "id": "bbc-africa",
+   "name": "BBC News Africa",
+   "shareLink": "",
+   "homepage": "https://www.bbc.com/news/world/africa",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 80,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://feeds.bbci.co.uk/news/world/africa/rss.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Regional: only stories about the nine East African countries are kept (tools/east_africa.py)."
+  },
+  {
+   "id": "africanews",
+   "name": "Africanews",
+   "shareLink": "",
+   "homepage": "https://www.africanews.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.africanews.com/feed/rss"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.africanews.com/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Pan-African: only East African stories are kept."
+  },
+  {
+   "id": "theeastafrican",
+   "name": "The EastAfrican",
+   "shareLink": "",
+   "homepage": "https://www.theeastafrican.co.ke",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "feeds": [
+    {
+     "type": "html",
+     "url": "https://www.theeastafrican.co.ke/",
+     "linkPattern": "^https://www\\.theeastafrican\\.co\\.ke/tea/(news|business)/[a-z0-9/-]+-\\d{6,}$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Regional weekly (Nation Media Group). The site answers 403 to automated readers (tested 5 Nov 2026): the news task checks it with WebSearch."
+  },
+  {
+   "id": "capitalfm-ke",
+   "name": "Capital FM Kenya",
+   "shareLink": "",
+   "homepage": "https://www.capitalfm.co.ke/news",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.capitalfm.co.ke/news/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Kenya",
+   "country": "ke"
+  },
+  {
+   "id": "standard-ke",
+   "name": "The Standard (Kenya)",
+   "shareLink": "",
+   "homepage": "https://www.standardmedia.co.ke",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.standardmedia.co.ke/rss/headlines.php"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.standardmedia.co.ke/rss/kenya.php"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Kenya",
+   "country": "ke"
+  },
+  {
+   "id": "kbc",
+   "name": "KBC (Kenya Broadcasting Corporation)",
+   "shareLink": "",
+   "homepage": "https://www.kbc.co.ke",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 65,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.kbc.co.ke/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Kenya: state broadcaster, label it as such.",
+   "country": "ke"
+  },
+  {
+   "id": "fanabc",
+   "name": "Fana Broadcasting (Ethiopia)",
+   "shareLink": "",
+   "homepage": "https://www.fanabc.com/english",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 60,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.fanabc.com/english/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Ethiopia: state-affiliated broadcaster, label it as such.",
+   "country": "et"
+  },
+  {
+   "id": "thereporter-et",
+   "name": "The Reporter (Ethiopia)",
+   "shareLink": "",
+   "homepage": "https://www.thereporterethiopia.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 65,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.thereporterethiopia.com/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Ethiopia",
+   "country": "et"
+  },
+  {
+   "id": "dailynews-tz",
+   "name": "Daily News (Tanzania)",
+   "shareLink": "",
+   "homepage": "https://dailynews.co.tz",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 60,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://dailynews.co.tz/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tanzania: government-owned daily, label it as such.",
+   "country": "tz"
+  },
+  {
+   "id": "thecitizen-tz",
+   "name": "The Citizen (Tanzania)",
+   "shareLink": "",
+   "homepage": "https://www.thecitizen.co.tz",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 65,
+   "feeds": [
+    {
+     "type": "html",
+     "url": "https://www.thecitizen.co.tz/tanzania",
+     "linkPattern": "^https://www\\.thecitizen\\.co\\.tz/tanzania/news/[a-z0-9/-]+-\\d{6,}$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tanzania (Nation Media Group).",
+   "country": "tz"
+  },
+  {
+   "id": "nilepost",
+   "name": "Nile Post (Uganda)",
+   "shareLink": "",
+   "homepage": "https://nilepost.co.ug",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 60,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://nilepost.co.ug/feed"
+    },
+    {
+     "type": "rss",
+     "url": "https://nilepost.co.ug/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Uganda",
+   "country": "ug"
+  },
+  {
+   "id": "chimpreports",
+   "name": "ChimpReports (Uganda)",
+   "shareLink": "",
+   "homepage": "https://chimpreports.com",
+   "section": "somalia",
+   "enabled": false,
+   "verified": true,
+   "priority": 55,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://chimpreports.com/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Uganda. Switched off: its robots.txt does not allow automated reading of the feed (tested 5 Nov 2026).",
+   "country": "ug"
+  },
+  {
+   "id": "newtimes-rw",
+   "name": "The New Times (Rwanda)",
+   "shareLink": "",
+   "homepage": "https://www.newtimes.co.rw",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 65,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.newtimes.co.rw/rss"
+    },
+    {
+     "type": "html",
+     "url": "https://www.newtimes.co.rw/",
+     "linkPattern": "^https://www\\.newtimes\\.co\\.rw/article/\\d+/[a-z0-9-]+/[a-z0-9-]+$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Rwanda",
+   "country": "rw"
+  },
+  {
+   "id": "ktpress",
+   "name": "KT Press (Rwanda)",
+   "shareLink": "",
+   "homepage": "https://www.ktpress.rw",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 55,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.ktpress.rw/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Rwanda",
+   "country": "rw"
+  },
+  {
+   "id": "iwacu",
+   "name": "IWACU English (Burundi)",
+   "shareLink": "",
+   "homepage": "https://www.iwacu-burundi.org/englishnews",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 60,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.iwacu-burundi.org/englishnews/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Burundi: independent weekly.",
+   "country": "bi"
+  },
+  {
+   "id": "eyeradio",
+   "name": "Eye Radio (South Sudan)",
+   "shareLink": "",
+   "homepage": "https://www.eyeradio.org",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 60,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.eyeradio.org/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "South Sudan",
+   "country": "ss"
+  },
+  {
+   "id": "radiotamazuj",
+   "name": "Radio Tamazuj",
+   "shareLink": "",
+   "homepage": "https://www.radiotamazuj.org/en",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 65,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.radiotamazuj.org/en/rss"
+    },
+    {
+     "type": "html",
+     "url": "https://www.radiotamazuj.org/en/",
+     "linkPattern": "^https://www\\.radiotamazuj\\.org/en/news/article/[a-z0-9-]+$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "South Sudan (also covers Sudan: only South Sudan and other East African stories are kept)."
+  },
+  {
+   "id": "lanation-dj",
+   "name": "La Nation (Djibouti)",
+   "shareLink": "",
+   "homepage": "https://www.lanation.dj",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 55,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.lanation.dj/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Djibouti: government daily in French, label it as such.",
+   "country": "dj"
+  },
+  {
+   "id": "shabait",
+   "name": "Shabait (Eritrea, Ministry of Information)",
+   "shareLink": "",
+   "homepage": "https://shabait.com",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 50,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://shabait.com/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Eritrea: official government outlet, always label it as the Ministry of Information; there is no independent press inside Eritrea.",
+   "country": "er"
   },
   {
    "id": "source-1",

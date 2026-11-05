@@ -16,11 +16,20 @@ def image_ok(n):
     img = (n.get('image') or '').lstrip('/')
     return img.startswith('img/') and os.path.isfile(os.path.join(root, img))
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# East Africa rule (owner, 5 Nov 2026): a NEW automatic article from a Somalia source or about Somalia is not published.
+# Articles that existed before the rule (listed in data/world/somalia-archive.json) and the owner's own articles stay.
+import east_africa
+try: ARCHIVED = set(json.load(open(os.path.join(root, east_africa.ARCHIVE), encoding='utf-8'))['ids'])
+except Exception: ARCHIVED = None
 news, pending = [], []
 for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     n = json.load(open(f, encoding='utf-8'))
     n['id'] = os.path.basename(f)[:-5]
     if n.get('published', True) is False:
+        continue
+    why = east_africa.blocked_article(n, ARCHIVED) if ARCHIVED is not None else None
+    if why:
+        print(f"{n['id']}: not published, East Africa rule: {why}")
         continue
     # photo rule: an automatic article from the photo-rule date on is only published with its own image file;
     # otherwise it stays a draft in /admin/ under "Sugaya sawir" until the owner adds a photo
