@@ -83,15 +83,15 @@ WEAK_RE = re.compile(r'(?<![a-z])(?:somalis?|soomaali)\b(?!\s+(?:region(?:al)?\b
 
 # ---------------------------------------------------------------- 3. the nine countries of the regional feed
 COUNTRIES = {
-    'ke': r"kenya\w*|nairobi|mombasa|kisumu|nakuru|eldoret|garissa|ruto|raila|odinga|gachagua|kindiki|kenyatta|kdf\b",
-    'et': r"ethiopia\w*|addis\s+ababa|abiy|tigray\w*|amhara|oromia|oromo|afar\s+region|dire\s+dawa|tplf|fano\b|bahir\s+dar|mekelle|gerd\b",
-    'tz': r"tanzania\w*|dodoma|dar\s+es\s+salaam|zanzibar\w*|arusha|samia|suluhu|chadema|ccm\b",
-    'ug': r"uganda\w*|kampala|museveni|bobi\s+wine|kyagulanyi|entebbe|gulu\b|updf",
-    'rw': r"rwanda\w*|kigali|kagame|rdf\b",
+    'ke': r"kenya\w*|kiiniya\w*|nairobi|mombasa|kisumu|nakuru|eldoret|garissa|ruto|raila|odinga|gachagua|kindiki|kenyatta|kdf\b",
+    'et': r"ethiopia\w*|itoobiya\w*|addis\s+ababa|abiy|tigray\w*|amhara|oromia|oromo|afar\s+region|dire\s+dawa|tplf|fano\b|bahir\s+dar|mekelle|gerd\b",
+    'tz': r"tanzania\w*|tansaaniya\w*|tanzaaniya\w*|dodoma|dar\s+es\s+salaam|zanzibar\w*|arusha|samia|suluhu|chadema|ccm\b",
+    'ug': r"uganda\w*|ugaandha\w*|kampala|museveni|bobi\s+wine|kyagulanyi|entebbe|gulu\b|updf",
+    'rw': r"rwanda\w*|ruwaanda\w*|kigali|kagame|rdf\b",
     'bi': r"burundi\w*|bujumbura|gitega|ndayishimiye",
-    'ss': r"south\s+sudan\w*|salva\s+kiir|riek\s+machar|machar|juba(?!\s*(?:land|river|valley))\b|unmiss",
-    'dj': r"djibouti\w*|guelleh|jabuuti",
-    'er': r"eritrea\w*|asmara|afwerki|afewerki|isaias",
+    'ss': r"south\s+sudan\w*|koonfur(?:ta)?\s+suudaan\w*|salva\s+kiir|riek\s+machar|machar|juba(?!\s*(?:land|river|valley))\b|unmiss",
+    'dj': r"djibouti\w*|guelleh|jabuuti\w*|jibuuti\w*",
+    'er': r"eritrea\w*|eriteriya\w*|ereteriya\w*|asmara|afwerki|afewerki|isaias",
 }
 CRE = {k: re.compile(r'(?<![a-z])(?:' + v + r')', re.I) for k, v in COUNTRIES.items()}
 REGION_RE = re.compile(r"(?<![a-z])(?:igad|east\s+african?\s+community|\beac\b|east\s+africa\w*|horn\s+of\s+africa|great\s+lakes\s+region|"
@@ -153,6 +153,24 @@ def gate(item, src=None):
         if c != 'ea': item['country'] = c
         item['section'] = 'somalia'
     return True, None
+
+
+# ---------------------------------------------------------------- 5. publish guard (tools/build_news.py)
+ARCHIVE = 'data/world/somalia-archive.json'  # every article id that existed when the rule started: never hidden
+
+
+def blocked_article(n, archive_ids):
+    """Reason to keep a NEW automatic article off the public site, or None. Existing articles (archive), the owner's own
+    articles ("by": "admin") and drafts are never touched; nothing is deleted, the file stays in /admin/."""
+    if n.get('by') == 'admin' or n.get('id') in archive_ids: return None
+    en = n.get('en') if isinstance(n.get('en'), dict) else {}
+    for u in [n.get('sourceUrl')] + [a.get('url') for a in n.get('alsoReportedBy') or [] if isinstance(a, dict)][:0]:
+        r = excluded_url(u)
+        if r: return f'Somalia-specific source ({r})'
+    for t in (n.get('originalTitle'), en.get('title'), n.get('title')):
+        why = somalia_focused({'title': t, 'description': en.get('summary') if t == en.get('title') else None})
+        if t and why: return 'Somalia-focused article: ' + why
+    return None
 
 
 # ---------------------------------------------------------------- tests
