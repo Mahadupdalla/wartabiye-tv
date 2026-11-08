@@ -1242,3 +1242,6 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .lntl.compact .lntx > p:not(.lntags),.lntl.compact .meta{display:none}
 .lntl.compact .lnitem{padding:8px 0}
 .lntl.compact .lntx h3{font-size:15.5px}
+/* "Load more" under the 50-story lists (assets/app.js pager) */
+.loadmore{text-align:center;margin:22px 0 6px}
+.loadmore:empty{display:none}
