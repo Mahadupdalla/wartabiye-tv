@@ -42,6 +42,8 @@ const OL_ROUND = [
   OLM(9002, -40 * 60e3, false, OLT(16, 'Stuttgart'), OLT(9, 'Schalke'), [{ goalID: 4, scoreTeam1: 0, scoreTeam2: 1, matchMinute: 31, goalGetterName: 'K. Karaman', scoringTeamId: 9 }], []),
   OLM(9003, -4 * 3600e3, false, OLT(1635, 'Leipzig'), OLT(81, 'Mainz'), [], []),
   OLM(9004, 3 * 3600e3, false, OLT(6, 'Leverkusen'), OLT(65, 'Köln'), [], []),
+  // three days ahead: always under "Coming up" in the overview, whatever the time of day in Nairobi
+  OLM(9005, 3 * 864e5, false, OLT(3, 'Freiburg'), OLT(112, 'Augsburg'), [], []),
 ];
 const OL_TABLE = [{ teamInfoId: 40, teamName: 'FC Bayern München', shortName: 'Bayern', points: 25, matches: 9, won: 8, draw: 1, lost: 0, goalDiff: 22 }, { teamInfoId: 7, teamName: 'Borussia Dortmund', shortName: 'Dortmund', points: 21, matches: 9, won: 6, draw: 3, lost: 0, goalDiff: 9 }];
 const OPEN_CFG = { apiBase: '', refreshSeconds: 60, competitions: [{ id: 'PL', name: 'Premier League' }, { id: 'BL1', name: 'Bundesliga' }],
@@ -246,7 +248,7 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     ctx = await b.newContext({ viewport: { width: w, height: h }, locale: 'en-GB' }); await mock(ctx, { sports: OPEN_CFG, ol: true, feed: feed(5 * 60e3) }); p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.goto(base + '?lang=en#ciyaaraha-toos', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1500);
     { const ov = (await st(p)).text; console.log(name, 'open data overview:', ov.slice(0, 300).replace(/\s+/g, ' '));
-      if (!/Coming up/i.test(ov) || !/Leverkusen/.test(ov) || !/Latest results/i.test(ov) || !/2 – 1/.test(ov)) fail(`${name}: open-data overview (coming up and latest results)`) }
+      if (!/Coming up/i.test(ov) || !/Freiburg/.test(ov) || !/Latest results/i.test(ov) || !/2 – 1/.test(ov)) fail(`${name}: open-data overview (coming up and latest results)`) }
     await p.goto(base + '?lang=en#ciyaaraha-toos?tab=live', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1500);
     let orow = await p.$$eval('#pageView .mrow', r => r.map(x => ({ live: x.classList.contains('is-live'), t: x.innerText.replace(/\s+/g, ' ') })));
     console.log(name, 'open data live tab:', JSON.stringify(orow));
