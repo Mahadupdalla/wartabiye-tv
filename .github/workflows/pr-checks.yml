@@ -1,0 +1,150 @@
+name: 'Hubinta PR iyo merge otomaatig ah (PR checks and safe auto-merge)'
+# Every pull request to main is tested here BEFORE it reaches the website. A pull request is merged automatically only
+# when ALL of these are true (owner's rule, 8 Nov 2026):
+#   1. every test below passes,
+#   2. tools/pr_risk.py (always the copy on main, never the pull request's own) calls it LOW RISK: it touches no
+#      workflow, admin / sign-in settings, worker, secret, domain, service worker or push settings, deletes no file and
+#      adds no password, key, token or destructive command,
+#   3. the owner approved it: the label "auto-merge" is on it (Claude adds it when the owner says yes in the project
+#      thread, or the owner adds it on GitHub),
+#   4. it comes from a branch of this repository (not a fork), is not a draft, has no "do-not-merge" label and no
+#      review asking for changes.
+# SENSITIVE pull requests get the label "needs-owner" and are never merged by this workflow: the owner reads and
+# merges them. The result of every pull request shows in /admin/ -> "Daabacaadda iyo PR-yada" (data/deploy-status.json).
+# After an automatic merge this workflow starts publish.yml (a merge made with the workflow's own token does not start
+# other workflows by itself), and publish.yml writes the deploy result to the same place.
+# The 5-minute source monitor, the hourly news task and the admin dashboard save straight to main as before; nothing
+# here changes or slows them.
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+permissions:
+  contents: read
+concurrency:
+  group: pr-checks-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  tests:
+    # the "needs-owner" label is added by this workflow itself; that change needs no new test run
+    if: github.event.action != 'labeled' || github.event.label.name != 'needs-owner'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build news.json, ads.json and the pages (nothing is saved)
+        run: python3 tools/build_news.py && python3 tools/build_pages.py
+      - name: News, dates, images and settings files
+        run: python3 tools/check_site.py && python3 -c "import json;[json.load(open(f)) for f in ('data/site.json','data/live.json','data/sports.json','data/media-sources.json')]"
+      - name: Video / LIVE TV / sports rules and the sports-data proxy (no network)
+        run: python3 tools/media_test.py && node --test workers/sports-api/test/worker.test.mjs && node tools/sports_feed.mjs test && python3 tools/live_feeds.py test
+      - name: Notification feed, push rules, push service and the 5-minute monitor (no network)
+        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs && python3 tools/fast_monitor.py test && bash -n tools/fast_loop.sh && node --test workers/fast-trigger/test/worker.test.mjs
+      - name: News sources, regions, auto-merge rules and deploy status
+        run: python3 tools/east_africa.py test && python3 tools/world_news_test.py && python3 tools/pr_risk.py test && python3 tools/deploy_status.py test && bash -n tools/deploy_status_push.sh
+      - name: Admin settings file is valid
+        run: |
+          pip install -q pyyaml && python3 -c "import yaml;[yaml.safe_load(open(f)) for f in ('admin/config.yml','admin/codsiyada/config.yml')]"
+          grep -q 'auth_methods: \[token\]' admin/config.yml
+      - name: No passwords or keys in the public files
+        run: |
+          if grep -rniE 'ghp_[A-Za-z0-9]{20}|github_pat_|password *[:=]|client_secret|api[_-]?key *[:=]|BEGIN (RSA|OPENSSH) PRIVATE' --include='*.html' --include='*.yml' --include='*.json' --include='*.js' . --exclude-dir=.git --exclude-dir=vendor --exclude=admin-test.yml --exclude=pr-checks.yml; then echo "FOUND something that looks like a secret"; exit 1; fi
+          echo "no secrets found"
+
+  risk:
+    if: github.event.action != 'labeled' || github.event.label.name != 'needs-owner'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      risk: ${{ steps.c.outputs.risk }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main   # the rules on main decide, not the pull request's copy of them
+      - name: Low risk or sensitive?
+        id: c
+        env:
+          GH_TOKEN: ${{ github.token }}
+          N: ${{ github.event.pull_request.number }}
+        run: |
+          set -o pipefail
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/pulls/$N/files?per_page=100" | jq -s 'add' > /tmp/files.json || echo '[]' > /tmp/files.json
+          # if the rules cannot run (or the file list cannot be read), the pull request is treated as SENSITIVE
+          if ! python3 tools/pr_risk.py classify /tmp/files.json > /tmp/risk.json || ! jq -e '.risk == "low" or .risk == "sensitive"' /tmp/risk.json >/dev/null; then
+            echo '{"risk":"sensitive","reasons":["the risk check could not run, so the owner decides"]}' > /tmp/risk.json
+          fi
+          cat /tmp/risk.json
+          echo "risk=$(jq -r .risk /tmp/risk.json)" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Risk: $(jq -r .risk /tmp/risk.json)"
+            jq -r '.reasons[] | "- " + .' /tmp/risk.json
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: risk
+          path: /tmp/risk.json
+
+  decide:
+    # runs after the tests and the risk check, also when the tests failed, so the result always reaches /admin/
+    needs: [tests, risk]
+    if: always() && needs.risk.result != 'skipped' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write        # merge, and save data/deploy-status.json
+      pull-requests: write
+      issues: write          # labels
+      actions: write         # start publish.yml after a merge
+    concurrency:
+      group: pr-merge        # one merge at a time
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/download-artifact@v4
+        if: needs.risk.result == 'success'
+        with:
+          name: risk
+          path: /tmp/risk
+      - name: Merge if low risk and approved, otherwise say what is missing
+        id: d
+        env:
+          GH_TOKEN: ${{ github.token }}
+          N: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          TESTS: ${{ needs.tests.result }}
+          RISK: ${{ needs.risk.outputs.risk }}
+        run: |
+          pr=$(gh api "repos/${GITHUB_REPOSITORY}/pulls/$N")
+          labels=$(jq -r '[.labels[].name] | join(",")' <<<"$pr")
+          draft=$(jq -r .draft <<<"$pr"); state=$(jq -r .state <<<"$pr"); head=$(jq -r .head.sha <<<"$pr")
+          changes=$(gh api "repos/${GITHUB_REPOSITORY}/pulls/$N/reviews" --paginate | jq -s 'add | map(select(.state=="CHANGES_REQUESTED" or .state=="APPROVED")) | group_by(.user.login) | map(last) | map(select(.state=="CHANGES_REQUESTED")) | length')
+          echo "tests=$TESTS risk=$RISK labels=$labels draft=$draft state=$state changes_requested=$changes"
+          reasons=()
+          [ -f /tmp/risk/risk.json ] && mapfile -t reasons < <(jq -r '.reasons[]' /tmp/risk/risk.json)
+          if [ "$state" != open ] || [ "$head" != "$SHA" ]; then echo "pull request changed or closed meanwhile; the newer run decides"; exit 0
+          elif [ "$TESTS" != success ]; then result=tests-failed
+          elif [ "$RISK" != low ]; then result=waiting-for-owner
+          elif [ "$draft" = true ] || [[ ",$labels," == *",do-not-merge,"* ]]; then result=not-mergeable
+          elif [ "$changes" != 0 ]; then result=changes-requested
+          elif [[ ",$labels," != *",auto-merge,"* ]]; then result=waiting-for-approval
+          elif gh api -X PUT "repos/${GITHUB_REPOSITORY}/pulls/$N/merge" -f merge_method=squash -f sha="$SHA" >/tmp/merge.json 2>&1; then result=merged
+          else cat /tmp/merge.json; result=merge-failed
+          fi
+          echo "result=$result" >> "$GITHUB_OUTPUT"
+          echo "## Result: $result" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$result" = waiting-for-owner ]; then
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/issues/$N/labels" -f 'labels[]=needs-owner' >/dev/null || true
+          elif [[ ",$labels," == *",needs-owner,"* ]]; then
+            gh api -X DELETE "repos/${GITHUB_REPOSITORY}/issues/$N/labels/needs-owner" >/dev/null 2>&1 || true
+          fi
+          if [ "$result" = merged ]; then
+            gh workflow run publish.yml --ref main && echo "publish started"
+          fi
+          args=(pr --result "$result" --number "$N" --title "$(jq -r .title <<<"$pr")" --url "$(jq -r .html_url <<<"$pr")" --run "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")
+          for r in "${reasons[@]}"; do args+=(--reason "$r"); done
+          if [ -f tools/deploy_status_push.sh ]; then bash tools/deploy_status_push.sh "${args[@]}"; else echo "deploy status writer not on main yet; nothing saved"; fi

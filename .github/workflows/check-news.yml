@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     # the LIVE TV status file is updated by live-status.yml (only when a broadcast starts or ends); no full check for that
-    paths-ignore: ['data/live-status.json', 'data/push-log.json', 'data/world/fast-status.json', 'data/sports-feed/**', 'data/live-feeds/**']
+    paths-ignore: ['data/live-status.json', 'data/push-log.json', 'data/world/fast-status.json', 'data/sports-feed/**', 'data/live-feeds/**', 'data/deploy-status.json']
   schedule:
     # The news update itself is NOT scheduled here: it is the Claude scheduled task, every hour, 24/7 (Africa/Nairobi).
     # GitHub only publishes (publish.yml, on push) and checks. This check runs every 3 hours (GitHub may start it late).
