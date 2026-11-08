@@ -1150,6 +1150,7 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .ntpanel{position:fixed;z-index:30;width:min(400px,calc(100vw - 16px));max-height:min(78vh,640px);overflow:auto;overscroll-behavior:contain;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:0 0 var(--r) var(--r);box-shadow:var(--shadow-2)}
 .nthead{position:sticky;top:0;z-index:1;display:flex;align-items:center;gap:8px;padding:12px 12px 10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
 .nthead h2{font:800 15px var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin-inline-end:auto}
+.nthead{flex-wrap:wrap;row-gap:4px}.nthead h2{white-space:nowrap}
 :root[data-theme="dark"] .nthead h2{color:#fff}
 .ntacts{display:flex;align-items:center;gap:2px;flex-wrap:wrap;justify-content:flex-end}
 .ntlink{background:none;border:0;color:var(--link);font:700 12.5px var(--body);padding:6px 8px;border-radius:5px;cursor:pointer}
@@ -1190,6 +1191,11 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .ntcats{display:flex;flex-wrap:wrap;gap:6px 14px;margin:6px 0 8px;font-size:13.5px}
 .ntcats label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .ntcats input{width:17px;height:17px;accent-color:var(--blue)}
+.ntcats .ntall{flex-basis:100%;font-weight:700}
+.ntfreq{border:0;margin:4px 0 8px;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.ntfreq legend{font-weight:700;margin-bottom:4px;padding:0}
+.ntfreq label{display:flex;align-items:center;gap:8px;cursor:pointer;min-height:28px}
+.ntfreq input{width:17px;height:17px;accent-color:var(--blue);flex:none}
 .ntbanner{position:fixed;z-index:31;inset-inline:12px;bottom:max(14px,env(safe-area-inset-bottom,0px));margin-inline:auto;max-width:560px;display:flex;align-items:center;gap:10px;background:var(--blue-d);color:#fff;border-inline-start:4px solid var(--red);border-radius:10px;padding:10px 10px 10px 14px;box-shadow:0 10px 30px rgba(2,40,80,.35);animation:ntup .35s ease both;transition:opacity .4s,transform .4s}
 .ntbanner.out{opacity:0;transform:translateY(12px)}
 .ntbanner span{flex:1;min-width:0;font-weight:600;font-size:14px;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}

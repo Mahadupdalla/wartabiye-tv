@@ -2,28 +2,32 @@
  *
  * Why it exists: GitHub Pages cannot keep a secret. Browser push (Web Push, RFC 8030/8291/8292) needs a private VAPID
  * key to sign every message and a place to keep the visitors' subscriptions. Both live here, never in the public repo:
- *   VAPID_PRIVATE_JWK  (secret)  the private signing key, made by `node workers/push/make-keys.mjs`
- *   PUSH_ADMIN_TOKEN   (secret)  a long random password; only GitHub Actions (repository secret of the same name) and
- *                                the owner know it. It is needed to send and to read the delivery statistics.
- *   VAPID_PUBLIC_KEY   (var)     the public half; it is safe to publish (the browser needs it to subscribe)
+ *   VAPID_PRIVATE_JWK  (secret)  the private signing key (made by the "Push: deploy" workflow or make-keys.mjs)
+ *   VAPID_PUBLIC_KEY   (secret or var) the public half; it is safe to publish (the browser needs it to subscribe)
+ *   GITHUB_REPO        (var)     "Mahadupdalla/wartabiye-tv": only GitHub Actions of THIS repository, on branch main,
+ *                                may send. They prove it with a short-lived GitHub OIDC token (no password to keep).
+ *   PUSH_ADMIN_TOKEN   (secret, optional) a long random password, accepted as well (for sending by hand)
  *   VAPID_SUBJECT      (var)     mailto: or https: contact for the push services
  *   SUBS               (KV)      one record per subscribed browser; nothing else about the visitor is stored
  *
  * Endpoints
  *   GET  /v1/health                       {"ok":true,"configured":bool}
  *   GET  /v1/key                          {"publicKey": "..."}
- *   POST /v1/subscribe    (browser)       {subscription:{endpoint,keys:{p256dh,auth}}, categories:[...], lang}
+ *   POST /v1/subscribe    (browser)       {subscription:{endpoint,keys:{p256dh,auth}}, categories:[...], lang, freq}
+ *                                         freq: "all" every story | "digest" one alert per update | "top" important only
  *   POST /v1/unsubscribe  (browser)       {endpoint}
- *   POST /v1/send         (Bearer token)  {id, title, body, url, category, urgent, image?, cursor?, limit?, dryRun?}
- *                                         sends to one page of subscribers (default 40, the free plan allows 50
- *                                         outgoing requests per call); the caller repeats with "next" until it is null.
- *                                         The same id is never sent twice (KV "sent:<id>").
- *   GET  /v1/stats        (Bearer token)  subscriber counts per category and the last 50 deliveries
+ *   POST /v1/send         (GitHub/admin)  {items:[{id,category,urgent,top,title,body,t,url,image}], strings, cursor,
+ *                                         limit, dryRun, totals}: one page of subscribers per call; the caller repeats
+ *                                         with "next" until it is null. Each visitor gets what their choices allow.
+ *                                         An id that was already delivered is never sent again (KV "sent:<id>").
+ *   GET  /v1/stats        (GitHub/admin)  subscriber counts (per category, frequency and language) and the last runs
  *
  * Nothing here invents content: it only delivers what the publish workflow or the owner sends, and every link must be
  * on the Wartabiye TV site (SITE_URL).
  */
-const CATEGORIES = ['breaking', 'eastAfrica', 'world', 'sports', 'live'];
+const CATEGORIES = ['breaking', 'somalia', 'eastAfrica', 'world', 'sports', 'live'];
+const FREQS = ['all', 'digest', 'top'];
+const LANGS = /^(so|en|ar|fr|nl|it|de|tr|es)$/;
 const enc = new TextEncoder();
 
 // ---------- base64url ----------
@@ -89,12 +93,21 @@ export async function vapidHeader(endpoint, env, nowSec = Math.floor(Date.now() 
   return `vapid t=${header}.${claims}.${b64u(sig)}, k=${env.VAPID_PUBLIC_KEY}`;
 }
 
-export async function sendOne(sub, message, env, urgent) {
-  const body = await encryptPayload(sub, JSON.stringify(message));
+const jwtCache = new Map();
+async function vapidCached(endpoint, env) {
+  const aud = new URL(endpoint).origin, now = Math.floor(Date.now() / 1000), c = jwtCache.get(aud);
+  if (c && c.until > now + 600 && c.pub === env.VAPID_PUBLIC_KEY) return c.h;
+  const h = await vapidHeader(endpoint, env, now);
+  jwtCache.set(aud, { h, until: now + 12 * 3600, pub: env.VAPID_PUBLIC_KEY });
+  return h;
+}
+
+export async function sendOne(sub, message, env, urgent, serverKeys) {
+  const body = await encryptPayload(sub, JSON.stringify(message), { serverKeys });
   const r = await fetch(sub.endpoint, {
     method: 'POST',
     headers: {
-      Authorization: await vapidHeader(sub.endpoint, env),
+      Authorization: await vapidCached(sub.endpoint, env),
       'Content-Encoding': 'aes128gcm',
       'Content-Type': 'application/octet-stream',
       TTL: String(urgent ? 6 * 3600 : 24 * 3600),
@@ -117,12 +130,47 @@ function cors(req, env) {
 function json(obj, status, extra) {
   return new Response(JSON.stringify(obj), { status: status || 200, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...(extra || {}) } });
 }
-function authorised(req, env) {
-  const t = (req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+function tokenOk(t, env) {
   if (!env.PUSH_ADMIN_TOKEN || env.PUSH_ADMIN_TOKEN.length < 24 || t.length !== env.PUSH_ADMIN_TOKEN.length) return false;
   let d = 0;
   for (let i = 0; i < t.length; i++) d |= t.charCodeAt(i) ^ env.PUSH_ADMIN_TOKEN.charCodeAt(i);
   return d === 0;
+}
+
+// ---------- GitHub Actions OIDC: only workflows of the site's own repository, on branch main, may send ----------
+const GH_ISS = 'https://token.actions.githubusercontent.com';
+let jwks = null;
+async function githubKeys(force) {
+  if (!force && jwks && jwks.until > Date.now()) return jwks.keys;
+  const r = await fetch(GH_ISS + '/.well-known/jwks', { headers: { 'User-Agent': 'wartabiye-push' } });
+  if (!r.ok) throw new Error('GitHub keys HTTP ' + r.status);
+  jwks = { keys: (await r.json()).keys || [], until: Date.now() + 3600e3 };
+  return jwks.keys;
+}
+const dec = s => JSON.parse(new TextDecoder().decode(unb64u(s)));
+export async function verifyGithub(token, env, nowSec = Math.floor(Date.now() / 1000)) {
+  const repo = String(env.GITHUB_REPO || '').toLowerCase();
+  if (!repo) return false;
+  const p = String(token).split('.');
+  if (p.length !== 3) return false;
+  let h, c;
+  try { h = dec(p[0]); c = dec(p[1]); } catch (e) { return false; }
+  if (h.alg !== 'RS256' || !h.kid) return false;
+  let jwk = (await githubKeys()).find(k => k.kid === h.kid);
+  if (!jwk) jwk = (await githubKeys(true)).find(k => k.kid === h.kid);
+  if (!jwk) return false;
+  const key = await crypto.subtle.importKey('jwk', { kty: 'RSA', n: jwk.n, e: jwk.e, alg: 'RS256', ext: true }, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']);
+  const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, unb64u(p[2]), enc.encode(p[0] + '.' + p[1]));
+  if (!ok) return false;
+  const aud = Array.isArray(c.aud) ? c.aud : [c.aud];
+  return c.iss === GH_ISS && aud.includes(env.OIDC_AUDIENCE || 'wartabiye-push') && String(c.repository || '').toLowerCase() === repo
+    && c.ref === 'refs/heads/main' && typeof c.exp === 'number' && c.exp > nowSec - 30 && (!c.nbf || c.nbf <= nowSec + 60);
+}
+async function authorised(req, env) {
+  const t = (req.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+  if (!t) return false;
+  if (tokenOk(t, env)) return true;
+  try { return await verifyGithub(t, env); } catch (e) { return false; }
 }
 function validEndpoint(u) {
   try { const x = new URL(u); return x.protocol === 'https:' && u.length < 1024; } catch (e) { return false; }
@@ -131,12 +179,13 @@ export function siteLink(u, env) {
   const site = env.SITE_URL || 'https://www.wartabiyetv.com/';
   try { const x = new URL(u, site); return x.origin === new URL(site).origin ? x.href : null; } catch (e) { return null; }
 }
-async function readBody(req) {
+async function readBody(req, max = 8192) {
   const t = await req.text();
-  if (t.length > 8192) throw new Error('body too large');
+  if (t.length > max) throw new Error('body too large');
   return JSON.parse(t || '{}');
 }
 const configured = env => !!(env.SUBS && env.VAPID_PUBLIC_KEY && env.VAPID_PRIVATE_JWK);
+const meta = k => ({ c: String((k.metadata && k.metadata.c) || 'breaking').split(','), l: (k.metadata && k.metadata.l) || 'so', f: FREQS.includes(k.metadata && k.metadata.f) ? k.metadata.f : 'top' });
 
 // ---------- endpoints ----------
 async function subscribe(req, env) {
@@ -145,12 +194,14 @@ async function subscribe(req, env) {
   if (!validEndpoint(s.endpoint) || !s.keys || typeof s.keys.p256dh !== 'string' || typeof s.keys.auth !== 'string') return { status: 400, body: { ok: false, error: 'bad subscription' } };
   if (unb64u(s.keys.p256dh).length !== 65 || unb64u(s.keys.auth).length !== 16) return { status: 400, body: { ok: false, error: 'bad keys' } };
   let cats = Array.isArray(b.categories) ? b.categories.filter(c => CATEGORIES.includes(c)) : [];
-  if (!cats.includes('breaking')) cats.unshift('breaking'); // breaking news is the point of subscribing; categories add to it
-  const lang = /^(so|en|ar|fr|nl|it|de|tr|es)$/.test(b.lang) ? b.lang : 'so';
+  if (b.all === true) cats = CATEGORIES.slice();
+  if (!cats.includes('breaking')) cats.unshift('breaking'); // breaking news always reaches every subscriber
+  const lang = LANGS.test(b.lang) ? b.lang : 'so';
+  const freq = FREQS.includes(b.freq) ? b.freq : 'top';
   const id = await sha256hex(s.endpoint);
-  const rec = { endpoint: s.endpoint, keys: { p256dh: s.keys.p256dh, auth: s.keys.auth }, categories: [...new Set(cats)], lang, at: new Date().toISOString() };
-  await env.SUBS.put('sub:' + id, JSON.stringify(rec), { metadata: { c: rec.categories.join(','), l: lang } });
-  return { status: 200, body: { ok: true, categories: rec.categories } };
+  const rec = { endpoint: s.endpoint, keys: { p256dh: s.keys.p256dh, auth: s.keys.auth }, categories: [...new Set(cats)], lang, freq, at: new Date().toISOString() };
+  await env.SUBS.put('sub:' + id, JSON.stringify(rec), { metadata: { c: rec.categories.join(','), l: lang, f: freq } });
+  return { status: 200, body: { ok: true, categories: rec.categories, lang, freq } };
 }
 
 async function unsubscribe(req, env) {
@@ -160,70 +211,117 @@ async function unsubscribe(req, env) {
   return { status: 200, body: { ok: true } };
 }
 
-function pickLang(m, lang) {
-  const t = m.t && m.t[lang] && m.t[lang].title ? m.t[lang] : null;
-  return { title: (t && t.title) || m.title, body: (t && t.body) || m.body || '' };
+// the visitor's language, then English for a non-Somali reader, then the Somali original
+export function pickLang(m, lang) {
+  const t = m.t || {};
+  const x = (t[lang] && t[lang].title) ? t[lang] : (lang !== 'so' && t.en && t.en.title) ? t.en : null;
+  return { title: (x && x.title) || m.title, body: (x && x.body) || m.body || '', lang: x ? (t[lang] === x ? lang : 'en') : 'so' };
+}
+const fill = (s, o) => String(s || '').replace(/\{(\w+)\}/g, (_, k) => (o[k] != null ? o[k] : ''));
+
+/* What one visitor receives from one update. Pure function (tested):
+   urgent items: always, one by one; then the stories of the visitor's categories according to their frequency. */
+export function compose(items, m, strings, site) {
+  const U = items.filter(i => i.urgent);
+  const R = items.filter(i => !i.urgent && m.c.includes(i.category));
+  const one = (i, extra) => { const x = pickLang(i, m.l); return { title: x.title, body: x.body, url: i.url, image: i.image || null, tag: i.id, id: i.id, urgent: !!i.urgent, lang: x.lang, ...(extra || {}) }; };
+  const S = (strings && (strings[m.l] || strings.en || strings.so)) || {};
+  const more = (list, lead) => {
+    const first = pickLang(list[0], m.l);
+    const n = list.length - (lead ? 1 : 0);
+    if (lead) return { title: first.title, body: fill(S.more || '+{n}', { n }), url: site, image: list[0].image || null, tag: 'u-' + list[0].id, id: list[0].id, urgent: false, lang: m.l, digest: list.map(i => i.id) };
+    return { title: fill(S.moreTitle || '{n}', { n }), body: list.slice(0, 3).map(i => pickLang(i, m.l).title).join(' · ').slice(0, 200), url: site, image: null, tag: 'm-' + list[0].id, id: list[0].id, urgent: false, lang: m.l, digest: list.map(i => i.id) };
+  };
+  const out = U.slice(0, 3).map(i => one(i));
+  if (!R.length) return out;
+  if (m.f === 'top') R.filter(i => i.top).slice(0, 1).forEach(i => out.push(one(i)));
+  else if (m.f === 'digest') out.push(R.length === 1 ? one(R[0]) : more(R, true));
+  else if (R.length <= 3) R.forEach(i => out.push(one(i)));
+  else { R.slice(0, 2).forEach(i => out.push(one(i))); out.push(more(R.slice(2), false)); }
+  return out;
+}
+
+function cleanItem(i, env) {
+  if (!i || !/^[A-Za-z0-9_.:-]{1,120}$/.test(i.id || '')) throw new Error('item id required');
+  if (!CATEGORIES.includes(i.category)) throw new Error('unknown category ' + i.category);
+  if (typeof i.title !== 'string' || !i.title.trim()) throw new Error('title required');
+  const url = siteLink(i.url, env);
+  if (!url) throw new Error('url must be a page of the Wartabiye TV site');
+  const t = {};
+  for (const [l, x] of Object.entries(i.t || {})) if (LANGS.test(l) && x && typeof x.title === 'string' && x.title.trim()) t[l] = { title: x.title.slice(0, 120), body: String(x.body || '').slice(0, 200) };
+  return { id: i.id, category: i.category, urgent: !!i.urgent, top: !!(i.top || i.urgent), title: i.title.slice(0, 120), body: String(i.body || '').slice(0, 200), t, url, image: i.image ? siteLink(i.image, env) : null };
 }
 
 async function send(req, env) {
-  const m = await readBody(req);
-  if (!m.id || !/^[A-Za-z0-9_.:-]{1,120}$/.test(m.id)) return { status: 400, body: { ok: false, error: 'id required' } };
-  if (!CATEGORIES.includes(m.category)) return { status: 400, body: { ok: false, error: 'unknown category' } };
-  if (typeof m.title !== 'string' || !m.title.trim()) return { status: 400, body: { ok: false, error: 'title required' } };
-  const url = siteLink(m.url, env);
-  if (!url) return { status: 400, body: { ok: false, error: 'url must be a page of the Wartabiye TV site' } };
-  const limit = Math.max(1, Math.min(45, parseInt(m.limit, 10) || 40));
-  if (!m.cursor) {
-    const prev = await env.SUBS.get('sent:' + m.id);
-    if (prev) return { status: 200, body: { ok: true, duplicate: true, id: m.id, previous: JSON.parse(prev) } };
-    if (!m.dryRun) await env.SUBS.put('sent:' + m.id, JSON.stringify({ at: new Date().toISOString(), state: 'sending' }), { expirationTtl: 90 * 86400 });
-  }
-  const page = await env.SUBS.list({ prefix: 'sub:', cursor: m.cursor || undefined, limit });
-  const stats = { matched: 0, sent: 0, failed: 0, removed: 0 };
-  const image = m.image ? siteLink(m.image, env) : null;
-  const icon = siteLink('img/logo.png', env);
+  const b = await readBody(req, 65536);
+  let items;
+  try { items = (Array.isArray(b.items) ? b.items : [b]).slice(0, 20).map(i => cleanItem(i, env)); } catch (e) { return { status: 400, body: { ok: false, error: e.message } }; }
+  if (!items.length) return { status: 400, body: { ok: false, error: 'no items' } };
+  // an id that was already delivered is never sent again (checked on every page: a repeated run stops at once)
+  const dup = [];
+  for (const i of items) if (await env.SUBS.get('sent:' + i.id)) dup.push(i.id);
+  if (dup.length && !b.cursor) items = items.filter(i => !dup.includes(i.id));
+  if (!items.length) return { status: 200, body: { ok: true, duplicate: true, ids: dup, next: null, matched: 0, sent: 0, failed: 0, removed: 0 } };
+  const perSub = Math.min(3, items.filter(i => i.urgent).length) + 3;
+  const limit = Math.max(1, Math.min(Math.floor(45 / perSub), parseInt(b.limit, 10) || 40));
+  const page = await env.SUBS.list({ prefix: 'sub:', cursor: b.cursor || undefined, limit });
+  const st = { matched: 0, sent: 0, failed: 0, removed: 0, messages: 0 };
+  const site = siteLink('./', env);
+  const icon = siteLink('img/icon-192.png', env);
+  const serverKeys = await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, ['deriveBits']);
+  const errors = {};
   for (const k of page.keys) {
-    const cats = String((k.metadata && k.metadata.c) || 'breaking').split(',');
-    if (!cats.includes(m.category) && !(m.urgent && m.category === 'breaking')) continue;
-    stats.matched++;
-    if (m.dryRun) continue;
+    const m = meta(k);
+    const msgs = compose(items, m, b.strings, site);
+    if (!msgs.length) continue;
+    st.matched++;
+    if (b.dryRun) { st.messages += msgs.length; continue; }
     const raw = await env.SUBS.get(k.name);
     if (!raw) continue;
     const sub = JSON.parse(raw);
-    const txt = pickLang(m, sub.lang);
-    const msg = { title: txt.title.slice(0, 120), body: txt.body.slice(0, 200), url, icon, badge: icon, image, tag: m.id, urgent: !!m.urgent, lang: sub.lang, id: m.id };
-    try {
-      const st = await sendOne(sub, msg, env, !!m.urgent);
-      if (st >= 200 && st < 300) stats.sent++;
-      else if (st === 404 || st === 410) { stats.removed++; await env.SUBS.delete(k.name); } // the visitor unsubscribed or the browser dropped it
-      else stats.failed++;
-    } catch (e) { stats.failed++; }
+    let gone = false, okAny = false;
+    for (const msg of msgs) {
+      try {
+        const code = await sendOne(sub, { ...msg, icon, badge: icon }, env, msg.urgent, serverKeys);
+        st.messages++;
+        if (code >= 200 && code < 300) okAny = true;
+        else if (code === 404 || code === 410) { gone = true; break; } // the visitor unsubscribed or the browser dropped it
+        else errors[code] = (errors[code] || 0) + 1;
+      } catch (e) { errors.exception = (errors.exception || 0) + 1; }
+    }
+    if (gone) { st.removed++; await env.SUBS.delete(k.name); } else if (okAny) st.sent++; else st.failed++;
   }
   const next = page.list_complete ? null : page.cursor;
-  // one log line per page; the stats endpoint adds the pages up
-  if (!m.dryRun) await env.SUBS.put(`log:${Date.now()}:${m.id}`.slice(0, 480), JSON.stringify({ id: m.id, category: m.category, urgent: !!m.urgent, title: m.title.slice(0, 120), url, at: new Date().toISOString(), ...stats, done: !next }), { expirationTtl: 60 * 86400 });
-  if (!next && !m.dryRun) await env.SUBS.put('sent:' + m.id, JSON.stringify({ at: new Date().toISOString(), state: 'sent' }), { expirationTtl: 90 * 86400 });
-  return { status: 200, body: { ok: true, id: m.id, dryRun: !!m.dryRun, ...stats, next } };
+  if (!next && !b.dryRun) {
+    // the last page: remember the ids (never again) and keep one log line for the whole update
+    for (const i of items) await env.SUBS.put('sent:' + i.id, JSON.stringify({ at: new Date().toISOString() }), { expirationTtl: 90 * 86400 });
+    const tot = b.totals || {};
+    const sum = k => (parseInt(tot[k], 10) || 0) + st[k];
+    await env.SUBS.put(`log:${Date.now()}`, JSON.stringify({ at: new Date().toISOString(), ids: items.map(i => i.id), titles: items.map(i => i.title), urgent: items.some(i => i.urgent),
+      matched: sum('matched'), sent: sum('sent'), failed: sum('failed'), removed: sum('removed'), messages: sum('messages') }), { expirationTtl: 60 * 86400 });
+  }
+  return { status: 200, body: { ok: true, ids: items.map(i => i.id), duplicates: dup, dryRun: !!b.dryRun, ...st, errors, next } };
 }
 
 async function stats(env) {
   const counts = { total: 0 }; CATEGORIES.forEach(c => { counts[c] = 0; });
-  const langs = {};
+  const langs = {}, freqs = { all: 0, digest: 0, top: 0 };
   let cursor;
   do {
     const p = await env.SUBS.list({ prefix: 'sub:', cursor, limit: 1000 });
     for (const k of p.keys) {
+      const m = meta(k);
       counts.total++;
-      String((k.metadata && k.metadata.c) || 'breaking').split(',').forEach(c => { if (c in counts) counts[c]++; });
-      const l = (k.metadata && k.metadata.l) || 'so'; langs[l] = (langs[l] || 0) + 1;
+      m.c.forEach(c => { if (c in counts) counts[c]++; });
+      langs[m.l] = (langs[m.l] || 0) + 1; freqs[m.f]++;
     }
     cursor = p.list_complete ? null : p.cursor;
   } while (cursor);
   const logs = await env.SUBS.list({ prefix: 'log:', limit: 1000 });
-  const names = logs.keys.map(k => k.name).sort().reverse().slice(0, 50);
+  const names = logs.keys.map(k => k.name).sort().reverse().slice(0, 30);
   const recent = [];
   for (const n of names) { const v = await env.SUBS.get(n); if (v) recent.push(JSON.parse(v)); }
-  return { ok: true, subscribers: counts, languages: langs, recent };
+  return { ok: true, subscribers: counts, frequencies: freqs, languages: langs, recent };
 }
 
 export default {
@@ -232,17 +330,17 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: h });
     const path = new URL(req.url).pathname.replace(/\/+$/, '');
     try {
-      if (path === '/v1/health') return json({ ok: true, configured: configured(env) }, 200, h);
+      if (path === '/v1/health') return json({ ok: true, configured: configured(env), sender: env.GITHUB_REPO ? 'github-actions' : (env.PUSH_ADMIN_TOKEN ? 'token' : 'none') }, 200, h);
       if (path === '/v1/key' && req.method === 'GET') return configured(env) ? json({ publicKey: env.VAPID_PUBLIC_KEY }, 200, { ...h, 'Cache-Control': 'public, max-age=3600' }) : json({ ok: false, error: 'not configured' }, 503, h);
       if (!configured(env)) return json({ ok: false, error: 'not configured' }, 503, h);
       if (path === '/v1/subscribe' && req.method === 'POST') { const r = await subscribe(req, env); return json(r.body, r.status, h); }
       if (path === '/v1/unsubscribe' && req.method === 'POST') { const r = await unsubscribe(req, env); return json(r.body, r.status, h); }
       if (path === '/v1/send' && req.method === 'POST') {
-        if (!authorised(req, env)) return json({ ok: false, error: 'unauthorised' }, 401, h);
+        if (!await authorised(req, env)) return json({ ok: false, error: 'unauthorised' }, 401, h);
         const r = await send(req, env); return json(r.body, r.status, h);
       }
       if (path === '/v1/stats' && req.method === 'GET') {
-        if (!authorised(req, env)) return json({ ok: false, error: 'unauthorised' }, 401, h);
+        if (!await authorised(req, env)) return json({ ok: false, error: 'unauthorised' }, 401, h);
         return json(await stats(env), 200, h);
       }
       return json({ ok: false, error: 'not found' }, 404, h);

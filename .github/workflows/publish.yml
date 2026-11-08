@@ -12,6 +12,7 @@ permissions:
   contents: write
   pages: write
   actions: write
+  id-token: write   # a short-lived GitHub token proves to the push service that this repository sends
 concurrency:
   group: publish
   cancel-in-progress: false
@@ -61,7 +62,7 @@ jobs:
           echo "GitHub Pages did not publish $head in time"; exit 1
       - name: Send push alerts for new stories (only after the site is live; never for drafts, failures or repeats)
         env:
-          PUSH_ADMIN_TOKEN: ${{ secrets.PUSH_ADMIN_TOKEN }}
+          PUSH_ADMIN_TOKEN: ${{ secrets.PUSH_ADMIN_TOKEN }}   # optional; GitHub's OIDC token is used without it
         run: |
           git pull -q --rebase origin main
           python3 tools/push_send.py news

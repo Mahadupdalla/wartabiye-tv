@@ -14,6 +14,7 @@ on:
 permissions:
   contents: write
   pages: write
+  id-token: write   # a short-lived GitHub token proves to the push service that this repository sends
 concurrency:
   group: live-status
   cancel-in-progress: false
@@ -39,7 +40,7 @@ jobs:
       - name: Push alert when a verified broadcast starts (owner's settings; never twice for the same broadcast)
         if: steps.save.outputs.changed == '1'
         env:
-          PUSH_ADMIN_TOKEN: ${{ secrets.PUSH_ADMIN_TOKEN }}
+          PUSH_ADMIN_TOKEN: ${{ secrets.PUSH_ADMIN_TOKEN }}   # optional; GitHub's OIDC token is used without it
         run: |
           python3 tools/push_send.py live
           git diff --quiet -- data/push-log.json && exit 0
