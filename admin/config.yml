@@ -1090,8 +1090,26 @@ collections:
           - {name: apiBase, label: 'Cinwaanka adeegga xogta ciyaaraha (https://...workers.dev)', widget: string, required: false, hint: 'Cinwaanka proxy-ga Wartabiye (workers/sports-api). API key-ga HALKAN HA KU QORIN: wuxuu galaa Cloudflare secret.'}
           - {name: providerName, label: 'Magaca bixiyaha xogta (tusaale football-data.org)', widget: string, required: false}
           - {name: refreshSeconds, label: 'Cusbooneysiin kasta (ilbiriqsi, ugu yaraan 30)', widget: number, value_type: int, min: 30, default: 60}
+          - name: openData
+            label: 'Xog furan oo bilaash ah (OpenLigaDB, key looma baahna)'
+            widget: object
+            required: false
+            hint: 'OpenLigaDB waa kayd xog kubadda cagta oo furan oo qof kasta isticmaali karo. Natiijooyinka tooska ah, goolasha, ciyaaraha soo socda iyo kala sarreynta ayuu bixiyaa. Julaay kasta "Xilliga" cusboonaysii (tusaale 2027).'
+            fields:
+              - {name: enabled, label: 'Shid', widget: boolean, default: true}
+              - {name: provider, label: Bixiyaha, widget: hidden, default: OpenLigaDB}
+              - name: leagues
+                label: Horyaallada
+                widget: list
+                summary: '{{name}} ({{id}} {{season}})'
+                fields:
+                  - {name: id, label: 'Gaaban-ka OpenLigaDB (tusaale bl1, ucl, uel2026)', widget: string}
+                  - {name: season, label: 'Xilliga (sannadka uu bilaabmay, tusaale 2026)', widget: number, value_type: int}
+                  - {name: name, label: Magaca, widget: string}
+                  - {name: same, label: 'Isla tartankaas ee football-data.org (tusaale BL1), si aan laba jeer loo muujin', widget: string, required: false}
+                  - {name: enabled, label: Muuji, widget: boolean, default: true}
           - name: competitions
-            label: Tartamada
+            label: 'Tartamada (football-data.org: GitHub secret FOOTBALL_DATA_TOKEN ama proxy-ga)'
             widget: list
             summary: '{{name}} ({{id}})'
             fields:

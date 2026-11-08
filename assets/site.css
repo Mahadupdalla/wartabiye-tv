@@ -1091,6 +1091,7 @@ html[dir=rtl] .vcard.small .vtx{padding:0 10px 0 0}
 .mrow:hover,.mrow:focus-visible{background:var(--chip)}
 .mst{font:700 13px var(--display);color:var(--muted);display:inline-flex;align-items:center;gap:5px}
 .mrow.is-live .mst,.mhead.is-live .mst{color:var(--red)}
+.mrow.is-await .mst{color:var(--muted);font-size:11px;line-height:1.2;white-space:normal}
 .mst .dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.6s infinite}
 .mteam{display:flex;align-items:center;gap:8px;min-width:0}.mteam b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
 .mteam.home{justify-content:flex-end;text-align:end}

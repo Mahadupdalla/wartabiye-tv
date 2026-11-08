@@ -32,11 +32,67 @@ const API = { '/v1/live': { provider: 'test provider', updatedAt: iso(0), matche
   '/v1/standings': { provider: 'test provider', updatedAt: iso(0), competition: { name: 'Premier League' }, table: [{ position: 1, team: { id: 57, name: 'Arsenal' }, played: 11, won: 8, draw: 2, lost: 1, goalDifference: 15, points: 26 }] },
   '/v1/team': { provider: 'test provider', team: { id: 57, name: 'Arsenal', country: 'England', founded: 1886, venue: 'Emirates Stadium' }, matches: [MATCH] } };
 
+// open football data (OpenLigaDB), test copy: a finished match, one in play, one whose result is overdue, one later
+const OLT = (id, name) => ({ teamId: id, teamName: name + ' FC', shortName: name, teamIconUrl: null });
+const OLM = (id, kick, fin, t1, t2, goals, results) => ({ matchID: id, matchDateTimeUTC: new Date(Date.now() + kick).toISOString().replace(/\.\d+Z$/, 'Z'), leagueShortcut: 'bl1', leagueName: '1. Fußball-Bundesliga 2026/2027', leagueSeason: 2026,
+  group: { groupName: '9. Spieltag', groupOrderID: 9 }, team1: t1, team2: t2, matchIsFinished: fin, matchResults: results || [], goals: goals || [], location: { locationStadium: 'Teststadion', locationCity: 'Teststadt' }, numberOfViewers: 50000 });
+const R = (h1, a1, h2, a2) => [{ resultTypeID: 1, resultOrderID: 1, pointsTeam1: h1, pointsTeam2: a1 }, { resultTypeID: 2, resultOrderID: 2, pointsTeam1: h2, pointsTeam2: a2 }];
+const OL_ROUND = [
+  OLM(9001, -26 * 3600e3, true, OLT(40, 'Bayern'), OLT(7, 'Dortmund'), [{ goalID: 1, scoreTeam1: 1, scoreTeam2: 0, matchMinute: 12, goalGetterName: 'H. Kane', scoringTeamId: 40, isPenalty: true, isOwnGoal: false }, { goalID: 2, scoreTeam1: 2, scoreTeam2: 0, matchMinute: 70, goalGetterName: 'J. Musiala', scoringTeamId: 40 }, { goalID: 3, scoreTeam1: 2, scoreTeam2: 1, matchMinute: 88, goalGetterName: 'S. Guirassy', scoringTeamId: 7 }], R(1, 0, 2, 1)),
+  OLM(9002, -40 * 60e3, false, OLT(16, 'Stuttgart'), OLT(9, 'Schalke'), [{ goalID: 4, scoreTeam1: 0, scoreTeam2: 1, matchMinute: 31, goalGetterName: 'K. Karaman', scoringTeamId: 9 }], []),
+  OLM(9003, -4 * 3600e3, false, OLT(1635, 'Leipzig'), OLT(81, 'Mainz'), [], []),
+  OLM(9004, 3 * 3600e3, false, OLT(6, 'Leverkusen'), OLT(65, 'Köln'), [], []),
+];
+const OL_TABLE = [{ teamInfoId: 40, teamName: 'FC Bayern München', shortName: 'Bayern', points: 25, matches: 9, won: 8, draw: 1, lost: 0, goalDiff: 22 }, { teamInfoId: 7, teamName: 'Borussia Dortmund', shortName: 'Dortmund', points: 21, matches: 9, won: 6, draw: 3, lost: 0, goalDiff: 9 }];
+const OPEN_CFG = { apiBase: '', refreshSeconds: 60, competitions: [{ id: 'PL', name: 'Premier League' }, { id: 'BL1', name: 'Bundesliga' }],
+  openData: { enabled: true, leagues: [{ id: 'bl1', season: 2026, name: 'Bundesliga', same: 'BL1' }] }, viewingInfo: [], streams: [] };
+function olRoute(r) {
+  const u = new URL(r.request().url()), p = u.pathname, j = x => r.fulfill({ json: x, headers: { 'Access-Control-Allow-Origin': '*' } });
+  if (p === '/getcurrentgroup/bl1') return j({ groupName: '9. Spieltag', groupOrderID: 9 });
+  if (p === '/getmatchdata/bl1/2026/9') return j(OL_ROUND);
+  if (/^\/getmatchdata\/bl1\/2026\/\d+$/.test(p)) return j([]);
+  if (p === '/getbltable/bl1/2026') return j(OL_TABLE);
+  let m = /^\/getmatchdata\/(\d+)$/.exec(p); if (m) return j(OL_ROUND.find(x => String(x.matchID) === m[1]) || null);
+  m = /^\/getmatchesbyteamid\/(\d+)\//.exec(p); if (m) return j(OL_ROUND.filter(x => String(x.team1.teamId) === m[1] || String(x.team2.teamId) === m[1]));
+  return r.fulfill({ status: 404, body: '' });
+}
+// football-data.org feed written by GitHub Actions (data/sports-feed), test copy
+const FEEDM = (id, st, comp, h, a, sh, sa) => ({ id, utcDate: iso(-50 * 60e3), status: st, minute: st === 'LIVE' ? 50 : null, competition: { id: comp, name: comp === 'PL' ? 'Premier League' : 'Bundesliga' }, home: { id: id * 10, name: h }, away: { id: id * 10 + 1, name: a }, score: { home: sh, away: sa, halfTime: {} } });
+const feed = age => ({ index: { provider: 'football-data.org', updatedAt: iso(-age), competitions: [{ id: 'PL', name: 'Premier League' }, { id: 'BL1', name: 'Bundesliga' }] },
+  window: { provider: 'football-data.org', updatedAt: iso(-age), matches: [FEEDM(71, 'LIVE', 'PL', 'Arsenal', 'Chelsea', 1, 0), FEEDM(72, 'LIVE', 'BL1', 'Bayern', 'Dortmund', 9, 9)] },
+  'standings-PL': { provider: 'football-data.org', updatedAt: iso(-age), competition: { name: 'Premier League' }, table: [{ position: 1, team: { id: 710, name: 'Arsenal' }, played: 11, won: 8, draw: 2, lost: 1, goalDifference: 15, points: 26 }] } });
+
 async function mock(ctx, data) {
+  // open data: only the test copy when given, otherwise unreachable (the page must then say the data is unavailable)
+  await ctx.route(/^https:\/\/api\.openligadb\.de\//, r => data.ol ? olRoute(r) : r.abort());
+  await ctx.route(/\/data\/sports-feed\/([a-zA-Z0-9-]+)\.json/, r => { const k = r.request().url().match(/sports-feed\/([a-zA-Z0-9-]+)\.json/)[1]; return data.feed && data.feed[k] ? r.fulfill({ json: data.feed[k] }) : r.fulfill({ status: 404, body: '' }) });
   await ctx.route(/\/data\/(videos|live|live-status|sports)\.json/, r => { const k = r.request().url().match(/data\/([a-z-]+)\.json/)[1]; return k in data ? r.fulfill({ json: data[k] }) : r.continue() });
   await ctx.route(/^https:\/\/sports\.test\//, r => { const p = new URL(r.request().url()).pathname; return r.fulfill({ json: API[p] || {}, headers: { 'Access-Control-Allow-Origin': '*' } }) });
   // no real player loads in the test (no network to video providers needed)
   await ctx.route(/youtube(-nocookie)?\.com|ytimg\.com|vimeo\.com|example\.com\/clip/, r => r.fulfill({ body: '', contentType: 'text/html' }));
+}
+// the live website against the open data itself: every finished Bundesliga result of the current round must appear
+// on the page with the same score (only when this computer can reach api.openligadb.de, as GitHub Actions can)
+async function realSports(ctx, p) {
+  const cfg = await (await ctx.request.get(base + 'data/sports.json?ts=' + Date.now())).json().catch(() => ({}));
+  const lg = ((cfg.openData || {}).leagues || []).find(l => l && l.id === 'bl1' && l.enabled !== false);
+  if (!lg || (cfg.openData || {}).enabled === false || /^https:/.test(cfg.apiBase || '')) { console.log('real sports: open data not in use, skipped'); return }
+  let round;
+  try { const g = await (await ctx.request.get('https://api.openligadb.de/getcurrentgroup/bl1', { timeout: 15000 })).json(); round = await (await ctx.request.get(`https://api.openligadb.de/getmatchdata/bl1/${lg.season}/${g.groupOrderID}`, { timeout: 15000 })).json(); }
+  catch (e) { console.log('real sports: api.openligadb.de not reachable from here, skipped'); return }
+  const done = round.filter(m => m.matchIsFinished && m.matchResults && m.matchResults.length);
+  for (const m of round.filter(m => !m.matchIsFinished && Date.parse(m.matchDateTimeUTC) > Date.now() + 3600e3)) done.push(m); // and upcoming ones
+  await go(p, 'ciyaaraha-toos?tab=results&c=bl1'); await p.waitForTimeout(2500); const res = (await st(p)).text;
+  await go(p, 'ciyaaraha-toos?tab=fixtures&c=bl1'); await p.waitForTimeout(2500); const fix = (await st(p)).text;
+  let checked = 0;
+  for (const m of done) {
+    const fin = m.matchIsFinished && (m.matchResults.find(r => r.resultTypeID === 2) || m.matchResults[m.matchResults.length - 1]);
+    const want = [m.team1.shortName || m.team1.teamName, fin ? fin.pointsTeam1 + ' – ' + fin.pointsTeam2 : null, m.team2.shortName || m.team2.teamName];
+    const txt = fin ? res : fix;
+    if (!want.filter(Boolean).every(x => txt.includes(x))) fail(`real sports: ${want.join(' ')} (OpenLigaDB) not shown on the live page`); else checked++;
+  }
+  console.log(`real sports: ${checked}/${done.length} Bundesliga matches of round ${round[0] && round[0].group && round[0].group.groupOrderID} match OpenLigaDB exactly`);
+  if (!/OpenLigaDB/.test(res)) fail('real sports: data credit missing');
 }
 async function go(p, hash) { await p.goto(base + (hash ? '#' + hash : ''), { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200) }
 const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView .onair').length, btn: document.getElementById('liveBtn').className, btnText: document.getElementById('liveBtn').textContent.trim(),
@@ -55,8 +111,9 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     if (!fresh && (s.onair || /\bon\b/.test(s.btn))) fail(`${name}: LIVE shown without a verified broadcast`);
     if (s.overflow) fail(`${name}: LIVE TV page scrolls sideways`);
     await p.screenshot({ path: `${out}/media-${name}-live-real.png` });
-    await go(p, 'ciyaaraha-toos'); s = await st(p); console.log(name, 'real sports page:', s.text.slice(0, 90).replace(/\s+/g, ' '));
-    if (/\d+\s*[–-]\s*\d+/.test(s.text) && !/https:\/\//.test((await (await ctx.request.get(base + 'data/sports.json')).text()))) fail(`${name}: a score is shown without a sports-data service`);
+    await go(p, 'ciyaaraha-toos'); await p.waitForTimeout(2500); s = await st(p); console.log(name, 'real sports page:', s.text.slice(0, 160).replace(/\s+/g, ' '));
+    if (s.overflow) fail(`${name}: real sports page scrolls sideways`);
+    if (name === 'desktop') await realSports(ctx, p);
     await go(p, 'muuqaal'); s = await st(p); if (s.overflow) fail(`${name}: Video News scrolls sideways`);
     await ctx.close();
 
@@ -132,6 +189,52 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     // sports-data service down: an error message, never old or made-up numbers
     ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { sports: SPORTS }); await ctx.route(/^https:\/\/sports\.test\//, r => r.fulfill({ status: 502, json: { error: 'x' } }));
     p = await ctx.newPage(); await go(p, 'ciyaaraha-toos'); if (await p.$('#pageView .mrow')) fail(`${name}: rows shown while the data service is down`); await ctx.close();
+
+    // 4b. open football data (OpenLigaDB) and the football-data.org feed, without any key in the site
+    ctx = await b.newContext({ viewport: { width: w, height: h }, locale: 'en-GB' }); await mock(ctx, { sports: OPEN_CFG, ol: true, feed: feed(5 * 60e3) }); p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
+    await p.goto(base + '?lang=en#ciyaaraha-toos', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1500);
+    let orow = await p.$$eval('#pageView .mrow', r => r.map(x => ({ live: x.classList.contains('is-live'), t: x.innerText.replace(/\s+/g, ' ') })));
+    console.log(name, 'open data live tab:', JSON.stringify(orow));
+    if (!orow.some(r => r.live && /Stuttgart/.test(r.t) && /0 – 1/.test(r.t))) fail(`${name}: open data match in play not shown as live`);
+    if (orow.some(r => /Leipzig|Leverkusen|Bayern.*Dortmund/.test(r.t))) fail(`${name}: a finished, overdue or later match is in the live tab`);
+    if (!orow.some(r => r.live && /Arsenal/.test(r.t))) fail(`${name}: fresh feed match in play not shown as live`);
+    if (orow.some(r => /9 – 9/.test(r.t))) fail(`${name}: feed match of a league the open data covers is listed twice`);
+    s = await st(p); if (!/OpenLigaDB/.test(s.text) || !/football-data\.org/.test(s.text)) fail(`${name}: data credits missing`);
+    if (s.overflow) fail(`${name}: open-data sports page scrolls sideways`);
+    await p.screenshot({ path: `${out}/media-${name}-sports-open.png`, fullPage: name === 'desktop' });
+    await p.goto(base + '?lang=en#ciyaaraha-toos?tab=today', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200);
+    orow = await p.$$eval('#pageView .mrow', r => r.map(x => ({ live: x.classList.contains('is-live'), aw: x.classList.contains('is-await'), t: x.innerText.replace(/\s+/g, ' ') })));
+    const aw = orow.find(r => /Leipzig/.test(r.t));
+    if (aw && (aw.live || !aw.aw || !/not yet confirmed/i.test(aw.t))) fail(`${name}: overdue match must say "result not yet confirmed", not live: ${JSON.stringify(aw)}`);
+    await p.goto(base + '?lang=en#ciyaaraha-toos?tab=results&c=bl1', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200); s = await st(p);
+    if (!/Bayern[\s\S]*2 – 1[\s\S]*Dortmund/.test(s.text)) fail(`${name}: open data result`);
+    await p.goto(base + '?lang=en#ciyaaraha-toos?tab=fixtures&c=bl1', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200); s = await st(p);
+    if (!/Leverkusen/.test(s.text) || /Bayern/.test(s.text)) fail(`${name}: open data fixtures`);
+    await p.goto(base + '?lang=en#ciyaaraha-toos?tab=table&c=bl1', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200); s = await st(p);
+    if (!/Bayern/.test(s.text) || !/25/.test(s.text)) fail(`${name}: open data table`);
+    await p.goto(base + '?lang=en#ciyaaraha-toos?tab=table&c=PL', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200); s = await st(p);
+    if (!/Arsenal/.test(s.text) || !/26/.test(s.text)) fail(`${name}: feed table`);
+    await p.goto(base + '?lang=en#ciyaaraha-toos?m=ol9001', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200); s = await st(p);
+    if (!/H\. Kane/.test(s.text) || !/Penalty/.test(s.text) || !/Matchday 9/.test(s.text) || !/Teststadion/.test(s.text) || !/goals only/i.test(s.text)) fail(`${name}: open data match page (goals, round, venue)`);
+    if (/50,?000|50\.000/.test(s.text)) fail(`${name}: attendance or viewer numbers shown`);
+    await p.goto(base + '?lang=en#ciyaaraha-toos?t=ol40', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200); s = await st(p);
+    if (!/Bayern/.test(s.text) || !/Dortmund/.test(s.text)) fail(`${name}: open data team page`);
+    await ctx.close();
+    // an old feed (40 minutes) must not show a match as live
+    ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { sports: Object.assign({}, OPEN_CFG, { openData: { enabled: false } }), feed: feed(40 * 60e3) }); p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
+    await p.goto(base + '?lang=en#ciyaaraha-toos?tab=today', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200);
+    orow = await p.$$eval('#pageView .mrow', r => r.map(x => ({ live: x.classList.contains('is-live'), t: x.innerText.replace(/\s+/g, ' ') })));
+    console.log(name, 'stale feed, today tab:', JSON.stringify(orow));
+    if (!orow.length || orow.some(r => r.live)) fail(`${name}: stale feed shows a match as live`);
+    await ctx.close();
+    // open data unreachable and no feed: a clear message, no numbers
+    ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { sports: OPEN_CFG }); p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
+    await go(p, 'ciyaaraha-toos'); if (await p.$('#pageView .mrow')) fail(`${name}: rows shown while the open data is unreachable`);
+    if (!/lama heli karo|unavailable/i.test((await st(p)).text)) fail(`${name}: no "unavailable" message`);
+    // everything switched off in /admin/: "not connected" with the official viewing information
+    await ctx.close(); ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { sports: Object.assign({}, OPEN_CFG, { openData: { enabled: false } }) }); p = await ctx.newPage();
+    await go(p, 'ciyaaraha-toos'); if (!(await p.$('#pageView .notconn'))) fail(`${name}: "not connected" message missing when no source is set`);
+    await ctx.close();
 
     // 5. every language: menu entries and page titles translated, Arabic right-to-left
     if (name === 'desktop') {

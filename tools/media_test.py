@@ -41,4 +41,16 @@ check(not decide({}, [vid('c' * 11, 'none', actualStartTime='x', actualEndTime='
 up = decide({}, [vid('d' * 11, 'upcoming', scheduledStartTime='2026-11-09T17:00:00Z')], CH)
 check(not up['live'] and up['upcoming'][0]['scheduledStart'] == '2026-11-09T17:00:00Z', 'upcoming listed')
 check(changed({}, d) and not changed(dict(d, checkedAt='2999-01-01T00:00:00Z'), d), 'write only on change')
+# LIVE Sports sources: the open-data leagues are well formed, the page loads the data sources, no key anywhere public
+import json as _j, re as _re
+_sp = _j.load(open('data/sports.json'))
+for _l in (_sp.get('openData') or {}).get('leagues') or []:
+    check(_re.fullmatch(r'[A-Za-z0-9_-]{1,20}', str(_l.get('id', ''))) and _re.fullmatch(r'\d{4}', str(_l.get('season', ''))), f"open-data league {_l}")
+_ix = open('index.html').read()
+check(0 < _ix.find('assets/sports-src.js') < _ix.find('assets/media.js'), 'sports-src.js loads before media.js')
+_feed = 'data/sports-feed'
+import os as _os
+for _f in (_os.listdir(_feed) if _os.path.isdir(_feed) else []):
+    _t = open(_os.path.join(_feed, _f)).read()
+    check(not _re.search(r'(?i)(token|api[_-]?key|x-auth)', _t), f'no key in {_f}')
 print(f'media tests OK ({ok} checks)')

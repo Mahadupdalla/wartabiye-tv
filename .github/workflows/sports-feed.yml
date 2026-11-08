@@ -1,0 +1,48 @@
+name: Ciyaaraha xog (sports feed)
+# Every 10 minutes: fetches scores, fixtures, results and tables from football-data.org (Premier League, LaLiga,
+# Serie A, Ligue 1 ... as listed in /admin/ → Ciyaaraha Toos) and saves them in data/sports-feed/. The token is the
+# repository secret FOOTBALL_DATA_TOKEN (Settings → Secrets and variables → Actions); it never appears in the site.
+# Without the secret this does nothing and the LIVE Sports page uses its open data (OpenLigaDB) only.
+# Nothing is committed unless the data changed, or every 10 minutes while a match is live (so the site can tell the
+# data is fresh; it never shows a match as live from data older than 25 minutes).
+on:
+  schedule:
+    - cron: '3-59/10 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['data/sports.json', 'tools/sports_feed.mjs']
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: sports-feed
+  cancel-in-progress: false
+jobs:
+  feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Fetch from football-data.org (only when the secret is set)
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+        run: node tools/sports_feed.mjs
+      - name: Save the data (only when it changed)
+        id: save
+        run: |
+          git add -A data/sports-feed 2>/dev/null || true
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git config user.name "wartabiye-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "Ciyaaraha: xogta natiijooyinka"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+          echo "changed=1" >> "$GITHUB_OUTPUT"
+      - name: Publish on GitHub Pages
+        if: steps.save.outputs.changed == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" -q .status || true
