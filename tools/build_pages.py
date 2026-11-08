@@ -88,6 +88,7 @@ for f in glob.glob(os.path.join(out_dir, '*.html')):
 # 2. section and information pages: route -> (title, description, key in pages.json or None)
 SECTIONS = {
     'ciyaaraha': ('Ciyaaraha', 'Wararka ciyaaraha ugu muhiimsan ee maalinta, hal meel: kubadda cagta, kubadda koleyga, teniska, Formula 1, feerka, orodka, esports iyo kuwo kale.', None),
+    'bariga-afrika': ('Soomaaliya & Bariga Afrika', 'Wararka gobolka: Soomaaliya, Kenya, Itoobiya, Jabuuti, Uganda, Tansaaniya, Ruwanda, Burundi, Koonfur Suudaan iyo Eritreya. Kuwa ugu cusub ayaa ugu horreeya.', None),
     'caalamka': ('Wararka Caalamka', 'Wararka caalamka oo dhan oo hal meel isugu jira. Kuwa ugu cusub ayaa ugu horreeya.', None),
     'muuqaal': ('Muuqaal Wararka', 'Wararka muuqaalka ah ee Wartabiye TV: Soomaaliya, adduunka, ciyaaraha, wareysiyada iyo barnaamijyada.', None),
     'toos': ('LIVE TV', 'Baahinta tooska ah ee rasmiga ah ee Wartabiye TV iyo jadwalka baahinta soo socota.', None),
@@ -168,7 +169,7 @@ for f in glob.glob(os.path.join(vdir, '*.html')):
 day = lambda s: (s or '')[:10]
 today = datetime.date.today().isoformat()
 urls = [f'<url><loc>{SITE_URL}</loc><changefreq>hourly</changefreq><lastmod>{day(news[0]["publishedAt"]) if news else today}</lastmod></url>']
-urls += [f'<url><loc>{SITE_URL}{r}/</loc><changefreq>{"daily" if r in ("ciyaaraha", "caalamka", "muuqaal", "toos", "ciyaaraha-toos") else "monthly"}</changefreq></url>' for r in SECTIONS]
+urls += [f'<url><loc>{SITE_URL}{r}/</loc><changefreq>{"daily" if r in ("ciyaaraha", "caalamka", "bariga-afrika", "muuqaal", "toos", "ciyaaraha-toos") else "monthly"}</changefreq></url>' for r in SECTIONS]
 urls += [f'<url><loc>{SITE_URL}war/{esc(n["id"])}.html</loc><lastmod>{day(n.get("publishedAt"))}</lastmod></url>' for n in news]
 urls += [f'<url><loc>{SITE_URL}muuqaal/{esc(v["id"])}.html</loc><lastmod>{day(v.get("publishedAt"))}</lastmod></url>' for v in vids]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(urls) + '\n</urlset>\n'

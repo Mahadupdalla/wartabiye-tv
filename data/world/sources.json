@@ -1,5 +1,5 @@
 {
- "note": "ALL news sources of Wartabiye TV in ONE list. Section \"somalia\" is the website's REGIONAL feed (homepage), which since 5 Nov 2026 is EAST AFRICA ONLY: Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti, Eritrea. Somalia-specific sources are switched off and refused by tools/east_africa.py, and Somalia-focused articles are dropped from every section. GitHub Actions reads every enabled source with a feed before each 08:00/18:00 update; sources marked searchOnly are checked by the news task with WebSearch.",
+ "note": "ALL news sources of Wartabiye TV in ONE list. Section \"somalia\" is the website's REGIONAL feed, the page \"Bariga Afrika\": Somalia, Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti and Eritrea (owner's decision of 8 Nov 2026: Somalia news is collected again and BBC Somali is a source; the homepage mixes every section). GitHub Actions reads every enabled source with a feed every hour and the fastPoll sources every 5 minutes; sources marked searchOnly are checked by the news task with WebSearch. A source marked headlineOnly is used only for its feed headline, link and time: its article pages, text and photos are never read or kept.",
  "perSource": {
   "min": 5,
   "max": 10
@@ -11,22 +11,26 @@
    "shareLink": "",
    "homepage": "https://www.bbc.com/somali",
    "section": "somalia",
-   "enabled": false,
+   "enabled": true,
    "verified": true,
-   "priority": 80,
+   "priority": 85,
    "feeds": [
     {
      "type": "rss",
      "url": "https://feeds.bbci.co.uk/somali/rss.xml"
-    },
-    {
-     "type": "html",
-     "url": "https://www.bbc.com/somali",
-     "linkPattern": "^https://www\\.bbc\\.com/somali/articles/[a-z0-9]+$"
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect. BBC photos are all rights reserved."
+   "notes": "Restored 2026-11-08 at the owner's request. Headline + link only (headlineOnly). Reports Somalia and world news: Somalia / East Africa stories go to the regional feed, the rest to World News (mixedSections). Photos all rights reserved: never reused.",
+   "fastPoll": true,
+   "mixedSections": true,
+   "headlineOnly": true,
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-08",
+    "terms": "https://www.bbc.co.uk/usingthebbc/terms",
+    "summary": "BBC Somali's own public RSS feed (feeds.bbci.co.uk/somali/rss.xml). BBC content and photos are all rights reserved and Wartabiye TV has no syndication licence: only the feed's headline, link and publication time are used to discover a story. The article page is never scraped; Wartabiye TV writes its own Somali report from facts it verified, names BBC Somali as the source and links to the original. BBC text and photos are never copied, translated or republished, and a headline is never attributed to BBC unless it is in BBC's own feed."
+   }
   },
   {
    "id": "voa-somali",
@@ -55,7 +59,7 @@
     }
    ],
    "imagePolicy": "public-domain-unless-agency",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect. VOA staff photos are US government work (public domain); agency photos (AP, Reuters, AFP) on VOA pages are not. Its official RSS feeds (voasomali.com/rssfeeds) have not been updated since March 2025, so the collector reads the public homepage."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "hiiraan",
@@ -74,7 +78,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "garoweonline",
@@ -97,7 +101,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "dawan",
@@ -124,7 +128,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "somaliguardian",
@@ -142,7 +146,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "goobjoog",
@@ -165,7 +169,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect. No RSS feed (goobjoog.com/feed/ answers 404): the collector reads the public homepage; the date comes from the article URL (/YYYY/MM/DD/, date only)."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "radiodalsan",
@@ -191,7 +195,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "horseedmedia",
@@ -209,7 +213,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "sonna",
@@ -232,7 +236,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "REMOVED 2026-11-05 at the owner's request: Somalia-specific source, no longer collected. Its address is refused in tools/east_africa.py, so switching it back on here has no effect. Somali National News Agency: always label it as the state news agency. No RSS feed: the collector reads the public homepage; the date comes from the article dateline."
+   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
   },
   {
    "id": "bbc-africa",
@@ -250,7 +254,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Regional: only stories about the nine East African countries are kept (tools/east_africa.py).",
+   "notes": "Regional: only stories about Somalia and the nine other East African countries are kept (tools/east_africa.py).",
    "fastPoll": true
   },
   {

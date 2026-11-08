@@ -313,9 +313,9 @@ def fetch(args):
         report.append(rep)
         ex = east_africa.excluded_source(s)
         if ex:
-            # owner's rule (5 Nov 2026): never read again, even if switched back on in sources.json or /admin/
+            # an address refused in tools/east_africa.py is never read, even if switched on in sources.json or /admin/
             rep['enabled'] = False; rep['excluded'] = True
-            rep['errors'].append('excluded: ' + ex + ' (East Africa rule, no Somalia sources)'); continue
+            rep['errors'].append('excluded: ' + ex); continue
         if s.get('searchOnly') and s.get('enabled', True):
             rep['errors'].append('no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch'); continue
         if not s.get('enabled', True) or not s.get('feeds'):
@@ -360,7 +360,13 @@ def fetch(args):
             if g.get('dateSource'): it['dateSource'] = g['dateSource']
             if g.get('channelPost'): it['channelPost'] = g['channelPost']
             if g.get('postLabel'): it['postLabel'] = g['postLabel']
+            if s.get('headlineOnly'):
+                # publisher's terms (e.g. BBC Somali): only the feed's headline, link and time are used; the article page,
+                # its text and its photos are never read or kept
+                it['description'] = None; it['image'] = None; it['headlineOnly'] = True; it['dateSource'] = 'publisher RSS feed'
             try:
+                if s.get('headlineOnly'):
+                    raise PermissionError('article page not opened: headline and link only (publisher terms)')
                 if rep.get('_telegram'):
                     # the publisher's own site refuses automated readers (403): the official channel post is the source
                     raise PermissionError('article page not opened: the publisher site refuses automated readers; text from its official channel post')
@@ -679,7 +685,7 @@ def dedup(args):
 def pub(x):
     return {k: x.get(k) for k in ('source', 'sourceName', 'section', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
                                   'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel',
-                                  'country', 'region', 'discoveredAt', 'firstSeenBy', 'overnight', 'pagePublishedAt') if x.get(k) not in (None, '')}
+                                  'country', 'region', 'discoveredAt', 'firstSeenBy', 'overnight', 'pagePublishedAt', 'headlineOnly') if x.get(k) not in (None, '')}
 
 
 # ---------------------------------------------------------------- report / status
@@ -706,7 +712,7 @@ def report(args):
     L.append('')
     exc = [r for r in p['rejected'] if r['why'] == 'excluded']
     nfetch = sum(len(s.get('excludedItems') or []) for s in p['sources'])
-    L.append(f'EXCLUDED BY THE EAST AFRICA RULE (Somalia sources / Somalia-focused / not East African / not news): {len(exc) + nfetch}')
+    L.append(f'EXCLUDED BY THE REGIONAL RULE (not about Somalia or East Africa / not news / refused address): {len(exc) + nfetch}')
     for r in exc: L.append(f"  - [{r['sourceName']}] {r['title'][:90]}\n      {r.get('detail', '')}")
     for s in p['sources']:
         for e in s.get('excludedItems') or []: L.append(f"  - [{s['name']}] {e[:200]}")

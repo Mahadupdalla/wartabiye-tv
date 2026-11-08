@@ -1,5 +1,5 @@
 name: 'Ilaha wararka – ururin (East Africa, World, Sports news sources)'
-# Reads EVERY news source in data/world/sources.json (East Africa, World News, Sports; Somalia sources are excluded by tools/east_africa.py) EVERY HOUR, 24/7,
+# Reads EVERY news source in data/world/sources.json (Somalia & East Africa, World News, Sports; tools/east_africa.py sorts them into sections) EVERY HOUR, 24/7,
 # shortly before each hourly Claude news update (about :08 past every hour, Africa/Nairobi) (GitHub may start it some minutes late): RSS / news sitemap / public pages / official Telegram channel only, robots.txt respected. It
 # publishes NOTHING: it removes duplicate stories, checks the publisher photos, and saves the candidate list on branch
 # "world-feed". The Claude news task reads that list, writes the Somali stories and translations, finds licensed photos
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0   # full history: deleted / unpublished articles are never brought back
-      - name: East Africa rule tests (no Somalia sources or Somalia-focused articles)
+      - name: Regional rule tests (Somalia & East Africa sections)
         run: python3 tools/east_africa.py test
       - name: Read all news sources (East Africa, World, Sports)
         # the last 3 hours only (owner's freshness rule: nothing older than 2 hours is published as new)
