@@ -29,12 +29,14 @@ const fs = require('fs');
       const r = await p.evaluate(() => {
         const cards = new Set([...document.querySelectorAll('#homeView a[href^="#war-"]')].map(a => a.getAttribute('href'))).size;
         return { lang: document.documentElement.lang, dir: document.documentElement.dir, nav: [...document.querySelectorAll('#links a')].map(a => a.textContent).join(' | '),
-          lead: (document.querySelector('.tile.big h2') || {}).textContent, cards, overflow: document.documentElement.scrollWidth > innerWidth,
+          lead: (document.querySelector('.tile.big h2') || {}).textContent, cards, gap: (document.querySelector('.trgap') || {}).textContent || '', overflow: document.documentElement.scrollWidth > innerWidth,
           latest: document.getElementById('listTitle').textContent, footer: document.querySelector('.fbot').innerText.replace(/\s+/g, ' ') };
       });
       console.log(name, lang, JSON.stringify(r));
       if (r.lang !== lang || r.dir !== LANGS[lang]) fail(`${name} ${lang}: html lang/dir is ${r.lang}/${r.dir}`);
-      if (r.cards !== soCards) fail(`${name} ${lang}: ${r.cards} articles shown, Somali shows ${soCards}`);
+      // an article not yet translated into this language is left out of its lists on purpose; the page must then say so
+      // ("N articles are not translated yet", with a button to read them in Somali)
+      if (r.cards > soCards || (r.cards < soCards && !r.gap)) fail(`${name} ${lang}: ${r.cards} articles shown, Somali shows ${soCards}${r.gap ? '' : ', and no "not translated yet" notice'}`);
       if (r.overflow) fail(`${name} ${lang}: page scrolls sideways`);
       const leadItem = news.find(n => n.title === r.lead || (n[lang] && n[lang].title === r.lead));
       if (!leadItem) fail(`${name} ${lang}: lead headline not found in news.json`);
