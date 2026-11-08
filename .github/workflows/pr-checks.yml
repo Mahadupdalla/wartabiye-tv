@@ -70,8 +70,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           N: ${{ github.event.pull_request.number }}
         run: |
-          gh api --paginate "repos/${GITHUB_REPOSITORY}/pulls/$N/files?per_page=100" | jq -s 'add' > /tmp/files.json
-          python3 tools/pr_risk.py classify /tmp/files.json | tee /tmp/risk.json
+          set -o pipefail
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/pulls/$N/files?per_page=100" | jq -s 'add' > /tmp/files.json || echo '[]' > /tmp/files.json
+          # if the rules cannot run (or the file list cannot be read), the pull request is treated as SENSITIVE
+          if ! python3 tools/pr_risk.py classify /tmp/files.json > /tmp/risk.json || ! jq -e '.risk == "low" or .risk == "sensitive"' /tmp/risk.json >/dev/null; then
+            echo '{"risk":"sensitive","reasons":["the risk check could not run, so the owner decides"]}' > /tmp/risk.json
+          fi
+          cat /tmp/risk.json
           echo "risk=$(jq -r .risk /tmp/risk.json)" >> "$GITHUB_OUTPUT"
           {
             echo "## Risk: $(jq -r .risk /tmp/risk.json)"
