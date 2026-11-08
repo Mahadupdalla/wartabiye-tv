@@ -1,12 +1,12 @@
-name: Muuqaal iyo wararka tooska (live feeds, every 5 minutes)
-# Every 5 minutes (GitHub may start it a few minutes late): newest videos from the publishers' official YouTube channels
-# (only when the publisher allows embedding) and the latest headlines from the newsrooms' official RSS feeds, as set in
-# /admin/ → Ilaha muuqaalka iyo wararka tooska (data/media-sources.json). Runs in GitHub Actions; no Claude run needed.
-# Output goes to the branch "live-data" (read by the site from raw.githubusercontent.com, so no GitHub Pages rebuild is
-# needed every 5 minutes) and, about once an hour, a copy to data/live-feeds/ on main as a fallback.
+name: Muuqaal iyo wararka tooska (live feeds)
+# Newest videos from the publishers' official YouTube channels (only when the publisher allows embedding) and the latest
+# headlines from the newsrooms' official RSS feeds, as set in /admin/ → Ilaha muuqaalka iyo wararka tooska
+# (data/media-sources.json). No Claude run needed.
+# The regular 5-minute updates, 24/7, are done by the ONE source-check loop (fast-sources.yml → tools/fast_loop.sh →
+# tools/live_feeds_cycle.sh). GitHub's own "*/5" schedule did not fire on this repository, which left the LIVE News
+# sources stale (last update 23:09 on 8 Nov 2026), so this workflow no longer has a timer: it runs when its settings or
+# code change on main, or when started by hand.
 on:
-  schedule:
-    - cron: '*/5 * * * *'
   workflow_dispatch:
   push:
     branches: [main]
@@ -22,39 +22,8 @@ jobs:
     timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
-      - name: Previous data
-        run: |
-          mkdir -p out
-          git fetch -q --depth=1 origin live-data 2>/dev/null && git --work-tree=out checkout FETCH_HEAD -- . 2>/dev/null || echo "first run"
-          git reset -q
-          ls out || true
-      - name: Fetch official feeds
-        run: python3 tools/live_feeds.py out
-      - name: Publish to the live-data branch
-        run: |
-          cd out
-          git init -q -b live-data
-          git config user.name "wartabiye-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add video-feed.json live-wire.json feeds-status.json
-          git commit -q -m "Live feeds $(date -u +%FT%TZ)"
-          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" live-data
-      - name: Hourly copy on the website itself (fallback)
-        id: copy
-        run: |
-          mkdir -p data/live-feeds
-          age=$(python3 -c "import json,datetime as D;t=json.load(open('data/live-feeds/feeds-status.json'))['checkedAt'];print(int((D.datetime.now(D.timezone.utc)-D.datetime.fromisoformat(t.replace('Z','+00:00'))).total_seconds()))" 2>/dev/null || echo 999999)
-          if [ "$age" -lt 3300 ]; then echo "copied ${age}s ago, next copy within the hour"; exit 0; fi
-          cp out/video-feed.json out/live-wire.json out/feeds-status.json data/live-feeds/
-          git add data/live-feeds
-          git diff --cached --quiet && exit 0
-          git config user.name "wartabiye-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -q -m "Muuqaal iyo wararka tooska: nuqul saacadle ah"
-          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
-          echo "changed=1" >> "$GITHUB_OUTPUT"
-      - name: Publish the copy on GitHub Pages
-        if: steps.copy.outputs.changed == '1'
+      - name: Update the live feeds (branch live-data, hourly copy on main)
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" -q .status || true
+          REPO: ${{ github.repository }}
+        run: cp tools/live_feeds_cycle.sh /tmp/c.sh && bash /tmp/c.sh

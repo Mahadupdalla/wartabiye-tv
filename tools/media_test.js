@@ -184,9 +184,12 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     await p.screenshot({ path: `${out}/media-${name}-wire.png`, fullPage: name === 'desktop' });
     await go(p, 'ilaha-xaaladda'); if (!/BBC Somali/.test((await st(p)).text)) fail(`${name}: source health page`);
     await ctx.close();
-    // an old wire file (2 hours): a clear warning
+    // an old wire file (2 hours): visitors see NO technical status or stale warning (owner's decision, 8 Nov 2026); the
+    // delay is reported only in /admin/ and the Actions logs. The headlines still show, with their real times.
     ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { ld: LD(2 * 3600e3) }); p = await ctx.newPage();
-    await go(p, 'wararka-tooska'); await p.waitForTimeout(800); if (!(await p.$('#pageView .wirebox .lnwarn'))) fail(`${name}: stale wire warning`); await ctx.close();
+    await go(p, 'wararka-tooska'); await p.waitForTimeout(800);
+    if (await p.$('#pageView .lnwarn, #pageView .lnstatus, #pageView .wirest, #pageView .lndot')) fail(`${name}: public source-status block is still shown`);
+    if (!(await p.$$('#pageView .wirebox .lntl li')).length) fail(`${name}: headlines missing with an old wire file`); await ctx.close();
 
     // 3. LIVE TV states
     const cases = [

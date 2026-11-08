@@ -51,13 +51,17 @@ const go = async (p, hash, wait = 5000) => { await p.goto(SITE + '?cb=' + Date.n
     // LIVE News
     await go(p, 'wararka-tooska');
     const wire = await p.$$eval('#pageView .wirebox .lntl li', l => l.map(x => ({ t: x.innerText.replace(/\s+/g, ' ').slice(0, 140), href: (x.querySelector('a[href^="https://"]') || {}).href || '' })));
-    const status = await p.$eval('#pageView .wirest', e => e.innerText.replace(/\s+/g, ' ')).catch(() => '');
+    // the source-check time is no longer shown to visitors: read it from the data file itself (a real check, not a timer)
+    const wd = await p.evaluate(() => fetch('https://raw.githubusercontent.com/Mahadupdalla/wartabiye-tv/live-data/live-wire.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).catch(() => null));
+    const ageMin = wd && wd.updatedAt ? (Date.now() - new Date(wd.updatedAt).getTime()) / 60000 : 1e9;
+    const status = `wire checked ${wd && wd.updatedAt} (${Math.round(ageMin)} min ago)`;
+    if (await p.$('#pageView .lnwarn, #pageView .lnstatus, #pageView .wirest')) fail(`${name}: public source-status block is still shown`);
     const chans = await p.$$eval('#pageView .lchans .lccard h3', h => h.map(x => x.textContent));
     console.log(`${name} LIVE News: ${wire.length} headlines | ${status} | live channels: ${chans.join(', ')}`);
     wire.slice(0, 8).forEach(w => console.log('   ', w.t, '->', w.href));
     await p.screenshot({ path: `${OUT}/${name}-live-news.png` });
     if (wire.length < 5 || wire.slice(0, 5).some(w => !w.href)) fail(`${name}: LIVE News has fewer than 5 linked headlines`);
-    if (/lnwarn/.test(await p.$eval('#pageView .wirest', e => e.innerHTML).catch(() => ''))) fail(`${name}: LIVE News data is stale`);
+    if (ageMin > 30) fail(`${name}: LIVE News data is stale (${Math.round(ageMin)} min since the last source check)`);
     if (chans.length) {
       await p.click('#pageView .lcplay'); await p.waitForTimeout(4000);
       const lf = await p.$$eval('#pageView .lchans iframe', f => f.map(x => x.src));
