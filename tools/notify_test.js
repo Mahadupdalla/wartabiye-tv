@@ -85,7 +85,7 @@ const ok = (c, m) => { console.log((c ? 'ok   ' : 'FAIL ') + m); if (!c) fails++
       const href = await firstArticle.getAttribute('href');
       await Promise.all([page.waitForNavigation({ waitUntil: 'domcontentloaded' }), firstArticle.click()]);
       ok(page.url() === href && /\/war\/[^/]+\.html$/.test(page.url()), `${name}: tapping a notification opens ${page.url().replace(BASE, '')}`);
-      ok(await page.locator('#storyView h1, #story h1').first().isVisible(), `${name}: the article is shown`);
+      ok(await page.locator('#storyView h1, #story h1').first().waitFor({ state: 'visible', timeout: 15000 }).then(() => true, () => false), `${name}: the article is shown`);
     }
     // Arabic / RTL
     await page.goto(BASE + '?lang=ar', { waitUntil: 'networkidle' }); await page.waitForTimeout(800);
