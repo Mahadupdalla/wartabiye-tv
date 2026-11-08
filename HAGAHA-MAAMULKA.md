@@ -69,7 +69,7 @@ Booqdayaashu waxay luqadda ka doortaan badhanka calanka leh ee **midigta sare**.
 - **War kasta** wuxuu leeyahay siddeed qaybood oo laalaab ah oo hoose: 🇬🇧 English, 🇸🇦 العربية, 🇫🇷 Français, 🇳🇱 Nederlands, 🇮🇹 Italiano, 🇩🇪 Deutsch, 🇹🇷 Türkçe, 🇪🇸 Español. Fur, beddel cinwaanka/soo koobidda/qoraalka, kadibna **Save**.
 - Marka aad saxdo turjumaad otomaatig ah, **Xaaladda** u beddel **Gacan**. Bogga wuxuu ka saarayaa calaamadda "si otomaatig ah ayaa loo turjumay".
 - **Eeg luqad kasta:** editor-ka ⋮ → **View on Live Site** wuxuu furaa warka bogga (xitaa qabyo), kadibna luqadda ka beddel midigta sare. Ama ku dar `?lang=en`, `?lang=ar`, `?lang=fr`, `?lang=nl`, `?lang=it`, `?lang=de`, `?lang=tr`, `?lang=es` link-ga bogga.
-- **Hawsha 08:00 / 18:00** waxay turjuntaa wararka cusub (Claude ayaa turjuma, adeeg lacag ah lama isticmaalo). Kaliya waxay buuxisaa turjumaad **maqan**; waligeed ma beddesho turjumaad jirta ama mid aad saxday. Si ay mar kale u turjunto, faaruqi cinwaanka luqaddaas.
+- **Hawsha wararka (saacad kasta)** waxay turjuntaa wararka cusub (Claude ayaa turjuma, adeeg lacag ah lama isticmaalo). Kaliya waxay buuxisaa turjumaad **maqan**; waligeed ma beddesho turjumaad jirta ama mid aad saxday. Si ay mar kale u turjunto, faaruqi cinwaanka luqaddaas.
 - Haddii war aan weli la turjumin, bogga wuxuu muujinayaa qoraalka Soomaaliga oo leh calaamad cad ("weli lama turjumin").
 - **Dejinta bogga** waxay leedahay qaybo 🇬🇧/🇸🇦/🇫🇷/🇳🇱/🇮🇹/🇩🇪/🇹🇷 ah: magaalada, hal-ku-dhegga, banner-ka, ogeysiiska, barnaamijyada. Menu-ga iyo lixda qaybood si toos ah ayaa loo turjumaa.
 
@@ -94,11 +94,33 @@ Lacag-bixin online ah lama shidin.
 
 Marka aad riixdo **Save**, GitHub ayaa kaydiya. Workflow-ga **"Daabac bogga"** ayaa hubiya (taariikh, sawir, nuqul, xayeysiisyada), sameeya sawirro yaryar (webp), bog gaar ah war kasta (`war/<id>.html`), `sitemap.xml` iyo `rss.xml`, kadibna bogga cusbooneysiiya. Bogga tooska ahi wuxuu isbeddelaa **1–3 daqiiqo** gudahood. Haddii hubintu fashilanto (tusaale sawir maqan), bogga hore sidiisa ayuu ahaanayaa, GitHub-na wuxuu kuu soo diraa email.
 
-## Hawsha 08:00 iyo 18:00
+## Hawsha wararka: saacad kasta
 
-Hawsha socota maalin kasta 08:00 iyo 18:00 (Nairobi) waxay **kaliya ku daraysaa wararka cusub** (fayl cusub mid kasta) iyo turjumaadaha maqan. Waligeed ma beddesho, ma tirtirto, mana dib u qorto war jira, turjumaad jirta ama dejintaada. Sidaas darteed wax-ka-beddelkaaga gacanta waa ammaan. War aad tirtirto ama qabyo ka dhigto dib looma soo celiyo.
+Hawsha Claude waxay hadda socotaa **saacad kasta, 24 saac** (Africa/Nairobi, qiyaastii daqiiqadda :35; jadwalka claude.ai ma ballanqaado daqiiqad sax ah, orod wuu soo daahi karaa). GitHub Actions wuxuu ilaha akhriyaa saacad kasta qiyaastii :05. Orod kasta wuxuu qaadaa oo keliya wararka la daabacay tan iyo cusbooneysiintii u dambeysay ee guulaysatay; haddii aan war cusub oo la hubiyay jirin, wararka jira sidooda ayay ahaanayaan, bogga hore wuxuu muujinayaa waqtiga dhabta ah ee hubintii u dambeysay ("La cusbooneysiiyay: … · Wararka waxaa la hubiyaa saacad kasta").
+
+**Dami saacadlaha:** /admin/ → *Ogeysiisyada: Settings …* → **Jadwalka wararka** → dami "Saacad kasta". Kadib kaliya orodyada 08:00 iyo 18:00 ayaa shaqeeya; kuwa kale isla markiiba way joogsadaan (laakiin weli way bilaabmaan oo wax yar ayay isticmaalaan). Si aad gebi ahaanba u beddesho jadwalka: claude.ai → **Scheduled tasks** → "Wartabiye TV – wararka saacad kasta" → Edit schedule.
+
+**Kharashka Claude:** orod saacad kasta = 24 orod maalintii, halkii 2. Taasi waxay isticmaashaa xadka isticmaalka Claude (usage) ilaa 12 jeer ka badan. Haddii xadka la gaaro, orodyadu way istaagaan ilaa xadku dib u furmo (sidii 6 Nofembar dhacday).
+
+Hawshu waxay **kaliya ku daraysaa wararka cusub** (fayl cusub mid kasta) iyo turjumaadaha maqan. Waligeed ma beddesho, ma tirtirto, mana dib u qorto war jira, turjumaad jirta ama dejintaada. Sidaas darteed wax-ka-beddelkaaga gacanta waa ammaan. War aad tirtirto ama qabyo ka dhigto dib looma soo celiyo.
 
 **Sugaya sawir:** war aan lahayn sawir u gaar ah oo sharci ah lama daabaco. Wuxuu ku jiraa /admin/ → Wararka → filter-ka **Sugaya sawir**. Si aad u daabacdo: ku dar sawir (iyo cidda leh iyo ruqsadda), dami "Sugaya sawir", shid "La daabacay", kadibna **Save**.
+
+## Ogeysiisyada (gambaleelka 🔔 iyo push)
+
+**Gambaleelka** (madaxa bogga, desktop iyo mobile) wuxuu muujiyaa wararka la daabacay 7-dii maalmood ee u dambeeyay (sawir, cinwaan, waqtiga daabacaadda, link), ogeysiisyadaada gacanta iyo LIVE TV marka baahinta la xaqiijiyo. Tirada cas = inta aan booqdaha akhrin. Booqdaha wuxuu riixi karaa "Dhammaan akhriyay" ama "Nadiifi"; browser-kiisa ayaa xasuusta. Booqde soo noqday wuxuu arkaa hal banner yar oo keliya marka war cusub jiro. Xogta: `data/notifications.json` (waxaa sameeya `tools/build_notifications.py` daabacaad kasta; kaliya warar la daabacay).
+
+**Ogeysiis gacmeed / Degdeg:** /admin/ → **Ogeysiisyada (gambaleelka iyo push)** → New. Dooro warka la daabacay (ama bogga LIVE TV …), shid "U dir push", shid "Degdeg" kaliya war aad muhiim u ah. Save → 2–4 daqiiqo kadib (marka bogga cusub la daabaco) ayaa la dirayaa. Ogeysiis ku xiran war qabyo ah lama dirayo.
+
+**Push (browser):** booqdaha ayaa riixa gambaleelka → "Shid ogeysiisyada" → kaliya markaas browser-ku oggolaansho ayuu weydiiyaa. Wuxuu dooran karaa qaybaha (Bariga Afrika, Caalamka, Ciyaaraha, LIVE TV); Degdeg had iyo jeer. iPhone/iPad: iOS 16.4+, marka hore "Add to Home Screen". Xadka (/admin/ → *Ogeysiisyada: Settings* → **Settings-ka push**): push caadi ah ugu badnaan 6 maalintii, 90 daqiiqo u dhexeeya, saacadaha aamusnaanta 23:00–06:00; Degdeg ugu badnaan 4 maalintii; war ka da' weyn 6 saac lama diro. Daabacaad kasta: Degdeg isla markiiba + ugu badnaan HAL war caadi ah.
+
+**Xaaladda dirista:** /admin/ → *Ogeysiisyada: Settings …* → **Xaaladda dirista** (waxa la diray, inta loo diray, kuwa lama dirin iyo sababta, tirada dadka is-diiwaangeliyay).
+
+**Diyaarinta push (mar kaliya, ~15 daqiiqo, bilaash):** push wuxuu u baahan yahay adeeg yar oo sirta haya (GitHub Pages sir ma qaadi karo):
+1. `workers/push/README.md` raac: Cloudflare (bilaash) → KV → `node make-keys.mjs` → `wrangler secret put VAPID_PRIVATE_JWK` iyo `PUSH_ADMIN_TOKEN` → `wrangler deploy`.
+2. GitHub → repo → Settings → Secrets and variables → Actions → **New repository secret** `PUSH_ADMIN_TOKEN` (isla ereyga sirta ah ee 1).
+3. /admin/ → **Settings-ka push**: geli cinwaanka Worker-ka iyo VAPID public key, shid "Push waa shidan yahay", Save.
+Furaha qarsoon (VAPID_PRIVATE_JWK, PUSH_ADMIN_TOKEN) weligood ha gelin /admin/ ama repo-ga.
 
 ## Kharash
 

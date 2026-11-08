@@ -320,6 +320,6 @@
   // desktop menu that scrolls sideways on narrower screens: fade the edge while more links are hidden
   function navFade(){var l=document.getElementById('links');if(!l)return;var max=l.scrollWidth-l.clientWidth;var x=Math.abs(l.scrollLeft);l.classList.toggle('fade',innerWidth>860&&max>2&&x<max-2)}
   window.WT_MEDIA={init:function(core){C=core;refreshBadge();setInterval(refreshBadge,120000);
-      var l=document.getElementById('links');if(l)l.addEventListener('scroll',navFade,{passive:true});window.addEventListener('resize',navFade);setTimeout(navFade,300)},navFade:navFade,renderVideos:renderVideos,renderLive:renderLive,renderSports:renderSports,homeStrip:homeStrip,refreshBadge:refreshBadge,
+      var l=document.getElementById('links');if(l)l.addEventListener('scroll',navFade,{passive:true});window.addEventListener('resize',navFade);setTimeout(navFade,300)},navFade:navFade,renderVideos:renderVideos,renderLive:renderLive,renderSports:renderSports,homeStrip:homeStrip,refreshBadge:refreshBadge,liveState:liveState,
     _test:{provider:provider,embedSrc:embedSrc}};
 })();
