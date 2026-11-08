@@ -130,7 +130,7 @@ def check_source(s, st, t, log):
     if errors: st['lastError'] = '; '.join(errors)[:600]; st['lastErrorAt'] = iso(t)
     if not listing:
         log.append(f"{s['id']}: not modified"); return []
-    listing = [g for g in listing if not re.search(r'/(video|videos|gallery|live-news|live)/', g.get('url') or '')]
+    listing = [g for g in listing if not re.search(r'/(video|videos|gallery|live-news|live|live-updates)/', g.get('url') or '')]
     dated = [parse(g.get('publishedAt')) for g in listing if g.get('publishedAt')]
     if dated: st['latestPublishedAt'] = iso(max(dated))
     st['feedItems'] = len(listing)
@@ -313,7 +313,7 @@ def alerts_of(state, fast, t, sched):
         if st.get('consecutiveErrors', 0) >= ERRORS_FOR_ALERT:
             out.append(f"{s['name']}: unavailable since {st.get('lastOkAt') or 'the first check'} (feed {st.get('feedUrl') or (s.get('feeds') or [{}])[0].get('url')} does not answer)")
             continue
-        gap = s.get('expectedMaxGapHours')
+        gap = None if s.get('monitorOnly') else s.get('expectedMaxGapHours')   # a source we do not collect: availability only
         lp = parse(st.get('latestPublishedAt'))
         if gap and lp and is_open(t, sched) and t - lp > datetime.timedelta(hours=gap) and (window_start(t, sched) is None or t - window_start(t, sched) > datetime.timedelta(hours=gap)):
             out.append(f"{s['name']}: delayed, no new article in its feed since {iso(lp)} (usual maximum gap {gap} h)")
