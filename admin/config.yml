@@ -1272,7 +1272,7 @@ collections:
     fields:
       - {name: title, label: 'Cinwaanka ogeysiiska', widget: string, hint: 'Gaaban oo cad (ugu badnaan 120 xaraf). Waxba ha ku darin oo aan warka ku jirin.'}
       - {name: message, label: 'Fariinta (ikhtiyaari)', widget: text, required: false}
-      - {name: kind, label: Nooca, widget: select, default: breaking, options: [{label: 'Degdeg (Breaking News)', value: breaking}, {label: 'Bariga Afrika', value: eastAfrica}, {label: Caalamka, value: world}, {label: Ciyaaraha, value: sports}, {label: 'LIVE TV (baahin la oggol yahay)', value: live}]}
+      - {name: kind, label: Nooca, widget: select, default: breaking, options: [{label: 'Degdeg (Breaking News)', value: breaking}, {label: 'Wararka Soomaaliya', value: somalia}, {label: 'Bariga Afrika', value: eastAfrica}, {label: Caalamka, value: world}, {label: Ciyaaraha, value: sports}, {label: 'LIVE TV (baahin la oggol yahay)', value: live}]}
       - name: article
         label: 'Warka uu ogeysiisku furayo'
         hint: 'Dooro war la daabacay. Haddii ogeysiisku yahay LIVE TV ama bog kale, dooro "Bogga" hoose oo halkan madhan ka tag.'
@@ -1363,18 +1363,20 @@ collections:
         format: json
         fields:
           - {name: pushEnabled, label: 'Push waa shidan yahay', widget: boolean, default: false, hint: 'Dami si aad u joojiso dhammaan push-ka (gambaleelka bogga wuu sii shaqeynayaa).'}
-          - {name: workerUrl, label: 'Cinwaanka adeegga push (Cloudflare Worker)', widget: string, required: false, hint: 'Tusaale: https://wartabiye-push.<magacaaga>.workers.dev (eeg workers/push/README.md).'}
-          - {name: publicKey, label: 'VAPID public key (furaha guud, sir ma aha)', widget: string, required: false, hint: 'Waxaa sameeya `node workers/push/make-keys.mjs`. Furaha QARSOON halkan ha gelin.'}
+          - {name: workerUrl, label: 'Cinwaanka adeegga push (Cloudflare Worker)', widget: string, required: false, hint: 'Waxaa si toos ah u qora GitHub workflow-ga "Push: deploy" (eeg workers/push/README.md). Tusaale: https://wartabiye-push.<magacaaga>.workers.dev (eeg workers/push/README.md).'}
+          - {name: publicKey, label: 'VAPID public key (furaha guud, sir ma aha)', widget: string, required: false, hint: 'Waxaa si toos ah u qora workflow-ga "Push: deploy". Furaha QARSOON halkan ha gelin.'}
           - name: categories
             label: 'Qaybaha la diri karo'
             widget: object
             fields:
               - {name: breaking, label: 'Degdeg (Breaking News)', widget: boolean, default: true}
+              - {name: somalia, label: 'Wararka Soomaaliya', widget: boolean, default: true}
               - {name: eastAfrica, label: 'Bariga Afrika', widget: boolean, default: true}
               - {name: world, label: Caalamka, widget: boolean, default: true}
               - {name: sports, label: Ciyaaraha, widget: boolean, default: true}
               - {name: live, label: 'LIVE TV (marka baahinta la xaqiijiyo)', widget: boolean, default: true}
           - {name: maxRoutinePerDay, label: 'Push caadi ah: ugu badnaan maalintii', widget: number, value_type: int, min: 0, max: 24, default: 6}
+          - {name: maxPerUpdate, label: 'Ugu badnaan wararka hal mar la diro (All News)', widget: number, value_type: int, min: 1, max: 20, default: 10, hint: 'Kuwa doortay "War kasta": ilaa 3 war si gaar ah, inta kale hal ogeysiis oo kooban. Kuwa doortay "Kooban" ama "Kaliya muhiimka" waxay helaan ka yar.'}
           - {name: minMinutesBetweenRoutine, label: 'Push caadi ah: ugu yaraan daqiiqado u dhexeeya', widget: number, value_type: int, min: 30, max: 1440, default: 90}
           - {name: maxBreakingPerDay, label: 'Degdeg: ugu badnaan maalintii', widget: number, value_type: int, min: 0, max: 12, default: 4}
           - {name: maxAgeHours, label: 'War ka da''weyn (saacado) push looma diro', widget: number, value_type: int, min: 1, max: 24, default: 6}
@@ -1407,6 +1409,17 @@ collections:
               - {name: sent, label: 'Ogeysiisyo la diray', widget: number, required: false}
               - {name: pushEnabled, label: 'Push wuu shidnaa', widget: boolean, required: false}
               - {name: configured, label: 'Adeegga iyo furaha waa diyaar', widget: boolean, required: false}
+              - name: delivery
+                label: 'Natiijada dirista'
+                widget: object
+                required: false
+                fields:
+                  - {name: ok, label: 'Wuu shaqeeyay', widget: boolean, required: false}
+                  - {name: sent, label: 'La gaarsiiyay', widget: number, required: false}
+                  - {name: failed, label: Fashilmay, widget: number, required: false}
+                  - {name: removed, label: 'La tirtiray (dhacay)', widget: number, required: false}
+                  - {name: error, label: Khalad, widget: string, required: false}
+                  - {name: errors, label: 'Khaladaadka (koodhka: tirada)', widget: string, required: false}
               - name: skipped
                 label: 'Lama dirin (sababta)'
                 widget: list
@@ -1422,10 +1435,33 @@ collections:
             fields:
               - {name: total, label: Wadar, widget: number, required: false}
               - {name: breaking, label: Degdeg, widget: number, required: false}
+              - {name: somalia, label: 'Wararka Soomaaliya', widget: number, required: false}
               - {name: eastAfrica, label: 'Bariga Afrika', widget: number, required: false}
               - {name: world, label: Caalamka, widget: number, required: false}
               - {name: sports, label: Ciyaaraha, widget: number, required: false}
               - {name: live, label: 'LIVE TV', widget: number, required: false}
+              - name: frequencies
+                label: 'Inta jeer ee ay doorteen'
+                widget: object
+                required: false
+                fields:
+                  - {name: all, label: 'War kasta', widget: number, required: false}
+                  - {name: digest, label: 'Kooban (hal ogeysiis)', widget: number, required: false}
+                  - {name: top, label: 'Kaliya muhiimka', widget: number, required: false}
+              - {name: languages, label: 'Luqadaha (tirada)', widget: string, required: false}
+          - name: recentRuns
+            label: 'Natiijada dirista (30kii u dambeeyay, adeegga push)'
+            widget: list
+            required: false
+            summary: '{{fields.at}} · la gaarsiiyay {{fields.sent}} · fashilmay {{fields.failed}} · la tirtiray {{fields.removed}}'
+            fields:
+              - {name: at, label: Waqtiga, widget: string}
+              - {name: sent, label: 'La gaarsiiyay', widget: number, required: false}
+              - {name: failed, label: Fashilmay, widget: number, required: false}
+              - {name: removed, label: 'Isdiiwaangelin dhacday (la tirtiray)', widget: number, required: false}
+              - {name: matched, label: 'Dadka ku habboon', widget: number, required: false}
+              - {name: messages, label: 'Ogeysiisyo', widget: number, required: false}
+              - {name: titles, label: Cinwaanada, widget: string, required: false}
           - name: sent
             label: 'Ogeysiisyadii la diray (100 kii u dambeeyay)'
             widget: list

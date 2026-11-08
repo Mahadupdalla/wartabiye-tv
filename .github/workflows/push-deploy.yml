@@ -1,0 +1,118 @@
+name: 'Push: deploy the notification service (Cloudflare)'
+# Run by hand once (Actions -> "Push: deploy ..." -> Run workflow), and again after changing workers/push/.
+# It deploys the push Worker (workers/push) to YOUR Cloudflare account, creates its storage (Workers KV) and, the first
+# time only, its VAPID key pair. The private key goes straight into the Worker as a Cloudflare secret: it is never
+# printed, never committed and never on the public site. Then it writes the Worker address and the PUBLIC key into
+# data/notify-settings.json, which switches on the "Enable notifications" button in the bell.
+# Needs two repository secrets (Settings -> Secrets and variables -> Actions):
+#   CLOUDFLARE_API_TOKEN   a Cloudflare API token made from the "Edit Cloudflare Workers" template
+#   CLOUDFLARE_ACCOUNT_ID  your Cloudflare account id (Cloudflare dashboard -> Workers & Pages, right-hand side)
+# No password is shared with GitHub: the publish workflow proves who it is with GitHub's own OIDC token.
+on:
+  workflow_dispatch:
+    inputs:
+      new_keys:
+        description: 'Make NEW VAPID keys (every current subscriber must subscribe again). Leave "no".'
+        required: false
+        default: 'no'
+        type: choice
+        options: ['no', 'yes']
+permissions:
+  contents: write
+  id-token: write
+concurrency:
+  group: push-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      WRANGLER_SEND_METRICS: 'false'
+    defaults:
+      run:
+        working-directory: workers/push
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check the Cloudflare secrets are set
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::Add the repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID first (see workers/push/README.md)."; exit 1
+          fi
+      - name: Test the push service (no network)
+        run: node --test test/worker.test.mjs
+      - name: Storage for the subscriptions (Workers KV, created once)
+        run: |
+          find_id() { npx -y wrangler@3 kv namespace list 2>/dev/null | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const a=JSON.parse(s.slice(s.indexOf("[")));const n=a.find(x=>x.title==="wartabiye-push-SUBS");console.log(n?n.id:"")}catch(e){console.log("")}})'; }
+          id=$(find_id)
+          if [ -z "$id" ]; then npx -y wrangler@3 kv namespace create SUBS; id=$(find_id); fi
+          [ -n "$id" ] || { echo "::error::Could not create or find the KV namespace wartabiye-push-SUBS"; exit 1; }
+          sed -i "s/PASTE_KV_NAMESPACE_ID_HERE/$id/" wrangler.toml
+          echo "KV namespace $id"
+      - name: Deploy the Worker
+        id: deploy
+        run: |
+          npx -y wrangler@3 deploy --var "GITHUB_REPO:${GITHUB_REPOSITORY}" 2>&1 | tee "$RUNNER_TEMP/deploy.txt"
+          url=$(grep -oE 'https://[A-Za-z0-9.-]+\.workers\.dev' "$RUNNER_TEMP/deploy.txt" | head -1)
+          if [ -z "$url" ]; then
+            echo "::error::No workers.dev address. Open the Cloudflare dashboard -> Workers & Pages once and choose your free workers.dev subdomain, then run this workflow again."; exit 1
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"; echo "Worker: $url"
+      - name: VAPID keys (made once; the private key goes only into the Worker)
+        env:
+          NEW_KEYS: ${{ inputs.new_keys }}
+        run: |
+          have=$(npx -y wrangler@3 secret list 2>/dev/null | grep -c '"VAPID_PRIVATE_JWK"' || true)
+          if [ "$have" != "0" ] && [ "$NEW_KEYS" != "yes" ]; then echo "VAPID keys already exist: kept (subscribers stay subscribed)"; exit 0; fi
+          umask 077
+          node -e '
+            const { subtle } = globalThis.crypto;
+            (async () => {
+              const kp = await subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign", "verify"]);
+              const j = await subtle.exportKey("jwk", kp.privateKey);
+              const pub = Buffer.from(await subtle.exportKey("raw", kp.publicKey)).toString("base64url");
+              require("fs").writeFileSync(process.env.RUNNER_TEMP + "/vapid.json", JSON.stringify({ VAPID_PUBLIC_KEY: pub, VAPID_PRIVATE_JWK: JSON.stringify({ kty: "EC", crv: "P-256", x: j.x, y: j.y, d: j.d }) }));
+            })();'
+          npx -y wrangler@3 secret bulk "$RUNNER_TEMP/vapid.json"
+          shred -u "$RUNNER_TEMP/vapid.json" 2>/dev/null || rm -f "$RUNNER_TEMP/vapid.json"
+          echo "new VAPID keys stored in the Worker"
+      - name: Check the service answers, and that this repository is allowed to send
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          for i in 1 2 3 4 5 6; do curl -fsS "$URL/v1/health" | tee "$RUNNER_TEMP/h.json" && grep -q '"configured":true' "$RUNNER_TEMP/h.json" && break; sleep 10; done
+          grep -q '"configured":true' "$RUNNER_TEMP/h.json" || { echo "::error::The Worker is not configured"; exit 1; }
+          curl -fsS "$URL/v1/key" > "$RUNNER_TEMP/key.json"
+          tok=$(curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=wartabiye-push" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).value))')
+          echo "::add-mask::$tok"
+          curl -fsS -H "Authorization: Bearer $tok" "$URL/v1/stats" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const j=JSON.parse(s);if(!j.ok)process.exit(1);console.log("subscribers:",JSON.stringify(j.subscribers))})'
+          # a wrong caller is refused
+          code=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer not-a-token" "$URL/v1/stats"); [ "$code" = 401 ] || { echo "::error::stats answered $code without a valid token"; exit 1; }
+          echo "push service OK"
+      - name: Save the Worker address and the public key in /admin/ settings (switches the bell's button on)
+        working-directory: .
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          p = 'data/notify-settings.json'
+          s = json.load(open(p, encoding='utf-8'))
+          key = json.load(open(os.environ['RUNNER_TEMP'] + '/key.json'))['publicKey']
+          first = not s.get('workerUrl')
+          s['workerUrl'], s['publicKey'] = os.environ['URL'] + '/', key
+          if first: s['pushEnabled'] = True   # the first deploy switches push on; later the owner's choice in /admin/ is kept
+          json.dump(s, open(p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1); open(p, 'a').write('\n')
+          print('workerUrl', s['workerUrl'], '| pushEnabled', s['pushEnabled'])
+          PY
+          git diff --quiet -- data/notify-settings.json && { echo "settings unchanged"; exit 0; }
+          git config user.name "wartabiye-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/notify-settings.json && git commit -q -m "Ogeysiisyada: adeegga push waa diyaar"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done

@@ -22,7 +22,7 @@ from translations import LANGS  # noqa: E402
 
 FEED_DAYS = 7
 MAX_ITEMS = 40
-KINDS = ('breaking', 'eastAfrica', 'world', 'sports', 'live')
+KINDS = ('breaking', 'somalia', 'eastAfrica', 'world', 'sports', 'live')
 PAGES = {'toos': 'toos/', 'ciyaaraha-toos': 'ciyaaraha-toos/', 'muuqaal': 'muuqaal/', 'ciyaaraha': 'ciyaaraha/', 'caalamka': 'caalamka/', 'hoyga': ''}
 BREAK_HOURS = 12  # the site shows "Degdeg" for 12 hours (assets/app.js BREAK_MS)
 EAT = datetime.timezone(datetime.timedelta(hours=3))
@@ -46,7 +46,10 @@ def kind_of(n, now):
     s = n.get('section')
     if s == 'sports' or (not s and n.get('category') == 'Ciyaaraha'): return 'sports'
     if s == 'world' and n.get('region') != 'east-africa' or (not s and n.get('category') == 'Adduunka'): return 'world'
-    return 'eastAfrica'  # the regional feed (internal section "somalia" = East Africa)
+    # the regional feed (internal section "somalia"): a story with an East African country (or region) is East Africa,
+    # the owner's own Somali stories (no country) are Somalia News
+    if n.get('country') or n.get('region') == 'east-africa': return 'eastAfrica'
+    return 'somalia'
 
 
 def short(s, n=160):
@@ -68,9 +71,7 @@ def article_item(n, now):
     img = n.get('thumb') or n.get('image')
     return {'id': 'n-' + n['id'], 'kind': kind_of(n, now), 'title': n['title'][:160], 'summary': short(n.get('summary')),
             't': texts(n), 'url': 'war/' + n['id'] + '.html', 'thumb': img if img and str(img).startswith('img/') else None,
-            'time': n['publishedAt'], 'important': bool(n.get('important') or n.get('breaking')), 'article': n['id'],
-            # the regional feed also holds the owner's own (older) Somali articles: those are labelled "News", not "East Africa"
-            **({'tag': 'news'} if kind_of(n, now) == 'eastAfrica' and not n.get('country') and n.get('region') != 'east-africa' else {})}
+            'time': n['publishedAt'], 'important': bool(n.get('important') or n.get('breaking')), 'article': n['id']}
 
 
 def alert_item(a, news_by_id, now, problems):
@@ -152,7 +153,7 @@ def test():
     now = datetime.datetime(2026, 11, 8, 12, 0, tzinfo=EAT)
     n = lambda i, h, **k: {'id': i, 'title': 'T ' + i, 'summary': 'S', 'publishedAt': iso(now - datetime.timedelta(hours=h)), 'image': f'img/news/{i}.jpg', **k}
     news = [n('a', 1, section='sports'), n('b', 2, breaking=True), n('c', 30, breaking=True, section='world'), n('d', 3, section='somalia', country='ke'),
-            n('e', 24 * 8), n('f', 4, section='world', en={'title': 'F en', 'summary': 'x'})]
+            n('e', 24 * 8), n('f', 4, section='world', en={'title': 'F en', 'summary': 'x'}), n('s', 5, section='somalia')]
     alerts = [{'id': 'x1', 'title': 'Alert', 'message': 'm', 'article': 'a', 'publishedAt': iso(now), 'kind': 'breaking', 'urgent': True},
               {'id': 'x2', 'title': 'Draft link', 'article': 'zzz', 'publishedAt': iso(now)},
               {'id': 'x3', 'title': 'Live', 'page': 'toos', 'publishedAt': iso(now), 'kind': 'live'},
@@ -164,7 +165,7 @@ def test():
     assert 'm-x2' not in ids and any('zzz' in p for p in probs), 'alert to an unpublished article is refused'
     assert 'm-x4' not in ids and 'm-x5' not in ids, 'draft and future alerts stay out'
     k = {i['id']: i['kind'] for i in out['items']}
-    assert k['n-a'] == 'sports' and k['n-b'] == 'breaking' and k['n-c'] == 'world' and k['n-d'] == 'eastAfrica', k
+    assert k['n-a'] == 'sports' and k['n-b'] == 'breaking' and k['n-c'] == 'world' and k['n-d'] == 'eastAfrica' and k['n-s'] == 'somalia', k
     assert all(i['url'].startswith(('war/', 'toos/')) for i in out['items'])
     f = next(i for i in out['items'] if i['id'] == 'n-f'); assert f['t']['en']['title'] == 'F en'
     assert next(i for i in out['items'] if i['id'] == 'n-a')['addedAt'] == next(i for i in out['items'] if i['id'] == 'n-a')['time'], 'first feed: addedAt = publication time'
