@@ -696,6 +696,50 @@ collections:
               - {name: duplicatesRemoved, label: Nuqul, widget: number, required: false}
               - {name: published, label: 'La daabacay', widget: number, required: false}
               - {name: pendingImage, label: 'Sugaya sawir', widget: number, required: false}
+      - name: fast
+        label: 'Ilaha degdegga ah: 5 daqiiqo (waxaa qora kormeeraha, ha beddelin)'
+        file: data/world/fast-status.json
+        format: json
+        fields:
+          - {name: updatedAt, label: 'La cusbooneysiiyay (nuqulka maamulka, qiyaas saacaddii mar)', widget: string, required: false}
+          - {name: lastCheckAt, label: 'Hubintii u dambeysay', widget: string, required: false}
+          - {name: operatingHours, label: 'Saacadaha shaqada (Africa/Nairobi)', widget: string, required: false}
+          - {name: alerts, label: 'Digniinaha (isha ma shaqeyso / way daahday)', widget: list, required: false}
+          - name: measuredIntervalMin
+            label: 'Muddada dhabta ah ee u dhaxeysa hubinnada (daqiiqo)'
+            widget: object
+            required: false
+            fields:
+              - {name: median, label: Dhexdhexaad, widget: number, value_type: float, required: false}
+              - {name: max, label: 'Ugu badnaan', widget: number, value_type: float, required: false}
+          - name: delays24h
+            label: 'Dib-u-dhaca 24-kii saacadood (daqiiqo)'
+            widget: object
+            required: false
+            fields:
+              - {name: medianDiscoveryMin, label: 'Isha → la helay', widget: number, value_type: float, required: false}
+              - {name: medianLiveMin, label: 'Isha → bogga Wartabiye', widget: number, value_type: float, required: false}
+              - {name: medianDiscoveryToLiveMin, label: 'La helay → bogga', widget: number, value_type: float, required: false}
+          - name: sources
+            label: Ilaha
+            widget: list
+            required: false
+            summary: '{{fields.name}}: {{fields.state}} · {{fields.permission}} · 24h: {{fields.new24h}} cusub, {{fields.published24h}} la daabacay, {{fields.held24h}} sugaya'
+            fields:
+              - {name: name, label: Isha, widget: string}
+              - {name: state, label: Xaaladda, widget: string, required: false}
+              - {name: permission, label: Ogolaansho, widget: string, required: false}
+              - {name: pollMinutes, label: 'Hubin kasta (daqiiqo)', widget: number, required: false}
+              - {name: lastSuccessAt, label: 'Hubintii u dambeysay ee guulaysatay', widget: string, required: false}
+              - {name: latestOriginalPublishedAt, label: 'Warkii ugu dambeeyay ee isha (waqtigiisa asalka)', widget: string, required: false}
+              - {name: lastDiscoveredAt, label: 'Goorta war cusub ugu dambeysay la helay', widget: string, required: false}
+              - {name: lastSitePublishedAt, label: 'Goorta ugu dambeysay ee Wartabiye lagu daabacay', widget: string, required: false}
+              - {name: new24h, label: 'Warar cusub (24h)', widget: number, required: false}
+              - {name: published24h, label: 'La daabacay (24h)', widget: number, required: false}
+              - {name: held24h, label: 'Sugaya dib-u-eegis / sawir (24h)', widget: number, required: false}
+              - {name: medianDiscoveryDelayMin, label: 'Dib-u-dhaca helitaanka (daqiiqo)', widget: number, value_type: float, required: false}
+              - {name: medianLiveDelayMin, label: 'Dib-u-dhaca daabacaadda (daqiiqo)', widget: number, value_type: float, required: false}
+              - {name: lastError, label: 'Khaladkii u dambeeyay', widget: text, required: false}
       - name: sources
         label: 'Ilaha (dami "Shaqeyso" si aad isha u joojiso)'
         file: data/world/sources.json
@@ -736,6 +780,19 @@ collections:
                   - {name: maxAgeDays, label: 'Feed duug ah kadib (maalmo)', widget: number, required: false}
               - {name: imagePolicy, label: 'Sawirrada isha', widget: select, options: [{label: 'Xuquuqdu way dhowran tahay (lama isticmaalo)', value: all-rights-reserved}, {label: 'Liisan furan (CC / public domain)', value: free}, {label: 'VOA: public domain haddii aanu ahayn sawir wakaalad', value: public-domain-unless-agency}, {label: 'Lama yaqaan', value: unknown}]}
               - {name: notes, label: Xusuus, widget: text, required: false}
+              - {name: fastPoll, label: 'Hubi 5 daqiiqo kasta (ilaha degdegga ah)', widget: boolean, required: false}
+              - {name: monitorOnly, label: 'Kaliya hubi in ay shaqeyso (ogolaansho la''aan: waxba lagama qaado)', widget: boolean, required: false}
+              - {name: expectedMaxGapHours, label: 'Digniin haddii aysan war cusub soo saarin (saacado)', widget: number, value_type: int, required: false}
+              - name: permission
+                label: 'Ogolaanshaha isticmaalka (shuruudaha isha)'
+                widget: object
+                required: false
+                fields:
+                  - {name: status, label: 'Xaaladda (headline-and-link = cinwaan + link kaliya; permission-required = ogolaansho ayaa loo baahan yahay; licensed = waa la helay)', widget: select, options: [headline-and-link, permission-required, licensed], required: false}
+                  - {name: checkedAt, label: 'Goorta la hubiyay', widget: string, required: false}
+                  - {name: terms, label: 'Bogga shuruudaha', widget: string, required: false}
+                  - {name: contact, label: 'Xiriirka ogolaanshaha', widget: string, required: false}
+                  - {name: summary, label: 'Faahfaahin', widget: text, required: false}
   - name: ads
     label: Xayeysiisyada
     label_singular: Xayeysiis

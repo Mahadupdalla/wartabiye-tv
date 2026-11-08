@@ -973,6 +973,147 @@
    "imagePolicy": "all-rights-reserved",
    "notes": "premierleague.com, laliga.com, legaseriea.it, bundesliga.com, ligue1.com, uefa.com, fifa.com, nba.com, atptour.com, wtatennis.com, formula1.com, worldathletics.org: checked by the 08:00/18:00 task to confirm results (WebFetch / WebSearch). League and club photos are never reused.",
    "searchOnly": true
+  },
+  {
+   "id": "moscowtimes",
+   "name": "The Moscow Times",
+   "shareLink": "",
+   "homepage": "https://www.themoscowtimes.com/",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "fastPoll": true,
+   "expectedMaxGapHours": 4,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.themoscowtimes.com/rss/news"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-08",
+    "terms": "https://www.themoscowtimes.com/page/rss",
+    "summary": "Official RSS feed listed on the publisher's own RSS page. Footer: '© The Moscow Times, all rights reserved'. No syndication licence: only the feed's headline and link are used to discover stories; Wartabiye TV writes its own Somali report with attribution and a direct link. Text and photos are never copied."
+   },
+   "notes": "Official feed (themoscowtimes.com/page/rss). Opinion, Arts and Life and Meanwhile feeds are not used. Photos all rights reserved (often AFP/Reuters/Kremlin pool): never reused."
+  },
+  {
+   "id": "thelocal-it",
+   "name": "The Local Italy",
+   "shareLink": "",
+   "homepage": "https://www.thelocal.it/",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 55,
+   "fastPoll": true,
+   "expectedMaxGapHours": 8,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://feeds.thelocal.com/rss/it"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.thelocal.it/feeds/rss.php"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-08",
+    "terms": "https://www.thelocal.it/terms-of-use",
+    "summary": "Terms of use: 'You may not copy, modify, reproduce, republish ... any material from this site'; personal non-commercial use only. Headline and link are used only to discover the story; Wartabiye TV writes its own report from verified facts with attribution and a link. Nothing is copied or translated from the article. Many articles are for members only (paywall): never bypassed."
+   },
+   "notes": "Official feeds.thelocal.com feed of the Italy edition. Photos all rights reserved: never reused."
+  },
+  {
+   "id": "dutchnews",
+   "name": "DutchNews.nl",
+   "shareLink": "",
+   "homepage": "https://www.dutchnews.nl/",
+   "section": "world",
+   "enabled": false,
+   "verified": true,
+   "priority": 50,
+   "fastPoll": true,
+   "monitorOnly": true,
+   "expectedMaxGapHours": 8,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.dutchnews.nl/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "permission": {
+    "status": "permission-required",
+    "checkedAt": "2026-11-08",
+    "terms": "https://dutchnews.nl/disclaimer/",
+    "contact": "editor@dutchnews.nl",
+    "summary": "DutchNews terms: commercial websites must contact editor@dutchnews.nl before using or syndicating its content; unauthorised use is invoiced. Wartabiye TV is advertising-supported, so NO headlines, links or text are collected or published until the owner has written permission. The 5-minute monitor only checks that the feed is reachable and how recent it is."
+   },
+   "notes": "Switched off until DutchNews gives written permission (owner's instruction, 8 Nov 2026). To switch on after permission: set enabled true, remove monitorOnly, and set permission.status to 'licensed' with the date and terms."
+  },
+  {
+   "id": "abcnews",
+   "name": "ABC News (US)",
+   "shareLink": "",
+   "homepage": "https://abcnews.go.com/",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 75,
+   "fastPoll": true,
+   "expectedMaxGapHours": 3,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://feeds.abcnews.com/abcnews/internationalheadlines"
+    },
+    {
+     "type": "rss",
+     "url": "https://feeds.abcnews.com/abcnews/topstories"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-08",
+    "terms": "https://abcnews.go.com/Site/page/rss-feeds-3520115",
+    "summary": "US ABC News (American Broadcasting Company, Disney), the official feeds listed on abcnews.go.com. ABC says it offers headlines by RSS 'to facilitate reading our stories via news aggregators'; content is under the Disney terms of use (all rights reserved). Only headline and link are used to discover the story; Wartabiye TV writes its own report with attribution and a link. Not the Australian ABC (abc.net.au)."
+   },
+   "notes": "International Headlines first, Top Stories as a second feed. Photos are ABC/AP/Reuters/Getty: never reused. Video-only items are skipped."
+  },
+  {
+   "id": "swedenherald",
+   "name": "Sweden Herald",
+   "shareLink": "",
+   "homepage": "https://swedenherald.com/",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 50,
+   "fastPoll": true,
+   "expectedMaxGapHours": 8,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://swedenherald.com/rss.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-08",
+    "terms": "https://swedenherald.com/about",
+    "contact": "newsdesk@swedenherald.com",
+    "summary": "'© 2026 Sweden Herald'; no syndication terms published. Part of its copy is translated from the Swedish news agency TT. Only headline and link are used to discover stories; Wartabiye TV writes its own report with attribution and a link. Photos (including CC-licensed Wikimedia ones on its pages) are not taken from the site."
+   },
+   "notes": "English-language Swedish news; official feed /rss.xml linked from its homepage."
   }
  ]
 }
