@@ -7,7 +7,7 @@
 # workflow's concurrency group keeps exactly one loop running; a second start waits in the queue and never runs a check
 # at the same time.
 #
-# Each check: cheap feed reads only (no AI). New, genuinely fresh stories are handed to the news task (branch world-feed);
+# Each check: cheap feed reads only (no AI), also the LIVE News wire and Video News feeds (tools/live_feeds_cycle.sh). New, genuinely fresh stories are handed to the news task (branch world-feed);
 # when nothing is new the check simply ends. A failed check is logged and the next one retries in 5 minutes.
 #
 #   LOOP_MINUTES   how long this job keeps checking (default 330)
@@ -39,6 +39,8 @@ cycle() {
   if [ "$state" != open ] && [ "$FORCE" != true ]; then
     echo "$(TZ=Africa/Nairobi date '+%F %H:%M') Africa/Nairobi: outside operating hours, no source checked"; return 0
   fi
+  # LIVE News wire + Video News feeds (official publisher RSS / YouTube), same 5-minute clock
+  cp tools/live_feeds_cycle.sh /tmp/live_feeds_cycle.sh && bash /tmp/live_feeds_cycle.sh || echo "live feeds failed this time (the next check retries)"
   python3 tools/fast_monitor.py run --state /tmp/fast $([ "$FORCE" = true ] && echo --force) || { echo "check failed (logged; the next check retries)"; return 1; }
 
   # state and candidates: branch fast-feed, one commit, no history

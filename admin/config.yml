@@ -722,6 +722,16 @@ collections:
               - {name: missingTimestampSkipped24h, label: 'Missing timestamp skipped (24h)', widget: number, required: false}
               - {name: missingImageHeld24h, label: 'Missing image held (24h)', widget: number, required: false}
               - {name: freshRule, label: 'Xeerka cusboonaanta', widget: text, required: false}
+              - name: records
+                label: 'Afarta waqti ee kala duwan'
+                widget: object
+                required: false
+                fields:
+                  - {name: lastSuccessfulSourceCheckAt, label: 'Last successful source check', widget: string, required: false}
+                  - {name: lastNewArticleDiscoveredAt, label: 'Last new article discovered', widget: string, required: false}
+                  - {name: lastArticlePublicationAt, label: 'Last successful article publication (news task)', widget: string, required: false}
+                  - {name: lastArticleLiveAt, label: 'Last article seen live on the website', widget: string, required: false}
+                  - {name: lastWebsiteDeploymentAt, label: 'Last successful website deployment (build that is live)', widget: string, required: false}
           - name: runLog
             label: 'Hubin kasta (log-ga gudaha, kuwii u dambeeyay)'
             widget: list

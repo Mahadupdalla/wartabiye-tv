@@ -29,7 +29,7 @@ on:
   push:
     # test run on a work branch when the monitor changes (nothing is saved)
     branches-ignore: [main, world-feed, fast-feed]
-    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/world_news.py', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
+    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/live_feeds_cycle.sh', 'tools/world_news.py', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
 permissions:
   contents: write
   issues: write
@@ -46,7 +46,7 @@ jobs:
         with:
           fetch-depth: 300   # enough history to read when each article file first reached main
       - name: Self-test (no network)
-        run: python3 tools/fast_monitor.py test
+        run: python3 tools/fast_monitor.py test && python3 tools/live_feeds.py test
       - name: Feed check (work branches only)
         if: github.ref != 'refs/heads/main'
         run: python3 tools/fast_monitor.py probe

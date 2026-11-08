@@ -369,18 +369,17 @@
     var m=el('p','vmeta');var o=el('a',null,trf('wireRead',{s:x.source||''}));if(u){o.href=u;o.target='_blank';o.rel='noopener'}m.append(o);tx.append(m);li.append(t,tx);return li}
   function liveWire(main){
     var sec=el('section','wirebox');sec.setAttribute('aria-label',tr('wireTitle'));var tk=el('div','wiretick');tk.setAttribute('aria-label',tr('wireTicker'));
-    var hd=C.head(tr('wireTitle'),'red');var sub=el('p','vnote',tr('wireSub'));var st=el('p','lnstatus wirest');st.setAttribute('role','status');st.setAttribute('aria-live','polite');
+    var hd=C.head(tr('wireTitle'),'red');var sub=el('p','vnote',tr('wireSub'));
     var chips=el('div','wirechips');var ol=el('ol','lntl');var reg='',seen=null,timer=null,data=null;
     WIRE_REG.forEach(function(r){var b=el('button','chip',tr(r[1]));b.type='button';b.setAttribute('aria-pressed',String(r[0]===reg));b.addEventListener('click',function(){reg=r[0];[].forEach.call(chips.children,function(c){c.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');draw([])});chips.append(b)});
-    sec.append(hd,tk,sub,st,chips,ol);main.append(sec);
+    // no public check time / stale warning (owner's decision, 8 Nov 2026): source health is in /admin/ and #ilaha-xaaladda
+    sec.append(hd,tk,sub,chips,ol);main.append(sec);
     function ticker(items){tk.innerHTML='';var l=items.slice(0,12);if(!l.length){tk.hidden=true;return}tk.hidden=false;var lab=el('span','wtlab',tr('wireTicker'));var tr0=el('div','wttrack');var inner=el('div','wtinner');
       l.concat(l).forEach(function(x,i){var a=el('a',null,'');var u=C.safeUrl(x.url);if(u){a.href=u;a.target='_blank';a.rel='noopener'}if(i>=l.length){a.setAttribute('aria-hidden','true');a.tabIndex=-1}a.append(el('b',null,eatHM(new Date(x.publishedAt))+' · '+(x.source||'')),document.createTextNode(' '+x.title));inner.append(a)});tr0.append(inner);tk.append(lab,tr0)}
     function draw(added){ol.innerHTML='';var items=(data&&data.items||[]).filter(function(x){return x&&x.title&&C.safeUrl(x.url)&&!isNaN(new Date(x.publishedAt))});
       var fresh={};(added||[]).forEach(function(id){fresh[id]=1});var l=items.filter(function(x){return !reg||x.region===reg||(reg==='africa'&&(x.region==='eastafrica'||x.region==='somalia'))||(reg==='eastafrica'&&x.region==='somalia')});
       if(!l.length)ol.append(el('li','empty',data?tr('wireEmpty'):tr('loadingStory')));l.slice(0,60).forEach(function(x){ol.append(wireItem(x,!!fresh[x.id]))});
-      st.innerHTML='';var up=data&&new Date(data.updatedAt);var p=el('p');p.append(el('span','lndot'));
-      if(up&&!isNaN(up)){p.append(document.createTextNode(trf('wireChecked',{t:eatHM(up)+' (EAT)'})));if(Date.now()-up.getTime()>30*60e3)st.append(el('p','lnwarn',trf('wireStale',{t:eatHM(up)+' (EAT)'})))}else p.append(document.createTextNode(tr('loadingStory')));st.prepend(p);
-      if(added&&added.length)st.append(el('p','lnadded',trf('lnNewCount',{n:added.length})));ticker(items)}
+      ticker(items)}
     function load(){return liveFeed('live-wire.json',55000).then(function(d){var ids=(d&&d.items||[]).map(function(x){return x.id});var added=seen?ids.filter(function(id){return !seen[id]}):[];seen={};ids.forEach(function(id){seen[id]=1});data=d;draw(added)})
       .catch(function(){if(!data){ol.innerHTML='';ol.append(el('li','empty',tr('wireUnavailable')))}})}
     load();timer=setInterval(function(){if(!document.body.contains(sec)){clearInterval(timer);return}load()},60000);return sec}
