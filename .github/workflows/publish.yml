@@ -34,7 +34,7 @@ jobs:
         run: python3 tools/build_pages.py
       - name: Commit the built files
         run: |
-          git add -A data/news.json data/ads.json data/videos.json data/notifications.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml rss.xml ciyaaraha caalamka xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
+          git add -A data/news.json data/ads.json data/videos.json data/notifications.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml rss.xml ciyaaraha caalamka bariga-afrika xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
           if git diff --cached --quiet; then echo "built files already up to date"; exit 0; fi
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

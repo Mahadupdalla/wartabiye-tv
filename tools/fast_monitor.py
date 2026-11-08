@@ -181,7 +181,13 @@ def check_source(s, st, t, log):
         for kk in ('channelPost', 'postLabel'):
             if g.get(kk): it[kk] = g[kk]
         if g.get('dateSource'): it['dateSource'] = g['dateSource']
+        if s.get('headlineOnly'):
+            # publisher's terms (e.g. BBC Somali): only the feed's headline, link and time are used; the article page,
+            # its text and its photos are never read or kept
+            it['description'] = None; it['image'] = None; it['headlineOnly'] = True
         try:
+            if s.get('headlineOnly'):
+                raise PermissionError('article page not opened: headline and link only (publisher terms)')
             if st.get('feedType') == 'telegram':
                 raise PermissionError('article page not opened: the publisher site refuses automated readers; text from its official channel post')
             a = w.article(g['url'])
@@ -307,7 +313,7 @@ def run(args):
     for s in fast:
         st = state['sources'].setdefault(s['id'], {})
         if east_africa.excluded_source(s):
-            st['lastError'] = 'excluded by the East Africa rule'; continue
+            st['lastError'] = 'excluded: ' + east_africa.excluded_source(s); continue
         if not s.get('enabled', True) and not s.get('monitorOnly'):
             st['disabled'] = True; continue
         st.pop('disabled', None)
@@ -516,7 +522,10 @@ def test(_args):
         if not s.get('fastPoll'): continue
         ok(s.get('feeds'), f"{s['id']}: has a feed")
         ok(s.get('section') in ('somalia', 'world', 'sports'), f"{s['id']}: known section")
-        ok(not east_africa.excluded_source(s), f"{s['id']}: never a Somalia source")
+        ok(not east_africa.excluded_source(s), f"{s['id']}: not an excluded address")
+        if s.get('headlineOnly'):
+            ok((s.get('permission') or {}).get('status') == 'headline-and-link' and s.get('imagePolicy') == 'all-rights-reserved',
+               f"{s['id']}: headline-only source has its terms recorded and never reuses photos")
         if (s.get('permission') or {}).get('status') == 'permission-required':
             ok(s.get('monitorOnly') and not s.get('enabled'), f"{s['id']}: no permission -> monitor only and switched off")
     print('OK' if not bad else 'FAILED:\n  ' + '\n  '.join(bad))

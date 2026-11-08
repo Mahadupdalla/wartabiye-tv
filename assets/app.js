@@ -74,31 +74,17 @@
     d.append(el('span',null,trf('trHidden',{n:HIDDEN})));var b=el('button',null,tr('readSo'));b.type='button';b.lang='so';b.addEventListener('click',function(){setLang('so')});d.append(b);return d}
   function section(it){if(it.section==='sports'||it.section==='world'||it.section==='somalia')return it.section;if(it.category==='Ciyaaraha')return 'sports';if(it.category==='Adduunka')return 'world';return 'somalia'}
   function tags(it){return Array.isArray(it.tags)?it.tags:(typeof it.tags==='string'&&it.tags?[it.tags]:[])}
-  // ---------- East Africa first (homepage editorial priority) ----------
-  // A story counts as East African when it is Somali news, when the news task marked its country
-  // ("country": so | ke | et | dj | ug | tz | rw | bi | ss | er, or "region": "east-africa"),
-  // or when its headline / summary names one of the ten countries, their capitals, leaders or regional bodies.
-  var EA_CODES=['so','ke','et','dj','ug','tz','rw','bi','ss','er'];
-  var EA_RE=new RegExp('(?:^|[^a-zÀ-ɏ])(?:'+[
-    'soomaal','somali','muqdisho','mogadishu','hargeys','hargeis','puntland','jubaland','jubbaland','galmudug','hirshabeel','koonfur galbeed','kismaa','kismay','garoowe','garowe','baydhabo','baidoa','beledweyn','gaalkacyo','galkayo','boosaaso','bosaso','berbera','baraawe','shabaab','aussom','amisom',
-    'kenya','kiiniya','nairobi','mombasa','garissa','gaarisa','mandera','wajeer','wajir',
-    'ethiopia','itoobiy','itobiy','addis aba','addis abe','tigray','tigraay','amhara','oromi','ogaden',
-    'djibouti','jabuuti','jibuuti','guelleh','geelle',
-    'uganda','ugandh','kampala','museveni',
-    'tanzania','tansaan','tanzaan','dodoma','dar es salaam','zanzibar','suluhu',
-    'rwanda','ruwanda','kigali','kagame',
-    'burundi','bujumbura','gitega','ndayishimiye',
-    'south sudan','koonfur suudaan','koofur suudaan','koonfurta suudaan','juba','salva kiir',
-    'eritrea','eritrean','ereteri','eritiri','asmara','asmera','afwerki','afewerki',
-    'bariga afrika','east africa','east african','geeska afrika','horn of africa'
-  ].join('|')+'|(?:igad|eac|ruto|abiy)(?![a-z]))','i');
-  function isEA(it){if(!it)return false;if(section(it)==='somalia')return true;
-    if(EA_CODES.indexOf(String(it.country||'').toLowerCase())>=0||it.region==='east-africa')return true;
-    var en=it.en&&typeof it.en==='object'?it.en:{};return EA_RE.test([it.title,it.summary,it.originalTitle,en.title,en.summary].filter(function(v){return typeof v==='string'}).join(' • ').toLowerCase())}
-  // Mix two newest-first queues at roughly 70% East Africa / 30% the rest (slots 3, 6, 9 … go to the rest).
-  // A flexible target: when one queue runs out the other fills the place, nothing is padded or repeated.
-  function mixEA(ea,other,n){var out=[],i=0,j=0;while(out.length<n&&(i<ea.length||j<other.length)){var restTurn=out.length%3===2;
-    if(restTurn&&j<other.length)out.push(other[j++]);else if(i<ea.length)out.push(ea[i++]);else out.push(other[j++])}return out}
+  // ---------- one mixed homepage feed (owner's decision, 8 November 2026) ----------
+  // Somalia, East Africa, Africa, Europe, Asia, the Americas, the Middle East, business, technology and sport in ONE feed,
+  // ranked by importance and freshness and never grouped by continent or section. Rank = hours since publication, minus a
+  // bonus for a breaking (last 12 hours) or important story; a story without a verified time ranks a little lower.
+  // A light mixing pass then avoids more than two stories in a row from the same section (regional / world / sports),
+  // looking at most 3 places ahead, so freshness stays the main order.
+  function rankScore(it,now){var t=new Date(it.publishedAt).getTime();var h=isNaN(t)?1e4:Math.max(0,(now-t)/36e5);
+    if(isBreaking(it))h-=6;if(it.important)h-=3;if(it.timeVerified===false)h+=2;return h}
+  function mixFeed(list){var now=Date.now();var q=list.map(function(x,i){return {x:x,s:rankScore(x,now),i:i}}).sort(function(a,b){return a.s-b.s||a.i-b.i}).map(function(o){return o.x});
+    var out=[];while(q.length){var k=0,n=out.length;if(n>=2&&section(out[n-1])===section(out[n-2])){var s0=section(out[n-1]);for(var i=1;i<q.length&&i<4;i++){if(section(q[i])!==s0){k=section(q[0])===s0?i:0;break}}}
+      out.push(q.splice(k,1)[0])}return out}
   var BREAK_MS=12*3600e3;
   function isBreaking(it){if(!it.breaking)return false;var d=new Date(it.publishedAt);return !isNaN(d)&&Date.now()-d.getTime()<BREAK_MS}
   function catTag(it){if(it.sponsored)return el('span','cat spon',tr('sponsored'));if(isBreaking(it))return el('span','cat red',tr('breaking'));
@@ -171,7 +157,7 @@
   function renderTicker(){
     var t=$('tick');var pool=items.filter(function(x){return !x.sponsored});
     var rest=pool.filter(function(x){return !isBreaking(x)});
-    var tk=pool.filter(isBreaking).concat(mixEA(rest.filter(isEA),rest.filter(function(x){return !isEA(x)}),8)).slice(0,8).map(function(x){return {title:F(x,'title'),link:href(x),so:isSo(x)}});
+    var tk=pool.filter(isBreaking).concat(mixFeed(rest)).slice(0,8).map(function(x){return {title:F(x,'title'),link:href(x),so:isSo(x)}});
     var bk=SITE&&SITE.breaking||{};if(bk.mode==='manual')tk=[];
     if(Array.isArray(bk.items))tk=bk.items.filter(function(x){return x&&x.text}).map(function(x){var o=L!=='so'&&typeof x[L]==='string'&&x[L].trim();return {title:o||x.text,link:x.link||'#hoyga',so:L!=='so'&&!o}}).concat(tk);
     t.innerHTML='';if(!tk.length){t.append(el('a',null,tr('tickLoading')));return}
@@ -247,21 +233,20 @@
     var rest=list;
     if(showMosaic){
       M.innerHTML='';var fe=(SITE&&Array.isArray(SITE.featured)?SITE.featured:[]).map(function(f){var id=typeof f==='string'?f:f&&f.article;return list.find(function(x){return x._id===id})}).filter(Boolean);
-      // the front page leads with East African news (breaking first); editor's picks (data/site.json "featured") stay on top.
-      // Fresh East African stories (last 72 hours) fill the featured tiles; if there are fewer than five, the newest other stories top them up.
+      // the featured tiles: editor's picks (data/site.json "featured") first, then the top of the mixed feed from the last 72 hours
+      // (all sections and regions together); older stories only top them up when there are fewer than five fresh ones.
       var now=Date.now();function fresh(x){var t=new Date(x.publishedAt).getTime();return !isNaN(t)&&now-t<72*3600e3}
-      var ea=list.filter(function(x){return isEA(x)&&!x.sponsored});var eaB=ea.filter(isBreaking).concat(ea.filter(function(x){return !isBreaking(x)}));
-      var eaF=eaB.filter(fresh);var pool=eaF.length>=5?eaF:eaF.concat(list.filter(function(x){return eaF.indexOf(x)<0&&!x.sponsored}));
-      var lead=fe[0]||leadOf(pool);var others=fe.slice(1).concat(pool.filter(function(x){return fe.indexOf(x)<0&&x!==lead&&!x.sponsored}));
+      var ranked=mixFeed(list.filter(function(x){return !x.sponsored}));var rf=ranked.filter(fresh);
+      var pool=rf.length>=5?rf:rf.concat(ranked.filter(function(x){return rf.indexOf(x)<0}));
+      var lead=fe[0]||leadOf(pool);var others=fe.slice(1).concat(pool.filter(function(x){return fe.indexOf(x)<0&&x!==lead}));
       [lead].concat(others.slice(0,4)).forEach(function(it,i){
         var a=el('a','tile'+(i===0?' big':''));a.href=href(it);var inn=el('span','in');var ct=catTag(it);if(ct)inn.append(ct);
         inn.append(tEl(i===0?'h2':'h3',null,it,'title'));if(i===0){if(F(it,'summary'))inn.append(tEl('p',null,it,'summary'));inn.append(meta(it))}
         a.append(ph(it,null,i===0),inn);M.append(a);
       });
       var inMosaic=[lead].concat(others.slice(0,4));
-      // the "latest" feed below: about 70% East Africa, 30% world news and sports, newest first in each
-      var left=list.filter(function(x){return inMosaic.indexOf(x)<0});
-      rest=mixEA(left.filter(isEA),left.filter(function(x){return !isEA(x)}),left.length);
+      // the "latest" feed below: the same single mixed feed (importance + freshness), never split by region
+      rest=mixFeed(list.filter(function(x){return inMosaic.indexOf(x)<0}));
     }
     var catSo=cat?CATS.find(function(k){return slug(k)===cat}):null;
     $('listTitle').textContent=query?tr('searchResults'):(catSo?catName(catSo):tr('latest'));
@@ -276,8 +261,8 @@
     if(home&&loaded){
       var at=adSlot('home','ad-home');if(at)top.append(at);var am=adSlot('mobile','ad-mobile');if(am)mob.append(am);
       var sp=adSlot('spotlight');if(sp){var sd=el('section','secblock');sd.append(head(tr('adLabel')),sp);B.append(sd)}
-      [['world','worldBlock','navy','#caalamka'],['sports','sportsBlock','green','#ciyaaraha'],['somalia','somaliaBlock','','#qayb-siyaasadda']].forEach(function(b){
-        if(b[0]==='somalia')return; // East African news already leads the page
+      // section shortcuts under the mixed feed (Somalia & East Africa, World, Sports): more stories from each page
+      [['somalia','eaBlock','','#bariga-afrika'],['world','worldBlock','navy','#caalamka'],['sports','sportsBlock','green','#ciyaaraha']].forEach(function(b){
         // stories already on the page (featured tiles, latest feed) are not repeated in the World / Sports blocks
         var l=items.filter(function(x){return section(x)===b[0]&&!x.sponsored&&shown.indexOf(x)<0&&(!showMosaic||inMosaic.indexOf(x)<0)});if(!l.length)return;
         var s=el('section','secblock');s.append(head(tr(b[1]),b[2],b[3]),cardsGrid(l.slice(0,3)));B.append(s)});
@@ -306,7 +291,7 @@
     setTitle(F(it,'title'));
     if(it._preview)A.append(el('div','pvbar','MUUQAAL HORE (preview) · '+(it.published===false?'Qabyo: warkan bogga weli kama muuqdo.':'Warkan waa la daabacay.')+' Luqadda ka beddel midigta sare si aad u eegto turjumaad kasta.'));
     var cr=el('nav','crumbs');cr.setAttribute('aria-label','breadcrumb');var h0=el('a',null,tr('home'));h0.href='#hoyga';cr.append(h0,el('span',null,tr('sep')));
-    var s=section(it);if(s!=='somalia'){var hs=el('a',null,tr(s==='sports'?'sports':'world'));hs.href=s==='sports'?'#ciyaaraha':'#caalamka';cr.append(hs,el('span',null,tr('sep')))}
+    var s=section(it);{var hs=el('a',null,tr(s==='sports'?'sports':s==='world'?'world':'eastAfrica'));hs.href=s==='sports'?'#ciyaaraha':s==='world'?'#caalamka':'#bariga-afrika';cr.append(hs,el('span',null,tr('sep')))}
     if(it.category&&!(s!=='somalia'&&catName(it.category)===tr(s==='sports'?'sports':'world'))){var c0=el('a',null,catName(it.category));c0.href='#qayb-'+slug(it.category);cr.append(c0)}
     A.append(cr);
     var ct=catTag(it);if(ct)A.append(ct);
@@ -381,18 +366,21 @@
   function chipRow(labelTxt,nodes){var w=el('div');var k=el('label','k',labelTxt);var r=el('div','chips');nodes.forEach(function(n){r.append(n)});w.append(k,r);return w}
   var DECO={sports:'M100 10a90 90 0 1 0 0 180 90 90 0 0 0 0-180zM100 55l43 31-16 50H73L57 86zM100 10v45M143 86l42-14M127 136l26 38M73 136l-26 38M57 86L15 72',
     world:'M100 10a90 90 0 1 0 0 180 90 90 0 0 0 0-180zM10 100h180M100 10c40 40 40 140 0 180M100 10c-40 40-40 140 0 180M24 55h152M24 145h152'};
-  function hubHead(kind){var h=el('section','hubhead '+kind);var w=el('div','wrap');var t=el('h1');t.append(tr(kind==='sports'?'sportsTitle':'worldTitle'));
-    w.append(t,el('p',null,tr(kind==='sports'?'sportsSub':'worldSub')));h.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="'+DECO[kind]+'"/></svg>';h.append(w);return h}
+  DECO.somalia=DECO.world;
+  // text keys of the three news hubs: Sports (#ciyaaraha), World News (#caalamka), Somalia & East Africa (#bariga-afrika)
+  var HUBK={sports:{t:'sportsTitle',s:'sportsSub',l:'latestSports',n:'noSports'},world:{t:'worldTitle',s:'worldSub',l:'latestWorld',n:'noWorld'},somalia:{t:'eaTitle',s:'eaSub',l:'latestEA',n:'noEA'}};
+  function hubHead(kind){var h=el('section','hubhead '+kind);var w=el('div','wrap');var t=el('h1');t.append(tr(HUBK[kind].t));
+    w.append(t,el('p',null,tr(HUBK[kind].s)));h.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="'+DECO[kind]+'"/></svg>';h.append(w);return h}
   // One unified feed per hub (owner's decision, 2026-11-01): no leagues, sports, regions or topic filters. Newest first.
   function renderHub(kind,h){
     var V=$('pageView');V.innerHTML='';var P=hashParams(h);
-    setTitle(tr(kind==='sports'?'sportsTitle':'worldTitle'));
+    setTitle(tr(HUBK[kind].t));
     var list=items.filter(function(x){return section(x)===kind}).sort(function(a,b){return (b.publishedAt||'')<(a.publishedAt||'')?-1:1});
     var lay=el('div','wrap layout');var main=el('div');var side=el('aside','sidebar');lay.append(main,side);
     function draw(){main.innerHTML='';var q='';var l=list;var hidden=L==='so'?0:ALL.filter(function(x){return section(x)===kind&&items.indexOf(x)<0}).length;if(hidden){var gp=trGap();if(gp){gp.firstChild.textContent=trf('trHidden',{n:hidden});main.append(gp)}}
-      if(!l.length){main.append(head(tr(kind==='sports'?'latestSports':'latestWorld')),el('p','empty',loaded?(q?tr('noMatch'):tr(kind==='sports'?'noSports':'noWorld')):tr('loadingStory')));return}
+      if(!l.length){main.append(head(tr(HUBK[kind].l)),el('p','empty',loaded?(q?tr('noMatch'):tr(HUBK[kind].n)):tr('loadingStory')));return}
       var lead=l[0];var rest=l.slice(1);
-      main.append(head(tr(kind==='sports'?'latestSports':'latestWorld')),cardsGrid([lead],true,'one'));
+      main.append(head(tr(HUBK[kind].l)),cardsGrid([lead],true,'one'));
       if(rest.length){var s2=el('section','secblock');s2.append(cardsGrid(rest));main.append(s2)}}
     draw();
     fillSide(side,[adSlot('sidebar'),sideLatest(items.filter(function(x){return section(x)!==kind})),sideFollow()]);
@@ -742,14 +730,14 @@
     var base=h.split('?')[0];
     var story=base.indexOf('war-')===0?h.slice(4):null;
     var cat=base.indexOf('qayb-')===0?base.slice(5):null;
-    var page=!story&&!cat&&['ciyaaraha','caalamka','muuqaal','toos','ciyaaraha-toos','raadi','kaydsan','xiriir','xayeysiimaha'].concat(Object.keys(PAGE_ROUTES)).indexOf(base)>=0?base:null;
+    var page=!story&&!cat&&['ciyaaraha','caalamka','bariga-afrika','muuqaal','toos','ciyaaraha-toos','raadi','kaydsan','xiriir','xayeysiimaha'].concat(Object.keys(PAGE_ROUTES)).indexOf(base)>=0?base:null;
     var isHome=!story&&!page;
     $('homeView').hidden=!isHome;$('storyView').hidden=!story;$('pageView').hidden=!page;$('barnaamijyada').hidden=!isHome||!sec('programmes');
     var navKey=story?'':cat?'qayb-'+cat:page?page:(base===''||base==='hoyga'?'hoyga':'');
     document.querySelectorAll('[data-nav]').forEach(function(a){a.classList.toggle('on',a.dataset.nav===navKey);if(a.dataset.nav===navKey)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
     var key=story?'s:'+story:page?'p:'+base:'h:'+(cat||'');
     if(story)renderStory(story);
-    else if(page==='muuqaal')mediaPage('renderVideos',h);else if(page==='toos')mediaPage('renderLive',h);else if(page==='ciyaaraha-toos')mediaPage('renderSports',h);else if(page==='ciyaaraha')renderHub('sports',h);else if(page==='caalamka')renderHub('world',h);
+    else if(page==='muuqaal')mediaPage('renderVideos',h);else if(page==='toos')mediaPage('renderLive',h);else if(page==='ciyaaraha-toos')mediaPage('renderSports',h);else if(page==='ciyaaraha')renderHub('sports',h);else if(page==='caalamka')renderHub('world',h);else if(page==='bariga-afrika')renderHub('somalia',h);
     else if(page==='raadi')renderSearch(h);else if(page==='kaydsan')renderSaved();else if(page==='xiriir')renderContact();else if(page==='xayeysiimaha')renderAdsPage();
     else if(page)renderStatic(PAGE_ROUTES[page]);
     else{setTitle(cat?catName(CATS.find(function(k){return slug(k)===cat})||cat):'');renderHome(cat);var target=h&&!cat&&h!=='hoyga'?document.getElementById(h):null;if(target)target.scrollIntoView();else if(cat||h==='hoyga')window.scrollTo(0,0)}
@@ -760,7 +748,7 @@
 
   // ---------- site settings (data/site.json) ----------
   function sec(k){return !(SITE&&SITE.sections&&SITE.sections[k]===false)}
-  var NAVMAP={'#hoyga':'home','#ciyaaraha':'sports','#caalamka':'world','#muuqaal':'navVideos','#toos':'liveTvNav','#ciyaaraha-toos':'navLiveSports','#xayeysiimaha':'advertise','#nagu-saabsan':'aboutUs','#xiriir':'contact','#kaydsan':'saved','#raadi':'advSearch'};
+  var NAVMAP={'#hoyga':'home','#bariga-afrika':'eastAfrica','#ciyaaraha':'sports','#caalamka':'world','#muuqaal':'navVideos','#toos':'liveTvNav','#ciyaaraha-toos':'navLiveSports','#xayeysiimaha':'advertise','#nagu-saabsan':'aboutUs','#xiriir':'contact','#kaydsan':'saved','#raadi':'advSearch'};
   var NAVSEC={'#muuqaal':'videos','#toos':'live','#ciyaaraha-toos':'liveSports'};
   function applySite(){
     if(!SITE)return;var S=SITE;var T=L!=='so'&&S[L]&&typeof S[L]==='object'?S[L]:{};
