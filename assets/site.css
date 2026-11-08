@@ -1135,7 +1135,7 @@ html[dir=rtl] .vcard.small .vtx{padding:0 10px 0 0}
 .authstreams{margin:16px 0;display:grid;gap:12px}.authstream{display:grid;gap:8px}.authstream .vframe{border-radius:12px;cursor:auto}
 .dcredit{margin-top:10px}
 /* the LIVE TV button at the end of the menu bar is the desktop menu entry for #toos (red only during a verified broadcast) */
-@media (min-width:861px){.links > a[href="#toos"]{display:none}}
+/* LIVE TV is listed in the menu on desktop too, next to LIVE News and LIVE Matches (the red LIVE button stays at the end) */
 @media (min-width:1321px){.links a{padding:14px 7px;font-size:12.5px;letter-spacing:.02em}}
 /* desktop and tablet: the menu stays on one row; on narrower screens it scrolls sideways instead of wrapping */
 @media (min-width:861px){.links{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}.links::-webkit-scrollbar{display:none}.links > a{flex:none;white-space:nowrap}}
@@ -1203,6 +1203,50 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 @media (prefers-reduced-motion:reduce){.icobtn.bell.has svg,.ntlive,.ntbanner{animation:none}}
 /* the bell takes one more icon slot in the menu bar: keep every menu link visible on wide screens */
 @media (min-width:861px){.tools{gap:2px}.tools .icobtn{width:34px}}
+
+/* homepage "Latest headlines" heading above the featured tiles */
+.blockhead.mhead-top{margin:22px 0 0}
+.blockhead.mhead-top + .mosaic{padding-top:12px}
+#updated + .all{margin-inline-start:14px}
+/* LIVE News (#wararka-tooska): timeline of verified updates, Africa/Nairobi times */
+.hubhead.livenews{background:linear-gradient(120deg,var(--blue-dd),var(--blue))}
+.hubhead h1 .onair{margin-inline-start:12px;vertical-align:middle;font-size:.4em}
+.lnbroadcast{margin:22px 0 10px}
+.lnbroadcast .lnoff{margin:0;padding:12px 14px;border:1px dashed var(--line,#cfd8e3);border-radius:10px;color:var(--muted);font-size:14px}
+.lnstatus{margin:0 0 18px;display:grid;gap:6px}
+.lnstatus p{margin:0;font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.lnstatus .lndot{width:9px;height:9px;border-radius:50%;background:var(--red);flex:none;animation:lnpulse 1.6s ease-in-out infinite}
+.lnstatus .lnwarn{color:var(--red);font-weight:700}
+.lnstatus .lnadded{color:var(--link);font-weight:700}
+@keyframes lnpulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.lnstatus .lndot{animation:none}}
+.lntl{list-style:none;margin:0 0 18px;padding:0;position:relative}
+.lntl::before{content:"";position:absolute;inset-block:6px;inset-inline-start:76px;width:2px;background:var(--line,#dfe6ee)}
+.lnitem{display:grid;grid-template-columns:70px minmax(0,1fr);gap:22px;padding:12px 0;position:relative}
+.lnitem::before{content:"";position:absolute;inset-inline-start:72px;top:19px;width:10px;height:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 3px var(--bg,#fff)}
+.lnitem.brk::before{background:var(--red)}
+.lnitem.new{animation:lnflash 2.5s ease-out 1}
+@keyframes lnflash{from{background:rgba(227,30,36,.10)}to{background:transparent}}
+.lnitem time{display:grid;align-content:start;text-align:end;font-variant-numeric:tabular-nums}
+.lnitem time b{font:800 16px var(--display)}
+.lnitem time span{font-size:11px;color:var(--muted)}
+.lntx h3{margin:4px 0 4px;font-size:17px;line-height:1.3}
+.lntx h3 a{color:inherit}
+.lntx > p{margin:0 0 6px;font-size:14.5px}
+.lntags{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.lntags .cat{position:static}
+.lnsec,.lnnew{font:700 11px var(--display);letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--blue);color:#fff}
+.lnsec.s-world{background:var(--blue-dd)}
+.lnsec.s-sports{background:#178a4c}
+.lnnew{background:var(--red)}
+.lntl.compact .lntx > p:not(.lntags),.lntl.compact .meta{display:none}
+.lntl.compact .lnitem{padding:8px 0}
+.lntl.compact .lntx h3{font-size:15.5px}
 /* "Load more" under the 50-story lists (assets/app.js pager) */
 .loadmore{text-align:center;margin:22px 0 6px}
 .loadmore:empty{display:none}
+
+/* menu: the three live sections (LIVE News, LIVE TV, LIVE Matches) carry a small red dot */
+.links > a.navlive::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-inline-end:6px;vertical-align:middle;box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+/* desktop: the menu wraps onto a second row instead of hiding links off-screen (every section stays visible) */
+@media (min-width:861px){.links{flex-wrap:wrap;overflow:visible}.links.fade{-webkit-mask-image:none;mask-image:none}}

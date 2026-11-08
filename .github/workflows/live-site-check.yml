@@ -1,0 +1,23 @@
+name: 'Hubi bogga dadweynaha (public site check: LIVE News, LIVE TV, LIVE Matches, Video News)'
+# Opens the REAL public website www.wartabiyetv.com in a browser (desktop + mobile, 9 languages) and reports whether
+# the four sections are visible in the menu and open, and what each one shows. Read-only: it changes nothing.
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main, world-feed, fast-feed]
+    paths: ['tools/live_site_check.js', '.github/workflows/live-site-check.yml']
+permissions:
+  contents: read
+concurrency:
+  group: live-site-check
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Browser
+        run: npm i --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - name: Check the public site
+        run: node tools/live_site_check.js https://www.wartabiyetv.com/
