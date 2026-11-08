@@ -1,0 +1,518 @@
+News sources test — fetched 2026-11-08T14:47:30+03:00  window since 2026-11-06T14:42:41+03:00
+
+source                section  state    method / error                                                         got kept  dup known
+BBC Somali            somalia  excluded excluded: Somalia-specific source bbc-somali (East Africa rule, no So    0    0    0     0
+VOA Somali            somalia  excluded excluded: Somalia-specific source voa-somali (East Africa rule, no So    0    0    0     0
+Hiiraan Online        somalia  excluded excluded: Somalia-specific source hiiraan (East Africa rule, no Somal    0    0    0     0
+Garowe Online         somalia  excluded excluded: Somalia-specific source garoweonline (East Africa rule, no     0    0    0     0
+Dawan Africa          somalia  excluded excluded: Somalia-specific source dawan (East Africa rule, no Somalia    0    0    0     0
+Somali Guardian       somalia  excluded excluded: Somalia-specific source somaliguardian (East Africa rule, n    0    0    0     0
+Goobjoog News         somalia  excluded excluded: Somalia-specific source goobjoog (East Africa rule, no Soma    0    0    0     0
+Radio Dalsan          somalia  excluded excluded: Somalia-specific source radiodalsan (East Africa rule, no S    0    0    0     0
+Horseed Media         somalia  excluded excluded: Somalia-specific source horseedmedia (East Africa rule, no     0    0    0     0
+SONNA (state news age somalia  excluded excluded: Somalia-specific source sonna (East Africa rule, no Somalia    0    0    0     0
+BBC News Africa       somalia  working  rss https://feeds.bbci.co.uk/news/world/africa/rss.xml                   0    0    0     0
+Africanews            somalia  working  rss https://www.africanews.com/feed/rss                                  2    2    0     0
+The EastAfrican       somalia  blocked  html https://www.theeastafrican.co.ke/: HTTPError: HTTP Error 403: Fo    0    0    0     0
+Capital FM Kenya      somalia  working  rss https://www.capitalfm.co.ke/news/feed/                              10   10    0     0
+The Standard (Kenya)  somalia  working  rss https://www.standardmedia.co.ke/rss/headlines.php                    3    3    0     0
+KBC (Kenya Broadcasti somalia  working  rss https://www.kbc.co.ke/feed/                                         10   10    0     0
+Fana Broadcasting (Et somalia  working  rss https://www.fanabc.com/english/feed/                                10    8    2     0
+The Reporter (Ethiopi somalia  blocked  rss https://www.thereporterethiopia.com/feed/: HTTPError: HTTP Error     0    0    0     0
+Daily News (Tanzania) somalia  working  rss https://dailynews.co.tz/feed/                                        9    9    0     0
+The Citizen (Tanzania somalia  working  html https://www.thecitizen.co.tz/tanzania                              10    8    2     0
+Nile Post (Uganda)    somalia  working  rss https://nilepost.co.ug/feed                                         10   10    0     0
+ChimpReports (Uganda) somalia  inactive Uganda. Switched off: its robots.txt does not allow automated reading    0    0    0     0
+The New Times (Rwanda somalia  blocked  rss https://www.newtimes.co.rw/rss: ValueError: not a feed (the addre    0    0    0     0
+KT Press (Rwanda)     somalia  working  rss https://www.ktpress.rw/feed/                                        10   10    0     0
+IWACU English (Burund somalia  working  rss https://www.iwacu-burundi.org/englishnews/feed/                      0    0    0     0
+Eye Radio (South Suda somalia  working  rss https://www.eyeradio.org/feed/                                       9    9    0     0
+Radio Tamazuj         somalia  working  rss https://www.radiotamazuj.org/en/rss                                  8    8    0     0
+La Nation (Djibouti)  somalia  working  rss https://www.lanation.dj/feed/                                        6    6    0     0
+Shabait (Eritrea, Min somalia  working  rss https://shabait.com/feed/                                            1    1    0     0
+Source 1 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+Source 2 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+Türkiye Today         world    working  html https://www.turkiyetoday.com/                                      10    8    2     0
+Daily Sabah           world    working  rss https://www.dailysabah.com/rss/world                                10    8    2     0
+CNN                   world    working  sitemap https://edition.cnn.com/sitemap/news.xml                        10   10    0     0
+Euronews              world    working  rss https://www.euronews.com/rss?level=theme&name=news                  10    9    1     0
+Source 7 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+IGAD                  world    working  rss https://igad.int/feed/                                               0    0    0     0
+Addis Standard        world    working  telegram https://t.me/s/AddisstandardEng                                 5    5    0     0
+UN News               world    working  rss https://news.un.org/feed/subscribe/en/news/region/africa/feed/rss    1    1    0     0
+AP (Associated Press) world    search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+Reuters               world    search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+BBC News World        world    working  rss https://feeds.bbci.co.uk/news/world/rss.xml                         10    9    1     0
+Al Jazeera English    world    working  rss https://www.aljazeera.com/xml/rss/all.xml                           10    9    1     0
+DW                    world    working  rss https://rss.dw.com/xml/rss-en-world                                 10    9    1     0
+France 24             world    working  rss https://www.france24.com/en/rss                                     10    9    1     0
+BBC Sport             sports   working  rss https://feeds.bbci.co.uk/sport/rss.xml                              10    6    4     0
+ESPN                  sports   blocked  rss https://www.espn.com/espn/rss/news: ValueError: not a feed (the a    0    0    0     0
+Official competition  sports   search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+
+ERRORS (full)
+  BBC Somali: excluded: Somalia-specific source bbc-somali (East Africa rule, no Somalia sources)
+  VOA Somali: excluded: Somalia-specific source voa-somali (East Africa rule, no Somalia sources)
+  Hiiraan Online: excluded: Somalia-specific source hiiraan (East Africa rule, no Somalia sources)
+  Garowe Online: excluded: Somalia-specific source garoweonline (East Africa rule, no Somalia sources)
+  Dawan Africa: excluded: Somalia-specific source dawan (East Africa rule, no Somalia sources)
+  Somali Guardian: excluded: Somalia-specific source somaliguardian (East Africa rule, no Somalia sources)
+  Goobjoog News: excluded: Somalia-specific source goobjoog (East Africa rule, no Somalia sources)
+  Radio Dalsan: excluded: Somalia-specific source radiodalsan (East Africa rule, no Somalia sources)
+  Horseed Media: excluded: Somalia-specific source horseedmedia (East Africa rule, no Somalia sources)
+  SONNA (state news agency): excluded: Somalia-specific source sonna (East Africa rule, no Somalia sources)
+  The EastAfrican: html https://www.theeastafrican.co.ke/: HTTPError: HTTP Error 403: Forbidden
+  The Reporter (Ethiopia): rss https://www.thereporterethiopia.com/feed/: HTTPError: HTTP Error 304: Not Modified
+  ChimpReports (Uganda): Uganda. Switched off: its robots.txt does not allow automated reading of the feed (tested 5 Nov 2026).
+  The New Times (Rwanda): rss https://www.newtimes.co.rw/rss: ValueError: not a feed (the address answers with a web page) | html https://www.newtimes.co.rw/: ValueError: feed has no items
+  Source 1 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  Source 2 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  Source 7 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  AP (Associated Press): no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+  Reuters: no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+  ESPN: rss https://www.espn.com/espn/rss/news: ValueError: not a feed (the address answers with a web page) | rss https://www.espn.com/espn/rss/soccer/news: ValueError: not a feed (the address answers with a web page) | rss https://www.espn.co.uk/espn/rss/football/news: ValueError: not a feed (the address answers with a web page)
+  Official competition sites: no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+
+stories kept: 177   duplicates removed: 17   already known: 0   images: generic 2, none 12, not-reusable 163
+
+EXCLUDED BY THE EAST AFRICA RULE (Somalia sources / Somalia-focused / not East African / not news): 31
+  - [BBC News Africa] Somalia-focused article: headline names Somalia ("Mogadishu"): https://www.bbc.co.uk/news/articles/cq0k0lg48705o?at_medium=RSS&at_campaign=rss
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/08/divided-israelis-agree-forming-next-government-wont-be-easy/
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/08/dialogue-between-past-and-present-giza-pyramids-host-6th-edition-of
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/08/egypt-reopens-embassy-in-libya-as-it-seeks-to-rebuild-energy-ties-w
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/08/gambias-opposition-leader-bensouda-files-for-presidential-election-
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/07/poland-footage-shows-people-taking-cover-as-a-gunman-opens-fire-in-
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/07/ukraine-russian-strikes-hit-kyiv-region-damaging-infrastructure/
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/07/heavy-rains-leave-tens-of-thousands-without-shelter-in-gaza/
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/07/pope-leo-begins-south-america-tour-in-fairly-good-shape-after-cance
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/07/coalition-battles-ahead-in-key-south-african-cities-as-vote-countin
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/07/paraguay-vp-alliana-sworn-is-as-president-after-predecessor-impeach
+  - [Africanews] Somalia-focused article: headline names Somalia ("Somalia"): http://www.africanews.com/2026/11/07/political-chaos-in-somalia-after-court-ruling-against-presidents-term-extension/
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/06/morocco-marks-anniversary-of-western-sahara-occupation-as-un-missio
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/06/netherlands-protesters-storm-amsterdam-data-centre-construction-sit
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/06/switzerland-giant-banner-targets-big-tech-outside-data-centre-site/
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/06/dakar-2026-china-tops-medal-count-as-south-africa-egypt-win-gold/
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/06/un-says-struggling-to-help-millions-fleeing-sudan-war-find-shelter/
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/06/spain-vintage-cars-hit-the-streets-of-almeria-for-annual-rally/
+  - [Africanews] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: http://www.africanews.com/2026/11/06/china-and-gabon-boost-ties-during-oligui-nguemas-state-visit-to-bei
+  - [Daily News (Tanzania)] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://dailynews.co.tz/poem-the-bridge-between-us/
+  - [Nile Post (Uganda)] sports page of a regional outlet (Sports has its own sources): https://nilepost.co.ug/sports/385459/messi-makes-history-with-mls-golden-boot
+  - [Nile Post (Uganda)] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://nilepost.co.ug/news/385443/i-cant-believe-he-is-one-of-us-inside-salahs-life-in-trabzon
+  - [Eye Radio (South Sudan)] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://eyeradio.org/meet-majak-gen-lagus-congole-who-made-molotov-bombs-and-procured-guns-for-anya-nya-
+  - [Radio Tamazuj] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://www.radiotamazuj.org/en/news/article/akot-lual-wins-splm-primary-despite-boycott-by-rivals
+  - [Radio Tamazuj] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://www.radiotamazuj.org/en/news/article/fear-grows-in-damazin-as-clashes-intensify-in-blue-nile
+  - [Radio Tamazuj] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://www.radiotamazuj.org/en/news/article/millions-in-sudan-risk-losing-shelter-as-aid-funding-runs-d
+  - [Radio Tamazuj] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://www.radiotamazuj.org/en/news/article/drone-strike-disrupts-power-shuts-dialysis-centre-in-blue-n
+  - [Shabait (Eritrea, Ministry of Information)] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://shabait.com/2026/11/07/public-seminar-for-nationals-in-sudans-red-sea-region/
+  - [Shabait (Eritrea, Ministry of Information)] not a news article (newspaper issue, archive or photo gallery): https://shabait.com/2026/11/07/eritrea-profile-31-october-2026/
+  - [Shabait (Eritrea, Ministry of Information)] not a news article (newspaper issue, archive or photo gallery): https://shabait.com/2026/11/07/eritrea-alhaditha-07-november-2026/
+  - [Shabait (Eritrea, Ministry of Information)] not a news article (newspaper issue, archive or photo gallery): https://shabait.com/2026/11/07/haddas-ertra-07-november-2026/
+
+DUPLICATES
+  - [BBC Sport] Why Wales have a lot to prove despite beating Japan
+      same event as https://www.bbc.co.uk/sport/rugby-union/articles/cx98z74gg69mo?at_medium=RSS&at_campaign=rss
+      same article URL / canonical URL
+  - [BBC Sport] Is there something missing despite Rangers' impressive form?
+      same event as https://www.bbc.co.uk/sport/football/articles/c6dxw1k2x4kno?at_medium=RSS&at_campaign=rss
+      same article URL / canonical URL
+  - [The Citizen (Tanzania)] Lissu’s four-year sentence draws international criticism, raises questions over Tanzania’s
+      same event as http://www.africanews.com/2026/11/07/tanzanian-opposition-celebrates-victorious-day-after-leader-avoids-death-penalty/
+      headline 0.06; content 0.30; names 0.67; places tanzania; 23h apart | kept Africanews (more complete / more reliable)
+  - [Fana Broadcasting (Ethiopia)] Prosperity Party Vice President Calls on African Political Parties to Translate Addis Abab
+      same event as https://www.fanamc.com/english/ethiopias-ruling-prosperity-party-unanimously-elected-to-lead-african-political-parties-initiative93344-2/?utm_source=rss&utm_medium=rss&utm_campaign=ethiopias-ruling-prosperity-party-unanimously-elected-to-lead-african-political-parties-initiative93344-2
+      headline 0.26; content 0.49; names 0.30; places addis,ethiopia; 8h apart | kept Fana Broadcasting (Ethiopia) (more complete / more reliable)
+  - [Fana Broadcasting (Ethiopia)] African Political Parties Adopt Addis Ababa Declaration, Commit to Advancing Economic Tran
+      same event as https://www.fanamc.com/english/ethiopias-ruling-prosperity-party-unanimously-elected-to-lead-african-political-parties-initiative93344-2/?utm_source=rss&utm_medium=rss&utm_campaign=ethiopias-ruling-prosperity-party-unanimously-elected-to-lead-african-political-parties-initiative93344-2
+      headline 0.16; content 0.39; names 0.24; places addis; 8h apart | kept Fana Broadcasting (Ethiopia) (more complete / more reliable)
+  - [BBC News World] US offers $20m reward for information about Iran's nuclear programme
+      same event as https://www.euronews.com/2026/11/07/us-offers-20-million-reward-and-possible-relocation-for-information-on-irans-nuclear-progr
+      headline 0.55; content 0.49; names 0.17; places iran,usa; 7h apart | kept Euronews (more complete / more reliable)
+  - [Euronews] Netanyahu rival Eisenkot to be tasked with forming new government following Israeli electi
+      same event as https://www.bbc.co.uk/news/articles/cmy8367lj5xlo?at_medium=RSS&at_campaign=rss
+      headline 0.31; content 0.46; names 0.60; places israel; 11h apart | kept BBC News World (more complete / more reliable)
+  - [Al Jazeera English] The anti-Netanyahu: Can Gadi Eisenkot give the world a different Israel?
+      same event as https://www.bbc.co.uk/news/articles/cmy8367lj5xlo?at_medium=RSS&at_campaign=rss
+      headline 0.15; content 0.54; names 0.43; places israel; 11h apart | kept BBC News World (more complete / more reliable)
+  - [DW] Israeli president tasks Gadi Eisenkot with forming government
+      same event as https://www.bbc.co.uk/news/articles/cmy8367lj5xlo?at_medium=RSS&at_campaign=rss
+      headline 0.67; content 0.55; names 0.30; places israel; 2h apart | kept BBC News World (more complete / more reliable)
+  - [Daily Sabah] Netanyahu-rival Eisenkot gets president's nod to form Israel govt
+      same event as https://www.bbc.co.uk/news/articles/cmy8367lj5xlo?at_medium=RSS&at_campaign=rss
+      headline 0.23; content 0.51; names 0.25; places israel; 12h apart | kept BBC News World (more complete / more reliable)
+  - [France 24] Donald Trump wants UFC fighters as assistants
+      same event as https://www.euronews.com/2026/11/08/trump-offers-ufc-boss-press-secretary-role-dana-please-take-the-job
+      headline 0.12; content 0.54; names 0.45; places usa; 3h apart | kept Euronews (more complete / more reliable)
+  - [Daily Sabah] Aramco skyscraper damaged by debris when Houthis target Riyadh
+      same event as https://www.cnn.com/2026/11/08/middleeast/saudi-arabia-riyadh-missile-financial-intl
+      headline 0.12; content 0.45; names 0.43; places riyadh,saudi,saudi arabia; 2h apart | kept CNN (more complete / more reliable)
+  - [Türkiye Today] Aramco tower in Riyadh financial district damaged as Houthi missiles fly
+      same event as https://www.cnn.com/2026/11/08/middleeast/saudi-arabia-riyadh-missile-financial-intl
+      headline 0.33; content 0.67; names 0.29; places riyadh,saudi,saudi arabia; 2h apart | kept CNN (more complete / more reliable)
+  - [BBC Sport] Walsh-inspired Australia crush irate Samoa to reach World Cup final
+      same event as https://www.bbc.co.uk/sport/rugby-league/articles/c6vg02klk084o?at_medium=RSS&at_campaign=rss
+      headline 0.45; content 0.43; names 0.42; places australia; 3h apart | kept BBC Sport (more complete / more reliable)
+  - [BBC Sport] I haven't thrown anyone under the bus - Khawaja
+      same event as https://www.aljazeera.com/sports/2026/11/8/khawaja-denies-throwing-anyone-under-the-bus-over-sandpapergate-scandal?traffic_source=rss
+      headline 0.50; content 0.48; names 0.50; places australia; 1h apart | kept Al Jazeera English (more complete / more reliable)
+  - [Türkiye Today] World number one Rybakina withdraws from WTA Finals with viral illness
+      same event as https://www.aljazeera.com/sports/2026/11/8/tennis-world-number-one-rybakina-withdraws-from-wta-finals-due-to-virus?traffic_source=rss
+      headline 0.55; content 0.58; names 0.57; places india,ukraine; 1h apart | kept Al Jazeera English (more complete / more reliable)
+  - [The Citizen (Tanzania)] Rostam Azizi challenges dominance of foreign contractors in Tanzania
+      same event as https://www.thecitizen.co.tz/tanzania/news/national/rostam-azizi-urges-government-to-give-local-contractors-a-fair-chance-5662898
+      headline 0.23; content 0.49; names 0.50; places tanzania; 0h apart | kept The Citizen (Tanzania) (more complete / more reliable)
+
+FEED (newest first)
+  2026-11-08T14:44  world  [Türkiye Today] Look at Blue Zone as COP31 prepares to open in Antalya on Nov.9
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T14:43  EA-tz  [Daily News (Tanzania)] Chato Hospital launches reconstructive surgery clinic for Lake Zone residents
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-08T14:41  world  [Euronews] US forces strike commercial vessel in Gulf of Oman after crew 'ignored repeated warnings'
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-08T14:38  EA-ss  [Eye Radio (South Sudan)] Dr Sitona: India resumes visa issuance to South Sudanese nationals after Ebola concerns
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-08T14:34  world  [Türkiye Today] Erdogan joins Aliyev in Karabakh on 6th anniversary of Victory Day
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T14:30  world  [CNN] The vanity economy is taking over America’s downtowns
+      image: not-reusable (CNN photos are all rights reserved)
+  2026-11-08T14:30  world  [CNN] How parents’ drive to perfect children can backfire
+      image: not-reusable (CNN photos are all rights reserved)
+  2026-11-08T14:04  EA-ss  [Eye Radio (South Sudan)] SPLM cadres in GPAA reject proposed return of Nadia Arop to lead party primaries
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-08T14:00  world  [CNN] CNN investigation uncovers construction flaws in public housing towers that collapsed during Ve
+      image: not-reusable (CNN photos are all rights reserved)
+  2026-11-08T14:00  world  [CNN] How the rejection of Trump produced a biblical downpour on Republicans
+      image: not-reusable (CNN photos are all rights reserved)
+  2026-11-08T14:00  world  [CNN] Two young women were strangled outside of Pittsburgh 50 years ago. Now police say a serial kill
+      image: not-reusable (CNN photos are all rights reserved)
+  2026-11-08T13:56  world  [France 24] 2026 Dakar Youth Olympic Games: Golden Double for Senegal
+      image: not-reusable (France 24 photos are all rights reserved)
+  2026-11-08T13:56  world  [Türkiye Today] Türkiye customs seize 54.5 tons of drugs in first 10 months of 2026
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T13:51  EA-ss  [Eye Radio (South Sudan)] South Sudan prepares climate change legal submission to African court
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-08T13:50  world  [Al Jazeera English] Messi becomes first player to win back-to-back MLS Golden Boot awards
+      image: not-reusable (agency photo (Getty), all rights reserved)
+  2026-11-08T13:47  EA-ke  [Capital FM Kenya] Ruto warns Kenyans against gambling with the country’s future by electing opposition
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T13:46  world  [France 24] Diwali: Over one billion people mark victory of light over darkness
+      image: not-reusable (France 24 photos are all rights reserved)
+  2026-11-08T13:29  EA-tz  [The Citizen (Tanzania) + The Citizen (Tanzania)] Rostam Azizi urges government to give local contractors a fair chance
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)
+  2026-11-08T13:25  EA-tz  [The Citizen (Tanzania)] Tanzania seeks private investment to boost agricultural exports through cold chain facilities
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)
+  2026-11-08T13:20  EA-ug  [Nile Post (Uganda)] Government, Rotary Join Hands to Improve Healthcare Services in Nansana
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T13:13  sports [BBC Sport] Why Wales have a lot to prove despite beating Japan
+      image: generic (generic thumbnail or logo, not a photo of this story)
+  2026-11-08T13:13  world  [Daily Sabah] Poland grieves after rare mass shooting kills 6 in Krakow
+      image: not-reusable (agency photo (AFP), all rights reserved)  related: 4
+  2026-11-08T13:12  EA-tz  [The Citizen (Tanzania)] European Parliament condemns sentencing of Tanzanian opposition leader Tundu Lissu
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)  related: 1
+  2026-11-08T13:10  sports [BBC Sport] Is there something missing despite Rangers' impressive form?
+      image: generic (generic thumbnail or logo, not a photo of this story)
+  2026-11-08T13:07  EA-ug  [Nile Post (Uganda)] KCCA Rescues 114 Street Children In Kampala Operation
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T13:04  EA-ug  [Nile Post (Uganda)] Uganda Aviation Academy Acquires Cessna 421 In Fleet Expansion Drive
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T13:03  world  [Al Jazeera English + Türkiye Today] Tennis world number one Rybakina withdraws from WTA Finals due to virus
+      image: not-reusable (agency photo (AFP), all rights reserved)
+  2026-11-08T13:02  EA-ug  [Nile Post (Uganda)] Researchers Challenged To Develop Practical Solutions To Uganda’s Economic Challenges
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T13:01  world  [Euronews] At least 21 dead after migrant boat capsizes off Senegal, authorities say
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-08T13:00  world  [CNN] How Democrats reshaped the Senate, in charts and maps
+      image: not-reusable (CNN photos are all rights reserved)
+  2026-11-08T13:00  world  [CNN] Hakeem Jeffries has a plan for Donald Trump and for his Democratic critics
+      image: not-reusable (CNN photos are all rights reserved)  related: 1
+  2026-11-08T12:59  EA-ug  [Nile Post (Uganda)] MTN, CBS Partner To Launch 2026 Entanda Ya Buganda
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T12:57  sports [BBC Sport] Raya, Pickford and Wales' search for a new keeper
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-08T12:54  EA-ug  [Nile Post (Uganda)] Uganda, Italy Launch Business Hub To Boost Trade And Investment
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T12:52  world  [Daily Sabah] At least 22 wounded when strong earthquake rocks central Japan
+      image: not-reusable (Daily Sabah photos are all rights reserved)
+  2026-11-08T12:51  EA-dj  [La Nation (Djibouti)] Djibouti – Royaume-Uni : Un nouvel élan de coopération
+      image: none (no image in the feed or Open Graph data)
+  2026-11-08T12:50  EA-ug  [Nile Post (Uganda)] Kyaka II Refugees Embrace Savings Culture To Build Sustainable Livelihoods
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T12:50  EA-dj  [La Nation (Djibouti)] Aden Ali Mahamade prend les commandes du ministère de la Défense
+      image: none (no image in the feed or Open Graph data)
+  2026-11-08T12:49  EA-dj  [La Nation (Djibouti)] MVUH et MAEPE-RH : Une alliance pour mieux protéger les quartiers de Boulaos face aux inondatio
+      image: none (no image in the feed or Open Graph data)
+  2026-11-08T12:47  world  [France 24] Middle East live: Riyadh's financial district targeted following deadly Saudi strikes in Yemen
+      image: not-reusable (agency photo (AFP), all rights reserved)  related: 1
+  2026-11-08T12:46  EA-dj  [La Nation (Djibouti)] Chine-Afrique : Trois semaines d’immersion au cœur des mutations chinoises pour les journaliste
+      image: none (no image in the feed or Open Graph data)
+  2026-11-08T12:45  EA-dj  [La Nation (Djibouti)] Djibouti Beach Festival : La plage du Héron, trois jours au rythme de la jeunesse et de la cult
+      image: none (no image in the feed or Open Graph data)
+  2026-11-08T12:44  world  [Türkiye Today] Türkiye offers condolences to Poland after Krakow terrorist attack
+      image: not-reusable (Türkiye Today photos are all rights reserved)  related: 3
+  2026-11-08T12:43  world  [France 24] Israel's Arab-led parties gain influence
+      image: not-reusable (France 24 photos are all rights reserved)  related: 1
+  2026-11-08T12:42  EA-ke  [The Standard (Kenya)] Lenku's FEDA party set to shake up Maa politics ahead of 2027 polls
+      image: not-reusable (The Standard (Kenya) photos are all rights reserved)
+  2026-11-08T12:42  world  [France 24] Gaza: Heavy rain inundates thousands of tents
+      image: not-reusable (France 24 photos are all rights reserved)  related: 1
+  2026-11-08T12:40  world  [Türkiye Today] Otto Eats: Haslama keci, or please do not argue with the goat
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T12:38  EA-dj  [La Nation (Djibouti)] Nauti’ Vert : Une plateforme pour mieux connaître et protéger la mer djiboutienne
+      image: none (no image in the feed or Open Graph data)
+  2026-11-08T12:33  EA-ke  [KBC (Kenya Broadcasting Corporation)] President Ruto begins four-day development tour in Gusii region
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T12:30  world  [Al Jazeera English] Democrats’ congressional win could strengthen Ukraine’s hand against Russia
+      image: not-reusable (agency photo (EPA), all rights reserved)  related: 2
+  2026-11-08T12:28  world  [Al Jazeera English] Floods in Gaza leave tens of thousands without shelter
+      image: not-reusable (agency photo (Anadolu), all rights reserved)
+  2026-11-08T12:10  world  [CNN + Daily Sabah, Türkiye Today] Building owned by Saudi oil giant damaged in missile attack on Riyadh’s financial district
+      image: not-reusable (CNN photos are all rights reserved)  related: 1
+  2026-11-08T12:09  world  [Al Jazeera English] Former Palestinian detainees at mercy of Israel amid perpetual detention
+      image: not-reusable (Al Jazeera English photos are all rights reserved)
+  2026-11-08T12:09  EA-ug  [Nile Post (Uganda)] Youth Urged to Embrace Entrepreneurship
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T12:06  EA-ug  [Nile Post (Uganda)] Mufti Mubaje Warns Muslim Leaders Against Misusing Donated Funds
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T12:04  EA-ke  [KBC (Kenya Broadcasting Corporation)] Kenyan youth warned against fraudsters exploiting demand for overseas jobs
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T11:59  world  [France 24] Poland launches terrorism probe into mass shooting in Krakow
+      image: not-reusable (agency photo (AFP), all rights reserved)  related: 2
+  2026-11-08T11:57  world  [Al Jazeera English] Rent-a-grandchild: Businesses offering companions to elderly grow in India
+      image: not-reusable (Al Jazeera English photos are all rights reserved)
+  2026-11-08T11:57  world  [Al Jazeera English + BBC Sport] Khawaja denies throwing ‘anyone under the bus’ over Sandpapergate scandal
+      image: not-reusable (Al Jazeera English photos are all rights reserved)
+  2026-11-08T11:56  world  [Al Jazeera English] ‘Don’t bring your camera’: Filmmakers face extortion in Lagos
+      image: not-reusable (Al Jazeera English photos are all rights reserved)
+  2026-11-08T11:42  world  [Al Jazeera English] Hossam Hassan sacked as Egypt head coach over ex-wife scandal
+      image: not-reusable (Al Jazeera English photos are all rights reserved)
+  2026-11-08T11:35  EA-ug  [Nile Post (Uganda)] Police Museum Showcases Evolution of Uganda's Policing at National Arts Festival
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T11:31  EA-ke  [Capital FM Kenya] Nairobi Water announces 24-hour shutdown affecting Westlands, Kilimani, Langata and other areas
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T11:19  sports [BBC Sport + BBC Sport] Australia reach World Cup final after Fiji scare
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-08T11:14  EA-ke  [Capital FM Kenya] DCI arrests suspected Airbnb fraudster accused of defrauding holidaymaker of Sh130,000 in Momba
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T11:05  EA-ke  [Capital FM Kenya] Kenya targets restoration of 10,000 hectares of Mt Elgon as tree cover drive gathers pace
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T10:56  EA-ke  [Capital FM Kenya] Police fatally shoot suspected knife-wielding robber after foiled attack on Juja Road
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T10:36  EA-ug  [Capital FM Kenya] Three arrested in Nanyuki as detectives recover stolen car destined for Uganda
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T10:35  EA-ke  [KBC (Kenya Broadcasting Corporation)] Kenya champions diaspora role at Global Armenian Summit
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T10:30  sports [BBC Sport] I want to face Baumgardner, it will be boxing's next great rivalry - Dubois
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-08T10:30  sports [BBC Sport] 'I can't believe he is one of us' - inside Salah's life in Trabzon
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-08T10:27  EA-ke  [Capital FM Kenya] Police seize 454kg of suspected methamphetamine worth Sh3.6bn in Kwale
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T10:22  EA-ke  [Capital FM Kenya] Sifuna defends Gachagua alliance, declares Ruto an ‘existential threat’
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T10:08  world  [France 24] Tenerife honour teammate Jesus De Miguel with tearful tribute
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-08T10:04  world  [Euronews + France 24] Trump offers UFC boss White House press secretary role: 'Dana, please take the job!'
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-08T09:36  EA-ke  [KBC (Kenya Broadcasting Corporation)] CS Murkomen calls Kenya’s diversity a “treasure trove” as he attends Pokot fest 2026
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T09:32  EA-ke  [Capital FM Kenya] UDA delegates endorse Aruasa for Kitutu Chache South MP seat
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T09:24  EA-ke  [Capital FM Kenya] Buyu: ODM-UDA talks must be party-to-party, not an ethnic deal
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T08:55  EA-tz  [Daily News (Tanzania)] Call for Tanzania to commercially utilize its overseas properties to boost income, attract fore
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-08T08:55  world  [Türkiye Today] CENTCOM's land blockade undercuts Vance’s Iran talks, ex-US official says
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T08:23  world  [Türkiye Today] AI opens doors to cinema, but should it take over? Turkish directors weigh in
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T08:22  world  [Türkiye Today] Turkish electronics icon Vestel races against time as Chinese rivals flood Europe
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T08:11  EA-ke  [KBC (Kenya Broadcasting Corporation)] Keemlyf set to release new single “Take Me Back”
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T08:00  world  [CNN] As fresh peace talks loom, Putin is escalating his efforts to shatter Ukraine’s economy
+      image: not-reusable (agency photo (Getty), all rights reserved)  related: 2
+  2026-11-08T07:56  EA-ke  [KBC (Kenya Broadcasting Corporation)] Eurovision brings pop and politics to Asia
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T04:43  EA-rw  [KT Press (Rwanda)] ‘Carte d’Identité’: The Play Taking Rwanda’s History to a Young Audience
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-08T03:52  world  [BBC News World] The Trump coalition is shattered - what will Republicans do now?
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-08T03:48  world  [BBC News World] Germans wrestle with what to do with Hitler's destroyed Eagle's Nest retreat
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-08T03:11  EA-rw  [KT Press (Rwanda)] International NGOs in Rwanda Receive Over US$230 Million Annually. Is the Impact Visible?
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-08T01:47  world  [France 24] Gunman kills six in Krakow, three more bodies found at his house
+      image: not-reusable (France 24 photos are all rights reserved)  related: 1
+  2026-11-08T01:45  EA-rw  [KT Press (Rwanda)] Why Are Kigali and Northern Province Receiving Less Government Funding?
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-08T01:05  world  [France 24] France beat Fiji to reclaim top spot in Nations Championship
+      image: not-reusable (agency photo (AFP), all rights reserved)
+  2026-11-08T00:51  world  [BBC News World + Euronews, Al Jazeera English, DW, Daily Sabah] Israel's president tasks opposition leader Eisenkot with forming government
+      image: not-reusable (BBC News World photos are all rights reserved)  related: 1
+  2026-11-08T00:36  world  [BBC News World] 'Flat', 'tired', 'cynical': Unusually gloomy Kiwis deliver New Zealand's tightest election in y
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-08T00:28  EA-tz  [Daily News (Tanzania)] Poem: A Prayer for Your Smile
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-08T00:23  EA-ke  [KBC (Kenya Broadcasting Corporation)] Kalacha Catholic Church: A beacon of faith in the heart of Chalbi Desert
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T00:03  world  [DW] Ebola: Why is there still no vaccine?
+      image: not-reusable (agency photo (AP Photo), all rights reserved)
+  2026-11-07T23:15  EA-ke  [KT Press (Rwanda)] The One Thing President Kagame Told Ruto’s Daughter on Her Wedding Day
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-07T22:30  EA-et  [Fana Broadcasting (Ethiopia)] Deputy PM Temesgen Underscores Ethiopia’s Islamic Heritage as Foundation for National Unity and
+      image: not-reusable (Fana Broadcasting (Ethiopia) photos are all rights reserved)
+  2026-11-07T22:28  EA-ke  [KBC (Kenya Broadcasting Corporation)] IG Kanja urges police to uphold professionalism ahead of elections
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-07T22:15  world  [Euronews] Video shows people fleeing as gunman opens fire in Kraków, Poland
+      image: not-reusable (Euronews photos are all rights reserved)  related: 1
+  2026-11-07T21:36  world  [DW] Armenia's selective prosecution: A threat to EU relations?
+      image: not-reusable (agency photo (AP Photo), all rights reserved)
+  2026-11-07T21:35  EA-ss  [Radio Tamazuj] Letter| Violence is our history, not our nature
+      image: not-reusable (Radio Tamazuj photos are all rights reserved)
+  2026-11-07T21:15  world  [Euronews] 'Peace is possible and we are called to build it' Pope Leo XIV says in Uruguay
+      image: not-reusable (agency photo (AP Photo), all rights reserved)
+  2026-11-07T21:07  world  [DW] South Africa's ANC facing worst-ever performance in local elections
+      image: not-reusable (DW photos are all rights reserved)
+  2026-11-07T20:48  world  [BBC News World] What we know so far after Krakow gun attack
+      image: not-reusable (BBC News World photos are all rights reserved)  related: 1
+  2026-11-07T20:33  EA-ke  [KBC (Kenya Broadcasting Corporation)] Njoki and Kipkoech claim victories in 2nd AK cross country in Kimilili
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-07T20:09  world  [BBC News World] Houthis say at least 33 killed in Saudi air strike
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-07T19:50  world  [BBC News World] Italian foreign minister says hackers leaked his personal data
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-07T18:56  EA-ke  [KBC (Kenya Broadcasting Corporation)] Shawn Malesi takes early lead in round one of the NCBA Mt Kenya Junior Championship
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-07T18:52  EA-tz  [Daily News (Tanzania)] PIC lauds TADB’s 8.4bn/- increase in dividends paid to the government
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-07T18:50  world  [Addis Standard] Ideas worth reading are also worth hearing. 🎧
+      image: none (no image in the feed or Open Graph data)
+  2026-11-07T18:22  EA-ke  [The Standard (Kenya)] Mudavadi urges Western Kenya to unite, says region cannot remain on sidelines
+      image: not-reusable (The Standard (Kenya) photos are all rights reserved)
+  2026-11-07T18:15  world  [CNN] Poland stunned as suspect with far-right views kills 6 in Kraków mass shooting
+      image: not-reusable (agency photo (Reuters), all rights reserved)  related: 2
+  2026-11-07T18:14  world  [DW] Journalism and AI: Who owns the news?
+      image: not-reusable (DW photos are all rights reserved)
+  2026-11-07T17:45  world  [Daily Sabah] Heavy rains flood 70,000 displacement tents across Gaza
+      image: not-reusable (Daily Sabah photos are all rights reserved)  related: 1
+  2026-11-07T17:38  world  [DW] Son of Iran's shah receives 'Freedom Prize' in Frankfurt
+      image: not-reusable (agency photo (AFP), all rights reserved)
+  2026-11-07T17:28  world  [Daily Sabah] France sees fresh mass protests as police move to block banned rally
+      image: not-reusable (Daily Sabah photos are all rights reserved)  related: 1
+  2026-11-07T17:15  world  [DW] After victory in the midterms, what next for US Democrats?
+      image: not-reusable (agency photo (REUTERS), all rights reserved)  related: 1
+  2026-11-07T17:13  world  [Daily Sabah] Zelenskyy cautions against Trump's proposed European security deal
+      image: not-reusable (Daily Sabah photos are all rights reserved)  related: 1
+  2026-11-07T16:29  world  [Daily Sabah] Vance seeks political identity beyond Trump after GOP midterm losses
+      image: not-reusable (Daily Sabah photos are all rights reserved)  related: 1
+  2026-11-07T16:03  EA-et  [Fana Broadcasting (Ethiopia)] 🇪🇹🇿🇼 Ethiopia’s Prosperity Party and Zimbabwe’s ZANU-PF Sign MoU to Strengthen Bilateral Cooper
+      image: not-reusable (Fana Broadcasting (Ethiopia) photos are all rights reserved)
+  2026-11-07T16:02  world  [BBC News World] UK cannot 'cherry pick' EU single market deal, Barnier tells BBC
+      image: not-reusable (BBC News World photos are all rights reserved)
+  2026-11-07T15:49  world  [Daily Sabah] Yemen airstrikes kill 22, wound 30 near Houthi-controlled capital
+      image: not-reusable (agency photo (Associated Press), all rights reserved)
+  2026-11-07T15:24  EA-tz  [The Citizen (Tanzania)] Court orders Attorney General joined to case challenging media ban
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)
+  2026-11-07T14:37  EA-tz  [Daily News (Tanzania)] 200 African delegates head to Arusha for EA Court of Justice’s silver Jubilee
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-07T14:35  world  [Euronews] US launches new targeted strikes on Iran as Trump claims progress in talks with Tehran
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-07T14:31  world  [Euronews + BBC News World] US offers $20 million reward and 'possible relocation' for information on 'Iran’s nuclear progr
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-07T14:16  EA-et  [Addis Standard] The Ethiopian - Eritrean Escalation: Motives, scenarios, and regional implications
+      image: none (no image in the feed or Open Graph data)
+  2026-11-07T14:05  world  [Daily Sabah] Displaced Yemeni mothers collect plastic bottles to feed families
+      image: not-reusable (Daily Sabah photos are all rights reserved)
+  2026-11-07T13:44  EA-ss  [Eye Radio (South Sudan)] Western Bahr el Ghazal orders closure of two airline offices over five-dollar stamp duty
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-07T13:36  world  [Euronews] Pedro Alliana sworn in as Paraguay president after Santiago Peña's impeachment
+      image: not-reusable (Euronews photos are all rights reserved)  related: 2
+  2026-11-07T13:34  EA-et  [Fana Broadcasting (Ethiopia) + Fana Broadcasting (Ethiopia), Fana Broadcasting (Ethiopia)] Ethiopia’s Ruling Prosperity Party Unanimously Elected to Lead African Political Parties Initia
+      image: not-reusable (Fana Broadcasting (Ethiopia) photos are all rights reserved)  related: 3
+  2026-11-07T13:26  EA-et  [Fana Broadcasting (Ethiopia)] Medemer Can Turn Africa’s Fragmented Potential into Collective Prosperity, Says Minister Bikila
+      image: not-reusable (Fana Broadcasting (Ethiopia) photos are all rights reserved)  related: 3
+  2026-11-07T13:19  EA-ss  [Eye Radio (South Sudan)] Court adjourns Rev. Maring murder trial after two bail recipients fail to appear
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-07T12:46  EA-ss  [Radio Tamazuj] Two airline offices closed over $5 passenger levy in Wau
+      image: not-reusable (Radio Tamazuj photos are all rights reserved)  related: 1
+  2026-11-07T12:22  world  [Euronews] US Secret Service arrests man parked near White House with 'multiple guns' in vehicle
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-07T12:21  world  [DW] Ukraine: Russia hits Kyiv with airstrikes ahead of trilateral talks
+      image: not-reusable (agency photo (REUTERS), all rights reserved)  related: 4
+  2026-11-07T12:12  EA-ss  [Eye Radio (South Sudan)] Security fears, movement restrictions threaten political participation ahead of South Sudan ele
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)  related: 2
+  2026-11-07T11:58  EA-ss  [Radio Tamazuj] Journalists urged to expose use of children in armed conflict
+      image: not-reusable (Radio Tamazuj photos are all rights reserved)
+  2026-11-07T11:46  EA-ss  [Radio Tamazuj] Yambio court jails pastor, sub-chief over funeral regulation violations
+      image: not-reusable (Radio Tamazuj photos are all rights reserved)
+  2026-11-07T11:37  EA-rw  [KT Press (Rwanda)] Africa needs stronger agricultural financing to withstand climate shocks – ARC Chief
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-07T11:27  EA-ss  [Radio Tamazuj] Western Bahr el Ghazal receives voter registration materials
+      image: not-reusable (Radio Tamazuj photos are all rights reserved)  related: 1
+  2026-11-07T11:23  EA-tz  [The Citizen (Tanzania)] Tanzania secures $1.2 billion financing for SGR construction
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)
+  2026-11-07T10:45  EA-ss  [Eye Radio (South Sudan)] Funding cuts in South Sudan: The human cost of disinvestment -MSF
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-07T10:33  world  [DW] US: Giant pandas from China make public debut at Atlanta zoo
+      image: none (no image in the feed or Open Graph data)
+  2026-11-07T10:27  EA-ke  [Addis Standard] Kenya engages Ethiopia to end ongoing Moyale conflict
+      image: none (no image in the feed or Open Graph data)
+  2026-11-07T07:12  EA-tz  [Daily News (Tanzania)] Infinity Foundation donates equipment to boost conservation efforts at UNESCO world heritage si
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-07T04:07  world  [BBC News World] Paraguay's former president charged after bank collapse
+      image: not-reusable (BBC News World photos are all rights reserved)  related: 2
+  2026-11-07T03:52  EA-rw  [KT Press (Rwanda)] Shema Espérant: The Shy Schoolboy Who Became a Corporate Leader and Media Personality
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-07T03:47  EA-rw  [KT Press (Rwanda)] In Rwanda, Outstanding Journalists Awarded as Media Role in African Trade Takes Centre Stage
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-06T20:35  EA-et  [Fana Broadcasting (Ethiopia)] Africa Governance Centre Chair Calls on Political Parties to Prepare for Government Before Winn
+      image: not-reusable (Fana Broadcasting (Ethiopia) photos are all rights reserved)  related: 1
+  2026-11-06T20:31  EA-et  [Fana Broadcasting (Ethiopia)] African Political Parties Must Turn Continent’s Potential into Productive Capacity – PP Vice Pr
+      image: not-reusable (Fana Broadcasting (Ethiopia) photos are all rights reserved)  related: 3
+  2026-11-06T20:22  EA-ke  [Africanews] Kenya: Sentencing of cult leader Mackenzie draws mixed reactions
+      image: not-reusable (Africanews photos are all rights reserved)
+  2026-11-06T20:20  EA-et  [Fana Broadcasting (Ethiopia)] AUC Chief Praises PM Abiy’s Political Leadership and Vision for Driving Ethiopia’s Transformati
+      image: not-reusable (Fana Broadcasting (Ethiopia) photos are all rights reserved)  related: 4
+  2026-11-06T20:17  EA-tz  [Africanews + The Citizen (Tanzania)] Tanzanian opposition celebrates 'victorious' day after leader avoids death penalty
+      image: not-reusable (Africanews photos are all rights reserved)  related: 1
+  2026-11-06T20:08  EA-tz  [The Citizen (Tanzania)] Tanzania urged to probe election-related abuses
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)
+  2026-11-06T19:54  EA-et  [Fana Broadcasting (Ethiopia)] AU Commission Chairperson Warns Unregulated Political Funding Risks Exposing Africa’s Politics 
+      image: not-reusable (Fana Broadcasting (Ethiopia) photos are all rights reserved)  related: 2
+  2026-11-06T19:46  EA-tz  [Daily News (Tanzania)] Mkuranga residents set to benefit from Mafia electricity project
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-06T19:21  EA-ss  [Eye Radio (South Sudan)] She Stands Women’s Museum calls for stronger partnerships to preserve South Sudanese women’s hi
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-06T18:37  EA-et  [Addis Standard] Dozens killed in second attack in as many weeks in Oromia’s Arsi area
+      image: none (no image in the feed or Open Graph data)
+  2026-11-06T18:30  EA-ss  [Eye Radio (South Sudan)] Women advocates accuse traditional chiefs of violating women’s rights
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-06T18:20  EA-er  [Shabait (Eritrea, Ministry of Information)] Role of teachers in nurturing competent youth
+      image: not-reusable (Shabait (Eritrea, Ministry of Information) photos are all rights reserved)
+  2026-11-06T18:12  EA-ss  [Radio Tamazuj] “I want to be the voice of my people” – Bakasoro
+      image: not-reusable (Radio Tamazuj photos are all rights reserved)
+  2026-11-06T18:07  EA-tz  [Daily News (Tanzania)] TZ invests in health workforce to tackle rising diabetes, hypertension
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-06T18:06  EA-rw  [KT Press (Rwanda)] Equity Bank Rwanda Introduces EMMA to Turn Everyday Transactions into a Path to Credit
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-06T18:00  EA-rw  [KT Press (Rwanda)] Kigali Universe Reinvents Movie Night with a Mix of Cinema and Arcade Gaming
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-06T18:00  EA-ke  [The Standard (Kenya)] Family identifies two security officers involved in Abshir Abdi abduction
+      image: not-reusable (The Standard (Kenya) photos are all rights reserved)
+  2026-11-06T17:56  EA-tz  [Daily News (Tanzania)] Tanzania intensifies clean energy campaign to ensure 80 percent of its citizens use it by 2034
+      image: not-reusable (Daily News (Tanzania) photos are all rights reserved)
+  2026-11-06T17:37  world  [DW] Amid protests, France's rising debt costs threaten stability
+      image: not-reusable (agency photo (Reuters), all rights reserved)  related: 1
+  2026-11-06T17:30  world  [Addis Standard] Wollega’s suffering deepens as rival armed factions leave civilians trapped in a deadly, fragme
+      image: none (no image in the feed or Open Graph data)
+  2026-11-06T17:07  world  [UN News] Sudan’s suffering is plain for all to see say aid teams, as brutal war continues
+      image: not-reusable (UN News photos are all rights reserved)
+  2026-11-06T16:45  EA-tz  [The Citizen (Tanzania)] Samia holds talks with South African envoy, Qatar investor
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)
+  2026-11-06T16:28  EA-ss  [Radio Tamazuj] China urges Sudan, South Sudan to resolve Abyei dispute amid election tensions
+      image: not-reusable (Radio Tamazuj photos are all rights reserved)  related: 2
+  2026-11-06T15:47  EA-ss  [Radio Tamazuj] NEC delivers voter registration materials to W. Equatoria
+      image: not-reusable (Radio Tamazuj photos are all rights reserved)
+  2026-11-06T15:22  EA-rw  [KT Press (Rwanda)] DRC Threatens to Quit Francophonie If Rwanda’s Mushikiwabo Wins Third Term
+      image: not-reusable (KT Press (Rwanda) photos are all rights reserved)
+  2026-11-06T14:55  EA-tz  [The Citizen (Tanzania)] Lissu sentenced to four years in prison for incitement
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)  related: 1
