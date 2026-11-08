@@ -63,6 +63,7 @@ for _f in _ms['wire']['feeds']:
     check(_f['url'].startswith('https://') and _f.get('region') in ('somalia', 'eastafrica', 'africa', 'world'), f"wire feed {_f['id']}")
 for _d in ('data/live-feeds',):
     for _f in (_os.listdir(_d) if _os.path.isdir(_d) else []):
-        check(not _re.search(r'(?i)(token|api[_-]?key|x-auth|secret)', open(_os.path.join(_d, _f)).read()), f'no key in {_f}')
+        # a key would be a JSON field or a URL parameter, never a word in a headline or video title
+        check(not _re.search(r'(?i)("(token|access_token|api_?key|key|secret|x-auth-token)"\s*:|[?&](key|token|api_?key)=)', open(_os.path.join(_d, _f)).read()), f'no key in {_f}')
 check(not _re.search(r'(?i)(api[_-]?key|token)', open('data/media-sources.json').read()), 'no key in media-sources.json')
 print(f'media tests OK ({ok} checks)')
