@@ -109,6 +109,8 @@ collections:
           - {name: url, label: Link, widget: string}
       - {name: worldSource, label: 'Isha Caalamka (id)', widget: string, required: false}
       - {name: timeVerified, label: Waqtiga waa la hubiyay, widget: boolean, default: true}
+      - {name: discoveredAt, label: 'Goorta la helay (kormeeraha 5 daqiiqo; ha beddelin)', widget: string, required: false}
+      - {name: verifiedAt, label: 'Goorta la hubiyay (hawsha wararka; ha beddelin)', widget: string, required: false}
       - {name: by, label: Qoraa, widget: hidden, default: admin}
       # translations: shown on the site when a visitor picks English, Arabic, French, Dutch, Italian, German or Turkish
       - name: en
@@ -720,6 +722,21 @@ collections:
               - {name: medianDiscoveryMin, label: 'Isha → la helay', widget: number, value_type: float, required: false}
               - {name: medianLiveMin, label: 'Isha → bogga Wartabiye', widget: number, value_type: float, required: false}
               - {name: medianDiscoveryToLiveMin, label: 'La helay → bogga', widget: number, value_type: float, required: false}
+          - name: recentPublished
+            label: 'Wararkii u dambeeyay: dib-u-dhaca (daqiiqo, Africa/Nairobi)'
+            widget: list
+            required: false
+            summary: '{{fields.liveDelayMin}} daqiiqo: {{fields.title}}'
+            fields:
+              - {name: title, label: Cinwaanka asalka, widget: string, required: false}
+              - {name: source, label: Isha, widget: string, required: false}
+              - {name: articleId, label: 'War (id)', widget: string, required: false}
+              - {name: publishedAt, label: 'Isha ayaa daabacday', widget: string, required: false}
+              - {name: discoveredAt, label: 'Wartabiye ayaa helay', widget: string, required: false}
+              - {name: committedAt, label: 'La hubiyay oo la keydiyay', widget: string, required: false}
+              - {name: liveAt, label: 'Bogga ka muuqday', widget: string, required: false}
+              - {name: discoveryDelayMin, label: 'Dib-u-dhaca helitaanka', widget: number, value_type: float, required: false}
+              - {name: liveDelayMin, label: 'Dib-u-dhaca guud (isha → bogga)', widget: number, value_type: float, required: false}
           - name: sources
             label: Ilaha
             widget: list
