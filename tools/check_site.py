@@ -88,7 +88,7 @@ if sp.get('apiBase') and not str(sp['apiBase']).startswith('https://'): warnings
 if any(k in json.dumps(sp).lower() for k in ('apikey', 'api_key', 'x-auth-token', 'x-apisports-key')): errors.append('sports.json: looks like it contains an API key; keys belong in the sports proxy secret, never in the public site')
 for s in sp.get('streams') or []:
     if not stream_authorised(s): warnings.append(f"sports.json stream {s.get('title')!r}: hidden (rights not confirmed, rights holder or authorisation missing, or link not accepted)")
-print(f'videos={len(vids)} live_stream={"set" if live.get("streamUrl") else "not set"} sports_api={"set" if sp.get("apiBase") else "not set"}')
+print(f'videos={len(vids)} live_stream={"set" if live.get("streamUrl") else "not set"} sports_api={"set" if sp.get("apiBase") else "not set"} open_data_leagues={len([l for l in ((sp.get("openData") or {}).get("leagues") or []) if l and l.get("enabled") is not False]) if (sp.get("openData") or {}).get("enabled") is not False else 0} feed={"on" if os.path.exists("data/sports-feed/index.json") else "off"}')
 for w in warnings: print('WARNING', w)
 if errors:
     print('\n'.join(errors)); sys.exit(1)

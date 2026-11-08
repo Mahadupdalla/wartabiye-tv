@@ -152,11 +152,18 @@ GitHub Pages kaliya wuxuu bixiyaa faylal; ma noqon karo server baahin toos ah. S
 5. Marka aan baahin jirin, bogga wuxuu muujiyaa "Hadda baahin ma jirto", baahinta xigta iyo muuqaalladii ugu dambeeyay.
 
 ### Ciyaaraha Toos (/admin/ → LIVE TV iyo Ciyaaraha Toos → Ciyaaraha Toos)
-Natiijooyinka tooska ah waxay u baahan yihiin adeeg xog ciyaareed oo sharci ah (API). Furaha API-ga **bogga lama gelin karo** (qof kasta ayuu arki lahaa), sidaa darteed waxaa la isticmaalaa proxy yar oo bilaash ah oo Cloudflare ku shaqeeya: `workers/sports-api/` (eeg README-ga halkaas).
-1. Is-diiwaangeli bixiye: **football-data.org** (qorshe bilaash ah: Premier League, LaLiga, Serie A, Bundesliga, Ligue 1, Champions League iyo kuwo kale; dhacdooyinka iyo tirakoobku waa qorshe lacag leh) ama **API-Football** (api-sports.io; qorshe lacag leh ayaa loo baahan yahay xilli ciyaareedka hadda, wuxuu leeyahay natiijooyin toos ah, dhacdooyin iyo tirakoob).
-2. Deploy-garee proxy-ga (hal mar) oo furaha geli sida `PROVIDER_TOKEN` (Cloudflare secret).
-3. /admin/ → *Ciyaaraha Toos* → **Cinwaanka adeegga** = cinwaanka proxy-ga (`https://wartabiye-sports.<magacaaga>.workers.dev`). Tartamada: ID-yada bixiyaha (football-data: `PL`, `PD`, `SA`, `BL1`, `FL1`, `CL`; API-Football: `39`, `140`, `135`, `78`, `61`, `2`).
-4. **Halkee lagu daawan karaa:** link-yada rasmiga ah ee telefishinnada xuquuqda leh.
-5. **Baahinta ciyaaraha:** ku dar KALIYA haddii Wartabiye TV haysato xuquuqda baahinta ama oggolaansho qoran. Waa in aad shiddaa *Xuquuqda waa la xaqiijiyay*, qortaa *cidda xuquuqda leh* iyo *oggolaanshaha*. Haddii mid maqan yahay, baahintu ma muuqato. Waligaa ha gelin baahin la xaday ama dib-u-baahin.
+Bogga wuxuu xogta ka helaa saddex il, mid kasta oo sharci ah. Furaha API-ga **bogga lama gelin karo** (qof kasta ayuu arki lahaa).
 
-Ilaa adeegga xogta la xiro, bogga Ciyaaraha Toos wuxuu si daacad ah u sheegaa "Natiijooyinka tooska ah weli lama xirin" wuxuuna muujiyaa macluumaadka daawashada rasmiga ah iyo wararka ciyaaraha.
+**1. Xog furan (OpenLigaDB) – hadda shaqaynaysa, key looma baahna.** OpenLigaDB (api.openligadb.de) waa kayd xog kubadda cagta oo furan oo qof kasta si bilaash ah u isticmaali karo. Browser-ka booqdaha ayaa si toos ah u akhriya, sidaa darteed natiijadu waxay cusboonaysaa daqiiqad gudaheed. Horyaallada la dejiyay (8 Nov 2026 la hubiyay inay dhammaystiran yihiin): Champions League, Bundesliga, Europa League, Conference League, 2. Bundesliga, DFB-Pokal. Waxay bixisaa natiijada, goolasha (cidda dhalisay, daqiiqadda, rigoore, is-dhalin), ciyaaraha soo socda, natiijooyinka iyo kala sarreynta. Kaararka, beddelaadda iyo tirakoobku kuma jiraan. OpenLigaDB saacad ciyaareed ma bixiso: ciyaar waxaa loo muujiyaa "Toos" kaliya laga bilaabo bilowga ilaa xogtu sheegto inay dhammaatay (ugu badnaan 150 daqiiqo); haddii ay dhaafto oo aan weli la xaqiijin, waxaa lagu qoraa "Natiijada weli lama xaqiijin". **Julaay kasta** cusboonaysii *Xilliga* (tusaale 2027) iyo gaaban-ka Europa/Conference League (tusaale `uel2027`). Horyaal kale (Premier League, LaLiga) OpenLigaDB-ga si buuxda ugama jiraan, sidaa darteed lama shidin.
+
+**2. football-data.org iyada oo loo marayo GitHub (Premier League, LaLiga, Serie A, Ligue 1) – hal secret oo kaliya.**
+1. Is-diiwaangeli bilaash: https://www.football-data.org/client/register → email-ka ayaa lagu soo diraa *API token*.
+2. GitHub: repo → **Settings → Secrets and variables → Actions → New repository secret**, magaca `FOOTBALL_DATA_TOKEN`, qiimaha token-ka.
+3. Workflow-ga *Ciyaaraha xog (sports feed)* wuxuu 10-kii daqiiqaba mar xogta ku keydiyaa `data/sports-feed/`. Bogga wuxuu tartamada si toos ah ugu daraa. Qorshaha bilaashka ah natiijadu way dib u dhici kartaa; ciyaar looma muujiyo "Toos" haddii xogtu ka duug tahay 25 daqiiqo.
+
+**3. Proxy (ikhtiyaari, xog degdeg ah oo qorshe lacag leh):** `workers/sports-api/` (Cloudflare Worker, eeg README-ga). Marka *Cinwaanka adeegga* la geliyo, bogga kaliya proxy-ga ayuu isticmaalaa.
+
+**Halkee lagu daawan karaa:** link-yada rasmiga ah ee telefishinnada xuquuqda leh.
+**Baahinta ciyaaraha:** ku dar KALIYA haddii Wartabiye TV haysato xuquuqda baahinta ama oggolaansho qoran. Waa in aad shiddaa *Xuquuqda waa la xaqiijiyay*, qortaa *cidda xuquuqda leh* iyo *oggolaanshaha*. Haddii mid maqan yahay, baahintu ma muuqato. Waligaa ha gelin baahin la xaday ama dib-u-baahin.
+
+Haddii ilaha oo dhan la damiyo, bogga Ciyaaraha Toos wuxuu si daacad ah u sheegaa "Natiijooyinka tooska ah weli lama xirin" wuxuuna muujiyaa macluumaadka daawashada rasmiga ah iyo wararka ciyaaraha.
