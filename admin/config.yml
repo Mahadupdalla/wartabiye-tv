@@ -857,6 +857,67 @@ collections:
                   - {name: terms, label: 'Bogga shuruudaha', widget: string, required: false}
                   - {name: contact, label: 'Xiriirka ogolaanshaha', widget: string, required: false}
                   - {name: summary, label: 'Faahfaahin', widget: text, required: false}
+  - name: deploy
+    label: 'Daabacaadda iyo PR-yada (deploy status)'
+    description: 'Halkan ka eeg haddii bogga si guul ah loo daabacay iyo waxa ku dhacay isbeddel kasta (pull request). "Waxay u baahan yihiin ogolaanshahaaga" = isbeddellada sugaya adiga. Isbeddellada low-risk ee aad ogolaatay si otomaatig ah ayaa loo merge-gareeyaa oo loo daabacaa. Waxaa qora GitHub workflows-ka, ha beddelin.'
+    editor:
+      preview: false
+    files:
+      - name: status
+        label: 'Xaaladda daabacaadda (waxaa qora GitHub, ha beddelin)'
+        file: data/deploy-status.json
+        format: json
+        fields:
+          - {name: updatedAt, label: 'La cusbooneysiiyay', widget: string, required: false}
+          - {name: lastSuccessAt, label: 'Daabacaaddii u dambeysay ee guulaysatay', widget: string, required: false}
+          - {name: lastFailureAt, label: 'Fashilkii u dambeeyay', widget: string, required: false}
+          - name: lastDeploy
+            label: 'Daabacaaddii u dambeysay'
+            widget: object
+            required: false
+            fields:
+              - {name: at, label: Waqtiga, widget: string, required: false}
+              - {name: result, label: 'Natiijada (success = guul, failure = fashil)', widget: string, required: false}
+              - {name: text, label: Sharaxaad, widget: string, required: false}
+              - {name: title, label: 'Isbeddelka', widget: string, required: false}
+              - {name: commit, label: Commit, widget: string, required: false}
+              - {name: liveCommit, label: 'Commit-ka hadda live ah (GitHub Pages)', widget: string, required: false}
+              - {name: run, label: 'Log-ka (GitHub Actions)', widget: string, required: false}
+          - name: needsOwner
+            label: 'Waxay u baahan yihiin ogolaanshahaaga'
+            widget: list
+            required: false
+            summary: '#{{fields.number}} {{fields.title}}: {{fields.text}}'
+            fields:
+              - {name: number, label: 'PR', widget: number}
+              - {name: title, label: Cinwaan, widget: string, required: false}
+              - {name: text, label: Sababta, widget: string, required: false}
+              - {name: url, label: Link, widget: string, required: false}
+          - name: pullRequests
+            label: 'Pull requests-kii u dambeeyay'
+            widget: list
+            required: false
+            summary: '#{{fields.number}} {{fields.result}}: {{fields.title}} ({{fields.at}})'
+            fields:
+              - {name: at, label: Waqtiga, widget: string, required: false}
+              - {name: number, label: 'PR', widget: number}
+              - {name: title, label: Cinwaan, widget: string, required: false}
+              - {name: result, label: 'Natiijada (merged, waiting-for-owner, waiting-for-approval, tests-failed ...)', widget: string, required: false}
+              - {name: text, label: Sharaxaad, widget: string, required: false}
+              - {name: reasons, label: 'Sababaha (sensitive)', widget: list, required: false}
+              - {name: url, label: Link, widget: string, required: false}
+              - {name: run, label: 'Log-ka', widget: string, required: false}
+          - name: deploys
+            label: 'Taariikhda daabacaadda (20-kii u dambeeyay)'
+            widget: list
+            required: false
+            summary: '{{fields.at}}: {{fields.result}}: {{fields.title}}'
+            fields:
+              - {name: at, label: Waqtiga, widget: string, required: false}
+              - {name: result, label: Natiijada, widget: string, required: false}
+              - {name: title, label: Isbeddelka, widget: string, required: false}
+              - {name: commit, label: Commit, widget: string, required: false}
+              - {name: run, label: 'Log-ka', widget: string, required: false}
   - name: ads
     label: Xayeysiisyada
     label_singular: Xayeysiis

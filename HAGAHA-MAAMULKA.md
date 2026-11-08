@@ -94,6 +94,16 @@ Lacag-bixin online ah lama shidin.
 
 Marka aad riixdo **Save**, GitHub ayaa kaydiya. Workflow-ga **"Daabac bogga"** ayaa hubiya (taariikh, sawir, nuqul, xayeysiisyada), sameeya sawirro yaryar (webp), bog gaar ah war kasta (`war/<id>.html`), `sitemap.xml` iyo `rss.xml`, kadibna bogga cusbooneysiiya. Bogga tooska ahi wuxuu isbeddelaa **1–3 daqiiqo** gudahood. Haddii hubintu fashilanto (tusaale sawir maqan), bogga hore sidiisa ayuu ahaanayaa, GitHub-na wuxuu kuu soo diraa email.
 
+## Isbeddellada Claude: merge otomaatig ah iyo xaaladda daabacaadda
+
+Uma baahnid inaad GitHub gasho oo aad **Merge** riixdo isbeddel kasta. Pull request kasta waxaa tijaabiya workflow-ga **"Hubinta PR iyo merge otomaatig ah"** (`.github/workflows/pr-checks.yml`):
+
+- **Low risk** (qoraallo, bogag, naqshad, tools-ka caadiga ah) + tijaabooyinka oo dhan way guuleysteen + calaamadda **`auto-merge`** (ogolaanshahaaga: Claude ayaa ku daraya marka aad thread-ka ku tiraahdo "haa") → si otomaatig ah ayaa loo merge-gareeyaa oo bogga loo daabacaa.
+- **Sensitive** → waligeed si otomaatig ah looma merge-gareeyo; waxay heshaa calaamadda **`needs-owner`**. Sensitive waa: workflows-ka (`.github/`), admin-ka iyo login-ka (`admin/`), workers-ka (furayaasha sirta ah), `CNAME`, `sw.js`, dejinta push-ka, tools-ka isticmaala furayaal sir ah, fayl la tirtiray, ama sadar ku daraya password, token, key ama amar wax baabi'iya.
+- Wararka (hawsha saacadlaha, kormeeraha 5-daqiiqo iyo admin-ka) weli toos ayay main ugu kaydsadaan; isbeddelkan wax kama beddelo.
+
+**Xaaladda:** /admin/ → **Daabacaadda iyo PR-yada** → daabacaaddii u dambeysay (guul / fashil + link-ka log-ka), PR-yada sugaya ogolaanshahaaga, iyo waxa ku dhacay PR kasta.
+
 ## Hawsha wararka: saacad kasta, 24/7
 
 Hawsha Claude waxay hadda socotaa **saacad kasta, 24 saac, 7 maalmood** (Africa/Nairobi, qiyaastii daqiiqadda :08, 24 orod maalintii; jadwalka claude.ai ma ballanqaado daqiiqad sax ah, orod wuu soo daahi karaa). GitHub Actions wuxuu ilaha akhriyaa saacad kasta qiyaastii :35 (cron `35 * * * *`), orod kasta ka hor. Orod kasta wuxuu qaadaa oo keliya wararka la daabacay tan iyo cusbooneysiintii u dambeysay ee guulaysatay; haddii aan war cusub oo la hubiyay jirin, wararka jira sidooda ayay ahaanayaan, bogga hore wuxuu muujinayaa waqtiga dhabta ah ee hubintii u dambeysay ("La cusbooneysiiyay: … · Wararka waxaa la hubiyaa saacad kasta").
