@@ -20,4 +20,4 @@ answer, the site says the data is unavailable.
 6. In /admin/ → *LIVE TV iyo Ciyaaraha Toos → Ciyaaraha Toos*: paste the address in **Cinwaanka adeegga**, set the
    competition IDs of your provider and save. The site shows live data within a minute.
 
-Tests (no network, no token): `node --test test/`.
+Tests (no network, no token): `node --test test/worker.test.mjs`.

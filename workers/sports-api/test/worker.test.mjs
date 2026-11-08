@@ -1,4 +1,4 @@
-// node --test workers/sports-api/test   — checks the proxy with recorded-shape sample answers (no network, no token)
+// node --test workers/sports-api/test/worker.test.mjs   — checks the proxy with recorded-shape sample answers (no network, no token)
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { handle } from '../src/index.js';
