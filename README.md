@@ -25,6 +25,10 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `.github/workflows/check-news.yml` | GitHub Actions: hubinta mar kasta oo wax la shubo iyo 3-dii saacadoodba mar |
 | `assets/notify.js`, `sw.js`, `manifest.webmanifest` | Gambaleelka ogeysiisyada, banner-ka wararka cusub iyo push (browser) |
 | `tools/build_notifications.py`, `tools/push_send.py`, `data/alerts/`, `data/notify-settings.json` | Feed-ka gambaleelka (`data/notifications.json`), ogeysiisyada gacanta iyo xeerarka push (kadib marka bogga la daabaco) |
+| `assets/ads.js`, `assets/ads.css`, `assets/ads-i18n.js`, `assets/ads-credits.js`, `img/ads/demo/` | Bogga Xayeysiimaha (`#xayeysiimaha`): 10 tusaale (TUSAALE / DEMO), muuqaallo gaagaaban, meelaha xayeysiiska iyo foomka codsiga, 9 luqadood. Kaliya bogga Xayeysiimaha ayaa soo rara |
+| `tools/make_ad_demos.py` | Wuxuu sameeyaa sawirrada iyo muuqaallada tusaalooyinka (ffmpeg) iyo liiska sawirrada (Wikimedia Commons, liisanka furan) |
+| `admin/xayeysiis/` | Eeg xayeysiis kasta (xitaa kuwa la hakiyay) meel kasta ka hor daabacaadda, iyo tirakoobka aragtida/gujinta |
+| `workers/ad-stats/` | Tirakoobka xayeysiiska (Cloudflare Worker + D1): wadar maalinle ah oo kaliya, cookie/IP la'aan, DNT/GPC waa la ixtiraamaa |
 | `workers/push/` | Adeegga push (Cloudflare Worker): furaha VAPID iyo is-diiwaangelinta, sirta kuma jirto repo-ga |
 | `tools/notify_test.js` | Tijaabada gambaleelka (desktop + mobile, RTL, link kasta war dhab ah) |
 

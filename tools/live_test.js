@@ -76,8 +76,11 @@ const fs = require('fs');
         console.log(name, 'video page', JSON.stringify(f)); if (!f.heading || f.iframes) problems.push(name + ' video page');
       }
       if (path === '#xayeysiimaha') {
-        const f = await q.evaluate(() => ({ heading: /Ku Xayeysiiso Ganacsigaaga Wartabiye TV/.test(document.body.innerText), form: !!document.querySelector('#pageView form'), examples: document.querySelectorAll('#pageView .adopt').length }));
-        console.log(name, 'advertising page', JSON.stringify(f)); if (!f.heading || !f.form || f.examples !== 8) problems.push(name + ' advertising page');
+        await q.waitForSelector('#pageView .demo', { timeout: 8000 }).catch(() => {});
+        const f = await q.evaluate(() => ({ heading: /Ku Xayeysiiso Ganacsigaaga Wartabiye TV/.test(document.body.innerText), form: !!document.querySelector('#pageView form'),
+          examples: document.querySelectorAll('#pageView .demo').length, unlabelled: [...document.querySelectorAll('#pageView .demo')].filter(d => !/TUSAALE \/ DEMO/.test(d.textContent)).length,
+          videos: [...document.querySelectorAll('#pageView video')].filter(v => !v.muted || !v.playsInline).length, overflow: document.documentElement.scrollWidth - innerWidth }));
+        console.log(name, 'advertising page', JSON.stringify(f)); if (!f.heading || !f.form || f.examples !== 10 || f.unlabelled || f.videos || f.overflow > 0) problems.push(name + ' advertising page');
       }
       await q.close();
     }

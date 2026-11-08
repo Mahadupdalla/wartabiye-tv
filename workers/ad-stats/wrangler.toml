@@ -1,0 +1,19 @@
+# Wartabiye TV advert counter (Cloudflare Workers + D1, the free plan is enough). See README.md.
+#   npx wrangler@3 d1 create wartabiye-ad-stats                     -> paste the database_id below
+#   npx wrangler@3 d1 execute wartabiye-ad-stats --remote --file=schema.sql
+#   npx wrangler@3 secret put STATS_TOKEN                            (a long random password; you type it in /admin/xayeysiis/)
+#   npx wrangler@3 deploy
+name = "wartabiye-ad-stats"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wartabiye-ad-stats"
+database_id = "PASTE_D1_DATABASE_ID_HERE"
+
+[vars]
+# only pages of these sites may count (the browser sends Origin with every count)
+ALLOWED_ORIGINS = "https://www.wartabiyetv.com,https://wartabiyetv.com"
+# list of live adverts: counts for any other id are ignored
+ADS_URL = "https://www.wartabiyetv.com/data/ads.json"

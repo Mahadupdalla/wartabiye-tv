@@ -143,16 +143,52 @@
   function adText(a,f){var t=L!=='so'&&a[L]&&typeof a[L][f]==='string'&&a[L][f].trim()?a[L][f]:a[f];return typeof t==='string'?t:''}
   function liveAds(pos){var today=ymd(new Date());return ADS.filter(function(a){return a&&a.active!==false&&Array.isArray(a.positions)&&a.positions.indexOf(pos)>=0&&(!a.start||String(a.start).slice(0,10)<=today)&&(!a.end||String(a.end).slice(0,10)>=today)})}
   function ytId(u){var m=String(u||'').match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null}
+  // privacy-safe counting (only when /admin/ → Settings → "Tirakoobka xayeysiiska" has the Worker address): no cookie, no visitor id,
+  // nothing kept in the browser; visitors who send Do Not Track or Global Privacy Control are not counted (workers/ad-stats)
+  var AD_SEEN={};
+  function adStatsUrl(){var s=SITE&&SITE.adStats;var u=s&&s.enabled===true&&safeUrl(s.endpoint);return u?u.replace(/\/+$/,''):null}
+  function adNoTrack(){try{return navigator.globalPrivacyControl===true||navigator.doNotTrack==='1'||window.doNotTrack==='1'}catch(e){return false}}
+  function adSend(a,ev,pos){var u=adStatsUrl();if(!u||adNoTrack()||!a.id)return;var body=JSON.stringify({id:a.id,ev:ev,pos:pos});
+    try{if(navigator.sendBeacon&&navigator.sendBeacon(u+'/v1/hit',body))return}catch(e){}
+    try{fetch(u+'/v1/hit',{method:'POST',body:body,keepalive:true,mode:'no-cors',credentials:'omit'})}catch(e){}}
+  function adWatch(box,a,pos){ // one impression = at least half of the advert on screen for one second, once per page view
+    if(!adStatsUrl()||adNoTrack())return;var key=a.id+'|'+pos+'|'+location.pathname+location.hash;
+    box.addEventListener('click',function(e){if(e.target.closest('a[href]'))adSend(a,'click',pos)});
+    if(!('IntersectionObserver' in window))return;var tm=null;
+    var io=new IntersectionObserver(function(es){var e=es[0];if(e.isIntersecting&&e.intersectionRatio>=.5){if(!tm)tm=setTimeout(function(){io.disconnect();if(AD_SEEN[key])return;AD_SEEN[key]=1;adSend(a,'view',pos)},1000)}else if(tm){clearTimeout(tm);tm=null}},{threshold:[0,.5]});
+    io.observe(box)}
+  function adMotionOff(){try{return window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){return false}}
+  // an advert's own video file (uploaded in /admin/, H.264 mp4): muted and inline so iPhone and Android play it; it starts only
+  // when on screen, never with reduced motion, and has its own pause button
+  function adVideoFile(a){var u=String(a.videoFile||'').trim().replace(/^\//,'');return /^(img|videos)\/[^\s"'<>?#]+\.mp4$/i.test(u)||/^https:\/\/[^\s"'<>]+\.mp4(\?[^\s"'<>]*)?$/i.test(u)?u:null}
+  function adVideo(a,poster){
+    var wrap=el('div','advfile');var v=document.createElement('video');v.muted=true;v.defaultMuted=true;v.loop=true;v.playsInline=true;
+    v.setAttribute('muted','');v.setAttribute('playsinline','');v.preload='none';if(poster)v.poster=poster;v.setAttribute('aria-label',adText(a,'imageAlt')||adText(a,'title')||a.advertiser||tr('adLabel'));
+    var so=document.createElement('source');so.src=adVideoFile(a);so.type='video/mp4';v.append(so);
+    var b=el('button','advpb');b.type='button';var user=false,vis=false;
+    function paint(){var on=!v.paused;b.innerHTML=svg(on?'M7 4h4v16H7zM13 4h4v16h-4z':'M7 4.5v15l13-7.5z');b.setAttribute('aria-label',(on?'❚❚ ':'▶ ')+(adText(a,'title')||tr('adLabel')))}
+    function go(){if(vis&&!user&&!adMotionOff()&&!document.hidden){v.preload='auto';var p=v.play();if(p&&p.catch)p.catch(function(){paint()})}else if(!v.paused&&(!vis||document.hidden))v.pause()}
+    b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();if(v.paused){user=false;v.preload='auto';var p=v.play();if(p&&p.catch)p.catch(function(){})}else{user=true;v.pause()}});
+    v.addEventListener('play',paint);v.addEventListener('pause',paint);document.addEventListener('visibilitychange',go);
+    if('IntersectionObserver' in window)new IntersectionObserver(function(es){vis=es[0].isIntersecting;go()},{threshold:.5}).observe(wrap);else{vis=true;go()}
+    wrap.append(v,b);paint();return wrap}
+  // the site's own notice in an empty sidebar slot (switch off in /admin/ → Settings); it is Wartabiye TV's, so it is not labelled as a paid advert
+  function houseAd(){if(SITE&&SITE.adHouse===false)return null;
+    var box=el('aside','adslot adhouse');var a=el('a');a.href='#xayeysiimaha';
+    a.innerHTML='<span class="hk"><img src="img/logo.png" alt="" width="20" height="20"><b>WARTABIYE<span>TV</span></b></span>';
+    a.append(el('strong',null,tr('adHero')),el('span','hb',tr('adOrder')+' →'));box.append(a);return box}
   function adSlot(pos,cls){
-    var list=liveAds(pos);if(!list.length)return null;var a=list[Math.floor(Math.random()*list.length)];
-    var box=el('aside','adslot '+(cls||''));box.setAttribute('aria-label',tr('adLabel'));box.append(el('span','adtag',tr('adLabel')));
-    var vid=pos==='video'&&ytId(a.video);
-    if(vid){var b=el('button','advideo');b.type='button';b.setAttribute('aria-label',adText(a,'title')||tr('adLabel'));b.innerHTML=svg('M8 5v14l11-7z');
-      b.addEventListener('click',function(){var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+vid+'?autoplay=1&rel=0';f.allow='autoplay; encrypted-media; picture-in-picture';f.allowFullscreen=true;f.title=adText(a,'title')||'video';b.innerHTML='';b.append(f)},{once:true});box.append(b)}
+    var list=liveAds(pos);if(!list.length)return pos==='sidebar'?houseAd():null;var a=list[Math.floor(Math.random()*list.length)];
+    var box=el('aside','adslot '+(cls||''));box.setAttribute('aria-label',tr('adLabel'));box.append(el('span','adtag',tr('adLabel')));box.dataset.ad=a.id||'';
+    var vid=pos==='video'&&ytId(a.video),vf=adVideoFile(a);
+    if(vid&&!vf){var b=el('button','advideo');b.type='button';b.setAttribute('aria-label',adText(a,'title')||tr('adLabel'));b.innerHTML=svg('M8 5v14l11-7z');
+      b.addEventListener('click',function(){var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+vid+'?autoplay=1&rel=0';f.allow='autoplay; encrypted-media; picture-in-picture';f.allowFullscreen=true;f.title=adText(a,'title')||'video';b.innerHTML='';b.append(f);adSend(a,'click',pos)},{once:true});box.append(b)}
     var link=safeUrl(a.link);var w=link?el('a'):el('div');if(link){w.href=link;w.target='_blank';w.rel='noopener sponsored'}
-    var img=imgUrl(a.image);if(img&&!vid){var im=el('img');im.src=img;im.alt=adText(a,'imageAlt')||adText(a,'title')||a.advertiser||'';im.loading='lazy';w.append(im)}
-    var t=adText(a,'title'),x=adText(a,'text');if(t||x||a.advertiser){var tx=el('div','adtx');if(t)tx.append(el('b',null,t));if(x)tx.append(el('span',null,x));if(a.advertiser)tx.append(el('span',null,tr('sponsoredBy')+': '+a.advertiser));w.append(tx)}
-    box.append(w);return box;
+    var img=imgUrl(a.image);
+    if(vf)w.append(adVideo(a,img));else if(img&&!vid){var im=el('img');im.src=img;im.alt=adText(a,'imageAlt')||adText(a,'title')||a.advertiser||'';im.loading='lazy';im.decoding='async';w.append(im)}
+    var t=adText(a,'title'),x=adText(a,'text'),c=adText(a,'cta');if(t||x||a.advertiser||c){var tx=el('div','adtx');if(t)tx.append(el('b',null,t));if(x)tx.append(el('span',null,x));if(a.advertiser)tx.append(el('span','adby',tr('sponsoredBy')+': '+a.advertiser));
+      if(c&&link)tx.append(el('span','adcta',c+' →'));w.append(tx)}
+    box.append(w);adWatch(box,a,pos);return box;
   }
 
   // ---------- ticker ----------
@@ -370,7 +406,7 @@
     var su=safeUrl(it.sourceUrl);
     if(it.source&&it.source!=='Wartabiye TV'){var sb=el('div','srcbox');sb.append(el('span',null,trf('srcNote',{src:it.source})));
       if(su){var a2=el('a',null,tr('readOriginal')+' ('+it.source+') ↗');a2.href=su;a2.target='_blank';a2.rel='noopener';sb.append(a2)}A.append(sb)}
-    var ad=adSlot('article');if(ad){ad.style.marginTop='24px';A.append(ad)}
+    var ad=adSlot('article','ad-article');if(ad){var ps=bd.querySelectorAll(':scope>p');if(ps.length>=6)ps[2].after(ad);else{ad.style.marginTop='24px';A.append(ad)}}
     // previous / next in the same section
     var sl=items.filter(function(x){return section(x)===s});var i=sl.indexOf(it);
     if(sl.length>1){var pg=el('nav','pager');pg.setAttribute('aria-label',tr('prev')+' / '+tr('next'));
@@ -568,236 +604,20 @@
     g.append(f,side);hd.append(g);w.append(hd);V.append(w);
   }
 
-  // ---------- ADVERTISING PAGE: placement diagrams ----------
-  var AD_PV={ // simple original previews of each placement; sample businesses are clearly marked as examples
-    home:'<rect x="4" y="4" width="312" height="172" rx="8" fill="var(--surface)" stroke="var(--line-2)"/><rect x="4" y="4" width="312" height="18" rx="4" fill="#037BDC"/><rect x="16" y="32" width="288" height="44" rx="6" fill="#F2060A" opacity=".9"/><text x="160" y="59" fill="#fff" font-size="13" font-weight="800" text-anchor="middle" font-family="Archivo,Arial">{S}</text><rect x="16" y="86" width="170" height="80" rx="6" fill="var(--chip)"/><rect x="196" y="86" width="108" height="36" rx="6" fill="var(--chip)"/><rect x="196" y="130" width="108" height="36" rx="6" fill="var(--chip)"/>',
-    sidebar:'<rect x="4" y="4" width="312" height="172" rx="8" fill="var(--surface)" stroke="var(--line-2)"/><rect x="16" y="16" width="190" height="20" rx="4" fill="var(--chip)"/><rect x="16" y="44" width="190" height="56" rx="6" fill="var(--chip)"/><rect x="16" y="108" width="190" height="56" rx="6" fill="var(--chip)"/><rect x="218" y="16" width="86" height="148" rx="6" fill="#037BDC"/><text x="261" y="86" fill="#fff" font-size="11" font-weight="800" text-anchor="middle" font-family="Archivo,Arial">{S1}</text><text x="261" y="102" fill="#fff" font-size="11" font-weight="800" text-anchor="middle" font-family="Archivo,Arial">{S2}</text>',
-    article:'<rect x="4" y="4" width="312" height="172" rx="8" fill="var(--surface)" stroke="var(--line-2)"/><rect x="16" y="16" width="70" height="14" rx="3" fill="#F2060A"/><rect x="16" y="38" width="250" height="14" rx="3" fill="var(--fg)" opacity=".8"/><rect x="16" y="58" width="200" height="14" rx="3" fill="var(--fg)" opacity=".8"/><rect x="16" y="82" width="288" height="8" rx="3" fill="var(--chip)"/><rect x="16" y="96" width="288" height="8" rx="3" fill="var(--chip)"/><rect x="16" y="110" width="250" height="8" rx="3" fill="var(--chip)"/><rect x="16" y="130" width="288" height="34" rx="6" fill="var(--chip)"/>',
-    card:'<rect x="4" y="4" width="312" height="172" rx="8" fill="var(--surface)" stroke="var(--line-2)"/><rect x="16" y="14" width="288" height="40" rx="6" fill="var(--chip)"/><rect x="16" y="64" width="288" height="52" rx="6" fill="#ffffff" stroke="#BDBEC0"/><circle cx="42" cy="90" r="16" fill="#F2060A"/><text x="70" y="88" font-size="12" font-weight="800" fill="#0b1c33" font-family="Archivo,Arial">{S}</text><rect x="70" y="96" width="150" height="8" rx="3" fill="#BDBEC0"/><rect x="16" y="126" width="288" height="40" rx="6" fill="var(--chip)"/>',
-    video:'<rect x="4" y="4" width="312" height="172" rx="8" fill="#0b1c33"/><circle cx="160" cy="90" r="30" fill="#F2060A"/><path d="M152 76v28l24-14z" fill="#fff"/><text x="160" y="150" fill="#fff" font-size="12" font-weight="800" text-anchor="middle" font-family="Archivo,Arial">{S}</text>',
-    mobile:'<rect x="110" y="4" width="100" height="172" rx="14" fill="var(--surface)" stroke="var(--line-2)" stroke-width="2"/><rect x="118" y="18" width="84" height="12" rx="3" fill="#037BDC"/><rect x="118" y="38" width="84" height="40" rx="5" fill="var(--chip)"/><rect x="118" y="86" width="84" height="40" rx="5" fill="var(--chip)"/><rect x="118" y="134" width="84" height="30" rx="5" fill="#F2060A"/><text x="160" y="153" fill="#fff" font-size="9" font-weight="800" text-anchor="middle" font-family="Archivo,Arial">{S}</text>',
-    spotlight:'<rect x="4" y="4" width="312" height="172" rx="8" fill="var(--surface)" stroke="var(--line-2)"/><rect x="16" y="16" width="288" height="148" rx="8" fill="#0263b3"/><circle cx="72" cy="90" r="38" fill="#037BDC"/><path d="M58 92l10 10 20-24" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/><text x="126" y="80" fill="#fff" font-size="14" font-weight="900" font-family="Archivo,Arial">{S}</text><rect x="126" y="92" width="150" height="8" rx="3" fill="#ffffff55"/><rect x="126" y="108" width="110" height="8" rx="3" fill="#ffffff55"/><rect x="126" y="126" width="70" height="20" rx="5" fill="#F2060A"/>',
-    campaign:'<rect x="4" y="4" width="312" height="172" rx="8" fill="var(--surface)" stroke="var(--line-2)"/><rect x="16" y="16" width="288" height="28" rx="5" fill="#F2060A" opacity=".85"/><rect x="16" y="54" width="186" height="110" rx="6" fill="var(--chip)"/><rect x="212" y="54" width="92" height="52" rx="6" fill="#037BDC"/><rect x="212" y="112" width="92" height="52" rx="6" fill="#ffffff" stroke="#BDBEC0"/><text x="160" y="35" fill="#fff" font-size="11" font-weight="800" text-anchor="middle" font-family="Archivo,Arial">{S}</text>'
-  };
-  // ---------- ADVERTISING PAGE (Xayeysiimaha) ----------
-  // Everything visual on this page is HTML, CSS and inline SVG drawn for Wartabiye TV: no photos, no video files, no sound.
-  // Every word comes from WT_ADDEMO (assets/i18n.js), so it follows the site language and mirrors in Arabic.
-  function AD(){return window.WT_ADDEMO&&(window.WT_ADDEMO[L]||window.WT_ADDEMO.so)||{}}
-  function ad(k){var D=window.WT_ADDEMO||{};var x=(D[L]||{})[k];return escapeXml(x!=null?x:((D.so||{})[k]||''))}
-  function escapeXml(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-  var ADI={ // small stroke icons used inside the demo adverts
-    arr:'<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
-    star:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>',
-    plus:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
-    ok:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
-    pin:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
-    phone:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',
-    play:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',
-    pause:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h4v16H7zM13 4h4v16h-4z"/></svg>',
-    replay:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v4.5h4.5"/></svg>'
-  };
-  // business icons (24px stroke drawings) used in the promo and in the category cards
-  var BI={
-    office:'<path d="M4 21V5l8-2v18M12 8h8v13M7 8h2M7 12h2M7 16h2M15 12h2M15 16h2M2 21h20"/>',
-    corp:'<path d="M3 8h18v12H3zM9 8V5h6v3M3 13h18M11 13v2h2v-2"/>',
-    shop:'<path d="M3 9l2-5h14l2 5M4 9h16v11H4zM9 20v-6h6v6M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/>',
-    cart:'<path d="M2 4h3l2.6 11h10.2L20 7H6.2"/><circle cx="9.5" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/>',
-    food:'<path d="M6 3v6a2 2 0 0 0 4 0V3M8 11v10M17 21V3c-2.5 1.5-3.5 5-3.5 8H17"/>',
-    cafe:'<path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM16 10h1.5a2.5 2.5 0 0 1 0 5H16M8 3c-1 1.2 1 2 0 3.5M12 3c-1 1.2 1 2 0 3.5"/>',
-    hotel:'<path d="M3 19V6M3 14h18v5M21 19v-5a3 3 0 0 0-3-3h-7v3"/><circle cx="7" cy="11" r="1.8"/>',
-    tech:'<path d="M5 5h14v10H5zM2 19h20l-2-4H4zM10 9l-2 1.5L10 12M14 9l2 1.5-2 1.5"/>',
-    estate:'<path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/>',
-    school:'<path d="M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5M22 9v6"/>',
-    health:'<path d="M4 4h16v16H4zM12 8v8M8 12h8"/>',
-    truck:'<path d="M2 6h11v10H2zM13 9h4l3 3v4h-7"/><circle cx="6" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
-    fashion:'<path d="M8 3L3 6l2 4 3-1v12h8V9l3 1 2-4-5-3a4 4 0 0 1-8 0z"/>',
-    online:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
-    ecom:'<path d="M4 4h16v11H4zM8 20h8M12 15v5M9 8h6l-1 4h-4z"/>',
-    pro:'<path d="M12 3v18M7 21h10M4 7h16M4 7l-2.5 6a3 3 0 0 0 5 0zM20 7l-2.5 6a3 3 0 0 0 5 0z"/>',
-    sme:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16.5 11a2.5 2.5 0 1 0 0-5M16 14a5 5 0 0 1 5 6"/>',
-    other:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM8.5 12l2.5 2.5 4.5-5"/>',
-    idea:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z"/>',
-    box:'<path d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/>',
-    hand:'<path d="M3 12l4-4 4 2 2-1 6 3M3 12l6 6 2-1 2 1 6-6M9 14l2 2M12 12l2 2"/>',
-    person:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'
-  };
-  function bi(k){return '<svg class="bi" viewBox="0 0 24 24" aria-hidden="true">'+(BI[k]||'')+'</svg>'}
-  var CAT_ICONS=['corp','shop','hotel','school','tech','estate','truck','ecom','pro','sme','other'];
-  // original illustrations for the six demo adverts (no text inside, so nothing to translate)
-  var ART={
-    shop:'<svg class="ill" viewBox="0 0 250 180" aria-hidden="true"><ellipse cx="118" cy="170" rx="104" ry="7" fill="#0b1c33" opacity=".25"/>'+
-      '<rect x="26" y="58" width="184" height="108" rx="6" fill="#fff"/><rect x="20" y="44" width="196" height="18" rx="5" fill="#0b1c33"/>'+
-      '<path d="M18 62h200l-6 20H24z" fill="#F2060A"/><path d="M48 62h20l-2 20H46zM88 62h20v20H88zM128 62h20l2 20h-22zM168 62h20l4 20h-22z" fill="#fff"/>'+
-      '<rect x="36" y="94" width="96" height="62" rx="4" fill="#e3f0fc"/><path d="M36 116h96M36 137h96" stroke="#BDBEC0" stroke-width="2"/>'+
-      '<rect x="44" y="100" width="12" height="16" rx="2" fill="#F2060A"/><rect x="60" y="104" width="10" height="12" rx="2" fill="#037BDC"/><rect x="74" y="98" width="14" height="18" rx="2" fill="#0b1c33"/><rect x="92" y="102" width="12" height="14" rx="2" fill="#F2060A"/><rect x="108" y="100" width="16" height="16" rx="2" fill="#037BDC"/>'+
-      '<circle cx="50" cy="129" r="6" fill="#037BDC"/><circle cx="66" cy="129" r="6" fill="#F2060A"/><rect x="78" y="121" width="16" height="16" rx="3" fill="#0b1c33"/><rect x="98" y="123" width="26" height="14" rx="3" fill="#037BDC"/>'+
-      '<rect x="44" y="141" width="20" height="15" rx="2" fill="#0263b3"/><rect x="70" y="143" width="18" height="13" rx="2" fill="#F2060A"/><rect x="94" y="141" width="30" height="15" rx="2" fill="#0b1c33"/>'+
-      '<rect x="144" y="94" width="56" height="72" rx="4" fill="#037BDC"/><rect x="150" y="100" width="44" height="30" rx="3" fill="#cfe6fb"/><circle cx="188" cy="140" r="3" fill="#fff"/>'+
-      '<g class="bob"><path d="M196 8h40l5 44h-50z" fill="#F2060A"/><path d="M206 18v-5a10 10 0 0 1 20 0v5" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M216 26l2.5 5 5.5.8-4 3.8 1 5.4-5-2.6-5 2.6 1-5.4-4-3.8 5.5-.8z" fill="#fff"/></g>'+
-      '<path class="tw" d="M14 14l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#fff"/><path class="tw t2" d="M176 18l2 4.5 4.5 2-4.5 2-2 4.5-2-4.5-4.5-2 4.5-2z" fill="#fff"/></svg>',
-    clinic:'<svg class="ill" viewBox="0 0 240 130" aria-hidden="true"><rect y="116" width="240" height="14" fill="#fff" opacity=".22"/>'+
-      '<rect x="70" y="40" width="100" height="80" rx="4" fill="#fff"/><rect x="98" y="18" width="44" height="30" rx="4" fill="#fff"/><path d="M120 24v18M111 33h18" stroke="#F2060A" stroke-width="6" stroke-linecap="round"/>'+
-      '<g fill="#cfe6fb"><rect x="80" y="56" width="16" height="14" rx="2"/><rect x="102" y="56" width="16" height="14" rx="2"/><rect x="124" y="56" width="16" height="14" rx="2"/><rect x="146" y="56" width="16" height="14" rx="2"/><rect x="80" y="80" width="16" height="14" rx="2"/><rect x="146" y="80" width="16" height="14" rx="2"/></g>'+
-      '<rect x="106" y="90" width="28" height="30" rx="2" fill="#037BDC"/>'+
-      '<path class="beat" d="M38 62c-8-10-24-2-16 12l16 14 16-14c8-14-8-22-16-12z" fill="#F2060A"/>'+
-      '<path class="pulse" d="M176 70h12l6-14 8 28 6-14h24" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    cafe:'<svg class="ill" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs>'+
-      '<linearGradient id="adCfW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3a24"/><stop offset="1" stop-color="#2b1a10"/></linearGradient>'+
-      '<linearGradient id="adCfT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9875b"/><stop offset="1" stop-color="#7d5231"/></linearGradient>'+
-      '<radialGradient id="adCfL" cx=".72" cy=".2" r=".65"><stop offset="0" stop-color="#ffe7b8" stop-opacity=".5"/><stop offset="1" stop-color="#ffe7b8" stop-opacity="0"/></radialGradient></defs>'+
-      '<rect width="400" height="200" fill="url(#adCfW)"/><rect x="250" y="14" width="124" height="98" rx="4" fill="#9fd0f5" opacity=".5"/><path d="M312 14v98M250 63h124" stroke="#3b2516" stroke-width="5"/>'+
-      '<path d="M84 0v26" stroke="#1a0f08" stroke-width="2"/><path d="M66 42a18 15 0 0 1 36 0z" fill="#F2060A"/><circle cx="84" cy="44" r="5" fill="#ffe7b8"/>'+
-      '<rect width="400" height="200" fill="url(#adCfL)"/><rect y="138" width="400" height="62" fill="url(#adCfT)"/><rect y="135" width="400" height="5" fill="#d9a877"/>'+
-      '<ellipse cx="170" cy="152" rx="64" ry="12" fill="#f4f7fb"/><ellipse cx="170" cy="150" rx="46" ry="7" fill="#dfe6ef"/>'+
-      '<path d="M128 92h84l-8 52a8 8 0 0 1-8 6h-52a8 8 0 0 1-8-6z" fill="#fff"/><path d="M211 104h10a14 14 0 0 1 0 28h-14" stroke="#fff" stroke-width="7" fill="none"/>'+
-      '<path d="M131 110h78l-1.6 11h-74.8z" fill="#F2060A"/><ellipse cx="170" cy="94" rx="42" ry="7" fill="#6b3f1f"/><ellipse cx="164" cy="93" rx="16" ry="3" fill="#c98e5a" opacity=".85"/>'+
-      '<g class="steam" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"><path d="M152 80c-8-10 8-16 0-28"/><path d="M172 78c-8-10 8-16 0-30"/><path d="M192 80c-8-10 8-16 0-28"/></g>'+
-      '<g fill="#3b2314"><ellipse cx="262" cy="160" rx="9" ry="6" transform="rotate(-20 262 160)"/><ellipse cx="284" cy="170" rx="9" ry="6" transform="rotate(25 284 170)"/><ellipse cx="250" cy="178" rx="9" ry="6" transform="rotate(10 250 178)"/></g>'+
-      '<ellipse cx="344" cy="168" rx="46" ry="8" fill="#f4f7fb" opacity=".92"/><path d="M310 158c10-24 58-24 68 0-8 8-21 10-34 10s-26-2-34-10z" fill="#e0a458"/><path d="M327 147l6 17M344 143v21M361 147l-6 17" stroke="#b97a35" stroke-width="3" stroke-linecap="round"/></svg>',
-    food:'<svg class="ill" viewBox="0 0 200 90" aria-hidden="true"><ellipse cx="88" cy="82" rx="54" ry="5" fill="#0b1c33" opacity=".2"/>'+
-      '<path d="M50 44c4-22 72-22 76 0z" fill="#f6d28b"/><circle cx="72" cy="34" r="6.5" fill="#2e9e5b"/><circle cx="92" cy="29" r="6.5" fill="#F2060A"/><circle cx="110" cy="35" r="5.5" fill="#2e9e5b"/><rect x="80" y="35" width="13" height="7" rx="2" fill="#a0522d"/><rect x="98" y="38" width="10" height="5" rx="2" fill="#a0522d"/>'+
-      '<path d="M44 44h88a44 36 0 0 1-88 0z" fill="#fff"/><path d="M52 52h72" stroke="#037BDC" stroke-width="4" stroke-linecap="round"/>'+
-      '<g class="steam" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"><path d="M78 20c-5-6 5-10 0-17"/><path d="M98 18c-5-6 5-10 0-17"/></g>'+
-      '<g class="ride"><rect x="148" y="36" width="22" height="18" rx="3" fill="#fff"/><path d="M146 66h24l8-18h9" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="152" cy="70" r="8" fill="none" stroke="#fff" stroke-width="4"/><circle cx="184" cy="70" r="8" fill="none" stroke="#fff" stroke-width="4"/></g></svg>',
-    bread:'<svg viewBox="0 0 80 60" aria-hidden="true"><ellipse cx="40" cy="54" rx="30" ry="3" fill="#0b1c33" opacity=".12"/><path d="M10 42c0-18 14-25 30-25s30 7 30 25v8H10z" fill="#d99a4e"/><path d="M24 25l6 10M38 21l4 12M52 23l2 12" stroke="#a8692b" stroke-width="3" stroke-linecap="round"/></svg>',
-    cake:'<svg viewBox="0 0 80 60" aria-hidden="true"><ellipse cx="40" cy="54" rx="28" ry="3" fill="#0b1c33" opacity=".12"/><rect x="16" y="26" width="48" height="26" rx="3" fill="#fff8ee"/><rect x="16" y="35" width="48" height="6" fill="#F2060A"/><path d="M16 28c0-6 48-6 48 0v3H16z" fill="#ffd1dc"/><circle cx="40" cy="17" r="5.5" fill="#F2060A"/><path d="M40 12c1-4 4-6 7-6" stroke="#2e9e5b" stroke-width="2" fill="none"/></svg>',
-    croissant:'<svg viewBox="0 0 80 60" aria-hidden="true"><ellipse cx="40" cy="54" rx="30" ry="3" fill="#0b1c33" opacity=".12"/><path d="M6 46c12-28 56-28 68 0-10 7-22 9-34 9s-24-2-34-9z" fill="#e0a458"/><path d="M24 34l6 16M40 30v20M56 34l-6 16" stroke="#b97a35" stroke-width="3" stroke-linecap="round"/></svg>',
-    phone:'<svg class="ill" viewBox="0 0 160 200" aria-hidden="true"><g class="cwave" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="7"><path class="w1" d="M26 40a72 72 0 0 1 108 0"/><path class="w2" d="M44 58a46 46 0 0 1 72 0"/></g><circle cx="80" cy="76" r="7" fill="#fff"/>'+
-      '<rect x="44" y="92" width="72" height="106" rx="12" fill="#0b1c33"/><rect x="50" y="102" width="60" height="82" rx="6" fill="#fff"/><rect x="56" y="108" width="48" height="10" rx="3" fill="#037BDC"/>'+
-      '<rect x="56" y="124" width="48" height="28" rx="4" fill="#F2060A"/><path d="M76 130v16l12-8z" fill="#fff"/><rect x="56" y="158" width="36" height="6" rx="3" fill="#BDBEC0"/><rect x="56" y="168" width="24" height="6" rx="3" fill="#BDBEC0"/></svg>'
-  };
-  function adTag(){return '<span class="dtag">'+escapeXml(tr('adLabel'))+'</span>'}
-  function demo(cls,title,size,body){return '<figure class="dm '+cls+'"><figcaption><b>'+escapeXml(title)+'</b><span class="sz" dir="ltr">'+size+'</span></figcaption>'+
-    '<div class="stage"><span class="ribbon">'+escapeXml(tr('adExample'))+'</span>'+body+'</div></figure>'}
-  function demoGallery(){
-    var T={};tr('adTypes').forEach(function(t){T[t[0]]=t[1]});
-    var banner='<div class="d-ban">'+adTag()+'<span class="shine"></span><div class="bill">'+ART.shop+'</div>'+
-      '<div class="txt"><span class="k">'+ad('p4')+'</span><strong>'+ad('p1')+'</strong><p>'+ad('p2')+' · '+ad('hbSub')+'</p></div>'+
-      '<span class="cta">'+ad('p5')+ADI.arr+'</span></div>';
-    var side='<div class="d-side">'+adTag()+'<div class="sbart">'+ART.clinic+'</div><div class="sbin"><div class="sbtop"><span class="ic">'+ADI.plus+'</span><b>'+ad('sbBrand')+'</b></div>'+
-      '<strong>'+ad('sbHead')+'</strong><ul><li>'+ADI.ok+ad('sbL1')+'</li><li>'+ADI.ok+ad('sbL2')+'</li><li>'+ADI.ok+ad('sbL3')+'</li></ul>'+
-      '<span class="cta">'+ad('sbCta')+ADI.arr+'</span></div></div>';
-    var post='<article class="d-post"><div class="pimg">'+ART.cafe+adTag()+'</div><div class="bd">'+
-      '<span class="spon">'+escapeXml(tr('sponsoredBy'))+' <b>'+ad('spBrand')+'</b></span><strong>'+ad('spHead')+'</strong><p>'+ad('spText')+'</p>'+
-      '<span class="pmore">'+ad('spMore')+ADI.arr+'</span></div></article>';
-    var mob='<div class="d-mob"><div class="scr"><div class="mh"><img src="img/logo.png" alt="" width="18" height="18"><b dir="ltr">WARTABIYE<span>TV</span></b></div>'+
-      '<div class="ml"><span class="mlab">'+ad('news')+'</span><s></s><s class="sh"></s><u></u><s></s><s class="sh"></s></div>'+
-      '<div class="mad">'+adTag()+'<div class="mart">'+ART.food+'</div><div class="mtx"><b>'+ad('mbBrand')+'</b><strong>'+ad('mbHead')+'</strong><small>'+ad('mbText')+'</small></div><span class="cta">'+ad('mbCta')+'</span></div></div></div>';
-    var spot='<div class="d-spot">'+adTag()+'<span class="rib">'+ADI.star+ad('slTag')+'</span><div class="sprow"><span class="slogo">'+ART.bread+'</span>'+
-      '<div><b>'+ad('slBrand')+'</b><span class="loc">'+ADI.pin+ad('slLoc')+'</span></div></div><strong>'+ad('slHead')+'</strong><p>'+ad('slText')+'</p>'+
-      '<div class="prods" dir="ltr"><span>'+ART.bread+'<i>$1.50</i></span><span>'+ART.cake+'<i>$12</i></span><span>'+ART.croissant+'<i>$1</i></span></div>'+
-      '<div class="spchips"><span>'+ADI.ok+ad('slF1')+'</span><span>'+ADI.ok+ad('slF2')+'</span><span>'+ADI.ok+ad('slF3')+'</span></div>'+
-      '<span class="cta">'+ADI.phone+ad('slCta')+'</span></div>';
-    var camp='<div class="d-camp">'+adTag()+'<span class="stripes"></span><div class="ctx"><span class="k">'+ad('cpKick')+'</span>'+
-      '<div class="cbrand"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.6 16a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.5" r="1.2"/></svg></span><b>'+ad('cpBrand')+'</b></div><strong>'+ad('cpHead')+'</strong><p>'+ad('cpText')+'</p>'+
-      '<span class="cta">'+ad('cpCta')+ADI.arr+'</span><span class="plan">'+ad('cpPlan')+'</span></div><div class="cart">'+ART.phone+'<span class="cbadge" dir="ltr">'+ad('cpBadge')+'</span>'+
-      '<i class="cf c1"></i><i class="cf c2"></i><i class="cf c3"></i><i class="cf c4"></i></div></div>';
-    return '<div class="adgal">'+demo('g-ban',T.home,'970 × 250',banner)+demo('g-post',T.article,'640 × 360',post)+demo('g-side',T.sidebar,'300 × 600',side)+
-      demo('g-mob',T.mobile,'320 × 100',mob)+demo('g-spot',T.spotlight,'600 × 400',spot)+demo('g-camp',T.campaign,'1200 × 628',camp)+'</div>'}
-
-  // ----- animated promo presentation (web animation, not a video file; no sound) -----
-  var PROMO={i:0,t:0,playing:null,cc:false,tok:0,seen:false};var SCN_MS=4600,SCN_N=6;
-  function reduceMotion(){try{return window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){return false}}
-  function words(s){ // one animated span per word; runs of Latin words (e.g. "Wartabiye TV") stay together so their order is right inside Arabic
-    var out=[];s.split(/\s+/).forEach(function(w){var lat=/^[A-Za-z0-9’'.,!?:-]+$/.test(w);if(lat&&out.length&&out[out.length-1].lat)out[out.length-1].t+=' '+w;else out.push({t:w,lat:lat})});
-    return out.map(function(o,i){return '<span class="w" style="--i:'+i+'"'+(o.lat&&L==='ar'?' dir="ltr"':'')+'>'+escapeXml(o.t)+'</span>'}).join(' ')}
-  function promoArt(n,D){
-    if(n===0){var B=[[8,74,150,'#0263b3'],[86,56,214,'#037BDC'],[146,84,124,'#0b1c33'],[234,62,244,'#0263b3'],[300,98,176,'#037BDC'],[402,60,226,'#0b1c33'],[466,86,146,'#0263b3'],[556,78,196,'#037BDC']];
-      return '<svg class="sky" viewBox="0 0 640 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><pattern id="adPw" width="14" height="16" patternUnits="userSpaceOnUse"><rect x="3" y="3" width="7" height="8" rx="1" fill="#cfe6fb" opacity=".8"/></pattern></defs>'+
-        '<circle class="sun" cx="520" cy="118" r="36" fill="#F2060A" opacity=".9"/>'+
-        B.map(function(b,k){return '<g class="bld" style="--i:'+k+'"><rect x="'+b[0]+'" y="'+(300-b[2])+'" width="'+b[1]+'" height="'+b[2]+'" rx="3" fill="'+b[3]+'"/><rect x="'+(b[0]+8)+'" y="'+(312-b[2])+'" width="'+(b[1]-16)+'" height="'+(b[2]-30)+'" fill="url(#adPw)"/></g>'}).join('')+'</svg>'}
-    if(n===1){var s='<div class="cust"><span class="ring"></span><span class="ring r2"></span><span class="hub">'+bi('shop')+'</span>';
-      for(var k=0;k<8;k++)s+='<i style="--a:'+(k*45)+'deg;--i:'+k+'"><span>'+bi('person')+'</span></i>';return s+'</div>'}
-    if(n===2)return '<div class="opp"><span class="rays"></span><span class="lg"><img src="img/logo.png" alt="" width="140" height="140"></span><span class="star">'+ADI.star+'</span><span class="star s2">'+ADI.star+'</span></div>';
-    if(n===3)return '<div class="shw">'+[['office',D.wCo],['box',D.wPr],['hand',D.wSv]].map(function(c,k){return '<div class="sc" style="--i:'+k+'"><span>'+bi(c[0])+'</span><b>'+escapeXml(c[1])+'</b><s></s><s class="sh"></s></div>'}).join('')+'</div>';
-    if(n===4)return '<div class="bgrid">'+['office','corp','shop','cart','food','cafe','hotel','tech','estate','school','health','truck','fashion','online','idea'].map(function(k,i){return '<span style="--i:'+i+'">'+bi(k)+'</span>'}).join('')+'</div>';
-    return '<div class="fin"><span class="flg"><img src="img/logo.png" alt="" width="110" height="110"></span><strong>'+words(D.v6)+'</strong><a class="pcta" href="#adForm" data-promo-cta>'+escapeXml(D.vCta)+ADI.arr+'</a></div>'}
-  function buildPromo(toForm){
-    var D=AD();var txt=[D.v1,D.v2,D.v3,D.v4,D.v5,D.v6];
-    var box=el('div','adshow');box.setAttribute('role','region');box.setAttribute('aria-roledescription','carousel');box.setAttribute('aria-label',D.promoTitle||'Wartabiye TV');
-    var screen=el('div','pscreen');
-    txt.forEach(function(t,n){var sc=el('div','ps s'+(n+1));sc.innerHTML='<div class="part">'+promoArt(n,D)+'</div>'+(n<5?'<p class="ptx">'+words(t)+'</p>':'');screen.append(sc)});
-    var brand=el('div','pbrand');brand.innerHTML='<img src="img/logo.png" alt="" width="22" height="22"><b dir="ltr">WARTABIYE<span>TV</span></b>';screen.append(brand);
-    var cc=el('p','pcc');cc.setAttribute('aria-live','polite');screen.append(cc);
-    var bar=el('div','pbar');var segs=[];for(var n=0;n<SCN_N;n++){var g=el('span');g.append(el('i'));segs.push(g);bar.append(g)}
-    var ctl=el('div','pctl');
-    var bPlay=el('button','pb');bPlay.type='button';var bRe=el('button','pb');bRe.type='button';bRe.innerHTML=ADI.replay;bRe.setAttribute('aria-label',D.replay);bRe.title=D.replay;
-    var dots=el('div','pdots');var dotB=[];for(n=0;n<SCN_N;n++){(function(n){var d=el('button');d.type='button';d.textContent=String(n+1);d.setAttribute('aria-label',(D.scene||'')+' '+(n+1));d.addEventListener('click',function(){go(n)});dotB.push(d);dots.append(d)})(n)}
-    var bCC=el('button','pb cc');bCC.type='button';bCC.textContent='CC';bCC.setAttribute('aria-label',D.cc);bCC.title=D.cc;
-    ctl.append(bPlay,bRe,dots,bCC);
-    var note=el('p','pnote',D.promoNote);
-    box.append(screen,bar,ctl);
-    var scenes=screen.querySelectorAll('.ps');
-    function paint(){var p=Math.min(1,PROMO.t/SCN_MS);segs.forEach(function(g,k){g.firstChild.style.width=(k<PROMO.i?100:k===PROMO.i?p*100:0)+'%'})}
-    function go(n){PROMO.i=n;PROMO.t=0;scenes.forEach(function(s,k){s.classList.remove('on');s.setAttribute('aria-hidden',String(k!==n));if(k!==n)s.setAttribute('inert','');else s.removeAttribute('inert')});
-      void screen.offsetWidth;scenes[n].classList.add('on');dotB.forEach(function(d,k){d.setAttribute('aria-current',k===n?'true':'false')});cc.textContent=txt[n];paint()}
-    function setPlaying(v){PROMO.playing=v;box.classList.toggle('paused',!v);bPlay.innerHTML=v?ADI.pause:ADI.play;bPlay.setAttribute('aria-label',v?D.pause:D.play);bPlay.title=v?D.pause:D.play}
-    function setCC(v){PROMO.cc=v;box.classList.toggle('nocc',!v);bCC.setAttribute('aria-pressed',String(v))}
-    bPlay.addEventListener('click',function(){if(!PROMO.playing&&PROMO.i===SCN_N-1&&PROMO.t>=SCN_MS)go(0);setPlaying(!PROMO.playing)});
-    bRe.addEventListener('click',function(){go(0);setPlaying(true)});bCC.addEventListener('click',function(){setCC(!PROMO.cc)});
-    screen.addEventListener('click',function(e){var a=e.target.closest('[data-promo-cta]');if(a)toForm(e)});
-    var tok=++PROMO.tok,last=0;
-    function loop(now){if(tok!==PROMO.tok||!document.body.contains(box))return;var dt=last?Math.min(now-last,100):0;last=now;
-      if(PROMO.playing){PROMO.t+=dt;if(PROMO.t>=SCN_MS){if(PROMO.i<SCN_N-1)go(PROMO.i+1);else{PROMO.t=SCN_MS;setPlaying(false)}}paint()}
-      requestAnimationFrame(loop)}
-    setCC(PROMO.cc);go(PROMO.i);var t0=PROMO.t;PROMO.t=t0;
-    // autoplay once, when the presentation first comes into view (the page can be re-rendered before that, e.g. when settings load)
-    setPlaying(PROMO.playing===true);if(PROMO.io){PROMO.io.disconnect();PROMO.io=null}
-    if(!PROMO.seen&&!reduceMotion()){
-      if('IntersectionObserver' in window){var io=PROMO.io=new IntersectionObserver(function(es){if(es[0].isIntersecting&&!PROMO.seen){PROMO.seen=true;setPlaying(true);io.disconnect()}},{threshold:.35});io.observe(box)}else{PROMO.seen=true;setPlaying(true)}}
-    requestAnimationFrame(loop);
-    var wrapEl=el('div','adshow-wrap');wrapEl.append(box,note);return wrapEl}
-
+  // ---------- ADVERTISING PAGE (Xayeysiimaha): assets/ads.js, ads-i18n.js and ads.css, loaded only when this page opens ----------
+  var ASSET_V=(function(){var sc=document.querySelector('script[src*="assets/app.js"]');var m=sc&&sc.getAttribute('src').match(/[?&]v=([\w.-]+)/);return m?m[1]:'1'})();
+  var ADS_LOAD=null;
+  function loadAdsPage(){if(ADS_LOAD)return ADS_LOAD;
+    function js(src){return new Promise(function(ok,no){var s=document.createElement('script');s.src=src+'?v='+ASSET_V;s.onload=ok;s.onerror=function(){no(new Error(src))};document.head.append(s)})}
+    if(!document.querySelector('link[href*="assets/ads.css"]')){var l=document.createElement('link');l.rel='stylesheet';l.href='assets/ads.css?v='+ASSET_V;document.head.append(l)}
+    ADS_LOAD=Promise.all([js('assets/ads-i18n.js'),js('assets/ads-credits.js'),js('assets/ads.js')]).catch(function(e){ADS_LOAD=null;throw e});return ADS_LOAD}
+  function adsCore(){return {$:$,el:el,tr:tr,head:head,field:field,buildForm:buildForm,formCfg:formCfg,setTitle:setTitle,lang:function(){return L},LANGS:LANGS,site:function(){return SITE}}}
   function renderAdsPage(){
-    var V=$('pageView');V.innerHTML='';setTitle(tr('adHero'));var D=AD();
-    function toForm(e){if(e)e.preventDefault();var t=$('adForm');if(t){t.scrollIntoView({behavior:reduceMotion()?'auto':'smooth'});var i=t.querySelector('input');if(i)setTimeout(function(){i.focus({preventScroll:true})},500)}}
-    function ctaPair(){var c=el('div','ctas');var b1=el('a','btn primary',tr('adOrder'));b1.href='#xayeysiimaha';b1.addEventListener('click',toForm);
-      var b2=el('a','btn ghost',tr('adContact'));b2.href='#xiriir';c.append(b1,b2);return c}
-    // 1. hero with the animated presentation
-    var hero=el('section','adhero adpromo');var hw=el('div','wrap');var l=el('div','htext');l.append(el('span','kick',tr('advertise')),el('h1',null,tr('adHero')),el('p',null,tr('adHeroSub')),ctaPair());
-    hw.append(l,buildPromo(toForm));hero.append(hw);V.append(hero);
-    var w=el('div','wrap page');
-    // 2. why Wartabiye TV
-    var why=el('section');why.append(head(tr('adWhy')));var wg=el('div','adwhy');
-    [['adWhy1','M4 5h16v11H4zM8 20h8M12 16v4M7 9h4M7 12h7'],['adWhy2','M7 3h10v18H7zM11 18h2'],['adWhy3','M4 7h16v10H4zM8 12h8M4 7l4-4h8l4 4'],['adWhy4','M4 6h16v14H4zM4 10h16M9 3v5M15 3v5']].forEach(function(x){var d=el('div');d.innerHTML=svg(x[1]);d.append(el('b',null,tr(x[0])),el('span',null,tr(x[0]+'t')));wg.append(d)});
-    why.append(wg);w.append(why);
-    // 3. six demo adverts, with a quick language switch so the visitor can see the text change
-    var gs=el('section','secblock');gs.id='adDemos';gs.append(head(D.gallery||'','red'));
-    var gi=el('div','adgal-intro');var gp=el('p','trend-note',D.gallerySub||'');var sw=el('div','langsw');sw.append(el('span',null,D.tryLang||''));
-    Object.keys(LANGS).forEach(function(k){var b=el('button',k===L?'on':null,LANGS[k].name);b.type='button';b.lang=k;b.setAttribute('aria-pressed',String(k===L));
-      b.addEventListener('click',function(){if(k===L)return;var y=$('adDemos').getBoundingClientRect().top;setLang(k);function keep(){var n=$('adDemos');if(n)window.scrollTo(0,window.scrollY+n.getBoundingClientRect().top-y)}keep();requestAnimationFrame(keep);setTimeout(keep,250)});sw.append(b)});
-    gi.append(gp,sw);gs.append(gi);var gw=el('div');gw.innerHTML=demoGallery();gs.append(gw.firstChild);w.append(gs);
-    // 4. who can advertise
-    var cs=el('section','secblock');cs.append(head(D.catTitle||''),el('p','trend-note',D.catSub||''));var cg=el('div','adcats');
-    (D.cats||[]).forEach(function(c,i){var d=el('div','acat');d.style.setProperty('--i',i);var ic=el('span','aci');ic.innerHTML=bi(CAT_ICONS[i]||'other');d.append(ic,el('b',null,c[0]),el('span',null,c[1]));cg.append(d)});
-    cs.append(cg);w.append(cs);
-    // 5. placements: where each format appears on the page (diagrams only, no text inside)
-    var op=el('section','secblock');op.append(head(tr('adOptions'),'red'),el('p','trend-note',tr('adOptionsSub')));var og=el('div','adopts');
-    var prices=SITE&&SITE.adPrices||{};var showP=prices.show===true&&Array.isArray(prices.items);
-    tr('adTypes').forEach(function(t,i){var c=el('article','adopt');var pv=el('div','pv');
-      var art=(AD_PV[t[0]]||'').replace(/<text[^>]*>[^<]*<\/text>/g,'');
-      pv.innerHTML='<svg viewBox="0 0 320 180" role="img" aria-label="'+escapeXml(t[1])+'">'+art+'</svg>';pv.append(el('span','ex',D.where||''));
-      var ob=el('div','ob');ob.append(el('span','num',String(i+1).padStart(2,'0')),el('b',null,t[1]),el('span',null,t[2]));
-      var pr=showP&&prices.items.find(function(p){return p&&p.type===t[0]&&p.price});ob.append(el('span','pr',pr?tr('price')+': '+pr.price+(pr.period?' / '+pr.period:''):tr('priceOnRequest')));
-      c.append(pv,ob);og.append(c)});
-    op.append(og);w.append(op);
-    // 6. how it works
-    var hs=el('section','secblock');hs.append(head(D.howTitle||''));var hg=el('ol','adsteps');
-    ['h1','h2','h3'].forEach(function(k,i){var li=el('li');li.append(el('span','n',String(i+1)),el('b',null,D[k]||''),el('span',null,D[k+'t']||''));hg.append(li)});
-    hs.append(hg);w.append(hs);
-    // 7. call-to-action band
-    var cb=el('section','adband');var ct=el('div');ct.append(el('span','k',D.p4||''),el('h2',null,D.p1||''),el('p',null,(D.p2||'')+' · '+(D.p3||'')));cb.append(ct,ctaPair());w.append(cb);
-    // 8. request form (sent privately by Web3Forms to the owner's email once the key is set in /admin/; otherwise it says it is not open yet)
-    var fs=el('section','secblock adformbox');fs.id='adForm';fs.append(head(tr('adFormTitle'),'red'),el('p','trend-note',tr('adFormSub')));
-    var types=tr('adTypes').map(function(t){return [t[1],t[1]]});var periods=tr('aPeriodOpts').split('|').map(function(x){return [x,x]});var cats=(D.cats||[]).map(function(c){return [c[0],c[0]]});
-    var g1=el('div','grid2'),g2=el('div','grid2'),g3=el('div','grid2'),g4=el('div','grid2');
-    g1.append(field('text','business',tr('aBiz'),true,{maxlength:'160',autocomplete:'organization'}),field('text','name',tr('aPerson'),true,{maxlength:'120',autocomplete:'name'}));
-    g2.append(field('email','email',tr('fEmail'),true,{maxlength:'160',autocomplete:'email'}),field('tel','phone',tr('fPhone'),true,{maxlength:'20',autocomplete:'tel'}));
-    g3.append(field('select','category',D.fCat||'',true,{options:cats}),field('select','ad_type',tr('aType'),true,{options:types}));
-    g4.append(field('select','period',tr('aPeriod'),true,{options:periods}));
-    var f=buildForm('advertising',[g1,g2,g3,g4,field('textarea','message',D.fMsg||tr('aMsg'),true,{rows:'5',maxlength:'3000'})],function(d){return 'Wartabiye TV · Codsi xayeysiis · '+(d.business||'')},tr('adOrder'));
-    var alt=el('a','btn ghost-dark',tr('adContact'));alt.href='#xiriir';var send=f.querySelector('.send');if(send){var row=el('div','sendrow');send.replaceWith(row);row.append(send,alt)}
-    fs.append(f,el('p','trend-note',tr('adNote')));var pl=el('a',null,tr('adPolicy')+' →');pl.href='#siyaasadda-xayeysiiska';pl.style.color='var(--link)';pl.style.fontWeight='700';fs.append(pl);w.append(fs);V.append(w);
+    var V=$('pageView');
+    if(window.WT_ADPAGE&&window.WT_ADS){WT_ADPAGE.render(adsCore());return}
+    setTitle(tr('adHero'));V.innerHTML='';var w=el('div','wrap page');w.append(el('h1',null,tr('adHero')));V.append(w);
+    loadAdsPage().then(function(){if(/^#?xayeysiimaha/.test(decodeURIComponent(location.hash||'#'+(window.WARTABIYE_ROUTE||'')).replace(/^#/,'')))renderAdsPage()})
+      .catch(function(){V.innerHTML='';var w2=el('div','wrap page');w2.append(el('h1',null,tr('adHero')),el('p','empty',tr('loadError').replace('{e}','ads.js')));V.append(w2)});
   }
 
   // ---------- routing ----------

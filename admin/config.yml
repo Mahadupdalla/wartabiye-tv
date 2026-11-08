@@ -326,6 +326,15 @@ collections:
               - {name: provider, label: Adeegga, widget: select, options: [web3forms], default: web3forms}
               - {name: endpoint, label: Endpoint, widget: string, default: 'https://api.web3forms.com/submit'}
               - {name: accessKey, label: 'Web3Forms access key', widget: string, required: false}
+          - name: adStats
+            label: 'Tirakoobka xayeysiiska (aragtida iyo gujinta)'
+            widget: object
+            required: false
+            hint: 'Adeegga Cloudflare Worker-ka ee workers/ad-stats (eeg README-ga). Ma jiro cookie, IP lama keydiyo, qofka diray Do Not Track lama tiriyo. Tirakoobka waxaa laga eegaa /admin/xayeysiis/.'
+            fields:
+              - {name: enabled, label: 'Tirinta waa shidan tahay', widget: boolean, default: false}
+              - {name: endpoint, label: 'Cinwaanka Worker-ka (https://….workers.dev)', widget: string, required: false}
+          - {name: adHouse, label: 'Dhinaca bannaan: muuji "Ku xayeysiiso Wartabiye TV" marka aysan jirin xayeysiis dhinaca ah', widget: boolean, default: true, required: false}
           - name: adPrices
             label: Qiimaha xayeysiiska (ikhtiyaari)
             widget: object
@@ -850,7 +859,7 @@ collections:
   - name: ads
     label: Xayeysiisyada
     label_singular: Xayeysiis
-    description: 'Xayeysiisyada bogga ka muuqda. Mid kasta wuxuu leeyahay calaamadda "Xayeysiis". Dami "Firfircoon" si aad u hakiso; taariikhda dhammaadka kadib si toos ah ayuu u baxaa. Ha ku qorin taleefanka ama email-ka xayeysiiyaha: repo-gu waa public.'
+    description: 'Xayeysiisyada dhabta ah ee ganacsiyada lacag bixiyay oo kaliya (tusaalooyinka bogga Xayeysiimaha halkan kuma jiraan). Mid kasta wuxuu leeyahay calaamadda "Xayeysiis / Sponsored". KA HOR DAABACAADDA: dami "Firfircoon", kaydi, kadibna fur https://www.wartabiyetv.com/admin/xayeysiis/ si aad u eegto sida uu uga muuqdo meel kasta; kadib shid "Firfircoon". Taariikhda dhammaadka kadib si toos ah ayuu u baxaa. Tirakoobka aragtida iyo gujinta: isla boggaas. Ha ku qorin taleefanka ama email-ka xayeysiiyaha: repo-gu waa public.'
     folder: data/ads
     extension: json
     format: json
@@ -870,8 +879,10 @@ collections:
         label: Meelaha uu ka muuqanayo
         widget: select
         multiple: true
-        options: [{label: 'Banner-ka bogga hore', value: home}, {label: 'Dhinaca (sidebar)', value: sidebar}, {label: 'Kaadh ku dhex jira wararka', value: card}, {label: 'Hoosta maqaallada', value: article}, {label: 'Taleefanka oo kaliya', value: mobile}, {label: 'Iftiiminta ganacsiga (bogga hore)', value: spotlight}, {label: 'Muuqaal YouTube (dhinaca)', value: video}]
-      - {name: image, label: Sawirka xayeysiiska, widget: image, choose_url: false, required: false}
+        options: [{label: 'Banner-ka bogga hore', value: home}, {label: 'Dhinaca (sidebar)', value: sidebar}, {label: 'Kaadh ku dhex jira wararka', value: card}, {label: 'Gudaha maqaalka (kadib qaybta 3aad, ama dhammaadka)', value: article}, {label: 'Taleefanka oo kaliya', value: mobile}, {label: 'Iftiiminta ganacsiga (bogga hore)', value: spotlight}, {label: 'Muuqaal (dhinaca): .mp4 ama YouTube', value: video}]
+      - {name: image, label: 'Sawirka xayeysiiska (sidoo kale sawirka muuqaalka ka hor inta uusan ciyaarin)', widget: image, choose_url: false, required: false, media_folder: /img/ads, public_folder: img/ads, hint: 'JPG/PNG/WebP. Banner-ka bogga hore 1940×500, dhinaca 600×1200, maqaalka 1280×720, taleefanka 640×200. Ugu badnaan 600 KB.'}
+      - {name: videoFile, label: 'Muuqaal xayeysiis (.mp4, ikhtiyaari)', widget: file, choose_url: false, required: false, media_folder: /img/ads, public_folder: img/ads, hint: 'Kaliya muuqaal uu xayeysiiyuhu leeyahay ama oggolaansho laga haysto. H.264 .mp4, cod la''aan ama codku ha dansanaado, 6–30 ilbiriqsi, ugu badnaan 15 MB. Si toos ah ayuu u ciyaaraa marka la arko (iPhone iyo Android), wuuna istaagaa haddii qofku dalbaday dhaqdhaqaaq yar.'}
+      - {name: cta, label: 'Qoraalka badhanka (tusaale "Ballanso hadda")', widget: string, required: false}
       - {name: imageAlt, label: Sharaxaadda sawirka, widget: string, required: false}
       - {name: link, label: 'Link (https://...)', widget: string, required: false}
       - {name: video, label: 'Link YouTube (muuqaalka)', widget: string, required: false}
@@ -887,6 +898,7 @@ collections:
           - {name: title, label: Title, widget: string, required: false}
           - {name: text, label: Text, widget: string, required: false}
           - {name: imageAlt, label: Image description, widget: string, required: false}
+          - {name: cta, label: 'Button text', widget: string, required: false}
       - name: ar
         label: '🇸🇦 العربية'
         widget: object
@@ -896,6 +908,7 @@ collections:
           - {name: title, label: العنوان, widget: string, required: false}
           - {name: text, label: النص, widget: string, required: false}
           - {name: imageAlt, label: وصف الصورة, widget: string, required: false}
+          - {name: cta, label: 'نص الزر', widget: string, required: false}
       - name: fr
         label: '🇫🇷 Français'
         widget: object
@@ -905,6 +918,7 @@ collections:
           - {name: title, label: Titre, widget: string, required: false}
           - {name: text, label: Texte, widget: string, required: false}
           - {name: imageAlt, label: Description de l’image, widget: string, required: false}
+          - {name: cta, label: 'Texte du bouton', widget: string, required: false}
       - name: nl
         label: '🇳🇱 Nederlands'
         widget: object
@@ -914,6 +928,7 @@ collections:
           - {name: title, label: Titel, widget: string, required: false}
           - {name: text, label: Tekst, widget: string, required: false}
           - {name: imageAlt, label: Beschrijving van de afbeelding, widget: string, required: false}
+          - {name: cta, label: 'Knoptekst', widget: string, required: false}
       - name: it
         label: '🇮🇹 Italiano'
         widget: object
@@ -923,6 +938,7 @@ collections:
           - {name: title, label: Titolo, widget: string, required: false}
           - {name: text, label: Testo, widget: string, required: false}
           - {name: imageAlt, label: Descrizione dell’immagine, widget: string, required: false}
+          - {name: cta, label: 'Testo del pulsante', widget: string, required: false}
       - name: de
         label: '🇩🇪 Deutsch'
         widget: object
@@ -932,6 +948,7 @@ collections:
           - {name: title, label: Titel, widget: string, required: false}
           - {name: text, label: Text, widget: string, required: false}
           - {name: imageAlt, label: Bildbeschreibung, widget: string, required: false}
+          - {name: cta, label: 'Button-Text', widget: string, required: false}
       - name: tr
         label: '🇹🇷 Türkçe'
         widget: object
@@ -941,15 +958,17 @@ collections:
           - {name: title, label: Başlık, widget: string, required: false}
           - {name: text, label: Metin, widget: string, required: false}
           - {name: imageAlt, label: Görsel açıklaması, widget: string, required: false}
+          - {name: cta, label: 'Düğme metni', widget: string, required: false}
       - name: es
         label: '🇪🇸 Español'
         widget: object
         collapsed: true
         required: false
         fields:
-          - {name: title, label: Başlık, widget: string, required: false}
-          - {name: text, label: Metin, widget: string, required: false}
-          - {name: imageAlt, label: Görsel açıklaması, widget: string, required: false}
+          - {name: title, label: Título, widget: string, required: false}
+          - {name: text, label: Texto, widget: string, required: false}
+          - {name: imageAlt, label: Descripción de la imagen, widget: string, required: false}
+          - {name: cta, label: 'Texto del botón', widget: string, required: false}
   - name: videos
     label: Muuqaalada
     label_singular: Muuqaal

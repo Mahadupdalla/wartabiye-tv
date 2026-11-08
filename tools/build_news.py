@@ -66,9 +66,10 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'ads', '*.json'))):
         continue
     if a.get('end') and str(a['end'])[:10] < datetime.date.today().isoformat():
         continue
-    if a.get('image') and str(a['image']).startswith('/'):
-        a['image'] = a['image'].lstrip('/')
-    ads.append({k: v for k, v in a.items() if k in ('id', 'title', 'advertiser', 'text', 'positions', 'image', 'imageAlt', 'link', 'video', 'start', 'end', 'active', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')})
+    for k in ('image', 'videoFile'):
+        if a.get(k) and str(a[k]).startswith('/'):
+            a[k] = a[k].lstrip('/')
+    ads.append({k: v for k, v in a.items() if k in ('id', 'title', 'advertiser', 'text', 'cta', 'positions', 'image', 'imageAlt', 'videoFile', 'link', 'video', 'start', 'end', 'active', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')})
 ads_path = os.path.join(root, 'data', 'ads.json')
 ads_out = {'ads': ads}
 old_ads = json.load(open(ads_path, encoding='utf-8')) if os.path.exists(ads_path) else None

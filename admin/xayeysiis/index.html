@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="so">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Wartabiye TV — Xayeysiisyada: eeg iyo tirakoob</title>
+<link rel="icon" href="../../img/logo.png">
+<link rel="stylesheet" href="../../assets/site.css">
+<style>
+  body{background:var(--bg);color:var(--ink);margin:0;font-family:var(--body,system-ui,sans-serif)}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
+  .top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .top img{border-radius:50%;background:#fff}
+  .top h1{font:900 22px/1.2 var(--display,inherit);margin:0}
+  .top a{margin-inline-start:auto;color:var(--blue,#037BDC);font-weight:700}
+  .lead{color:var(--muted);margin:4px 0 18px;max-width:80ch}
+  .tabs{display:flex;gap:8px;margin:0 0 16px}
+  .tabs button{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 16px;border-radius:999px;font-weight:800;cursor:pointer}
+  .tabs button[aria-selected=true]{background:#037BDC;color:#fff;border-color:#037BDC}
+  .box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  .frow{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+  .frow label{display:grid;gap:4px;font-weight:700;font-size:13px}
+  .frow input,.frow select{padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;min-width:0}
+  .frow input.url{width:min(420px,80vw)}
+  .btnp{background:#e10600;color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:800;cursor:pointer}
+  .msg{font-size:14px;color:var(--muted);margin-top:10px}
+  .msg.err{color:#c40000}
+  .ad{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:22px;overflow:hidden}
+  .ad>header{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .ad>header b{font:800 17px var(--display,inherit)}
+  .st{font:800 11px/1 var(--display,inherit);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:5px;color:#fff}
+  .st.live{background:#118a3e}.st.paused{background:#6b7280}.st.soon{background:#b26b00}.st.over{background:#7a1f1f}
+  .ad>header small{color:var(--muted)}
+  .checks{list-style:none;margin:0;padding:10px 16px;display:grid;gap:4px;font-size:13.5px;border-bottom:1px solid var(--line)}
+  .checks li.bad{color:#c40000}.checks li.ok{color:#118a3e}.checks li.warn{color:#b26b00}
+  .slots{display:flex;flex-wrap:wrap;gap:18px;padding:16px;align-items:flex-start}
+  .slot{display:grid;gap:6px}
+  .slot>span{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .langs{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 14px}
+  .langs button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .langs button[aria-pressed=true]{background:#0b1c33;color:#fff}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:start;padding:8px 10px;border-bottom:1px solid var(--line)}
+  th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  td.n{font-variant-numeric:tabular-nums;text-align:end}
+  tfoot td{font-weight:800}
+  .note{font-size:13px;color:var(--muted);margin-top:10px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<!-- Admin helper for paid adverts: (1) preview every advert in data/ads/ (also paused ones) in each placement before
+     switching it on, (2) read the privacy-friendly view/click totals from the ad-stats Worker (workers/ad-stats).
+     Nothing secret is stored in this file: the stats key is typed in and kept only in this browser tab (sessionStorage). -->
+<div class="wrap">
+  <div class="top"><img src="../../img/logo.png" alt="" width="40" height="40"><h1>Xayeysiisyada — eeg ka hor daabacaadda &amp; tirakoob</h1><a href="../#/collections/ads">← Maamulka (Xayeysiisyada)</a></div>
+  <p class="lead">Halkan waxaad ku eegi kartaa xayeysiis kasta oo ku jira maamulka (xitaa kuwa la hakiyay) sida uu uga muuqan doono meel kasta oo bogga ah, iyo tirada aragtida iyo gujinta dhabta ah. Tusaalooyinka bogga Xayeysiimaha (TUSAALE / DEMO) halkan kuma jiraan, mana la tiriyo.</p>
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" aria-selected="true" data-tab="pv">Eeg (preview)</button>
+    <button type="button" role="tab" aria-selected="false" data-tab="stats">Tirakoob (stats)</button>
+  </div>
+
+  <section id="pv">
+    <div class="box"><div class="frow">
+      <label>Xayeysiis<select id="pick"><option value="">Dhammaan</option></select></label>
+      <button class="btnp" type="button" id="reload">Cusbooneysii</button>
+    </div><p class="msg" id="pvMsg">Waa la soo rarayaa…</p></div>
+    <div id="ads"></div>
+  </section>
+
+  <section id="stats" hidden>
+    <div class="box">
+      <div class="frow">
+        <label>Cinwaanka Worker-ka<input class="url" id="ep" type="url" placeholder="https://wartabiye-ad-stats.….workers.dev"></label>
+        <label>Furaha (STATS_TOKEN)<input id="tok" type="password" autocomplete="off"></label>
+        <label>Laga bilaabo<input id="from" type="date"></label>
+        <label>Ilaa<input id="to" type="date"></label>
+        <button class="btnp" type="button" id="load">Soo bandhig</button>
+      </div>
+      <p class="note">Furaha kaliya tab-kan ayuu ku jiraa (sessionStorage) waana la tirtiraa marka la xiro. Aragti = ugu yaraan kalabar xayeysiiska ayaa shaashadda ka muuqday 1 ilbiriqsi. Lama tiriyo booqdayaasha dalbaday "Do Not Track" ama "Global Privacy Control", bots iyo xayeysiisyada aan firfircoonayn; sidaas darteed tiradu way ka yar tahay booqashooyinka dhabta ah.</p>
+      <p class="msg" id="stMsg"></p>
+    </div>
+    <div class="box" id="stBox" hidden><table><thead><tr><th>Xayeysiis</th><th>Meesha</th><th class="n">Aragti</th><th class="n">Gujin</th><th class="n">CTR</th></tr></thead><tbody id="stBody"></tbody><tfoot id="stFoot"></tfoot></table></div>
+  </section>
+</div>
+<script>
+(function(){
+  var REPO='Mahadupdalla/wartabiye-tv',BASE='../../';
+  var POS={home:['Banner-ka bogga hore','100%'],sidebar:['Dhinaca (sidebar)','320px'],card:['Kaadh wararka dhexdooda','360px'],article:['Gudaha maqaalka','640px'],mobile:['Taleefanka','360px'],spotlight:['Iftiiminta ganacsiga','100%'],video:['Muuqaal (dhinaca)','320px']};
+  var LANGS=['so','en','ar','fr','nl','it','de','tr','es'];
+  function $(id){return document.getElementById(id)}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function ymd(d){return d.toISOString().slice(0,10)}
+  function txt(a,k,l){var o=l!=='so'&&a[l]&&typeof a[l][k]==='string'&&a[l][k].trim();return o||a[k]||''}
+  function safe(u){return /^https:\/\/[^\s"<>]+$/i.test(String(u||''))?String(u):''}
+  function media(p){p=String(p||'').replace(/^\/+/,'');return /^https:\/\//.test(p)?p:(p?BASE+p:'')}
+  function status(a){var t=ymd(new Date());if(a.active===false)return ['paused','La hakiyay'];if(a.start&&String(a.start).slice(0,10)>t)return ['soon','Wuu bilaabanayaa '+String(a.start).slice(0,10)];if(a.end&&String(a.end).slice(0,10)<t)return ['over','Wuu dhammaaday '+String(a.end).slice(0,10)];return ['live','Firfircoon (bogga ayuu ka muuqdaa)']}
+  function checks(a){var c=[],p=Array.isArray(a.positions)?a.positions:[];
+    c.push(p.length?['ok','Meelaha: '+p.map(function(x){return POS[x]?POS[x][0]:x}).join(', ')]:['bad','Meel lama dooran: xayeysiisku meelna kama muuqanayo.']);
+    c.push(a.image?['ok','Sawir waa jiraa.']:['bad','Sawir ma jiro.']);
+    if(a.link)c.push(safe(a.link)?['ok','Link: '+a.link]:['bad','Link-gu waa inuu ku bilowdaa https://']);else c.push(['warn','Link ma jiro: gujintu meelna uma gudbinayso.']);
+    if(a.videoFile)c.push(/\.mp4$/i.test(a.videoFile)?['ok','Muuqaal .mp4: '+a.videoFile]:['bad','Muuqaalku waa inuu noqdaa .mp4']);
+    if(p.indexOf('video')>=0&&!a.videoFile&&!a.video)c.push(['bad','Meesha "Muuqaal" waxay u baahan tahay .mp4 ama link YouTube.']);
+    if(a.start&&a.end&&String(a.end)<String(a.start))c.push(['bad','Taariikhda dhammaadku waa ka hor bilowga.']);
+    var tl=LANGS.slice(1).filter(function(l){return a[l]&&a[l].title});c.push(tl.length?['ok','Turjumaad: '+tl.join(', ')]:['warn','Turjumaad ma jirto: luqadaha kale waxay arkayaan qoraalka Soomaaliga.']);
+    return c}
+  // same markup as adSlot() in assets/app.js, so assets/site.css styles it the same way
+  function slot(a,pos,l){var link=safe(a.link),img=media(a.image),vf=a.videoFile&&/\.mp4$/i.test(a.videoFile)?media(a.videoFile):'';
+    var cls={home:'ad-home',article:'ad-article'}[pos]||'';var t=txt(a,'title',l),x=txt(a,'text',l),c=txt(a,'cta',l);
+    var h='<aside class="adslot '+cls+'" aria-label="Xayeysiis" style="margin:0"><span class="adtag">'+(l==='so'?'Xayeysiis':'Sponsored')+'</span><'+(link?'a href="'+esc(link)+'" target="_blank" rel="noopener sponsored"':'div')+'>';
+    if(vf)h+='<div class="advfile"><video src="'+esc(vf)+'" poster="'+esc(img)+'" muted playsinline loop controls preload="none"></video></div>';
+    else if(img)h+='<img src="'+esc(img)+'" alt="'+esc(txt(a,'imageAlt',l)||t)+'">';
+    else if(pos==='video'&&a.video)h+='<div class="advfile" style="display:grid;place-items:center;color:#fff">YouTube: '+esc(a.video)+'</div>';
+    if(t||x||a.advertiser||c){h+='<div class="adtx">'+(t?'<b>'+esc(t)+'</b>':'')+(x?'<span>'+esc(x)+'</span>':'')+(a.advertiser?'<span class="adby">'+esc(a.advertiser)+'</span>':'')+(c&&link?'<span class="adcta">'+esc(c)+' →</span>':'')+'</div>'}
+    return h+'</'+(link?'a':'div')+'></aside>'}
+  function draw(a,l){var p=(Array.isArray(a.positions)&&a.positions.length?a.positions:['home']).filter(function(x){return POS[x]});
+    return p.map(function(x){return '<div class="slot" style="width:min('+POS[x][1]+',100%)"><span>'+esc(POS[x][0])+'</span>'+slot(a,x,l)+'</div>'}).join('')}
+  var ADS=[];
+  function render(){var only=$('pick').value,box=$('ads');box.innerHTML='';
+    ADS.filter(function(a){return !only||a.id===only}).forEach(function(a){var s=status(a),d=document.createElement('article');d.className='ad';
+      d.innerHTML='<header><span class="st '+s[0]+'">'+esc(s[1])+'</span><b>'+esc(a.title||a.id)+'</b><small>'+esc(a.advertiser||'')+' · '+esc(a.id)+'</small></header>'+
+        '<ul class="checks">'+checks(a).map(function(c){return '<li class="'+c[0]+'">'+(c[0]==='ok'?'✓ ':c[0]==='bad'?'✗ ':'! ')+esc(c[1])+'</li>'}).join('')+'</ul>'+
+        '<div class="slots"></div><div class="langs">'+LANGS.map(function(l,i){return '<button type="button" aria-pressed="'+(i?'false':'true')+'" data-l="'+l+'">'+l.toUpperCase()+'</button>'}).join('')+'</div>';
+      var sl=d.querySelector('.slots');sl.innerHTML=draw(a,'so');
+      d.querySelector('.langs').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+        [].forEach.call(this.children,function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});sl.dir=b.dataset.l==='ar'?'rtl':'ltr';sl.innerHTML=draw(a,b.dataset.l)});
+      box.append(d)})}
+  function setPick(){var p=$('pick'),v=p.value;p.innerHTML='<option value="">Dhammaan ('+ADS.length+')</option>'+ADS.map(function(a){return '<option value="'+esc(a.id)+'">'+esc((a.title||a.id)+' — '+status(a)[1])+'</option>'}).join('');p.value=v}
+  function loadAds(){var m=$('pvMsg');m.className='msg';m.textContent='Waa la soo rarayaa…';
+    // all adverts (also paused ones) from data/ads/ on GitHub; if GitHub cannot be reached, only the live ones from data/ads.json
+    fetch('https://api.github.com/repos/'+REPO+'/contents/data/ads?ref=main&t='+Date.now()).then(function(r){if(!r.ok)throw r.status;return r.json()})
+      .then(function(list){return Promise.all(list.filter(function(f){return /\.json$/.test(f.name)}).map(function(f){
+        return fetch(f.download_url+'?t='+Date.now()).then(function(r){return r.json()}).then(function(a){a.id=f.name.slice(0,-5);return a}).catch(function(){return null})}))})
+      .then(function(a){return {ads:a.filter(Boolean),src:'maamulka (dhammaan, xitaa kuwa la hakiyay)'}})
+      .catch(function(){return fetch(BASE+'data/ads.json?t='+Date.now()).then(function(r){return r.json()}).then(function(d){return {ads:d.ads||[],src:'data/ads.json (kaliya kuwa firfircoon; GitHub lama gaari karin)'}})})
+      .then(function(r){ADS=r.ads.sort(function(x,y){return String(y.id).localeCompare(String(x.id))});setPick();render();
+        m.textContent=ADS.length?ADS.length+' xayeysiis · laga keenay '+r.src+'. Isbeddel cusub wuxuu soo muuqdaa dhowr daqiiqo kadib kaydinta.':'Weli ma jiro xayeysiis lacag la bixiyay. Ku dar mid: Maamulka → Xayeysiisyada → Cusub (dami "Firfircoon" ilaa aad halkan ka eegto).'})
+      .catch(function(){m.className='msg err';m.textContent='Xayeysiisyada lama soo rari karin. Hubi internetka oo isku day mar kale.'})}
+  $('pick').addEventListener('change',render);$('reload').addEventListener('click',loadAds);
+
+  // ---- stats ----
+  function ss(k,v){try{if(v===undefined)return sessionStorage.getItem(k)||'';sessionStorage.setItem(k,v)}catch(e){return ''}}
+  var now=new Date();$('to').value=ymd(now);$('from').value=ymd(new Date(now-29*864e5));$('tok').value=ss('wtAdTok');
+  fetch(BASE+'data/site.json?t='+Date.now()).then(function(r){return r.json()}).then(function(s){if(!$('ep').value&&s.adStats&&s.adStats.endpoint)$('ep').value=s.adStats.endpoint;
+    if(!(s.adStats&&s.adStats.enabled===true))$('stMsg').textContent='Tirakoobku weli ma shaqeynayo bogga: Maamulka → Dejinta → "Tirakoobka xayeysiiska", geli cinwaanka Worker-ka oo shid. (Sida loo dhiso: workers/ad-stats/README.md)'}).catch(function(){});
+  $('load').addEventListener('click',function(){var ep=safe($('ep').value.trim()).replace(/\/+$/,''),tok=$('tok').value.trim(),m=$('stMsg');m.className='msg';
+    if(!ep||!tok){m.className='msg err';m.textContent='Geli cinwaanka Worker-ka (https://…) iyo furaha.';return}
+    ss('wtAdTok',tok);m.textContent='Waa la soo rarayaa…';
+    fetch(ep+'/v1/stats?from='+encodeURIComponent($('from').value)+'&to='+encodeURIComponent($('to').value),{headers:{Authorization:'Bearer '+tok}})
+      .then(function(r){if(r.status===401)throw 'Furaha waa khalad.';if(!r.ok)throw 'Worker-ku wuxuu soo celiyay '+r.status+'.';return r.json()})
+      .then(function(d){var agg={},T={v:0,c:0};(d.rows||[]).forEach(function(r){var k=r.ad+'\u0000'+r.pos;agg[k]=agg[k]||{ad:r.ad,pos:r.pos,v:0,c:0};agg[k].v+=r.views||0;agg[k].c+=r.clicks||0;T.v+=r.views||0;T.c+=r.clicks||0});
+        var rows=Object.keys(agg).map(function(k){return agg[k]}).sort(function(a,b){return b.v-a.v});
+        function ctr(v,c){return v?(100*c/v).toFixed(2)+'%':'—'}
+        function name(id){var a=ADS.find(function(x){return x.id===id});return a?(a.title||id):id}
+        $('stBody').innerHTML=rows.map(function(r){return '<tr><td>'+esc(name(r.ad))+'</td><td>'+esc(POS[r.pos]?POS[r.pos][0]:r.pos)+'</td><td class="n">'+r.v+'</td><td class="n">'+r.c+'</td><td class="n">'+ctr(r.v,r.c)+'</td></tr>'}).join('');
+        $('stFoot').innerHTML=rows.length?'<tr><td colspan="2">Wadar</td><td class="n">'+T.v+'</td><td class="n">'+T.c+'</td><td class="n">'+ctr(T.v,T.c)+'</td></tr>':'';
+        $('stBox').hidden=!rows.length;m.textContent=rows.length?d.from+' → '+d.to:'Wax aragti ah lama diiwaangelin '+d.from+' → '+d.to+'.'})
+      .catch(function(e){m.className='msg err';m.textContent=typeof e==='string'?e:'Worker-ka lama gaari karin. Hubi cinwaanka.'})});
+
+  [].forEach.call(document.querySelectorAll('.tabs button'),function(b){b.addEventListener('click',function(){
+    [].forEach.call(document.querySelectorAll('.tabs button'),function(x){x.setAttribute('aria-selected',x===b?'true':'false');$(x.dataset.tab).hidden=x!==b})})});
+  loadAds();
+})();
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 """Health check for the public site: valid news.json, required fields, real dates, no duplicate URLs, every article has its
 own photo (present, described, credited, not shared with another article),
 known section / sport / region values, sponsored articles named, and every advert in data/ads.json labelled and well formed."""
-import json, os, sys, datetime
+import json, os, re, sys, datetime
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 news = json.load(open(os.path.join(root, 'data', 'news.json'), encoding='utf-8'))
 items = news['news'] if isinstance(news, dict) else news
@@ -45,6 +45,15 @@ for ad in ads:
     if ad.get('image') and not ad.get('imageAlt'): errors.append(f'ad {aid}: image needs a description (imageAlt)')
     if ad.get('link') and not str(ad['link']).startswith('https://'): errors.append(f'ad {aid}: link must start with https://')
     if ad.get('video') and 'youtu' not in str(ad['video']): errors.append(f'ad {aid}: only YouTube video links are supported')
+    vf = str(ad.get('videoFile') or '')
+    if vf:
+        if not re.match(r'^(img|videos)/[^\s"\'<>?#]+\.mp4$', vf, re.I): errors.append(f'ad {aid}: videoFile must be an .mp4 uploaded to the site (img/ads/...)')
+        elif not os.path.isfile(os.path.join(root, vf)): errors.append(f'ad {aid}: video file missing {vf}')
+        elif os.path.getsize(os.path.join(root, vf)) > 25 * 1024 * 1024: errors.append(f'ad {aid}: video file over 25 MB (GitHub Pages and phones): {vf}')
+        if not ad.get('image'): errors.append(f'ad {aid}: a video advert needs an image too (shown before the video plays)')
+    for lang in ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es'):
+        t = ad.get(lang)
+        if t is not None and (not isinstance(t, dict) or any(k in t and t[k] is not None and not isinstance(t[k], str) for k in ('title', 'text', 'imageAlt', 'cta'))): errors.append(f'ad {aid}: translation {lang} must hold text fields')
 print(f'adverts={len(ads)}')
 # photo rule (from 2026-11-02): every automatic article has its own image, never shared with another article
 RULE_FROM = '2026-11-02'

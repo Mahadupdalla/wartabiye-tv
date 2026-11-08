@@ -44,6 +44,12 @@ Browser: isticmaal Chrome, Edge, Safari ama Firefox oo la cusboonaysiiyay (Chrom
 - **Meelaha:** bogga hore, sidebar, dhex-wararka, gudaha warka, mobile, kaar weyn, video. Xayeysiis kasta wuxuu leeyahay calaamad "Xayeysiis".
 - **Taariikhda bilowga/dhammaadka:** xayeysiisku wuxuu muuqdaa kaliya inta u dhaxaysa. **Firfircoon** dami si aad u joojiso; **Delete** si aad u tirtirto.
 - Repo-gu waa public: **ha ku qorin** telefoonka, email-ka ama qiimaha xayeysiiyaha halkan. Kuwaas waxay galaan maamulka gaarka ah (hoos eeg).
+- **Muuqaal (.mp4):** kaliya muuqaal uu xayeysiiyuhu leeyahay ama oggolaansho laga haysto (ha isticmaalin xayeysiisyada TV-ga ee shirkadaha kale). H.264, 6–30 ilbiriqsi, ugu badnaan 15 MB. Cod la'aan ayuu ku ciyaaraa marka la arko (iPhone iyo Android) wuuna istaagaa qofkii dalbaday dhaqdhaqaaq yar.
+- **Qoraalka badhanka:** tusaale "Ballanso hadda". Badhanku wuxuu muuqdaa kaliya haddii link jiro.
+- **Eeg ka hor daabacaadda:** dami **Firfircoon**, **Save**, kadib fur `https://www.wartabiyetv.com/admin/xayeysiis/`. Waxaad arkaysaa xayeysiiska meel kasta oo aad dooratay, 9-ka luqadood, iyo hubin (sawir, link https, taariikhaha). Marka uu diyaar yahay, shid **Firfircoon**.
+- **Tirakoobka (aragti iyo gujin):** isla bogga `/admin/xayeysiis/` → **Tirakoob**. Marka hore hal mar samee Worker-ka `workers/ad-stats/` (eeg README-ga), kadib **Dejinta → Tirakoobka xayeysiiska** geli cinwaankiisa oo shid. Aragti = kalabar xayeysiiska ayaa shaashadda ka muuqday 1 ilbiriqsi. Cookie, IP iyo aqoonsi booqde lama kaydiyo; kuwa dalbaday "Do Not Track" lama tiriyo.
+- **Ogeysiiska Wartabiye TV ee sidebar-ka:** marka xayeysiis lacag leh oo sidebar ah uusan jirin, sidebar-ku wuxuu muujiyaa xayeysiis yar oo Wartabiye TV ah ("Ku Xayeysiiso…"). Dami: **Dejinta → "Dhinaca bannaan: muuji Ku xayeysiiso Wartabiye TV"**.
+- Tusaalooyinka bogga **Xayeysiimaha** (TUSAALE / DEMO) waa sawirro furan (Wikimedia Commons) iyo qoraal guud; ma aha xayeysiis dhab ah, lagama muujiyo meelaha kale ee bogga.
 
 **Boggaga (Nagu Saabsan, Anshaxa, Saxitaannada, Asturnaanta, Siyaasadda Xayeysiiska)**
 - Qoraal kasta 9 luqadood. Beddel kadibna **Save**.
