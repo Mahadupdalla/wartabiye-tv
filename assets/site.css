@@ -1135,7 +1135,7 @@ html[dir=rtl] .vcard.small .vtx{padding:0 10px 0 0}
 .authstreams{margin:16px 0;display:grid;gap:12px}.authstream{display:grid;gap:8px}.authstream .vframe{border-radius:12px;cursor:auto}
 .dcredit{margin-top:10px}
 /* the LIVE TV button at the end of the menu bar is the desktop menu entry for #toos (red only during a verified broadcast) */
-@media (min-width:861px){.links > a[href="#toos"]{display:none}}
+/* LIVE TV is listed in the menu on desktop too, next to LIVE News and LIVE Matches (the red LIVE button stays at the end) */
 @media (min-width:1321px){.links a{padding:14px 7px;font-size:12.5px;letter-spacing:.02em}}
 /* desktop and tablet: the menu stays on one row; on narrower screens it scrolls sideways instead of wrapping */
 @media (min-width:861px){.links{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain}.links::-webkit-scrollbar{display:none}.links > a{flex:none;white-space:nowrap}}
@@ -1245,3 +1245,8 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 /* "Load more" under the 50-story lists (assets/app.js pager) */
 .loadmore{text-align:center;margin:22px 0 6px}
 .loadmore:empty{display:none}
+
+/* menu: the three live sections (LIVE News, LIVE TV, LIVE Matches) carry a small red dot */
+.links > a.navlive::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-inline-end:6px;vertical-align:middle;box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+/* desktop: the menu wraps onto a second row instead of hiding links off-screen (every section stays visible) */
+@media (min-width:861px){.links{flex-wrap:wrap;overflow:visible}.links.fade{-webkit-mask-image:none;mask-image:none}}

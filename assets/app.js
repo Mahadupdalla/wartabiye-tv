@@ -449,8 +449,9 @@
       st.innerHTML='';var newest=l.length?new Date(l[0].publishedAt).getTime():NaN;var run=new Date(window.WARTABIYE_LAST_RUN||window.WARTABIYE_LAST_OK||'').getTime();
       var p=el('p');p.append(el('span','lndot'),document.createTextNode(isNaN(run)?tr('lnAuto'):trf('lnChecked',{t:eat(new Date(run))+' (EAT)'})+' · '+tr('lnAuto')));st.append(p);
       if(added&&added.length)st.append(el('p','lnadded',trf('lnNewCount',{n:added.length})));
-      if(isNaN(newest)||now-newest>LN_NONE)st.append(el('p','lnwarn',tr('lnNone')));
-      else if(now-newest>LN_DELAY||(!isNaN(run)&&now-run>LN_DELAY))st.append(el('p','lnwarn',trf('lnDelayed',{t:eat(new Date(Math.max(newest,isNaN(run)?0:run)))+' (EAT)'})))}
+      // delayed = the news check itself has not run for 90 minutes; a quiet hour with checks running is not a delay
+      if(!isNaN(run)&&now-run>LN_DELAY)st.append(el('p','lnwarn',trf('lnDelayed',{t:eat(new Date(run))+' (EAT)'})));
+      if(isNaN(newest)||now-newest>LN_NONE)st.append(el('p','lnwarn',tr('lnNone')))}
     draw();drawBroadcast();
     if(lnTimer)clearInterval(lnTimer);
     lnTimer=setInterval(function(){
@@ -825,8 +826,9 @@
 
   // ---------- site settings (data/site.json) ----------
   function sec(k){return !(SITE&&SITE.sections&&SITE.sections[k]===false)}
-  var NAVMAP={'#hoyga':'home','#bariga-afrika':'eastAfrica','#wararka-tooska':'liveNewsNav','#ciyaaraha':'sports','#caalamka':'world','#muuqaal':'navVideos','#toos':'liveTvNav','#ciyaaraha-toos':'navLiveSports','#xayeysiimaha':'advertise','#nagu-saabsan':'aboutUs','#xiriir':'contact','#kaydsan':'saved','#raadi':'advSearch'};
-  var NAVSEC={'#muuqaal':'videos','#toos':'live','#ciyaaraha-toos':'liveSports'};
+  var NAVMAP={'#hoyga':'home','#bariga-afrika':'eastAfrica','#wararka-tooska':'liveNewsNav','#ciyaaraha':'sports','#caalamka':'world','#muuqaal':'videoNewsNav','#toos':'liveTvNav','#ciyaaraha-toos':'navLiveSports','#xayeysiimaha':'advertise','#nagu-saabsan':'aboutUs','#xiriir':'contact','#kaydsan':'saved','#raadi':'advSearch'};
+  var NAVSEC={'#muuqaal':'videos','#wararka-tooska':'liveNews','#toos':'live','#ciyaaraha-toos':'liveSports'};
+  var NAVLIVE={'#wararka-tooska':1,'#toos':1,'#ciyaaraha-toos':1};
   function applySite(){
     if(!SITE)return;var S=SITE;var T=L!=='so'&&S[L]&&typeof S[L]==='object'?S[L]:{};
     function v(k,so){var t=T[k];if(L!=='so'&&typeof t==='string'&&t.trim())return {t:t,so:false};return {t:so,so:L!=='so'}}
@@ -838,7 +840,7 @@
     if(Array.isArray(S.nav)&&S.nav.length){var Ln=$('links');Ln.innerHTML='';S.nav.forEach(function(n){if(!n||!n.label)return;var u=safeLink(n.link);if(NAVSEC[u]&&!sec(NAVSEC[u]))return;
       var lab=n.label,so=false;if(L!=='so'){var ck=/^#qayb-/.test(u)?CATS.find(function(k){return '#qayb-'+slug(k)===u}):null;
         if(NAVMAP[u])lab=tr(NAVMAP[u]);else if(ck)lab=catName(ck);else if(u==='#barnaamijyada')lab=v('programmesTitle','').t||tr('programmes');else so=true}
-      var a=soAttr(el('a',null,lab),so);a.href=u;if(/^#/.test(u)&&u!=='#barnaamijyada')a.dataset.nav=u.slice(1);if(u==='#xayeysiimaha')a.className='ad-link';if(/^https?:/.test(u)){a.target='_blank';a.rel='noopener'}Ln.append(a)})}
+      var a=soAttr(el('a',null,lab),so);a.href=u;if(/^#/.test(u)&&u!=='#barnaamijyada')a.dataset.nav=u.slice(1);if(u==='#xayeysiimaha')a.className='ad-link';if(NAVLIVE[u])a.className='navlive';if(/^https?:/.test(u)){a.target='_blank';a.rel='noopener'}Ln.append(a)})}
     var nb=S.announcement||{};$('notice').hidden=!(nb.enabled&&nb.text);if(!$('notice').hidden){put('noticeLab','announcementLabel',nb.label);var nx=v('announcementText',nb.text);var nt=$('noticeText');nt.innerHTML='';soAttr(nt,nx.so);if(nb.link){var na=el('a',null,nx.t);na.href=safeLink(nb.link);nt.append(na)}else nt.textContent=nx.t}
     var bn=S.banner||{},old=document.querySelector('.logoband .promo');if(old)old.remove();
     // the Somali flag panel (style "calan") is no longer shown in the header: that space now holds the social, theme and language controls
