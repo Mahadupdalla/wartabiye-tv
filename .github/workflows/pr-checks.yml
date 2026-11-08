@@ -147,4 +147,4 @@ jobs:
           fi
           args=(pr --result "$result" --number "$N" --title "$(jq -r .title <<<"$pr")" --url "$(jq -r .html_url <<<"$pr")" --run "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")
           for r in "${reasons[@]}"; do args+=(--reason "$r"); done
-          bash tools/deploy_status_push.sh "${args[@]}"
+          if [ -f tools/deploy_status_push.sh ]; then bash tools/deploy_status_push.sh "${args[@]}"; else echo "deploy status writer not on main yet; nothing saved"; fi
