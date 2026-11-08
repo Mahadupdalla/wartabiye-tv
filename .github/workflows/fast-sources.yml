@@ -1,0 +1,118 @@
+name: 'Ilaha degdegga ah – 5 daqiiqo (5-minute source monitor)'
+# Every 5 minutes inside the owner's operating hours (data/schedule.json "hours", Africa/Nairobi; "24/7" = always):
+# reads the official RSS feed of every source marked "fastPoll" in data/world/sources.json (The Moscow Times,
+# The Local Italy, ABC News, Sweden Herald; DutchNews only as an availability check until it gives permission).
+# Lightweight: no Claude run, no browser, conditional GET. It publishes NOTHING by itself: new articles (genuinely new
+# ids with a recent original publication time) go to branch "fast-feed" (candidates.json) for the hourly news task,
+# which writes, verifies, adds a licensed photo and publishes; the publish workflow then adds the story to the bell and
+# sends push alerts only after GitHub Pages is live. The monitor follows every story until it is live on the website and
+# measures the delays (data/world/fast-status.json, shown in /admin/). Outside operating hours it stops at once.
+# GitHub may start scheduled runs some minutes late; the real interval is measured and shown in the diagnostics.
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Check now even outside operating hours'
+        type: boolean
+        default: false
+  push:
+    # test run on a work branch when the monitor changes (nothing is saved)
+    branches-ignore: [main, world-feed, fast-feed]
+    paths: ['tools/fast_monitor.py', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: fast-sources-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 300   # enough history to read when each article file first reached main
+      - name: Self-test (no network)
+        run: python3 tools/fast_monitor.py test
+      - name: Operating hours
+        id: hours
+        run: |
+          h=$(python3 tools/fast_monitor.py hours)
+          echo "Africa/Nairobi $(TZ=Africa/Nairobi date '+%F %H:%M'): $h ($(python3 -c "import json;print(json.load(open('data/schedule.json')).get('hours','24/7'))"))"
+          echo "state=$h" >> "$GITHUB_OUTPUT"
+      - name: Feed check (work branches only)
+        if: github.ref != 'refs/heads/main'
+        run: python3 tools/fast_monitor.py probe
+      - name: Previous monitor state (branch fast-feed)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p /tmp/fast
+          if git fetch -q origin fast-feed 2>/dev/null; then
+            for f in state.json candidates.json alerts.txt; do git show origin/fast-feed:$f > /tmp/fast/$f 2>/dev/null || rm -f /tmp/fast/$f; done
+          fi
+          cp /tmp/fast/alerts.txt /tmp/alerts-before.txt 2>/dev/null || : > /tmp/alerts-before.txt
+      - name: Check the sources
+        if: steps.hours.outputs.state == 'open' || inputs.force || github.ref != 'refs/heads/main'
+        run: |
+          mkdir -p /tmp/fast
+          python3 tools/fast_monitor.py run --state /tmp/fast ${{ (inputs.force || github.ref != 'refs/heads/main') && '--force' || '' }}
+          cat /tmp/fast/README.txt >> "$GITHUB_STEP_SUMMARY"
+      - name: Outside operating hours
+        if: steps.hours.outputs.state != 'open' && !inputs.force && github.ref == 'refs/heads/main'
+        run: echo "Outside operating hours (Africa/Nairobi), no source checked, nothing saved."
+      - name: Save the state and the candidates (branch fast-feed, one commit, no history)
+        if: github.ref == 'refs/heads/main' && (steps.hours.outputs.state == 'open' || inputs.force)
+        run: |
+          cd /tmp/fast && rm -rf .git && git init -q -b fast-feed
+          git add state.json candidates.json fast-status.json alerts.txt README.txt
+          git -c user.name=wartabiye-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -q -m "5-minute monitor $(date -u +%FT%TZ)"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" fast-feed
+      - name: Hand fresh articles to the hourly news task (branch world-feed)
+        if: github.ref == 'refs/heads/main' && (steps.hours.outputs.state == 'open' || inputs.force)
+        run: |
+          python3 -c "import json,sys;sys.exit(0 if json.load(open('/tmp/fast/candidates.json'))['items'] else 1)" || { echo "nothing fresh to hand over"; exit 0; }
+          for i in 1 2 3; do
+            rm -rf /tmp/wf && mkdir /tmp/wf && cd /tmp/wf && git init -q
+            git fetch -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" world-feed && git checkout -q -b world-feed FETCH_HEAD || git checkout -q -b world-feed
+            python3 "$GITHUB_WORKSPACE/tools/fast_monitor.py" handoff --fast /tmp/fast/candidates.json --world /tmp/wf/candidates.json
+            git add candidates.json
+            git diff --cached --quiet && { echo "list already up to date"; exit 0; }
+            git -c user.name=wartabiye-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -q -m "5-minute monitor hand-off $(date -u +%FT%TZ)"
+            git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" world-feed && exit 0
+            sleep 5
+          done
+          echo "could not update world-feed (the next check retries)"
+      - name: Copy the diagnostics to /admin/ (about once an hour, or at once when an alert starts or ends)
+        if: github.ref == 'refs/heads/main' && (steps.hours.outputs.state == 'open' || inputs.force)
+        run: |
+          old=$(python3 -c "import json;print(json.load(open('data/world/fast-status.json')).get('updatedAt',''))" 2>/dev/null || true)
+          age=$(python3 -c "import datetime,sys;o='$old';print(9999 if not o else int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(o)).total_seconds()//60))")
+          if [ "$age" -lt 55 ] && cmp -s /tmp/alerts-before.txt /tmp/fast/alerts.txt; then echo "admin copy is $age min old, no alert change: not committed"; exit 0; fi
+          cp /tmp/fast/fast-status.json data/world/fast-status.json
+          git config user.name "wartabiye-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/world/fast-status.json && git commit -q -m "Ilaha degdegga ah: xaaladda" || exit 0
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+      - name: Alert the administrator (GitHub issue) when a source is unavailable or delayed
+        if: github.ref == 'refs/heads/main' && (steps.hours.outputs.state == 'open' || inputs.force)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cmp -s /tmp/alerts-before.txt /tmp/fast/alerts.txt && { echo "no alert change"; exit 0; }
+          title="Ilaha wararka: digniin (source monitor alert)"
+          n=$(gh issue list --state open --search "\"$title\" in:title" --json number -q '.[0].number' 2>/dev/null || true)
+          if [ -s /tmp/fast/alerts.txt ]; then
+            { echo "The 5-minute source monitor found a problem ($(TZ=Africa/Nairobi date '+%F %H:%M') Africa/Nairobi):"; echo; sed 's/^/- /' /tmp/fast/alerts.txt; echo; echo "Details: /admin/ → Ilaha wararka → Ilaha degdegga ah, or branch fast-feed (README.txt). This issue closes by itself when the sources are back."; } > /tmp/body.md
+            if [ -n "$n" ]; then gh issue comment "$n" -F /tmp/body.md; else gh issue create --title "$title" -F /tmp/body.md; fi
+          elif [ -n "$n" ]; then
+            gh issue close "$n" -c "All monitored sources are working again ($(TZ=Africa/Nairobi date '+%F %H:%M') Africa/Nairobi)."
+          fi || echo "could not write the alert issue (are Issues switched on for this repository?)"
+      - uses: actions/upload-artifact@v4
+        if: github.ref != 'refs/heads/main'
+        with:
+          name: fast-monitor-${{ github.run_id }}
+          path: /tmp/fast/
+          retention-days: 7

@@ -673,7 +673,7 @@ def dedup(args):
 def pub(x):
     return {k: x.get(k) for k in ('source', 'sourceName', 'section', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
                                   'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel',
-                                  'country', 'region') if x.get(k) not in (None, '')}
+                                  'country', 'region', 'discoveredAt', 'firstSeenBy', 'overnight', 'pagePublishedAt') if x.get(k) not in (None, '')}
 
 
 # ---------------------------------------------------------------- report / status

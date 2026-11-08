@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     # the LIVE TV status file is updated by live-status.yml (only when a broadcast starts or ends); no full check for that
-    paths-ignore: ['data/live-status.json', 'data/push-log.json']
+    paths-ignore: ['data/live-status.json', 'data/push-log.json', 'data/world/fast-status.json']
   schedule:
     # The news update itself is NOT scheduled here: it is the Claude scheduled task, every hour, 24/7 (Africa/Nairobi).
     # GitHub only publishes (publish.yml, on push) and checks. This check runs every 3 hours (GitHub may start it late).
@@ -19,7 +19,7 @@ jobs:
       - name: Video / LIVE TV / sports rules and the sports-data proxy (no network)
         run: python3 tools/media_test.py && node --test workers/sports-api/test/worker.test.mjs
       - name: Notification feed, push rules and the push service (no network)
-        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs
+        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs && python3 tools/fast_monitor.py test
       - name: Check the news update ran (hourly 24/7; 08:00 / 18:00 only when the owner switched hourly off)
         if: github.event_name == 'schedule'
         run: |
