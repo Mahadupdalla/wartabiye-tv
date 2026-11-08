@@ -27,7 +27,7 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `tools/notify_test.js` | Tijaabada gambaleelka (desktop + mobile, RTL, link kasta war dhab ah) |
 
 ## Cusbooneysiinta saacad kasta
-Hawl jadwal ah oo Claude ah ayaa socota **saacad kasta, 24 saac (Africa/Nairobi)**, cloud-ka Anthropic dhexdiisa (laptop looma baahna). Jadwalku ma ballanqaado daqiiqad sax ah.
+Hawl jadwal ah oo Claude ah ayaa socota **saacad kasta 07:00 ilaa 23:00 (Africa/Nairobi), 17 orod maalintii; habeenkii (23:00–07:00) wararka lama ururiyo, bogguse wuu furan yahay**, cloud-ka Anthropic dhexdiisa (laptop looma baahna). Jadwalku ma ballanqaado daqiiqad sax ah.
 Waxay ururisaa wararka la hubiyey, waxay soo dejisaa sawirro sharci ah, kadibna `data/news/` iyo `img/news/` ayay ku shubtaa repo-gan.
 GitHub Pages ayaa si toos ah u cusbooneysiiya bogga, kadibna gambaleelka iyo push-ka (`tools/push_send.py`). /admin/ → Ogeysiisyada → Jadwalka ayaa saacadlaha dami kara (kaliya 08:00 iyo 18:00).
 
@@ -37,6 +37,6 @@ Jadwalka keliya ee wararka ururiya waa hawsha Claude. GitHub Actions ma laha jad
 
 ## Wararka Caalamka: siddeed ilood
 `data/world/sources.json` (lagu beddeli karo /admin/ → **Wararka Caalamka: xaaladda iyo ilaha**) waa siddeedda ilood ee Wararka Caalamka: Türkiye Today, Daily Sabah, CNN, Euronews, IGAD iyo saddex ilood oo la sugayo cinwaankooda.
-1. `.github/workflows/world-feeds.yml` (saacad kasta, qiyaastii :05) wuxuu akhriyaa RSS / news sitemap / bogga isha kasta (robots.txt waa la ixtiraamaa), wuxuu furaa maqaal kasta (canonical URL, waqtiga asalka ah, sawirka Open Graph iyo cidda sawirka leh), wuxuu saaraa nuqullada, kadibna liiska wuxuu dhigaa branch-ka `world-feed`. Waxba ma daabaco.
+1. `.github/workflows/world-feeds.yml` (saacad kasta 06:35–22:35 EAT) wuxuu akhriyaa RSS / news sitemap / bogga isha kasta (robots.txt waa la ixtiraamaa), wuxuu furaa maqaal kasta (canonical URL, waqtiga asalka ah, sawirka Open Graph iyo cidda sawirka leh), wuxuu saaraa nuqullada, kadibna liiska wuxuu dhigaa branch-ka `world-feed`. Waxba ma daabaco.
 2. `tools/world_news.py dedup` wuxuu isbarbardhigaa URL-ka, canonical URL-ka, cinwaanka, qoraalka, magacyada (higaad kasta), meelaha iyo taariikhda, isagoo la barbardhigaya warar kasta oo bogga weligiis ku jiray (kuwa la tirtiray iyo qabyada ku jiraan). Hal war oo keliya ayaa dhacdo kasta laga daabacaa; ilaha kale waxay galaan `alsoReportedBy`. Tijaabo: `python3 tools/world_news_test.py`.
 3. Hawsha Claude (saacad kasta) waxay qortaa warka Soomaali iyo 7 turjumaad, waxay raadisaa sawir sharci ah (sawirrada daabacayaasha iyo wakaaladaha AP/AFP/Reuters/Getty lama isticmaalo), haddii aan la helinna warku wuxuu galaa **Sugaya sawir**. Kadib `tools/world_news.py status` wuxuu qoraa `data/world/status.json` (ilaha shaqeeya, tirooyinka, nuqullada, khaladaadka) oo ka muuqda /admin/.

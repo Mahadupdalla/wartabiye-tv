@@ -1201,7 +1201,7 @@ collections:
         file: data/schedule.json
         format: json
         fields:
-          - {name: hourly, label: 'Saacad kasta (24 saac) hubi wararka cusub', widget: boolean, default: true, hint: 'Shidan: hawsha Claude waxay hubisaa saacad kasta (Africa/Nairobi). Dansan: kaliya 08:00 iyo 18:00 ayay shaqeysaa; orodyada kale isla markiiba way joogsadaan (wax ma qoraan). Jadwalka hawsha laftiisa waxaa laga beddelaa claude.ai → Scheduled tasks.'}
+          - {name: hourly, label: 'Saacad kasta (07:00–23:00) hubi wararka cusub', widget: boolean, default: true, hint: 'Shidan: hawsha Claude waxay hubisaa saacad kasta 07:00 ilaa 23:00 (Africa/Nairobi, 17 jeer maalintii; habeenkii ma socoto, bogguse wuu furan yahay). Dansan: kaliya 08:00 iyo 18:00 ayay shaqeysaa; orodyada kale isla markiiba way joogsadaan (wax ma qoraan). Jadwalka hawsha laftiisa waxaa laga beddelaa claude.ai → Scheduled tasks.'}
           - {name: note, label: Xusuus, widget: text, required: false}
       - name: log
         label: 'Xaaladda dirista (waxaa qora GitHub Actions, ha beddelin)'

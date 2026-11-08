@@ -1,4 +1,6 @@
 {
  "hourly": true,
- "note": "hourly: true = the Claude news task checks for new stories every hour (Africa/Nairobi). false = only the 08:00 and 18:00 runs do the work; the other runs stop at once."
+ "hours": "07:00-23:00",
+ "timezone": "Africa/Nairobi",
+ "note": "hourly: true = the Claude news task checks for new stories every hour from 07:00 to 23:00 Africa/Nairobi (17 runs a day; none overnight, the website stays online). false = only the 08:00 and 18:00 runs do the work; the other runs stop at once."
 }
