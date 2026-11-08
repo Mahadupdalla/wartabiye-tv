@@ -1,0 +1,26 @@
+name: probe sports sources (temporary)
+on:
+  push:
+    branches: [claude/project-thread-i3qo2g]
+    paths: [.github/workflows/zz-probe.yml]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          O="Origin: https://wartabiyetv.com"
+          p(){ echo; echo "=================== $1"; curl -sS -m 20 -H "$O" -D h.txt -o b.txt "$1"; grep -iE "^HTTP|access-control-allow-origin|content-type|cache-control" h.txt; head -c ${2:-1500} b.txt; echo; }
+          p "https://api.openligadb.de/getcurrentgroup/bl1"
+          p "https://api.openligadb.de/getmatchdata/bl1/2026" 2500
+          p "https://api.openligadb.de/getbltable/bl1/2026" 800
+          p "https://api.openligadb.de/getavailableleagues" 300
+          python3 - <<'PY'
+          import json,urllib.request
+          d=json.load(urllib.request.urlopen("https://api.openligadb.de/getavailableleagues"))
+          cur=[l for l in d if str(l.get("leagueSeason"))>="2025"]
+          for l in cur: print(l.get("leagueShortcut"),l.get("leagueSeason"),l.get("leagueName"),l.get("sport",{}).get("sportName") if isinstance(l.get("sport"),dict) else "")
+          PY
+          p "https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4328" 1200
+          p "https://www.thesportsdb.com/api/v1/json/3/eventspastleague.php?id=4328" 600
+          p "https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=4328&s=2026-2027" 600
+          p "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard" 600
