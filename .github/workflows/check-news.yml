@@ -19,7 +19,22 @@ jobs:
       - name: Video / LIVE TV / sports rules and the sports-data proxy (no network)
         run: python3 tools/media_test.py && node --test workers/sports-api/test/worker.test.mjs && node tools/sports_feed.mjs test
       - name: Notification feed, push rules and the push service (no network)
-        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs && python3 tools/fast_monitor.py test && node --test workers/fast-trigger/test/worker.test.mjs
+        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs && python3 tools/fast_monitor.py test && bash -n tools/fast_loop.sh && node --test workers/fast-trigger/test/worker.test.mjs
+      - name: Check the 5-minute source check is running (0 new stories is healthy; only a stopped checker fails)
+        run: |
+          git fetch -q --depth=1 origin fast-feed && git show origin/fast-feed:fast-status.json > /tmp/fast-status.json
+          python3 - <<'PY'
+          import json, datetime, sys
+          d = json.load(open('/tmp/fast-status.json', encoding='utf-8'))
+          s = d.get('status') or {}
+          last = s.get('lastSourceCheckAt') or d.get('lastCheckAt')
+          age = (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(last)).total_seconds() / 60 if last else 1e9
+          print(f"last source check {last} ({age:.0f} min ago) | next expected {s.get('nextExpectedCheckAt')} | "
+                f"last 24 h: {s.get('checks24h')} checks, {s.get('newFound24h')} new, {s.get('published24h')} published")
+          if age > 20:
+              print('::error::the 5-minute source check has STOPPED (no check for more than 20 minutes): Actions -> "Ilaha degdegga ah" -> Run workflow')
+              sys.exit(1)
+          PY
       - name: Check the news update ran (hourly 24/7; 08:00 / 18:00 only when the owner switched hourly off)
         if: github.event_name == 'schedule'
         run: |

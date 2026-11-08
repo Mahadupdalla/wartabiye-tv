@@ -1203,3 +1203,6 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 @media (prefers-reduced-motion:reduce){.icobtn.bell.has svg,.ntlive,.ntbanner{animation:none}}
 /* the bell takes one more icon slot in the menu bar: keep every menu link visible on wide screens */
 @media (min-width:861px){.tools{gap:2px}.tools .icobtn{width:34px}}
+/* "Load more" under the 50-story lists (assets/app.js pager) */
+.loadmore{text-align:center;margin:22px 0 6px}
+.loadmore:empty{display:none}

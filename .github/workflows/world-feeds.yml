@@ -1,16 +1,15 @@
 name: 'Ilaha wararka – ururin (East Africa, World, Sports news sources)'
-# Reads EVERY news source in data/world/sources.json (Somalia & East Africa, World News, Sports; tools/east_africa.py sorts them into sections) EVERY HOUR, 24/7,
-# shortly before each hourly Claude news update (about :08 past every hour, Africa/Nairobi) (GitHub may start it some minutes late): RSS / news sitemap / public pages / official Telegram channel only, robots.txt respected. It
+# Reads EVERY news source in data/world/sources.json (Somalia & East Africa, World News, Sports; tools/east_africa.py sorts them into sections)
+# when started by hand: RSS / news sitemap / public pages / official Telegram channel only, robots.txt respected. It
 # publishes NOTHING: it removes duplicate stories, checks the publisher photos, and saves the candidate list on branch
 # "world-feed". The Claude news task reads that list, writes the Somali stories and translations, finds licensed photos
 # and publishes.
 # The 5-minute monitor (fast-sources.yml) adds the articles it discovers in between to the same list on world-feed,
 # with the time each one was first discovered, so the next hourly update sees them without waiting for this run.
+# Owner's rule (8 Nov 2026): ONE source-check system. The regular checks are done by the 5-minute source monitor
+# (fast-sources.yml, every 5 minutes, 24/7), so this collector no longer has a timer: it only runs when started by hand
+# (Actions -> Run workflow) or as a test on a work branch.
 on:
-  schedule:
-    # every hour at about :35 (UTC and Africa/Nairobi share the minute), ~30 minutes before the next news update at about :08.
-    # 24 runs a day, day and night.
-    - cron: '35 * * * *'
   workflow_dispatch:
   push:
     # test run on a work branch when the collector changes (nothing is saved, only the report and an artifact)
