@@ -51,11 +51,16 @@ const fs = require('fs');
       let bad = 0;
       for (const it of news) {
         await p.evaluate(id => location.hash = 'war-' + encodeURIComponent(id), it.id); await p.waitForTimeout(120);
-        const s = await p.evaluate(() => { const a = document.getElementById('story'); return { h1: (a.querySelector('h1') || {}).textContent, note: (a.querySelector('.trnote') || {}).textContent || '', dir: (a.querySelector('h1') || {}).dir } });
-        const want = lang !== 'so' && it[lang] ? it[lang].title : it.title;
+        const s = await p.evaluate(() => { const a = document.getElementById('story'); const un = a.querySelector('.trnone');
+          return { h1: (a.querySelector('h1') || {}).textContent, none: !!un, soBtn: !!(un && un.querySelector('button[lang="so"]')) } });
+        if (lang !== 'so' && !it[lang]) {
+          // no translation: the page says so plainly and offers Somali (no mixed-language text is shown)
+          if (!s.none) { bad++; fail(`${lang} article ${it.id}: untranslated article does not show the "translation unavailable" notice`) }
+          else if (!s.soBtn) fail(`${lang} article ${it.id}: "translation unavailable" notice has no Somali button`);
+          continue;
+        }
+        const want = lang !== 'so' ? it[lang].title : it.title;
         if (s.h1 !== want) { bad++; fail(`${lang} article ${it.id}: headline "${s.h1}"`) }
-        if (lang !== 'so' && !it[lang] && !s.note) fail(`${lang} article ${it.id}: Somali fallback without a label`);
-        if (lang !== 'so' && !it[lang] && s.dir !== 'ltr') fail(`${lang} article ${it.id}: Somali fallback not left-to-right`);
       }
       console.log('articles in', lang, bad ? bad + ' wrong' : 'all ' + news.length + ' OK');
       if (lang === 'ar') { await p.evaluate(id => location.hash = 'war-' + encodeURIComponent(id), news[0].id); await p.waitForTimeout(300); await p.screenshot({ path: `${outDir}/lang-story-ar.png`, fullPage: true }) }
