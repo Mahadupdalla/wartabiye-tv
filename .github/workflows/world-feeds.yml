@@ -32,8 +32,8 @@ jobs:
       - name: East Africa rule tests (no Somalia sources or Somalia-focused articles)
         run: python3 tools/east_africa.py test
       - name: Read all news sources (East Africa, World, Sports)
-        # the last 48 hours; the news task then keeps only what was published since its last successful update
-        run: python3 tools/world_news.py fetch --since "$(date -u -d '48 hours ago' +%FT%TZ)" --out /tmp/world/candidates.json
+        # the last 3 hours only (owner's freshness rule: nothing older than 2 hours is published as new)
+        run: python3 tools/world_news.py fetch --since "$(date -u -d '3 hours ago' +%FT%TZ)" --out /tmp/world/candidates.json
       - name: Remove duplicates and check images
         run: python3 tools/world_news.py dedup /tmp/world/candidates.json --out /tmp/world/plan.json
       - name: Report

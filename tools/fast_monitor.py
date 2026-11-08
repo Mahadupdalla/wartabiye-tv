@@ -25,7 +25,7 @@ from data/schedule.json). Standard library only. It publishes NOTHING by itself:
   python3 tools/fast_monitor.py test                        self-test, no network
 """
 import json, os, re, sys, glob, time, datetime, subprocess, statistics, email.utils
-import urllib.request, urllib.error
+import urllib.request, urllib.error, urllib.parse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import world_news as w
 import east_africa
@@ -36,7 +36,8 @@ SCHEDULE = os.path.join(root, 'data', 'schedule.json')
 STATUS_MAIN = os.path.join(root, 'data', 'world', 'fast-status.json')
 SITE_NEWS = 'https://www.wartabiyetv.com/data/news.json'
 EAT = w.EAT
-NEW_MAX_AGE_H = 36       # a never-seen item older than this is an old/updated story, never "new"
+NEW_MAX_AGE_H = 2        # owner's rule (8 Nov 2026): a never-seen item older than 2 hours is never "new"
+KEEP_CANDIDATE_H = 3     # how long a discovered item stays in the hand-off list for the news task
 KEEP_DAYS = 7            # how long seen ids are remembered
 ERRORS_FOR_ALERT = 3     # consecutive failed checks (about 15 minutes) before "unavailable"
 
@@ -101,6 +102,23 @@ def fetch_feed(url, src_state):
         raise
 
 
+def parse_listing(f, data):
+    """The same feed types as tools/world_news.py fetch: rss / sitemap, a public page (links matching linkPattern,
+    no dates: the article page gives the time) and an official Telegram channel preview."""
+    if f['type'] == 'telegram':
+        return w.parse_telegram(data.decode('utf-8', 'replace'), f.get('linkPattern'))
+    if f['type'] == 'html':
+        p = w.Meta(); p.feed(data.decode('utf-8', 'replace'))
+        seen, got = set(), []
+        for h in p.links:
+            u = urllib.parse.urljoin(f['url'], h).split('#')[0]
+            if u not in seen and re.match(f['linkPattern'], u): seen.add(u); got.append({'url': u})
+        return got
+    if not data.lstrip()[:300].lower().startswith((b'<?xml', b'<rss', b'<feed', b'<urlset')) and b'<rss' not in data[:500]:
+        raise ValueError('not a feed (the address answers with a web page)')
+    return w.parse_feed(data)
+
+
 def item_key(g):
     return w.norm_url(g.get('url') or '')
 
@@ -115,11 +133,14 @@ def check_source(s, st, t, log):
             code, data = fetch_feed(f['url'], st)
             if code == 304:
                 listing, used = [], f['url']; st['lastNotModified'] = True; break
-            if not data.lstrip()[:300].lower().startswith((b'<?xml', b'<rss', b'<feed')) and b'<rss' not in data[:500]:
-                raise ValueError('not a feed (the address answers with a web page)')
-            got = w.parse_feed(data)
+            got = parse_listing(f, data)
+            if f.get('linkPattern') and f['type'] not in ('html', 'telegram'):
+                got = [g for g in got if re.match(f['linkPattern'], g['url'])]
             if not got: raise ValueError('feed has no items')
-            listing, used = got, f['url']; st['lastNotModified'] = False; break
+            dated = [parse(g.get('publishedAt')) for g in got if g.get('publishedAt')]
+            if f.get('maxAgeDays') and dated and max(dated) < t - datetime.timedelta(days=f['maxAgeDays']):
+                raise ValueError(f'feed is stale (newest item {iso(max(dated))[:10]})')
+            listing, used = got, f['url']; st['lastNotModified'] = False; st['feedType'] = f['type']; break
         except Exception as e:
             errors.append(f"{f['url']}: {type(e).__name__}: {e}"[:300])
     st['fetchSeconds'] = round(time.time() - t0, 1)
@@ -157,7 +178,12 @@ def check_source(s, st, t, log):
               'title': g.get('title'), 'description': g.get('description'), 'publishedAt': g.get('publishedAt'),
               'image': g.get('image'), 'timeVerified': bool(g.get('publishedAt')), 'discoveredAt': iso(t),
               'dateSource': 'publisher RSS feed' if g.get('publishedAt') else None, 'firstSeenBy': '5-minute monitor'}
+        for kk in ('channelPost', 'postLabel'):
+            if g.get(kk): it[kk] = g[kk]
+        if g.get('dateSource'): it['dateSource'] = g['dateSource']
         try:
+            if st.get('feedType') == 'telegram':
+                raise PermissionError('article page not opened: the publisher site refuses automated readers; text from its official channel post')
             a = w.article(g['url'])
             for kk in ('canonicalUrl', 'imageCaption', 'imageCredit', 'imageLicenseHint', 'author'):
                 if a.get(kk): it[kk] = a[kk]
@@ -200,7 +226,8 @@ def site_articles():
         n = load(f, None)
         if not isinstance(n, dict) or not n.get('sourceUrl'): continue
         out[w.norm_url(n['sourceUrl'])] = {'id': os.path.basename(f)[:-5], 'published': n.get('published', True) is not False,
-                                           'held': bool(n.get('imagePending')) or n.get('published') is False, 'path': f}
+                                           'held': bool(n.get('imagePending')) or n.get('published') is False, 'path': f,
+                                           'verifiedAt': n.get('verifiedAt')}
     return out
 
 
@@ -239,11 +266,12 @@ def track(tracked, t):
             x['articleId'] = a['id']
             x['state'] = 'held' if a['held'] else 'committed'
             x.setdefault('committedAt', committed_at(a['path']) or iso(t))
+            if a.get('verifiedAt'): x['verifiedAt'] = a['verifiedAt']
             if not a['held']:
                 if live is None: live = live_ids() or set()
                 if a['id'] in live:
                     x['liveAt'] = iso(t); x['state'] = 'live'
-        elif parse(x['discoveredAt']) < t - datetime.timedelta(hours=NEW_MAX_AGE_H):
+        elif parse(x['discoveredAt']) < t - datetime.timedelta(hours=24):
             x['state'] = 'expired'   # the news task did not choose it (duplicate, not important, not verified)
         for k, a_, b_ in (('discoveryDelayMin', 'publishedAt', 'discoveredAt'), ('commitDelayMin', 'publishedAt', 'committedAt'),
                           ('liveDelayMin', 'publishedAt', 'liveAt'), ('pipelineMin', 'discoveredAt', 'liveAt')):
@@ -312,7 +340,7 @@ def alerts_of(state, fast, t, sched):
     for s in fast:
         st = state['sources'].get(s['id'], {})
         if st.get('disabled'): continue
-        if st.get('consecutiveErrors', 0) >= ERRORS_FOR_ALERT:
+        if st.get('consecutiveErrors', 0) >= ERRORS_FOR_ALERT and st.get('lastOkAt'):
             out.append(f"{s['name']}: unavailable since {st.get('lastOkAt') or 'the first check'} (feed {st.get('feedUrl') or (s.get('feeds') or [{}])[0].get('url')} does not answer)")
             continue
         gap = None if s.get('monitorOnly') else s.get('expectedMaxGapHours')   # a source we do not collect: availability only
@@ -328,7 +356,7 @@ def alerts_of(state, fast, t, sched):
 def save_all(sdir, state, cfg, fast, t, sched, new_items, log, skipped=False):
     # candidates for the hourly news task: discovered, not yet on the site, still fresh
     old = load(os.path.join(sdir, 'candidates.json'), {}) or {}
-    keep = {w.norm_url(x['url']): x for x in old.get('items', []) if parse(x.get('discoveredAt')) and parse(x['discoveredAt']) >= t - datetime.timedelta(hours=NEW_MAX_AGE_H)}
+    keep = {w.norm_url(x['url']): x for x in old.get('items', []) if parse(x.get('discoveredAt')) and parse(x['discoveredAt']) >= t - datetime.timedelta(hours=KEEP_CANDIDATE_H)}
     for x in new_items: keep[w.norm_url(x['url'])] = x
     for k, x in list(keep.items()):
         tr = state['tracked'].get(w.norm_url(x.get('canonicalUrl') or '')) or state['tracked'].get(k) or {}
@@ -369,7 +397,7 @@ def diagnostics(state, cfg, fast, t, sched, skipped):
             'state': 'disabled' if st.get('disabled') else 'monitor-only' if s.get('monitorOnly') else
                      'unavailable' if st.get('consecutiveErrors', 0) >= ERRORS_FOR_ALERT else
                      'error' if st.get('consecutiveErrors') else 'working' if st.get('lastOkAt') else 'not checked yet',
-            'permission': perm.get('status', 'unknown'), 'permissionNote': perm.get('summary', ''),
+            'permission': perm.get('status', 'as before (own rewrite + link)'), 'permissionNote': perm.get('summary', ''),
             'pollMinutes': 5, 'feedUrl': st.get('feedUrl') or ((s.get('feeds') or [{}])[0].get('url')),
             'lastCheckAt': st.get('lastCheckAt'), 'lastSuccessAt': st.get('lastOkAt'),
             'latestOriginalPublishedAt': st.get('latestPublishedAt'),
@@ -399,7 +427,7 @@ def diagnostics(state, cfg, fast, t, sched, skipped):
                       'medianDiscoveryToLiveMin': med([x.get('pipelineMin') for x in tr if x.get('liveAt') and parse(x['liveAt']) >= day])},
         'alerts': state.get('alerts') or [],
         'sources': out_src,
-        'recentPublished': [{k: x.get(k) for k in ('articleId', 'source', 'title', 'url', 'publishedAt', 'discoveredAt', 'committedAt', 'liveAt',
+        'recentPublished': [{k: x.get(k) for k in ('articleId', 'source', 'title', 'url', 'publishedAt', 'discoveredAt', 'verifiedAt', 'committedAt', 'liveAt',
                                                    'discoveryDelayMin', 'liveDelayMin', 'overnight')} for x in recent],
         'recentDiscovered': [{k: x.get(k) for k in ('source', 'title', 'url', 'publishedAt', 'discoveredAt', 'discoveryDelayMin', 'state', 'articleId', 'overnight')}
                              for x in sorted(tr, key=lambda x: x['discoveredAt'], reverse=True)[:40]],
@@ -483,8 +511,9 @@ def test(_args):
     # every fastPoll source in sources.json is complete
     for s in load(SOURCES, {'sources': []})['sources']:
         if not s.get('fastPoll'): continue
-        ok(s.get('feeds') and (s.get('permission') or {}).get('status'), f"{s['id']}: feed and permission status")
-        ok(s.get('section') == 'world', f"{s['id']}: World News section")
+        ok(s.get('feeds'), f"{s['id']}: has a feed")
+        ok(s.get('section') in ('somalia', 'world', 'sports'), f"{s['id']}: known section")
+        ok(not east_africa.excluded_source(s), f"{s['id']}: never a Somalia source")
         if (s.get('permission') or {}).get('status') == 'permission-required':
             ok(s.get('monitorOnly') and not s.get('enabled'), f"{s['id']}: no permission -> monitor only and switched off")
     print('OK' if not bad else 'FAILED:\n  ' + '\n  '.join(bad))
