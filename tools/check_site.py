@@ -64,6 +64,32 @@ meta = news.get('updatedAt') if isinstance(news, dict) else None
 print('updatedAt', meta)
 # a missing translation is not an error: the page then shows the Somali original with a clear label
 print('translated', ' '.join(f"{l}={sum(1 for n in items if isinstance(n.get(l), dict))}/{len(items)}" for l in ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')))
+# Video News, LIVE TV, LIVE Sports (data/videos.json, data/live.json, data/sports.json). A wrong link is never turned into a
+# player by the site (assets/media.js), so these are warnings for the admin, not reasons to stop publishing the news.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from media_rules import provider, parse_time, stream_authorised  # noqa: E402
+warnings = []
+def load(name, default):
+    p = os.path.join(root, 'data', name)
+    if not os.path.exists(p): return default
+    try: return json.load(open(p, encoding='utf-8'))
+    except Exception as e: errors.append(f'data/{name}: not valid JSON ({e})'); return default
+vids = load('videos.json', {}).get('videos', [])
+for v in vids:
+    if not v.get('title') or not v.get('publishedAt'): errors.append(f"video {v.get('id')}: needs a title and a date")
+    if v.get('license') not in (None, '', 'Wartabiye TV') and not v.get('source'): warnings.append(f"video {v.get('id')}: third-party video without the owner's name (source)")
+live = load('live.json', {})
+if live.get('streamUrl') and not provider(live['streamUrl'])[0]: warnings.append('live.json: the stream link is not from an accepted provider, so no player is shown')
+if live.get('statusMode') == 'manual' and live.get('onAir') and not parse_time(live.get('onAirUntil')): warnings.append('live.json: "On air" needs an end time; LIVE is not shown without it')
+for i, x in enumerate(live.get('schedule') or []):
+    if not x.get('title') or not parse_time(x.get('start')): warnings.append(f'live.json schedule {i + 1}: needs a title and a start time')
+sp = load('sports.json', {})
+if sp.get('apiBase') and not str(sp['apiBase']).startswith('https://'): warnings.append('sports.json: apiBase must start with https://')
+if any(k in json.dumps(sp).lower() for k in ('apikey', 'api_key', 'x-auth-token', 'x-apisports-key')): errors.append('sports.json: looks like it contains an API key; keys belong in the sports proxy secret, never in the public site')
+for s in sp.get('streams') or []:
+    if not stream_authorised(s): warnings.append(f"sports.json stream {s.get('title')!r}: hidden (rights not confirmed, rights holder or authorisation missing, or link not accepted)")
+print(f'videos={len(vids)} live_stream={"set" if live.get("streamUrl") else "not set"} sports_api={"set" if sp.get("apiBase") else "not set"}')
+for w in warnings: print('WARNING', w)
 if errors:
     print('\n'.join(errors)); sys.exit(1)
 print('OK')

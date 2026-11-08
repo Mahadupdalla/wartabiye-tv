@@ -3,7 +3,7 @@ data/news/<id>.json (one file per article; the admin dashboard and the daily tas
 and data/status.json (last automatic run). Articles with "published": false are drafts and are left out.
 Translations ("en", "ar", "fr", "nl", "it", "de", "tr", "es") are kept; a machine translation ("status": "auto") whose text was edited
 afterwards in /admin/ is published as "manual", so the page no longer labels it as machine-translated."""
-import json, os, glob, datetime
+import json, os, glob, datetime, sys
 from translations import LANGS, text_hash, has
 PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
 
@@ -77,21 +77,28 @@ if old_ads != ads_out:
     print(f'{len(ads)} active adverts -> data/ads.json')
 
 # videos: data/videos/<id>.json (edited in /admin/ "Muuqaalada") -> data/videos.json; drafts are left out.
-# Only an official YouTube link (played as an embed) or a .mp4/.webm file that Wartabiye TV may publish is accepted.
-import re as _re
+# Only a player from an authorised provider (YouTube, Vimeo, Dailymotion, Facebook, Cloudflare Stream, HLS) or a
+# .mp4/.webm file that Wartabiye TV may publish is accepted (tools/media_rules.py).
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from media_rules import provider as _provider, parse_time as _ptime  # noqa: E402
 videos = []
 for f in sorted(glob.glob(os.path.join(root, 'data', 'videos', '*.json'))):
     v = json.load(open(f, encoding='utf-8'))
     v['id'] = os.path.basename(f)[:-5]
     if v.get('published') is False:
         continue
-    yt = _re.search(r'(?:youtu\.be/|v=|embed/|shorts/)([A-Za-z0-9_-]{11})', str(v.get('youtube') or ''))
-    ok_file = _re.match(r'^(https://|videos/)\S+\.(mp4|webm)(\?\S*)?$', str(v.get('file') or ''), _re.I)
-    if not (yt or ok_file):
-        print(f"{v['id']}: video skipped (needs a YouTube link or an .mp4/.webm file)")
+    # "publishAt" (scheduled): the site shows the video from that moment on (assets/media.js); its page is built then
+    if _ptime(v.get('publishAt')) and _ptime(v['publishAt']) > datetime.datetime.now(datetime.timezone.utc):
+        print(f"{v['id']}: video scheduled for {v['publishAt']}")
+    links = [v.get('youtube'), v.get('embed'), v.get('file')]
+    if not any(_provider(u)[0] for u in links):
+        print(f"{v['id']}: video skipped (needs a YouTube/Vimeo/Dailymotion/Facebook/Cloudflare link or an .mp4/.webm file)")
         continue
-    videos.append({k: v[k] for k in ('id', 'title', 'summary', 'kind', 'youtube', 'file', 'thumbnail', 'duration', 'publishedAt',
-                                       'source', 'sourceUrl', 'credit', 'license', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es') if v.get(k) not in (None, '')})
+    if v.get('tags') and isinstance(v['tags'], str):
+        v['tags'] = [t.strip() for t in v['tags'].split(',') if t.strip()]
+    videos.append({k: v[k] for k in ('id', 'title', 'summary', 'body', 'kind', 'language', 'featured', 'tags', 'youtube', 'embed', 'file',
+                                       'thumbnail', 'thumbnailAlt', 'duration', 'publishedAt', 'publishAt', 'updatedAt', 'source', 'sourceUrl', 'credit',
+                                       'license', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es') if v.get(k) not in (None, '', [], False)})
 videos.sort(key=lambda x: x.get('publishedAt') or '', reverse=True)
 vpath = os.path.join(root, 'data', 'videos.json')
 vout = {'videos': videos}

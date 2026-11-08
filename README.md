@@ -15,6 +15,11 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `tools/lang_test.js` | Tijaabada badhanka luqadda (9 luqadood, desktop + mobile, RTL) |
 | `tools/check_site.py` | Hubinta: JSON sax ah, taariikh sax ah, URL aan labanlaabmin, sawir kasta wuu jiraa, qaybaha iyo xayeysiisyada |
 | `tools/live_test.js` | Tijaabada browser-ka: bogga hore, war kasta, qaybaha, Ciyaaraha, Caalamka, Xayeysiimaha, boggaga |
+| `assets/media.js`, `assets/media-i18n.js` | Muuqaal Wararka (`#muuqaal`, `muuqaal/<id>.html`), LIVE TV (`#toos`), Ciyaaraha Toos (`#ciyaaraha-toos`), 9 luqadood |
+| `data/videos/`, `data/live.json`, `data/sports.json` | Muuqaallada, baahinta tooska ah iyo jadwalka, adeegga xogta ciyaaraha iyo baahinta xuquuqda la haysto (maamulka ayaa qora) |
+| `tools/live_status.py`, `.github/workflows/live-status.yml` | Xaqiijinta LIVE: YouTube Data API (secret `YOUTUBE_API_KEY`) → `data/live-status.json` |
+| `workers/sports-api/` | Proxy Cloudflare oo furaha xogta ciyaaraha qariya (football-data.org / API-Football) |
+| `tools/media_test.py`, `tools/media_test.js` | Tijaabooyinka muuqaalka, LIVE iyo ciyaaraha (desktop + mobile) |
 | `.github/workflows/check-news.yml` | GitHub Actions: hubinta mar kasta oo wax la shubo iyo 10:20 + 20:20 Nairobi (kadib cusbooneysiin kasta) |
 
 ## Cusbooneysiinta maalinlaha

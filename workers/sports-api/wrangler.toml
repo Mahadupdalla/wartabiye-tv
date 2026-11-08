@@ -1,0 +1,16 @@
+# Wartabiye TV sports-data proxy (Cloudflare Workers, free plan is enough).
+# Deploy:  npx wrangler@3 deploy           (from this folder)
+# Secret:  npx wrangler@3 secret put PROVIDER_TOKEN   (paste the sports-data API token; it is never in this repo)
+name = "wartabiye-sports"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+# "football-data" (football-data.org v4) or "api-football" (API-Football v3 / api-sports.io)
+PROVIDER = "football-data"
+# only these sites may call the proxy from a browser
+ALLOWED_ORIGINS = "https://www.wartabiyetv.com,https://wartabiyetv.com"
+# API-Football only: the season to use for fixtures and standings (start year, e.g. 2026 for 2026/27)
+SEASON = "2026"
+# optional: only these competition IDs (comma separated, e.g. "PL,PD,SA,BL1,FL1,CL" or "39,140"); empty = all on your plan
+COMPETITIONS = ""
