@@ -502,12 +502,15 @@ def test(_args):
         w.save(fa, {'fetchedAt': 'x', 'sources': [{'id': 'abcnews'}], 'items': [
             {'url': 'https://a.test/1', 'discoveredAt': 'T1', 'firstSeenBy': '5-minute monitor', 'source': 'abcnews'},
             {'url': 'https://a.test/2', 'discoveredAt': 'T2', 'firstSeenBy': '5-minute monitor', 'source': 'abcnews'}]})
-        w.save(wa, {'sources': [{'id': 'bbc-world'}], 'items': [{'url': 'https://a.test/2?x=1', 'source': 'abcnews', 'title': 'kept'}]})
+        w.save(wa, {'fetchedAt': '2026-11-07T21:55:31+03:00', 'sources': [{'id': 'bbc-world'}], 'items': [
+            {'url': 'https://a.test/2?x=1', 'source': 'abcnews', 'title': 'kept', 'publishedAt': iso(now())},
+            {'url': 'https://a.test/old', 'source': 'bbc-world', 'title': 'old', 'publishedAt': '2026-11-07T10:00:00+03:00'}]})
         import contextlib, io
         with contextlib.redirect_stdout(io.StringIO()):
             handoff(['--fast', fa, '--world', wa]); handoff(['--fast', fa, '--world', wa])
         r = load(wa, {})
-        ok(len(r['items']) == 2 and r['items'][0].get('discoveredAt') == 'T2' and r['items'][0]['title'] == 'kept', f'hand-off adds once, keeps existing items: {r}')
+        ok(len(r['items']) == 2 and r['items'][0].get('discoveredAt') == 'T2' and r['items'][0]['title'] == 'kept', f'hand-off adds once, keeps fresh items, drops old ones: {r}')
+        ok(r['fetchedAt'] == 'x' and r['collectorFetchedAt'] == '2026-11-07T21:55:31+03:00', 'list time = monitor check time')
     # every fastPoll source in sources.json is complete
     for s in load(SOURCES, {'sources': []})['sources']:
         if not s.get('fastPoll'): continue
@@ -545,7 +548,13 @@ def handoff(args):
     fast = load(w.opt(args, '--fast'), {}) or {}
     path = w.opt(args, '--world')
     wf = load(path, None) or {'fetchedAt': fast.get('fetchedAt'), 'since': None, 'sources': [], 'items': []}
-    wf['items'] = [x for x in wf.get('items', []) if x.get('firstSeenBy') != '5-minute monitor']
+    # the hourly collector's own items older than the freshness limit are dropped (they can never be published)
+    cut = now() - datetime.timedelta(hours=KEEP_CANDIDATE_H)
+    wf['items'] = [x for x in wf.get('items', []) if x.get('firstSeenBy') != '5-minute monitor'
+                   and (parse(x.get('publishedAt')) or now()) >= cut]
+    # the list is now as fresh as this monitor check (it reads every enabled source); the collector's own time is kept
+    if not wf.get('collectorFetchedAt'): wf['collectorFetchedAt'] = wf.get('fetchedAt')
+    wf['fetchedAt'] = fast.get('fetchedAt') or wf.get('fetchedAt')
     have = {w.norm_url(x.get('url')): x for x in wf['items']}
     have.update({w.norm_url(x.get('canonicalUrl')): x for x in wf['items'] if x.get('canonicalUrl')})
     added = 0
