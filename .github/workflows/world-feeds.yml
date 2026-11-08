@@ -4,6 +4,8 @@ name: 'Ilaha wararka – ururin (East Africa, World, Sports news sources)'
 # publishes NOTHING: it removes duplicate stories, checks the publisher photos, and saves the candidate list on branch
 # "world-feed". The Claude news task reads that list, writes the Somali stories and translations, finds licensed photos
 # and publishes.
+# The 5-minute monitor (fast-sources.yml) adds the articles it discovers in between to the same list on world-feed,
+# with the time each one was first discovered, so the next hourly update sees them without waiting for this run.
 on:
   schedule:
     # every hour at about :35 (UTC and Africa/Nairobi share the minute), ~30 minutes before the next news update at about :08.
