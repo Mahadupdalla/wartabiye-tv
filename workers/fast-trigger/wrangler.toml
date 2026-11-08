@@ -1,0 +1,21 @@
+# Wartabiye TV 5-minute clock for the source monitor (Cloudflare Workers, free plan is enough).
+# GitHub's own schedule ("cron" in .github/workflows/fast-sources.yml) is best-effort and, on this repository, often
+# skips runs for an hour or more. This Worker's Cron Trigger is reliable: every 5 minutes it asks GitHub to start the
+# monitor (workflow_dispatch). It reads no news itself and stores nothing.
+# Setup (once, from this folder; see README.md):
+#   npx wrangler@3 login
+#   npx wrangler@3 secret put GH_DISPATCH_TOKEN   (fine-grained GitHub token: only this repository, "Actions: Read and
+#                                                  write"; it is never in this repo)
+#   npx wrangler@3 deploy
+name = "wartabiye-fast-trigger"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+REPO = "Mahadupdalla/wartabiye-tv"
+WORKFLOW = "fast-sources.yml"
+# the owner's operating hours are read from the live site at every tick ("24/7" or e.g. "07:00-23:00", Africa/Nairobi)
+SCHEDULE_URL = "https://www.wartabiyetv.com/data/schedule.json"

@@ -7,7 +7,9 @@ name: 'Ilaha degdegga ah – 5 daqiiqo (5-minute source monitor)'
 # which writes, verifies, adds a licensed photo and publishes; the publish workflow then adds the story to the bell and
 # sends push alerts only after GitHub Pages is live. The monitor follows every story until it is live on the website and
 # measures the delays (data/world/fast-status.json, shown in /admin/). Outside operating hours it stops at once.
-# GitHub may start scheduled runs some minutes late; the real interval is measured and shown in the diagnostics.
+# GitHub's own schedule below is best-effort (on this repository it often skips an hour or more), so the reliable
+# 5-minute clock is the Cloudflare Worker in workers/fast-trigger (workflow_dispatch). The real interval between checks
+# is measured and shown in the diagnostics.
 on:
   schedule:
     - cron: '*/5 * * * *'
