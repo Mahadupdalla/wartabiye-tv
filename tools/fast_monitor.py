@@ -10,8 +10,9 @@ from data/schedule.json). Standard library only. It publishes NOTHING by itself:
   - for each new item it opens the article page once for the canonical URL, the publication time and the photo credit;
   - "monitorOnly" sources (no permission yet, e.g. DutchNews) are checked for availability only: no headline, link or
     text is stored or passed on;
-  - new items go to candidates.json on branch "fast-feed" (same format as tools/world_news.py fetch) for the hourly
-    news task, which writes the verified Somali story, finds a licensed photo and publishes;
+  - new items go to candidates.json on branch "fast-feed" (same format as tools/world_news.py fetch) and are added to
+    the hourly news task's own list (branch world-feed, candidates.json), so the next hourly run writes the verified
+    Somali story, finds a licensed photo and publishes;
   - it follows each story through the pipeline: first discovered -> article file on main (published or held for a photo)
     -> really live on https://www.wartabiyetv.com/data/news.json, and measures the delays;
   - it writes the diagnostics (data/world/fast-status.json) and raises an admin alert (GitHub issue) when a source is
@@ -19,6 +20,7 @@ from data/schedule.json). Standard library only. It publishes NOTHING by itself:
 
   python3 tools/fast_monitor.py run --state DIR [--force]   one check (DIR = checkout of branch fast-feed, may be empty)
   python3 tools/fast_monitor.py hours                       prints "open" or "closed" for the current Nairobi time
+  python3 tools/fast_monitor.py handoff --fast cand.json --world world-cand.json   add fresh items to the hourly task's list
   python3 tools/fast_monitor.py probe                       feed check: does each feed answer, newest items
   python3 tools/fast_monitor.py test                        self-test, no network
 """
@@ -466,6 +468,18 @@ def test(_args):
     finally:
         fetch_feed, w.article = real_fetch, real_article
     ok(minutes('2026-11-08T10:00:00+03:00', '2026-11-08T10:07:30+03:00') == 7.5, 'delay minutes')
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        fa, wa = os.path.join(d, 'f.json'), os.path.join(d, 'w.json')
+        w.save(fa, {'fetchedAt': 'x', 'sources': [{'id': 'abcnews'}], 'items': [
+            {'url': 'https://a.test/1', 'discoveredAt': 'T1', 'firstSeenBy': '5-minute monitor', 'source': 'abcnews'},
+            {'url': 'https://a.test/2', 'discoveredAt': 'T2', 'firstSeenBy': '5-minute monitor', 'source': 'abcnews'}]})
+        w.save(wa, {'sources': [{'id': 'bbc-world'}], 'items': [{'url': 'https://a.test/2?x=1', 'source': 'abcnews', 'title': 'kept'}]})
+        import contextlib, io
+        with contextlib.redirect_stdout(io.StringIO()):
+            handoff(['--fast', fa, '--world', wa]); handoff(['--fast', fa, '--world', wa])
+        r = load(wa, {})
+        ok(len(r['items']) == 2 and r['items'][0].get('discoveredAt') == 'T2' and r['items'][0]['title'] == 'kept', f'hand-off adds once, keeps existing items: {r}')
     # every fastPoll source in sources.json is complete
     for s in load(SOURCES, {'sources': []})['sources']:
         if not s.get('fastPoll'): continue
@@ -495,12 +509,35 @@ def probe(_args):
                 print(f"FAIL {s['id']:<13} {f['url']}  {type(e).__name__}: {e}"[:300])
 
 
+def handoff(args):
+    """Put the monitor's fresh candidates into the hourly task's list (branch world-feed, candidates.json), so the next
+    news run sees articles discovered minutes ago without waiting for the :35 collection. Items already in that list keep
+    their data and only get "discoveredAt"; the task's own dedup still removes duplicates and known stories."""
+    fast = load(w.opt(args, '--fast'), {}) or {}
+    path = w.opt(args, '--world')
+    wf = load(path, None) or {'fetchedAt': fast.get('fetchedAt'), 'since': None, 'sources': [], 'items': []}
+    wf['items'] = [x for x in wf.get('items', []) if x.get('firstSeenBy') != '5-minute monitor']
+    have = {w.norm_url(x.get('url')): x for x in wf['items']}
+    have.update({w.norm_url(x.get('canonicalUrl')): x for x in wf['items'] if x.get('canonicalUrl')})
+    added = 0
+    for x in fast.get('items', []):
+        old = have.get(w.norm_url(x['url'])) or have.get(w.norm_url(x.get('canonicalUrl') or ''))
+        if old: old.setdefault('discoveredAt', x['discoveredAt']); continue
+        wf['items'].append(x); added += 1
+    ids = {s['id'] for s in wf.get('sources', [])}
+    for s in fast.get('sources', []):
+        if s['id'] not in ids: wf.setdefault('sources', []).append(s)
+    wf['fastMonitor'] = {'at': fast.get('fetchedAt'), 'added': added}
+    w.save(path, wf)
+    print(f'hand-off: {added} fresh article(s) from the 5-minute monitor added to the news task list')
+
+
 def hours(_args):
     print('open' if is_open(now(), load(SCHEDULE, {})) else 'closed')
 
 
 if __name__ == '__main__':
     cmd, rest = (sys.argv[1], sys.argv[2:]) if len(sys.argv) > 1 else ('help', [])
-    fn = {'run': run, 'test': test, 'hours': hours, 'probe': probe}.get(cmd)
+    fn = {'run': run, 'test': test, 'hours': hours, 'probe': probe, 'handoff': handoff}.get(cmd)
     if not fn: print(__doc__); sys.exit(2)
     fn(rest)

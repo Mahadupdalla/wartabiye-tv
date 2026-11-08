@@ -70,6 +70,21 @@ jobs:
           git add state.json candidates.json fast-status.json alerts.txt README.txt
           git -c user.name=wartabiye-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -q -m "5-minute monitor $(date -u +%FT%TZ)"
           git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" fast-feed
+      - name: Hand fresh articles to the hourly news task (branch world-feed)
+        if: github.ref == 'refs/heads/main' && (steps.hours.outputs.state == 'open' || inputs.force)
+        run: |
+          python3 -c "import json,sys;sys.exit(0 if json.load(open('/tmp/fast/candidates.json'))['items'] else 1)" || { echo "nothing fresh to hand over"; exit 0; }
+          for i in 1 2 3; do
+            rm -rf /tmp/wf && mkdir /tmp/wf && cd /tmp/wf && git init -q
+            git fetch -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" world-feed && git checkout -q -b world-feed FETCH_HEAD || git checkout -q -b world-feed
+            python3 "$GITHUB_WORKSPACE/tools/fast_monitor.py" handoff --fast /tmp/fast/candidates.json --world /tmp/wf/candidates.json
+            git add candidates.json
+            git diff --cached --quiet && { echo "list already up to date"; exit 0; }
+            git -c user.name=wartabiye-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit -q -m "5-minute monitor hand-off $(date -u +%FT%TZ)"
+            git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" world-feed && exit 0
+            sleep 5
+          done
+          echo "could not update world-feed (the next check retries)"
       - name: Copy the diagnostics to /admin/ (about once an hour, or at once when an alert starts or ends)
         if: github.ref == 'refs/heads/main' && (steps.hours.outputs.state == 'open' || inputs.force)
         run: |
