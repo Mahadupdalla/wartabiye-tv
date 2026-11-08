@@ -3,12 +3,11 @@ on:
   push:
     branches: [main]
     # the LIVE TV status file is updated by live-status.yml (only when a broadcast starts or ends); no full check for that
-    paths-ignore: ['data/live-status.json']
+    paths-ignore: ['data/live-status.json', 'data/push-log.json']
   schedule:
-    # The news update itself is NOT scheduled here: it is the Claude scheduled task at 08:00 and 18:00
-    # Africa/Nairobi (05:00 and 15:00 UTC). GitHub only publishes (publish.yml, on push) and checks.
-    # This check runs 2h20m after each update: 10:20 and 20:20 Nairobi (07:20 and 17:20 UTC).
-    - cron: '20 7,17 * * *'
+    # The news update itself is NOT scheduled here: it is the Claude scheduled task, every hour (Africa/Nairobi).
+    # GitHub only publishes (publish.yml, on push) and checks. This check runs every 3 hours (GitHub may start it late).
+    - cron: '50 */3 * * *'
   workflow_dispatch:
 jobs:
   check:
@@ -19,16 +18,21 @@ jobs:
         run: python3 tools/check_site.py
       - name: Video / LIVE TV / sports rules and the sports-data proxy (no network)
         run: python3 tools/media_test.py && node --test workers/sports-api/test/worker.test.mjs
-      - name: Check the 08:00 / 18:00 update ran (lastRunAt under 4 hours old)
+      - name: Notification feed, push rules and the push service (no network)
+        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs
+      - name: Check the news update ran (hourly; 08:00 / 18:00 only when the owner switched hourly off)
         if: github.event_name == 'schedule'
         run: |
           python3 - <<'PY'
           import json, datetime, sys
           d = json.load(open('data/news.json', encoding='utf-8'))
+          try: hourly = json.load(open('data/schedule.json', encoding='utf-8')).get('hourly', True) is not False
+          except Exception: hourly = True
+          limit = 3 if hourly else 14   # hours; the scheduler does not guarantee the exact minute
           u = d.get('lastRunAt') or d.get('updatedAt')
           now = datetime.datetime.now(datetime.timezone.utc)
-          ok = u and (now - datetime.datetime.fromisoformat(u.replace('Z', '+00:00'))).total_seconds() < 4*3600
-          print('lastRunAt', u, 'fresh' if ok else 'STALE')
+          ok = u and (now - datetime.datetime.fromisoformat(u.replace('Z', '+00:00'))).total_seconds() < limit*3600
+          print('lastRunAt', u, '| last successful update', d.get('lastSuccessAt'), '| hourly' if hourly else '| twice a day', '| fresh' if ok else f'| STALE (older than {limit} h)')
           sys.exit(0 if ok else 1)
           PY
   live:
@@ -70,6 +74,10 @@ jobs:
         run: |
           URL="https://$(tr -d '[:space:]' < CNAME)/"
           node tools/media_test.js "$URL" shots
+      - name: Notification bell test (desktop and mobile; every alert opens a real published story)
+        run: |
+          URL="https://$(tr -d '[:space:]' < CNAME)/"
+          node tools/notify_test.js "$URL" shots
       - uses: actions/upload-artifact@v4
         if: always()
         with:

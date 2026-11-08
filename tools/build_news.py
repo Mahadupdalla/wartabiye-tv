@@ -113,7 +113,7 @@ status = {}
 p = os.path.join(root, 'data', 'status.json')
 if os.path.exists(p):
     status = json.load(open(p, encoding='utf-8'))
-out = {'lastRunAt': status.get('lastRunAt'), 'lastRunNote': status.get('lastRunNote'), 'news': news}
+out = {'lastRunAt': status.get('lastRunAt'), 'lastSuccessAt': status.get('lastSuccessAt') or status.get('lastRunAt'), 'lastRunNote': status.get('lastRunNote'), 'news': news}
 dst = os.path.join(root, 'data', 'news.json')
 # keep the file untouched when nothing changed, so rebuilding never makes an empty commit
 old = json.load(open(dst, encoding='utf-8')) if os.path.exists(dst) else {}

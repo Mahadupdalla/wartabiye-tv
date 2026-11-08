@@ -88,7 +88,7 @@ collections:
       - {name: sponsored, label: 'Xayeysiis (maqaal lacag lagu bixiyay)', widget: boolean, default: false, required: false, hint: 'Bogga wuxuu ku muujinayaa calaamadda XAYEYSIIS. Kama soo muuqdo Degdeg iyo Muhiim hadda.'}
       - {name: sponsor, label: 'Cidda bixisay (xayeysiis)', widget: string, required: false}
       - {name: image, label: Sawirka, widget: image, choose_url: false, required: false, hint: 'Soo geli (Upload), beddel (Replace) ama ka saar (Remove). Isticmaal sawir aad leedahay ama mid sharci ahaan la oggol yahay. Warka aan sawir lahayn bogga kama muuqdo: wuxuu sugayaa ilaa aad sawir geliso. Sawir kasta war keliya ha u ahaado.'}
-      - {name: imagePending, label: 'Sugaya sawir', widget: boolean, default: false, required: false, hint: 'Hawsha wararka (08:00 iyo 18:00) ayaa shidda marka aan sawir sharci ah oo warka khuseeya la helin. Warku bogga kama muuqdo ilaa sawir la geliyo. Marka aad sawir geliso, dami.'}
+      - {name: imagePending, label: 'Sugaya sawir', widget: boolean, default: false, required: false, hint: 'Hawsha wararka (saacad kasta) ayaa shidda marka aan sawir sharci ah oo warka khuseeya la helin. Warku bogga kama muuqdo ilaa sawir la geliyo. Marka aad sawir geliso, dami.'}
       - {name: imageFocus, label: 'Goobta la jarayo (crop)', widget: select, required: false, default: center, hint: 'Kaararka iyo bogga hore sawirka waa la jaraa si uu u buuxsho. Dooro qaybta sawirka ee had iyo jeer muuqanaysa, tusaale wejiga qofka.', options: [{label: 'Dhexda', value: center}, {label: 'Sare (wejiyada)', value: top}, {label: 'Hoose', value: bottom}, {label: 'Bidix', value: left}, {label: 'Midig', value: right}]}
       - {name: imageAlt, label: Sharaxaadda sawirka, widget: string, required: false}
       - {name: imageCredit, label: Sawirka waxaa leh, widget: string, required: false}
@@ -643,7 +643,7 @@ collections:
                   - {name: name, label: Magaca la turjumay, widget: string}
   - name: world
     label: 'Ilaha wararka: xaaladda (Soomaali, Caalamka, Ciyaaraha)'
-    description: 'Dhammaan ilaha wararka ee Wartabiye TV (Wararka Soomaaliyeed, Wararka Caalamka iyo Ciyaaraha). "Xaaladda" waxaa qora hawsha wararka (08:00 iyo 18:00) orod kasta: ilaha shaqeeya, tirada wararka la ururiyay, nuqullada la saaray, kuwa sugaya sawir iyo khaladaadka. War gaar ah wax ka beddel, tirtir ama qabyo ka dhig qaybta Wararka (filter: Caalamka / Sugaya sawir).'
+    description: 'Dhammaan ilaha wararka ee Wartabiye TV (Wararka Soomaaliyeed, Wararka Caalamka iyo Ciyaaraha). "Xaaladda" waxaa qora hawsha wararka (saacad kasta) orod kasta: ilaha shaqeeya, tirada wararka la ururiyay, nuqullada la saaray, kuwa sugaya sawir iyo khaladaadka. War gaar ah wax ka beddel, tirtir ama qabyo ka dhig qaybta Wararka (filter: Caalamka / Sugaya sawir).'
     editor:
       preview: false
     files:
@@ -1065,6 +1065,200 @@ collections:
               - {name: authorization, label: 'Oggolaanshaha (lambarka heshiiska / warqadda oggolaanshaha / taariikhda)', widget: string}
               - {name: rightsConfirmed, label: 'Waxaan xaqiijinayaa in Wartabiye TV haysato xuquuqda ama oggolaansho qoran oo lagu baahiyo bogga', widget: boolean, default: false}
               - {name: published, label: Muuji, widget: boolean, default: true}
+  - name: alerts
+    label: 'Ogeysiisyada (gambaleelka iyo push)'
+    label_singular: Ogeysiis
+    description: 'Samee ogeysiis gacmeed ama Degdeg (Breaking News). Wuxuu ka muuqanayaa gambaleelka bogga, haddii "Push" shidan yahay waxaa loo dirayaa dadka ogeysiisyada shitay. Ogeysiis kasta waa inuu ku xirnaadaa war la daabacay ama bog ka mid ah bogga (LIVE TV, Ciyaaraha Toos …); haddii warku qabyo yahay lama dirayo. Wararka cusub ee hawsha saacadlaha ah si toos ah ayay u galaan gambaleelka; halkan looma baahna.'
+    folder: data/alerts
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: title
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{title}} ({{kind}})'
+    sortable_fields: [publishedAt, title]
+    editor:
+      preview: false
+    fields:
+      - {name: title, label: 'Cinwaanka ogeysiiska', widget: string, hint: 'Gaaban oo cad (ugu badnaan 120 xaraf). Waxba ha ku darin oo aan warka ku jirin.'}
+      - {name: message, label: 'Fariinta (ikhtiyaari)', widget: text, required: false}
+      - {name: kind, label: Nooca, widget: select, default: breaking, options: [{label: 'Degdeg (Breaking News)', value: breaking}, {label: 'Bariga Afrika', value: eastAfrica}, {label: Caalamka, value: world}, {label: Ciyaaraha, value: sports}, {label: 'LIVE TV (baahin la oggol yahay)', value: live}]}
+      - name: article
+        label: 'Warka uu ogeysiisku furayo'
+        hint: 'Dooro war la daabacay. Haddii ogeysiisku yahay LIVE TV ama bog kale, dooro "Bogga" hoose oo halkan madhan ka tag.'
+        widget: relation
+        collection: news
+        search_fields: [title]
+        value_field: '{{slug}}'
+        display_fields: [title]
+        required: false
+      - {name: page, label: 'Ama bogga (haddii aan war la dooran)', widget: select, required: false, options: [{label: 'LIVE TV', value: toos}, {label: 'Ciyaaraha Toos', value: ciyaaraha-toos}, {label: Muuqaal, value: muuqaal}, {label: Ciyaaraha, value: ciyaaraha}, {label: Caalamka, value: caalamka}, {label: Hoyga, value: hoyga}]}
+      - {name: push, label: 'U dir push (dadka ogeysiisyada shitay)', widget: boolean, default: true, hint: 'Dami haddii aad rabto inuu kaliya gambaleelka ka muuqdo.'}
+      - {name: urgent, label: 'Degdeg: u dir qof kasta isla markiiba (xadka maalinlaha ah ee Degdeg ayaa la ixtiraamayaa)', widget: boolean, default: false, hint: 'Kaliya war aad muhiim u ah oo hadda dhacay. Push-ka caadiga ah waxaa xaddiday Settings-ka hoose.'}
+      - {name: published, label: 'La daabacay', widget: boolean, default: true}
+      - {name: publishedAt, label: 'Waqtiga (ogeysiiska waa la dirayaa marka waqtigan la gaaro, kadib daabacaadda xigta)', widget: datetime, format: 'YYYY-MM-DDTHH:mm:ssZ', default: '{{now}}'}
+      - name: en
+        label: 'Turjumaad (English)'
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - {name: title, label: 'Cinwaanka (EN)', widget: string, required: false}
+          - {name: message, label: 'Fariinta (EN)', widget: text, required: false}
+      - name: ar
+        label: 'Turjumaad (العربية)'
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - {name: title, label: 'Cinwaanka (AR)', widget: string, required: false}
+          - {name: message, label: 'Fariinta (AR)', widget: text, required: false}
+      - name: fr
+        label: 'Turjumaad (Français)'
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - {name: title, label: 'Cinwaanka (FR)', widget: string, required: false}
+          - {name: message, label: 'Fariinta (FR)', widget: text, required: false}
+      - name: nl
+        label: 'Turjumaad (Nederlands)'
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - {name: title, label: 'Cinwaanka (NL)', widget: string, required: false}
+          - {name: message, label: 'Fariinta (NL)', widget: text, required: false}
+      - name: it
+        label: 'Turjumaad (Italiano)'
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - {name: title, label: 'Cinwaanka (IT)', widget: string, required: false}
+          - {name: message, label: 'Fariinta (IT)', widget: text, required: false}
+      - name: de
+        label: 'Turjumaad (Deutsch)'
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - {name: title, label: 'Cinwaanka (DE)', widget: string, required: false}
+          - {name: message, label: 'Fariinta (DE)', widget: text, required: false}
+      - name: tr
+        label: 'Turjumaad (Türkçe)'
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - {name: title, label: 'Cinwaanka (TR)', widget: string, required: false}
+          - {name: message, label: 'Fariinta (TR)', widget: text, required: false}
+      - name: es
+        label: 'Turjumaad (Español)'
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - {name: title, label: 'Cinwaanka (ES)', widget: string, required: false}
+          - {name: message, label: 'Fariinta (ES)', widget: text, required: false}
+  - name: notify
+    label: 'Ogeysiisyada: Settings, xaaladda dirista iyo jadwalka wararka'
+    description: 'Shid ama dami push, xaddid inta jeer ee la dirayo, eeg ogeysiisyada la diray iyo jadwalka saacadlaha ah. Waxba halkan kuma qor oo sir ah: furaha qarsoon wuxuu ku jiraa Cloudflare iyo GitHub Secrets (eeg HAGAHA-MAAMULKA.md → Ogeysiisyada).'
+    editor:
+      preview: false
+    files:
+      - name: settings
+        label: 'Settings-ka push'
+        file: data/notify-settings.json
+        format: json
+        fields:
+          - {name: pushEnabled, label: 'Push waa shidan yahay', widget: boolean, default: false, hint: 'Dami si aad u joojiso dhammaan push-ka (gambaleelka bogga wuu sii shaqeynayaa).'}
+          - {name: workerUrl, label: 'Cinwaanka adeegga push (Cloudflare Worker)', widget: string, required: false, hint: 'Tusaale: https://wartabiye-push.<magacaaga>.workers.dev (eeg workers/push/README.md).'}
+          - {name: publicKey, label: 'VAPID public key (furaha guud, sir ma aha)', widget: string, required: false, hint: 'Waxaa sameeya `node workers/push/make-keys.mjs`. Furaha QARSOON halkan ha gelin.'}
+          - name: categories
+            label: 'Qaybaha la diri karo'
+            widget: object
+            fields:
+              - {name: breaking, label: 'Degdeg (Breaking News)', widget: boolean, default: true}
+              - {name: eastAfrica, label: 'Bariga Afrika', widget: boolean, default: true}
+              - {name: world, label: Caalamka, widget: boolean, default: true}
+              - {name: sports, label: Ciyaaraha, widget: boolean, default: true}
+              - {name: live, label: 'LIVE TV (marka baahinta la xaqiijiyo)', widget: boolean, default: true}
+          - {name: maxRoutinePerDay, label: 'Push caadi ah: ugu badnaan maalintii', widget: number, value_type: int, min: 0, max: 24, default: 6}
+          - {name: minMinutesBetweenRoutine, label: 'Push caadi ah: ugu yaraan daqiiqado u dhexeeya', widget: number, value_type: int, min: 30, max: 1440, default: 90}
+          - {name: maxBreakingPerDay, label: 'Degdeg: ugu badnaan maalintii', widget: number, value_type: int, min: 0, max: 12, default: 4}
+          - {name: maxAgeHours, label: 'War ka da''weyn (saacado) push looma diro', widget: number, value_type: int, min: 1, max: 24, default: 6}
+          - name: quietHours
+            label: 'Saacadaha aamusnaanta (push caadi ah lama diro; Degdeg waa la diraa)'
+            widget: object
+            fields:
+              - {name: enabled, label: Shidan, widget: boolean, default: true}
+              - {name: from, label: 'Laga bilaabo (saacad, EAT)', widget: number, value_type: int, min: 0, max: 23, default: 23}
+              - {name: to, label: 'Ilaa (saacad, EAT)', widget: number, value_type: int, min: 0, max: 23, default: 6}
+      - name: schedule
+        label: 'Jadwalka wararka (hawsha saacadlaha ah)'
+        file: data/schedule.json
+        format: json
+        fields:
+          - {name: hourly, label: 'Saacad kasta (24 saac) hubi wararka cusub', widget: boolean, default: true, hint: 'Shidan: hawsha Claude waxay hubisaa saacad kasta (Africa/Nairobi). Dansan: kaliya 08:00 iyo 18:00 ayay shaqeysaa; orodyada kale isla markiiba way joogsadaan (wax ma qoraan). Jadwalka hawsha laftiisa waxaa laga beddelaa claude.ai → Scheduled tasks.'}
+          - {name: note, label: Xusuus, widget: text, required: false}
+      - name: log
+        label: 'Xaaladda dirista (waxaa qora GitHub Actions, ha beddelin)'
+        file: data/push-log.json
+        format: json
+        fields:
+          - name: lastRun
+            label: 'Orodkii u dambeeyay'
+            widget: object
+            required: false
+            fields:
+              - {name: at, label: Waqtiga, widget: string, required: false}
+              - {name: mode, label: 'Nooca (news / live)', widget: string, required: false}
+              - {name: sent, label: 'Ogeysiisyo la diray', widget: number, required: false}
+              - {name: pushEnabled, label: 'Push wuu shidnaa', widget: boolean, required: false}
+              - {name: configured, label: 'Adeegga iyo furaha waa diyaar', widget: boolean, required: false}
+              - name: skipped
+                label: 'Lama dirin (sababta)'
+                widget: list
+                required: false
+                summary: '{{fields.id}}: {{fields.why}}'
+                fields:
+                  - {name: id, label: Ogeysiis, widget: string}
+                  - {name: why, label: Sababta, widget: string}
+          - name: subscribers
+            label: 'Dadka ogeysiisyada shitay'
+            widget: object
+            required: false
+            fields:
+              - {name: total, label: Wadar, widget: number, required: false}
+              - {name: breaking, label: Degdeg, widget: number, required: false}
+              - {name: eastAfrica, label: 'Bariga Afrika', widget: number, required: false}
+              - {name: world, label: Caalamka, widget: number, required: false}
+              - {name: sports, label: Ciyaaraha, widget: number, required: false}
+              - {name: live, label: 'LIVE TV', widget: number, required: false}
+          - name: sent
+            label: 'Ogeysiisyadii la diray (100 kii u dambeeyay)'
+            widget: list
+            required: false
+            summary: '{{fields.at}} · {{fields.category}} · {{fields.title}}'
+            fields:
+              - {name: at, label: Waqtiga, widget: string}
+              - {name: id, label: Id, widget: string}
+              - {name: category, label: Qaybta, widget: string}
+              - {name: urgent, label: Degdeg, widget: boolean, required: false}
+              - {name: title, label: Cinwaanka, widget: string}
+              - {name: url, label: Link, widget: string}
+              - name: result
+                label: Natiijada
+                widget: object
+                fields:
+                  - {name: ok, label: Guul, widget: boolean, required: false}
+                  - {name: matched, label: 'Dadka loo diray', widget: number, required: false}
+                  - {name: sent, label: 'La gaarsiiyay', widget: number, required: false}
+                  - {name: failed, label: 'Khalad', widget: number, required: false}
+                  - {name: removed, label: 'La saaray (is-diiwaangelin dhacday)', widget: number, required: false}
+                  - {name: error, label: 'Khaladka', widget: string, required: false}
   - name: pages
     label: Bogagga (Nagu Saabsan, siyaasadaha)
     editor:

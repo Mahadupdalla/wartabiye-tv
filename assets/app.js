@@ -270,7 +270,7 @@
     var shown=[];if(sec('latest')||cat||query){shown=rest.slice(0,home?10:40);shown.forEach(function(it,i){LI.append(row(it));if(home&&i===3){var ad=adSlot('card');if(ad)LI.append(ad)}})}
     var em=$('empty');em.hidden=!loaded||rest.length>0||(showMosaic&&list.length>0);
     if(loadError){em.hidden=false;em.textContent=tr('loadError').replace('{e}',loadError)}else em.textContent=(cat||query)&&!list.length?tr('noMatch'):tr('noNews');
-    $('updated').textContent=items[0]?tr('updated')+ago(items[0].publishedAt):tr('updatedDaily');
+    var lu=window.WARTABIYE_LAST_OK;$('updated').textContent=lu&&ago(lu)?tr('updated')+ago(lu)+' · '+tr('updatedDaily'):tr('updatedDaily');
     // ad slots + section blocks on the homepage only
     var top=$('adTop');top.innerHTML='';var mob=$('adMob');mob.innerHTML='';var B=$('blocks');B.innerHTML='';
     if(home&&loaded){
@@ -861,7 +861,7 @@
   function getJSON(u){return fetch(u+(u.indexOf('?')<0?'?':'&')+'v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' '+u);return r.json()})}
   (async function(){
     var res=await Promise.allSettled([getJSON('data/news.json'),getJSON('data/site.json'),getJSON('data/pages.json'),getJSON('data/ads.json')]);
-    if(res[0].status==='fulfilled'){var j=res[0].value;ALL=(Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt}
+    if(res[0].status==='fulfilled'){var j=res[0].value;ALL=(Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt;window.WARTABIYE_LAST_OK=j.lastSuccessAt||j.lastRunAt||null}
     else{console.error('Wartabiye: news.json load failed',res[0].reason);loadError=String(res[0].reason&&res[0].reason.message||res[0].reason)}
     if(res[1].status==='fulfilled'){SITE=res[1].value}else console.error('Wartabiye: site.json load failed',res[1].reason);
     if(res[2].status==='fulfilled')PAGES=res[2].value;

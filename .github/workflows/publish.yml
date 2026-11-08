@@ -1,11 +1,12 @@
 name: Daabac bogga (publish)
-# Runs whenever the admin dashboard or the daily task saves content.
+# Runs whenever the admin dashboard or the hourly news task saves content.
 # Makes small card images, rebuilds data/news.json and data/ads.json, checks them, builds the article and
-# section pages, sitemap.xml and rss.xml, and publishes everything to GitHub Pages.
+# section pages, sitemap.xml, rss.xml and the notification feed (data/notifications.json), publishes everything to
+# GitHub Pages, and ONLY when the new version is really live sends browser push alerts for genuinely new stories.
 on:
   push:
     branches: [main]
-    paths: ['data/news/**', 'data/ads/**', 'data/videos/**', 'data/live.json', 'data/sports.json', 'data/site.json', 'data/pages.json', 'data/status.json', 'img/**', 'index.html', 'assets/**', 'tools/**']
+    paths: ['data/news/**', 'data/ads/**', 'data/videos/**', 'data/alerts/**', 'data/live.json', 'data/sports.json', 'data/site.json', 'data/pages.json', 'data/status.json', 'data/notify-settings.json', 'img/**', 'index.html', 'assets/**', 'tools/**', 'sw.js', 'manifest.webmanifest']
   workflow_dispatch:
 permissions:
   contents: write
@@ -27,11 +28,13 @@ jobs:
         run: python3 tools/build_news.py
       - name: Check news, dates and images (nothing is published if this fails)
         run: python3 tools/media_test.py && python3 tools/check_site.py && python3 -c "import json;[json.load(open(f)) for f in ('data/site.json','data/live.json','data/sports.json')]"
+      - name: Build the notification feed (published stories and the owner's alerts only)
+        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && python3 tools/build_notifications.py
       - name: Build article pages, section pages, sitemap and RSS
         run: python3 tools/build_pages.py
       - name: Commit the built files
         run: |
-          git add -A data/news.json data/ads.json data/videos.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml rss.xml ciyaaraha caalamka xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
+          git add -A data/news.json data/ads.json data/videos.json data/notifications.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml rss.xml ciyaaraha caalamka xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
           if git diff --cached --quiet; then echo "built files already up to date"; exit 0; fi
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -56,6 +59,17 @@ jobs:
             git fetch -q origin main
           done
           echo "GitHub Pages did not publish $head in time"; exit 1
+      - name: Send push alerts for new stories (only after the site is live; never for drafts, failures or repeats)
+        env:
+          PUSH_ADMIN_TOKEN: ${{ secrets.PUSH_ADMIN_TOKEN }}
+        run: |
+          git pull -q --rebase origin main
+          python3 tools/push_send.py news
+          git diff --quiet -- data/push-log.json && { echo "push log unchanged"; exit 0; }
+          git config user.name "wartabiye-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/push-log.json && git commit -q -m "Ogeysiisyada: xaaladda dirista"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
       - name: Start the live-site check
         env:
           GH_TOKEN: ${{ github.token }}

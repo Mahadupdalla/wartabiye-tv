@@ -1,13 +1,13 @@
 name: 'Ilaha wararka – ururin (East Africa, World, Sports news sources)'
-# Reads EVERY news source in data/world/sources.json (East Africa, World News, Sports; Somalia sources are excluded by tools/east_africa.py) shortly BEFORE the 08:00 and
-# 18:00 Nairobi update: RSS / news sitemap / public pages / official Telegram channel only, robots.txt respected. It
+# Reads EVERY news source in data/world/sources.json (East Africa, World News, Sports; Somalia sources are excluded by tools/east_africa.py) EVERY HOUR,
+# shortly before the hourly Claude news update (GitHub may start it some minutes late): RSS / news sitemap / public pages / official Telegram channel only, robots.txt respected. It
 # publishes NOTHING: it removes duplicate stories, checks the publisher photos, and saves the candidate list on branch
 # "world-feed". The Claude news task reads that list, writes the Somali stories and translations, finds licensed photos
 # and publishes.
 on:
   schedule:
-    # 07:20 and 17:20 Africa/Nairobi (04:20 and 14:20 UTC), 40 minutes before each update
-    - cron: '20 4,14 * * *'
+    # every hour at about :05 (UTC and Africa/Nairobi share the minute), ~30 minutes before the hourly news update at :35
+    - cron: '5 * * * *'
   workflow_dispatch:
   push:
     # test run on a work branch when the collector changes (nothing is saved, only the report and an artifact)
@@ -46,7 +46,7 @@ jobs:
           name: world-news-${{ github.run_id }}
           path: /tmp/world/
           retention-days: 14
-      - name: Save for the 08:00 / 18:00 update (branch world-feed)
+      - name: Save for the hourly update (branch world-feed)
         if: github.ref == 'refs/heads/main'
         run: |
           cd /tmp/world && git init -q -b world-feed && cp report.txt README.txt

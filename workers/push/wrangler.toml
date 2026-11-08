@@ -1,0 +1,25 @@
+# Wartabiye TV push notifications (Cloudflare Workers + Workers KV, free plan is enough).
+# Setup (once, from this folder; see README.md):
+#   npx wrangler@3 kv namespace create SUBS          -> paste the id below
+#   node make-keys.mjs                               -> prints VAPID_PUBLIC_KEY (paste below) and the private key
+#   npx wrangler@3 secret put VAPID_PRIVATE_JWK      (paste the private key JSON; it is never in this repo)
+#   npx wrangler@3 secret put PUSH_ADMIN_TOKEN       (paste a long random password; the same value goes into the
+#                                                     GitHub repository secret PUSH_ADMIN_TOKEN)
+#   npx wrangler@3 deploy
+name = "wartabiye-push"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+kv_namespaces = [
+  { binding = "SUBS", id = "PASTE_KV_NAMESPACE_ID_HERE" }
+]
+
+[vars]
+# only these sites may subscribe from a browser
+ALLOWED_ORIGINS = "https://www.wartabiyetv.com,https://wartabiyetv.com"
+# every notification must link to a page of this site
+SITE_URL = "https://www.wartabiyetv.com/"
+# contact address the browser push services can use (RFC 8292)
+VAPID_SUBJECT = "mailto:admin@wartabiyetv.com"
+# public half of the VAPID key pair (safe to publish); from `node make-keys.mjs`
+VAPID_PUBLIC_KEY = ""
