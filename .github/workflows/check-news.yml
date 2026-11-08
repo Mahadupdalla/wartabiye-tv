@@ -19,7 +19,7 @@ jobs:
       - name: Video / LIVE TV / sports rules and the sports-data proxy (no network)
         run: python3 tools/media_test.py && node --test workers/sports-api/test/worker.test.mjs && node tools/sports_feed.mjs test
       - name: Notification feed, push rules and the push service (no network)
-        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs && python3 tools/fast_monitor.py test
+        run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs && python3 tools/fast_monitor.py test && node --test workers/fast-trigger/test/worker.test.mjs
       - name: Check the news update ran (hourly 24/7; 08:00 / 18:00 only when the owner switched hourly off)
         if: github.event_name == 'schedule'
         run: |
