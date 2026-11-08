@@ -1,0 +1,164 @@
+News sources test — fetched 2026-11-08T17:28:46+03:00  window since 2026-11-08T14:24:26+03:00
+
+source                section  state    method / error                                                         got kept  dup known
+BBC Somali            somalia  excluded excluded: Somalia-specific source bbc-somali (East Africa rule, no So    0    0    0     0
+VOA Somali            somalia  excluded excluded: Somalia-specific source voa-somali (East Africa rule, no So    0    0    0     0
+Hiiraan Online        somalia  excluded excluded: Somalia-specific source hiiraan (East Africa rule, no Somal    0    0    0     0
+Garowe Online         somalia  excluded excluded: Somalia-specific source garoweonline (East Africa rule, no     0    0    0     0
+Dawan Africa          somalia  excluded excluded: Somalia-specific source dawan (East Africa rule, no Somalia    0    0    0     0
+Somali Guardian       somalia  excluded excluded: Somalia-specific source somaliguardian (East Africa rule, n    0    0    0     0
+Goobjoog News         somalia  excluded excluded: Somalia-specific source goobjoog (East Africa rule, no Soma    0    0    0     0
+Radio Dalsan          somalia  excluded excluded: Somalia-specific source radiodalsan (East Africa rule, no S    0    0    0     0
+Horseed Media         somalia  excluded excluded: Somalia-specific source horseedmedia (East Africa rule, no     0    0    0     0
+SONNA (state news age somalia  excluded excluded: Somalia-specific source sonna (East Africa rule, no Somalia    0    0    0     0
+BBC News Africa       somalia  working  rss https://feeds.bbci.co.uk/news/world/africa/rss.xml                   0    0    0     0
+Africanews            somalia  working  rss https://www.africanews.com/feed/rss                                  0    0    0     0
+The EastAfrican       somalia  blocked  html https://www.theeastafrican.co.ke/: HTTPError: HTTP Error 403: Fo    0    0    0     0
+Capital FM Kenya      somalia  working  rss https://www.capitalfm.co.ke/news/feed/                               1    1    0     0
+The Standard (Kenya)  somalia  working  rss https://www.standardmedia.co.ke/rss/headlines.php                    1    0    0     0
+KBC (Kenya Broadcasti somalia  working  rss https://www.kbc.co.ke/feed/                                          5    4    0     0
+Fana Broadcasting (Et somalia  working  rss https://www.fanabc.com/english/feed/                                 0    0    0     0
+The Reporter (Ethiopi somalia  blocked  rss https://www.thereporterethiopia.com/feed/: HTTPError: HTTP Error     0    0    0     0
+Daily News (Tanzania) somalia  working  rss https://dailynews.co.tz/feed/                                        1    0    0     0
+The Citizen (Tanzania somalia  working  html https://www.thecitizen.co.tz/tanzania                               2    2    0     0
+Nile Post (Uganda)    somalia  working  rss https://nilepost.co.ug/feed                                          6    2    0     0
+ChimpReports (Uganda) somalia  inactive Uganda. Switched off: its robots.txt does not allow automated reading    0    0    0     0
+The New Times (Rwanda somalia  blocked  rss https://www.newtimes.co.rw/rss: ValueError: not a feed (the addre    0    0    0     0
+KT Press (Rwanda)     somalia  working  rss https://www.ktpress.rw/feed/                                         0    0    0     0
+IWACU English (Burund somalia  working  rss https://www.iwacu-burundi.org/englishnews/feed/                      0    0    0     0
+Eye Radio (South Suda somalia  working  rss https://www.eyeradio.org/feed/                                       5    3    1     0
+Radio Tamazuj         somalia  working  rss https://www.radiotamazuj.org/en/rss                                  0    0    0     0
+La Nation (Djibouti)  somalia  working  rss https://www.lanation.dj/feed/                                        0    0    0     0
+Shabait (Eritrea, Min somalia  working  rss https://shabait.com/feed/                                            0    0    0     0
+Source 1 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+Source 2 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+Türkiye Today         world    working  html https://www.turkiyetoday.com/                                       5    5    0     0
+Daily Sabah           world    working  rss https://www.dailysabah.com/rss/world                                 1    0    0     0
+CNN                   world    working  sitemap https://edition.cnn.com/sitemap/news.xml                         2    0    0     0
+Euronews              world    working  rss https://www.euronews.com/rss?level=theme&name=news                   3    1    0     0
+Source 7 (not identif world    inactive The Google share link cannot be opened from the cloud. Waiting for th    0    0    0     0
+IGAD                  world    working  rss https://igad.int/feed/                                               0    0    0     0
+Addis Standard        world    working  telegram https://t.me/s/AddisstandardEng                                 0    0    0     0
+UN News               world    working  rss https://news.un.org/feed/subscribe/en/news/region/africa/feed/rss    0    0    0     0
+AP (Associated Press) world    search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+Reuters               world    search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+BBC News World        world    working  rss https://feeds.bbci.co.uk/news/world/rss.xml                          0    0    0     0
+Al Jazeera English    world    working  rss https://www.aljazeera.com/xml/rss/all.xml                            8    4    1     0
+DW                    world    working  rss https://rss.dw.com/xml/rss-en-world                                  0    0    0     0
+France 24             world    working  rss https://www.france24.com/en/rss                                      2    1    0     0
+BBC Sport             sports   working  rss https://feeds.bbci.co.uk/sport/rss.xml                               4    3    0     0
+ESPN                  sports   blocked  rss https://www.espn.com/espn/rss/news: ValueError: not a feed (the a    0    0    0     0
+Official competition  sports   search   no public feed: checked by the 08:00/18:00 news task with WebSearch /    0    0    0     0
+The Moscow Times      world    working  rss https://www.themoscowtimes.com/rss/news                              0    0    0     0
+The Local Italy       world    working  rss https://feeds.thelocal.com/rss/it                                    0    0    0     0
+DutchNews.nl          world    inactive Switched off until DutchNews gives written permission (owner's instru    0    0    0     0
+ABC News (US)         world    working  rss https://feeds.abcnews.com/abcnews/internationalheadlines             1    1    0     0
+Sweden Herald         world    working  rss https://swedenherald.com/rss.xml                                     8    6    0     1
+
+ERRORS (full)
+  BBC Somali: excluded: Somalia-specific source bbc-somali (East Africa rule, no Somalia sources)
+  VOA Somali: excluded: Somalia-specific source voa-somali (East Africa rule, no Somalia sources)
+  Hiiraan Online: excluded: Somalia-specific source hiiraan (East Africa rule, no Somalia sources)
+  Garowe Online: excluded: Somalia-specific source garoweonline (East Africa rule, no Somalia sources)
+  Dawan Africa: excluded: Somalia-specific source dawan (East Africa rule, no Somalia sources)
+  Somali Guardian: excluded: Somalia-specific source somaliguardian (East Africa rule, no Somalia sources)
+  Goobjoog News: excluded: Somalia-specific source goobjoog (East Africa rule, no Somalia sources)
+  Radio Dalsan: excluded: Somalia-specific source radiodalsan (East Africa rule, no Somalia sources)
+  Horseed Media: excluded: Somalia-specific source horseedmedia (East Africa rule, no Somalia sources)
+  SONNA (state news agency): excluded: Somalia-specific source sonna (East Africa rule, no Somalia sources)
+  The EastAfrican: html https://www.theeastafrican.co.ke/: HTTPError: HTTP Error 403: Forbidden
+  The Reporter (Ethiopia): rss https://www.thereporterethiopia.com/feed/: HTTPError: HTTP Error 304: Not Modified
+  ChimpReports (Uganda): Uganda. Switched off: its robots.txt does not allow automated reading of the feed (tested 5 Nov 2026).
+  The New Times (Rwanda): rss https://www.newtimes.co.rw/rss: ValueError: not a feed (the address answers with a web page) | html https://www.newtimes.co.rw/: ValueError: feed has no items
+  Source 1 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  Source 2 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  Source 7 (not identified yet): The Google share link cannot be opened from the cloud. Waiting for the owner to give the website address.
+  AP (Associated Press): no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+  Reuters: no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+  ESPN: rss https://www.espn.com/espn/rss/news: ValueError: not a feed (the address answers with a web page) | rss https://www.espn.com/espn/rss/soccer/news: ValueError: not a feed (the address answers with a web page) | rss https://www.espn.co.uk/espn/rss/football/news: ValueError: not a feed (the address answers with a web page)
+  Official competition sites: no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch
+  DutchNews.nl: Switched off until DutchNews gives written permission (owner's instruction, 8 Nov 2026). To switch on after permission: set enabled true, remove monitorOnly, and set permission.status to 'licensed' with the date and terms.
+
+stories kept: 33   duplicates removed: 2   already known: 1   images: not-reusable 33
+
+EXCLUDED BY THE EAST AFRICA RULE (Somalia sources / Somalia-focused / not East African / not news): 4
+  - [KBC (Kenya Broadcasting Corporation)] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://www.kbc.co.ke/global-south-delegates-seek-stronger-voice-at-world-media-summit-in-beijing/
+  - [KBC (Kenya Broadcasting Corporation)] not about Kenya, Ethiopia, Tanzania, Uganda, Rwanda, Burundi, South Sudan, Djibouti or Eritrea: https://www.kbc.co.ke/africa-cdc-calls-for-humanitarian-corridor-in-drc-following-attack/
+  - [Nile Post (Uganda)] sports page of a regional outlet (Sports has its own sources): https://nilepost.co.ug/sports/385515/egypt-sack-controversial-head-coach-hossam-hassan
+  - [Nile Post (Uganda)] sports page of a regional outlet (Sports has its own sources): https://nilepost.co.ug/sports/385498/i-havent-thrown-anyone-under-the-bus-khawaja
+
+DUPLICATES
+  - [Eye Radio (South Sudan)] Political party leaders set to adopt Inter-Party Dialogue resolutions on November 9
+      same event as 2026-11-08-koonfur-suudaan-wadahadalka-xisbiyada-doorashada
+      headline 0.31; content 0.64; names 0.24; places sudan; 0h apart
+  - [Al Jazeera English] Egypt’s reopening of its embassy in Tripoli signals regional shift on Libya
+      same event as https://www.euronews.com/2026/11/08/egypt-reopens-tripoli-embassy-after-12-years-and-raises-concerns-over-turkey-libya-maritim
+      headline 0.20; content 0.55; names 0.43; places cairo,egypt,libya; 1h apart | kept Euronews (more complete / more reliable)
+
+FEED (newest first)
+  2026-11-08T17:22  EA-ss  [Eye Radio (South Sudan)] Derik Cultural Festival 2026 names Professor Peter Adwok Nyaba personality of the year
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-08T17:16  world  [France 24] Europe will take part in US-mediated Ukraine talks in Abu Dhabi, French FM says
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-08T17:15  world  [Türkiye Today] Akdagmadeni wakes up to white blanket as snow reaches Yozgat
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T17:11  world  [Sweden Herald] Senior Moderates lash out at Andersson over refusal to negotiate with a Tidö 2 government
+      image: not-reusable (Sweden Herald photos are all rights reserved)
+  2026-11-08T17:10  world  [Türkiye Today] Erzurum hosts 10th off-road festival with nearly 50 vehicles
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T17:07  world  [Sweden Herald] Julia Zigiotti Olme scores again as Manchester United beat Aston Villa 1-0
+      image: not-reusable (Sweden Herald photos are all rights reserved)
+  2026-11-08T17:06  world  [Al Jazeera English] US task force to cut off Iran’s transport of advanced weapons: What we know
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-08T17:05  world  [Türkiye Today] 'Eternal and unshakable': Aliyev, Erdogan vow no one can shake Türkiye-Azerbaijan alliance
+      image: not-reusable (Türkiye Today photos are all rights reserved)
+  2026-11-08T17:01  EA-ss  [Eye Radio (South Sudan)] OPINION: South Sudan needs leaders who listen, serve and deliver
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)  related: 2
+  2026-11-08T16:57  sports [BBC Sport] 'That's Reece' - World Cup semi-final brings out best and worst of Walsh
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-08T16:56  EA-ke  [KBC (Kenya Broadcasting Corporation)] Ruto urges Kenyans to elect leaders with clear development agendas
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T16:46  EA-ke  [KBC (Kenya Broadcasting Corporation)] Murkomen hails Mackenzie sentencing, says government is intensifying efforts to combat extremis
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T16:37  EA-ke  [Capital FM Kenya] OPINION: How opposition divisions could hand Ruto an overwhelming 2027 victory
+      image: not-reusable (Capital FM Kenya photos are all rights reserved)
+  2026-11-08T16:32  world  [Al Jazeera English] At least 21 dead as small boat sinks off Senegal
+      image: not-reusable (agency photo (Reuters), all rights reserved)
+  2026-11-08T16:29  world  [Türkiye Today] Dozens injured as passenger train cars derail in Egypt’s Giza
+      image: not-reusable (Türkiye Today photos are all rights reserved)  related: 1
+  2026-11-08T16:24  EA-tz  [The Citizen (Tanzania)] Tanzania seeks private investment to boost agricultural exports through cold chain facilities
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)
+  2026-11-08T16:21  world  [ABC News (US)] Tourists and locals recount fatal Krakow mass shooting that left Poland reeling
+      image: not-reusable (ABC News (US) photos are all rights reserved)  related: 1
+  2026-11-08T16:14  sports [BBC Sport] Rahm pips Hatton & McIlroy to Abu Dhabi title
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-08T16:08  sports [BBC Sport] Wales' Boyd-Ward to make Wheelchair World Cup history
+      image: not-reusable (BBC Sport photos are all rights reserved)
+  2026-11-08T16:06  world  [Al Jazeera English] Could Iraq’s Kurdish region return to two separate administrations?
+      image: not-reusable (agency photo (Getty), all rights reserved)
+  2026-11-08T16:06  EA-reg [KBC (Kenya Broadcasting Corporation)] AfriqueU ,FIBA Zone V unveil All-Star team ahead of 2026 East Africa Basketball Club Championsh
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
+  2026-11-08T16:05  EA-ss  [Eye Radio (South Sudan)] Six months without answers: A mother’s search for her abducted children
+      image: not-reusable (Eye Radio (South Sudan) photos are all rights reserved)
+  2026-11-08T16:03  world  [Sweden Herald] COP31 Climate Summit Faces Low Expectations as Countries Tackle Finance and Fossil Fuels
+      image: not-reusable (Sweden Herald photos are all rights reserved)
+  2026-11-08T15:59  EA-ug  [Nile Post (Uganda)] Marine Police Urge Ugandans to Acquire Swimming and Water Rescue Skills
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T15:58  world  [Türkiye Today] Iran dismisses US Iron Gate task force as plan that 'will remain on paper'
+      image: not-reusable (Türkiye Today photos are all rights reserved)  related: 1
+  2026-11-08T15:54  EA-ug  [Nile Post (Uganda)] Wages Eat into the Skin of Zombo's Shs38bn Budget
+      image: not-reusable (Nile Post (Uganda) photos are all rights reserved)
+  2026-11-08T15:52  world  [Sweden Herald] China’s CO₂ emissions fall by more than 3% in largest decline since pandemic
+      image: not-reusable (Sweden Herald photos are all rights reserved)
+  2026-11-08T15:50  world  [Euronews + Al Jazeera English] Egypt reopens Tripoli embassy after 12 years and raises concerns over Turkey-Libya maritime dea
+      image: not-reusable (Euronews photos are all rights reserved)
+  2026-11-08T15:47  world  [Sweden Herald] IFK Göteborg and Malmö FF Fans Unite in Protest Against Police at Gamla Ullevi
+      image: not-reusable (Sweden Herald photos are all rights reserved)
+  2026-11-08T15:45  EA-tz  [The Citizen (Tanzania)] Tanzania’s Sh1,000 and Sh2,000 notes wear out in just 11 months, says central bank
+      image: not-reusable (The Citizen (Tanzania) photos are all rights reserved)
+  2026-11-08T15:40  world  [Sweden Herald] European Representatives to Join Ukraine, Russia and US Talks in Abu Dhabi
+      image: not-reusable (Sweden Herald photos are all rights reserved)
+  2026-11-08T15:40  world  [Al Jazeera English] Poland mourns six killed in attack as authorities launch ‘terrorism’ probe
+      image: not-reusable (agency photo (AFP), all rights reserved)
+  2026-11-08T15:33  EA-ke  [KBC (Kenya Broadcasting Corporation)] Agriculture and Livestock Committee considers Livestock Bill, 2026
+      image: not-reusable (KBC (Kenya Broadcasting Corporation) photos are all rights reserved)
