@@ -142,6 +142,15 @@ GitHub Pages kaliya wuxuu bixiyaa faylal; ma noqon karo server baahin toos ah. S
 - Turjumaadda (English, العربية, Français …) waa ikhtiyaari; meel banaan = Soomaali.
 - Muuqaal qof kale leeyahay: kaliya haddii milkiiluhu oggol yahay embed (YouTube embed) ama oggolaansho qoran aad haysato. Mar kasta qor *Isha* iyo *Cidda leh*.
 
+### Muuqaallada iyo wararka tooska ah ee wakaaladaha (otomaatig, 5 daqiiqo kasta)
+/admin/ → *LIVE TV iyo Ciyaaraha Toos → Ilaha Muuqaallada iyo Wararka Tooska* (`data/media-sources.json`). Workflow-ga **Live feeds** (`.github/workflows/live-feeds.yml`) ayaa 5-tii daqiiqaba mar shaqeeya, Claude looma baahna, key-na looma baahna:
+- **Muuqaallada (VIDEO NEWS):** muuqaallada cusub ee kanaalada YouTube ee rasmiga ah (BBC News Somali, Al Jazeera English, DW News, FRANCE 24, Associated Press, Reuters, BBC News). Muuqaal waxaa la muujiyaa kaliya marka YouTube xaqiijiyo in milkiiluhu oggol yahay embed. Waxaa lagu daawadaa ciyaartoyga YouTube-ka rasmiga ah; waxba lama soo dejiyo, dib looma shubo. Shorts iyo muuqaal ka da' weyn 7 maalmood lama muujiyo. Muuqaalladaada (Muuqaalada) way ka horreeyaan.
+- **Wararka hadda soo dhacaya (LIVE News):** cinwaannada RSS-ka rasmiga ah ee BBC, BBC Somali, Al Jazeera, DW, France 24 iyo UN News: cinwaanka, cidda daabacday, waqtigooda asalka ah iyo link-ga warka buuxa. Qoraalka warka lama koobiyeeyo. Haddii wakaaladdu beddesho cinwaanka, kan cusub ayaa la muujiyaa iyo "la cusboonaysiiyay". Reuters iyo AP RSS furan ma laha (waxay u baahan yihiin heshiis lacag leh: Reuters Connect / AP Media API); muuqaalladooda YouTube ayaa la isticmaalaa.
+- **Kanaalada tooska ah:** Al Jazeera English, DW News, FRANCE 24 oo ku jira ciyaartoyga tooska ah ee YouTube. Bogga ma qoro "LIVE" isagoo aan hubin; YouTube ayaa sheegaya haddii kanaalku hadda baahinayo.
+- Xogta waxay galaysaa laanta `live-data` (si aysan u buuxin xadka dhismaha GitHub Pages); saacad kasta nuqul ayaa lagu keydiyaa `data/live-feeds/`.
+- **Xaaladda ilaha:** https://www.wartabiyetv.com/#ilaha-xaaladda — il kasta: hubintii ugu dambeysay, guushii ugu dambeysay, tirada, waxa ugu cusub iyo khaladka. Haddii xogtu ka duug tahay 30 daqiiqo, bogga Wararka Tooska ah wuxuu si cad u sheegaa.
+- Il cusub: ku dar *Kanaal* (YouTube channel ID `UC…`) ama *Ilaha RSS* (link `https://` ee wakaaladda rasmiga ah). Dami *Shid* si aad il u joojiso.
+
 ### LIVE TV (/admin/ → LIVE TV iyo Ciyaaraha Toos → LIVE TV)
 1. **Link-ga baahinta rasmiga ah:** link-ga YouTube Live-kaaga (ama `https://www.youtube.com/channel/UC…`), ama Vimeo / Facebook Live / Cloudflare Stream / .m3u8.
 2. **Sidee loo xaqiijiyaa?**
