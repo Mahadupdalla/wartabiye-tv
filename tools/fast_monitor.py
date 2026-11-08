@@ -290,15 +290,25 @@ def committed_at(path):
     return iso(d) if d else None
 
 
+LIVE = {}
+
+
 def live_ids():
+    """Article ids that are really on the live website (data/news.json as GitHub Pages serves it), read once per check.
+    Also keeps what the live file says about the last publication and the build that is live (LIVE['meta'])."""
+    if 'ids' in LIVE: return LIVE['ids']
     try:
         req = urllib.request.Request(SITE_NEWS + '?ts=' + str(int(time.time())), headers={'User-Agent': w.UA, 'Cache-Control': 'no-cache'})
         with urllib.request.urlopen(req, timeout=20) as r:
             d = json.loads(r.read())
-        return {n.get('id') for n in d.get('news', []) if n.get('id')}
+        news = [n for n in d.get('news', []) if n.get('id')]
+        LIVE['ids'] = {n['id'] for n in news}
+        newest = max(news, key=lambda n: parse(n.get('createdAt') or n.get('verifiedAt') or n.get('publishedAt')) or datetime.datetime.min.replace(tzinfo=EAT), default={})
+        LIVE['meta'] = {'deployedAt': d.get('updatedAt'), 'lastPublishRunAt': d.get('lastSuccessAt'), 'newestLiveArticle': newest.get('id')}
     except Exception as e:
         print('live site not readable:', e)
-        return None
+        LIVE['ids'] = None
+    return LIVE['ids']
 
 
 def minutes(a, b):
@@ -424,6 +434,17 @@ def run(args):
         st['seen'] = {k: v for k, v in (st.get('seen') or {}).items() if (parse(v.get('at')) or t) >= cut}
     state['tracked'] = {k: v for k, v in state['tracked'].items() if (parse(v.get('discoveredAt')) or t) >= cut}
     became = track(state['tracked'], t)
+    live_ids()
+    # four separate records (owner's request, 8 Nov 2026): a real source check, a new article found, an article published,
+    # the website build that is live. None of them is a browser timer.
+    rec = state.setdefault('records', {})
+    rec['lastSuccessfulSourceCheckAt'] = iso(t) if any(state['sources'].get(s['id'], {}).get('lastOkAt') == iso(t) for s in fast) else rec.get('lastSuccessfulSourceCheckAt')
+    if new_items: rec['lastNewArticleDiscoveredAt'] = iso(t); rec['lastNewArticle'] = {k: new_items[0].get(k) for k in ('source', 'title', 'url', 'publishedAt')}
+    if became['live']: rec['lastArticleLiveAt'] = iso(t); rec['lastArticleLive'] = became['live'][-1].get('articleId')
+    m = LIVE.get('meta') or {}
+    if m.get('lastPublishRunAt'): rec['lastArticlePublicationAt'] = m['lastPublishRunAt']
+    if m.get('deployedAt'): rec['lastWebsiteDeploymentAt'] = m['deployedAt']; rec['websiteCheckedAt'] = iso(t)
+    if m.get('newestLiveArticle'): rec['newestLiveArticle'] = m['newestLiveArticle']
     state['lastRunAt'] = iso(t)
     fin = now()
     per = []
@@ -550,6 +571,7 @@ def diagnostics(state, cfg, fast, t, sched, skipped):
         'newFound24h': sm('stories_new'), 'fresh5min24h': sm('stories_fresh_5min'), 'published24h': sm('stories_published'),
         'duplicatesSkipped24h': sm('stories_rejected_duplicate'), 'oldSkipped24h': sm('stories_rejected_old'),
         'missingTimestampSkipped24h': sm('stories_rejected_no_timestamp'), 'missingImageHeld24h': sm('stories_rejected_no_image'),
+        'records': state.get('records') or {},
         'activeCollectors': sum(1 for s in fast if s.get('enabled', True) and not s.get('monitorOnly') and not east_africa.excluded_source(s)),
     }
     if skipped: summary['health'] = 'paused (outside operating hours)'
@@ -577,6 +599,7 @@ def report_text(st, log):
     S = st['status']
     L = [f"5-minute source monitor, {st['updatedAt']} (operating hours {st['operatingHours']} Africa/Nairobi; {'open' if st['open'] else 'closed'})",
          f"health {S['health']} | last check {S['lastSourceCheckAt']} | next expected {S['nextExpectedCheckAt']} | {S['activeCollectors']} active collectors",
+         'records: ' + ' | '.join(f'{k} {v}' for k, v in S['records'].items() if k.endswith('At')),
          f"last 24 h: {S['checks24h']} checks, {S['newFound24h']} new ({S['fresh5min24h']} within 5 min of the source time), {S['published24h']} published, "
          f"{S['duplicatesSkipped24h']} duplicates, {S['oldSkipped24h']} old, {S['missingTimestampSkipped24h']} no trustworthy time, {S['missingImageHeld24h']} held for a photo",
          f"measured interval between checks: median {st['measuredIntervalMin']['median']} min, max {st['measuredIntervalMin']['max']} min",

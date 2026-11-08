@@ -433,11 +433,13 @@
     var hh=el('section','hubhead livenews');var w=el('div','wrap');var h1=el('h1');h1.append(tr('lnTitle'));w.append(h1,el('p',null,tr('lnSub')));
     hh.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 30a70 70 0 1 0 0 140 70 70 0 0 0 0-140zM100 60v40l28 18M30 100H10M190 100h-20"/></svg>';hh.append(w);
     var lay=el('div','wrap layout');var main=el('div');var side=el('aside','sidebar');lay.append(main,side);V.append(hh,lay);
-    var bc=el('div','lnbroadcast');var st=el('div','lnstatus');st.setAttribute('role','status');st.setAttribute('aria-live','polite');
+    // no public source-monitoring status here (owner's decision, 8 Nov 2026): check times, delays and errors are shown only
+    // in /admin/ (Ilaha degdegga ah) and in the GitHub Actions logs
+    var bc=el('div','lnbroadcast');
     var tl=el('ol','lntl');main.append(bc);
     // the newsrooms' own latest headlines (every 5 minutes) and their official live channels: assets/media.js
     if(window.WT_MEDIA&&WT_MEDIA.liveWire){WT_MEDIA.liveWire(main);WT_MEDIA.liveChannels(main)}
-    main.append(head(tr('lnOwnTitle'),'red'),st,tl,el('p','vnote',tr('lnRule')));
+    main.append(head(tr('lnOwnTitle'),'red'),tl,el('p','vnote',tr('lnRule')));
     fillSide(side,[sideTrending(),adSlot('sidebar'),sideFollow()]);
     function drawBroadcast(){bc.innerHTML='';if(!window.WT_MEDIA||!WT_MEDIA.liveState){bc.append(el('p','lnoff',tr('lnNoBroadcast')));return}
       WT_MEDIA.liveState().then(function(s){bc.innerHTML='';var ob=h1.querySelector('.onair');if(ob)ob.remove();
@@ -449,12 +451,7 @@
       var fresh={};(added||[]).forEach(function(id){fresh[id]=1});
       if(!l.length)tl.append(el('li','empty',loaded?tr('lnEmpty'):tr('loadingStory')));
       l.forEach(function(it){tl.append(lnItem(it,!!fresh[it._id]))});
-      st.innerHTML='';var newest=l.length?new Date(l[0].publishedAt).getTime():NaN;var run=new Date(window.WARTABIYE_LAST_RUN||window.WARTABIYE_LAST_OK||'').getTime();
-      var p=el('p');p.append(el('span','lndot'),document.createTextNode(isNaN(run)?tr('lnAuto'):trf('lnChecked',{t:eat(new Date(run))+' (EAT)'})+' · '+tr('lnAuto')));st.append(p);
-      if(added&&added.length)st.append(el('p','lnadded',trf('lnNewCount',{n:added.length})));
-      // delayed = the news check itself has not run for 90 minutes; a quiet hour with checks running is not a delay
-      if(!isNaN(run)&&now-run>LN_DELAY)st.append(el('p','lnwarn',trf('lnDelayed',{t:eat(new Date(run))+' (EAT)'})));
-      if(isNaN(newest)||now-newest>LN_NONE)st.append(el('p','lnwarn',tr('lnNone')))}
+    }
     draw();drawBroadcast();
     if(lnTimer)clearInterval(lnTimer);
     lnTimer=setInterval(function(){
