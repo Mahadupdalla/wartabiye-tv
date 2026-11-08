@@ -62,8 +62,16 @@ with_img = sum(1 for n in items if n.get('image'))
 print(f'articles={len(items)} with_image={with_img} placeholder={len(items)-with_img}')
 meta = news.get('updatedAt') if isinstance(news, dict) else None
 print('updatedAt', meta)
-# a missing translation is not an error: the page then shows the Somali original with a clear label
-print('translated', ' '.join(f"{l}={sum(1 for n in items if isinstance(n.get(l), dict))}/{len(items)}" for l in ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')))
+# a missing translation is not an error: in that language the article is left out of the lists (with a notice) and its page
+# says the translation is not available, so no Somali text is mixed in. An empty translation block (an article written in
+# /admin/ whose translation fields were left blank) counts as missing. `python3 tools/translations.py missing` lists them.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from translations import has as _has_tr  # noqa: E402
+_TL = ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')
+print('translated', ' '.join(f"{l}={sum(1 for n in items if _has_tr(n, l))}/{len(items)}" for l in _TL))
+_untr = [n.get('id', '?') for n in items if any(not _has_tr(n, l) for l in _TL)]
+if _untr:
+    print(f'WARNING: {len(_untr)} article(s) not yet in all nine languages: ' + ', '.join(_untr[:10]) + (' …' if len(_untr) > 10 else ''))
 # Video News, LIVE TV, LIVE Sports (data/videos.json, data/live.json, data/sports.json). A wrong link is never turned into a
 # player by the site (assets/media.js), so these are warnings for the admin, not reasons to stop publishing the news.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

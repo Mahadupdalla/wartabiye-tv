@@ -1285,3 +1285,16 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .htable{width:100%;border-collapse:collapse;font-size:13.5px}.htable th,.htable td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:start;vertical-align:top}
 .htable tr.bad td{background:rgba(220,38,38,.08)}.htable tr.ok td:nth-child(2){color:#178a4c;font-weight:800}.htable tr.bad td:nth-child(2){color:var(--red);font-weight:800}
 .soverview h3.sgh{font:800 15px var(--display);margin:18px 0 8px;text-transform:uppercase;letter-spacing:.04em}
+
+/* ---------- mobile polish (Nov 2026) ---------- */
+@media (max-width:860px){
+  /* the open menu is ONE column that scrolls; it never wraps into a second column when it is taller than the screen
+     (that happened in Arabic and on short phones: links split into two columns and the X landed in the middle) */
+  .links.open{flex-wrap:nowrap}
+  .links.open > a,.links.open > .msoc{flex:none}
+}
+@media (max-width:360px){
+  /* small phones (320–360px): header buttons stay at least 40px wide so they are easy to tap */
+  .tools .icobtn{width:38px;height:40px}
+  .hctl .soc a.sm,.hctl .tbtn{width:40px;height:40px}
+}
