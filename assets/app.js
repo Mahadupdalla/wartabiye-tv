@@ -434,7 +434,10 @@
     hh.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 30a70 70 0 1 0 0 140 70 70 0 0 0 0-140zM100 60v40l28 18M30 100H10M190 100h-20"/></svg>';hh.append(w);
     var lay=el('div','wrap layout');var main=el('div');var side=el('aside','sidebar');lay.append(main,side);V.append(hh,lay);
     var bc=el('div','lnbroadcast');var st=el('div','lnstatus');st.setAttribute('role','status');st.setAttribute('aria-live','polite');
-    var tl=el('ol','lntl');main.append(bc,st,head(tr('liveNewsNav'),'red'),tl,el('p','vnote',tr('lnRule')));
+    var tl=el('ol','lntl');main.append(bc);
+    // the newsrooms' own latest headlines (every 5 minutes) and their official live channels: assets/media.js
+    if(window.WT_MEDIA&&WT_MEDIA.liveWire){WT_MEDIA.liveWire(main);WT_MEDIA.liveChannels(main)}
+    main.append(head(tr('lnOwnTitle'),'red'),st,tl,el('p','vnote',tr('lnRule')));
     fillSide(side,[sideTrending(),adSlot('sidebar'),sideFollow()]);
     function drawBroadcast(){bc.innerHTML='';if(!window.WT_MEDIA||!WT_MEDIA.liveState){bc.append(el('p','lnoff',tr('lnNoBroadcast')));return}
       WT_MEDIA.liveState().then(function(s){bc.innerHTML='';var ob=h1.querySelector('.onair');if(ob)ob.remove();
@@ -808,14 +811,14 @@
     var base=h.split('?')[0];
     var story=base.indexOf('war-')===0?h.slice(4):null;
     var cat=base.indexOf('qayb-')===0?base.slice(5):null;
-    var page=!story&&!cat&&['ciyaaraha','caalamka','bariga-afrika','wararka-tooska','muuqaal','toos','ciyaaraha-toos','raadi','kaydsan','xiriir','xayeysiimaha'].concat(Object.keys(PAGE_ROUTES)).indexOf(base)>=0?base:null;
+    var page=!story&&!cat&&['ciyaaraha','caalamka','bariga-afrika','wararka-tooska','muuqaal','toos','ciyaaraha-toos','raadi','kaydsan','xiriir','xayeysiimaha','ilaha-xaaladda'].concat(Object.keys(PAGE_ROUTES)).indexOf(base)>=0?base:null;
     var isHome=!story&&!page;
     $('homeView').hidden=!isHome;$('storyView').hidden=!story;$('pageView').hidden=!page;$('barnaamijyada').hidden=!isHome||!sec('programmes');
     var navKey=story?'':cat?'qayb-'+cat:page?page:(base===''||base==='hoyga'?'hoyga':'');
     document.querySelectorAll('[data-nav]').forEach(function(a){a.classList.toggle('on',a.dataset.nav===navKey);if(a.dataset.nav===navKey)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
     var key=story?'s:'+story:page?'p:'+base:'h:'+(cat||'');
     if(story)renderStory(story);
-    else if(page==='muuqaal')mediaPage('renderVideos',h);else if(page==='toos')mediaPage('renderLive',h);else if(page==='ciyaaraha-toos')mediaPage('renderSports',h);else if(page==='ciyaaraha')renderHub('sports',h);else if(page==='caalamka')renderHub('world',h);else if(page==='bariga-afrika')renderHub('somalia',h);else if(page==='wararka-tooska')renderLiveNews();
+    else if(page==='muuqaal')mediaPage('renderVideos',h);else if(page==='toos')mediaPage('renderLive',h);else if(page==='ciyaaraha-toos')mediaPage('renderSports',h);else if(page==='ciyaaraha')renderHub('sports',h);else if(page==='caalamka')renderHub('world',h);else if(page==='bariga-afrika')renderHub('somalia',h);else if(page==='wararka-tooska')renderLiveNews();else if(page==='ilaha-xaaladda'){if(window.WT_MEDIA&&WT_MEDIA.sourceHealth)WT_MEDIA.sourceHealth($('pageView'))}
     else if(page==='raadi')renderSearch(h);else if(page==='kaydsan')renderSaved();else if(page==='xiriir')renderContact();else if(page==='xayeysiimaha')renderAdsPage();
     else if(page)renderStatic(PAGE_ROUTES[page]);
     else{setTitle(cat?catName(CATS.find(function(k){return slug(k)===cat})||cat):'');renderHome(cat);var target=h&&!cat&&h!=='hoyga'?document.getElementById(h):null;if(target)target.scrollIntoView();else if(cat||h==='hoyga')window.scrollTo(0,0)}

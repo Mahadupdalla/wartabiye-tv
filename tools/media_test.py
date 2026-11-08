@@ -53,4 +53,16 @@ import os as _os
 for _f in (_os.listdir(_feed) if _os.path.isdir(_feed) else []):
     _t = open(_os.path.join(_feed, _f)).read()
     check(not _re.search(r'(?i)(token|api[_-]?key|x-auth)', _t), f'no key in {_f}')
+# Video News / LIVE News sources: official channels and https feeds only, unique ids, no key in the public files
+_ms = _j.load(open('data/media-sources.json'))
+for _c in _ms['videos']['channels'] + _ms.get('liveChannels', []):
+    check(_re.fullmatch(r'UC[A-Za-z0-9_-]{22}', _c.get('channelId', '')), f"channel id {_c.get('name')}")
+_ids = [f['id'] for f in _ms['wire']['feeds']]
+check(len(_ids) == len(set(_ids)), 'wire feed ids are unique')
+for _f in _ms['wire']['feeds']:
+    check(_f['url'].startswith('https://') and _f.get('region') in ('somalia', 'eastafrica', 'africa', 'world'), f"wire feed {_f['id']}")
+for _d in ('data/live-feeds',):
+    for _f in (_os.listdir(_d) if _os.path.isdir(_d) else []):
+        check(not _re.search(r'(?i)(token|api[_-]?key|x-auth|secret)', open(_os.path.join(_d, _f)).read()), f'no key in {_f}')
+check(not _re.search(r'(?i)(api[_-]?key|token)', open('data/media-sources.json').read()), 'no key in media-sources.json')
 print(f'media tests OK ({ok} checks)')

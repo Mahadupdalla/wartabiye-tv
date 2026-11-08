@@ -65,6 +65,8 @@
     lg:function(cfg,comp){return olLeagues(cfg).filter(function(l){return String(l.id)===String(comp)})[0]},
     live:function(cfg){return olAll(cfg,[-1,0],30e3).then(function(l){return l.filter(function(m){return LIVE[m.status]})})},
     day:function(cfg,date){return olAll(cfg,[-1,0,1],30e3).then(function(l){return l.filter(function(m){return ymdEAT(new Date(m.utcDate))===date})})},
+    upcoming:function(cfg){var t=now();return olAll(cfg,[0,1,2],60e3).then(function(l){return l.filter(function(m){var k=Date.parse(m.utcDate);return m.status==='SCHEDULED'&&k>t&&k-t<8*864e5}).sort(byDate)})},
+    recent:function(cfg){var t=now();return olAll(cfg,[-2,-1,0],60e3).then(function(l){return l.filter(function(m){return m.status==='FT'&&t-Date.parse(m.utcDate)<4*864e5}).sort(byDate).reverse()})},
     fixtures:function(cfg,comp){var lg=OPEN.lg(cfg,comp);return olRounds(lg,[0,1,2,3],60e3).then(function(l){return l.filter(function(m){return m.status==='SCHEDULED'||LIVE[m.status]}).sort(byDate)})},
     results:function(cfg,comp){var lg=OPEN.lg(cfg,comp);return olRounds(lg,[-2,-1,0],60e3).then(function(l){return l.filter(function(m){return m.status==='FT'}).sort(byDate).reverse()})},
     standings:function(cfg,comp){var lg=OPEN.lg(cfg,comp);return getJSON(OL+'/getbltable/'+encodeURIComponent(lg.id)+'/'+lg.season,10*60e3).then(function(rows){
@@ -90,7 +92,11 @@
     window:function(){return feedIndex().then(function(ix){if(!ix)return null;return feedFile('window').then(function(d){return {ix:ix,d:d,list:guard(d,Array.isArray(d.matches)?d.matches:[])}})})},
     live:function(){return FEED.window().then(function(w){return w?{w:w,list:w.list.filter(function(m){return LIVE[m.status]})}:null})},
     day:function(date){return FEED.window().then(function(w){return w?{w:w,list:w.list.filter(function(m){return ymdEAT(new Date(m.utcDate))===date})}:null})},
-    comp:function(kind,comp){return feedFile(kind+'-'+String(comp).replace(/[^A-Za-z0-9_-]/g,''))}};
+    comp:function(kind,comp){return feedFile(kind+'-'+String(comp).replace(/[^A-Za-z0-9_-]/g,''))},
+    // every competition's fixtures (or results) plus the ±1-day window, without duplicates
+    many:function(kind,cfg){return FEED.window().then(function(w){if(!w)return null;var same=sameSet(cfg);var cs=w.ix.competitions.filter(function(c){return !same[String(c.id)]});
+      return Promise.all(cs.map(function(c){return FEED.comp(kind,c.id).then(function(d){return guard(d,Array.isArray(d.matches)?d.matches:[])}).catch(function(){return []})})).then(function(a){var seen={},list=[];
+        w.list.concat.apply(w.list,a).forEach(function(m){if(m&&!seen[m.id]&&!(m.competition&&same[String(m.competition.id)])){seen[m.id]=1;list.push(m)}});return {w:w,list:list}})})}};
 
   // ---------------- dispatcher ----------------
   function worker(cfg,path){var b=String(cfg.apiBase||'').replace(/\/+$/,'');
@@ -115,6 +121,8 @@
         var same=sameSet(cfg);if(fx){list=list.concat(fx.list.filter(function(m){return !(m.competition&&same[String(m.competition.id)])}));names.push(fx.w.d.provider||FEED.name);times.push(fx.w.d.updatedAt)}
         return stamp({matches:sortM(list),partial:!o.ok&&olLeagues(cfg).length>0},names,times)})}
     if(r==='/v1/live')return both(OPEN.live(cfg),FEED.live());
+    if(r==='/v1/upcoming'){var tu=now();return both(OPEN.upcoming(cfg),FEED.many('fixtures',cfg).then(function(x){return x?{w:x.w,list:x.list.filter(function(m){var k=Date.parse(m.utcDate);return m.status==='SCHEDULED'&&k>tu&&k-tu<8*864e5})}:null})).then(function(d){d.matches=d.matches.sort(byDate).slice(0,40);return d})}
+    if(r==='/v1/recent'){var tr0=now();return both(OPEN.recent(cfg),FEED.many('results',cfg).then(function(x){return x?{w:x.w,list:x.list.filter(function(m){return /^(FT|AET|PEN)$/.test(m.status)&&tr0-Date.parse(m.utcDate)<4*864e5})}:null})).then(function(d){d.matches=d.matches.sort(byDate).reverse().slice(0,40);return d})}
     if(r==='/v1/matches'){var date=p.date||ymdEAT(new Date(now()));return both(OPEN.day(cfg,date),FEED.day(date)).then(function(d){d.date=date;return d})}
     if(r==='/v1/fixtures'||r==='/v1/results'||r==='/v1/standings'){var c=p.competition,kind=r.slice(4);
       if(OPEN.has(cfg,c))return OPEN[kind](cfg,c).then(function(x){return stamp(kind==='standings'?x:{matches:x},[OPEN.name],[iso])});

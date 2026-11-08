@@ -1194,6 +1194,56 @@ collections:
               - {name: authorization, label: 'Oggolaanshaha (lambarka heshiiska / warqadda oggolaanshaha / taariikhda)', widget: string}
               - {name: rightsConfirmed, label: 'Waxaan xaqiijinayaa in Wartabiye TV haysato xuquuqda ama oggolaansho qoran oo lagu baahiyo bogga', widget: boolean, default: false}
               - {name: published, label: Muuji, widget: boolean, default: true}
+      - name: sources
+        label: 'Ilaha Muuqaallada iyo Wararka Tooska (otomaatig)'
+        file: data/media-sources.json
+        format: json
+        fields:
+          - name: videos
+            label: Muuqaallada (VIDEO NEWS)
+            widget: object
+            hint: 'Kanaalada YouTube ee rasmiga ah iyo RSS-ka wakaaladaha wararka. Hawsha "Live feeds" (5 daqiiqo kasta) ayaa iyaga ka soo qaada muuqaallada cusub iyo cinwaannada. Kaliya muuqaallada YouTube u oggolaatay in la geliyo (embed) ayaa la muujiyaa. Xaaladda ilaha: https://www.wartabiyetv.com/#ilaha-xaaladda'
+            fields:
+              - {name: maxPerChannel, label: 'Ugu badnaan muuqaal kanaal kasta', widget: number, value_type: int, min: 1, max: 20, default: 8}
+              - {name: maxAgeDays, label: 'Muuqaallada ka da'' weyn (maalmo) lama muujiyo', widget: number, value_type: int, min: 1, max: 30, default: 7}
+              - {name: skipShorts, label: 'Ka saar YouTube Shorts', widget: boolean, default: true}
+              - name: channels
+                label: Kanaalada rasmiga ah
+                widget: list
+                summary: '{{name}} ({{language}})'
+                fields:
+                  - {name: name, label: Magaca, widget: string}
+                  - {name: channelId, label: 'YouTube channel ID (UC...)', widget: string, pattern: ['^UC[A-Za-z0-9_-]{22}$', 'ID-gu wuxuu ku bilaabmaa UC, 24 xaraf']}
+                  - {name: language, label: Luqadda, widget: select, default: en, options: [so, en, ar, fr, nl, it, de, tr, es]}
+                  - {name: kind, label: Nooca, widget: select, default: world, options: [somalia, world, sports]}
+                  - {name: enabled, label: Shid, widget: boolean, default: true}
+          - name: liveChannels
+            label: 'Kanaalada tooska ah ee rasmiga ah (LIVE News)'
+            widget: list
+            hint: 'Ciyaartoyga rasmiga ah ee YouTube ayaa la isticmaalaa. Bogga ma qoro "LIVE" isagoo aan hubin; YouTube ayaa muujinaya haddii kanaalku hadda baahinayo.'
+            summary: '{{name}}'
+            fields:
+              - {name: name, label: Magaca, widget: string}
+              - {name: channelId, label: 'YouTube channel ID (UC...)', widget: string, pattern: ['^UC[A-Za-z0-9_-]{22}$', 'ID-gu wuxuu ku bilaabmaa UC, 24 xaraf']}
+              - {name: language, label: Luqadda, widget: select, default: en, options: [so, en, ar, fr, nl, it, de, tr, es]}
+              - {name: enabled, label: Shid, widget: boolean, default: true}
+          - name: wire
+            label: 'Wararka tooska ah ee wakaaladaha (RSS rasmi ah)'
+            widget: object
+            fields:
+              - {name: maxAgeHours, label: 'Cinwaannada ka da'' weyn (saacado) lama muujiyo', widget: number, value_type: int, min: 1, max: 72, default: 24}
+              - {name: maxItems, label: 'Ugu badnaan cinwaanno', widget: number, value_type: int, min: 10, max: 300, default: 120}
+              - name: feeds
+                label: Ilaha RSS
+                widget: list
+                summary: '{{name}} · {{region}}'
+                fields:
+                  - {name: id, label: 'ID gaaban (xarfo yaryar, tusaale bbc-somali)', widget: string, pattern: ['^[a-z0-9-]{2,30}$', 'xarfo yaryar, tirooyin iyo -']}
+                  - {name: name, label: Magaca ilaha, widget: string}
+                  - {name: url, label: 'Link-ga RSS-ka rasmiga ah (https://)', widget: string, pattern: ['^https://', 'waa inuu ku bilaabmaa https://']}
+                  - {name: region, label: Gobolka, widget: select, default: world, options: [somalia, eastafrica, africa, world]}
+                  - {name: language, label: Luqadda, widget: select, default: en, options: [so, en, ar, fr, nl, it, de, tr, es]}
+                  - {name: enabled, label: Shid, widget: boolean, default: true}
   - name: alerts
     label: 'Ogeysiisyada (gambaleelka iyo push)'
     label_singular: Ogeysiis

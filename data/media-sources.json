@@ -1,0 +1,36 @@
+{
+ "videos": {
+  "maxPerChannel": 8,
+  "maxAgeDays": 7,
+  "skipShorts": true,
+  "channels": [
+   {"name": "BBC News Somali", "channelId": "UC_QuRsbRQpaC4iS8WlxW0NA", "language": "so", "kind": "somalia", "enabled": true},
+   {"name": "Al Jazeera English", "channelId": "UCNye-wNBqNL5ZzHSJj3l8Bg", "language": "en", "kind": "world", "enabled": true},
+   {"name": "DW News", "channelId": "UCknLrEdhRCp1aegoMqRaCZg", "language": "en", "kind": "world", "enabled": true},
+   {"name": "FRANCE 24 English", "channelId": "UCQfwfsi5VrQ8yKZ-UWmAEFg", "language": "en", "kind": "world", "enabled": true},
+   {"name": "Associated Press", "channelId": "UC52X5wxOL_s5yw0dQk7NtgA", "language": "en", "kind": "world", "enabled": true},
+   {"name": "Reuters", "channelId": "UChqUTb7kYRX8-EiaN3XFrSQ", "language": "en", "kind": "world", "enabled": true},
+   {"name": "BBC News", "channelId": "UC16niRr50-MSBwiO3YDb3RA", "language": "en", "kind": "world", "enabled": true}
+  ]
+ },
+ "liveChannels": [
+  {"name": "Al Jazeera English", "channelId": "UCNye-wNBqNL5ZzHSJj3l8Bg", "language": "en", "enabled": true},
+  {"name": "DW News", "channelId": "UCknLrEdhRCp1aegoMqRaCZg", "language": "en", "enabled": true},
+  {"name": "FRANCE 24 English", "channelId": "UCQfwfsi5VrQ8yKZ-UWmAEFg", "language": "en", "enabled": true}
+ ],
+ "wire": {
+  "maxAgeHours": 24,
+  "maxItems": 120,
+  "feeds": [
+   {"id": "bbc-somali", "name": "BBC Somali", "url": "https://feeds.bbci.co.uk/somali/rss.xml", "region": "somalia", "language": "so", "enabled": true},
+   {"id": "bbc-africa", "name": "BBC News Africa", "url": "https://feeds.bbci.co.uk/news/world/africa/rss.xml", "region": "africa", "language": "en", "enabled": true},
+   {"id": "bbc-world", "name": "BBC News", "url": "https://feeds.bbci.co.uk/news/world/rss.xml", "region": "world", "language": "en", "enabled": true},
+   {"id": "aljazeera", "name": "Al Jazeera", "url": "https://www.aljazeera.com/xml/rss/all.xml", "region": "world", "language": "en", "enabled": true},
+   {"id": "dw", "name": "DW News", "url": "https://rss.dw.com/rdf/rss-en-all", "region": "world", "language": "en", "enabled": true},
+   {"id": "dw-africa", "name": "DW Africa", "url": "https://rss.dw.com/rdf/rss-en-africa", "region": "africa", "language": "en", "enabled": true},
+   {"id": "france24", "name": "France 24", "url": "https://www.france24.com/en/rss", "region": "world", "language": "en", "enabled": true},
+   {"id": "france24-africa", "name": "France 24 Africa", "url": "https://www.france24.com/en/africa/rss", "region": "africa", "language": "en", "enabled": true},
+   {"id": "un-news", "name": "UN News", "url": "https://news.un.org/feed/subscribe/en/news/all/rss.xml", "region": "world", "language": "en", "enabled": true}
+  ]
+ }
+}

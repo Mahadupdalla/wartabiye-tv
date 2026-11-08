@@ -27,7 +27,7 @@ jobs:
       - name: Build news.json and ads.json
         run: python3 tools/build_news.py
       - name: Check news, dates and images (nothing is published if this fails)
-        run: python3 tools/media_test.py && node tools/sports_feed.mjs test && python3 tools/check_site.py && python3 -c "import json;[json.load(open(f)) for f in ('data/site.json','data/live.json','data/sports.json')]"
+        run: python3 tools/media_test.py && node tools/sports_feed.mjs test && python3 tools/live_feeds.py test && python3 tools/check_site.py && python3 -c "import json;[json.load(open(f)) for f in ('data/site.json','data/live.json','data/sports.json','data/media-sources.json')]"
       - name: Build the notification feed (published stories and the owner's alerts only)
         run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && python3 tools/build_notifications.py
       - name: Build article pages, section pages, sitemap and RSS

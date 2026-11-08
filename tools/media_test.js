@@ -62,11 +62,27 @@ const feed = age => ({ index: { provider: 'football-data.org', updatedAt: iso(-a
   window: { provider: 'football-data.org', updatedAt: iso(-age), matches: [FEEDM(71, 'LIVE', 'PL', 'Arsenal', 'Chelsea', 1, 0), FEEDM(72, 'LIVE', 'BL1', 'Bayern', 'Dortmund', 9, 9)] },
   'standings-PL': { provider: 'football-data.org', updatedAt: iso(-age), competition: { name: 'Premier League' }, table: [{ position: 1, team: { id: 710, name: 'Arsenal' }, played: 11, won: 8, draw: 2, lost: 1, goalDifference: 15, points: 26 }] } });
 
+const LD = age => ({
+  'video-feed.json': { updatedAt: iso(-age), videos: [
+    { id: 'yt-' + YT, videoId: YT, title: 'Wararka BBC Somali', summary: '', kind: 'somalia', language: 'so', youtube: 'https://www.youtube.com/watch?v=' + YT, publishedAt: iso(-2 * 3600e3), source: 'BBC News Somali', sourceUrl: 'https://www.youtube.com/channel/UC_QuRsbRQpaC4iS8WlxW0NA', license: 'YouTube embed', auto: true },
+    { id: 'yt-abcdefghijk', videoId: 'abcdefghijk', title: 'World news report', kind: 'world', language: 'en', youtube: 'https://www.youtube.com/watch?v=abcdefghijk', publishedAt: iso(-5 * 3600e3), source: 'DW News', license: 'YouTube embed', auto: true },
+    { id: 'yt-notallowed', videoId: 'x', title: 'Notallowed', youtube: 'not a link', publishedAt: iso(-3600e3), source: 'X', auto: true }],
+    liveChannels: [{ name: 'Al Jazeera English', channelId: 'UCNye-wNBqNL5ZzHSJj3l8Bg', language: 'en', watchUrl: 'https://www.youtube.com/channel/UCNye-wNBqNL5ZzHSJj3l8Bg/live' }] },
+  'live-wire.json': { updatedAt: iso(-age), items: [
+    { id: 'a1', title: 'Shir ka dhacay Muqdisho', url: 'https://www.bbc.com/somali/articles/x1', source: 'BBC Somali', region: 'somalia', language: 'so', publishedAt: iso(-10 * 60e3) },
+    { id: 'a2', title: 'Kenya election update', url: 'https://www.aljazeera.com/news/x2', source: 'Al Jazeera', region: 'eastafrica', language: 'en', publishedAt: iso(-40 * 60e3), updatedAt: iso(-5 * 60e3), previousTitle: 'Kenya election' },
+    { id: 'a3', title: 'World leaders meet', url: 'https://www.dw.com/en/x3', source: 'DW News', region: 'world', language: 'en', publishedAt: iso(-90 * 60e3) },
+    { id: 'a4', title: 'Bad link', url: 'javascript:alert(1)', source: 'X', region: 'world', publishedAt: iso(-60e3) }] },
+  'feeds-status.json': { checkedAt: iso(-age), sources: { 'wire:bbc-somali': { name: 'BBC Somali', kind: 'wire', checkedAt: iso(-age), ok: true, lastOkAt: iso(-age), items: 12, newest: iso(-10 * 60e3) } } } });
 async function mock(ctx, data) {
   // open data: only the test copy when given, otherwise unreachable (the page must then say the data is unavailable)
   await ctx.route(/^https:\/\/api\.openligadb\.de\//, r => data.ol ? olRoute(r) : r.abort());
   await ctx.route(/\/data\/sports-feed\/([a-zA-Z0-9-]+)\.json/, r => { const k = r.request().url().match(/sports-feed\/([a-zA-Z0-9-]+)\.json/)[1]; return data.feed && data.feed[k] ? r.fulfill({ json: data.feed[k] }) : r.fulfill({ status: 404, body: '' }) });
   await ctx.route(/\/data\/(videos|live|live-status|sports)\.json/, r => { const k = r.request().url().match(/data\/([a-z-]+)\.json/)[1]; return k in data ? r.fulfill({ json: data[k] }) : r.continue() });
+  // Video News / LIVE News feeds written by GitHub Actions (branch live-data, fallback data/live-feeds): test copy only
+  const ld = r => { const k = r.request().url().match(/([a-z-]+\.json)/)[1]; return data.ld && data.ld[k] ? r.fulfill({ json: data.ld[k], headers: { 'Access-Control-Allow-Origin': '*' } }) : r.fulfill({ status: 404, body: '' }) };
+  await ctx.route(/^https:\/\/raw\.githubusercontent\.com\/[^/]+\/[^/]+\/live-data\//, ld);
+  await ctx.route(/\/data\/live-feeds\/[a-z-]+\.json/, ld);
   await ctx.route(/^https:\/\/sports\.test\//, r => { const p = new URL(r.request().url()).pathname; return r.fulfill({ json: API[p] || {}, headers: { 'Access-Control-Allow-Origin': '*' } }) });
   // no real player loads in the test (no network to video providers needed)
   await ctx.route(/youtube(-nocookie)?\.com|ytimg\.com|vimeo\.com|example\.com\/clip/, r => r.fulfill({ body: '', contentType: 'text/html' }));
@@ -143,6 +159,35 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     if (!(await p.$('#blocks .vhome a.vcard'))) fail(`${name}: featured video not on the homepage`);
     await ctx.close();
 
+    // 2b. official publisher videos (YouTube channel feeds), the news wire and the official live channels
+    ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { videos: { videos: [] }, ld: LD(0) }); p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
+    await go(p, 'muuqaal'); s = await st(p);
+    const auto = await p.$$eval('#pageView a.vcard', a => [...new Set(a.map(x => x.getAttribute('href') + ' ' + x.innerText.replace(/\s+/g, ' ')))]);
+    console.log(name, 'publisher videos:', JSON.stringify(auto));
+    if (new Set(auto.map(x => x.split(' ')[0])).size !== 2 || !auto.some(x => /BBC News Somali/.test(x)) || auto.some(x => /Notallowed/.test(x))) fail(`${name}: publisher videos`);
+    await go(p, 'muuqaal?v=yt-' + YT); s = await st(p);
+    if (!s.iframes.some(f => f.startsWith('https://www.youtube-nocookie.com/embed/' + YT)) || !/YouTube/.test(s.text) || !/BBC News Somali/.test(s.text)) fail(`${name}: publisher video watch page ${JSON.stringify(s.iframes)}`);
+    if (s.overflow) fail(`${name}: publisher video page scrolls sideways`);
+    await go(p, 'wararka-tooska'); await p.waitForTimeout(800); s = await st(p);
+    const wire = await p.$$eval('#pageView .wirebox .lntl li', l => l.map(x => ({ t: x.innerText.replace(/\s+/g, ' '), href: (x.querySelector('a[href^="https://"]') || {}).href || '' })));
+    console.log(name, 'wire items:', wire.length, JSON.stringify(wire[0]));
+    if (wire.length !== 3 || wire.some(x => !x.href)) fail(`${name}: wire items with links`);
+    if (!wire.length || !/Muqdisho/.test(wire[0].t) || !/BBC Somali/.test(wire[0].t)) fail(`${name}: newest wire item first, with its source`);
+    if (!(await p.$('#pageView .wiretick a'))) fail(`${name}: wire ticker`);
+    if (/\bLIVE\b|\bTOOS\b/.test(await p.$eval('#pageView .lchans .lcgrid', x => x.innerText).catch(() => ''))) fail(`${name}: own LIVE label on a third-party channel`);
+    if (s.iframes.some(f => /live_stream/.test(f))) fail(`${name}: a live channel player loads before the visitor presses play`);
+    await p.click('#pageView .lcplay'); await p.waitForTimeout(300);
+    if (!(await st(p)).iframes.some(f => /embed\/live_stream\?channel=UCNye-wNBqNL5ZzHSJj3l8Bg/.test(f))) fail(`${name}: official live channel player`);
+    await p.click('#pageView .wirechips button:nth-child(2)'); await p.waitForTimeout(200);
+    if ((await p.$$('#pageView .wirebox .lntl li')).length !== 1) fail(`${name}: Somalia filter`);
+    if (s.overflow) fail(`${name}: LIVE News scrolls sideways`);
+    await p.screenshot({ path: `${out}/media-${name}-wire.png`, fullPage: name === 'desktop' });
+    await go(p, 'ilaha-xaaladda'); if (!/BBC Somali/.test((await st(p)).text)) fail(`${name}: source health page`);
+    await ctx.close();
+    // an old wire file (2 hours): a clear warning
+    ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { ld: LD(2 * 3600e3) }); p = await ctx.newPage();
+    await go(p, 'wararka-tooska'); await p.waitForTimeout(800); if (!(await p.$('#pageView .wirebox .lnwarn'))) fail(`${name}: stale wire warning`); await ctx.close();
+
     // 3. LIVE TV states
     const cases = [
       ['verified live (fresh YouTube check)', { live: LIVE_CFG, 'live-status': { live: true, videoId: YT, title: 'Wararka Toos', startedAt: iso(-600e3), checkedAt: iso(-300e3), source: 'YouTube Data API' } }, true],
@@ -170,6 +215,10 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     // 4. LIVE Sports with a test sports-data service
     ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { sports: SPORTS }); p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await go(p, 'ciyaaraha-toos'); s = await st(p);
+    const heads = await p.$$eval('#pageView .soverview h3.sgh', h => h.map(x => x.textContent));
+    console.log(name, 'sports overview sections:', JSON.stringify(heads));
+    if (heads.length < 2 || !(await p.$('#pageView .soverview .mrow.is-live'))) fail(`${name}: sports overview (live and today) missing`);
+    await go(p, 'ciyaaraha-toos?tab=live'); s = await st(p);
     const rows = await p.$$eval('#pageView .mrow', r => r.map(x => ({ live: x.classList.contains('is-live'), t: x.innerText.replace(/\s+/g, ' ') })));
     console.log(name, 'sports live tab:', JSON.stringify(rows));
     if (!rows.length || !rows[0].live || !/1 – 0/.test(rows[0].t)) fail(`${name}: live match row`);
@@ -193,6 +242,9 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     // 4b. open football data (OpenLigaDB) and the football-data.org feed, without any key in the site
     ctx = await b.newContext({ viewport: { width: w, height: h }, locale: 'en-GB' }); await mock(ctx, { sports: OPEN_CFG, ol: true, feed: feed(5 * 60e3) }); p = await ctx.newPage(); p.on('pageerror', e => errs.push(e.message));
     await p.goto(base + '?lang=en#ciyaaraha-toos', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1500);
+    { const ov = (await st(p)).text; console.log(name, 'open data overview:', ov.slice(0, 300).replace(/\s+/g, ' '));
+      if (!/Coming up/i.test(ov) || !/Leverkusen/.test(ov) || !/Latest results/i.test(ov) || !/2 – 1/.test(ov)) fail(`${name}: open-data overview (coming up and latest results)`) }
+    await p.goto(base + '?lang=en#ciyaaraha-toos?tab=live', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1500);
     let orow = await p.$$eval('#pageView .mrow', r => r.map(x => ({ live: x.classList.contains('is-live'), t: x.innerText.replace(/\s+/g, ' ') })));
     console.log(name, 'open data live tab:', JSON.stringify(orow));
     if (!orow.some(r => r.live && /Stuttgart/.test(r.t) && /0 – 1/.test(r.t))) fail(`${name}: open data match in play not shown as live`);
