@@ -103,3 +103,38 @@ Hawsha socota maalin kasta 08:00 iyo 18:00 (Nairobi) waxay **kaliya ku daraysaa 
 ## Kharash
 
 Dhammaan waa bilaash: GitHub Pages, Web3Forms (qorshaha bilaashka ah), GitHub Actions (repo public ah = daqiiqado aan xad lahayn), Sveltia CMS (MIT, bilaash) iyo token-ka GitHub. Wax adeeg lacag ah lama isticmaalin.
+
+## Muuqaal Wararka, LIVE TV iyo Ciyaaraha Toos
+
+GitHub Pages kaliya wuxuu bixiyaa faylal; ma noqon karo server baahin toos ah. Sidaa darteed muuqaal kasta wuxuu ka daarmayaa bixiye rasmi ah (YouTube, Vimeo, Dailymotion, Facebook, Cloudflare Stream, link .m3u8) ama fayl .mp4 oo aad leedahay. Bogga waligiis ma muujiyo baahin been ah, tirada daawadayaasha, ama natiijo aan xog rasmi ah ka imaan.
+
+**Shid / dami qaybaha:** /admin/ → *Dejinta bogga → Bogga guud → Qaybaha bogga hore*: `Muuqaal Wararka`, `LIVE TV`, `Ciyaaraha Toos`. Marka la damiyo, menu-ga waa ka baxaa, boggana wuxuu sheegaa in qaybta la xiray.
+
+### Muuqaal Wararka (/admin/ → Muuqaalada)
+- **New:** cinwaan, soo koobid, sharaxaad buuxda, qaybta (Soomaaliya, Caalamka, Ciyaaraha, Wareysi, Warbixin, Barnaamij, Baahin hore), luqadda codka, taariikh.
+- **Muuqaalka:** link YouTube, AMA link kale oo rasmi ah (Vimeo / Dailymotion / Facebook / Cloudflare Stream), AMA fayl .mp4. Fayl weyn (ka badan 50 MB) GitHub ha gelin: ku shub YouTube ama Vimeo kadibna link-ga geli.
+- **Sawirka (thumbnail):** ikhtiyaari; YouTube si toos ah ayuu u keenaa.
+- **Muuji bogga hore (Featured):** ilaa 4 muuqaal ayaa bogga hore ka muuqda.
+- **Jadwal:** "soo bandhig laga bilaabo" – muuqaalku wuu qarsoon yahay ilaa waqtigaas.
+- **Tirtir / qari:** *Delete* ama dami *Daabacan*.
+- Turjumaadda (English, العربية, Français …) waa ikhtiyaari; meel banaan = Soomaali.
+- Muuqaal qof kale leeyahay: kaliya haddii milkiiluhu oggol yahay embed (YouTube embed) ama oggolaansho qoran aad haysato. Mar kasta qor *Isha* iyo *Cidda leh*.
+
+### LIVE TV (/admin/ → LIVE TV iyo Ciyaaraha Toos → LIVE TV)
+1. **Link-ga baahinta rasmiga ah:** link-ga YouTube Live-kaaga (ama `https://www.youtube.com/channel/UC…`), ama Vimeo / Facebook Live / Cloudflare Stream / .m3u8.
+2. **Sidee loo xaqiijiyaa?**
+   - **Otomaatig (la doorbiday, YouTube):** geli *YouTube channel ID* (UC…). Kadibna mar kaliya samee furaha YouTube: Google Cloud Console → samee project → *Enable* "YouTube Data API v3" → *Credentials → Create API key* (ku xir *API restrictions: YouTube Data API v3*). Ku dar GitHub: repo → **Settings → Secrets and variables → Actions → New repository secret**, magaca `YOUTUBE_API_KEY`, qiimaha furaha. Furahan waligiis bogga public-ka ah kuma jiro. Workflow-ga `LIVE TV xaqiijin` wuxuu hubiyaa 10-kii daqiiqaba mar; calaamadda LIVE waxay muuqataa kaliya marka YouTube sheego in kanaalkaagu hadda toos yahay (hubin ka yar 60 daqiiqo).
+   - **Gacan (bixiye kale):** dooro *Gacan*, shid **Hadda waa toos** oo qor **waqtiga dhammaadka**. LIVE wuu baaba'aa marka waqtigaas la gaaro. Dami marka baahintu dhammaato.
+3. **Jadwalka baahinta:** ku dar barnaamij kasta (magac, bilow, dhammaad, luqad). Baahinta YouTube ee jadwalaysan (upcoming) si toos ah ayay ugu soo baxaan habka otomaatigga.
+4. **Wada-sheekeysiga:** shid si aad u muujiso chat-ka YouTube Live (kaliya YouTube).
+5. Marka aan baahin jirin, bogga wuxuu muujiyaa "Hadda baahin ma jirto", baahinta xigta iyo muuqaalladii ugu dambeeyay.
+
+### Ciyaaraha Toos (/admin/ → LIVE TV iyo Ciyaaraha Toos → Ciyaaraha Toos)
+Natiijooyinka tooska ah waxay u baahan yihiin adeeg xog ciyaareed oo sharci ah (API). Furaha API-ga **bogga lama gelin karo** (qof kasta ayuu arki lahaa), sidaa darteed waxaa la isticmaalaa proxy yar oo bilaash ah oo Cloudflare ku shaqeeya: `workers/sports-api/` (eeg README-ga halkaas).
+1. Is-diiwaangeli bixiye: **football-data.org** (qorshe bilaash ah: Premier League, LaLiga, Serie A, Bundesliga, Ligue 1, Champions League iyo kuwo kale; dhacdooyinka iyo tirakoobku waa qorshe lacag leh) ama **API-Football** (api-sports.io; qorshe lacag leh ayaa loo baahan yahay xilli ciyaareedka hadda, wuxuu leeyahay natiijooyin toos ah, dhacdooyin iyo tirakoob).
+2. Deploy-garee proxy-ga (hal mar) oo furaha geli sida `PROVIDER_TOKEN` (Cloudflare secret).
+3. /admin/ → *Ciyaaraha Toos* → **Cinwaanka adeegga** = cinwaanka proxy-ga (`https://wartabiye-sports.<magacaaga>.workers.dev`). Tartamada: ID-yada bixiyaha (football-data: `PL`, `PD`, `SA`, `BL1`, `FL1`, `CL`; API-Football: `39`, `140`, `135`, `78`, `61`, `2`).
+4. **Halkee lagu daawan karaa:** link-yada rasmiga ah ee telefishinnada xuquuqda leh.
+5. **Baahinta ciyaaraha:** ku dar KALIYA haddii Wartabiye TV haysato xuquuqda baahinta ama oggolaansho qoran. Waa in aad shiddaa *Xuquuqda waa la xaqiijiyay*, qortaa *cidda xuquuqda leh* iyo *oggolaanshaha*. Haddii mid maqan yahay, baahintu ma muuqato. Waligaa ha gelin baahin la xaday ama dib-u-baahin.
+
+Ilaa adeegga xogta la xiro, bogga Ciyaaraha Toos wuxuu si daacad ah u sheegaa "Natiijooyinka tooska ah weli lama xirin" wuxuuna muujiyaa macluumaadka daawashada rasmiga ah iyo wararka ciyaaraha.

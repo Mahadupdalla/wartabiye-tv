@@ -1,0 +1,44 @@
+"""Tests for the Video News / LIVE TV / LIVE Sports rules (no network). Run: python3 tools/media_test.py"""
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from media_rules import provider, stream_authorised  # noqa: E402
+from live_status import decide, changed  # noqa: E402
+
+ok = 0
+def check(cond, msg):
+    global ok
+    if not cond:
+        print('FAIL', msg); sys.exit(1)
+    ok += 1
+
+# accepted providers only
+check(provider('https://www.youtube.com/watch?v=dQw4w9WgXcQ') == ('youtube', 'dQw4w9WgXcQ'), 'youtube watch')
+check(provider('https://youtu.be/dQw4w9WgXcQ')[0] == 'youtube', 'youtu.be')
+check(provider('https://www.youtube.com/live/dQw4w9WgXcQ?si=x')[0] == 'youtube', 'youtube /live/')
+check(provider('https://www.youtube.com/channel/UC1234567890123456789012')[0] == 'youtube-channel', 'channel')
+check(provider('https://vimeo.com/123456')[0] == 'vimeo', 'vimeo')
+check(provider('https://vimeo.com/event/42')[0] == 'vimeo-event', 'vimeo event')
+check(provider('https://www.dailymotion.com/video/x8abc')[0] == 'dailymotion', 'dailymotion')
+check(provider('https://customer-abc123.cloudflarestream.com/' + 'a' * 32 + '/iframe')[0] == 'cloudflare', 'cloudflare')
+check(provider('https://cdn.example.com/live/index.m3u8')[0] == 'hls', 'hls')
+check(provider('videos/report.mp4')[0] == 'file', 'own file')
+check(provider('http://example.com/x.mp4')[0] is None, 'plain http refused')
+check(provider('https://evil.example/watch?v=dQw4w9WgXcQ')[0] is None, 'fake youtube domain refused')
+check(provider('javascript:alert(1)')[0] is None, 'javascript refused')
+# sports streams need confirmed rights, a rights holder and the authorisation
+base = {'url': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'rightsHolder': 'Somali Football Federation', 'authorization': 'Letter 2026-11-01'}
+check(stream_authorised(dict(base, rightsConfirmed=True)), 'authorised stream')
+check(not stream_authorised(dict(base, rightsConfirmed=False)), 'unconfirmed rights hidden')
+check(not stream_authorised(dict(base, rightsConfirmed=True, rightsHolder='')), 'no rights holder hidden')
+check(not stream_authorised(dict(base, rightsConfirmed=True, url='https://pirate.example/stream')), 'unknown provider hidden')
+# LIVE decision: only an official-channel video that YouTube reports as live and started (not ended)
+CH = 'UC1234567890123456789012'
+vid = lambda i, state, ch=CH, **ls: {'id': i, 'snippet': {'channelId': ch, 'title': 't' + i, 'liveBroadcastContent': state}, 'liveStreamingDetails': ls}
+d = decide({}, [vid('a' * 11, 'live', actualStartTime='2026-11-08T09:00:00Z')], CH)
+check(d['live'] and d['videoId'] == 'a' * 11 and 'concurrentViewers' not in d, 'live detected, no viewer count')
+check(not decide({}, [vid('b' * 11, 'live', ch='UCother000000000000000000', actualStartTime='x')], CH)['live'], 'other channel ignored')
+check(not decide({}, [vid('c' * 11, 'none', actualStartTime='x', actualEndTime='y')], CH)['live'], 'ended stream not live')
+up = decide({}, [vid('d' * 11, 'upcoming', scheduledStartTime='2026-11-09T17:00:00Z')], CH)
+check(not up['live'] and up['upcoming'][0]['scheduledStart'] == '2026-11-09T17:00:00Z', 'upcoming listed')
+check(changed({}, d) and not changed(dict(d, checkedAt='2999-01-01T00:00:00Z'), d), 'write only on change')
+print(f'media tests OK ({ok} checks)')

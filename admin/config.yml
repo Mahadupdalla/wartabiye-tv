@@ -348,6 +348,9 @@ collections:
               - {name: sidebarLatest, label: Ugu dambeeyay (sidebar), widget: boolean, default: true}
               - {name: programmes, label: Barnaamijyada, widget: boolean, default: true}
               - {name: footerLatest, label: Wararka footer-ka, widget: boolean, default: true}
+              - {name: videos, label: 'Muuqaal Wararka (bogga + menu-ga)', widget: boolean, default: true}
+              - {name: live, label: 'LIVE TV (bogga + badhanka LIVE TV)', widget: boolean, default: true}
+              - {name: liveSports, label: 'Ciyaaraha Toos (bogga + menu-ga)', widget: boolean, default: true}
           - {name: programmesTitle, label: Cinwaanka Barnaamijyada, widget: string}
           - {name: programmesSubtitle, label: Qoraal yar oo Barnaamijyada, widget: string}
           - name: programmes
@@ -852,12 +855,19 @@ collections:
     fields:
       - {name: title, label: Cinwaanka, widget: string}
       - {name: summary, label: Soo koobid, widget: text, required: false}
-      - {name: kind, label: Nooca, widget: select, default: somalia, options: [{label: 'Wararka Soomaaliya', value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: 'Ciyaaraha', value: sports}, {label: 'Wareysi', value: interview}, {label: 'Warbixin', value: report}]}
+      - {name: body, label: 'Sharaxaad buuxda (ikhtiyaari)', widget: text, required: false, hint: 'Qoraal dheer oo ka hooseeya muuqaalka. Sadar banaan = baaragaraaf cusub.'}
+      - {name: kind, label: Qaybta, widget: select, default: somalia, options: [{label: 'Wararka Soomaaliya', value: somalia}, {label: 'Wararka Caalamka', value: world}, {label: 'Ciyaaraha', value: sports}, {label: 'Wareysi', value: interview}, {label: 'Warbixin', value: report}, {label: 'Barnaamij', value: programme}, {label: 'Baahin hore (LIVE la duubay)', value: live}]}
+      - {name: language, label: 'Luqadda muuqaalka (codka)', widget: select, default: so, options: [{label: Soomaali, value: so}, {label: English, value: en}, {label: العربية, value: ar}, {label: Français, value: fr}, {label: Nederlands, value: nl}, {label: Italiano, value: it}, {label: Deutsch, value: de}, {label: Türkçe, value: tr}, {label: Español, value: es}]}
+      - {name: featured, label: 'Muuji bogga hore (Featured)', widget: boolean, default: false, hint: 'Ugu badnaan 4 muuqaal oo "Featured" ah ayaa ka muuqda bogga hore.'}
+      - {name: tags, label: 'Ereyo (tags, ku kala qaybi comma)', widget: string, required: false}
       - {name: youtube, label: 'Link YouTube (https://www.youtube.com/watch?v=...)', widget: string, required: false, hint: 'Kaliya kanaal rasmi ah oo oggol embed. Muuqaalka wuxuu ka daarmayaa YouTube.'}
+      - {name: embed, label: 'Ama link kale oo rasmi ah (Vimeo, Dailymotion, Facebook, Cloudflare Stream, .m3u8)', widget: string, required: false, hint: 'Kaliya muuqaal aad leedahay ama milkiilihiisu si rasmi ah u oggol yahay in la embed-gareeyo.'}
       - {name: file, label: 'Ama fayl muuqaal (.mp4)', widget: file, choose_url: true, required: false, media_folder: /videos, public_folder: videos, hint: 'Muuqaal Wartabiye TV leedahay, ama link https://... .mp4 oo public domain ah (tusaale VOA).'}
-      - {name: thumbnail, label: 'Sawirka muuqaalka (ikhtiyaari; YouTube wuu keenaa)', widget: image, choose_url: false, required: false}
+      - {name: thumbnail, label: 'Sawirka muuqaalka (thumbnail; ikhtiyaari, YouTube wuu keenaa)', widget: image, choose_url: false, required: false}
+      - {name: thumbnailAlt, label: 'Sharaxaadda sawirka (thumbnail)', widget: string, required: false}
       - {name: duration, label: 'Dhererka (tusaale 2:35)', widget: string, required: false}
       - {name: publishedAt, label: Taariikhda la daabacay, widget: datetime}
+      - {name: publishAt, label: 'Jadwal: soo bandhig laga bilaabo (ikhtiyaari)', widget: datetime, required: false, hint: 'Haddii aad qorto waqti mustaqbal ah, muuqaalku wuu qarsoon yahay ilaa waqtigaas.'}
       - {name: source, label: 'Isha (tusaale Wartabiye TV, VOA Somali)', widget: string, default: Wartabiye TV}
       - {name: sourceUrl, label: Link-ga isha, widget: string, required: false}
       - {name: credit, label: Cidda muuqaalka leh / sawirtay, widget: string, required: false}
@@ -925,8 +935,136 @@ collections:
         collapsed: true
         required: false
         fields:
-          - {name: title, label: Başlık, widget: string, required: false}
-          - {name: summary, label: Özet, widget: text, required: false}
+          - {name: title, label: Título, widget: string, required: false}
+          - {name: summary, label: Resumen, widget: text, required: false}
+  - name: media
+    label: LIVE TV iyo Ciyaaraha Toos
+    description: 'Baahinta tooska ah ee rasmiga ah, jadwalka baahinta, adeegga natiijooyinka ciyaaraha iyo baahinta ciyaaraha ee xuquuqdeeda la haysto. Waxba halkan kuma qor oo sir ah (API key, password): furayaasha waxay galaan GitHub Secrets ama Cloudflare (eeg HAGAHA-MAAMULKA.md).'
+    editor:
+      preview: false
+    files:
+      - name: live
+        label: LIVE TV
+        file: data/live.json
+        format: json
+        fields:
+          - {name: channelName, label: Magaca kanaalka, widget: string, default: Wartabiye TV}
+          - {name: title, label: 'Cinwaanka baahinta (marka la baahinayo)', widget: string, required: false}
+          - {name: streamUrl, label: 'Link-ga baahinta rasmiga ah', widget: string, required: false, hint: 'YouTube Live (https://www.youtube.com/watch?v=... ama https://www.youtube.com/channel/UC...), Vimeo event, Dailymotion, Facebook Live, Cloudflare Stream ama .m3u8. Kaliya kanaalkaaga ama bixiye aad oggolaansho ka haysato.'}
+          - {name: youtubeChannelId, label: 'YouTube channel ID (UC..., hubinta tooska ah)', widget: string, required: false, hint: 'Haddii aad geliso, hubinta otomaatigga ah waxay helaysaa baahin kasta oo cusub oo kanaalkaaga ka socota.'}
+          - {name: statusMode, label: 'Sidee loo xaqiijiyaa in baahintu socoto?', widget: select, default: auto, options: [{label: 'Otomaatig: YouTube ayaa xaqiijinaya (waxay u baahan tahay YOUTUBE_API_KEY)', value: auto}, {label: 'Gacan: anigaa shidaya "Hadda waa toos" + waqtiga dhammaadka', value: manual}]}
+          - {name: onAir, label: 'Hadda waa toos (kaliya habka gacanta)', widget: boolean, default: false}
+          - {name: onAirUntil, label: 'Baahintu way dhammaanaysaa (habka gacanta; LIVE wuu baaba''aa waqtigan kadib)', widget: datetime, required: false}
+          - {name: chat, label: 'Muuji wada-sheekeysiga YouTube Live', widget: boolean, default: false}
+          - {name: offlineMessage, label: 'Fariinta marka aan baahin jirin (ikhtiyaari)', widget: text, required: false}
+          - name: schedule
+            label: Jadwalka baahinta
+            widget: list
+            required: false
+            summary: '{{title}} · {{start}}'
+            fields:
+              - {name: title, label: Magaca barnaamijka, widget: string}
+              - {name: start, label: Bilowga, widget: datetime}
+              - {name: end, label: Dhammaadka, widget: datetime, required: false}
+              - {name: description, label: Sharaxaad, widget: string, required: false}
+              - {name: language, label: Luqadda, widget: select, default: so, options: [so, en, ar, fr, nl, it, de, tr, es]}
+              - {name: published, label: Muuji, widget: boolean, default: true}
+          - name: en
+            label: '🇬🇧 English'
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - {name: offlineMessage, label: Offline message, widget: text, required: false}
+          - name: ar
+            label: '🇸🇦 العربية'
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - {name: offlineMessage, label: رسالة عدم البث, widget: text, required: false}
+          - name: fr
+            label: '🇫🇷 Français'
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - {name: offlineMessage, label: Message hors antenne, widget: text, required: false}
+          - name: nl
+            label: '🇳🇱 Nederlands'
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - {name: offlineMessage, label: Offline-bericht, widget: text, required: false}
+          - name: it
+            label: '🇮🇹 Italiano'
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - {name: offlineMessage, label: Messaggio fuori onda, widget: text, required: false}
+          - name: de
+            label: '🇩🇪 Deutsch'
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - {name: offlineMessage, label: Nachricht ohne Sendung, widget: text, required: false}
+          - name: tr
+            label: '🇹🇷 Türkçe'
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - {name: offlineMessage, label: Yayın yok mesajı, widget: text, required: false}
+          - name: es
+            label: '🇪🇸 Español'
+            widget: object
+            collapsed: true
+            required: false
+            fields:
+              - {name: offlineMessage, label: Mensaje sin emisión, widget: text, required: false}
+      - name: sports
+        label: Ciyaaraha Toos
+        file: data/sports.json
+        format: json
+        fields:
+          - {name: apiBase, label: 'Cinwaanka adeegga xogta ciyaaraha (https://...workers.dev)', widget: string, required: false, hint: 'Cinwaanka proxy-ga Wartabiye (workers/sports-api). API key-ga HALKAN HA KU QORIN: wuxuu galaa Cloudflare secret.'}
+          - {name: providerName, label: 'Magaca bixiyaha xogta (tusaale football-data.org)', widget: string, required: false}
+          - {name: refreshSeconds, label: 'Cusbooneysiin kasta (ilbiriqsi, ugu yaraan 30)', widget: number, value_type: int, min: 30, default: 60}
+          - name: competitions
+            label: Tartamada
+            widget: list
+            summary: '{{name}} ({{id}})'
+            fields:
+              - {name: id, label: 'ID-ga tartanka ee bixiyaha (tusaale PL, 39)', widget: string}
+              - {name: name, label: Magaca, widget: string}
+          - name: viewingInfo
+            label: 'Halkee lagu daawan karaa (macluumaadka rasmiga ah)'
+            widget: list
+            required: false
+            summary: '{{competition}}'
+            fields:
+              - {name: competition, label: Tartanka, widget: string}
+              - {name: text, label: Qoraal, widget: string}
+              - {name: url, label: 'Link rasmi ah (https://)', widget: string, required: false}
+          - name: streams
+            label: 'Baahinta ciyaaraha (KALIYA marka xuquuqda la haysto)'
+            widget: list
+            required: false
+            summary: '{{title}} · {{rightsHolder}}'
+            hint: 'Ciyaar kasta waxay muuqanaysaa kaliya marka "Xuquuqda waa la xaqiijiyay" la shido, cidda xuquuqda leh la qoro, iyo oggolaanshaha la qoro. Waligaa ha gelin baahin la xaday ama dib-u-baahin aan oggolaansho lahayn.'
+            fields:
+              - {name: title, label: Ciyaarta, widget: string}
+              - {name: matchId, label: 'ID-ga ciyaarta ee bixiyaha xogta (ikhtiyaari)', widget: string, required: false}
+              - {name: url, label: 'Link-ga baahinta (YouTube, Vimeo, Cloudflare Stream, .m3u8 …)', widget: string}
+              - {name: start, label: Bilowga, widget: datetime}
+              - {name: end, label: Dhammaadka, widget: datetime}
+              - {name: rightsHolder, label: 'Cidda xuquuqda baahinta leh', widget: string}
+              - {name: authorization, label: 'Oggolaanshaha (lambarka heshiiska / warqadda oggolaanshaha / taariikhda)', widget: string}
+              - {name: rightsConfirmed, label: 'Waxaan xaqiijinayaa in Wartabiye TV haysato xuquuqda ama oggolaansho qoran oo lagu baahiyo bogga', widget: boolean, default: false}
+              - {name: published, label: Muuji, widget: boolean, default: true}
   - name: pages
     label: Bogagga (Nagu Saabsan, siyaasadaha)
     editor:

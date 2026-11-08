@@ -2,6 +2,8 @@ name: Hubi wararka (news health check)
 on:
   push:
     branches: [main]
+    # the LIVE TV status file is updated by live-status.yml (only when a broadcast starts or ends); no full check for that
+    paths-ignore: ['data/live-status.json']
   schedule:
     # The news update itself is NOT scheduled here: it is the Claude scheduled task at 08:00 and 18:00
     # Africa/Nairobi (05:00 and 15:00 UTC). GitHub only publishes (publish.yml, on push) and checks.
@@ -15,6 +17,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check news.json and images
         run: python3 tools/check_site.py
+      - name: Video / LIVE TV / sports rules and the sports-data proxy (no network)
+        run: python3 tools/media_test.py && node --test workers/sports-api/test/
       - name: Check the 08:00 / 18:00 update ran (lastRunAt under 4 hours old)
         if: github.event_name == 'schedule'
         run: |
@@ -62,6 +66,10 @@ jobs:
         run: |
           URL="https://$(tr -d '[:space:]' < CNAME)/"
           node tools/lang_test.js "$URL" shots
+      - name: Video News, LIVE TV and LIVE Sports test (desktop and mobile; LIVE only when verified)
+        run: |
+          URL="https://$(tr -d '[:space:]' < CNAME)/"
+          node tools/media_test.js "$URL" shots
       - uses: actions/upload-artifact@v4
         if: always()
         with:

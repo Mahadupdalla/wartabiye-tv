@@ -5,7 +5,7 @@ name: Daabac bogga (publish)
 on:
   push:
     branches: [main]
-    paths: ['data/news/**', 'data/ads/**', 'data/videos/**', 'data/site.json', 'data/pages.json', 'data/status.json', 'img/**', 'index.html', 'assets/**', 'tools/**']
+    paths: ['data/news/**', 'data/ads/**', 'data/videos/**', 'data/live.json', 'data/sports.json', 'data/site.json', 'data/pages.json', 'data/status.json', 'img/**', 'index.html', 'assets/**', 'tools/**']
   workflow_dispatch:
 permissions:
   contents: write
@@ -26,12 +26,12 @@ jobs:
       - name: Build news.json and ads.json
         run: python3 tools/build_news.py
       - name: Check news, dates and images (nothing is published if this fails)
-        run: python3 tools/check_site.py && python3 -c "import json;json.load(open('data/site.json'))"
+        run: python3 tools/media_test.py && python3 tools/check_site.py && python3 -c "import json;[json.load(open(f)) for f in ('data/site.json','data/live.json','data/sports.json')]"
       - name: Build article pages, section pages, sitemap and RSS
         run: python3 tools/build_pages.py
       - name: Commit the built files
         run: |
-          git add -A data/news.json data/ads.json data/videos.json img/news/w480 war sitemap.xml rss.xml ciyaaraha caalamka xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
+          git add -A data/news.json data/ads.json data/videos.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml rss.xml ciyaaraha caalamka xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
           if git diff --cached --quiet; then echo "built files already up to date"; exit 0; fi
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
