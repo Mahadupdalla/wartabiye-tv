@@ -5,9 +5,11 @@ A translation is stored in the same file under "en", "ar", "fr", "nl", "it", "de
   "en": {"title": ..., "summary": ..., "body": ..., "imageAlt": ..., "status": "auto", "hash": ...}
 "status" is "auto" for a machine translation and "manual" for one the owner wrote or corrected in /admin/.
 "hash" fingerprints the text as it was machine-translated; if someone edits it later, build_news.py
-reports it as "manual". A translation that already exists is NEVER overwritten by this tool.
+reports it as "manual". A translation that already exists is NEVER overwritten by this tool; the one thing it may add to an existing
+translation is a missing imageAlt (photo description), when the Somali article has one.
 
-  python3 tools/translations.py missing            list articles that lack a translation (JSON, Somali text included)
+  python3 tools/translations.py missing            list articles that lack a translation, or whose translation lacks the photo
+                                                   description (imageAlt) the Somali has (JSON, Somali text included)
   python3 tools/translations.py add <file.json>    add translations: {"<id>": {"en": {...}, "ar": {...}, "fr": {...}, "nl": {...}, "it": {...}, "de": {...}, "tr": {...}, "es": {...}}}
   python3 tools/translations.py verify [<ref>]     check that existing article files only GAINED translations since <ref> (default HEAD)
 """
@@ -21,6 +23,12 @@ FIELDS = ('title', 'summary', 'body', 'imageAlt')
 def text_hash(t):
     s = '\n'.join(str(t.get(k) or '').strip() for k in ('title', 'summary', 'body'))
     return hashlib.sha1(s.encode('utf-8')).hexdigest()[:12]
+
+
+def needs_alt(n, lang):
+    """An existing translation without the photo description the Somali article has."""
+    t = n.get(lang)
+    return has(n, lang) and bool(str(n.get('imageAlt') or '').strip()) and not str(t.get('imageAlt') or '').strip()
 
 
 def has(n, lang):
@@ -47,10 +55,13 @@ def missing():
     for f in sorted(glob.glob(os.path.join(NEWS, '*.json'))):
         n = load(f)
         need = [l for l in LANGS if not has(n, l)]
+        alt = [l for l in LANGS if needs_alt(n, l)]
         if need:
             out.append({'id': os.path.basename(f)[:-5], 'missing': need, **{k: n[k] for k in FIELDS if n.get(k)}})
+        elif alt:
+            out.append({'id': os.path.basename(f)[:-5], 'missingImageAlt': alt, 'imageAlt': n['imageAlt']})
     print(json.dumps(out, ensure_ascii=False, indent=1))
-    print(f'{len(out)} article(s) need translations', file=sys.stderr)
+    print(f'{len(out)} article(s) need translations or photo descriptions', file=sys.stderr)
 
 
 def add(src):
@@ -67,6 +78,10 @@ def add(src):
             if lang not in LANGS or not isinstance(t, dict) or not str(t.get('title') or '').strip():
                 print(f'{nid}/{lang}: empty or unknown language, skipped'); refused += 1; continue
             if has(n, lang):
+                a = str(t.get('imageAlt') or '').strip()
+                if a and needs_alt(n, lang):
+                    n[lang]['imageAlt'] = a; changed = True; added += 1
+                    print(f'{nid}/{lang}: already translated; added the missing photo description only'); continue
                 print(f'{nid}/{lang}: already translated, kept as it is'); skipped += 1; continue
             if n.get('body') and not str(t.get('body') or '').strip():
                 print(f'{nid}/{lang}: the Somali article has a body but the translation has none, refused'); refused += 1; continue
@@ -99,6 +114,8 @@ def verify(ref='HEAD'):
                 continue
             if k in LANGS and not has(a, k) and has(b, k):
                 continue
+            if k in LANGS and has(a, k) and needs_alt(a, k) and {x: y for x, y in b[k].items() if x != 'imageAlt'} == {x: y for x, y in a[k].items() if x != 'imageAlt'}:
+                continue  # only the missing photo description was added
             bad.append(f'{rel}: field "{k}" changed')
     print('\n'.join(bad) if bad else 'OK: existing articles only gained missing translations')
     return 1 if bad else 0
