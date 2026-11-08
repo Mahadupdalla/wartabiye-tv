@@ -118,15 +118,20 @@ def parse_feed(data):
             elif n == 'title': d['title'] = d['title'] or strip_tags(txt)
             elif n in ('description', 'summary') : d['description'] = d['description'] or strip_tags(txt)[:600]
             elif n == 'encoded' and not d['description']: d['description'] = strip_tags(txt)[:600]
-            elif n in ('pubdate', 'published', 'publication_date', 'date', 'updated', 'lastmod') and not d['publishedAt']:
+            elif n in ('pubdate', 'published', 'publication_date', 'date', 'issued', 'created'):
+                # the ORIGINAL publication time; an "updated" / "lastmod" time is only a fallback (an edited story is not new)
                 dt = parse_date(txt)
-                if dt: d['publishedAt'] = iso(dt)
+                if dt and (not d['publishedAt'] or d.get('_upd')): d['publishedAt'] = iso(dt); d.pop('_upd', None)
+            elif n in ('updated', 'lastmod', 'modified') and not d['publishedAt']:
+                dt = parse_date(txt)
+                if dt: d['publishedAt'] = iso(dt); d['_upd'] = True
             elif n in ('content', 'thumbnail') and c.get('url') and not d['image'] and (c.get('medium') in (None, 'image') or n == 'thumbnail'):
                 d['image'] = c.get('url')
             elif n == 'enclosure' and c.get('url') and 'image' in (c.get('type') or 'image') and not d['image']:
                 d['image'] = c.get('url')
             elif n == 'loc' and t != 'url' and not d['image']:
                 d['image'] = txt  # image:image/image:loc inside a sitemap url
+        if d.pop('_upd', None): d['dateSource'] = 'feed updated time (no original publication time in the feed)'
         if d['url'] and (t != 'url' or d['url'] != d['image']):
             out.append(d)
     return out
@@ -668,7 +673,9 @@ def dedup(args):
         for a in site:
             v, sc, why = compare(ex, a, idf)
             if v == 'related': e['related'].append({'id': a['id'], 'score': round(sc, 2)})
+    # priority 1 (source age <= 5 min when the 5-minute check first saw it) first, then newest first by the publisher's time
     plan.sort(key=lambda e: e.get('publishedAt') or '', reverse=True)
+    plan.sort(key=lambda e: e.get('priority', 2))
     counts = {}
     for s in cand.get('sources', []):
         c = {'collected': s.get('collected', 0), 'kept': 0, 'duplicates': 0, 'known': 0, 'old': 0, 'excluded': 0}
@@ -685,7 +692,8 @@ def dedup(args):
 def pub(x):
     return {k: x.get(k) for k in ('source', 'sourceName', 'section', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
                                   'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel',
-                                  'country', 'region', 'discoveredAt', 'firstSeenBy', 'overnight', 'pagePublishedAt', 'headlineOnly') if x.get(k) not in (None, '')}
+                                  'country', 'region', 'discoveredAt', 'firstSeenBy', 'overnight', 'pagePublishedAt', 'headlineOnly',
+                                  'sourceAgeMin', 'intake', 'priority', 'freshAtDiscovery', 'feedPublishedAt') if x.get(k) not in (None, '')}
 
 
 # ---------------------------------------------------------------- report / status

@@ -64,6 +64,9 @@
     if(m<60)return m+' daqiiqo kahor';if(h<24)return h+' saac kahor';if(dd<7)return dd+' maalin kahor';return dayMonthYear(d);
   }
 
+  // relative times ("17 min ago") are recalculated every minute from the publisher's time, never frozen at load time
+  setInterval(function(){if(document.hidden)return;var e=document.querySelectorAll('[data-ago]');for(var i=0;i<e.length;i++){var t=ago(e[i].getAttribute('data-ago'));if(t&&e[i].textContent!==t)e[i].textContent=t}},60000);
+
   // ---------- state ----------
   var ALL=[],items=[],HIDDEN=0,SITE=null,PAGES=null,ADS=[],loaded=false,loadError='',query='';
   // which hub an article belongs to: explicit "section" or derived from the category (old articles have no section)
@@ -92,7 +95,7 @@
     return it.category?el('span','cat',catName(it.category)):null}
   function whenText(it){var d=new Date(it.publishedAt);if(isNaN(d))return tr('timeUnknown');if(it.timeVerified===false)return dayMonth(d)+' · '+tr('timeUnverified');return ago(it.publishedAt)}
   function meta(it,withSrc){
-    var m=el('div','meta');m.append(el('b',null,'Wartabiye TV'));var w=whenText(it);if(w)m.append(el('span','dot',w));
+    var m=el('div','meta');m.append(el('b',null,'Wartabiye TV'));var w=whenText(it);if(w){var ws=el('span','dot',w);if(it.timeVerified!==false&&tms(it))ws.setAttribute('data-ago',it.publishedAt);m.append(ws)}
     if(withSrc&&it.source&&it.source!=='Wartabiye TV'){var s=el('span','dot',tr('sources')+': ');var su=safeUrl(it.sourceUrl);if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';s.append(a)}else s.append(it.source);m.append(s)}
     return m;
   }
@@ -220,6 +223,17 @@
     a.append(p,cb);return a;
   }
   function cardsGrid(list,withLead,cls){var g=el('div','cards'+(cls?' '+cls:''));list.forEach(function(it,i){g.append(card(it,withLead&&i===0))});return g}
+  // Each main page (Home, East Africa, World, Sports) holds at most the 50 newest stories, newest first by the PUBLISHER's
+  // time ("publishedAt"), never by import time. The first 20 are drawn at once (fast on mobile, images load lazily),
+  // "Load more" draws the rest of the 50; older stories stay on their own pages and in the archive (advanced search).
+  var PAGE_MAX=50,PAGE_FIRST=20;
+  function tms(x){var t=new Date(x.publishedAt).getTime();return isNaN(t)?0:t}
+  function newestFirst(list){return list.map(function(x,i){return {x:x,t:tms(x),i:i}}).sort(function(a,b){return b.t-a.t||a.i-b.i}).map(function(o){return o.x})}
+  function pager(box,list,draw,archive){var n=0;var more=el('div','loadmore');
+    function step(){var next=list.slice(n,n+PAGE_FIRST);n+=next.length;draw(next);more.innerHTML='';
+      if(n<list.length){var b=el('button','btn primary',tr('loadMore'));b.type='button';b.addEventListener('click',step);more.append(b)}
+      else if(archive){var a=el('a','btn primary',tr('olderNews'));a.href=archive;more.append(a)}}
+    step();box.after(more);return more}
 
   // ---------- HOME ----------
   function leadOf(list){return list.find(function(x){return imgUrl(x.image)&&!broken[x._id]&&!x.sponsored})||list[0]}
@@ -252,7 +266,12 @@
     $('listTitle').textContent=query?tr('searchResults'):(catSo?catName(catSo):tr('latest'));
     LI.innerHTML='';var gap=trGap();if(gap)LI.append(gap);
     var home=!cat&&!query;
-    var shown=[];if(sec('latest')||cat||query){shown=rest.slice(0,home?10:40);shown.forEach(function(it,i){LI.append(row(it));if(home&&i===3){var ad=adSlot('card');if(ad)LI.append(ad)}})}
+    var oldMore=LI.nextElementSibling;if(oldMore&&oldMore.classList.contains('loadmore'))oldMore.remove();
+    var shown=[];if(sec('latest')||cat||query){
+      // newest first by the publisher's time; the featured tiles count towards the 50 of the home page
+      shown=newestFirst(rest).slice(0,PAGE_MAX-(showMosaic?5:0));var k=0;
+      pager(LI,shown,function(part){part.forEach(function(it){LI.append(row(it));if(home&&k===3){var ad=adSlot('card');if(ad)LI.append(ad)}k++})},
+        rest.length>shown.length?'#raadi'+(cat&&catSo?'?c='+encodeURIComponent(catSo):''):null)}
     var em=$('empty');em.hidden=!loaded||rest.length>0||(showMosaic&&list.length>0);
     if(loadError){em.hidden=false;em.textContent=tr('loadError').replace('{e}',loadError)}else em.textContent=(cat||query)&&!list.length?tr('noMatch'):tr('noNews');
     var lu=window.WARTABIYE_LAST_OK;$('updated').textContent=lu&&ago(lu)?tr('updated')+ago(lu)+' · '+tr('updatedDaily'):tr('updatedDaily');
@@ -375,13 +394,14 @@
   function renderHub(kind,h){
     var V=$('pageView');V.innerHTML='';var P=hashParams(h);
     setTitle(tr(HUBK[kind].t));
-    var list=items.filter(function(x){return section(x)===kind}).sort(function(a,b){return (b.publishedAt||'')<(a.publishedAt||'')?-1:1});
+    var all=newestFirst(items.filter(function(x){return section(x)===kind}));var list=all.slice(0,PAGE_MAX);
     var lay=el('div','wrap layout');var main=el('div');var side=el('aside','sidebar');lay.append(main,side);
     function draw(){main.innerHTML='';var q='';var l=list;var hidden=L==='so'?0:ALL.filter(function(x){return section(x)===kind&&items.indexOf(x)<0}).length;if(hidden){var gp=trGap();if(gp){gp.firstChild.textContent=trf('trHidden',{n:hidden});main.append(gp)}}
       if(!l.length){main.append(head(tr(HUBK[kind].l)),el('p','empty',loaded?(q?tr('noMatch'):tr(HUBK[kind].n)):tr('loadingStory')));return}
       var lead=l[0];var rest=l.slice(1);
       main.append(head(tr(HUBK[kind].l)),cardsGrid([lead],true,'one'));
-      if(rest.length){var s2=el('section','secblock');s2.append(cardsGrid(rest));main.append(s2)}}
+      if(rest.length){var s2=el('section','secblock');var g=cardsGrid([]);s2.append(g);main.append(s2);
+        pager(s2,rest,function(part){part.forEach(function(it){g.append(card(it))})},all.length>list.length?'#raadi?s='+kind:null)}}
     draw();
     fillSide(side,[adSlot('sidebar'),sideLatest(items.filter(function(x){return section(x)!==kind})),sideFollow()]);
     V.append(hubHead(kind),lay);
@@ -412,7 +432,8 @@
       if(qq&&!matches(x,qq))return false;if(P.c&&x.category!==P.c)return false;if(P.s&&section(x)!==P.s)return false;
       var d=new Date(x.publishedAt);if(isNaN(d))return !(P.f||P.to);var dd=ymd(d);if(P.f&&dd<P.f)return false;if(P.to&&dd>P.to)return false;return true});
     var info=el('div','blockhead');info.append(el('h2',null,trf('results',{n:res.length})));if(qq||P.c||P.s||P.f||P.to)info.append(clr);w.append(info);
-    var LI=el('div','list');res.slice(0,60).forEach(function(it){LI.append(row(it))});w.append(LI);if(!res.length)w.append(el('p','empty',tr('noMatch')));
+    // the archive: every matching story, newest first by the publisher's time, 20 at a time ("Load more")
+    var LI=el('div','list');w.append(LI);if(res.length)pager(LI,newestFirst(res),function(part){part.forEach(function(it){LI.append(row(it))})},null);else w.append(el('p','empty',tr('noMatch')));
     V.append(w);
   }
 

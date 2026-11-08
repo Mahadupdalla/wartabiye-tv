@@ -40,6 +40,14 @@ NEW_MAX_AGE_H = 2        # owner's rule (8 Nov 2026): a never-seen item older th
 KEEP_CANDIDATE_H = 3     # how long a discovered item stays in the hand-off list for the news task
 KEEP_DAYS = 7            # how long seen ids are remembered
 ERRORS_FOR_ALERT = 3     # consecutive failed checks (about 15 minutes) before "unavailable"
+# owner's rule (8 Nov 2026, evening): new intake = SOURCE STORY AGE <= 5 MINUTES. Age = the moment this check saw the item
+# minus the publisher's own publication time (RSS pubDate / Atom published / article:published_time / JSON-LD datePublished),
+# never the import time. Priority 1 = age <= 5 min ("fresh", the only items that may be breaking news). Priority 2 = older
+# than 5 min but inside NEW_MAX_AGE_H (fallback for the editorial rules: never breaking, never shown as "just now").
+FRESH_INTAKE_MIN = 5
+CLOCK_SKEW_MIN = 2       # a publisher time up to 2 min in the future (clock difference) counts as age 0
+FUTURE_UNTRUSTED_MIN = 10  # a publisher time more than 10 min in the future cannot be trusted: timestamp_unverified
+HEALTH_STALE_MIN = 20    # no completed check for 20 minutes = the collector has stopped (0 new stories is healthy)
 
 
 def now():
@@ -123,9 +131,32 @@ def item_key(g):
     return w.norm_url(g.get('url') or '')
 
 
+def intake(published_at, seen_at, date_only=False):
+    """(age_minutes, tier) for a never-seen item. tier: 'fresh' (age <= 5 min: priority 1), 'recent' (older, inside the
+    2-hour fallback: priority 2), 'old' (rejected), 'unverified' (no trustworthy publisher time: never fresh, never breaking)."""
+    p = parse(published_at)
+    if not p or date_only: return None, 'unverified'
+    age = (seen_at - p).total_seconds() / 60
+    if age < -FUTURE_UNTRUSTED_MIN: return round(age, 1), 'unverified'
+    age = max(0.0, age) if age >= -CLOCK_SKEW_MIN else age
+    if age < 0: return round(age, 1), 'unverified'
+    if age <= FRESH_INTAKE_MIN: return round(age, 1), 'fresh'
+    if age <= NEW_MAX_AGE_H * 60: return round(age, 1), 'recent'
+    return round(age, 1), 'old'
+
+
+def date_only_time(s):
+    """A publisher time of exactly midnight (UTC or Nairobi) is usually a date without a time: not trustworthy for age."""
+    d = parse(s)
+    if not d: return False
+    return any(x.hour == 0 and x.minute == 0 and x.second == 0 for x in (d.astimezone(datetime.timezone.utc), d.astimezone(EAT)))
+
+
 def check_source(s, st, t, log):
     """One check of one source. Mutates st (source state). Returns the list of NEW candidate items."""
     st['lastCheckAt'] = iso(t)
+    c = st['lastRunCounts'] = {'at': iso(t), 'seen': 0, 'new': 0, 'fresh': 0, 'rejectedOld': 0, 'rejectedNoTimestamp': 0,
+                               'excluded': 0, 'rejectedDuplicate': 0, 'ok': False}
     new, errors, listing, used = [], [], None, None
     t0 = time.time()
     for f in s.get('feeds') or []:
@@ -149,14 +180,14 @@ def check_source(s, st, t, log):
         st['lastError'] = '; '.join(errors)[:600]; st['lastErrorAt'] = iso(t)
         log.append(f"{s['id']}: FAILED {st['lastError'][:200]}")
         return []
-    st['consecutiveErrors'] = 0; st['lastOkAt'] = iso(t); st['feedUrl'] = used
+    st['consecutiveErrors'] = 0; st['lastOkAt'] = iso(t); st['feedUrl'] = used; c['ok'] = True
     if errors: st['lastError'] = '; '.join(errors)[:600]; st['lastErrorAt'] = iso(t)
     if not listing:
         log.append(f"{s['id']}: not modified"); return []
     listing = [g for g in listing if not re.search(r'/(video|videos|gallery|live-news|live|live-updates)/', g.get('url') or '')]
     dated = [parse(g.get('publishedAt')) for g in listing if g.get('publishedAt')]
     if dated: st['latestPublishedAt'] = iso(max(dated))
-    st['feedItems'] = len(listing)
+    st['feedItems'] = len(listing); c['seen'] = len(listing)
     if s.get('monitorOnly'):
         # no permission yet: availability and recency only; nothing about the articles is kept
         st['baselineDone'] = True
@@ -173,7 +204,7 @@ def check_source(s, st, t, log):
             seen[k] = {'at': iso(t), 'kind': 'baseline', 'publishedAt': g.get('publishedAt')}; continue
         if pubd and pubd < cut:
             seen[k] = {'at': iso(t), 'kind': 'old', 'publishedAt': g.get('publishedAt')}
-            st['oldIgnored'] = st.get('oldIgnored', 0) + 1; continue
+            st['oldIgnored'] = st.get('oldIgnored', 0) + 1; c['rejectedOld'] += 1; continue
         it = {'source': s['id'], 'sourceName': s['name'], 'section': s.get('section', 'world'), 'url': g['url'],
               'title': g.get('title'), 'description': g.get('description'), 'publishedAt': g.get('publishedAt'),
               'image': g.get('image'), 'timeVerified': bool(g.get('publishedAt')), 'discoveredAt': iso(t),
@@ -204,22 +235,37 @@ def check_source(s, st, t, log):
         except Exception as e:
             it['articleError'] = f'{type(e).__name__}: {e}'[:200]
         if not it.get('publishedAt'):
-            seen[k] = {'at': iso(t), 'kind': 'no-date'}
+            seen[k] = {'at': iso(t), 'kind': 'no-date'}; c['rejectedNoTimestamp'] += 1
             log.append(f"{s['id']}: no verifiable publication time, not passed on: {g['url']}"); continue
-        if parse(it['publishedAt']) < cut:
+        # the article page's own published time wins when it is EARLIER than the feed time (a re-sent or edited story is
+        # not new) or when the feed only gave an "updated" time
+        pp, fp = parse(it.get('pagePublishedAt')), parse(it['publishedAt'])
+        upd = str(it.get('dateSource') or '').startswith('feed updated')
+        if pp and (upd or (fp and (fp - pp).total_seconds() > 600)):
+            it['feedPublishedAt'] = it['publishedAt']; it['publishedAt'] = it['pagePublishedAt']; it['dateSource'] = 'article page (earlier than the feed time)'; upd = False
+        # the age is measured against the moment this check first SAW the item (t), never against the import time
+        age, tier = intake(it['publishedAt'], t, upd or (date_only_time(it['publishedAt']) and not it.get('pagePublishedAt')))
+        if tier == 'unverified':
+            # timestamp_unverified: never fresh, never breaking, never a made-up time; not passed on automatically
+            seen[k] = {'at': iso(t), 'kind': 'timestamp-unverified', 'publishedAt': it['publishedAt']}; c['rejectedNoTimestamp'] += 1
+            log.append(f"{s['id']}: publication time not trustworthy ({it['publishedAt']}), timestamp_unverified, not passed on: {g['url']}"); continue
+        if tier == 'old':
             seen[k] = {'at': iso(t), 'kind': 'old', 'publishedAt': it['publishedAt']}
-            st['oldIgnored'] = st.get('oldIgnored', 0) + 1; continue
+            st['oldIgnored'] = st.get('oldIgnored', 0) + 1; c['rejectedOld'] += 1; continue
         ok, why = east_africa.gate(it, s)
         if not ok:
-            seen[k] = {'at': iso(t), 'kind': 'excluded', 'why': why}; continue
-        seen[k] = {'at': iso(t), 'kind': 'new', 'publishedAt': it['publishedAt']}
-        new.append({k2: v for k2, v in it.items() if v not in (None, '')})
+            seen[k] = {'at': iso(t), 'kind': 'excluded', 'why': why}; c['excluded'] += 1; continue
+        it['sourceAgeMin'] = age; it['intake'] = tier; it['priority'] = 1 if tier == 'fresh' else 2
+        it['freshAtDiscovery'] = tier == 'fresh'
+        c['fresh'] += tier == 'fresh'
+        seen[k] = {'at': iso(t), 'kind': 'new', 'publishedAt': it['publishedAt'], 'ageMin': age, 'intake': tier}
+        new.append({k2: v for k2, v in it.items() if v not in (None, '')}); c['new'] += 1
         time.sleep(0.3)
     if first:
         st['baselineDone'] = True; st['baselineAt'] = iso(t)
         log.append(f"{s['id']}: first check, {len(listing)} existing items recorded as baseline (not new)")
     else:
-        log.append(f"{s['id']}: {len(listing)} items, {len(new)} new")
+        log.append(f"{s['id']}: {len(listing)} items, {len(new)} new ({c['fresh']} within {FRESH_INTAKE_MIN} min of the source time)")
     st['newTotal'] = st.get('newTotal', 0) + len(new)
     return new
 
@@ -261,27 +307,56 @@ def minutes(a, b):
 
 
 def track(tracked, t):
-    """Follow every discovered story: on main (published / held) and really live."""
+    """Follow every discovered story: on main (published / held) and really live. Returns the stories that became
+    live or were held (no licensed photo / not published) in this check."""
     arts = site_articles()
     live = None
+    became = {'live': [], 'held': []}
     for x in tracked.values():
         if x.get('liveAt') or x.get('state') == 'expired': continue
         keys = {x['key'], w.norm_url(x.get('canonicalUrl') or '')} - {''}
         a = next((arts[k] for k in keys if k in arts), None)
         if a:
             x['articleId'] = a['id']
+            if a['held'] and x.get('state') != 'held': became['held'].append(x)
             x['state'] = 'held' if a['held'] else 'committed'
             x.setdefault('committedAt', committed_at(a['path']) or iso(t))
             if a.get('verifiedAt'): x['verifiedAt'] = a['verifiedAt']
             if not a['held']:
                 if live is None: live = live_ids() or set()
                 if a['id'] in live:
-                    x['liveAt'] = iso(t); x['state'] = 'live'
+                    x['liveAt'] = iso(t); x['state'] = 'live'; became['live'].append(x)
         elif parse(x['discoveredAt']) < t - datetime.timedelta(hours=24):
             x['state'] = 'expired'   # the news task did not choose it (duplicate, not important, not verified)
         for k, a_, b_ in (('discoveryDelayMin', 'publishedAt', 'discoveredAt'), ('commitDelayMin', 'publishedAt', 'committedAt'),
                           ('liveDelayMin', 'publishedAt', 'liveAt'), ('pipelineMin', 'discoveredAt', 'liveAt')):
             if x.get(a_) and x.get(b_): x[k] = minutes(x[a_], x[b_])
+    return became
+
+
+def duplicates(items, log):
+    """{normalised url: reason} for the items that are duplicates (tools/world_news.py dedup: same URL / canonical URL as
+    anything the site ever had or as another item, same event as a story on the site, or the weaker report of an event
+    two sources carry). On any error nothing is removed (the news task runs the same check again before writing)."""
+    if not items: return {}
+    import tempfile, contextlib, io
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            ci, po = os.path.join(d, 'c.json'), os.path.join(d, 'p.json')
+            w.save(ci, {'fetchedAt': iso(now()), 'sources': [], 'items': items})
+            with contextlib.redirect_stdout(io.StringIO()):
+                w.dedup([ci, '--out', po, '--max-age-hours', str(NEW_MAX_AGE_H)])
+            plan = load(po, {})
+    except Exception as e:
+        log.append(f'duplicate check not available this time ({type(e).__name__}: {e}); the news task checks again')
+        return {}
+    out = {}
+    kept = {w.norm_url(e.get('url')) for e in plan.get('stories', [])}
+    for r in plan.get('rejected', []):
+        if r.get('why') in ('known', 'duplicate', 'on-site') and w.norm_url(r['url']) not in kept:
+            out[w.norm_url(r['url'])] = {'known': 'same URL already on the site', 'on-site': f"same event as {r.get('of')} on the site",
+                                         'duplicate': f"same event as {r.get('of')}"}[r['why']]
+    return out
 
 
 def med(v):
@@ -307,6 +382,7 @@ def run(args):
         state['lastSkippedAt'] = iso(t)
         save_all(sdir, state, cfg, fast, t, sched, [], log, skipped=True)
         return
+    started = time.time()
     ws = window_start(t, sched)
     first_of_day = bool(ws) and (not state.get('lastRunAt') or parse(state['lastRunAt']) < ws)
     new_items = []
@@ -318,24 +394,56 @@ def run(args):
             st['disabled'] = True; continue
         st.pop('disabled', None)
         got = check_source(s, st, t, log)
-        for it in got:
-            if first_of_day and ws and parse(it['publishedAt']) < ws:
-                it['overnight'] = True   # published while monitoring was paused: labelled with its real time
-            state['tracked'][it.get('canonicalUrl') and w.norm_url(it['canonicalUrl']) or item_key(it)] = {
-                'key': item_key(it), 'source': s['id'], 'url': it['url'], 'canonicalUrl': it.get('canonicalUrl'),
-                'title': it.get('title'), 'publishedAt': it['publishedAt'], 'discoveredAt': it['discoveredAt'],
-                'overnight': it.get('overnight', False), 'state': 'discovered'}
         new_items += got
+    # duplicate check of this run's new items (same URL / canonical URL as anything the site ever had, the same event as a
+    # story already on the site, or two sources with the same event): tools/world_news.py dedup, the news task's own rules
+    dups = duplicates(new_items, log)
+    have = set()
+    for it in list(new_items):
+        k = w.norm_url(it['url'])
+        if k in have: dups[k] = 'same URL from two sources in this check'
+        have.add(k)
+        if k in dups:
+            new_items.remove(it)
+            cs = state['sources'].get(it['source'], {}).get('lastRunCounts')
+            if cs: cs['rejectedDuplicate'] += 1; cs['new'] -= 1; cs['fresh'] -= bool(it.get('freshAtDiscovery'))
+            sk = state['sources'].get(it['source'], {}).get('seen', {}).get(item_key(it))
+            if sk: sk['kind'] = 'duplicate'; sk['of'] = dups[k]
+            log.append(f"{it['source']}: duplicate skipped ({dups[k]}): {it['url']}")
+    for it in new_items:
+        if first_of_day and ws and parse(it['publishedAt']) < ws:
+            it['overnight'] = True   # published while monitoring was paused: labelled with its real time
+        state['tracked'][it.get('canonicalUrl') and w.norm_url(it['canonicalUrl']) or item_key(it)] = {
+            'key': item_key(it), 'source': it['source'], 'url': it['url'], 'canonicalUrl': it.get('canonicalUrl'),
+            'title': it.get('title'), 'publishedAt': it['publishedAt'], 'discoveredAt': it['discoveredAt'],
+            'overnight': it.get('overnight', False), 'state': 'discovered',
+            'sourceAgeMin': it.get('sourceAgeMin'), 'intake': it.get('intake')}
     # forget old ids and old tracked stories
     cut = t - datetime.timedelta(days=KEEP_DAYS)
     for st in state['sources'].values():
         st['seen'] = {k: v for k, v in (st.get('seen') or {}).items() if (parse(v.get('at')) or t) >= cut}
     state['tracked'] = {k: v for k, v in state['tracked'].items() if (parse(v.get('discoveredAt')) or t) >= cut}
-    track(state['tracked'], t)
+    became = track(state['tracked'], t)
     state['lastRunAt'] = iso(t)
-    state['runs'] = ([{'at': iso(t), 'new': len(new_items), 'failed': [s['id'] for s in fast
-                       if state['sources'].get(s['id'], {}).get('lastErrorAt') == iso(t) and state['sources'][s['id']].get('consecutiveErrors')]}]
-                     + state['runs'])[:400]
+    fin = now()
+    per = []
+    for s in fast:
+        c = state['sources'].get(s['id'], {}).get('lastRunCounts')
+        if not c or c.get('at') != iso(t): continue
+        c['published'] = sum(1 for x in became['live'] if x['source'] == s['id'])
+        c['heldNoImage'] = sum(1 for x in became['held'] if x['source'] == s['id'])
+        per.append({'source': s['id'], **{k: v for k, v in c.items() if k != 'at'}})
+    tot = lambda k: sum(x.get(k, 0) for x in per)
+    entry = {'at': iso(t), 'check_started_at': iso(t), 'check_finished_at': iso(fin), 'seconds': round(time.time() - started, 1),
+             'sources_checked': len(per), 'sources_failed': sum(1 for x in per if not x['ok']),
+             'stories_seen': tot('seen'), 'stories_new': len(new_items), 'stories_fresh_5min': sum(1 for x in new_items if x.get('freshAtDiscovery')),
+             'stories_rejected_old': tot('rejectedOld'), 'stories_rejected_duplicate': tot('rejectedDuplicate'),
+             'stories_rejected_no_timestamp': tot('rejectedNoTimestamp'), 'stories_excluded': tot('excluded'),
+             'stories_rejected_no_image': len(became['held']), 'stories_published': len(became['live']),
+             'new': len(new_items),
+             'failed': [x['source'] for x in per if not x['ok']]}
+    state['runs'] = ([entry] + state['runs'])[:400]
+    state['lastRunSources'] = per
     save_all(sdir, state, cfg, fast, t, sched, new_items, log)
     print('\n'.join(log))
     print(f'{len(new_items)} new article(s) discovered')
@@ -376,7 +484,9 @@ def save_all(sdir, state, cfg, fast, t, sched, new_items, log, skipped=False):
                        'errors': [st['lastError']] if st.get('lastError') and st.get('consecutiveErrors') else
                                  (['monitor only: no permission to collect'] if s.get('monitorOnly') else [])})
     cand = {'fetchedAt': state.get('lastRunAt') or iso(t), 'since': None, 'by': '5-minute monitor (fast-sources.yml)',
-            'sources': srcrep, 'items': sorted(keep.values(), key=lambda x: x.get('publishedAt') or '', reverse=True)}
+            'sources': srcrep,
+            # priority 1 (source age <= 5 min when first seen) first, then newest first by the PUBLISHER's time
+            'items': sorted(sorted(keep.values(), key=lambda x: parse(x.get('publishedAt')) or t, reverse=True), key=lambda x: x.get('priority', 2))}
     w.save(os.path.join(sdir, 'candidates.json'), cand)
     alerts = alerts_of(state, fast, t, sched)
     state['alerts'] = alerts
@@ -423,7 +533,30 @@ def diagnostics(state, cfg, fast, t, sched, skipped):
         m = minutes(b['at'], a['at'])
         if m is not None and m < 120: gaps.append(m)
     recent = sorted([x for x in tr if x.get('liveAt')], key=lambda x: x['liveAt'], reverse=True)[:30]
+    last = parse(state.get('lastRunAt'))
+    health = ('stopped' if not last or t - last > datetime.timedelta(minutes=HEALTH_STALE_MIN) else
+              'failing' if runs and runs[0].get('sources_checked') and runs[0].get('sources_failed') == runs[0]['sources_checked'] else 'healthy')
+    r24 = [r for r in runs if (parse(r.get('at')) or t) >= day]
+    sm = lambda k: sum(r.get(k) or 0 for r in r24)
+    summary = {
+        'health': health,
+        'healthRule': f'healthy = a completed check in the last {HEALTH_STALE_MIN} min; 0 new stories is healthy; '
+                      'stopped = no check for that long; failing = every source failed in the last check',
+        'lastSourceCheckAt': state.get('lastRunAt'),
+        'nextExpectedCheckAt': iso(last + datetime.timedelta(minutes=5)) if last else None,
+        'checks24h': len(r24),
+        'freshRule': f'source age <= {FRESH_INTAKE_MIN} min when first seen = priority 1 (fresh); up to {NEW_MAX_AGE_H} h = priority 2 '
+                     '(fallback, never breaking); older = rejected; no trustworthy publisher time = timestamp_unverified, not passed on',
+        'newFound24h': sm('stories_new'), 'fresh5min24h': sm('stories_fresh_5min'), 'published24h': sm('stories_published'),
+        'duplicatesSkipped24h': sm('stories_rejected_duplicate'), 'oldSkipped24h': sm('stories_rejected_old'),
+        'missingTimestampSkipped24h': sm('stories_rejected_no_timestamp'), 'missingImageHeld24h': sm('stories_rejected_no_image'),
+        'activeCollectors': sum(1 for s in fast if s.get('enabled', True) and not s.get('monitorOnly') and not east_africa.excluded_source(s)),
+    }
+    if skipped: summary['health'] = 'paused (outside operating hours)'
     return {
+        'status': summary,
+        'runLog': [{k: v for k, v in r.items() if k not in ('at', 'new')} for r in runs[:36]],
+        'lastRunSources': state.get('lastRunSources') or [],
         'updatedAt': iso(t), 'lastCheckAt': state.get('lastRunAt'), 'skippedOutsideHours': skipped,
         'operatingHours': sched.get('hours') or '24/7', 'timezone': 'Africa/Nairobi', 'open': is_open(t, sched),
         'pollMinutes': 5,
@@ -435,13 +568,17 @@ def diagnostics(state, cfg, fast, t, sched, skipped):
         'sources': out_src,
         'recentPublished': [{k: x.get(k) for k in ('articleId', 'source', 'title', 'url', 'publishedAt', 'discoveredAt', 'verifiedAt', 'committedAt', 'liveAt',
                                                    'discoveryDelayMin', 'liveDelayMin', 'overnight')} for x in recent],
-        'recentDiscovered': [{k: x.get(k) for k in ('source', 'title', 'url', 'publishedAt', 'discoveredAt', 'discoveryDelayMin', 'state', 'articleId', 'overnight')}
+        'recentDiscovered': [{k: x.get(k) for k in ('source', 'title', 'url', 'publishedAt', 'discoveredAt', 'discoveryDelayMin', 'sourceAgeMin', 'intake', 'state', 'articleId', 'overnight')}
                              for x in sorted(tr, key=lambda x: x['discoveredAt'], reverse=True)[:40]],
     }
 
 
 def report_text(st, log):
+    S = st['status']
     L = [f"5-minute source monitor, {st['updatedAt']} (operating hours {st['operatingHours']} Africa/Nairobi; {'open' if st['open'] else 'closed'})",
+         f"health {S['health']} | last check {S['lastSourceCheckAt']} | next expected {S['nextExpectedCheckAt']} | {S['activeCollectors']} active collectors",
+         f"last 24 h: {S['checks24h']} checks, {S['newFound24h']} new ({S['fresh5min24h']} within 5 min of the source time), {S['published24h']} published, "
+         f"{S['duplicatesSkipped24h']} duplicates, {S['oldSkipped24h']} old, {S['missingTimestampSkipped24h']} no trustworthy time, {S['missingImageHeld24h']} held for a photo",
          f"measured interval between checks: median {st['measuredIntervalMin']['median']} min, max {st['measuredIntervalMin']['max']} min",
          f"last 24 h: median source->discovery {st['delays24h']['medianDiscoveryMin']} min, source->live {st['delays24h']['medianLiveMin']} min", '']
     for s in st['sources']:
@@ -484,7 +621,17 @@ def test(_args):
         got = check_source(s, st, now_, log)
         ok([g['title'] for g in got] == ['c'], f'only the recent unseen item is new: {[g["title"] for g in got]}')
         ok(got and got[0]['publishedAt'] and got[0]['discoveredAt'] and got[0]['timeVerified'], 'original time and discovery time kept')
-        ok(st.get('oldIgnored') == 1, 'old never-seen item is ignored, not new')
+        ok(got and got[0]['intake'] == 'fresh' and got[0]['priority'] == 1 and got[0]['sourceAgeMin'] == 3.0, 'age measured from the source time')
+        ok(st['lastRunCounts']['seen'] == 3 and st['lastRunCounts']['rejectedOld'] == 1 and st['lastRunCounts']['new'] == 1, f"per-check counts: {st['lastRunCounts']}")
+        feeds['u'] = rss([('d', now_ - datetime.timedelta(minutes=40))])
+        g2 = check_source(s, st, now_, log)
+        ok(g2 and g2[0]['intake'] == 'recent' and g2[0]['priority'] == 2 and not g2[0]['freshAtDiscovery'], '40 min old -> priority 2, not fresh')
+        # the article page says the story is older than the feed claims: the page's (earlier) time wins
+        w.article = lambda url: {'publishedAt': iso(now_ - datetime.timedelta(hours=5))}
+        feeds['u'] = rss([('e', now_ - datetime.timedelta(minutes=1))])
+        ok(check_source(s, st, now_, log) == [] and st['lastRunCounts']['rejectedOld'] == 1, 'a re-sent old story is not new (page time wins)')
+        w.article = lambda url: {}
+        ok(st.get('oldIgnored') == 2, 'old never-seen items (the 4-day-old one and the re-sent one) are ignored, not new')
         ok(check_source(s, st, now_, log) == [], 'same item is never new twice')
         nodate = b'<?xml version="1.0"?><rss><channel><item><title>n</title><link>https://ex.test/n</link></item></channel></rss>'
         feeds['u'] = nodate
@@ -499,9 +646,38 @@ def test(_args):
         ok(st['consecutiveErrors'] == 3, 'errors counted')
         a = alerts_of({'sources': {'x': st}, 'tracked': {}}, [s], now_, {'hours': '24/7'})
         ok(a and 'unavailable' in a[0], 'alert when unavailable')
+        # TEST 9 / 13: a check at night with 0 new stories is healthy; no check for 20+ min = stopped
+        night = T(3, 10)
+        hs = {'sources': {}, 'tracked': {}, 'lastRunAt': iso(night), 'runs': [{'at': iso(night), 'sources_checked': 30, 'sources_failed': 0, 'stories_new': 0}]}
+        ok(diagnostics(hs, {}, [], night, {'hours': '24/7'}, False)['status']['health'] == 'healthy', 'TEST 9: 0 new stories at night is healthy')
+        ok(diagnostics(hs, {}, [], night + datetime.timedelta(minutes=25), {'hours': '24/7'}, False)['status']['health'] == 'stopped', 'no check for 25 min -> stopped')
     finally:
         fetch_feed, w.article = real_fetch, real_article
     ok(minutes('2026-11-08T10:00:00+03:00', '2026-11-08T10:07:30+03:00') == 7.5, 'delay minutes')
+    # owner's tests (8 Nov 2026): SOURCE STORY AGE <= 5 MINUTES, measured from the publisher's own time
+    seen_at = T(14, 0)
+    ok(intake(iso(seen_at - datetime.timedelta(minutes=2)), seen_at) == (2.0, 'fresh'), 'TEST 1: 2 min old -> accepted as fresh')
+    ok(intake(iso(seen_at - datetime.timedelta(minutes=5)), seen_at) == (5.0, 'fresh'), 'TEST 2: 5 min old -> accepted as fresh')
+    ok(intake(iso(seen_at - datetime.timedelta(minutes=5, seconds=30)), seen_at)[1] == 'recent', '5.5 min old -> not fresh')
+    ok(intake(iso(seen_at - datetime.timedelta(minutes=30)), seen_at) == (30.0, 'recent'), 'TEST 3: 30 min old -> not fresh (priority 2 only)')
+    ok(intake(iso(seen_at - datetime.timedelta(hours=4)), seen_at)[1] == 'old', 'TEST 4: 4 h old found now -> rejected, never "just now"')
+    ok(intake(iso(seen_at + datetime.timedelta(minutes=1)), seen_at) == (0.0, 'fresh'), 'publisher clock 1 min ahead -> age 0')
+    ok(intake(iso(seen_at + datetime.timedelta(minutes=30)), seen_at)[1] == 'unverified', 'time 30 min in the future -> timestamp_unverified')
+    ok(intake(None, seen_at) == (None, 'unverified'), 'TEST 7: no time -> timestamp_unverified, no fake freshness')
+    ok(date_only_time('2026-11-08T03:00:00+03:00') and date_only_time('2026-11-08T00:00:00+03:00') and not date_only_time('2026-11-08T14:02:11+03:00'),
+       'a midnight time is treated as a date without a time')
+    # TEST 5 / 6: the same URL, and the same event under a slightly different headline, are duplicates; the first is kept
+    tq = iso(now())
+    da = {'source': 'bbc-world', 'sourceName': 'BBC', 'section': 'world', 'url': 'https://ex.test/quake', 'publishedAt': tq, 'timeVerified': True,
+          'title': 'Earthquake of magnitude 6.1 strikes eastern Turkey, killing 12 people',
+          'description': 'A strong earthquake hit Malatya province in eastern Turkey on Sunday, officials said.'}
+    db = dict(da, source='aljazeera', sourceName='AJ', url='https://ex.test/quake-2', title='Magnitude 6.1 earthquake strikes eastern Turkey, 12 people killed',
+              description='A strong earthquake struck Malatya province in eastern Turkey on Sunday, officials say.')
+    dc = dict(da, source='cnn', url='https://ex.test/quake?utm_source=rss')
+    import contextlib, io
+    with contextlib.redirect_stderr(io.StringIO()):
+        dd = duplicates([da, db, dc], [])
+    ok('ex.test/quake-2' in dd and 'ex.test/quake' not in dd, f'TEST 6: similar headline of the same event is a duplicate, the first report is kept: {dd}')
     import tempfile
     with tempfile.TemporaryDirectory() as d:
         fa, wa = os.path.join(d, 'f.json'), os.path.join(d, 'w.json')

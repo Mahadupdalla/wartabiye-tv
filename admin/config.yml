@@ -703,6 +703,42 @@ collections:
         file: data/world/fast-status.json
         format: json
         fields:
+          - name: status
+            label: 'Xaaladda nidaamka (system status)'
+            widget: object
+            required: false
+            fields:
+              - {name: health, label: 'Caafimaadka (healthy = wuu shaqeynayaa; 0 war cusub waa caadi)', widget: string, required: false}
+              - {name: lastSourceCheckAt, label: 'Last source check (hubintii ilaha ee u dambeysay)', widget: string, required: false}
+              - {name: nextExpectedCheckAt, label: 'Next expected check (hubinta xigta)', widget: string, required: false}
+              - {name: checks24h, label: 'Hubinnada 24-kii saacadood', widget: number, required: false}
+              - {name: activeCollectors, label: 'Ilaha shaqeynaya (active collectors)', widget: number, required: false}
+              - {name: newFound24h, label: 'New stories found (24h)', widget: number, required: false}
+              - {name: fresh5min24h, label: 'Ka mid ah: 5 daqiiqo gudahood (24h)', widget: number, required: false}
+              - {name: published24h, label: 'Stories published (24h)', widget: number, required: false}
+              - {name: duplicatesSkipped24h, label: 'Duplicates skipped (24h)', widget: number, required: false}
+              - {name: oldSkipped24h, label: 'Old stories skipped (24h)', widget: number, required: false}
+              - {name: missingTimestampSkipped24h, label: 'Missing timestamp skipped (24h)', widget: number, required: false}
+              - {name: missingImageHeld24h, label: 'Missing image held (24h)', widget: number, required: false}
+              - {name: freshRule, label: 'Xeerka cusboonaanta', widget: text, required: false}
+          - name: runLog
+            label: 'Hubin kasta (log-ga gudaha, kuwii u dambeeyay)'
+            widget: list
+            required: false
+            summary: '{{fields.check_started_at}}: {{fields.stories_seen}} la arkay, {{fields.stories_new}} cusub, {{fields.stories_published}} la daabacay'
+            fields:
+              - {name: check_started_at, label: check_started_at, widget: string, required: false}
+              - {name: check_finished_at, label: check_finished_at, widget: string, required: false}
+              - {name: sources_checked, label: 'Ilaha la hubiyay', widget: number, required: false}
+              - {name: sources_failed, label: 'Ilaha fashilmay', widget: number, required: false}
+              - {name: stories_seen, label: stories_seen, widget: number, required: false}
+              - {name: stories_new, label: stories_new, widget: number, required: false}
+              - {name: stories_fresh_5min, label: 'stories_new (<= 5 daqiiqo)', widget: number, required: false}
+              - {name: stories_rejected_old, label: stories_rejected_old, widget: number, required: false}
+              - {name: stories_rejected_duplicate, label: stories_rejected_duplicate, widget: number, required: false}
+              - {name: stories_rejected_no_timestamp, label: stories_rejected_no_timestamp, widget: number, required: false}
+              - {name: stories_rejected_no_image, label: stories_rejected_no_image, widget: number, required: false}
+              - {name: stories_published, label: stories_published, widget: number, required: false}
           - {name: updatedAt, label: 'La cusbooneysiiyay (nuqulka maamulka, qiyaas saacaddii mar)', widget: string, required: false}
           - {name: lastCheckAt, label: 'Hubintii u dambeysay', widget: string, required: false}
           - {name: operatingHours, label: 'Saacadaha shaqada (Africa/Nairobi)', widget: string, required: false}
