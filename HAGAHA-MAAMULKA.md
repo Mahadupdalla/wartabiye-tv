@@ -94,13 +94,13 @@ Lacag-bixin online ah lama shidin.
 
 Marka aad riixdo **Save**, GitHub ayaa kaydiya. Workflow-ga **"Daabac bogga"** ayaa hubiya (taariikh, sawir, nuqul, xayeysiisyada), sameeya sawirro yaryar (webp), bog gaar ah war kasta (`war/<id>.html`), `sitemap.xml` iyo `rss.xml`, kadibna bogga cusbooneysiiya. Bogga tooska ahi wuxuu isbeddelaa **1–3 daqiiqo** gudahood. Haddii hubintu fashilanto (tusaale sawir maqan), bogga hore sidiisa ayuu ahaanayaa, GitHub-na wuxuu kuu soo diraa email.
 
-## Hawsha wararka: saacad kasta, 07:00–23:00
+## Hawsha wararka: saacad kasta, 24/7
 
-Hawsha Claude waxay hadda socotaa **saacad kasta 07:00 ilaa 23:00** (Africa/Nairobi, 17 orod maalintii: 07:00, 08:00 … 23:00; habeenkii wararka lama ururiyo, bogga, gambaleelka iyo wararka jirana way furan yihiin; jadwalka claude.ai ma ballanqaado daqiiqad sax ah, orod wuu soo daahi karaa). GitHub Actions wuxuu ilaha akhriyaa 06:35 ilaa 22:35 (cron `35 3-19 * * *` UTC), orod kasta ka hor. Orod kasta wuxuu qaadaa oo keliya wararka la daabacay tan iyo cusbooneysiintii u dambeysay ee guulaysatay; haddii aan war cusub oo la hubiyay jirin, wararka jira sidooda ayay ahaanayaan, bogga hore wuxuu muujinayaa waqtiga dhabta ah ee hubintii u dambeysay ("La cusbooneysiiyay: … · Wararka waxaa la hubiyaa saacad kasta").
+Hawsha Claude waxay hadda socotaa **saacad kasta, 24 saac, 7 maalmood** (Africa/Nairobi, qiyaastii daqiiqadda :08, 24 orod maalintii; jadwalka claude.ai ma ballanqaado daqiiqad sax ah, orod wuu soo daahi karaa). GitHub Actions wuxuu ilaha akhriyaa saacad kasta qiyaastii :35 (cron `35 * * * *`), orod kasta ka hor. Orod kasta wuxuu qaadaa oo keliya wararka la daabacay tan iyo cusbooneysiintii u dambeysay ee guulaysatay; haddii aan war cusub oo la hubiyay jirin, wararka jira sidooda ayay ahaanayaan, bogga hore wuxuu muujinayaa waqtiga dhabta ah ee hubintii u dambeysay ("La cusbooneysiiyay: … · Wararka waxaa la hubiyaa saacad kasta").
 
-**Dami saacadlaha:** /admin/ → *Ogeysiisyada: Settings …* → **Jadwalka wararka** → dami "Saacad kasta". Kadib kaliya orodyada 08:00 iyo 18:00 ayaa shaqeeya; kuwa kale isla markiiba way joogsadaan (laakiin weli way bilaabmaan oo wax yar ayay isticmaalaan). Si aad gebi ahaanba u beddesho jadwalka: claude.ai → **Scheduled tasks** → "Wartabiye TV – wararka saacad kasta 07–23" → Edit schedule.
+**Dami saacadlaha:** /admin/ → *Ogeysiisyada: Settings …* → **Jadwalka wararka** → dami "Saacad kasta". Kadib kaliya orodyada 08:00 iyo 18:00 ayaa shaqeeya; kuwa kale isla markiiba way joogsadaan (laakiin weli way bilaabmaan oo wax yar ayay isticmaalaan). Si aad gebi ahaanba u beddesho jadwalka: claude.ai → **Scheduled tasks** → "Wartabiye TV – wararka saacad kasta 24/7" → Edit schedule.
 
-**Kharashka Claude:** 17 orod maalintii (07:00–23:00), halkii 2. Taasi waxay isticmaashaa xadka isticmaalka Claude (usage) qiyaastii 8 jeer ka badan. Haddii xadka la gaaro, orodyadu way istaagaan ilaa xadku dib u furmo (sidii 6 Nofembar dhacday).
+**Kharashka Claude:** 24 orod maalintii, halkii 2. Taasi waxay isticmaashaa xadka isticmaalka Claude (usage) qiyaastii 12 jeer ka badan. Haddii xadka la gaaro, orodyadu way istaagaan ilaa xadku dib u furmo (sidii 6 Nofembar dhacday).
 
 Hawshu waxay **kaliya ku daraysaa wararka cusub** (fayl cusub mid kasta) iyo turjumaadaha maqan. Waligeed ma beddesho, ma tirtirto, mana dib u qorto war jira, turjumaad jirta ama dejintaada. Sidaas darteed wax-ka-beddelkaaga gacanta waa ammaan. War aad tirtirto ama qabyo ka dhigto dib looma soo celiyo.
 

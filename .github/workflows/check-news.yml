@@ -5,7 +5,7 @@ on:
     # the LIVE TV status file is updated by live-status.yml (only when a broadcast starts or ends); no full check for that
     paths-ignore: ['data/live-status.json', 'data/push-log.json']
   schedule:
-    # The news update itself is NOT scheduled here: it is the Claude scheduled task, every hour from 07:00 to 23:00 Africa/Nairobi (none overnight).
+    # The news update itself is NOT scheduled here: it is the Claude scheduled task, every hour, 24/7 (Africa/Nairobi).
     # GitHub only publishes (publish.yml, on push) and checks. This check runs every 3 hours (GitHub may start it late).
     - cron: '50 */3 * * *'
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
         run: python3 tools/media_test.py && node --test workers/sports-api/test/worker.test.mjs
       - name: Notification feed, push rules and the push service (no network)
         run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && node --test workers/push/test/worker.test.mjs
-      - name: Check the news update ran (hourly 07:00-23:00 EAT; 08:00 / 18:00 only when the owner switched hourly off)
+      - name: Check the news update ran (hourly 24/7; 08:00 / 18:00 only when the owner switched hourly off)
         if: github.event_name == 'schedule'
         run: |
           python3 - <<'PY'
@@ -29,9 +29,7 @@ jobs:
           try: hourly = json.load(open('data/schedule.json', encoding='utf-8')).get('hourly', True) is not False
           except Exception: hourly = True
           now = datetime.datetime.now(datetime.timezone.utc)
-          eat_hour = (now.hour + 3) % 24
-          # news runs hourly 07:00-23:00 EAT only; overnight the last run is the 23:00 one (up to ~9 h before 08:00)
-          limit = (3 if 8 <= eat_hour <= 23 else 10) if hourly else 14   # hours; the scheduler does not guarantee the exact minute
+          limit = 3 if hourly else 14   # hours; news runs every hour, day and night; the scheduler does not guarantee the exact minute
           u = d.get('lastRunAt') or d.get('updatedAt')
           ok = u and (now - datetime.datetime.fromisoformat(u.replace('Z', '+00:00'))).total_seconds() < limit*3600
           print('lastRunAt', u, '| last successful update', d.get('lastSuccessAt'), '| hourly' if hourly else '| twice a day', '| fresh' if ok else f'| STALE (older than {limit} h)')
