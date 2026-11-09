@@ -68,13 +68,27 @@ const go = async (p, hash, wait = 5000) => { await p.goto(SITE + '?cb=' + Date.n
     if (wire.some(w => w.ext)) fail(`${name}: a LIVE News timeline item links to another website`);
     if (await p.$('#pageView .wirebox, #pageView .wiretick')) fail(`${name}: the old list of external headlines is still shown`);
     if (ageMin > 30) fail(`${name}: LIVE News data is stale (${Math.round(ageMin)} min since the last source check)`);
-    if (chans.length) {
-      await p.click('#pageView .lcplay'); await p.waitForTimeout(4000);
+    // live channels: the LIVE sign must match YouTube's own answer in the data file; the live broadcast plays inside the page
+    const vf = await p.evaluate(() => fetch('https://raw.githubusercontent.com/Mahadupdalla/wartabiye-tv/live-data/video-feed.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).catch(() => null));
+    const lcd = (vf && vf.liveChannels || []).map(c => `${c.name}=${c.state || '?'}${c.videoId ? ' ' + c.videoId : ''} @${c.checkedAt || '-'}`);
+    console.log(`${name} live channel check (data): ${lcd.join(' | ')}`);
+    const lcs = await p.$$eval('#pageView .lchans .lccard', l => l.map(x => ({ h: x.querySelector('h3').innerText.replace(/\s+/g, ' '), live: !!x.querySelector('.onair'), play: !!x.querySelector('.lcplay'), ext: x.querySelectorAll('a[href]').length })));
+    console.log(`${name} live channel cards: ${JSON.stringify(lcs)}`);
+    if (lcs.some(x => x.ext)) fail(`${name}: a live channel card links to another website`);
+    for (const x of lcs) { const c = (vf && vf.liveChannels || []).find(c => x.h.indexOf(c.name) >= 0);
+      if (x.live && !(c && c.state === 'live' && Date.now() - new Date(c.checkedAt).getTime() < 20 * 60e3)) fail(`${name}: LIVE sign on ${x.h} without a fresh YouTube confirmation`) }
+    const liveCard = await p.$('#pageView .lchans .lccard.lc-live .lcplay') || await p.$('#pageView .lchans .lcplay');
+    if (liveCard) {
+      await liveCard.click(); await p.waitForTimeout(6000);
       const lf = await p.$$eval('#pageView .lchans iframe', f => f.map(x => x.src));
       console.log(`${name} live channel player: ${lf[0] || 'none'}`);
       if (!lf.length) fail(`${name}: live channel player did not load`);
+      // what the embedded player itself says (YouTube may ask a data-centre server to sign in; a visitor's browser plays it)
+      const fr = p.frames().find(f => /youtube/.test(f.url()));
+      if (fr) { const ps = await fr.evaluate(() => { const v = document.querySelector('video'); return { time: v ? v.currentTime : null, paused: v ? v.paused : null, msg: ((document.querySelector('.ytp-error-content-wrap, .ytp-error') || {}).innerText || '').slice(0, 120) } }).catch(e => ({ err: String(e).slice(0, 80) }));
+        console.log(`${name} live player state: ${JSON.stringify(ps)}`) }
       await p.screenshot({ path: `${OUT}/${name}-live-channel.png` });
-    }
+    } else console.log(`${name}: no live channel is on air or playable right now`);
     // Sports: news articles only; the public results section is gone (the old address opens Ciyaaraha)
     await go(p, 'ciyaaraha-toos', 5000);
     const sp = await p.evaluate(() => ({ hash: location.hash, cards: [...document.querySelectorAll('#pageView .card')].slice(0, 6).map(c => c.innerText.replace(/\s+/g, ' ').slice(0, 120)),

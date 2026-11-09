@@ -471,9 +471,10 @@
     // Wartabiye TV writes from the official newsroom feeds, and Wartabiye TV's own published stories, newest first.
     var tl=el('ol','lntl');var reg='';var chips=el('div','wirechips');
     LU_REG.forEach(function(r){var b=el('button','chip',tr(r[1]));b.type='button';b.setAttribute('aria-pressed',String(r[0]===reg));b.addEventListener('click',function(){reg=r[0];[].forEach.call(chips.children,function(c){c.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');draw([])});chips.append(b)});
-    main.append(bc,head(tr('luTitle'),'red'),el('p','vnote',tr('luNote')),chips,tl);
-    // the newsrooms' official 24/7 channels in their own embedded players (assets/media.js); never restreamed
-    if(window.WT_MEDIA&&WT_MEDIA.liveChannels)WT_MEDIA.liveChannels(main);
+    // the newsrooms' official 24/7 channels, played inside the site in their own embedded players with a checked LIVE /
+    // OFFLINE state (assets/media.js); never restreamed. Shown above the timeline.
+    var chw=el('div');main.append(bc,chw,head(tr('luTitle'),'red'),el('p','vnote',tr('luNote')),chips,tl);
+    if(window.WT_MEDIA&&WT_MEDIA.liveChannels)WT_MEDIA.liveChannels(chw);
     main.append(el('p','vnote',tr('lnRule')));
     fillSide(side,[sideTrending(),adSlot('sidebar'),sideFollow()]);
     var LU=null;

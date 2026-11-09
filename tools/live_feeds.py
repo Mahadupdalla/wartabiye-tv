@@ -241,14 +241,68 @@ def update_wire(cfg, prev, status, t):
     return {'updatedAt': iso(t), 'items': items}
 
 
-def update_live_channels(cfg, status, t):
-    """Official 24/7 news channels: the site shows YouTube's own live player for the channel. Whether a broadcast is on
-    right now is shown by YouTube's player itself; this list only carries channels the publisher runs."""
+BROWSER_UA = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36',
+              'Accept-Language': 'en-US,en;q=0.8', 'Cookie': 'SOCS=CAI; CONSENT=YES+1'}
+
+
+def live_state(page):
+    """Is the channel broadcasting right now? Read from the channel's public /live page (YouTube's own answer).
+    Returns ('live', videoId, title) / ('offline', None, None) / ('unknown', None, None) when the page cannot tell."""
+    s = page.decode('utf-8', 'replace') if isinstance(page, bytes) else page
+    if 'ytInitialPlayerResponse' not in s and 'ytInitialData' not in s:
+        return 'unknown', None, None  # consent, sign-in or error page: say nothing
+    can = re.search(r'<link rel="canonical" href="https://www\.youtube\.com/watch\?v=([A-Za-z0-9_-]{11})"', s)
+    if not can:
+        return 'offline', None, None  # /live opens the channel page: no broadcast now
+    if re.search(r'"isLiveNow"\s*:\s*true', s) or re.search(r'"isLive"\s*:\s*true', s):
+        if re.search(r'"playableInEmbed"\s*:\s*false', s):
+            return 'noembed', can.group(1), None
+        m = re.search(r'<meta name="title" content="([^"]*)"', s)
+        return 'live', can.group(1), clean(html.unescape(m.group(1)) if m else '', 160)
+    return 'offline', None, None  # an upcoming or ended broadcast is not live
+
+
+def update_live_channels(cfg, status, t, prev=None, getter=None):
+    """Official 24/7 news channels, played in YouTube's own embedded player. Every 5 minutes the channel's public /live
+    page is read: "live" only when YouTube says the broadcast is on now and embedding is allowed (checked again with
+    YouTube oEmbed); "offline" when YouTube shows no broadcast; "unknown" when the check failed (the site then shows no
+    LIVE sign). Nothing is downloaded, proxied or restreamed."""
+    getter = getter or (lambda u: fetch_with(u, BROWSER_UA))
+    old = {c.get('channelId'): c for c in ((prev or {}).get('liveChannels') or []) if isinstance(c, dict)}
     out = []
     for ch in (cfg.get('liveChannels') or []):
-        if ch and ch.get('enabled') is not False and CHANNEL_ID.match(str(ch.get('channelId', ''))):
-            out.append({'name': ch.get('name'), 'channelId': ch['channelId'], 'language': ch.get('language') or 'en', 'watchUrl': ch.get('watchUrl') or 'https://www.youtube.com/channel/' + ch['channelId'] + '/live'})
+        if not (ch and ch.get('enabled') is not False and CHANNEL_ID.match(str(ch.get('channelId', '')))):
+            continue
+        cid = ch['channelId']
+        c = {'name': ch.get('name'), 'channelId': cid, 'language': ch.get('language') or 'en'}
+        try:
+            st, body = getter('https://www.youtube.com/channel/' + cid + '/live')
+            state, vid, title = live_state(body) if st == 200 else ('unknown', None, None)
+            if state == 'live' and not embeddable(vid, {}):
+                state = 'noembed'
+        except Exception as ex:
+            state, vid, title = 'unknown', None, None
+            status.setdefault('live:' + cid, {})['error'] = str(ex)[:200]
+        c['state'] = state
+        c['checkedAt'] = iso(t)
+        if state in ('live', 'noembed'):
+            c['videoId'] = vid
+            if title:
+                c['title'] = title
+            p = old.get(cid) or {}
+            c['liveSince'] = p.get('liveSince') if p.get('videoId') == vid and p.get('liveSince') else iso(t)  # first seen live
+        s2 = status.setdefault('live:' + cid, {})
+        s2.update(name=ch.get('name') + ' (LIVE)', kind='video', checkedAt=iso(t), ok=state != 'unknown', items=1 if state == 'live' else 0)
+        if state != 'unknown':
+            s2['lastOkAt'] = iso(t)
+            s2.pop('error', None)
+        out.append(c)
     return out
+
+
+def fetch_with(url, headers, timeout=20):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=timeout) as r:
+        return r.status, r.read()
 
 
 def run(out_dir):
@@ -262,7 +316,7 @@ def run(out_dir):
             return None
     st = (load('feeds-status.json') or {}).get('sources') or {}
     videos = update_videos(cfg, load('video-feed.json'), st, t)
-    videos['liveChannels'] = update_live_channels(cfg, st, t)
+    videos['liveChannels'] = update_live_channels(cfg, st, t, load('video-feed.json'))
     wire = update_wire(cfg, load('live-wire.json'), st, t)
     os.makedirs(out_dir, exist_ok=True)
     changed = []
@@ -337,6 +391,29 @@ def selftest():
     calls.clear()
     update_videos(vcfg, v, st, t)
     check(not any('oembed' in c for c in calls), 'embedding not re-checked for known videos')
+    # live channels: LIVE only when YouTube says the broadcast is on now; offline / unknown otherwise
+    LIVE_PAGE = ('<html><link rel="canonical" href="https://www.youtube.com/watch?v=SGa4wqWNXnE"><meta name="title" content="Al Jazeera English | Live">'
+                 '<script>var ytInitialPlayerResponse = {"playabilityStatus":{"playableInEmbed":true},"videoDetails":{"isLive":true},"microformat":{"liveBroadcastDetails":{"isLiveNow":true}}};</script>')
+    OFF_PAGE = '<html><link rel="canonical" href="https://www.youtube.com/channel/UCNye-wNBqNL5ZzHSJj3l8Bg"><script>var ytInitialData = {};</script>'
+    UPCOMING = LIVE_PAGE.replace('"isLive":true', '"isUpcoming":true').replace('"isLiveNow":true', '"isLiveNow":false')
+    check(live_state(LIVE_PAGE.encode())[:2] == ('live', 'SGa4wqWNXnE') and live_state(LIVE_PAGE)[2] == 'Al Jazeera English | Live', 'live channel detected')
+    check(live_state(OFF_PAGE)[0] == 'offline' and live_state(UPCOMING)[0] == 'offline', 'no broadcast / upcoming is not live')
+    check(live_state('<html>Before you continue to YouTube</html>')[0] == 'unknown', 'consent page says nothing')
+    check(live_state(LIVE_PAGE.replace('"playableInEmbed":true', '"playableInEmbed":false'))[0] == 'noembed', 'embedding off is not shown as playable')
+    fetch = f2
+    lc = {'liveChannels': [{'name': 'AJE', 'channelId': 'UCNye-wNBqNL5ZzHSJj3l8Bg'}, {'name': 'DW', 'channelId': 'UCknLrEdhRCp1aegoMqRaCZg'}, {'name': 'F24', 'channelId': 'UCQfwfsi5VrQ8yKZ-UWmAEFg'}]}
+    pages = {'UCNye-wNBqNL5ZzHSJj3l8Bg': (200, LIVE_PAGE.encode()), 'UCknLrEdhRCp1aegoMqRaCZg': (200, OFF_PAGE.encode())}
+
+    def g(u):
+        for k, v in pages.items():
+            if k in u:
+                return v
+        raise OSError('timeout')
+    t0 = t - D.timedelta(minutes=30)
+    r1 = update_live_channels(lc, {}, t0, None, g)
+    r2 = update_live_channels(lc, {}, t, {'liveChannels': r1}, g)
+    check([c['state'] for c in r2] == ['live', 'offline', 'unknown'] and r2[0]['videoId'] == 'SGa4wqWNXnE', 'channel states')
+    check(r2[0]['liveSince'] == iso(t0) and r2[0]['checkedAt'] == iso(t) and 'videoId' not in r2[1], 'live since first seen, checked now')
     fetch = real
     print(f'LIVE FEEDS OK ({ok} checks)')
 

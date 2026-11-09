@@ -73,7 +73,10 @@ const LD = age => ({
     { id: 'yt-' + YT, videoId: YT, title: 'Wararka BBC Somali', summary: '', kind: 'somalia', language: 'so', youtube: 'https://www.youtube.com/watch?v=' + YT, publishedAt: iso(-2 * 3600e3), source: 'BBC News Somali', sourceUrl: 'https://www.youtube.com/channel/UC_QuRsbRQpaC4iS8WlxW0NA', license: 'YouTube embed', auto: true },
     { id: 'yt-abcdefghijk', videoId: 'abcdefghijk', title: 'World news report', kind: 'world', language: 'en', youtube: 'https://www.youtube.com/watch?v=abcdefghijk', publishedAt: iso(-5 * 3600e3), source: 'DW News', license: 'YouTube embed', auto: true },
     { id: 'yt-notallowed', videoId: 'x', title: 'Notallowed', youtube: 'not a link', publishedAt: iso(-3600e3), source: 'X', auto: true }],
-    liveChannels: [{ name: 'Al Jazeera English', channelId: 'UCNye-wNBqNL5ZzHSJj3l8Bg', language: 'en', watchUrl: 'https://www.youtube.com/channel/UCNye-wNBqNL5ZzHSJj3l8Bg/live' }] },
+    // checked by tools/live_feeds.py from each channel's public /live page: on air / not on air / check failed (old)
+    liveChannels: [{ name: 'DW News', channelId: 'UCknLrEdhRCp1aegoMqRaCZg', language: 'en', state: 'offline', checkedAt: iso(-age - 3 * 60e3) },
+      { name: 'FRANCE 24 English', channelId: 'UCQfwfsi5VrQ8yKZ-UWmAEFg', language: 'en', state: 'live', videoId: 'Ap-UM1O9RBU', checkedAt: iso(-age - 90 * 60e3) },
+      { name: 'Al Jazeera English', channelId: 'UCNye-wNBqNL5ZzHSJj3l8Bg', language: 'en', state: 'live', videoId: YT, title: 'Al Jazeera English | Live', liveSince: iso(-age - 5 * 3600e3), checkedAt: iso(-age - 3 * 60e3) }] },
   'live-wire.json': { updatedAt: iso(-age), items: [
     { id: 'a1', title: 'Shir ka dhacay Muqdisho', url: 'https://www.bbc.com/somali/articles/x1', source: 'BBC Somali', region: 'somalia', language: 'so', publishedAt: iso(-10 * 60e3) },
     { id: 'a2', title: 'Kenya election update', url: 'https://www.aljazeera.com/news/x2', source: 'Al Jazeera', region: 'eastafrica', language: 'en', publishedAt: iso(-40 * 60e3), updatedAt: iso(-5 * 60e3), previousTitle: 'Kenya election' },
@@ -202,10 +205,18 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     if (!tl.length || !/Golaha wasiirada/.test(tl[0].t) || !/BBC Somali/.test(tl[0].t)) fail(`${name}: newest update first, with its full text naming the newsroom`);
     if (tl.some(x => x.ext)) fail(`${name}: a timeline item links to another website`);
     if (await p.$('#pageView .wirebox, #pageView .wiretick')) fail(`${name}: the old list of external headlines is still shown`);
-    if (/\bLIVE\b|\bTOOS\b/.test(await p.$eval('#pageView .lchans .lcgrid', x => x.innerText).catch(() => ''))) fail(`${name}: own LIVE label on a third-party channel`);
-    if (s.iframes.some(f => /live_stream/.test(f))) fail(`${name}: a live channel player loads before the visitor presses play`);
-    await p.click('#pageView .lcplay'); await p.waitForTimeout(300);
-    if (!(await st(p)).iframes.some(f => /embed\/live_stream\?channel=UCNye-wNBqNL5ZzHSJj3l8Bg/.test(f))) fail(`${name}: official live channel player`);
+    // live channels: LIVE sign only on a channel YouTube confirmed on air in the last 20 minutes; OFFLINE when confirmed off;
+    // no sign when the check is old; played inside the page; no links to other websites
+    const lc = await p.$$eval('#pageView .lchans .lccard', l => l.map(x => ({ h: x.querySelector('h3').innerText.replace(/\s+/g, ' '), cls: x.className, play: !!x.querySelector('.lcplay'), ext: x.querySelectorAll('a[href]').length })));
+    console.log(name, 'live channels:', JSON.stringify(lc));
+    if (lc.length !== 3 || !/^TOOS ?Al Jazeera/.test(lc[0].h) || !/lcfeat/.test(lc[0].cls) || !lc[0].play) fail(`${name}: confirmed live channel first, featured, with a LIVE sign`);
+    if (/TOOS|LIVE/.test(lc[1].h) || !/lc-unknown/.test(lc[1].cls) || !lc[1].play) fail(`${name}: an old live check shows no LIVE sign (France 24)`);
+    if (!/MA BAAHINAYO/.test(lc[2].h) || lc[2].play) fail(`${name}: a channel confirmed off air shows OFFLINE and no player`);
+    if (lc.some(x => x.ext) || await p.$('#pageView .lchans a[href^="http"]')) fail(`${name}: a live channel card links to another website`);
+    if (s.iframes.some(f => /live_stream|youtube/.test(f))) fail(`${name}: a live channel player loads before the visitor presses play`);
+    await p.click('#pageView .lcfeat .lcplay'); await p.waitForTimeout(300);
+    if (!(await st(p)).iframes.some(f => new RegExp('youtube-nocookie\\.com/embed/' + YT + '\\?.*autoplay=1').test(f))) fail(`${name}: the live broadcast plays inside the page`);
+    if (await p.$('#pageView .vyt')) fail(`${name}: "Watch on YouTube" link on LIVE News`);
     await p.click('#pageView .wirechips button:nth-child(5)'); await p.waitForTimeout(200);
     { const w5 = await p.$$eval('#pageView ol.lntl > li.lnitem.lu', l => l.map(x => x.innerText)); if (w5.length !== 1 || !/Geneva/.test(w5[0])) fail(`${name}: World filter`) }
     if (s.overflow) fail(`${name}: LIVE News scrolls sideways`);
@@ -218,7 +229,12 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { ld: LD(2 * 3600e3) }); p = await ctx.newPage();
     await go(p, 'wararka-tooska'); await p.waitForTimeout(800);
     if (await p.$('#pageView .lnwarn, #pageView .lnstatus, #pageView .wirest, #pageView .lndot')) fail(`${name}: public source-status block is still shown`);
-    if (!(await p.$$('#pageView ol.lntl > li.lnitem.lu')).length) fail(`${name}: LIVE updates missing with an older feed file`); await ctx.close();
+    if (!(await p.$$('#pageView ol.lntl > li.lnitem.lu')).length) fail(`${name}: LIVE updates missing with an older feed file`);
+    if (await p.$('#pageView .lchans .onair')) fail(`${name}: LIVE sign on a channel from an old check`);
+    // LIVE TV page while Wartabiye TV is off air: the official live channels, playable inside the page
+    await go(p, 'toos'); await p.waitForTimeout(1200);
+    if (!(await p.$$('#pageView .livechans:not([hidden]) .lccard')).length) fail(`${name}: live news channels on the LIVE TV page while off air`);
+    await ctx.close();
 
     // 3. LIVE TV states
     const cases = [
