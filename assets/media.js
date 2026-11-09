@@ -423,7 +423,7 @@
       function tm(s){var d=new Date(s);return isNaN(d)?'':C.dayMonth(d)+' '+eatHM(d)}
       function table(title,rows){w.append(C.head(title));var t=el('table','htable');var th=el('tr');[tr('healthSource'),'',tr('healthChecked'),tr('healthOk'),tr('healthNewest'),tr('healthError')].forEach(function(h){th.append(el('th',null,h))});var tb=el('tbody');t.append(el('thead'),tb);t.firstChild.append(th);rows(tb);var sc=el('div','tscroll');sc.append(t);w.append(sc)}
       var fs=r[0]&&r[0].sources||{};table(tr('healthFeeds'),function(tb){Object.keys(fs).forEach(function(k){var x=fs[k];row(tb,(x.kind==='video'?'▶ ':'')+(x.name||k),x.ok,tm(x.checkedAt),tm(x.lastOkAt),tm(x.newest)+(x.items!=null?' ('+x.items+')':''),x.error||'')});if(!Object.keys(fs).length)row(tb,tr('wireUnavailable'),false)});
-      var nw=r[4]||{};var ls=r[1]||{};var sp=r[2]||{};var sf=r[3];
+      var nw=r[4]||{};var ls=r[1]||{};var sp=r[2]||{};var sf=r[3]&&r[3].updatedAt?r[3]:null;
       table(tr('healthOther'),function(tb){row(tb,'Wartabiye TV news',!!nw.lastSuccessAt,tm(nw.lastRunAt),tm(nw.lastSuccessAt),'','');
         row(tb,'LIVE TV (YouTube check)',ls.checkedAt?true:null,tm(ls.checkedAt),ls.live?'LIVE':'',ls.source||'',ls.error||'');
         row(tb,'OpenLigaDB',(sp.openData||{}).enabled!==false&&((sp.openData||{}).leagues||[]).length?true:null,'','',((sp.openData||{}).leagues||[]).map(function(x){return x.name}).join(', '),'');

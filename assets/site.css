@@ -1299,3 +1299,18 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
   .tools .icobtn{width:38px;height:40px}
   .hctl .soc a.sm,.hctl .tbtn{width:40px;height:40px}
 }
+/* automatic match-result report: the result card (both crests and the final score) is the article's picture */
+.ph.rescard{background-image:linear-gradient(135deg,var(--blue),var(--blue-d));color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:10px;padding:14px 10px;box-sizing:border-box}
+.ph.rescard .rc-comp{font:800 11px/1.2 var(--display);letter-spacing:.14em;text-transform:uppercase;text-align:center;opacity:.9}
+.ph.rescard .rc-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px}
+.ph.rescard .rc-team{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;text-align:center}
+.ph.rescard .rc-team b{font:700 13px/1.2 var(--body);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;max-width:100%}
+.ph.rescard .rc-crest{width:56px;height:56px;object-fit:contain;background:#fff;border-radius:50%;padding:7px;box-sizing:border-box;flex:none}
+.ph.rescard .rc-crest.none{display:inline-flex;align-items:center;justify-content:center;color:var(--blue-d);font:800 18px var(--display)}
+.ph.rescard .rc-mid{display:flex;flex-direction:column;align-items:center;gap:4px}
+.ph.rescard .rc-score{font:800 30px/1 var(--display);white-space:nowrap;letter-spacing:.02em}
+.ph.rescard .rc-ft{font:700 10px/1.2 var(--body);text-transform:uppercase;letter-spacing:.08em;background:rgba(255,255,255,.18);padding:3px 7px;border-radius:4px;text-align:center}
+.ph.rescard.hero .rc-crest{width:96px;height:96px;padding:10px}.ph.rescard.hero .rc-score{font-size:48px}.ph.rescard.hero .rc-team b{font-size:17px}.ph.rescard.hero .rc-comp{font-size:13px}
+.mini .ph.rescard{padding:4px;gap:2px}.mini .ph.rescard .rc-comp,.mini .ph.rescard .rc-team b,.mini .ph.rescard .rc-ft{display:none}.mini .ph.rescard .rc-crest{width:26px;height:26px;padding:3px}.mini .ph.rescard .rc-score{font-size:14px}
+@media (max-width:520px){.ph.rescard .rc-crest{width:44px;height:44px}.ph.rescard .rc-score{font-size:24px}.ph.rescard.hero .rc-crest{width:64px;height:64px}.ph.rescard.hero .rc-score{font-size:34px}}
+.figure .ph.hero.rescard{aspect-ratio:16/9;display:flex;border:0;background:linear-gradient(135deg,var(--blue),var(--blue-d))}

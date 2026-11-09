@@ -5,11 +5,13 @@ const fs = require('fs');
 (async () => {
   const base = process.argv[2], outDir = process.argv[3] || '.';
   const news = JSON.parse(fs.readFileSync('data/news.json', 'utf8')).news;
-  const b = await chromium.launch(); const problems = [];
+  const b = await chromium.launch(); const problems = []; const notes = [];
   async function open(w, h, hash) {
     const p = await b.newPage({ viewport: { width: w, height: h } }); const errs = [];
     p.on('pageerror', e => errs.push(e.message));
-    p.on('response', r => { if (r.status() >= 400) errs.push(r.status() + ' ' + r.url()) });
+    // the site's own files must all load; a third-party image or data service that answers 404/429 (a removed YouTube
+    // thumbnail, OpenLigaDB rate-limiting this one test machine) is shown with a fallback by the page: logged, not a failure
+    p.on('response', r => { if (r.status() >= 400) { const own = r.url().startsWith(base) || r.url().startsWith(new URL(base).origin); (own ? errs : notes).push(r.status() + ' ' + r.url()) } });
     await p.goto(base + hash, { waitUntil: 'networkidle' }); await p.waitForTimeout(1000); return { p, errs };
   }
   async function slots(p) {
@@ -90,6 +92,7 @@ const fs = require('fs');
     await q.close();
   }
   await b.close();
+  if (notes.length) console.log('third-party answers (not counted):', [...new Set(notes)].slice(0, 20));
   console.log(problems.length ? 'PROBLEMS: ' + problems.join(', ') : 'LIVE SITE OK');
   process.exit(problems.length ? 1 : 0);
 })();
