@@ -1,0 +1,76 @@
+{
+ "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
+ "mode": "off (no ANTHROPIC_API_KEY secret)",
+ "limits": {
+  "articlesPerDay": 20,
+  "usdPerDay": 5.0,
+  "perCheck": 2
+ },
+ "lastCheckAt": "2026-11-09T12:48:29+03:00",
+ "lastRun": {
+  "skipped": 6,
+  "waitingForKey": 9
+ },
+ "lastWrittenAt": null,
+ "days": {
+  "2026-11-09": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 6,
+   "refused": 0,
+   "failed": 0,
+   "usd": 0
+  }
+ },
+ "recent": [
+  {
+   "at": "2026-11-09T12:48:29+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "capitalfm-sports",
+   "title": "‘How I almost missed out on gold at Dakar Olympics,’ Kenyan youngster reveals",
+   "url": "https://capitalfm.africa/how-i-almost-missed-out-on-gold-at-dakar-olympics-kenyan-youngster-reveals/?utm_source=rss&utm_medium=feed&utm_campaign=feed-sports"
+  },
+  {
+   "at": "2026-11-09T12:48:29+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "Sports Personality of the Year returns - with five awards decided by public",
+   "url": "https://www.bbc.co.uk/sport/articles/cqj9kd00y0wko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T12:48:29+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "Packers & Bengals win in style - NFL week nine",
+   "url": "https://www.bbc.co.uk/sport/american-football/articles/cmdxwxry2pr8o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T12:48:29+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "Gauff opens WTA Finals with gritty win over Pegula",
+   "url": "https://www.bbc.co.uk/sport/tennis/articles/c3x2w9w078kko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T12:48:29+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "England make massive step up in Australia victory",
+   "url": "https://www.bbc.co.uk/sport/rugby-union/articles/cqev33zn20vdo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T12:48:29+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "Fishlock retires after record-breaking career",
+   "url": "https://www.bbc.co.uk/sport/football/articles/cq98z8401zz8o?at_medium=RSS&at_campaign=rss"
+  }
+ ]
+}
