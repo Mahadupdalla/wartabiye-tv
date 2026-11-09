@@ -66,7 +66,7 @@ jobs:
           LIVE_UPDATES_PER_RUN: '2'
         run: |
           mkdir -p /tmp/lu && git fetch -q --depth=1 origin live-data && git show FETCH_HEAD:live-wire.json > /tmp/lu/live-wire.json || true
-          python3 tools/live_feeds.py /tmp/lu
+          LIVE_DEBUG=1 python3 tools/live_feeds.py /tmp/lu
           echo LIVE_CHANNELS_JSON && python3 -c "import json;print(json.dumps(json.load(open('/tmp/lu/video-feed.json')).get('liveChannels'),ensure_ascii=False))"
           if [ -n "$ANTHROPIC_API_KEY" ]; then python3 -m pip install -q 'anthropic>=2.6,<3'; fi
           python3 tools/live_updates.py /tmp/lu
