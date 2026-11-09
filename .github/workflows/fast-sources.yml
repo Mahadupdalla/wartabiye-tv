@@ -85,7 +85,8 @@ jobs:
           # sports NEWS articles written by Claude (tools/sports_writer.py): the owner's own API key from console.anthropic.com,
           # billed per use by Anthropic, separate from the owner's Claude plan. Without it the sports writer stays off.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          SPORTS_WRITER_DAILY_MAX: ${{ vars.SPORTS_WRITER_DAILY_MAX || '40' }}
+          SPORTS_WRITER_DAILY_MAX: ${{ vars.SPORTS_WRITER_DAILY_MAX || '20' }}
+          SPORTS_WRITER_DAILY_USD: ${{ vars.SPORTS_WRITER_DAILY_USD || '5' }}
           # World News + Somalia & East Africa articles on the same key (tools/news_writer.py). "fallback" = only while the
           # hourly Claude routine has stopped (e.g. Claude Max limit reached); "always" = every fresh story; "off".
           NEWS_WRITER_MODE: ${{ vars.NEWS_WRITER_MODE || 'fallback' }}

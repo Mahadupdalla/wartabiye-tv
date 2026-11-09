@@ -56,7 +56,10 @@ sports_cycle() {
   git diff --cached --quiet && return 0
   msg="Ciyaaraha: xogta natiijooyinka"; [ "$new" -gt 0 ] && msg="Ciyaaraha: $new natiijo cusub (warbixin toos ah)"
   git "${BOT[@]}" commit -q -m "$msg" || return 1
-  for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+  # the rebuilt data/news.json etc. are not committed (the publish workflow builds them): drop them, or the rebase
+  # refuses to start ("cannot pull with rebase: You have unstaged changes", seen 9 Nov 09:35 UTC: 3 reports lost)
+  git reset -q --hard HEAD
+  push_main || return 1
   if [ "$new" -gt 0 ]; then
     # a push made with the job's token starts no workflow: start the publish workflow (pages, bell, push alerts)
     gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
@@ -96,7 +99,10 @@ sports_writer_cycle() {
   pub=$(grep -c '^wrote .*(published)' /tmp/sw.txt 2>/dev/null || true); pub=${pub:-0}
   msg="Ciyaaraha: xaaladda qoraaga wararka"; [ "$new" -gt 0 ] && msg="Ciyaaraha: $new war cusub ($pub la daabacay, $((new - pub)) sugaya sawir)"
   git "${BOT[@]}" commit -q -m "$msg" || return 1
-  for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+  # the rebuilt data/news.json etc. are not committed (the publish workflow builds them): drop them, or the rebase
+  # refuses to start ("cannot pull with rebase: You have unstaged changes", seen 9 Nov 09:35 UTC: 3 reports lost)
+  git reset -q --hard HEAD
+  push_main || return 1
   if [ "$pub" -gt 0 ]; then
     gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
   fi
@@ -133,6 +139,7 @@ news_writer_cycle() {
   pub=$(grep -c '^wrote .*(published)' /tmp/nw.txt 2>/dev/null || true); pub=${pub:-0}
   msg="Wararka: xaaladda qoraaga wararka"; [ "$new" -gt 0 ] && msg="Wararka (otomaatig): $new war cusub ($pub la daabacay, $((new - pub)) sugaya sawir)"
   git "${BOT[@]}" commit -q -m "$msg" || return 1
+  git reset -q --hard HEAD   # drop the rebuilt, uncommitted files so the rebase can start
   push_main || return 1
   if [ "$pub" -gt 0 ]; then
     # a push made with the job's token starts no workflow: start the publish workflow (pages, bell, push alerts)
