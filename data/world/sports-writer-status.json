@@ -1,15 +1,16 @@
 {
  "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
- "mode": "off (no ANTHROPIC_API_KEY secret)",
+ "mode": "on",
  "limits": {
   "articlesPerDay": 20,
   "usdPerDay": 5.0,
   "perCheck": 2
  },
- "lastCheckAt": "2026-11-09T13:46:08+03:00",
+ "lastCheckAt": "2026-11-09T14:41:53+03:00",
  "lastRun": {
-  "skipped": 0,
-  "waitingForKey": 5
+  "skipped": 1,
+  "usd": 0,
+  "failed": 2
  },
  "lastWrittenAt": null,
  "days": {
@@ -17,13 +18,139 @@
    "written": 0,
    "published": 0,
    "held": 0,
-   "skipped": 12,
+   "skipped": 21,
    "refused": 0,
-   "failed": 0,
+   "failed": 6,
    "usd": 0
   }
  },
  "recent": [
+  {
+   "at": "2026-11-09T14:41:53+03:00",
+   "source": "kicker",
+   "title": "Mit 16 Jahren in Doncic-Fußstapfen: Real Madrid feiert neues Juwel",
+   "url": "https://www.kicker.de/mit-16-jahren-in-doncic-fussstapfen-real-madrid-feiert-neues-juwel-1270125/artikel#omrss",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-09T14:41:53+03:00",
+   "source": "kicker",
+   "title": "Die Geschichte hinter Wirtz' erstem Premier-League-Tor",
+   "url": "https://www.kicker.de/die-geschichte-hinter-wirtz-erstem-premier-league-tor-1270108/artikel#omrss",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-09T14:41:53+03:00",
+   "result": "skipped",
+   "reason": "same story as RMC Sport: Teddy Riner candidat à la présidentielle: toutes ces fois où le judoka a dit qu'",
+   "source": "rmcsport",
+   "title": "DIRECT. Teddy Riner candidat à l'élection présidentielle 2027: suivez en live toutes les infos et les réactions à l'annonce du judoka",
+   "url": "https://rmcsport.bfmtv.com/judo/direct-teddy-riner-candidat-a-l-election-presidentielle-2027-suivez-en-live-toutes-les-infos-et-les-reactions-a-l-annonce-du-judoka_LN-202611090457.html"
+  },
+  {
+   "at": "2026-11-09T14:36:35+03:00",
+   "source": "mundodeportivo",
+   "title": "Vargas no va con Suiza por una gastroenteritis",
+   "url": "https://www.mundodeportivo.com/futbol/sevilla/20261109/1004249011/vargas-no-suiza-gastroenteritis.html",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-09T14:36:35+03:00",
+   "source": "kicker",
+   "title": "Die Geschichte hinter Wirtz' erstem Premier-League-Tor",
+   "url": "https://www.kicker.de/die-geschichte-hinter-wirtz-erstem-premier-league-tor-1270108/artikel#omrss",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-09T14:36:35+03:00",
+   "result": "skipped",
+   "reason": "same story as Mundo Deportivo: Las vuelta de Frenkie De Jong con Países Bajos la 'paga' alguien y Xavi da expli",
+   "source": "mundodeportivo",
+   "title": "El nuevo Frenkie de Jong vale por cuatro",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261109/1004248979/nuevo-frenkie-jong-vale-cuatro.html"
+  },
+  {
+   "at": "2026-11-09T14:30:37+03:00",
+   "source": "as",
+   "title": "Psicosis con Raphinha: tres viajes con Brasil en 2026, tres lesiones",
+   "url": "https://as.com/futbol/primera/psicosis-con-raphinha-tres-viajes-con-brasil-en-2026-tres-lesiones-f202611-n/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-09T14:30:37+03:00",
+   "source": "kicker",
+   "title": "Die Geschichte hinter Wirtz' erstem Premier-League-Tor",
+   "url": "https://www.kicker.de/die-geschichte-hinter-wirtz-erstem-premier-league-tor-1270108/artikel#omrss",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-09T14:11:22+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "guardian-football",
+   "title": "‘100% accurate’: Warner backs Khawaja over explosive ball-tampering claims",
+   "url": "https://www.theguardian.com/sport/2026/nov/09/australia-face-fresh-questions-usman-khawaja-autobiography-ball-tampering-ntwnfb"
+  },
+  {
+   "at": "2026-11-09T14:06:46+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "liverpool-official",
+   "title": "'The Reaction' podcast: Interviews and analysis after Crystal Palace 1-3 Liverpool",
+   "url": "https://www.liverpoolfc.com/news/the-reaction-podcast-crystal-palace-1-3-liverpool"
+  },
+  {
+   "at": "2026-11-09T14:06:46+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "the-athletic",
+   "title": "How to watch the 2026 Hockey Hall of Fame induction ceremony",
+   "url": "https://www.nytimes.com/athletic/7753988/2026/11/09/hockey-hall-of-fame-ceremony-how-to-watch-2026/"
+  },
+  {
+   "at": "2026-11-09T14:01:20+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "guardian-football",
+   "title": "Joe Burrow is reviving the Bengals and pulling away in the race for MVP",
+   "url": "https://www.theguardian.com/sport/2026/nov/09/joe-burrow-bengals-nfl-mvp-race-frontrunners"
+  },
+  {
+   "at": "2026-11-09T14:01:20+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "skysports",
+   "title": "Los Angeles Golf Club make history by winning inaugural WTGL match",
+   "url": "https://www.skysports.com/golf/news/12040/13610074/wtgl-los-angeles-golf-club-make-history-by-winning-inaugural-match-against-new-york-at-sofi-center"
+  },
+  {
+   "at": "2026-11-09T14:01:20+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "the-athletic",
+   "title": "NBA season live updates: Latest news, schedules, analysis and more as league enters 4th week",
+   "url": "https://www.nytimes.com/athletic/live-blogs/nba-news-scores-games-schedule-stats-live-updates/3O8C8RgzvHTs/"
+  },
+  {
+   "at": "2026-11-09T13:56:50+03:00",
+   "result": "skipped",
+   "reason": "same story as Sky Sports: Euro Debrief: Kane has become the king of assists",
+   "source": "skysports",
+   "title": "Euro Debrief: Kane has become the king of assists",
+   "url": "https://www.skysports.com/football/news/11095/13607213/harry-kane-is-bayern-munichs-assist-king-barcelona-win-at-atletico-madrid-and-inter-close-gap-on-lazio-all-in-the-euro-debrief"
+  },
   {
    "at": "2026-11-09T13:36:13+03:00",
    "result": "skipped",
