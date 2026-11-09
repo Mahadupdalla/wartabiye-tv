@@ -123,6 +123,15 @@
       var FOC={top:'50% 15%',bottom:'50% 85%',left:'20% 50%',right:'80% 50%'};if(FOC[it.imageFocus])im.style.objectPosition=FOC[it.imageFocus];
       im.addEventListener('error',function(){im.remove();s.classList.add('none');var ill=s.querySelector('.illus');if(ill)ill.remove();s.querySelector('.phc').hidden=false;s.append(el('span','illus phtag',tr('phTag')));if(!broken[it._id]){broken[it._id]=1}});
       im.src=iu;s.append(im);has=true;if(it.imageKind==='illustrative')s.append(el('span','illus',tr('illus')));
+    }else if(it.result&&it.result.home&&it.result.away&&it.result.score){
+      // automatic match-result report: the result card (both crests and the final score) is its picture
+      var R=it.result;s.classList.add('rescard');s.setAttribute('role','img');s.setAttribute('aria-label',F(it,'imageAlt')||F(it,'title'));
+      function side(t){var b=el('span','rc-team');var u=typeof t.crest==='string'&&/^https:\/\//.test(t.crest)?t.crest:null;
+        if(u){var ci=el('img','rc-crest');ci.src=u;ci.alt='';ci.loading='lazy';ci.referrerPolicy='no-referrer';ci.addEventListener('error',function(){ci.replaceWith(el('span','rc-crest none',String(t.name||'').split(/\s+/).slice(0,2).map(function(w){return w.charAt(0)}).join('').toUpperCase()))});b.append(ci)}
+        else b.append(el('span','rc-crest none',String(t.name||'').split(/\s+/).slice(0,2).map(function(w){return w.charAt(0)}).join('').toUpperCase()));
+        b.append(el('b',null,t.name||''));return b}
+      var mid=el('span','rc-mid');mid.append(el('span','rc-score',R.score.home+' – '+R.score.away),el('span','rc-ft',tr('rcFT')));
+      var top=el('span','rc-comp',R.competition||'');var row=el('span','rc-row');row.append(side(R.home),mid,side(R.away));s.append(top,row);has=true
     }else{s.classList.add('none');s.setAttribute('role','img');s.setAttribute('aria-label',cn+': '+tr('phTag'));s.append(el('span','illus phtag',tr('phTag')))}
     var c=el('span','phc');if(has)c.hidden=true;c.setAttribute('aria-hidden','true');
     var icon=section(it)==='sports'&&it.sport&&SPORT_IC[it.sport]||ICONS[it.category]||ICONS._;c.innerHTML=svg(icon);c.append(el('b',null,cn),el('i',null,tr('noImg')));s.append(c);
@@ -365,6 +374,7 @@
       var cr2=typeof it.imageCredit==='string'&&it.imageCredit?it.imageCredit:(it.by==='admin'?'Wartabiye TV':'');
       if(cr2){fc.append(tr('photo')+': ');var iu2=safeUrl(it.imageSourceUrl);if(iu2){var ca=el('a',null,cr2);ca.href=iu2;ca.target='_blank';ca.rel='noopener';fc.append(ca)}else fc.append(cr2);if(it.imageLicense)fc.append(' · '+it.imageLicense)}
       if(fc.childNodes.length)fig.append(fc)}
+    else if(it.result&&it.result.score){var fr=el('figcaption');fr.append((F(it,'imageAlt')||'')+(it.result.provider?' · '+it.result.provider:''));fig.append(fr)}
     else{var fn=el('figcaption');fn.append(tr('noImg')+(L==='so'&&typeof it.imageNote==='string'&&it.imageNote?': '+it.imageNote:'.'));fig.append(fn)}
     A.append(fig);
     var bd=soAttr(el('div','body'),isSo(it));var txt2=(body||sum||F(it,'title'));

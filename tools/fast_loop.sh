@@ -26,20 +26,72 @@ n=0
 restore_state() {
   # previous monitor state (branch fast-feed): seen ids, tracked stories, run log
   if git fetch -q origin fast-feed 2>/dev/null; then
-    for f in state.json candidates.json alerts.txt; do git show origin/fast-feed:$f > /tmp/fast/$f 2>/dev/null || rm -f /tmp/fast/$f; done
+    for f in state.json candidates.json alerts.txt sports-writer-state.json sports-writer-status.json; do git show origin/fast-feed:$f > /tmp/fast/$f 2>/dev/null || rm -f /tmp/fast/$f; done
   fi
 }
 
 sports_cycle() {
-  # nothing to do without the token (the LIVE Sports page then uses its open data only)
-  [ -n "${FOOTBALL_DATA_TOKEN:-}" ] || return 0
-  node tools/sports_feed.mjs || return 1
-  git add -A data/sports-feed 2>/dev/null || true
+  # 1. LIVE Sports scores (football-data.org): only with the secret; the LIVE Sports page otherwise uses its open data
+  if [ -n "${FOOTBALL_DATA_TOKEN:-}" ]; then
+    node tools/sports_feed.mjs || echo "sports feed failed this time"
+    git add -A data/sports-feed 2>/dev/null || true
+  fi
+  # 2. automatic match-result reports (tools/sports_results.py): finished matches, verified data, nine languages
+  python3 tools/sports_results.py | tee /tmp/sports-results.txt || echo "sports results failed this time"
+  new=$(grep -c '^wrote ' /tmp/sports-results.txt 2>/dev/null || echo 0)
+  if [ "$new" -gt 0 ]; then
+    if python3 tools/build_news.py >/dev/null && python3 tools/check_site.py >/dev/null; then
+      git add data/news/*-natiijo-*.json
+    else
+      echo "result reports did not pass the site check: not published"; git checkout -q -- data/news.json; git clean -qf data/news; new=0
+    fi
+  fi
   git diff --cached --quiet && return 0
-  git "${BOT[@]}" commit -q -m "Ciyaaraha: xogta natiijooyinka" || return 1
+  msg="Ciyaaraha: xogta natiijooyinka"; [ "$new" -gt 0 ] && msg="Ciyaaraha: $new natiijo cusub (warbixin toos ah)"
+  git "${BOT[@]}" commit -q -m "$msg" || return 1
   for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
-  # GitHub Pages: a push made with the job's token does not start another workflow, so ask Pages to build
-  gh api -X POST "repos/${REPO}/pages/builds" -q .status >/dev/null 2>&1 || true
+  if [ "$new" -gt 0 ]; then
+    # a push made with the job's token starts no workflow: start the publish workflow (pages, bell, push alerts)
+    gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
+  else
+    gh api -X POST "repos/${REPO}/pages/builds" -q .status >/dev/null 2>&1 || true
+  fi
+}
+
+sports_writer_cycle() {
+  # 3. sports NEWS articles (tools/sports_writer.py) on the owner's own Claude API key (secret ANTHROPIC_API_KEY, billed
+  #    per use, separate from the owner's Claude plan): the fresh sports stories handed to branch world-feed are checked,
+  #    written in Somali + 8 languages and published with a licensed photo, or kept as a draft (Sugaya sawir) with the reason
+  if [ -z "${ANTHROPIC_API_KEY:-}" ]; then echo "sports writer: off (add the secret ANTHROPIC_API_KEY to switch it on)"; return 0; fi
+  python3 -c "import anthropic" 2>/dev/null || python3 -m pip install -q 'anthropic>=2.6,<3' || return 1
+  git fetch -q origin world-feed && git show FETCH_HEAD:candidates.json > /tmp/sw-cand.json || { echo "sports writer: no world-feed list"; return 0; }
+  [ -s /tmp/fast/sports-writer-state.json ] || echo '{}' > /tmp/fast/sports-writer-state.json
+  [ -s /tmp/fast/sports-writer-status.json ] || cp data/world/sports-writer-status.json /tmp/fast/ 2>/dev/null || true
+  SPORTS_WRITER_STATUS=/tmp/fast/sports-writer-status.json timeout 600 \
+    python3 tools/sports_writer.py --candidates /tmp/sw-cand.json --state /tmp/fast/sports-writer-state.json | tee /tmp/sw.txt
+  rm -f img/news/*.part
+  new=$(grep -c '^wrote ' /tmp/sw.txt 2>/dev/null || true); new=${new:-0}
+  if [ "$new" -gt 0 ]; then
+    if python3 tools/build_news.py >/dev/null && python3 tools/check_site.py >/dev/null && python3 tools/translations.py verify >/dev/null; then
+      git add data/news/ img/news/
+    else
+      echo "sports articles did not pass the site check: not published"; git checkout -q -- data/ img/ 2>/dev/null; git clean -qf data/news img/news; new=0
+    fi
+  fi
+  # the counts for /admin/ and the owner: with every new article, otherwise about once an hour
+  old=$(python3 -c "import json;print(json.load(open('data/world/sports-writer-status.json')).get('lastCheckAt',''))" 2>/dev/null || true)
+  age=$(python3 -c "import datetime;o='$old';print(9999 if not o else int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(o)).total_seconds()//60))")
+  if [ -s /tmp/fast/sports-writer-status.json ] && { [ "$new" -gt 0 ] || [ "$age" -ge 55 ]; }; then
+    cp /tmp/fast/sports-writer-status.json data/world/sports-writer-status.json && git add data/world/sports-writer-status.json
+  fi
+  git diff --cached --quiet && return 0
+  pub=$(grep -c '^wrote .*(published)' /tmp/sw.txt 2>/dev/null || true); pub=${pub:-0}
+  msg="Ciyaaraha: xaaladda qoraaga wararka"; [ "$new" -gt 0 ] && msg="Ciyaaraha: $new war cusub ($pub la daabacay, $((new - pub)) sugaya sawir)"
+  git "${BOT[@]}" commit -q -m "$msg" || return 1
+  for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+  if [ "$pub" -gt 0 ]; then
+    gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
+  fi
 }
 
 cycle() {
@@ -58,10 +110,6 @@ cycle() {
   sports_cycle || echo "sports feed failed this time (the next check retries)"
   python3 tools/fast_monitor.py run --state /tmp/fast $([ "$FORCE" = true ] && echo --force) || { echo "check failed (logged; the next check retries)"; return 1; }
 
-  # state and candidates: branch fast-feed, one commit, no history
-  ( cd /tmp/fast && rm -rf .git && git init -q -b fast-feed && git add state.json candidates.json fast-status.json alerts.txt README.txt \
-    && git "${BOT[@]}" commit -q -m "5-minute monitor $(date -u +%FT%TZ)" && git push -q -f "$REMOTE" fast-feed ) || echo "could not save fast-feed"
-
   # fresh articles -> the news task's list (branch world-feed); nothing new = nothing to do, no AI is started
   if python3 -c "import json,sys;sys.exit(0 if json.load(open('/tmp/fast/candidates.json'))['items'] else 1)"; then
     for i in 1 2 3; do
@@ -76,6 +124,14 @@ cycle() {
   else
     echo "nothing fresh to hand over"
   fi
+
+  # sports news articles from the fresh sports stories (Claude API, only with the secret ANTHROPIC_API_KEY)
+  sports_writer_cycle || echo "sports writer failed this time (the next check retries)"
+
+  # state and candidates: branch fast-feed, one commit, no history
+  ( cd /tmp/fast && rm -rf .git && git init -q -b fast-feed && git add state.json candidates.json fast-status.json alerts.txt README.txt \
+    && for f in sports-writer-state.json sports-writer-status.json; do [ ! -f "$f" ] || git add "$f"; done \
+    && git "${BOT[@]}" commit -q -m "5-minute monitor $(date -u +%FT%TZ)" && git push -q -f "$REMOTE" fast-feed ) || echo "could not save fast-feed"
 
   # the admin copy (/admin/ -> Ilaha wararka -> Ilaha degdegga ah): about once an hour, or at once when an alert starts or ends
   old=$(python3 -c "import json;print(json.load(open('data/world/fast-status.json')).get('updatedAt',''))" 2>/dev/null || true)

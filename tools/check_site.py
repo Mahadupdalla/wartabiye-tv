@@ -17,7 +17,7 @@ for n in items:
         if u in seen: errors.append(f'{nid}: duplicate sourceUrl {u}')
         seen.add(u)
     img = n.get('image')
-    if not img: errors.append(f'{nid}: published without a photo (every article needs its own photo)')
+    if not img and n.get('by') != 'auto-results': errors.append(f'{nid}: published without a photo (every article needs its own photo)')
     elif img in used_imgs: errors.append(f'{nid}: uses the same photo as {used_imgs[img]} (every article needs its own photo)')
     else: used_imgs[img] = nid
     if img and not n.get('imageAlt'): errors.append(f'{nid}: photo needs a description (imageAlt)')
@@ -54,6 +54,10 @@ for n in items:
         if key: users.setdefault(key, []).append(n)
 for n in items:
     if n.get('by') == 'admin' or (n.get('publishedAt') or '')[:10] < RULE_FROM: continue
+    if n.get('by') == 'auto-results':   # match-result report: the result card (crests + score) is its picture
+        r = n.get('result') or {}
+        if n.get('image') or not all(isinstance(r.get(k), dict) for k in ('home', 'away', 'score')): errors.append(f"{n.get('id')}: result report without a valid result block")
+        continue
     if not n.get('image'): errors.append(f"{n.get('id')}: published without its own photo (should be a draft under Sugaya sawir)")
     for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
         if key and len(users.get(key, [])) > 1:
@@ -96,7 +100,7 @@ if sp.get('apiBase') and not str(sp['apiBase']).startswith('https://'): warnings
 if any(k in json.dumps(sp).lower() for k in ('apikey', 'api_key', 'x-auth-token', 'x-apisports-key')): errors.append('sports.json: looks like it contains an API key; keys belong in the sports proxy secret, never in the public site')
 for s in sp.get('streams') or []:
     if not stream_authorised(s): warnings.append(f"sports.json stream {s.get('title')!r}: hidden (rights not confirmed, rights holder or authorisation missing, or link not accepted)")
-print(f'videos={len(vids)} live_stream={"set" if live.get("streamUrl") else "not set"} sports_api={"set" if sp.get("apiBase") else "not set"} open_data_leagues={len([l for l in ((sp.get("openData") or {}).get("leagues") or []) if l and l.get("enabled") is not False]) if (sp.get("openData") or {}).get("enabled") is not False else 0} feed={"on" if os.path.exists("data/sports-feed/index.json") else "off"}')
+print(f'videos={len(vids)} live_stream={"set" if live.get("streamUrl") else "not set"} sports_api={"set" if sp.get("apiBase") else "not set"} open_data_leagues={len([l for l in ((sp.get("openData") or {}).get("leagues") or []) if l and l.get("enabled") is not False]) if (sp.get("openData") or {}).get("enabled") is not False else 0} feed={"on" if os.path.exists("data/sports-feed/index.json") and json.load(open("data/sports-feed/index.json")).get("updatedAt") else "off"}')
 for w in warnings: print('WARNING', w)
 if errors:
     print('\n'.join(errors)); sys.exit(1)

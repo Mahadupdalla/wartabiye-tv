@@ -8,8 +8,15 @@ from translations import LANGS, text_hash, has
 PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
 
 
+def result_card(n):
+    # automatic match-result report (tools/sports_results.py): its picture is the result card (crests + score) drawn by
+    # the page from the "result" block, so it needs no photo file and no photo licence
+    r = n.get('result')
+    return n.get('by') == 'auto-results' and isinstance(r, dict) and isinstance(r.get('score'), dict) and isinstance(r.get('home'), dict) and isinstance(r.get('away'), dict)
+
+
 def needs_photo(n):
-    return n.get('by') != 'admin' and (n.get('publishedAt') or '')[:10] >= PHOTO_RULE_FROM
+    return n.get('by') != 'admin' and not result_card(n) and (n.get('publishedAt') or '')[:10] >= PHOTO_RULE_FROM
 
 
 def image_ok(n):
@@ -40,7 +47,7 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         n['image'] = n['image'].lstrip('/')
     # Rule: no article goes public without its own photo. An article without a photo file (or whose photo is
     # missing) stays pending for review in /admin/ ("Sugaya sawir") until a legal, relevant photo is added.
-    if not n.get('image') or not os.path.isfile(os.path.join(root, n['image'])):
+    if not result_card(n) and (not n.get('image') or not os.path.isfile(os.path.join(root, n['image']))):
         pending.append(n['id']); continue
     # small card image made by tools/make_thumbs.py (publish workflow); cards fall back to the full image without it
     n.pop('thumb', None)
