@@ -650,6 +650,44 @@ collections:
     editor:
       preview: false
     files:
+      - name: automation
+        label: 'Xaaladda otomaatigga (automation status: daabacaadda, ilaha, sawirrada, cilladaha)'
+        file: data/automation-status.json
+        format: json
+        description: 'Waxaa qora ilaaliyaha daabacaadda (tools/automation_watchdog.py) 5 daqiiqo kasta; nuqulkan waa la keydiyaa qiyaas saacaddii mar iyo isla markiiba marka xaaladdu is beddesho. "ok" = wax walba si otomaatig ah ayay u shaqeynayaan. "retrying" = cillad ku meel gaar ah oo si otomaatig ah dib loogu celinayo. "needs-attention" = waxay u baahan tahay adiga: GitHub ayaa kuu soo diraya email (issue "Daabacaadda: ..."). Ha beddelin.'
+        fields:
+          - {name: overall, label: 'Xaaladda guud (ok / publishing / retrying / needs-attention)', widget: string, required: false}
+          - {name: overallText, label: 'Sharaxaad', widget: string, required: false}
+          - {name: problems, label: 'Dhibaatooyinka u baahan faragelintaada', widget: list, required: false}
+          - {name: lastSuccessfulPublishAt, label: 'Daabacaaddii u dambeysay ee guulaysatay (last successful publication)', widget: string, required: false}
+          - {name: newestArticleAt, label: 'Wararka ugu cusub ee bogga ku jira (newest article)', widget: string, required: false}
+          - {name: lastSourceCheckAt, label: 'Hubintii ilaha ee u dambeysay (last source check)', widget: string, required: false}
+          - {name: sourceChecks24h, label: 'Hubinnada ilaha 24-kii saacadood', widget: number, required: false}
+          - {name: publishedArticles, label: 'Wararka la daabacay (published articles)', widget: number, required: false}
+          - {name: liveArticles, label: 'Wararka ku jira bogga live-ka ah', widget: number, required: false}
+          - {name: waitingForImage, label: 'Wararka sugaya sawir (Sugaya sawir)', widget: number, required: false}
+          - {name: liveInSync, label: 'Bogga live-ka ah wuu la jaanqaadayaa main (live site up to date)', widget: boolean, required: false}
+          - {name: publishFailures24h, label: 'Daabacaadaha fashilmay 24-kii saacadood (workflow failures)', widget: number, required: false}
+          - name: retry
+            label: 'Dib-u-isku-dayga otomaatigga ah (retry status)'
+            widget: object
+            required: false
+            fields:
+              - {name: attempts, label: 'Isku-dayada', widget: number, required: false}
+              - {name: max, label: 'Ugu badnaan', widget: number, required: false}
+              - {name: lastRetryAt, label: 'Isku-daygii u dambeeyay', widget: string, required: false}
+              - {name: since, label: 'Cilladdu waxay bilaabatay', widget: string, required: false}
+          - name: lastPublishRun
+            label: 'Orodkii daabacaadda ee u dambeeyay'
+            widget: object
+            required: false
+            fields:
+              - {name: created_at, label: Waqtiga, widget: string, required: false}
+              - {name: conclusion, label: 'Natiijada (success / failure)', widget: string, required: false}
+              - {name: event, label: 'Sababta (push / workflow_dispatch)', widget: string, required: false}
+              - {name: html_url, label: 'Log-ka (GitHub Actions)', widget: string, required: false}
+          - {name: hourlyRoutineLastRunAt, label: 'Hawsha Claude ee saacadlaha ah: orodkii u dambeeyay', widget: string, required: false}
+          - {name: updatedAt, label: 'La cusbooneysiiyay', widget: string, required: false}
       - name: status
         label: 'Xaaladda cusbooneysiintii u dambeysay (waxaa qora hawsha, ha beddelin)'
         file: data/world/status.json

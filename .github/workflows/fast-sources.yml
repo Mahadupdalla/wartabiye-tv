@@ -29,7 +29,7 @@ on:
   push:
     # test run on a work branch when the monitor changes (nothing is saved)
     branches-ignore: [main, world-feed, fast-feed]
-    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/live_feeds_cycle.sh', 'tools/world_news.py', 'tools/sports_results.py', 'tools/sports_writer.py', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
+    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/news_writer.py', 'tools/automation_watchdog.py', 'tools/quarantine.py', 'tools/live_feeds_cycle.sh', 'tools/world_news.py', 'tools/sports_results.py', 'tools/sports_writer.py', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
 permissions:
   contents: write
   issues: write
@@ -47,10 +47,21 @@ jobs:
         with:
           fetch-depth: 300   # enough history to read when each article file first reached main
       - name: Self-test (no network)
-        run: python3 tools/fast_monitor.py test && python3 tools/live_feeds.py test && python3 tools/sports_results.py test && python3 tools/sports_writer.py test
+        run: python3 tools/fast_monitor.py test && python3 tools/live_feeds.py test && python3 tools/sports_results.py test && python3 tools/sports_writer.py test && python3 tools/news_writer.py test && python3 tools/automation_watchdog.py test && python3 tools/quarantine.py test && bash -n tools/fast_loop.sh
       - name: Feed check (work branches only)
         if: github.ref != 'refs/heads/main'
         run: python3 tools/fast_monitor.py probe
+      - name: Publishing watchdog dry run (work branches only, starts nothing)
+        if: github.ref != 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          WATCHDOG_DRY: '1'
+        run: |
+          mkdir -p /tmp/wd && git fetch -q origin main fast-feed && git show origin/fast-feed:fast-status.json > /tmp/wd/fast-status.json || true
+          git checkout -q origin/main -- data/news.json
+          python3 tools/automation_watchdog.py run --state /tmp/wd && cat /tmp/wd/automation-status.json
+          git checkout -q HEAD -- data/news.json
       - name: One check (work branches only, nothing saved)
         if: github.ref != 'refs/heads/main'
         run: |
@@ -69,13 +80,19 @@ jobs:
           # billed per use by Anthropic, separate from the owner's Claude plan. Without it the sports writer stays off.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SPORTS_WRITER_DAILY_MAX: ${{ vars.SPORTS_WRITER_DAILY_MAX || '40' }}
+          # World News + Somalia & East Africa articles on the same key (tools/news_writer.py). "fallback" = only while the
+          # hourly Claude routine has stopped (e.g. Claude Max limit reached); "always" = every fresh story; "off".
+          NEWS_WRITER_MODE: ${{ vars.NEWS_WRITER_MODE || 'fallback' }}
+          NEWS_WRITER_DAILY_MAX: ${{ vars.NEWS_WRITER_DAILY_MAX || '24' }}
+          NEWS_WRITER_MODEL: ${{ vars.NEWS_WRITER_MODEL || 'claude-opus-5-5' }}
           FORCE: ${{ inputs.force && 'true' || 'false' }}
           LOOP_MINUTES: ${{ inputs.minutes || 330 }}
         run: |
           # run a copy: the loop updates the checkout to the newest main before every check
           cp tools/fast_loop.sh /tmp/fast_loop.sh && bash /tmp/fast_loop.sh
       - name: Start the next loop (the chain that keeps the checks going day and night)
-        if: steps.loop.outcome == 'success'
+        # also after a failed loop (a crash must never stop the 24/7 checks); not when someone cancelled the run
+        if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
