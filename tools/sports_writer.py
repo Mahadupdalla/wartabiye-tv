@@ -2,7 +2,8 @@
 ANTHROPIC_API_KEY, billed per use by Anthropic, separate from the owner's Claude plan). Run by the 5-minute source loop
 (tools/fast_loop.sh sports_writer_cycle) right after the sports sources are checked.
 
-Input: the fresh sports stories the 5-minute monitor found (branch world-feed, candidates.json: BBC Sport, Bundesliga.com,
+Input: the fresh sports stories the 5-minute monitor found (branch world-feed, candidates.json: the publishers in
+data/sports/publishers.json whose feed works (BBC Sport, Sky Sports, MARCA, AS, Gazzetta, kicker, L'Équipe, UEFA, FIFA ...), Bundesliga.com,
 The Guardian, Sky Sports, DW, France 24, Capital FM Kenya ...). For each story, newest first, at most MAX_PER_RUN per
 check and MAX_PER_DAY a day:
   - skipped at once (no API call) when it is older than MAX_AGE_MIN, a quiz / live blog / gallery / betting item, or its
@@ -43,7 +44,8 @@ def cost(log):
     return round(sum(x.get('in', 0) * PRICE['in'] + x.get('out', 0) * PRICE['out'] + x.get('cacheRead', 0) * PRICE['cache_read']
                      + x.get('cacheWrite', 0) * PRICE['cache_write'] + x.get('searches', 0) * PRICE['search'] for x in log), 4)
 SKIP_WORDS = re.compile(r"\b(quiz|quizzes|live:|as it happened|live updates|live blog|in pictures|gallery|photos:|watch:|"
-                        r"podcast|betting|odds|tips|predictions?|fantasy|crossword|newsletter)\b", re.I)
+                        r"podcast|betting|odds|tips|predictions?|fantasy|crossword|newsletter|highlights|how to watch|tv channel|"
+                        r"pronos?|pronostics?|apuestas|cuotas|d[oó]nde ver|scommesse|pronostici|wett(en|tipps?)|in diretta|en directo|liveticker)\b", re.I)
 LANG_NAMES = {'en': 'English', 'ar': 'Modern Standard Arabic', 'fr': 'French', 'nl': 'Dutch', 'it': 'Italian',
               'de': 'German', 'tr': 'Turkish', 'es': 'Spanish (Spain)'}
 
@@ -72,12 +74,71 @@ def slug(s, n=6):
 
 # ---------------------------------------------------------------- selection (no API call)
 
+TOP = re.compile(r"champions league|\bucl\b|premier league|la ?liga|serie a|bundesliga|ligue 1|europa league|conference league|"
+                 r"world cup|nations league|euro 20\d\d|copa am[eé]rica|olympic|champions cup|ballon d'or|"
+                 r"real madrid|barcelona|bar[cç]a|atl[eé]tico|man(chester)? city|man(chester)? (united|utd)|liverpool|arsenal|chelsea|"
+                 r"tottenham|spurs|bayern|dortmund|leverkusen|juventus|inter\b|milan|napoli|psg|paris saint", re.I)
+AFRICA = re.compile(r"afcon|africa cup|african|\bcaf\b|somali|kenya|harambee|ethiopia|tanzania|uganda|rwanda|burundi|"
+                    r"djibouti|eritrea|sudan|egypt|morocco|nigeria|senegal|ghana|cameroon|algeria|tunisia|ivory coast|c[oô]te d'ivoire|"
+                    r"south africa|kipchoge|marathon", re.I)
+TRANSFER = re.compile(r"transfer|signs?\b|signing|loan|bid\b|fichaj|traspas|calciomercato|mercato|wechsel|transfert|"
+                      r"rumou?r|gossip|talks with|target|linked with|deal\b", re.I)
+
+
+def priority(c):
+    t = ' '.join(str(c.get(k) or '') for k in ('title', 'description'))
+    return 3 * bool(TOP.search(t)) + 3 * bool(AFRICA.search(t)) + bool(TRANSFER.search(t)) + (c.get('priority') or 0) / 1000
+
+
+NAME = re.compile(r"\b[A-ZÀ-ÖØ-Þ][\w'’\-]{2,}")
+COMMON = {'The', 'And', 'With', 'After', 'From', 'Premier', 'League', 'Champions', 'Cup', 'World', 'Football', 'Club', 'Sport',
+          'Sports', 'News', 'Live', 'What', 'How', 'Why', 'Who', 'When', 'Will', 'His', 'Her', 'New', 'Del', 'Der', 'Die', 'Das',
+          'Les', 'Una', 'Las', 'Los', 'Per', 'Con', 'Para', 'Nach', 'Pour', 'Dans', 'Sur', 'Und', 'Gegen'}
+
+
+CLUBS = re.compile(r"(real|atl[eé]tico|athletic) (madrid|bilbao)|manchester (united|city)|man (utd|united|city)|paris saint[- ]germain|"
+                   r"bayern (munich|m[uü]nchen)|borussia (dortmund|m[oö]nchengladbach)|(ac|inter) milan|aston villa|west ham|"
+                   r"newcastle united|crystal palace|nottingham forest|bayer leverkusen|eintracht frankfurt|rb leipzig|as roma|"
+                   r"real sociedad|sporting cp|harambee stars|ivory coast", re.I)
+
+
+def names(c):
+    # a two-word club name counts as ONE name ("Real Madrid" alone must not make two stories look the same)
+    t = CLUBS.sub(lambda m: m.group(0).replace(' ', '').replace('-', '').capitalize(), str(c.get('title') or ''))
+    return {m.lower().strip("'’-") for m in NAME.findall(t) if m not in COMMON}
+
+
+def same_story(a, b):
+    """Two headlines about the same story (any language): they share at least two names (players, clubs, coaches)
+    and most of the names of the shorter headline."""
+    na, nb = names(a), names(b)
+    sh = len(na & nb)
+    return (sh >= 2 and sh / max(1, min(len(na), len(nb))) >= 0.6) or (len(na & nb) >= 1 and min(len(na), len(nb)) == 1 and a.get('source') != b.get('source')
+                                 and TRANSFER.search(str(a.get('title'))) and TRANSFER.search(str(b.get('title'))))
+
+
+def recent_headlines(hours=48):
+    """English (else Somali) headlines of the site's sports articles of the last two days: never write the same story twice."""
+    import glob
+    cut = (now() - datetime.timedelta(hours=hours)).isoformat()
+    out = []
+    for f in glob.glob(os.path.join(NEWS, '*.json')):
+        try:
+            n = json.load(open(f, encoding='utf-8'))
+        except Exception:
+            continue
+        if n.get('section') == 'sports' and str(n.get('publishedAt') or '') >= cut:
+            out.append(((n.get('en') or {}).get('title') or n.get('title'), n.get('publishedAt')))
+    return [t for t, _ in sorted(out, key=lambda x: x[1] or '', reverse=True)][:40]
+
 def select(cands, known_urls, known_titles, state, t):
     """-> (to_write, skipped[(item, reason)]) newest first."""
     done = set(state.get('seen', {}))
     out, skipped = [], []
     items = [c for c in cands if c.get('section') == 'sports']
-    items.sort(key=lambda c: c.get('publishedAt') or '', reverse=True)
+    # the owner's order: Champions League, the big European leagues, international competitions and African sport
+    # first; then the newest
+    items.sort(key=lambda c: (priority(c), c.get('publishedAt') or ''), reverse=True)
     for c in items:
         u = norm(c.get('canonicalUrl') or c.get('url'))
         if not u or u in done:
@@ -94,6 +155,12 @@ def select(cands, known_urls, known_titles, state, t):
             why = 'already on the site (same link)'
         elif (c.get('title') or '').strip() in known_titles:
             why = 'already on the site (same headline)'
+        if not why:
+            first = next((o for o in out if same_story(o, c)), None)
+            if first is not None:
+                # the same story from another publisher: one article, the other publisher is a second source
+                first.setdefault('alsoFrom', []).append({'publisher': c.get('sourceName') or c.get('source'), 'url': c.get('url'), 'headline': c.get('title')})
+                why = f"same story as {first.get('sourceName') or first.get('source')}: {(first.get('title') or '')[:80]}"
         if why:
             skipped.append((c, why))
         else:
@@ -108,13 +175,20 @@ SYSTEM = """You are the sports desk of Wartabiye TV (wartabiyetv.com), a Somali-
 Work in this order:
 1. Open the original article with web_fetch (the URL you are given). If it cannot be opened, use the headline and description you were given.
 2. Verify the key facts (who, what, the score or result if any, when, which competition) in at least one other reliable source with web_search: first the official club, league or federation sites you are given (fetch their news page or search them with site:), then BBC Sport, ESPN, Reuters, AP, The Guardian, Sky Sports, DW, France 24 or a national broadcaster. Check the date on every page: search results often show older meetings or older news about the same people. Do at most 4 searches and 4 fetches.
-3. Decide. Answer decision "skip" (and explain in "reason") when: the facts cannot be confirmed; it is not a news story (quiz, opinion column, live blog, gallery, podcast, betting, fantasy, advert, newsletter); it is old news re-published; it is only a rumour from one outlet; or it is about something that has not happened yet but is presented as a result.
+3. Decide. Answer decision "skip" (and explain in "reason") when: the facts cannot be confirmed; it is not a news story (quiz, opinion column, live blog, gallery, podcast, betting, fantasy, advert, newsletter); it is old news re-published; it is about something that has not happened yet but is presented as a result; or the website already has this story (the list of our recent headlines you are given), unless there is a real new development, which you then report as the new fact.
+   Transfers (storyType):
+   - "transfer-confirmed" ONLY when the buying club (or the player's club) has officially announced it: put that announcement's URL in officialAnnouncement. Without it the transfer is NOT done.
+   - "transfer-rumour" for reports of talks, interest, bids, offers or "close to a deal" that no club has announced. Publish a rumour only when an established outlet or a well-known football journalist reports it AND you find it in at least one more credible publication (or the other publishers you are given); otherwise skip. Never write it as completed: write "waxaa la sheegay", "warar ayaa sheegaya", always name who reports it, and say that the clubs have not confirmed it.
+   - Same rumour already on our site with nothing new: skip.
+   storyKey: a short key for the story, lower-case ascii, e.g. "transfer:florian-wirtz:real-madrid" or "injury:bukayo-saka".
+   Other stories: storyType "news" (or "result" for a final score).
 4. Otherwise write the report:
    - in your OWN words, neutral Somali; never copy or translate the publisher's sentences one by one; never quote more than one short sentence and always say who said it;
    - title under 110 characters; summary 1-2 sentences with the main fact; body 2-4 short sentences with context, every claim attributed ("Kooxda ayaa sheegtay...", "sida ay qortay BBC Sport");
    - never invent or guess any fact, score, minute, figure or quote; only what you verified;
    - write every number with Western digits; no graphic detail;
-   - never write "hadda", "just now" or minutes ago: the website shows the time itself.
+   - never write "hadda", "just now" or minutes ago: the website shows the time itself;
+   - a transfer rumour: the title starts with "Xan:" (the website adds the same label in every language).
 5. Translations: translate title, summary, body and the photo description into English, Modern Standard Arabic, French, Dutch, Italian, German, Turkish and Spanish (Spain). Keep every name, date, number, score and quotation exactly as in the Somali; the digits of every translation must be exactly the digits of the Somali text (same numbers, Western digits, no number written as a word, no extra number such as a year that the Somali does not have).
 6. Photo: call commons_search (Wikimedia Commons, free licences only) with 1-3 short English queries about the SUBJECT of this story: the named player or coach, the club's stadium, the venue or the event. Choose a file only if its title or description clearly shows that subject. Never a logo, badge, flag, map, kit or a random or misleading photo; never a photo of an identifiable person on a story about crime, abuse, death or accusations. kind "actual" when the photo shows this exact event, otherwise "illustrative". If nothing fits, leave photo.file empty and say why in Somali in noPhotoReason.
 
@@ -124,10 +198,14 @@ TR = {'type': 'object', 'additionalProperties': False, 'required': ['title', 'su
       'properties': {k: {'type': 'string'} for k in ('title', 'summary', 'body', 'imageAlt')}}
 SCHEMA = {
     'type': 'object', 'additionalProperties': False,
-    'required': ['decision', 'reason', 'verifiedBy', 'title', 'summary', 'body', 'sport', 'important', 'photo', 'noPhotoReason', 'translations'],
+    'required': ['decision', 'reason', 'storyType', 'storyKey', 'officialAnnouncement', 'verifiedBy', 'title', 'summary', 'body', 'sport',
+                 'important', 'photo', 'noPhotoReason', 'translations'],
     'properties': {
         'decision': {'type': 'string', 'enum': ['publish', 'skip']},
         'reason': {'type': 'string'},
+        'storyType': {'type': 'string', 'enum': ['news', 'result', 'transfer-confirmed', 'transfer-rumour']},
+        'storyKey': {'type': 'string'},
+        'officialAnnouncement': {'type': 'string'},
         'verifiedBy': {'type': 'array', 'items': {'type': 'string'}},
         'title': {'type': 'string'}, 'summary': {'type': 'string'}, 'body': {'type': 'string'},
         'sport': {'type': 'string'},
@@ -192,7 +270,9 @@ def ask_claude(client, c, log):
         'publisher': c.get('sourceName') or c.get('source'), 'url': c.get('canonicalUrl') or c.get('url'),
         'headline': c.get('title'), 'description': c.get('description'), 'excerpt': (c.get('excerpt') or '')[:1500],
         'publishedAt (publisher time)': c.get('publishedAt'), 'today (Africa/Nairobi)': now().strftime('%Y-%m-%d %H:%M'),
-        'official sources to check first (club / competition websites)': official_for(c)},
+        'official sources to check first (club / competition websites)': official_for(c),
+        'the same story from other publishers': c.get('alsoFrom') or [],
+        'our recent sports headlines (do not repeat these stories)': recent_headlines()},
         ensure_ascii=False, indent=1) + '\n\nVerify it, decide, and if it is a real verified sports news story write the report, the translations and find a photo.')
     messages = [{'role': 'user', 'content': user}]
     base = dict(model=MODEL, max_tokens=16000, system=SYSTEM, tools=TOOLS, thinking={'type': 'adaptive'})
@@ -262,6 +342,10 @@ def validate(a):
         bad.append('title too long')
     if not a.get('verifiedBy'):
         bad.append('no verification source given')
+    if a.get('storyType') == 'transfer-confirmed':
+        ann = str(a.get('officialAnnouncement') or '')
+        if not ann.startswith('http'):
+            bad.append('transfer called confirmed without the official club announcement')
     return bad
 
 
@@ -274,6 +358,9 @@ def build(c, a, t, known_ids):
     while nid in known_ids or os.path.exists(os.path.join(NEWS, nid + '.json')):
         nid = f"{base}-{slug(tr.get('title') or so['title'])}-{i}"; i += 1
     p = ptime(c['publishedAt']).astimezone(EAT)
+    rumour = a.get('storyType') == 'transfer-rumour'
+    if rumour:
+        so['title'] = label(so['title'], 'so')
     n = {'id': nid, 'title': so['title'], 'summary': so['summary']}
     if so['body']:
         n['body'] = so['body']
@@ -286,6 +373,10 @@ def build(c, a, t, known_ids):
               'discoveredAt': c.get('discoveredAt') or t.isoformat(timespec='seconds'), 'verifiedAt': t.isoformat(timespec='seconds')})
     if a.get('sport'):
         n['sport'] = str(a['sport'])[:40]
+    if a.get('storyType') in ('transfer-confirmed', 'transfer-rumour'):
+        n['transfer'] = {'status': 'rumour' if rumour else 'confirmed', 'key': str(a.get('storyKey') or '')[:80]}
+        if not rumour:
+            n['transfer']['officialAnnouncement'] = a.get('officialAnnouncement')
     so_all = ' '.join(so.values())
     refused = []
     for lang in LANGS:
@@ -293,6 +384,8 @@ def build(c, a, t, known_ids):
         block = {k: str(x.get(k) or '').strip() for k in ('title', 'summary', 'body') if str(x.get(k) or '').strip()}
         if not block.get('title') or (so['body'] and not block.get('body')):
             refused.append(f'{lang}: incomplete'); continue
+        if rumour:
+            block['title'] = label(block['title'], lang)
         if numbers(so_all) != numbers(' '.join(block.get(k, '') for k in ('title', 'summary', 'body'))):
             refused.append(f'{lang}: numbers differ'); continue
         if str(x.get('imageAlt') or '').strip():
@@ -301,6 +394,17 @@ def build(c, a, t, known_ids):
         block['hash'] = text_hash(block)
         n[lang] = block
     return n, refused
+
+
+RUMOUR = {'so': 'Xan:', 'en': 'Rumour:', 'ar': 'شائعة:', 'fr': 'Rumeur :', 'nl': 'Gerucht:', 'it': 'Indiscrezione:',
+          'de': 'Gerücht:', 'tr': 'Söylenti:', 'es': 'Rumor:'}
+
+
+def label(title, lang):
+    """'Rumour:' in front of a transfer rumour's title, in its language (once)."""
+    lab = RUMOUR[lang]
+    t = re.sub(r'^(\s*(' + '|'.join(re.escape(x.rstrip(' :')) for x in RUMOUR.values()) + r')\s*:\s*)+', '', title, flags=re.I)
+    return f'{lab} {t}'
 
 
 def save(n):
@@ -424,6 +528,10 @@ def run(cand_path, state_path, dry=False):
             run['counts']['refused'] = run['counts'].get('refused', 0) + 1
             item.update(result='refused', reason=str(a.get('reason'))[:300]); run['items'].insert(0, item); continue
         bad = validate(a)
+        key = str(a.get('storyKey') or '').strip().lower()
+        prev = state.get('keys', {}).get(key) if key else None
+        if prev and not (prev.get('type') == 'transfer-rumour' and a.get('storyType') == 'transfer-confirmed'):
+            bad.append(f"same story already written ({prev.get('id')})")
         if bad:
             run['counts']['refused'] = run['counts'].get('refused', 0) + 1
             item.update(result='refused', reason='answer failed the checks: ' + ', '.join(bad)); run['items'].insert(0, item); continue
@@ -435,6 +543,8 @@ def run(cand_path, state_path, dry=False):
         run['counts']['written'] = run['counts'].get('written', 0) + 1
         run['counts']['published' if ok else 'held'] = run['counts'].get('published' if ok else 'held', 0) + 1
         ids[n['id']] = 'current'
+        if key:
+            state.setdefault('keys', {})[key] = {'type': a.get('storyType'), 'id': n['id'], 'at': run['at']}
         item.update(result='published' if ok else 'held (Sugaya sawir)', id=n['id'], reason=None if ok else note,
                     photo=note if ok else None, verifiedBy=a.get('verifiedBy'), translationsRefused=refused_tr or None)
         print(f"wrote {n['id']} ({'published' if ok else 'held: ' + note})" + (f" translations refused: {refused_tr}" if refused_tr else ''))
@@ -442,6 +552,8 @@ def run(cand_path, state_path, dry=False):
     # remember the last 2 days of handled links only
     cut = (t - datetime.timedelta(days=2)).isoformat()
     state['seen'] = {k: v for k, v in state['seen'].items() if v >= cut}
+    kcut = (t - datetime.timedelta(days=7)).isoformat()
+    state['keys'] = {k: v for k, v in state.get('keys', {}).items() if v.get('at', '') >= kcut}
     if state_path:
         json.dump(state, open(state_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     write_status(state, run)
@@ -472,6 +584,23 @@ def self_test():
     assert n['publishedAt'] == '2026-11-09T11:40:00+03:00' and n['by'] == 'claude' and 'image' not in n
     assert ref == ['de: numbers differ'] and 'de' not in n and n['en']['status'] == 'auto' and n['en']['hash'] == text_hash(n['en'])
     assert validate(a) == [] and validate({**a, 'verifiedBy': []}) == ['no verification source given']
+    # the owner's order, and one article per story when several publishers have it
+    cs = [c('Hull beat Stoke in the Championship', 10, 'https://x/1'),
+          c('Real Madrid beat Liverpool in the Champions League', 30, 'https://x/2'),
+          dict(c('Liverpool cae ante el Real Madrid de Mbappé', 35, 'https://marca/3'), source='marca', sourceName='MARCA'),
+          c('Harambee Stars name squad for AFCON qualifiers', 40, 'https://x/4')]
+    todo, sk = select(cs, set(), set(), {'seen': {}}, t)
+    assert [x['url'] for x in todo] == ['https://x/2', 'https://x/4', 'https://x/1'], [x['url'] for x in todo]
+    assert todo[0]['alsoFrom'][0]['publisher'] == 'MARCA' and 'same story' in sk[0][1]
+    # transfer rumours: labelled in every language; a "confirmed" transfer needs the club's announcement
+    r = {**a, 'storyType': 'transfer-rumour', 'storyKey': 'transfer:x:y', 'officialAnnouncement': '', 'title': 'Xan: Liverpool oo doonaysa 2 ciyaaryahan'}
+    r['translations'] = {l: {'title': 'Liverpool want 2 players', 'summary': 'Mohamed Salah scored twice.', 'body': 'BBC Sport reported.', 'imageAlt': ''} for l in LANGS}
+    r['summary'] = 'Mohamed Salah ayaa laba gool dhaliyay.'
+    n, _ = build(todo[0], r, t, {})
+    assert n['title'] == 'Xan: Liverpool oo doonaysa 2 ciyaaryahan' and n['en']['title'] == 'Rumour: Liverpool want 2 players', n['en']['title']
+    assert n['de']['title'].startswith('Gerücht: ') and n['transfer']['status'] == 'rumour'
+    assert label('Rumour: Rumour: X', 'en') == 'Rumour: X'
+    assert validate({**a, 'storyType': 'transfer-confirmed', 'officialAnnouncement': ''}) == ['transfer called confirmed without the official club announcement']
     json.dumps(SCHEMA)
     print('SPORTS WRITER OK')
 

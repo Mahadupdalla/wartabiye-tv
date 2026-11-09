@@ -1,0 +1,1638 @@
+{
+ "about": "Result of tools/sports_publishers.py probe (GitHub Actions). working = at least one feed answered with dated articles and robots.txt allows it.",
+ "checkedAt": "2026-11-09T13:37:50+03:00",
+ "publishers": [
+  {
+   "id": "skysports",
+   "name": "Sky Sports UK / Sky Sports News",
+   "country": "GB",
+   "homepage": "https://www.skysports.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.skysports.com/rss/12040",
+     "ok": true,
+     "items": 20,
+     "dated": 20,
+     "newest": {
+      "title": "Rugby League World Cup 2030 to be staged in Pacific-USA",
+      "url": "https://www.skysports.com/rugby-league/news/12040/13610090/rugby-league-world-cup-2030-to-be-staged-in-pacific-usa-with-eligibility-rules-updated-and-tonga-samoa-given-tier-1-status",
+      "publishedAt": "2026-11-09T13:00:00+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.skysports.com/rss/11095",
+     "ok": true,
+     "items": 20,
+     "dated": 20,
+     "newest": {
+      "title": "Respite for troubled trio as Charlton, Preston & Derby win - Championship talking points",
+      "url": "https://www.skysports.com/football/live-blog/11095/13163353/championship-news-transfer-latest-and-gossip-plus-efl-updates-from-league-one-and-league-two",
+      "publishedAt": "2026-11-09T13:20:00+03:00"
+     },
+     "seconds": 0.1
+    },
+    {
+     "url": "https://www.skysports.com/rss/11661",
+     "ok": true,
+     "items": 20,
+     "dated": 19,
+     "newest": {
+      "title": "Brighton latest: Mitoma and Tzimas to boost Hurzeler",
+      "url": "https://www.skysports.com/football/live-blog/11661/13279295/brighton-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
+      "publishedAt": "2026-11-09T12:00:00+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.skysports.com/rss/11781",
+     "ok": true,
+     "items": 20,
+     "dated": 20,
+     "newest": {
+      "title": "Celtic restore four-point Premiership lead with narrow win against Kilmarnock",
+      "url": "https://www.skysports.com/football/celtic-vs-kilmarnock/report/558406",
+      "publishedAt": "2026-11-08T20:50:00+03:00"
+     },
+     "seconds": 0.0
+    }
+   ],
+   "transferFeeds": [
+    {
+     "url": "https://www.skysports.com/rss/12691",
+     "ok": true,
+     "items": 20,
+     "dated": 19,
+     "newest": {
+      "title": "Brentford latest: Andrews urges Bees to 'react in better ways'",
+      "url": "https://www.skysports.com/football/live-blog/12691/13279280/brentford-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights",
+      "publishedAt": "2026-11-09T12:00:00+03:00"
+     },
+     "seconds": 0.0
+    }
+   ],
+   "workingFeeds": [
+    "https://www.skysports.com/rss/12040",
+    "https://www.skysports.com/rss/11095",
+    "https://www.skysports.com/rss/11661",
+    "https://www.skysports.com/rss/11781"
+   ],
+   "workingTransferFeeds": [
+    "https://www.skysports.com/rss/12691"
+   ],
+   "newestArticle": {
+    "title": "Respite for troubled trio as Charlton, Preston & Derby win - Championship talking points",
+    "url": "https://www.skysports.com/football/live-blog/11095/13163353/championship-news-transfer-latest-and-gossip-plus-efl-updates-from-league-one-and-league-two",
+    "publishedAt": "2026-11-09T13:20:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:37:51+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "sky-it",
+   "name": "Sky Sport Italia",
+   "country": "IT",
+   "homepage": "https://sport.sky.it/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://sport.sky.it/rss/sport.xml",
+     "ok": true,
+     "items": 100,
+     "dated": 100,
+     "newest": {
+      "title": "Scarpa d'Oro 2026-27, la classifica provvisoria: Raphinha superato da Oloko, Mbappé 5°",
+      "url": "https://sport.sky.it/calcio/scarpa-oro-2027-classifica",
+      "publishedAt": "2026-11-09T14:15:00+03:00"
+     },
+     "seconds": 0.1
+    },
+    {
+     "url": "https://sport.sky.it/rss/calcio.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.6
+    },
+    {
+     "url": "https://sport.sky.it/feed/rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.5
+    },
+    {
+     "url": "https://sport.sky.it/sitemap-news.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.7
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://sport.sky.it/rss/sport.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Scarpa d'Oro 2026-27, la classifica provvisoria: Raphinha superato da Oloko, Mbappé 5°",
+    "url": "https://sport.sky.it/calcio/scarpa-oro-2027-classifica",
+    "publishedAt": "2026-11-09T14:15:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:37:53+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "sky-de",
+   "name": "Sky Sport Deutschland",
+   "country": "DE",
+   "homepage": "https://sport.sky.de/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://sport.sky.de/rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 2.2
+    },
+    {
+     "url": "https://sport.sky.de/rss/fussball",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 3.2
+    },
+    {
+     "url": "https://sport.sky.de/sitemap-news.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 2.2
+    },
+    {
+     "url": "https://sport.sky.de/news-sitemap.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 3.2
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "sky-at",
+   "name": "Sky Sport Austria",
+   "country": "AT",
+   "homepage": "https://sport.sky.at/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://sport.sky.at/rss",
+     "ok": false,
+     "error": "URLError: <urlopen error [Errno -2] Name or service not known>",
+     "seconds": 12.6
+    },
+    {
+     "url": "https://sport.sky.at/feed",
+     "ok": false,
+     "error": "URLError: <urlopen error [Errno -2] Name or service not known>",
+     "seconds": 12.5
+    },
+    {
+     "url": "https://sport.sky.at/sitemap-news.xml",
+     "ok": false,
+     "error": "URLError: <urlopen error [Errno -2] Name or service not known>",
+     "seconds": 12.4
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "marca",
+   "name": "MARCA",
+   "country": "ES",
+   "homepage": "https://www.marca.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://e00-marca.uecdn.es/rss/portada.xml",
+     "ok": false,
+     "items": 71,
+     "dated": 71,
+     "newest": {
+      "title": "España no se deja intimidar por Argentina en el Mundial de pádel: \"No hay un favorito claro\"",
+      "url": "https://www.marca.com/padel/2026/11/06/espana-deja-intimidar-argentina-mundial-padel-hay-favorito-claro.html",
+      "publishedAt": "2026-11-06T11:48:31+03:00"
+     },
+     "seconds": 1.1,
+     "error": "stale: newest article 2026-11-06T11:48:31+03:00"
+    },
+    {
+     "url": "https://e00-marca.uecdn.es/rss/futbol/primera-division.xml",
+     "ok": true,
+     "items": 49,
+     "dated": 49,
+     "newest": {
+      "title": "A qué hora es el Espanyol - Deportivo: horario y dónde ver hoy en TV y online el partido de LaLiga EA Sports",
+      "url": "https://www.marca.com/futbol/primera-division/2026/11/07/hora-espanyol-deportivo-horario-ver-hoy-tv-online-partido-laliga-ea-sports.html",
+      "publishedAt": "2026-11-07T10:34:55+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://e00-marca.uecdn.es/rss/en/football.xml",
+     "ok": false,
+     "items": 45,
+     "dated": 45,
+     "newest": {
+      "title": "Enzo Fernández makes quick Madrid trip to the City he wants to call home",
+      "url": "https://www.marca.com/en/football/real-madrid/2026/04/28/69f0936ee2704ec6698b45b0.html",
+      "publishedAt": "2026-04-28T14:03:47+03:00"
+     },
+     "seconds": 0.3,
+     "error": "stale: newest article 2026-04-28T14:03:47+03:00"
+    },
+    {
+     "url": "https://e00-marca.uecdn.es/rss/futbol/mercado-fichajes.xml",
+     "ok": false,
+     "items": 50,
+     "dated": 50,
+     "newest": {
+      "title": "El Eintracht de Frankfurt se interesa por Buba Sangaré",
+      "url": "https://www.marca.com/futbol/elche/2026/11/05/eintracht-frankfurt-interesa-buba-sangare.html",
+      "publishedAt": "2026-11-05T15:58:43+03:00"
+     },
+     "seconds": 0.2,
+     "error": "stale: newest article 2026-11-05T15:58:43+03:00"
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://e00-marca.uecdn.es/rss/futbol/primera-division.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "A qué hora es el Espanyol - Deportivo: horario y dónde ver hoy en TV y online el partido de LaLiga EA Sports",
+    "url": "https://www.marca.com/futbol/primera-division/2026/11/07/hora-espanyol-deportivo-horario-ver-hoy-tv-online-partido-laliga-ea-sports.html",
+    "publishedAt": "2026-11-07T10:34:55+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:38:59+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "as",
+   "name": "AS",
+   "country": "ES",
+   "homepage": "https://as.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://as.com/rss/tags/ultimas_noticias.xml",
+     "ok": false,
+     "error": "feed has no items"
+    },
+    {
+     "url": "https://feeds.as.com/mrss-s/pages/as/site/as.com/portada/",
+     "ok": true,
+     "items": 63,
+     "dated": 63,
+     "newest": {
+      "title": "Elecciones generales 29N, en directo: encuesta 40db., precampaña electoral y última hora de Pedro Sánchez",
+      "url": "https://as.com/actualidad/politica/elecciones-generales-29n-en-directo-encuesta-40db-precampana-electoral-y-ultima-hora-de-pedro-sanchez-f202611-d/",
+      "publishedAt": "2026-11-09T13:35:10+03:00"
+     },
+     "seconds": 1.3
+    },
+    {
+     "url": "https://as.com/rss/futbol/portada.xml",
+     "ok": false,
+     "items": 68,
+     "dated": 68,
+     "newest": {
+      "title": "El PSG activa la opción B tras el 'no' de Tchouaméni",
+      "url": "https://as.com/futbol/2022/06/07/primera/1654574960_969446.html#?ref=rss&format=simple&link=link",
+      "publishedAt": "2022-06-08T00:42:45+03:00"
+     },
+     "seconds": 0.1,
+     "error": "stale: newest article 2022-06-08T00:42:45+03:00"
+    },
+    {
+     "url": "https://en.as.com/rss/tags/ultimas_noticias.xml",
+     "ok": false,
+     "error": "feed has no items"
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://feeds.as.com/mrss-s/pages/as/site/as.com/portada/"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Elecciones generales 29N, en directo: encuesta 40db., precampaña electoral y última hora de Pedro Sánchez",
+    "url": "https://as.com/actualidad/politica/elecciones-generales-29n-en-directo-encuesta-40db-precampana-electoral-y-ultima-hora-de-pedro-sanchez-f202611-d/",
+    "publishedAt": "2026-11-09T13:35:10+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:01+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "mundodeportivo",
+   "name": "Mundo Deportivo",
+   "country": "ES",
+   "homepage": "https://www.mundodeportivo.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.mundodeportivo.com/rss/home.xml",
+     "ok": true,
+     "items": 145,
+     "dated": 145,
+     "newest": {
+      "title": "La mentalidad ganadora de Carlos Romero: \"Puedo dar mucho al Villarreal y tengo que demostrarlo\"",
+      "url": "https://www.mundodeportivo.com/futbol/villarreal/20261109/1004248946/mentalidad-ganadora-carlos-romero-dar-villarreal-demostrarlo.html",
+      "publishedAt": "2026-11-09T13:26:02+03:00"
+     },
+     "seconds": 0.4
+    },
+    {
+     "url": "https://www.mundodeportivo.com/rss/futbol.xml",
+     "ok": true,
+     "items": 100,
+     "dated": 100,
+     "newest": {
+      "title": "Así fue la transformación del Bernabéu para el partido de la NFL",
+      "url": "https://www.mundodeportivo.com/futbol/real-madrid/20261109/1004248959/asi-transformacion-bernabeu-partido-nfl.html",
+      "publishedAt": "2026-11-09T13:30:00+03:00"
+     },
+     "seconds": 0.1
+    },
+    {
+     "url": "https://www.mundodeportivo.com/mvc/feed/rss/home",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 410: Gone",
+     "seconds": 0.4
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.mundodeportivo.com/rss/home.xml",
+    "https://www.mundodeportivo.com/rss/futbol.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Así fue la transformación del Bernabéu para el partido de la NFL",
+    "url": "https://www.mundodeportivo.com/futbol/real-madrid/20261109/1004248959/asi-transformacion-bernabeu-partido-nfl.html",
+    "publishedAt": "2026-11-09T13:30:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:02+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "sport-es",
+   "name": "SPORT",
+   "country": "ES",
+   "homepage": "https://www.sport.es/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://www.sport.es/es/rss/last-news/news.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 406: WAF Forbidden",
+     "seconds": 12.0
+    },
+    {
+     "url": "https://www.sport.es/es/rss/futbol/rss.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 406: WAF Forbidden",
+     "seconds": 12.0
+    },
+    {
+     "url": "https://www.sport.es/es/rss/barca/rss.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 406: WAF Forbidden",
+     "seconds": 12.0
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "gazzetta",
+   "name": "La Gazzetta dello Sport",
+   "country": "IT",
+   "homepage": "https://www.gazzetta.it/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.gazzetta.it/rss/home.xml",
+     "ok": false,
+     "items": 125,
+     "dated": 125,
+     "newest": {
+      "title": "Preso a zero, ora vale 70 milioni: i segreti di Thuram, l'oro dell'Inter",
+      "url": "https://www.gazzetta.it/Calcio/Serie-A/Inter/08-12-2023/inter-i-segreti-di-thuram-quanto-vale-sul-mercato.shtml",
+      "publishedAt": "2023-12-08T15:05:36+03:00"
+     },
+     "seconds": 0.6,
+     "error": "stale: newest article 2023-12-08T15:05:36+03:00"
+    },
+    {
+     "url": "https://www.gazzetta.it/rss/calcio.xml",
+     "ok": false,
+     "items": 99,
+     "dated": 99,
+     "newest": {
+      "title": "5 NOMI SU CUI PUNTARE AL FANTACALCIO PER IL RUSH FINALE: da Diao a Vlahovic, Zappacosta e...",
+      "url": "https://www.gazzetta.it/Calcio/Magic-Cup/31-03-2026/5-nomi-cui-puntare-fantacalcio-il-rush-finale-diao-vlahovic-zappacosta-e-5001955304367.shtml",
+      "publishedAt": "2026-03-31T19:13:28+03:00"
+     },
+     "seconds": 0.7,
+     "error": "stale: newest article 2026-03-31T19:13:28+03:00"
+    },
+    {
+     "url": "https://www.gazzetta.it/dynamic-feed/rss/section/Calcio.xml",
+     "ok": true,
+     "items": 30,
+     "dated": 30,
+     "newest": {
+      "title": "Le pagelle degli arbitri: Massa 5, Genoa-Milan gli scappa di mano. Colombo 5, alla Juve manca un rigore",
+      "url": "https://www.gazzetta.it/Calcio/Serie-A/09-11-2026/pagelle-arbitri-11-giornata-voti-gazzetta.shtml",
+      "publishedAt": "2026-11-09T13:23:06+03:00"
+     },
+     "seconds": 0.6
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.gazzetta.it/dynamic-feed/rss/section/Calcio.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Le pagelle degli arbitri: Massa 5, Genoa-Milan gli scappa di mano. Colombo 5, alla Juve manca un rigore",
+    "url": "https://www.gazzetta.it/Calcio/Serie-A/09-11-2026/pagelle-arbitri-11-giornata-voti-gazzetta.shtml",
+    "publishedAt": "2026-11-09T13:23:06+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:52+03:00",
+   "terms": "Some or all articles need a subscription: only the free headline is read; facts are confirmed in another source.",
+   "credentials": "subscription for full articles (headlines are free)",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "corrieredellosport",
+   "name": "Corriere dello Sport",
+   "country": "IT",
+   "homepage": "https://www.corrieredellosport.it/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.corrieredellosport.it/rss",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.3
+    },
+    {
+     "url": "https://www.corrieredellosport.it/rss/calcio",
+     "ok": true,
+     "items": 30,
+     "dated": 30,
+     "newest": {
+      "title": "Dybala e il messaggio social che scalda i tifosi: \"Il calcio mi ha regalato tanto\"",
+      "url": "https://www.corrieredellosport.it/news/calcio/serie-a/roma/2026/11/09-152489736/dybala_e_il_messaggio_social_che_scalda_i_tifosi_il_calcio_mi_ha_regalato_tanto/",
+      "publishedAt": "2026-11-09T13:14:12+03:00"
+     },
+     "seconds": 0.2
+    },
+    {
+     "url": "https://www.corrieredellosport.it/rss/calcio/serie-a",
+     "ok": true,
+     "items": 30,
+     "dated": 30,
+     "newest": {
+      "title": "Dybala e il messaggio social che scalda i tifosi: \"Il calcio mi ha regalato tanto\"",
+      "url": "https://www.corrieredellosport.it/news/calcio/serie-a/roma/2026/11/09-152489736/dybala_e_il_messaggio_social_che_scalda_i_tifosi_il_calcio_mi_ha_regalato_tanto/",
+      "publishedAt": "2026-11-09T13:14:12+03:00"
+     },
+     "seconds": 0.2
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.corrieredellosport.it/rss/calcio",
+    "https://www.corrieredellosport.it/rss/calcio/serie-a"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Dybala e il messaggio social che scalda i tifosi: \"Il calcio mi ha regalato tanto\"",
+    "url": "https://www.corrieredellosport.it/news/calcio/serie-a/roma/2026/11/09-152489736/dybala_e_il_messaggio_social_che_scalda_i_tifosi_il_calcio_mi_ha_regalato_tanto/",
+    "publishedAt": "2026-11-09T13:14:12+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:53+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "tuttosport",
+   "name": "Tuttosport",
+   "country": "IT",
+   "homepage": "https://www.tuttosport.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.tuttosport.com/rss",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.2
+    },
+    {
+     "url": "https://www.tuttosport.com/rss/calcio",
+     "ok": true,
+     "items": 30,
+     "dated": 30,
+     "newest": {
+      "title": "Infortuni e convocati Juve, chi parte e con chi resta Spalletti: ecco quando tornano tutti",
+      "url": "https://www.tuttosport.com/news/calcio/serie-a/juventus/2026/11/09-152485937/infortuni_e_convocati_juve_chi_parte_e_con_chi_resta_spalletti_ecco_quando_tornano_tutti/",
+      "publishedAt": "2026-11-09T12:42:00+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.tuttosport.com/rss/calcio/calciomercato",
+     "ok": false,
+     "items": 30,
+     "dated": 30,
+     "newest": {
+      "title": "Thiago Motta, il ritorno si avvicina: dopo la Juve una nuova occasione per ripartire",
+      "url": "https://www.tuttosport.com/news/calcio/calciomercato/2026/11/02-152319700/thiago_motta_il_ritorno_si_avvicina_dopo_la_juve_una_nuova_occasione_per_ripartire/",
+      "publishedAt": "2026-11-02T12:40:32+03:00"
+     },
+     "seconds": 0.2,
+     "error": "stale: newest article 2026-11-02T12:40:32+03:00"
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.tuttosport.com/rss/calcio"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Infortuni e convocati Juve, chi parte e con chi resta Spalletti: ecco quando tornano tutti",
+    "url": "https://www.tuttosport.com/news/calcio/serie-a/juventus/2026/11/09-152485937/infortuni_e_convocati_juve_chi_parte_e_con_chi_resta_spalletti_ecco_quando_tornano_tutti/",
+    "publishedAt": "2026-11-09T12:42:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:54+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "bbc-sport",
+   "name": "BBC Sport",
+   "country": "GB",
+   "homepage": "https://www.bbc.com/sport",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://feeds.bbci.co.uk/sport/rss.xml",
+     "ok": true,
+     "items": 74,
+     "dated": 74,
+     "newest": {
+      "title": "Ali weeps as world title dream realised in Texas",
+      "url": "https://www.bbc.co.uk/sport/boxing/articles/cqkglg1y4jwwo?at_medium=RSS&at_campaign=rss",
+      "publishedAt": "2026-11-09T13:38:17+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+     "ok": true,
+     "items": 69,
+     "dated": 69,
+     "newest": {
+      "title": "Which Premier League players are set for yellow card suspensions?",
+      "url": "https://www.bbc.co.uk/sport/articles/cr3wj7wg35pxo?at_medium=RSS&at_campaign=rss",
+      "publishedAt": "2026-11-09T13:33:57+03:00"
+     },
+     "seconds": 0.2
+    },
+    {
+     "url": "https://feeds.bbci.co.uk/sport/africa/rss.xml",
+     "ok": true,
+     "items": 27,
+     "dated": 27,
+     "newest": {
+      "title": "Fixtures and standings as SA travel to Italy in Nations Championship",
+      "url": "https://www.bbc.co.uk/sport/rugby-union/articles/cgrkpl5x70eo?at_medium=RSS&at_campaign=rss",
+      "publishedAt": "2026-11-08T22:21:28+03:00"
+     },
+     "seconds": 0.2
+    }
+   ],
+   "transferFeeds": [
+    {
+     "url": "https://feeds.bbci.co.uk/sport/football/transfers/rss.xml",
+     "ok": false,
+     "items": 1,
+     "dated": 1,
+     "newest": {
+      "title": "All done deals from September-November 2026",
+      "url": "https://www.bbc.co.uk/sport/football/articles/cvgyxyxplkvo?at_medium=RSS&at_campaign=rss",
+      "publishedAt": "2026-10-17T15:53:04+03:00"
+     },
+     "seconds": 0.4,
+     "error": "stale: newest article 2026-10-17T15:53:04+03:00"
+    }
+   ],
+   "workingFeeds": [
+    "https://feeds.bbci.co.uk/sport/rss.xml",
+    "https://feeds.bbci.co.uk/sport/football/rss.xml",
+    "https://feeds.bbci.co.uk/sport/africa/rss.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Ali weeps as world title dream realised in Texas",
+    "url": "https://www.bbc.co.uk/sport/boxing/articles/cqkglg1y4jwwo?at_medium=RSS&at_campaign=rss",
+    "publishedAt": "2026-11-09T13:38:17+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:55+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "guardian-football",
+   "name": "The Guardian Sport",
+   "country": "GB",
+   "homepage": "https://www.theguardian.com/sport",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.theguardian.com/sport/rss",
+     "ok": true,
+     "items": 28,
+     "dated": 28,
+     "newest": {
+      "title": "Trump’s pathetic Dana White gambit could not mask his midterm humiliation | Howard Bryant",
+      "url": "https://www.theguardian.com/sport/2026/nov/09/donald-trump-dana-white-ufc-midterms-sports-politics",
+      "publishedAt": "2026-11-09T13:00:06+03:00"
+     },
+     "seconds": 0.3
+    },
+    {
+     "url": "https://www.theguardian.com/football/rss",
+     "ok": true,
+     "items": 63,
+     "dated": 63,
+     "newest": {
+      "title": "Premier League: 10 talking points from the weekend’s action",
+      "url": "https://www.theguardian.com/football/2026/nov/09/premier-league-10-talking-points-weekend-action",
+      "publishedAt": "2026-11-09T11:00:04+03:00"
+     },
+     "seconds": 0.2
+    }
+   ],
+   "transferFeeds": [
+    {
+     "url": "https://www.theguardian.com/football/transfer-window/rss",
+     "ok": false,
+     "items": 20,
+     "dated": 20,
+     "newest": {
+      "title": "Ten of the best-value deals from this summer’s transfer window",
+      "url": "https://www.theguardian.com/football/2026/sep/23/summer-football-transfer-window-best-value-deals",
+      "publishedAt": "2026-09-23T14:25:10+03:00"
+     },
+     "seconds": 0.4,
+     "error": "stale: newest article 2026-09-23T14:25:10+03:00"
+    }
+   ],
+   "workingFeeds": [
+    "https://www.theguardian.com/sport/rss",
+    "https://www.theguardian.com/football/rss"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Trump’s pathetic Dana White gambit could not mask his midterm humiliation | Howard Bryant",
+    "url": "https://www.theguardian.com/sport/2026/nov/09/donald-trump-dana-white-ufc-midterms-sports-politics",
+    "publishedAt": "2026-11-09T13:00:06+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:56+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "talksport",
+   "name": "talkSPORT",
+   "country": "GB",
+   "homepage": "https://talksport.com/",
+   "robotsAllowsHomepage": false,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://talksport.com/feed/",
+     "ok": false,
+     "error": "robots.txt does not allow automated readers"
+    },
+    {
+     "url": "https://talksport.com/football/feed/",
+     "ok": false,
+     "error": "robots.txt does not allow automated readers"
+    }
+   ],
+   "transferFeeds": [
+    {
+     "url": "https://talksport.com/football/transfer-news/feed/",
+     "ok": false,
+     "error": "robots.txt does not allow automated readers"
+    }
+   ],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "tntsports",
+   "name": "TNT Sports",
+   "country": "GB",
+   "homepage": "https://www.tntsports.co.uk/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://www.tntsports.co.uk/rss.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.tntsports.co.uk/football/rss.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.tntsports.co.uk/sitemap-news.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.0
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "kicker",
+   "name": "kicker",
+   "country": "DE",
+   "homepage": "https://www.kicker.de/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://newsfeed.kicker.de/news/aktuell",
+     "ok": true,
+     "items": 20,
+     "dated": 20,
+     "newest": {
+      "title": "Der Fußstapfen-Füller: Alihan Hadzhi",
+      "url": "https://www.kicker.de/der-fussstapfen-fueller-alihan-hadzhi-1268172/artikel#omrss",
+      "publishedAt": "2026-11-09T13:20:52+03:00"
+     },
+     "seconds": 0.4
+    },
+    {
+     "url": "https://newsfeed.kicker.de/news/fussball",
+     "ok": true,
+     "items": 20,
+     "dated": 20,
+     "newest": {
+      "title": "Waldhof Mannheim erhält den LZ-Status",
+      "url": "https://www.kicker.de/waldhof-mannheim-erhaelt-den-lz-status-1270088/artikel#omrss",
+      "publishedAt": "2026-11-09T13:18:03+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://newsfeed.kicker.de/news/bundesliga",
+     "ok": true,
+     "items": 20,
+     "dated": 20,
+     "newest": {
+      "title": "Mainzer Wendepunkt? Die Hoffnung heißt Abstiegskampf",
+      "url": "https://www.kicker.de/mainzer-wendepunkt-die-hoffnung-heisst-abstiegskampf-1269657/artikel#omrss",
+      "publishedAt": "2026-11-09T12:36:06+03:00"
+     },
+     "seconds": 0.2
+    }
+   ],
+   "transferFeeds": [
+    {
+     "url": "https://newsfeed.kicker.de/news/transfers",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.2
+    }
+   ],
+   "workingFeeds": [
+    "https://newsfeed.kicker.de/news/aktuell",
+    "https://newsfeed.kicker.de/news/fussball",
+    "https://newsfeed.kicker.de/news/bundesliga"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Der Fußstapfen-Füller: Alihan Hadzhi",
+    "url": "https://www.kicker.de/der-fussstapfen-fueller-alihan-hadzhi-1268172/artikel#omrss",
+    "publishedAt": "2026-11-09T13:20:52+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:57+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "bild-sport",
+   "name": "BILD Sport",
+   "country": "DE",
+   "homepage": "https://www.bild.de/sport/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://www.bild.de/feed/sport.xml",
+     "ok": false,
+     "items": 100,
+     "dated": 0,
+     "newest": {
+      "title": "BILD macht den Kosten-Check - Darum entging Dynamo einem Millionen-Verlust",
+      "url": "https://www.bild.de/sport/fussball/warum-dynamo-dresden-einem-millionen-verlust-entging-6aed875b320931eb80f5baec",
+      "publishedAt": null
+     },
+     "seconds": 0.3,
+     "error": "stale: newest article None"
+    },
+    {
+     "url": "https://www.bild.de/rssfeeds/vw-sport/vw-sport-16728980,dzbildplus=true,sort=1,teaserbildmobil=false,view=rss2.bild.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.4
+    },
+    {
+     "url": "https://www.bild.de/feed/fussball.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.2
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Some or all articles need a subscription: only the free headline is read; facts are confirmed in another source.",
+   "credentials": "subscription for full articles (headlines are free)",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "lequipe",
+   "name": "L'Équipe",
+   "country": "FR",
+   "homepage": "https://www.lequipe.fr/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://dwh.lequipe.fr/api/edito/rss?path=/",
+     "ok": false,
+     "error": "ParseError: not well-formed (invalid token): line 3, column 22177",
+     "seconds": 0.3
+    },
+    {
+     "url": "https://dwh.lequipe.fr/api/edito/rss?path=/Football/",
+     "ok": true,
+     "items": 50,
+     "dated": 50,
+     "newest": {
+      "title": "Uli Hoeness à propos de l'état de santé de Jamal Musiala : « Il est impossible de savoir s'il retrouvera un jour son niveau »",
+      "url": "https://www.lequipe.fr/Football/Actualites/Uli-hoeness-a-propos-de-l-etat-de-sante-de-jamal-musiala-il-est-impossible-de-savoir-s-il-retrouvera-un-jour-son-niveau/1742447#at_medium=RSS_feeds",
+      "publishedAt": "2026-11-09T13:14:03+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.lequipe.fr/rss/actu_rss.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 403: Forbidden",
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.lequipe.fr/rss/actu_rss_Football.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 403: Forbidden",
+     "seconds": 0.0
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://dwh.lequipe.fr/api/edito/rss?path=/Football/"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Uli Hoeness à propos de l'état de santé de Jamal Musiala : « Il est impossible de savoir s'il retrouvera un jour son niveau »",
+    "url": "https://www.lequipe.fr/Football/Actualites/Uli-hoeness-a-propos-de-l-etat-de-sante-de-jamal-musiala-il-est-impossible-de-savoir-s-il-retrouvera-un-jour-son-niveau/1742447#at_medium=RSS_feeds",
+    "publishedAt": "2026-11-09T13:14:03+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:39:59+03:00",
+   "terms": "Some or all articles need a subscription: only the free headline is read; facts are confirmed in another source.",
+   "credentials": "subscription for full articles (headlines are free)",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "rmcsport",
+   "name": "RMC Sport",
+   "country": "FR",
+   "homepage": "https://rmcsport.bfmtv.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://rmcsport.bfmtv.com/rss/info/flux-rss/flux-toutes-les-actualites/",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.3
+    },
+    {
+     "url": "https://rmcsport.bfmtv.com/rss/football/",
+     "ok": true,
+     "items": 30,
+     "dated": 30,
+     "newest": {
+      "title": "Pierre Sage bientôt viré de Crystal Palace: pourquoi la greffe n’a pas pris en Premier League",
+      "url": "https://rmcsport.bfmtv.com/football/premier-league/pierre-sage-bientot-vire-de-crystal-palace-pourquoi-la-greffe-n-a-pas-pris-en-premier-league_AV-202611090431.html",
+      "publishedAt": "2026-11-09T13:32:31+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://rmcsport.bfmtv.com/rss/fil-sport/",
+     "ok": true,
+     "items": 30,
+     "dated": 30,
+     "newest": {
+      "title": "Les pronos hippiques du mardi 10 novembre 2026",
+      "url": "https://rmcsport.bfmtv.com/paris-hippique/les-pronos-hippiques-du-mardi-10-novembre-2026_AN-202611090434.html",
+      "publishedAt": "2026-11-09T13:37:58+03:00"
+     },
+     "seconds": 0.0
+    }
+   ],
+   "transferFeeds": [
+    {
+     "url": "https://rmcsport.bfmtv.com/rss/football/transferts/",
+     "ok": true,
+     "items": 30,
+     "dated": 30,
+     "newest": {
+      "title": "DIRECT. Mercato: Pierre Sage vers la sortie, déjà un grand favori pour le remplacer",
+      "url": "https://rmcsport.bfmtv.com/football/transferts/direct-mercato-suivez-en-live-toutes-les-infos-et-rumeurs-du-lundi-9-novembre-2026_LN-202611090138.html",
+      "publishedAt": "2026-11-09T09:01:38+03:00"
+     },
+     "seconds": 0.1
+    }
+   ],
+   "workingFeeds": [
+    "https://rmcsport.bfmtv.com/rss/football/",
+    "https://rmcsport.bfmtv.com/rss/fil-sport/"
+   ],
+   "workingTransferFeeds": [
+    "https://rmcsport.bfmtv.com/rss/football/transferts/"
+   ],
+   "newestArticle": {
+    "title": "Les pronos hippiques du mardi 10 novembre 2026",
+    "url": "https://rmcsport.bfmtv.com/paris-hippique/les-pronos-hippiques-du-mardi-10-novembre-2026_AN-202611090434.html",
+    "publishedAt": "2026-11-09T13:37:58+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:40:00+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "goal",
+   "name": "GOAL",
+   "country": "INT",
+   "homepage": "https://www.goal.com/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://www.goal.com/feeds/en/news",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.goal.com/en/feeds/news?fmt=rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.goal.com/en/news/sitemap.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.2
+    }
+   ],
+   "transferFeeds": [
+    {
+     "url": "https://www.goal.com/feeds/en/transfers",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.0
+    }
+   ],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "espn",
+   "name": "ESPN",
+   "country": "US",
+   "homepage": "https://www.espn.com/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://www.espn.com/espn/rss/news",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.espn.com/espn/rss/soccer/news",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.espn.co.uk/espn/rss/football/news",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.1
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "cbssports",
+   "name": "CBS Sports",
+   "country": "US",
+   "homepage": "https://www.cbssports.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.cbssports.com/rss/headlines/",
+     "ok": true,
+     "items": 36,
+     "dated": 36,
+     "newest": {
+      "title": "NFL Week 9 grades for every team: Patriots among two teams with failing grades, Cowboys barely pass",
+      "url": "https://www.cbssports.com/nfl/news/nfl-week-9-grades-cowboys-bengals-patriots-packers/",
+      "publishedAt": "2026-11-09T08:13:59+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.cbssports.com/rss/headlines/soccer/",
+     "ok": true,
+     "items": 36,
+     "dated": 36,
+     "newest": {
+      "title": "Gotham FC, Seattle Reign slam 'atrocious' pitch conditions after NWSL playoff clash",
+      "url": "https://www.cbssports.com/soccer/news/gotham-fc-seattle-reign-slam-atrocious-pitch-nwsl-playoff/",
+      "publishedAt": "2026-11-09T03:02:39+03:00"
+     },
+     "seconds": 0.1
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.cbssports.com/rss/headlines/",
+    "https://www.cbssports.com/rss/headlines/soccer/"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "NFL Week 9 grades for every team: Patriots among two teams with failing grades, Cowboys barely pass",
+    "url": "https://www.cbssports.com/nfl/news/nfl-week-9-grades-cowboys-bengals-patriots-packers/",
+    "publishedAt": "2026-11-09T08:13:59+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:40:00+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "beinsports",
+   "name": "beIN SPORTS",
+   "country": "INT",
+   "homepage": "https://www.beinsports.com/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://www.beinsports.com/en-us/rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.9
+    },
+    {
+     "url": "https://www.beinsports.com/en-mena/rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.9
+    },
+    {
+     "url": "https://www.beinsports.com/en-us/sitemap-news.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 1.6
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "the-athletic",
+   "name": "The Athletic",
+   "country": "US",
+   "homepage": "https://www.nytimes.com/athletic/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.nytimes.com/athletic/rss/news/",
+     "ok": true,
+     "items": 100,
+     "dated": 100,
+     "newest": {
+      "title": "How to watch Northwestern State vs. Oklahoma State women's basketball: TV channel and streaming options for November 9",
+      "url": "https://www.nytimes.com/athletic/7767129/2026/11/09/northwestern-state-vs-oklahoma-state-stream-how-to-watch-nov-9/",
+      "publishedAt": "2026-11-09T13:35:47+03:00"
+     },
+     "seconds": 0.3
+    },
+    {
+     "url": "https://www.nytimes.com/athletic/rss/football/",
+     "ok": true,
+     "items": 100,
+     "dated": 100,
+     "newest": {
+      "title": "Jesus de Miguel’s tragic death: How Spanish football was struck by sorrow",
+      "url": "https://www.nytimes.com/athletic/7764629/2026/11/09/jesus-de-miguel-tenerife-death-owono-andorra/",
+      "publishedAt": "2026-11-09T08:20:09+03:00"
+     },
+     "seconds": 0.4
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.nytimes.com/athletic/rss/news/",
+    "https://www.nytimes.com/athletic/rss/football/"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "How to watch Northwestern State vs. Oklahoma State women's basketball: TV channel and streaming options for November 9",
+    "url": "https://www.nytimes.com/athletic/7767129/2026/11/09/northwestern-state-vs-oklahoma-state-stream-how-to-watch-nov-9/",
+    "publishedAt": "2026-11-09T13:35:47+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:40:05+03:00",
+   "terms": "Some or all articles need a subscription: only the free headline is read; facts are confirmed in another source.",
+   "credentials": "subscription for full articles (headlines are free)",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "90min",
+   "name": "90min",
+   "country": "INT",
+   "homepage": "https://www.90min.com/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://www.90min.com/posts.rss",
+     "ok": false,
+     "items": 90,
+     "dated": 90,
+     "newest": {
+      "title": "Famous OGC Nice eagle mascot and trainer blasted by sprinkler",
+      "url": "https://www.90min.com/famous-ogc-nice-eagle-mascot-trainer-blasted-by-sprinkler?utm_source=RSS",
+      "publishedAt": "2025-09-29T11:55:00+03:00"
+     },
+     "seconds": 0.2,
+     "error": "stale: newest article 2025-09-29T11:55:00+03:00"
+    },
+    {
+     "url": "https://www.90min.com/rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.1
+    },
+    {
+     "url": "https://www.90min.com/sitemap-news.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.1
+    }
+   ],
+   "transferFeeds": [
+    {
+     "url": "https://www.90min.com/categories/transfers.rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.1
+    }
+   ],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "onefootball",
+   "name": "OneFootball",
+   "country": "INT",
+   "homepage": "https://onefootball.com/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://onefootball.com/en/rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.3
+    },
+    {
+     "url": "https://onefootball.com/sitemap-news.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 0.4
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "fifa",
+   "name": "FIFA (official)",
+   "country": "INT",
+   "homepage": "https://www.fifa.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://cxm-api.fifa.com/fifaplusweb/api/sitemaps/news/0",
+     "ok": true,
+     "items": 46,
+     "dated": 46,
+     "newest": {
+      "title": "Nigeria triumph as records shatter at Morocco 2026",
+      "url": "https://www.fifa.com/en/tournaments/womens/u17womensworldcup/morocco-2026/articles/rabat-tournament-review",
+      "publishedAt": "2026-11-09T13:00:00+03:00"
+     },
+     "seconds": 3.7
+    },
+    {
+     "url": "https://www.fifa.com/rss-feeds/news",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.2
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://cxm-api.fifa.com/fifaplusweb/api/sitemaps/news/0"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Nigeria triumph as records shatter at Morocco 2026",
+    "url": "https://www.fifa.com/en/tournaments/womens/u17womensworldcup/morocco-2026/articles/rabat-tournament-review",
+    "publishedAt": "2026-11-09T13:00:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:40:11+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "uefa",
+   "name": "UEFA (official)",
+   "country": "INT",
+   "homepage": "https://www.uefa.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.uefa.com/rssfeed/news/rss.xml",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.4
+    },
+    {
+     "url": "https://www.uefa.com/sitemap/news/latest.xml",
+     "ok": true,
+     "items": 44,
+     "dated": 24,
+     "newest": {
+      "title": "Clinical Spain claim Finalissima title",
+      "url": "https://www.uefa.com/futsalfinalissima/news/02ab-220665412941-8450f8b56d11-1000--futsal-finalissima-2026-final-report-brazil-0-3-spain/",
+      "publishedAt": "2026-11-09T02:03:00+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.uefa.com/rssfeed/uefachampionsleague/rss.xml",
+     "ok": false,
+     "error": "ValueError: not a feed (the address answers with a web page)",
+     "seconds": 0.3
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.uefa.com/sitemap/news/latest.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Clinical Spain claim Finalissima title",
+    "url": "https://www.uefa.com/futsalfinalissima/news/02ab-220665412941-8450f8b56d11-1000--futsal-finalissima-2026-final-report-brazil-0-3-spain/",
+    "publishedAt": "2026-11-09T02:03:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:40:11+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "caf",
+   "name": "CAF (official)",
+   "country": "INT",
+   "homepage": "https://www.cafonline.com/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://www.cafonline.com/rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 1.5
+    },
+    {
+     "url": "https://www.cafonline.com/news/rss",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 1.6
+    },
+    {
+     "url": "https://www.cafonline.com/sitemap.xml",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 404: Not Found",
+     "seconds": 1.3
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  },
+  {
+   "id": "bundesliga-official",
+   "name": "Bundesliga (official)",
+   "country": "DE",
+   "homepage": "https://www.bundesliga.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.bundesliga.com/en/bundesliga/news/rss",
+     "ok": true,
+     "items": 32,
+     "dated": 32,
+     "newest": {
+      "title": "Bundesliga Matchday 9 video highlights",
+      "url": "https://www.bundesliga.com/en/bundesliga/news/bundesliga-video-highlights-bayern-munich-borussia-dortmund-leverkusen-leipzig-937",
+      "publishedAt": "2026-11-09T10:45:00+03:00"
+     },
+     "seconds": 0.0
+    },
+    {
+     "url": "https://www.bundesliga.com/sitemaps/en/sitemap-news.xml",
+     "ok": true,
+     "items": 67,
+     "dated": 67,
+     "newest": {
+      "title": "Bundesliga Matchday 9 video highlights",
+      "url": "https://www.bundesliga.com/en/bundesliga/news/bundesliga-video-highlights-bayern-munich-borussia-dortmund-leverkusen-leipzig-937",
+      "publishedAt": "2026-11-09T10:45:00+03:00"
+     },
+     "seconds": 0.7
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.bundesliga.com/en/bundesliga/news/rss",
+    "https://www.bundesliga.com/sitemaps/en/sitemap-news.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Bundesliga Matchday 9 video highlights",
+    "url": "https://www.bundesliga.com/en/bundesliga/news/bundesliga-video-highlights-bayern-munich-borussia-dortmund-leverkusen-leipzig-937",
+    "publishedAt": "2026-11-09T10:45:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:40:18+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "liverpool-official",
+   "name": "Liverpool FC (official)",
+   "country": "GB",
+   "homepage": "https://www.liverpoolfc.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.liverpoolfc.com/sitemap-news.xml",
+     "ok": true,
+     "items": 27,
+     "dated": 27,
+     "newest": {
+      "title": "Crystal Palace 1-3 Liverpool: Watch extended highlights and full match",
+      "url": "https://www.liverpoolfc.com/news/crystal-palace-liverpool-premier-league-highlights-full-match",
+      "publishedAt": "2026-11-09T11:55:00+03:00"
+     },
+     "seconds": 0.1
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.liverpoolfc.com/sitemap-news.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Crystal Palace 1-3 Liverpool: Watch extended highlights and full match",
+    "url": "https://www.liverpoolfc.com/news/crystal-palace-liverpool-premier-league-highlights-full-match",
+    "publishedAt": "2026-11-09T11:55:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:40:18+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "mancity-official",
+   "name": "Manchester City (official)",
+   "country": "GB",
+   "homepage": "https://www.mancity.com/",
+   "robotsAllowsHomepage": true,
+   "working": true,
+   "feeds": [
+    {
+     "url": "https://www.mancity.com/newssitemap.xml",
+     "ok": true,
+     "items": 68,
+     "dated": 68,
+     "newest": {
+      "title": "Monday Marker: Your guide to City's week ahead",
+      "url": "https://www.mancity.com/news/club/monday-marker-9-november-2026-63929665",
+      "publishedAt": "2026-11-09T12:30:00+03:00"
+     },
+     "seconds": 0.9
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [
+    "https://www.mancity.com/newssitemap.xml"
+   ],
+   "workingTransferFeeds": [],
+   "newestArticle": {
+    "title": "Monday Marker: Your guide to City's week ahead",
+    "url": "https://www.mancity.com/news/club/monday-marker-9-november-2026-63929665",
+    "publishedAt": "2026-11-09T12:30:00+03:00"
+   },
+   "lastSuccessfulCheck": "2026-11-09T13:40:20+03:00",
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "automatic, every 5 minutes"
+  },
+  {
+   "id": "napoli-official",
+   "name": "SSC Napoli (official)",
+   "country": "IT",
+   "homepage": "https://sscnapoli.it/",
+   "robotsAllowsHomepage": true,
+   "working": false,
+   "feeds": [
+    {
+     "url": "https://sscnapoli.it/en/feed/",
+     "ok": false,
+     "error": "HTTPError: HTTP Error 500: Internal Server Error",
+     "seconds": 13.9
+    }
+   ],
+   "transferFeeds": [],
+   "workingFeeds": [],
+   "workingTransferFeeds": [],
+   "newestArticle": null,
+   "lastSuccessfulCheck": null,
+   "terms": "Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "credentials": "none",
+   "collection": "manually reviewed (no allowed, up-to-date feed answered)"
+  }
+ ],
+ "counts": {
+  "publishers": 33,
+  "working": 20
+ }
+}
