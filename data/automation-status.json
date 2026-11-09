@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-10T01:06:27+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-10T01:21:19+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-09T21:17:23Z",
  "newestArticleAt": "2026-11-10T00:30:00+03:00",
- "lastSourceCheckAt": "2026-11-10T01:05:18+03:00",
+ "lastSourceCheckAt": "2026-11-10T01:20:17+03:00",
  "sourceChecks24h": 290,
- "publishedArticles": 271,
+ "publishedArticles": 274,
  "liveArticles": 271,
- "waitingForImage": 74,
- "liveInSync": true,
+ "waitingForImage": 75,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-09T21:17:23Z",
@@ -18,36 +18,41 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/42701076116"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-09T09:31:07+00:00",
+  "since": "2026-11-09T22:21:18+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-09T23:49:09+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-10T01:19:34+03:00",
  "writers": {
   "sports": {
    "mode": "on",
-   "lastCheckAt": "2026-11-10T01:06:23+03:00",
+   "lastCheckAt": "2026-11-10T01:21:16+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 6,
-    "waitingForSchedule": 66
+    "skipped": 3,
+    "waitingForSchedule": 59
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-10T01:05:12+03:00",
-   "lastSuccessAt": "2026-11-10T01:05:12+03:00",
+   "lastCheckAt": "2026-11-10T01:20:11+03:00",
+   "lastSuccessAt": "2026-11-10T01:20:11+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-09T23:59:28+03:00",
+  "lastSourceCheckAt": "2026-11-10T01:19:34+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-09T23:00:17+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Mareykanka oo Soomaaliya ku daray dalalka khadka cas ee aan loo safri karin",
-   "url": "https://www.caasimada.net/mareykanka-oo-soomaaliya-ku-daray-dalalka-khadka-cas-ee-aan-loo-safri-karin/"
+   "publishedAt": "2026-11-10T00:00:30+03:00",
+   "sourceName": "Puntland Post",
+   "title": "Garaad Cabdiqani Wuu Ka Digay Isku Dayga Burburinta Qarannimada Soomaaliya",
+   "url": "https://puntlandpost.net/2026/11/10/garaad-cabdiqani-wuu-ka-digay-isku-dayga-burburinta-qarannimada-soomaaliya/"
   },
   "latestPublished": {
    "id": "2026-11-10-turkiga-soomaaliya-iskaashi-milatari-falanqeyn",
@@ -56,20 +61,16 @@
    "source": "Wartabiye TV",
    "url": "/war/2026-11-10-turkiga-soomaaliya-iskaashi-milatari-falanqeyn.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 2,
+  "publishedLastRun": 0,
+  "rejectedLastRun": 9,
   "rejectedReasons": {
-   "old": 1,
-   "duplicate": 1
+   "old": 4,
+   "duplicate": 4,
+   "known": 1
   },
   "taskRejectedReasons": [
-   "Soomaaliya oo ansixisay qorshe lix bilood ah oo lagu dardargelinayo ciribtirka cudurka dabeysha: duplicate (qorshahan 4 November ayaa la ansixiyay, bogga waa ku jiraa 2026-11-04)",
-   "Somalia: Mogadishu's Daynile district gripped by deadly clashes amid forced evictions: pending (headline-only, dhimasho, ma jiro il kale oo xaqiijisay)",
-   "Warbixin: Stephen Miller Oo Hay'adaha Mareykanka Ku Cadaadiyey Baaritaanno Lagu Beegsanayo Soomaalida Minnesota: pending (eedeyn culus oo hal warbixin kaliya ah)",
-   "Somalia's Future Council Condemns Dismissal of Supreme Court Chief Justice, Welcomes Court's Election Ruling: pending (headline-only, lama xaqiijin)",
-   "Somali refugee wins women boxing world title at 37 in Texas fight: pending (headline-only, lama xaqiijin)",
-   "Madaxweynaha Dowladda Puntland oo guddoomiyayaal degmo magacaabay: not newsworthy / headline-only, lama xaqiijin",
-   "Degdeg: Sanbaloolshe oo BBC-da uga warramay qorshihiisa: interview, not a news development; BBC headline-only, lama xaqiijin"
+   "Garaad Cabdiqani Wuu Ka Digay Isku Dayga Burburinta Qarannimada Soomaaliya: faallo/taariikh nololeed (Puntland Post 'Faallo PP'), ma aha war",
+   "Wararka Soomaaliya ee ka horreeyay 21:10 (catch-up): orodkii hore ayaa go'aan ka gaaray (la daabacay, pending ama la diiday)"
   ],
   "waitingForImage": 0,
   "waitingIds": [],
