@@ -422,7 +422,7 @@
       var rank={live:0,unknown:1,offline:2,noembed:3};l=l.map(function(c,i){return {c:c,s:chState(c),i:i}}).sort(function(a,b){return rank[a.s]-rank[b.s]||a.i-b.i});
       var top=el('div','lctop');var h=el('h2','lchead');top.append(h);box.append(top);
       var stage=el('div','lcstage');var cap=el('div','lccap');var tabs=el('div','lctabs');tabs.setAttribute('role','tablist');box.append(stage,cap,tabs,el('p','vnote',tr('lcSub')));
-      function badge(s){if(s==='live'){var b=el('span','onair lcbadge');b.append(el('i'),document.createTextNode(tr('lcLive')));return b}if(s==='offline')return el('span','lcoff',tr('lcOff'));return null}
+      function badge(s){if(s==='live'){var b=el('span','lclive');b.append(el('i'),document.createTextNode(tr('lcLive')));return b}if(s==='offline')return el('span','lcoff',tr('lcOff'));return null}
       function show(x){var c=x.c,s=x.s;stage.innerHTML='';cap.innerHTML='';h.innerHTML='';var b=badge(s);if(b)h.append(b);h.append(document.createTextNode(c.name||''));box.className='lchans lc-'+s;
         if(s==='live'||s==='unknown'){var pv=s==='live'&&/^[A-Za-z0-9_-]{11}$/.test(c.videoId||'')?{p:'youtube',id:c.videoId}:{p:'youtube-channel',id:c.channelId};
           stage.append(playerBox(pv,{title:(c.title||c.name)+' (YouTube)',eager:true}))}

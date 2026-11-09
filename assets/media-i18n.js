@@ -258,6 +258,19 @@ tr: {lcTitle:'Canlı haberleri izleyin', lcSub:'Haber kanallarının resmî canl
 es: {lcTitle:'Ver noticias en directo', lcSub:'Las emisiones oficiales en directo de los canales de noticias, para ver aquí dentro de Wartabiye TV (reproductor oficial de YouTube, inserción permitida por el canal). Cada 5 minutos comprobamos si cada canal está emitiendo.', lcLive:'EN DIRECTO', lcOff:'SIN EMISIÓN', lcOffTxt:'Este canal no está emitiendo en directo ahora.', lcNoEmbed:'Este canal no permite reproducir su directo en otros sitios web, por lo que no puede mostrarse aquí.', lcUnknown:'No se pudo confirmar el estado de la emisión; el reproductor indica si está en antena.', lcChecked:'Comprobado {t} (EAT)'}
 };
 Object.keys(S4).forEach(function (l) { M[l] = Object.assign(M[l] || {}, S4[l]); });
+/* LIVE News status line and ticker (9 Nov 2026) */
+var S5 = {
+so: {lnLiveOn:'TOOS', lnUpdated:'War ugu dambeeyay: {t}', lnChecked:'La hubiyay: {t} (EAT)', lnTick:'HADDA'},
+en: {lnLiveOn:'LIVE', lnUpdated:'Latest update: {t}', lnChecked:'Checked: {t} (EAT)', lnTick:'NOW'},
+ar: {lnLiveOn:'مباشر', lnUpdated:'آخر تحديث: {t}', lnChecked:'تم التحقق: {t} (EAT)', lnTick:'الآن'},
+fr: {lnLiveOn:'EN DIRECT', lnUpdated:'Dernière mise à jour : {t}', lnChecked:'Vérifié : {t} (EAT)', lnTick:'MAINTENANT'},
+nl: {lnLiveOn:'LIVE', lnUpdated:'Laatste update: {t}', lnChecked:'Gecontroleerd: {t} (EAT)', lnTick:'NU'},
+it: {lnLiveOn:'LIVE', lnUpdated:'Ultimo aggiornamento: {t}', lnChecked:'Controllato: {t} (EAT)', lnTick:'ORA'},
+de: {lnLiveOn:'LIVE', lnUpdated:'Letzte Meldung: {t}', lnChecked:'Geprüft: {t} (EAT)', lnTick:'JETZT'},
+tr: {lnLiveOn:'CANLI', lnUpdated:'Son güncelleme: {t}', lnChecked:'Kontrol: {t} (EAT)', lnTick:'ŞİMDİ'},
+es: {lnLiveOn:'EN DIRECTO', lnUpdated:'Última actualización: {t}', lnChecked:'Comprobado: {t} (EAT)', lnTick:'AHORA'}
+};
+Object.keys(S5).forEach(function (l) { M[l] = Object.assign(M[l] || {}, S5[l]); });
 var I = window.WT_I18N || (window.WT_I18N = {});
 Object.keys(M).forEach(function (l) { I[l] = Object.assign(I[l] || {}, M[l]); });
 })();
