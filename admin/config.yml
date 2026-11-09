@@ -692,6 +692,41 @@ collections:
               - {name: event, label: 'Sababta (push / workflow_dispatch)', widget: string, required: false}
               - {name: html_url, label: 'Log-ka (GitHub Actions)', widget: string, required: false}
           - {name: hourlyRoutineLastRunAt, label: 'Hawsha Claude ee saacadlaha ah: orodkii u dambeeyay', widget: string, required: false}
+          - name: somalia
+            label: 'Wararka Soomaaliya: baaritaanka (private Somalia diagnostics)'
+            widget: object
+            required: false
+            fields:
+              - {name: stale, label: 'Daabacaadda Soomaaliya way istaagtay (stale: GitHub ayaa email kuu soo diraya)', widget: boolean, required: false}
+              - {name: problems, label: 'Dhibaatooyinka', widget: list, required: false}
+              - {name: lastSourceCheckAt, label: 'Hubintii ilaha Soomaaliyeed ee u dambeysay (last Somalia source check)', widget: string, required: false}
+              - {name: sourcesWorking, label: 'Ilaha Soomaaliyeed ee shaqeeya', widget: number, required: false}
+              - {name: sources, label: 'Ilaha Soomaaliyeed oo dhan', widget: number, required: false}
+              - name: latestDiscovered
+                label: 'Warkii Soomaaliyeed ee ugu dambeeyay ee la helay (latest story discovered)'
+                widget: object
+                required: false
+                fields:
+                  - {name: publishedAt, label: Waqtiga asalka ah, widget: string, required: false}
+                  - {name: sourceName, label: Isha, widget: string, required: false}
+                  - {name: title, label: Cinwaanka asalka ah, widget: string, required: false}
+                  - {name: url, label: Linkiga asalka ah, widget: string, required: false}
+              - name: latestPublished
+                label: 'Warkii Soomaaliyeed ee ugu dambeeyay ee la daabacay (latest article published)'
+                widget: object
+                required: false
+                fields:
+                  - {name: title, label: Cinwaanka, widget: string, required: false}
+                  - {name: publishedAt, label: Waqtiga, widget: string, required: false}
+                  - {name: source, label: Isha, widget: string, required: false}
+                  - {name: url, label: Bogga, widget: string, required: false}
+              - {name: publishedLastRun, label: 'Wararka Soomaaliya ee orodkii u dambeeyay la daabacay', widget: number, required: false}
+              - {name: rejectedLastRun, label: 'Wararka Soomaaliya ee la diiday (rejected)', widget: number, required: false}
+              - {name: rejectedReasons, label: 'Sababaha diidmada (collector)', widget: code, output_code_only: true, required: false}
+              - {name: taskRejectedReasons, label: 'Sababaha diidmada (hawsha saacadlaha)', widget: list, required: false}
+              - {name: waitingForImage, label: 'Wararka Soomaaliya ee sugaya sawir sharci ah', widget: number, required: false}
+              - {name: waitingIds, label: 'Kuwa sugaya sawir', widget: list, required: false}
+              - {name: lastSuccessfulPublishAt, label: 'Daabacaaddii bogga ee u dambeysay ee guulaysatay', widget: string, required: false}
           - {name: updatedAt, label: 'La cusbooneysiiyay', widget: string, required: false}
       - name: sportsPublishers
         label: 'Ciyaaraha: ilaha warbaahinta caalamka (sports publishers test report)'

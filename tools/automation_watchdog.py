@@ -28,6 +28,9 @@ MAX_RETRIES = 4
 STALE_LIVE_MIN = 45
 PAGES_REBUILD_MIN = 12
 ISSUE_TITLE = 'Daabacaadda: waxay u baahan tahay faragelin (publishing needs attention)'
+SO_ISSUE_TITLE = 'Wararka Soomaaliya: daabacaaddu way istaagtay (Somalia publishing is stale)'
+SO_STALE_H = 12      # no new Somalia article for this long while the sources had newer Somalia stories: alert the owner
+SO_SILENT_H = 24     # or the Somali sources found nothing at all for this long
 PHOTO_RULE_FROM = '2026-11-02'
 
 
@@ -104,6 +107,49 @@ def article_counts():
     except Exception:
         pass
     return published, waiting
+
+
+def somalia_articles():
+    out = []
+    for f in glob.glob(os.path.join(root, 'data', 'news', '*.json')):
+        try:
+            n = json.load(open(f, encoding='utf-8'))
+        except Exception:
+            continue
+        if (n.get('section') or 'somalia') == 'somalia' and n.get('country') == 'so':
+            out.append(n)
+    return out
+
+
+def somalia_state(t, articles, wstatus):
+    """Private Somalia diagnostics for /admin/ (owner's request, 9 Nov 2026). Pure: tested offline."""
+    live = [n for n in articles if n.get('published', True) is not False and not n.get('imagePending')]
+    waiting = [n for n in articles if n.get('published', True) is False and n.get('imagePending')]
+    newest = max(live, key=lambda n: ptime(n.get('publishedAt')) or datetime.datetime.min.replace(tzinfo=datetime.timezone.utc), default=None)
+    last = (wstatus or {}).get('lastRun') or {}
+    so = last.get('somalia') or {}
+    found = so.get('latestDiscovered') or {}
+    pub_at, found_at = ptime((newest or {}).get('publishedAt')), ptime(found.get('publishedAt'))
+    age = mins(t, pub_at)
+    problems = []
+    if found_at and (age is None or age > SO_STALE_H * 60) and (pub_at is None or found_at > pub_at + datetime.timedelta(hours=1)):
+        problems.append(f'No new Somalia article for {round(age / 60) if age is not None else "?"} hours although the Somali sources '
+                        f'have newer stories (latest: {found.get("sourceName")} {found.get("publishedAt")}).')
+    if so and (not found_at or (mins(t, found_at) or 0) > SO_SILENT_H * 60):  # only once the collector writes the Somalia block
+        problems.append(f'The Somali sources have reported no Somalia story for more than {SO_SILENT_H} hours '
+                        '(check data/world/status.json, sources with country "so").')
+    return {
+        'lastSourceCheckAt': (wstatus or {}).get('lastRunAt'),
+        'sourcesWorking': so.get('sourcesWorking'), 'sources': so.get('sources'),
+        'latestDiscovered': found or None,
+        'latestPublished': {'id': newest.get('id'), 'title': newest.get('title'), 'publishedAt': newest.get('publishedAt'),
+                            'source': newest.get('source'), 'url': f"/war/{newest.get('id')}.html"} if newest else None,
+        'publishedLastRun': so.get('published'),
+        'rejectedLastRun': sum((so.get('rejected') or {}).values()), 'rejectedReasons': so.get('rejected') or {},
+        'taskRejectedReasons': so.get('rejectedReasons') or [],
+        'waitingForImage': len(waiting), 'waitingIds': [n.get('id') for n in waiting][:20],
+        'stale': bool(problems), 'problems': problems,
+    }
 
 
 # ---------------------------------------------------------------- the decision (pure, tested offline)
@@ -251,6 +297,30 @@ def run(state_dir):
         routine = json.load(open(os.path.join(root, 'data', 'status.json'), encoding='utf-8'))
     except Exception:
         routine = {}
+    try:
+        wstatus = json.load(open(os.path.join(root, 'data', 'world', 'status.json'), encoding='utf-8'))
+    except Exception:
+        wstatus = {}
+    so = somalia_state(t, somalia_articles(), wstatus)
+    so['lastSuccessfulPublishAt'] = st['lastSuccessfulPublishAt']
+    # its own issue, separate from the publishing alert: once while stale, closed when Somalia articles flow again
+    if so['stale'] and not wd.get('soAlerted'):
+        body = ('Somalia news publishing looks stale (' + datetime.datetime.now(EAT).strftime('%Y-%m-%d %H:%M') + ' Africa/Nairobi):\n\n'
+                + '\n'.join('- ' + p for p in so['problems'])
+                + '\n\nVisitors see nothing of this. Details: /admin/ -> "Xaaladda otomaatigga" -> somalia. '
+                  'This issue closes by itself when a new Somalia article is live.')
+        num = find_issue(api, token, SO_ISSUE_TITLE)
+        if num:
+            http(f'{api}/issues/{num}/comments', 'POST', {'body': body}, token)
+        else:
+            http(f'{api}/issues', 'POST', {'title': SO_ISSUE_TITLE, 'body': body}, token)
+        wd['soAlerted'] = True
+    elif not so['stale'] and wd.get('soAlerted'):
+        num = find_issue(api, token, SO_ISSUE_TITLE)
+        if num:
+            http(f'{api}/issues/{num}/comments', 'POST', {'body': 'A new Somalia article is live again. Closing.'}, token)
+            http(f'{api}/issues/{num}', 'PATCH', {'state': 'closed', 'state_reason': 'completed'}, token)
+        wd['soAlerted'] = False
     failures = sum(1 for r in runs if r.get('conclusion') == 'failure' and (mins(t, ptime(r.get('created_at'))) or 1e9) < 1440)
     newest = max((n.get('publishedAt') or '' for n in (live_news or repo_news or {}).get('news', [])), default=None)
     out = {
@@ -275,6 +345,7 @@ def run(state_dir):
         'problems': st['problems'],
         'hourlyRoutineLastRunAt': routine.get('lastRunAt'),
         'writers': writers,
+        'somalia': so,
     }
     json.dump(out, open(os.path.join(state_dir, 'automation-status.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     json.dump(wd, open(wd_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
@@ -283,10 +354,10 @@ def run(state_dir):
     return 0
 
 
-def find_issue(api, token):
+def find_issue(api, token, title=ISSUE_TITLE):
     code, data = http(f'{api}/issues?state=open&per_page=50', token=token)
     for i in data if code == 200 and isinstance(data, list) else []:
-        if i.get('title') == ISSUE_TITLE and not i.get('pull_request'):
+        if i.get('title') == title and not i.get('pull_request'):
             return i['number']
     return None
 
@@ -334,6 +405,16 @@ def self_test():
     decide(T(5), [run(-30, 'success')], T(-40), news, None, wd6)
     a, s = decide(T(10), [run(-30, 'success')], T(-40), news, None, wd6)
     check(s['overall'] == 'needs-attention' and a == [], 'live site unreachable 3 checks in a row: alert, no blind re-publish')
+    art = lambda h, **k: dict({'id': 'x', 'country': 'so', 'publishedAt': T(-h * 60).isoformat()}, **k)
+    ws = lambda h: {'lastRunAt': T(0).isoformat(), 'lastRun': {'somalia': {'latestDiscovered': {'publishedAt': T(-h * 60).isoformat(), 'sourceName': 'S'}}}}
+    so = somalia_state(T(0), [art(2)], ws(1))
+    check(not so['stale'] and so['latestPublished']['url'] == '/war/x.html', 'somalia: fresh article live, nothing to alert')
+    so = somalia_state(T(0), [art(30)], ws(3))
+    check(so['stale'] and len(so['problems']) == 1, 'somalia: newer stories found but nothing published for 30 hours: alert')
+    so = somalia_state(T(0), [art(14)], ws(14.5))
+    check(not so['stale'], 'somalia: quiet night, no newer story than the last article: no alert')
+    so = somalia_state(T(0), [art(2), art(1, published=False, imagePending=True)], ws(30))
+    check(so['stale'] and so['waitingForImage'] == 1, 'somalia: sources silent for 30 hours: alert; photo-pending counted')
     print('WATCHDOG OK' if ok else 'WATCHDOG FAILED')
     return 0 if ok else 1
 
