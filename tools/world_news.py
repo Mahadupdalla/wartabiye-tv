@@ -32,6 +32,10 @@ STATUS = os.path.join(root, 'data', 'world', 'status.json')
 UA = 'WartabiyeTV-WorldNews/1.0 (+https://www.wartabiyetv.com/)'
 EAT = datetime.timezone(datetime.timedelta(hours=3))
 FRESH_HOURS = 2   # owner's rule (8 Nov 2026): stories older than this are never published as new
+# Somalia catch-up (owner's decision, 9 Nov 2026): Somali outlets publish a few stories a day, often hours before an hourly
+# run sees them, so a Somalia story (country "so") not yet on the site stays eligible for 24 hours. It keeps the publisher's
+# own time, is marked "catchUp" when older than FRESH_HOURS, and is never breaking. Duplicate checks still apply.
+SOMALIA_HOURS = 24
 
 
 def now():
@@ -352,13 +356,16 @@ def fetch(args):
                 rep['errors'].append(f"{f['type']} {f['url']}: {type(e).__name__}: {e}"[:300])
         if not listing: continue
         first = len(items)
+        ssince = since
+        if since and s.get('country') == 'so':
+            ssince = min(since, now() - datetime.timedelta(hours=SOMALIA_HOURS))
         rep['found'] = len(listing)
         # video clips, galleries and live blogs are not articles
         listing = [g for g in listing if not re.search(r'/(video|videos|gallery|live-news|live)/', g['url'])]
         listing.sort(key=lambda g: g.get('publishedAt') or '', reverse=True)
         for g in listing[:per * 2]:
             if rep['collected'] >= per: break
-            if since and g.get('publishedAt') and parse_date(g['publishedAt']) < since: continue
+            if ssince and g.get('publishedAt') and parse_date(g['publishedAt']) < ssince: continue
             it = {'source': s['id'], 'sourceName': s['name'], 'section': s.get('section', 'world'), 'url': g['url'], 'title': g.get('title'),
                   'description': g.get('description'), 'publishedAt': g.get('publishedAt'), 'image': g.get('image'),
                   'timeVerified': bool(g.get('publishedAt'))}
@@ -386,9 +393,9 @@ def fetch(args):
                 it['articleError'] = f'{type(e).__name__}: {e}'[:200]
             if not it.get('publishedAt'):
                 rep['errors'].append(f"no verifiable publication date: {g['url']}"); continue
-            if since and parse_date(it['publishedAt']) < since:
+            if ssince and parse_date(it['publishedAt']) < ssince:
                 # a date-only article (no time given by the publisher) counts if its date is on or after the window's date
-                if not (it.get('timeVerified') is False and parse_date(it['publishedAt']).date() >= since.astimezone(parse_date(it['publishedAt']).tzinfo).date()):
+                if not (it.get('timeVerified') is False and parse_date(it['publishedAt']).date() >= ssince.astimezone(parse_date(it['publishedAt']).tzinfo).date()):
                     continue
             if not it.get('title'): continue
             ok, why = east_africa.gate(it, s)
@@ -586,6 +593,7 @@ def dedup(args):
     since = parse_date(opt(args, '--since', None))
     max_age = float(opt(args, '--max-age-hours', FRESH_HOURS))
     fresh_cut = now() - datetime.timedelta(hours=max_age)
+    so_cut = now() - datetime.timedelta(hours=max(max_age, float(opt(args, '--somalia-hours', SOMALIA_HOURS))))
     known_urls, site = known_articles()
     items = [dict(x) for x in cand['items']]
     # images used by two or more items of the same source are generic thumbnails
@@ -610,9 +618,13 @@ def dedup(args):
         ok, why = east_africa.gate(x, cfg.get(x.get('source')))
         if not ok:
             rejected.append({**pub(x), 'why': 'excluded', 'detail': why}); continue
-        if since and x.get('publishedAt') and parse_date(x['publishedAt']) < since:
+        so = x.get('country') == 'so'
+        if so and x.get('publishedAt') and parse_date(x['publishedAt']) >= so_cut:
+            # Somalia catch-up: eligible for 24 h if the site does not have it yet (URL and event checks below)
+            if parse_date(x['publishedAt']) < fresh_cut: x['catchUp'] = True
+        elif since and x.get('publishedAt') and parse_date(x['publishedAt']) < since:
             rejected.append({**pub(x), 'why': 'old', 'detail': 'published before the last successful update'}); continue
-        if x.get('publishedAt') and parse_date(x['publishedAt']) < fresh_cut:
+        elif x.get('publishedAt') and parse_date(x['publishedAt']) < fresh_cut:
             # owner's rule (8 Nov 2026): never publish a story older than 2 hours as new
             rejected.append({**pub(x), 'why': 'old', 'detail': f'published more than {max_age:g} h ago (freshness rule)'}); continue
         if keys & known_urls:
@@ -676,6 +688,8 @@ def dedup(args):
     # priority 1 (source age <= 5 min when the 5-minute check first saw it) first, then newest first by the publisher's time
     plan.sort(key=lambda e: e.get('publishedAt') or '', reverse=True)
     plan.sort(key=lambda e: e.get('priority', 2))
+    # Somalia first within the same priority (owner's decision, 9 Nov 2026); sort is stable, so newest-first stays inside
+    plan.sort(key=lambda e: (e.get('priority', 2), e.get('country') != 'so'))
     counts = {}
     for s in cand.get('sources', []):
         c = {'collected': s.get('collected', 0), 'kept': 0, 'duplicates': 0, 'known': 0, 'old': 0, 'excluded': 0}
@@ -693,7 +707,7 @@ def pub(x):
     return {k: x.get(k) for k in ('source', 'sourceName', 'section', 'url', 'canonicalUrl', 'title', 'description', 'excerpt', 'publishedAt',
                                   'timeVerified', 'image', 'imageCaption', 'imageCredit', 'author', 'articleError', 'dateSource', 'channelPost', 'postLabel',
                                   'country', 'region', 'discoveredAt', 'firstSeenBy', 'overnight', 'pagePublishedAt', 'headlineOnly',
-                                  'sourceAgeMin', 'intake', 'priority', 'freshAtDiscovery', 'feedPublishedAt') if x.get(k) not in (None, '')}
+                                  'sourceAgeMin', 'intake', 'priority', 'freshAtDiscovery', 'feedPublishedAt', 'catchUp') if x.get(k) not in (None, '')}
 
 
 # ---------------------------------------------------------------- report / status
@@ -769,6 +783,19 @@ def status(args):
              'alreadyKnown': sum(1 for r in p['rejected'] if r['why'] == 'known'),
              'published': run.get('published', 0), 'pendingImage': run.get('pendingImage', 0),
              'pendingIds': run.get('pendingIds', []), 'imageErrors': run.get('imageErrors', []), 'errors': run.get('errors', [])}
+    # Somalia diagnostics for /admin/ (owner's decision, 9 Nov 2026)
+    so_ids = {s['id'] for s in json.load(open(SOURCES, encoding='utf-8'))['sources'] if s.get('country') == 'so'}
+    so_items = [e for e in p['stories'] if e.get('country') == 'so'] + [r for r in p['rejected'] if r.get('country') == 'so' or r.get('source') in so_ids]
+    reasons = {}
+    for r in p['rejected']:
+        if r.get('country') == 'so' or r.get('source') in so_ids:
+            reasons[r['why']] = reasons.get(r['why'], 0) + 1
+    newest = max(so_items, key=lambda e: e.get('publishedAt') or '', default=None)
+    so_src = [x for x in srcs if x['id'] in so_ids]
+    entry['somalia'] = {'sourcesWorking': sum(1 for x in so_src if x['working']), 'sources': len(so_src),
+                        'candidates': len(so_items), 'kept': sum(1 for e in p['stories'] if e.get('country') == 'so'),
+                        'rejected': reasons, 'latestDiscovered': {k: newest.get(k) for k in ('publishedAt', 'sourceName', 'title', 'url')} if newest else None,
+                        'published': run.get('somaliaPublished', 0), 'rejectedReasons': run.get('somaliaRejectedReasons', [])}
     out = {'lastRunAt': at, 'lastSuccessAt': at if ok else old.get('lastSuccessAt'), 'lastRun': entry, 'sources': srcs,
            'history': ([{k: entry[k] for k in ('at', 'ok', 'collected', 'duplicatesRemoved', 'published', 'pendingImage')}]
                        + (old.get('history') or []))[:30]}
