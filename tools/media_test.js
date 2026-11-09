@@ -85,6 +85,7 @@ const LD = age => ({
   'live-updates.json': { updatedAt: iso(-age), items: [
     { id: 'lu-t1', publishedAt: iso(-8 * 60e3), region: 'somalia', breaking: true, corroborated: 2, so: { title: 'Golaha wasiirada oo ansixiyay sharci cusub', text: 'Golaha wasiirada Soomaaliya ayaa ansixiyay sharci cusub, sida ay BBC Somali sheegtay.' },
       en: { title: 'Cabinet approves new law', text: 'Somalia\'s cabinet approved a new law, BBC Somali reported.' }, sources: [{ name: 'BBC Somali', url: 'https://www.bbc.com/somali/articles/x1', publishedAt: iso(-8 * 60e3) }] },
+    { id: 'lu-t1b', story: 'lu-t1', publishedAt: iso(-40 * 60e3), region: 'somalia', so: { title: 'Golaha wasiirada oo shir isugu yimid', text: 'Golaha wasiirada ayaa shir isugu yimid si ay u eegaan sharciga, sida ay BBC Somali sheegtay.' }, sources: [] },
     { id: 'lu-t2', publishedAt: iso(-50 * 60e3), region: 'world', so: { title: 'Shir caalami ah oo ka furmay Geneva', text: 'Shir caalami ah ayaa maanta ka furmay Geneva, sida ay DW sheegtay.' },
       sources: [{ name: 'DW News', url: 'https://www.dw.com/en/x3', publishedAt: iso(-50 * 60e3) }] },
     { id: 'lu-old', publishedAt: iso(-30 * 3600e3), region: 'world', so: { title: 'War duugoobay', text: 'Warbixin ka badan 24 saacadood.' }, sources: [] },
@@ -201,7 +202,14 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     const tl = await p.$$eval('#pageView ol.lntl > li.lnitem', l => l.map(x => ({ lu: x.classList.contains('lu'), t: x.innerText.replace(/\s+/g, ' '), ext: x.querySelectorAll('a[href^="http"]').length })));
     console.log(name, 'LIVE timeline:', tl.length, JSON.stringify(tl[0]));
     const lus = tl.filter(x => x.lu);
-    if (lus.length !== 2) fail(`${name}: expected 2 LIVE updates (24-hour and future items hidden), got ${lus.length}`);
+    if (lus.length !== 3) fail(`${name}: expected 3 LIVE updates (24-hour and future items hidden), got ${lus.length}`);
+    // developing story: both updates carry the story tag; the tag shows that story only, newest first
+    { const tags = await p.$$eval('#pageView .lnstory', l => l.map(x => x.innerText));
+      if (tags.length !== 2 || !tags.every(t => /SHEEKO SOCOTA · 2/.test(t))) fail(`${name}: developing-story tags ${JSON.stringify(tags)}`);
+      await p.click('#pageView .lnstory'); await p.waitForTimeout(200);
+      const only = await p.$$eval('#pageView ol.lntl > li.lnitem', l => l.map(x => x.querySelector('h3').innerText));
+      if (only.length !== 2 || !/sharci cusub/.test(only[0]) || !/shir isugu yimid/.test(only[1])) fail(`${name}: story view ${JSON.stringify(only)}`);
+      await p.click('#pageView .lnback button'); await p.waitForTimeout(200) }
     if (!tl.length || !/Golaha wasiirada/.test(tl[0].t) || !/BBC Somali/.test(tl[0].t)) fail(`${name}: newest update first, with its full text naming the newsroom`);
     if (tl.some(x => x.ext)) fail(`${name}: a timeline item links to another website`);
     if (await p.$('#pageView .wirebox, #pageView .wiretick')) fail(`${name}: the old list of external headlines is still shown`);
@@ -237,6 +245,13 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     await go(p, 'wararka-tooska'); await p.waitForTimeout(800);
     if (await p.$('#pageView .lnwarn, #pageView .lnstatus, #pageView .wirest, #pageView .lndot')) fail(`${name}: public source-status block is still shown`);
     if (!(await p.$$('#pageView ol.lntl > li.lnitem.lu')).length) fail(`${name}: LIVE updates missing with an older feed file`);
+    // no written LIVE update and no breaking story in the last hour: routine articles alone do not light the LIVE sign
+    await ctx.route(/live-data\/live-updates\.json/, r => r.fulfill({ json: { updatedAt: new Date().toISOString(), items: [] }, headers: { 'Access-Control-Allow-Origin': '*' } }));
+    await go(p, 'wararka-tooska'); await p.waitForTimeout(1500);
+    { const b2 = await p.$eval('#pageView .lnbar', x => ({ t: x.innerText, live: !!x.querySelector('.onair') })).catch(() => null);
+      const brk = await p.$$eval('#pageView ol.lntl > li.lnitem.brk', l => l.length);
+      console.log(name, 'LIVE bar without LIVE updates:', JSON.stringify(b2), 'breaking stories:', brk);
+      if (!b2 || (b2.live && !brk)) fail(`${name}: LIVE sign without active coverage ${JSON.stringify(b2)}`) }
     // LIVE TV page while Wartabiye TV is off air: the official live news player, inside the page
     await go(p, 'toos'); await p.waitForTimeout(1200);
     if (!(await p.$('#pageView .livechans:not([hidden]) .lchans .lcstage iframe'))) fail(`${name}: live news player on the LIVE TV page while off air`);

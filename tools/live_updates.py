@@ -20,8 +20,13 @@ Rules that keep the timeline honest:
 
 Cost: the owner's own Claude API key (GitHub secret ANTHROPIC_API_KEY, billed per use by Anthropic, separate from the
 owner's Claude Max plan). A hard daily limit (LIVE_UPDATES_DAILY_USD, default $1, separate from the sports writer's $1) and
-at most LIVE_UPDATES_PER_RUN updates per 5-minute check. Without the key, or with LIVE_UPDATES_MODE=off, nothing is
-written and the LIVE News page shows Wartabiye TV's own stories and the official live channels.
+at most LIVE_UPDATES_PER_RUN updates per 5-minute check. OFF by default: paid API use only after the owner switches it
+on (repository variable LIVE_UPDATES_MODE=on). While off, nothing is written or paid; the check still runs and records
+what it would have written (live-updates-status.json), and the LIVE News page shows Wartabiye TV's own stories.
+
+Event-driven, not a timer: an update is written only when the newsroom feeds carry a NEW report. A later report of an
+event we already cover is either merged as a corroborating source (nothing new) or, when it brings new facts (a new
+number, new names), written as a follow-up in the same developing story ("story": the first update's id).
 
 Output (OUT_DIR, published on branch live-data next to live-wire.json, no site rebuild needed):
   live-updates.json         the public timeline (last 48 hours, newest first) incl. each update's sources (the source
@@ -44,7 +49,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from translations import LANGS  # noqa: E402  ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')
 
 EAT = D.timezone(D.timedelta(hours=3))
-MODE = (os.environ.get('LIVE_UPDATES_MODE') or 'on').strip().lower()
+# OFF unless the owner switches it on (repository variable LIVE_UPDATES_MODE=on): paid API use needs his approval
+MODE = (os.environ.get('LIVE_UPDATES_MODE') or 'off').strip().lower()
 MODEL = os.environ.get('LIVE_UPDATES_MODEL') or 'claude-opus-5-5'
 MAX_USD_PER_DAY = float(os.environ.get('LIVE_UPDATES_DAILY_USD') or '1')
 PER_RUN = int(os.environ.get('LIVE_UPDATES_PER_RUN') or '2')
@@ -104,6 +110,28 @@ def similar(a, b):
     return inter >= 3 and inter / min(len(wa), len(wb)) >= 0.5
 
 
+def story_text(u, items):
+    sid = u.get('story') or u['id']
+    return ' '.join(' '.join([v.get('so', {}).get('text', ''), v.get('en', {}).get('text', '') if isinstance(v.get('en'), dict) else '']
+                             + [(s.get('title') or '') for s in v.get('sources') or []])
+                    for v in items if (v.get('story') or v['id']) == sid)
+
+
+def new_facts(x, same, items):
+    """Does this later report of an event we already cover bring something new? New numbers (deaths, votes, sums) or at
+    least three new words in the headline and description, and published at least 15 minutes after the story's latest
+    update. Claude then still decides (publish false when it repeats the story)."""
+    sid = same.get('story') or same['id']
+    latest = max(ptime(v['publishedAt']) for v in items if (v.get('story') or v['id']) == sid)
+    if (ptime(x['publishedAt']) - latest).total_seconds() < 15 * 60:
+        return False
+    known = story_text(same, items)
+    txt = (x.get('title') or '') + ' ' + (x.get('desc') or '')
+    if numbers(txt) - numbers(known):
+        return True
+    return len(words(txt) - words(known)) >= 3 and len(words(x.get('title') or '') - words(known)) >= 2
+
+
 def numbers(s):
     return set(re.findall(r'\d+', s or ''))
 
@@ -158,6 +186,12 @@ SCHEMA = {'type': 'object', 'additionalProperties': False,
 
 def prompt_for(group, recent):
     lines = []
+    sid = group[0].get('_story')
+    if sid:
+        so_far = sorted((u for u in recent if (u.get('story') or u['id']) == sid), key=lambda u: u['publishedAt'])
+        lines.append('THIS IS A POSSIBLE NEW DEVELOPMENT OF A STORY WE ALREADY COVER. Our updates so far, oldest first:\n'
+                     + '\n'.join(f"- {u['publishedAt']}: {u['so']['title']}. {u['so']['text']}" for u in so_far)
+                     + '\nWrite ONLY the new development (what is new compared with these updates). If nothing is new, set publish false.')
     for i, x in enumerate(group):
         lines.append(f"{'MAIN ITEM' if i == 0 else 'SAME EVENT, ANOTHER NEWSROOM'}\nNewsroom: {x.get('source')}\nPublished (UTC): {x.get('publishedAt')}"
                      f"\nLanguage: {x.get('language') or 'en'}\nHeadline: {x.get('title')}\nDescription: {x.get('desc') or '(none)'}")
@@ -273,6 +307,10 @@ def run(out_dir, dry=False, client=None, t=None):
             continue
         same = next((u for u in items if any(similar(x['title'], s.get('title') or '') for s in u.get('sources') or [])
                      and abs((ptime(u['publishedAt']) - ptime(x['publishedAt'])).total_seconds()) <= 12 * 3600), None)
+        if same and new_facts(x, same, items):
+            x['_story'] = same.get('story') or same['id']  # a new development of an event we already cover
+            fresh.append(x)
+            continue
         if same:
             done[x['id']] = iso(t)
             if not any(s.get('url') == x.get('url') for s in same['sources']):
@@ -285,7 +323,7 @@ def run(out_dir, dry=False, client=None, t=None):
     # breaking mark first; then the newest
     groups = []
     for x in sorted(fresh, key=lambda x: x['publishedAt']):
-        g = next((g for g in groups if similar(g[0]['title'], x['title'])), None)
+        g = next((g for g in groups if similar(g[0]['title'], x['title']) and g[0].get('_story') == x.get('_story')), None)
         if g:
             g.append(x)
         else:
@@ -296,12 +334,12 @@ def run(out_dir, dry=False, client=None, t=None):
         return (best, not any(x.get('breaking') for x in g), -newest)
     groups.sort(key=rank)
     room = PER_RUN
-    on = MODE != 'off' and bool(os.environ.get('ANTHROPIC_API_KEY') or client)
+    on = MODE == 'on' and bool(os.environ.get('ANTHROPIC_API_KEY') or client)
     for g in groups:
         if room <= 0:
             break
         if dry or not on:
-            note(g[0], 'waiting', 'dry run' if dry else 'writer off (needs ANTHROPIC_API_KEY, LIVE_UPDATES_MODE not off)')
+            note(g[0], 'waiting', 'dry run' if dry else 'writer off (needs the owner\'s approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)')
             continue
         if d['usd'] + EST_CALL_USD > MAX_USD_PER_DAY:
             note(g[0], 'waiting', f'daily limit ${MAX_USD_PER_DAY:g} reached')
@@ -338,6 +376,8 @@ def run(out_dir, dry=False, client=None, t=None):
                  'so': {'title': a['so']['title'].strip(), 'text': a['so']['text'].strip()},
                  **{lang: {'title': a[lang]['title'].strip(), 'text': a[lang]['text'].strip()} for lang in LANGS},
                  'sources': [src(x) for x in g], 'corroborated': len({x.get('source') for x in g}), 'by': 'auto-live', 'model': MODEL}
+        if main.get('_story'):
+            entry['story'] = main['_story']
         if any(x.get('breaking') for x in g):
             entry['breaking'] = True
         items.append(entry)
@@ -367,6 +407,8 @@ def run(out_dir, dry=False, client=None, t=None):
 # ---------------------------------------------------------------- offline self-test
 def selftest():
     import tempfile
+    global MODE
+    MODE = 'on'  # the self-test exercises the writer as if the owner had switched it on (no real API call is made)
     ok = [0]
 
     def check(c, m):
@@ -429,6 +471,22 @@ def selftest():
         items, st = run(dd, client=c2, t=t + D.timedelta(minutes=5))
         k = next(u for u in items if u['region'] == 'eastafrica')
         check(not c2.calls and k['corroborated'] == 3, 'a later report of the same event is merged without a call')
+        # a new development of the same event (a new number), 50 minutes later: a follow-up update in the same story
+        w3 = dict(w2); w3['items'] = w2['items'] + [{'id': 'a4', 'title': 'Kenya floods: death toll in Nairobi rises to 20', 'url': 'https://www.bbc.co.uk/news/articles/a4',
+                                                      'desc': 'Police say 20 people have now died in Nairobi.', 'source': 'BBC News Africa', 'sourceId': 'bbc-africa', 'region': 'eastafrica', 'publishedAt': '2026-11-09T12:30:00Z'}]
+        json.dump(w3, open(os.path.join(dd, 'live-wire.json'), 'w'))
+        c3 = Client([answer('Daadadka Nairobi: dhimashadu waxay gaartay 20', 'Booliiska ayaa sheegay in 20 qof ay hadda ku dhinteen Nairobi, sida ay BBC sheegtay.')])
+        items, st = run(dd, client=c3, t=t + D.timedelta(minutes=55))
+        f = next((u for u in items if u.get('story')), None)
+        check(len(c3.calls) == 1 and 'NEW DEVELOPMENT' in c3.calls[0] and 'Daadad ka dhacay Nairobi' in c3.calls[0], 'follow-up sent with the story so far')
+        check(f and f['story'] == k['id'] and f['publishedAt'] == '2026-11-09T12:30:00Z', 'follow-up joins the developing story, publisher time')
+        # the same follow-up from another newsroom 5 minutes later adds nothing new: merged, no call
+        w4 = dict(w3); w4['items'] = w3['items'] + [{'id': 'a5', 'title': 'Kenya floods: Nairobi death toll rises to 20, police say', 'url': 'https://www.aljazeera.com/news/a5',
+                                                      'source': 'Al Jazeera', 'sourceId': 'aljazeera', 'region': 'eastafrica', 'publishedAt': '2026-11-09T12:35:00Z'}]
+        json.dump(w4, open(os.path.join(dd, 'live-wire.json'), 'w'))
+        c4 = Client([])
+        items, st = run(dd, client=c4, t=t + D.timedelta(minutes=60))
+        check(not c4.calls, 'a repeat of the latest development is merged without a call')
     # the rules
     g = [wire['items'][0]]
     check(check_answer(answer('Daadad Nairobi', 'Ugu yaraan 15 qof ayaa ku dhintay Nairobi, sida ay BBC sheegtay iyadoo xiganaysa booliiska.'), g).startswith('so: number'), 'invented number refused')

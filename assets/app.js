@@ -455,7 +455,8 @@
   function luItem(u,isNew){var li=el('li','lnitem lu'+(u.breaking?' brk':'')+(isNew?' new':''));li.id=u.id;var d=new Date(u.publishedAt);
     var t=el('time');t.dateTime=u.publishedAt;t.append(el('b',null,eat(d)),el('span',null,ago(u.publishedAt)));t.lastChild.setAttribute('data-ago',u.publishedAt);
     var tx=el('div','lntx');var tg=el('p','lntags');if(isNew)tg.append(el('span','lnnew',tr('lnNew')));if(u.breaking)tg.append(el('span','cat red',tr('breaking')));
-    var rg=LU_REG.filter(function(r){return r[0]===u.region})[0];tg.append(el('span','lnsec s-'+(u.region==='world'?'world':'somalia'),tr(rg?rg[1]:'wireWorld')));tx.append(tg);
+    var rg=LU_REG.filter(function(r){return r[0]===u.region})[0];tg.append(el('span','lnsec s-'+(u.region==='world'?'world':'somalia'),tr(rg?rg[1]:'wireWorld')));
+    if(u._n>1){var sb=el('button','lnstory',trf('luStory',{n:u._n}));sb.type='button';sb.setAttribute('data-story',u.story||u.id);tg.append(sb)}tx.append(tg);
     var h=luT(u,'title'),b=luT(u,'text');tx.append(soAttr(el('h3',null,h.t),h.so),soAttr(el('p','lubody',b.t),b.so));
     var m=el('div','meta');m.append(el('b',null,'Wartabiye TV'));if(u.corroborated>1)m.append(el('span','dot',trf('luCorrob',{n:u.corroborated})));tx.append(m);
     li.append(t,tx);return li}
@@ -472,8 +473,9 @@
     // ONE timeline inside the site (owner's request, 9 Nov 2026: real content, not links to other websites): the LIVE updates
     // Wartabiye TV writes from the official newsroom feeds, and Wartabiye TV's own published stories, newest first.
     var tl=el('ol','lntl');var reg='';var chips=el('div','wirechips');
-    LU_REG.forEach(function(r){var b=el('button','chip',tr(r[1]));b.type='button';b.setAttribute('aria-pressed',String(r[0]===reg));b.addEventListener('click',function(){reg=r[0];[].forEach.call(chips.children,function(c){c.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');draw([])});chips.append(b)});
-    main.append(bar,tick,head(tr('luTitle'),'red'),el('p','vnote',tr('luNote')),chips,tl);
+    LU_REG.forEach(function(r){var b=el('button','chip',tr(r[1]));b.type='button';b.setAttribute('aria-pressed',String(r[0]===reg));b.addEventListener('click',function(){reg=r[0];story='';[].forEach.call(chips.children,function(c){c.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');draw([])});chips.append(b)});
+    var sbar=el('div','lnback');sbar.hidden=true;main.append(bar,tick,head(tr('luTitle'),'red'),el('p','vnote',tr('luNote')),chips,sbar,tl);
+    tl.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.lnstory');if(!b)return;story=b.getAttribute('data-story');draw([]);sbar.scrollIntoView({block:'start'})});
     main.append(el('p','vnote',tr('lnRule')));
     fillSide(side,[sideTrending(),adSlot('sidebar'),sideFollow()]);
     var LU=null;
@@ -481,8 +483,8 @@
     function fits(r){return !reg||r===reg||(reg==='africa'&&(r==='eastafrica'||r==='somalia'))||(reg==='eastafrica'&&r==='somalia')}
     // red LIVE only when the newest update is under 60 minutes old AND the page's last data check succeeded in the last
     // 3 minutes; otherwise the time of the latest update, without a LIVE sign. Nothing here is a timer or made up.
-    var lastOk=0,newest=0;
-    function drawBar(){bar.innerHTML='';var now=Date.now();var on=newest&&now-newest<60*60e3&&now-lastOk<3*60e3;
+    var lastOk=0,newest=0,active=0,story='';
+    function drawBar(){bar.innerHTML='';var now=Date.now();var on=active&&now-active<60*60e3&&now-lastOk<3*60e3;
       var ob=h1.querySelector('.onair');if(ob)ob.remove();
       if(on){var b=el('span','onair lnon');b.append(el('i'),document.createTextNode(tr('lnLiveOn')));bar.append(b)}
       if(newest)bar.append(el('span','lnupd',trf('lnUpdated',{t:eat(new Date(newest))})));
@@ -495,8 +497,12 @@
     function draw(added){var now=Date.now();tl.innerHTML='';
       var ups=(LU&&Array.isArray(LU.items)?LU.items:[]).filter(function(u){return luOk(u,now)}).map(function(u){return {t:new Date(u.publishedAt).getTime(),u:u,id:u.id,r:u.region}});
       var own=lnList().map(function(it){return {t:new Date(it.publishedAt).getTime(),a:it,id:it._id,r:regOf(it)}});
-      var all=ups.concat(own).sort(function(a,b){return b.t-a.t});newest=all.length?all[0].t:0;drawTick(all);drawBar();
-      var l=all.filter(function(x){return fits(x.r)});
+      var cnt={};ups.forEach(function(x){var k=x.u.story||x.u.id;cnt[k]=(cnt[k]||0)+1});ups.forEach(function(x){x.u._n=cnt[x.u.story||x.u.id]});
+      var all=ups.concat(own).sort(function(a,b){return b.t-a.t});newest=all.length?all[0].t:0;
+      // active coverage: the newest written LIVE update or breaking story (not a routine article)
+      active=all.filter(function(x){return x.u||isBreaking(x.a)}).reduce(function(m,x){return Math.max(m,x.t)},0);drawTick(all);drawBar();
+      var l=all.filter(function(x){return story?(x.u&&(x.u.story||x.u.id)===story):fits(x.r)});
+      sbar.innerHTML='';sbar.hidden=!story;if(story){var bb=el('button','chip',tr('luAll'));bb.type='button';bb.addEventListener('click',function(){story='';draw([])});sbar.append(bb)}
       if(!lnSeen){lnSeen={};l.forEach(function(x){lnSeen[x.id]=1})}
       var fresh={};(added||[]).forEach(function(id){fresh[id]=1});
       if(!l.length)tl.append(el('li','empty',loaded&&LU!==null?tr('luEmpty'):tr('loadingStory')));

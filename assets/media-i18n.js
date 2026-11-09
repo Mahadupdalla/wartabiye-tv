@@ -260,15 +260,15 @@ es: {lcTitle:'Ver noticias en directo', lcSub:'Las emisiones oficiales en direct
 Object.keys(S4).forEach(function (l) { M[l] = Object.assign(M[l] || {}, S4[l]); });
 /* LIVE News status line and ticker (9 Nov 2026) */
 var S5 = {
-so: {lnLiveOn:'TOOS', lnUpdated:'War ugu dambeeyay: {t}', lnChecked:'La hubiyay: {t} (EAT)', lnTick:'HADDA'},
-en: {lnLiveOn:'LIVE', lnUpdated:'Latest update: {t}', lnChecked:'Checked: {t} (EAT)', lnTick:'NOW'},
-ar: {lnLiveOn:'مباشر', lnUpdated:'آخر تحديث: {t}', lnChecked:'تم التحقق: {t} (EAT)', lnTick:'الآن'},
-fr: {lnLiveOn:'EN DIRECT', lnUpdated:'Dernière mise à jour : {t}', lnChecked:'Vérifié : {t} (EAT)', lnTick:'MAINTENANT'},
-nl: {lnLiveOn:'LIVE', lnUpdated:'Laatste update: {t}', lnChecked:'Gecontroleerd: {t} (EAT)', lnTick:'NU'},
-it: {lnLiveOn:'LIVE', lnUpdated:'Ultimo aggiornamento: {t}', lnChecked:'Controllato: {t} (EAT)', lnTick:'ORA'},
-de: {lnLiveOn:'LIVE', lnUpdated:'Letzte Meldung: {t}', lnChecked:'Geprüft: {t} (EAT)', lnTick:'JETZT'},
-tr: {lnLiveOn:'CANLI', lnUpdated:'Son güncelleme: {t}', lnChecked:'Kontrol: {t} (EAT)', lnTick:'ŞİMDİ'},
-es: {lnLiveOn:'EN DIRECTO', lnUpdated:'Última actualización: {t}', lnChecked:'Comprobado: {t} (EAT)', lnTick:'AHORA'}
+so: {luStory:'SHEEKO SOCOTA · {n}', luAll:'Dhammaan wararka', lnLiveOn:'TOOS', lnUpdated:'War ugu dambeeyay: {t}', lnChecked:'La hubiyay: {t} (EAT)', lnTick:'HADDA'},
+en: {luStory:'DEVELOPING · {n} updates', luAll:'All updates', lnLiveOn:'LIVE', lnUpdated:'Latest update: {t}', lnChecked:'Checked: {t} (EAT)', lnTick:'NOW'},
+ar: {luStory:'قصة متطورة · {n}', luAll:'كل التحديثات', lnLiveOn:'مباشر', lnUpdated:'آخر تحديث: {t}', lnChecked:'تم التحقق: {t} (EAT)', lnTick:'الآن'},
+fr: {luStory:'EN DÉVELOPPEMENT · {n}', luAll:'Toutes les mises à jour', lnLiveOn:'EN DIRECT', lnUpdated:'Dernière mise à jour : {t}', lnChecked:'Vérifié : {t} (EAT)', lnTick:'MAINTENANT'},
+nl: {luStory:'IN ONTWIKKELING · {n}', luAll:'Alle updates', lnLiveOn:'LIVE', lnUpdated:'Laatste update: {t}', lnChecked:'Gecontroleerd: {t} (EAT)', lnTick:'NU'},
+it: {luStory:'IN EVOLUZIONE · {n}', luAll:'Tutti gli aggiornamenti', lnLiveOn:'LIVE', lnUpdated:'Ultimo aggiornamento: {t}', lnChecked:'Controllato: {t} (EAT)', lnTick:'ORA'},
+de: {luStory:'ENTWICKLUNG · {n}', luAll:'Alle Meldungen', lnLiveOn:'LIVE', lnUpdated:'Letzte Meldung: {t}', lnChecked:'Geprüft: {t} (EAT)', lnTick:'JETZT'},
+tr: {luStory:'GELİŞEN HABER · {n}', luAll:'Tüm gelişmeler', lnLiveOn:'CANLI', lnUpdated:'Son güncelleme: {t}', lnChecked:'Kontrol: {t} (EAT)', lnTick:'ŞİMDİ'},
+es: {luStory:'EN DESARROLLO · {n}', luAll:'Todas las actualizaciones', lnLiveOn:'EN DIRECTO', lnUpdated:'Última actualización: {t}', lnChecked:'Comprobado: {t} (EAT)', lnTick:'AHORA'}
 };
 Object.keys(S5).forEach(function (l) { M[l] = Object.assign(M[l] || {}, S5[l]); });
 var I = window.WT_I18N || (window.WT_I18N = {});
