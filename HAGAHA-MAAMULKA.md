@@ -106,6 +106,19 @@ Hawshu waxay **kaliya ku daraysaa wararka cusub** (fayl cusub mid kasta) iyo tur
 
 **Sugaya sawir:** war aan lahayn sawir u gaar ah oo sharci ah lama daabaco. Wuxuu ku jiraa /admin/ → Wararka → filter-ka **Sugaya sawir**. Si aad u daabacdo: ku dar sawir (iyo cidda leh iyo ruqsadda), dami "Sugaya sawir", shid "La daabacay", kadibna **Save**.
 
+## Daabacaad otomaatig ah: GitHub looma baahna (9 Nofembar 2026)
+
+Wararka caadiga ah si otomaatig ah ayaa loo daabacaa, PR ama merge looma baahna. Haddii daabacaaddu fashilanto (shabakad, GitHub Pages), **ilaaliyaha daabacaadda** (`tools/automation_watchdog.py`, 5 daqiiqo kasta) ayaa:
+- dib u bilaaba workflow-ga "Daabac bogga" (ugu badnaan 4 jeer isla nuxurka, 15 daqiiqo u dhexeeya; marna laba mar isku mar ma socdaan);
+- GitHub Pages ka codsada inuu dib u dhiso haddii bogga live-ka ahi ka dambeeyo main;
+- kuu furaa HAL issue GitHub "Daabacaadda: waxay u baahan tahay faragelin" (GitHub ayaa email kuu soo dira) kaliya marka dib-u-isku-daygu caawin waayo, kadibna isagu xira marka ay shaqeyso.
+
+Wararka aan la daabicin weligood ma lumaan: waxay ku kaydsan yihiin main ilaa daabacaad guulaysata. **War cusub oo hubinta ku fashilma** (sawir maqan, sawir war kale leeyahay, sharaxaad sawir maqan) ma joojiyo wararka kale: wuxuu galaa **Sugaya sawir** ("imageNote" = sababta), inta kalena waa la daabacaa. War horay u daabacnaa ama war aad adigu qortay lama qariyo: markaas daabacaadda ayaa istaagta, waxaana lagu soo ogeysiinayaa.
+
+**Xaaladda:** /admin/ → *Ilaha wararka: xaaladda* → **Xaaladda otomaatigga** (daabacaaddii u dambeysay ee guulaysatay, hubintii ilaha ee u dambeysay, tirada wararka, kuwa sugaya sawir, cilladaha iyo dib-u-isku-dayga).
+
+**Qoraaga wararka (Claude API, ikhtiyaari):** `tools/news_writer.py` wuxuu qoraa Wararka Caalamka iyo Bariga Afrika isagoo aan isticmaalin xadka Claude Max-kaaga. Wuxuu u baahan yahay sirta `ANTHROPIC_API_KEY` (console.anthropic.com, lacag gooni ah oo isticmaal kasta lagu bixiyo). Doorsoomaha repo-ga `NEWS_WRITER_MODE`: `fallback` (default: kaliya marka hawsha Claude ee saacadlaha ah istaagto 150 daqiiqo), `always`, ama `off`. Xadka maalinlaha: `NEWS_WRITER_DAILY_MAX` (24). Isla furaha ayaa shidaya qoraaga ciyaaraha.
+
 ## Ogeysiisyada (gambaleelka 🔔 iyo push)
 
 **Gambaleelka** (madaxa bogga, desktop iyo mobile) wuxuu muujiyaa wararka la daabacay 7-dii maalmood ee u dambeeyay (sawir, cinwaan, waqtiga daabacaadda, link), ogeysiisyadaada gacanta iyo LIVE TV marka baahinta la xaqiijiyo. Tirada cas = inta aan booqdaha akhrin. Booqdaha wuxuu riixi karaa "Dhammaan akhriyay" ama "Nadiifi"; browser-kiisa ayaa xasuusta. Booqde soo noqday wuxuu arkaa hal banner yar oo keliya marka war cusub jiro. Xogta: `data/notifications.json` (waxaa sameeya `tools/build_notifications.py` daabacaad kasta; kaliya warar la daabacay).

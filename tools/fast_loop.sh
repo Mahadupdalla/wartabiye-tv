@@ -26,7 +26,7 @@ n=0
 restore_state() {
   # previous monitor state (branch fast-feed): seen ids, tracked stories, run log
   if git fetch -q origin fast-feed 2>/dev/null; then
-    for f in state.json candidates.json alerts.txt sports-writer-state.json sports-writer-status.json; do git show origin/fast-feed:$f > /tmp/fast/$f 2>/dev/null || rm -f /tmp/fast/$f; done
+    for f in state.json candidates.json alerts.txt sports-writer-state.json sports-writer-status.json news-writer-state.json news-writer-status.json watchdog.json automation-status.json; do git show origin/fast-feed:$f > /tmp/fast/$f 2>/dev/null || rm -f /tmp/fast/$f; done
   fi
 }
 
@@ -94,6 +94,55 @@ sports_writer_cycle() {
   fi
 }
 
+news_writer_cycle() {
+  # 4. WORLD NEWS and SOMALIA & EAST AFRICA articles (tools/news_writer.py) on the owner's own Claude API key (secret
+  #    ANTHROPIC_API_KEY, billed per use, separate from the owner's Claude Max plan). Mode = repository variable
+  #    NEWS_WRITER_MODE: "fallback" (default) writes only while the hourly Claude routine has stopped; "always"; "off".
+  #    Fresh stories only, duplicates removed first, licensed photo or Sugaya sawir, daily cost cap.
+  if [ -z "${ANTHROPIC_API_KEY:-}" ]; then echo "news writer: off (add the secret ANTHROPIC_API_KEY to switch it on)"; return 0; fi
+  python3 -c "import anthropic" 2>/dev/null || python3 -m pip install -q 'anthropic>=2.6,<3' || return 1
+  git fetch -q origin world-feed && git show FETCH_HEAD:candidates.json > /tmp/nw-cand.json || { echo "news writer: no world-feed list"; return 0; }
+  [ -s /tmp/fast/news-writer-state.json ] || echo '{}' > /tmp/fast/news-writer-state.json
+  [ -s /tmp/fast/news-writer-status.json ] || cp data/world/news-writer-status.json /tmp/fast/ 2>/dev/null || true
+  NEWS_WRITER_STATUS=/tmp/fast/news-writer-status.json timeout 900 \
+    python3 tools/news_writer.py --candidates /tmp/nw-cand.json --state /tmp/fast/news-writer-state.json | tee /tmp/nw.txt
+  rm -f img/news/*.part
+  new=$(grep -c '^wrote ' /tmp/nw.txt 2>/dev/null || true); new=${new:-0}
+  if [ "$new" -gt 0 ]; then
+    # the same checks as the publish workflow; a bad article is held in Sugaya sawir (tools/quarantine.py), never published
+    if python3 tools/build_news.py >/dev/null && { python3 tools/check_site.py >/dev/null || python3 tools/quarantine.py; } && python3 tools/translations.py verify >/dev/null; then
+      git add data/news/ img/news/
+    else
+      echo "news articles did not pass the site check: not published"; git checkout -q -- data/ img/ 2>/dev/null; git clean -qf data/news img/news; new=0
+    fi
+  fi
+  old=$(python3 -c "import json;print(json.load(open('data/world/news-writer-status.json')).get('lastCheckAt',''))" 2>/dev/null || true)
+  age=$(python3 -c "import datetime;o='$old';print(9999 if not o else int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(o)).total_seconds()//60))")
+  if [ -s /tmp/fast/news-writer-status.json ] && { [ "$new" -gt 0 ] || [ "$age" -ge 55 ]; }; then
+    cp /tmp/fast/news-writer-status.json data/world/news-writer-status.json && git add data/world/news-writer-status.json
+  fi
+  git diff --cached --quiet && return 0
+  pub=$(grep -c '^wrote .*(published)' /tmp/nw.txt 2>/dev/null || true); pub=${pub:-0}
+  msg="Wararka: xaaladda qoraaga wararka"; [ "$new" -gt 0 ] && msg="Wararka (otomaatig): $new war cusub ($pub la daabacay, $((new - pub)) sugaya sawir)"
+  git "${BOT[@]}" commit -q -m "$msg" || return 1
+  push_main || return 1
+  if [ "$pub" -gt 0 ]; then
+    # a push made with the job's token starts no workflow: start the publish workflow (pages, bell, push alerts)
+    gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow (the watchdog starts it)"
+  fi
+}
+
+push_main() {
+  # push the local commit(s) to main; on a conflict rebase on the newest main and try again (2, 4, 8, 16 s)
+  local d
+  for d in 2 4 8 16; do
+    git pull -q --rebase origin main && git push -q origin HEAD:main && return 0
+    git rebase --abort >/dev/null 2>&1 || true
+    sleep "$d"
+  done
+  echo "could not push to main after 4 tries (kept for the next check)"; git reset -q --hard origin/main; return 1
+}
+
 cycle() {
   cd "$GITHUB_WORKSPACE"
   # the newest main: new articles (for "published / held" tracking), source list changes, monitor fixes
@@ -127,19 +176,28 @@ cycle() {
 
   # sports news articles from the fresh sports stories (Claude API, only with the secret ANTHROPIC_API_KEY)
   sports_writer_cycle || echo "sports writer failed this time (the next check retries)"
+  # world and East Africa articles (Claude API, only with the secret; by default only while the hourly routine is down)
+  news_writer_cycle || echo "news writer failed this time (the next check retries)"
+  # publishing watchdog: re-start a failed publish, re-build a stuck GitHub Pages, alert the owner when retries do not help
+  git fetch -q origin main && git reset -q --hard origin/main || true
+  python3 tools/automation_watchdog.py run --state /tmp/fast || echo "watchdog failed this time (the next check retries)"
 
   # state and candidates: branch fast-feed, one commit, no history
   ( cd /tmp/fast && rm -rf .git && git init -q -b fast-feed && git add state.json candidates.json fast-status.json alerts.txt README.txt \
-    && for f in sports-writer-state.json sports-writer-status.json; do [ ! -f "$f" ] || git add "$f"; done \
+    && for f in sports-writer-state.json sports-writer-status.json news-writer-state.json news-writer-status.json watchdog.json automation-status.json; do [ ! -f "$f" ] || git add "$f"; done \
     && git "${BOT[@]}" commit -q -m "5-minute monitor $(date -u +%FT%TZ)" && git push -q -f "$REMOTE" fast-feed ) || echo "could not save fast-feed"
 
   # the admin copy (/admin/ -> Ilaha wararka -> Ilaha degdegga ah): about once an hour, or at once when an alert starts or ends
   old=$(python3 -c "import json;print(json.load(open('data/world/fast-status.json')).get('updatedAt',''))" 2>/dev/null || true)
   age=$(python3 -c "import datetime;o='$old';print(9999 if not o else int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(o)).total_seconds()//60))")
-  if [ "$age" -ge 55 ] || ! cmp -s /tmp/alerts-before.txt /tmp/fast/alerts.txt; then
+  # the automation status (/admin/ -> Xaaladda otomaatigga) goes with it, and at once when its overall state changes
+  was=$(python3 -c "import json;print(json.load(open('data/automation-status.json')).get('overall',''))" 2>/dev/null || true)
+  now_state=$(python3 -c "import json;print(json.load(open('/tmp/fast/automation-status.json')).get('overall',''))" 2>/dev/null || true)
+  if [ "$age" -ge 55 ] || ! cmp -s /tmp/alerts-before.txt /tmp/fast/alerts.txt || [ "$was" != "$now_state" ]; then
     cp /tmp/fast/fast-status.json data/world/fast-status.json
-    if git add data/world/fast-status.json && git "${BOT[@]}" commit -q -m "Ilaha degdegga ah: xaaladda"; then
-      for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+    [ ! -s /tmp/fast/automation-status.json ] || cp /tmp/fast/automation-status.json data/automation-status.json
+    if git add data/world/fast-status.json data/automation-status.json 2>/dev/null; git "${BOT[@]}" commit -q -m "Ilaha degdegga ah: xaaladda"; then
+      push_main || true
     fi
   fi
 
