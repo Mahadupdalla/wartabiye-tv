@@ -1,4 +1,6 @@
 name: Ciyaaraha xog (sports feed)
+# BACK-UP ONLY: GitHub fires this 10-minute schedule only every few hours on this repository (4 runs on 8-9 Nov 2026), so the
+# same fetch now runs every 5 minutes inside the source-monitor loop (tools/fast_loop.sh sports_cycle, fast-sources.yml).
 # Every 10 minutes: fetches scores, fixtures, results and tables from football-data.org (Premier League, LaLiga,
 # Serie A, Ligue 1 ... as listed in /admin/ → Ciyaaraha Toos) and saves them in data/sports-feed/. The token is the
 # repository secret FOOTBALL_DATA_TOKEN (Settings → Secrets and variables → Actions); it never appears in the site.

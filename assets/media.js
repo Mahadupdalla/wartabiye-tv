@@ -178,6 +178,23 @@
     loadVideos().then(function(list){var f=list.filter(function(v){return v.featured}).slice(0,4);if(!f.length)f=list.slice(0,4);if(!f.length)return;var s=el('section','secblock');s.append(C.head(tr('videoNewsNav'),'navy','#muuqaal'));
       var g=el('div','vgrid four');f.forEach(function(v){g.append(vCard(v))});s.append(g);holder.append(s)})}
 
+  // Ciyaaraha page and homepage Sports section: matches in play now and the latest verified final results (last 48 hours),
+  // from the same data sources as the LIVE Sports page (assets/sports-src.js). Nothing is shown when there is no data;
+  // a match counts as live only by the rules of sports-src.js. Refreshes every minute while a match is live and the
+  // strip is still on the screen.
+  function scoreStrip(B,prepend){
+    if(!B||!C.sec('liveSports')||!SRC())return;var s=el('section','secblock scorestrip');s.hidden=true;if(prepend)B.prepend(s);else B.append(s);var timer=null;
+    function load(){if(!s.isConnected&&timer){clearTimeout(timer);return}
+      sportsCfg().then(function(cfg){return SRC().connected(cfg).then(function(ok){if(!ok)return null;
+        return Promise.all([api(cfg,'/v1/live').catch(function(){return null}),api(cfg,'/v1/recent').catch(function(){return null})]).then(function(r){return {cfg:cfg,r:r}})})}).then(function(x){
+        if(!x||!s.isConnected)return;var t=now(),live=(x.r[0]&&x.r[0].matches||[]).filter(isLive),ids={};live.forEach(function(m){ids[m.id]=1});
+        var fin=(x.r[1]&&x.r[1].matches||[]).filter(function(m){var k=Date.parse(m.utcDate);return !ids[m.id]&&/^(FT|AET|PEN|FINISHED)$/.test(m.status)&&!isNaN(k)&&t-k<48*3600e3});
+        var list=live.concat(fin).slice(0,live.length>6?live.length:6);if(!list.length){s.hidden=true;return}
+        s.innerHTML='';s.append(C.head(tr('sStripTitle'),'green','#ciyaaraha-toos'),mList(list,x.cfg,''));
+        var d=x.r[0]&&live.length?x.r[0]:x.r[1]||x.r[0];if(d)s.append(credit(d,x.cfg));s.hidden=false;
+        if(live.length)timer=setTimeout(load,Math.max(30,+x.cfg.refreshSeconds||60)*1000)}).catch(function(){s.hidden=true})}
+    load()}
+
   // ---------- LIVE TV ----------
   // Live only when verified: (1) "auto": data/live-status.json written by .github/workflows/live-status.yml from the
   // YouTube Data API says the official stream is live, checked within the last 60 minutes; or (2) "manual": the admin
@@ -245,7 +262,12 @@
   function api(cfg,path){return SRC()?SRC().call(cfg,path):Promise.reject(new Error('not-configured'))}
   function roundTxt(m){var r=m&&m.round;if(!r)return '';if(typeof r==='object')return r.matchday?tr('sMatchday')+' '+r.matchday:'';var x=/^Matchday (\d+)$/.exec(r);return x?tr('sMatchday')+' '+x[1]:String(r)}
   function evDetail(d){if(d==='own'||d==='Own goal')return tr('sOwnGoal');if(d==='pen'||d==='Penalty')return tr('sPenalty');return d}
-  function crest(u,alt){var s=C.safeUrl(u);if(!s)return el('span','crest none');var i=el('img','crest');i.src=s;i.alt=alt||'';i.loading='lazy';i.width=24;i.height=24;i.referrerPolicy='no-referrer';return i}
+  // a crest only over https (a http image is blocked on the https site); when there is none, or it fails to load, the
+  // team's initials are shown instead of a broken or unrelated picture
+  function initials(n){return String(n||'').replace(/\b(FC|AFC|CF|SC|SV|SSC|AS|AC|FK|SK|TSG|VfB|VfL|RC|RB|1\.)\b/g,' ').trim().split(/[\s\-\/]+/).filter(Boolean).slice(0,2).map(function(w){return w.charAt(0).toUpperCase()}).join('')}
+  function noCrest(name){var s=el('span','crest none',initials(name));s.setAttribute('aria-hidden','true');return s}
+  function crest(u,alt,name){var s=/^https:\/\//.test(String(u||''))?C.safeUrl(u):null;if(!s)return noCrest(name);var i=el('img','crest');i.src=s;i.alt=alt||'';i.loading='lazy';i.width=24;i.height=24;i.referrerPolicy='no-referrer';
+    i.addEventListener('error',function(){var n=noCrest(name);n.style.width=i.style.width;if(i.width>24){n.style.width=n.style.height=i.width+'px';n.style.fontSize=Math.round(i.width/2.6)+'px'}if(i.parentNode)i.parentNode.replaceChild(n,i)});return i}
   function isLive(m){return !!(m&&LIVE_ST[m.status])}
   function stLabel(m){if(m&&m.status==='AWAIT')return tr('sAwait');if(isLive(m)){if(m.status==='HT'||m.status==='PAUSED')return tr('sHT');return m.minute?m.minute+"'":tr('sLive')}
     var k={FT:'sFT',FINISHED:'sFT',AET:'sAET',PEN:'sPEN',POSTPONED:'sPST',PST:'sPST',CANCELLED:'sCANC',CANC:'sCANC',SUSPENDED:'sSUSP',SUSP:'sSUSP',ABD:'sABD',AWARDED:'sFT'}[m.status];
@@ -253,13 +275,13 @@
   function score(m){var s=m.score||{};return (s.home!=null&&s.away!=null)?s.home+' – '+s.away:'–'}
   function mRow(m,cfg){var a=el('a','mrow'+(isLive(m)?' is-live':m.status==='AWAIT'?' is-await':''));a.href=C.hubHash('ciyaaraha-toos',{m:m.id});
     var st=el('span','mst');if(isLive(m))st.append(el('i','dot'));st.append(stLabel(m));
-    var h=el('span','mteam home');h.append(crest(m.home&&m.home.crest),el('b',null,m.home&&m.home.name||''));
-    var w=el('span','mteam away');w.append(crest(m.away&&m.away.crest),el('b',null,m.away&&m.away.name||''));
+    var h=el('span','mteam home');h.append(crest(m.home&&m.home.crest,'',m.home&&m.home.name),el('b',null,m.home&&m.home.name||''));
+    var w=el('span','mteam away');w.append(crest(m.away&&m.away.crest,'',m.away&&m.away.name),el('b',null,m.away&&m.away.name||''));
     var sc=el('span','msc',score(m));a.append(st,h,sc,w);
     var str=authStream(cfg,m);if(str)a.append(el('span','mtv',tr('sAuthStream')));a.setAttribute('aria-label',(m.home&&m.home.name)+' '+score(m)+' '+(m.away&&m.away.name)+', '+stLabel(m)+(roundTxt(m)?', '+roundTxt(m):''));return a}
   function groupByComp(list){var g={},o=[];list.forEach(function(m){var k=(m.competition&&m.competition.name)||'';if(!g[k]){g[k]=[];o.push(k)}g[k].push(m)});return o.map(function(k){return {name:k,comp:g[k][0].competition,list:g[k]}})}
   function mList(list,cfg,empty){var w=el('div','mlist');if(!list.length){w.append(el('p','empty',empty));return w}
-    groupByComp(list).forEach(function(g){var s=el('section','mcomp');var hh=el('h3');hh.append(crest(g.comp&&g.comp.emblem),document.createTextNode(g.name+(g.comp&&g.comp.area?' · '+g.comp.area:'')));s.append(hh);g.list.forEach(function(m){s.append(mRow(m,cfg))});w.append(s)});return w}
+    groupByComp(list).forEach(function(g){var s=el('section','mcomp');var hh=el('h3');if(g.comp&&g.comp.emblem)hh.append(crest(g.comp.emblem,'',g.name));hh.append(document.createTextNode(g.name+(g.comp&&g.comp.area?' · '+g.comp.area:'')));s.append(hh);g.list.forEach(function(m){s.append(mRow(m,cfg))});w.append(s)});return w}
   function authStream(cfg,m){var t=now();return (Array.isArray(cfg.streams)?cfg.streams:[]).find(function(s){
       if(!s||s.published===false||s.rightsConfirmed!==true||!String(s.rightsHolder||'').trim()||!String(s.authorization||'').trim()||!provider(s.url))return false;
       if(m&&String(s.matchId||'')!==String(m.id))return false;var st=tms(s.start),en=tms(s.end);return !isNaN(st)&&!isNaN(en)&&t>=st-30*60e3&&t<=en})}
@@ -315,7 +337,7 @@
   function table(d){var w=el('div','stable');var rows=Array.isArray(d.table)?d.table:[];if(!rows.length){w.append(el('p','empty',tr('noData')));return w}
     if(d.competition&&d.competition.name)w.append(el('h3',null,d.competition.name+(d.season?' · '+d.season:'')));
     var t=el('table');var th=el('thead');var tr0=el('tr');['colPos','colTeam','colP','colW','colD','colL','colGD','colPts'].forEach(function(k){var c=el('th',null,tr(k));c.scope='col';tr0.append(c)});th.append(tr0);t.append(th);var tb=el('tbody');
-    rows.forEach(function(r){var x=el('tr');x.append(el('td',null,String(r.position)));var tc=el('td','tteam');var a=el('a');a.href=C.hubHash('ciyaaraha-toos',{t:r.team&&r.team.id});a.append(crest(r.team&&r.team.crest),el('span',null,r.team&&r.team.name||''));tc.append(a);x.append(tc);
+    rows.forEach(function(r){var x=el('tr');x.append(el('td',null,String(r.position)));var tc=el('td','tteam');var a=el('a');a.href=C.hubHash('ciyaaraha-toos',{t:r.team&&r.team.id});a.append(crest(r.team&&r.team.crest,'',r.team&&r.team.name),el('span',null,r.team&&r.team.name||''));tc.append(a);x.append(tc);
       [r.played,r.won,r.draw,r.lost,r.goalDifference,r.points].forEach(function(v,i){x.append(el('td',i===5?'pts':null,v==null?'':String(v)))});tb.append(x)});t.append(tb);var sc=el('div','tscroll');sc.append(t);w.append(sc);return w}
   var EV_IC={goal:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z',yellow:'M7 3h10v18H7z',red:'M7 3h10v18H7z',sub:'M7 7h10l-3-3M17 17H7l3 3',var:'M3 5h18v12H3zM8 21h8',other:'M12 8v4M12 16h.01'};
   function matchPage(main,cfg,id){
@@ -323,7 +345,7 @@
     function draw(d){box.innerHTML='';var m=d.match;if(!m){box.append(el('p','empty',tr('noData')));return}
       C.setTitle((m.home&&m.home.name)+' – '+(m.away&&m.away.name));
       var hd=el('div','mhead'+(isLive(m)?' is-live':''));var comp=el('p','mcompn',(m.competition&&m.competition.name||'')+(roundTxt(m)?' · '+roundTxt(m):''));
-      function team(t){var a=el('a','mt');a.href=C.hubHash('ciyaaraha-toos',{t:t&&t.id});var i=crest(t&&t.crest,'');i.width=i.height=56;a.append(i,el('b',null,t&&t.name||''));return a}
+      function team(t){var a=el('a','mt');a.href=C.hubHash('ciyaaraha-toos',{t:t&&t.id});var i=crest(t&&t.crest,'',t&&t.name);if(i.tagName==='IMG')i.width=i.height=56;a.append(i,el('b',null,t&&t.name||''));return a}
       var mid=el('div','mmid');mid.append(el('span','bigscore',score(m)));var st=el('span','mst');if(isLive(m))st.append(el('i','dot'));st.append(stLabel(m));mid.append(st);
       if(m.score&&m.score.halfTime&&m.score.halfTime.home!=null)mid.append(el('small',null,tr('sHalfTime')+' '+m.score.halfTime.home+' – '+m.score.halfTime.away));
       var row=el('div','mteams');row.append(team(m.home),mid,team(m.away));hd.append(comp,row);
@@ -347,7 +369,7 @@
   }
   function teamPage(main,cfg,id){var box=el('div','tpage');main.append(box);box.append(el('p','empty',tr('loadingStory')));
     api(cfg,'/v1/team?id='+encodeURIComponent(id)).then(function(d){box.innerHTML='';var t=d.team;if(!t){box.append(el('p','empty',tr('noData')));return}C.setTitle(t.name);
-      var hd=el('div','thead');var i=crest(t.crest,'');i.width=i.height=72;hd.append(i);var tx=el('div');tx.append(el('h2',null,t.name));var m=el('p','vmeta');
+      var hd=el('div','thead');var i=crest(t.crest,'',t.name);if(i.tagName==='IMG')i.width=i.height=72;hd.append(i);var tx=el('div');tx.append(el('h2',null,t.name));var m=el('p','vmeta');
       [[t.country,'country'],[t.founded,'sFounded'],[t.venue,'sVenue'],[t.coach,'sCoach']].forEach(function(x){if(x[0])m.append(el('span',null,tr(x[1])+': '+x[0]))});tx.append(m);
       var w=C.safeUrl(t.website);if(w){var a=el('a',null,tr('officialSite'));a.href=w;a.target='_blank';a.rel='noopener';tx.append(a)}hd.append(tx);box.append(hd);
       if(Array.isArray(d.matches)&&d.matches.length){box.append(C.head(tr('sTeamMatches')),mList(d.matches,cfg,tr('noData')))}
@@ -412,6 +434,6 @@
   // desktop menu that scrolls sideways on narrower screens: fade the edge while more links are hidden
   function navFade(){var l=document.getElementById('links');if(!l)return;var max=l.scrollWidth-l.clientWidth;var x=Math.abs(l.scrollLeft);l.classList.toggle('fade',innerWidth>860&&max>2&&x<max-2)}
   window.WT_MEDIA={init:function(core){C=core;refreshBadge();setInterval(refreshBadge,120000);
-      var l=document.getElementById('links');if(l)l.addEventListener('scroll',navFade,{passive:true});window.addEventListener('resize',navFade);setTimeout(navFade,300)},navFade:navFade,renderVideos:renderVideos,renderLive:renderLive,renderSports:renderSports,liveWire:liveWire,liveChannels:liveChannels,sourceHealth:sourceHealth,liveFeed:liveFeed,player:function(s){return playerBox(s.pv,{title:s.title||tr('liveTvNav'),autoplay:true,mute:true,eager:true})},homeStrip:homeStrip,refreshBadge:refreshBadge,liveState:liveState,
+      var l=document.getElementById('links');if(l)l.addEventListener('scroll',navFade,{passive:true});window.addEventListener('resize',navFade);setTimeout(navFade,300)},navFade:navFade,renderVideos:renderVideos,renderLive:renderLive,renderSports:renderSports,liveWire:liveWire,liveChannels:liveChannels,sourceHealth:sourceHealth,liveFeed:liveFeed,player:function(s){return playerBox(s.pv,{title:s.title||tr('liveTvNav'),autoplay:true,mute:true,eager:true})},homeStrip:homeStrip,scoreStrip:scoreStrip,refreshBadge:refreshBadge,liveState:liveState,
     _test:{provider:provider,embedSrc:embedSrc}};
 })();

@@ -30,6 +30,18 @@ restore_state() {
   fi
 }
 
+sports_cycle() {
+  # nothing to do without the token (the LIVE Sports page then uses its open data only)
+  [ -n "${FOOTBALL_DATA_TOKEN:-}" ] || return 0
+  node tools/sports_feed.mjs || return 1
+  git add -A data/sports-feed 2>/dev/null || true
+  git diff --cached --quiet && return 0
+  git "${BOT[@]}" commit -q -m "Ciyaaraha: xogta natiijooyinka" || return 1
+  for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+  # GitHub Pages: a push made with the job's token does not start another workflow, so ask Pages to build
+  gh api -X POST "repos/${REPO}/pages/builds" -q .status >/dev/null 2>&1 || true
+}
+
 cycle() {
   cd "$GITHUB_WORKSPACE"
   # the newest main: new articles (for "published / held" tracking), source list changes, monitor fixes
@@ -41,6 +53,9 @@ cycle() {
   fi
   # LIVE News wire + Video News feeds (official publisher RSS / YouTube), same 5-minute clock
   cp tools/live_feeds_cycle.sh /tmp/live_feeds_cycle.sh && bash /tmp/live_feeds_cycle.sh || echo "live feeds failed this time (the next check retries)"
+  # LIVE Sports scores (football-data.org, only with the secret FOOTBALL_DATA_TOKEN), same 5-minute clock: GitHub's own
+  # 10-minute schedule for sports-feed.yml fires only every few hours on this repository, so the scores are fetched here.
+  sports_cycle || echo "sports feed failed this time (the next check retries)"
   python3 tools/fast_monitor.py run --state /tmp/fast $([ "$FORCE" = true ] && echo --force) || { echo "check failed (logged; the next check retries)"; return 1; }
 
   # state and candidates: branch fast-feed, one commit, no history

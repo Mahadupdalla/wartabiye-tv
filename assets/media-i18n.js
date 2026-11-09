@@ -219,6 +219,19 @@ es: {
   sBack:'← Volver a deportes en directo', sFounded:'Fundación', sVenue:'Estadio', sCoach:'Entrenador', sTeamMatches:'Partidos del equipo', sSquad:'Plantilla'
 }
 };
+// scores strip on Ciyaaraha and the homepage (assets/media.js scoreStrip)
+var S2 = {
+so: {sStripTitle:'Natiijooyinka & ciyaaraha tooska'},
+en: {sStripTitle:'Scores & live matches'},
+ar: {sStripTitle:'النتائج والمباريات المباشرة'},
+fr: {sStripTitle:'Scores et matchs en direct'},
+nl: {sStripTitle:'Uitslagen & live wedstrijden'},
+it: {sStripTitle:'Risultati e partite in diretta'},
+de: {sStripTitle:'Ergebnisse & Live-Spiele'},
+tr: {sStripTitle:'Skorlar ve canlı maçlar'},
+es: {sStripTitle:'Resultados y partidos en directo'}
+};
+Object.keys(S2).forEach(function (l) { M[l] = Object.assign(M[l] || {}, S2[l]); });
 var I = window.WT_I18N || (window.WT_I18N = {});
 Object.keys(M).forEach(function (l) { I[l] = Object.assign(I[l] || {}, M[l]); });
 })();

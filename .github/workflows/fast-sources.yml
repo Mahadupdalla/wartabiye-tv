@@ -33,6 +33,7 @@ on:
 permissions:
   contents: write
   issues: write
+  pages: write     # to publish new LIVE Sports scores (tools/fast_loop.sh sports_cycle)
   actions: write   # to start the next loop
 concurrency:
   group: fast-sources-${{ github.ref }}
@@ -62,6 +63,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
+          # LIVE Sports scores (Premier League, LaLiga, Serie A, Ligue 1 ...): optional free key from football-data.org
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
           FORCE: ${{ inputs.force && 'true' || 'false' }}
           LOOP_MINUTES: ${{ inputs.minutes || 330 }}
         run: |
