@@ -242,6 +242,11 @@ def run(state_dir):
             writers[name] = {'mode': w.get('mode'), 'lastCheckAt': w.get('lastCheckAt'), 'lastWrittenAt': w.get('lastWrittenAt'), 'lastRun': w.get('lastRun')}
         except Exception:
             pass
+    try:  # automatic match-result reports (tools/sports_results.py)
+        r = json.load(open(os.path.join(state_dir, 'sports-results-status.json'), encoding='utf-8'))
+        writers['sportsResults'] = {k: r.get(k) for k in ('lastCheckAt', 'lastSuccessAt', 'lastReportAt', 'newReports', 'failed')}
+    except Exception:
+        pass
     try:
         routine = json.load(open(os.path.join(root, 'data', 'status.json'), encoding='utf-8'))
     except Exception:

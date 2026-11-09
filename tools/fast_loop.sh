@@ -26,7 +26,7 @@ n=0
 restore_state() {
   # previous monitor state (branch fast-feed): seen ids, tracked stories, run log
   if git fetch -q origin fast-feed 2>/dev/null; then
-    for f in state.json candidates.json alerts.txt sports-writer-state.json sports-writer-status.json news-writer-state.json news-writer-status.json watchdog.json automation-status.json; do git show origin/fast-feed:$f > /tmp/fast/$f 2>/dev/null || rm -f /tmp/fast/$f; done
+    for f in state.json candidates.json alerts.txt sports-writer-state.json sports-writer-status.json sports-results-status.json news-writer-state.json news-writer-status.json watchdog.json automation-status.json; do git show origin/fast-feed:$f > /tmp/fast/$f 2>/dev/null || rm -f /tmp/fast/$f; done
   fi
 }
 
@@ -37,8 +37,9 @@ sports_cycle() {
     git add -A data/sports-feed 2>/dev/null || true
   fi
   # 2. automatic match-result reports (tools/sports_results.py): finished matches, verified data, nine languages
-  python3 tools/sports_results.py | tee /tmp/sports-results.txt || echo "sports results failed this time"
-  new=$(grep -c '^wrote ' /tmp/sports-results.txt 2>/dev/null || echo 0)
+  [ -s /tmp/fast/sports-results-status.json ] || cp data/world/sports-results-status.json /tmp/fast/ 2>/dev/null || true
+  SPORTS_RESULTS_STATUS=/tmp/fast/sports-results-status.json python3 tools/sports_results.py | tee /tmp/sports-results.txt || echo "sports results failed this time"
+  new=$(grep -c '^wrote ' /tmp/sports-results.txt 2>/dev/null || true); new=${new:-0}
   if [ "$new" -gt 0 ]; then
     if python3 tools/build_news.py >/dev/null && python3 tools/check_site.py >/dev/null; then
       git add data/news/*-natiijo-*.json
@@ -46,10 +47,19 @@ sports_cycle() {
       echo "result reports did not pass the site check: not published"; git checkout -q -- data/news.json; git clean -qf data/news; new=0
     fi
   fi
+  # the result-check status for /admin/: with every new report, otherwise about once an hour
+  rold=$(python3 -c "import json;print(json.load(open('data/world/sports-results-status.json')).get('lastCheckAt',''))" 2>/dev/null || true)
+  rage=$(python3 -c "import datetime;o='$rold';print(9999 if not o else int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(o)).total_seconds()//60))")
+  if [ -s /tmp/fast/sports-results-status.json ] && { [ "$new" -gt 0 ] || [ "$rage" -ge 55 ]; }; then
+    cp /tmp/fast/sports-results-status.json data/world/ && git add data/world/sports-results-status.json
+  fi
   git diff --cached --quiet && return 0
   msg="Ciyaaraha: xogta natiijooyinka"; [ "$new" -gt 0 ] && msg="Ciyaaraha: $new natiijo cusub (warbixin toos ah)"
   git "${BOT[@]}" commit -q -m "$msg" || return 1
-  for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+  # the rebuilt data/news.json etc. are not committed (the publish workflow builds them): drop them, or the rebase
+  # refuses to start ("cannot pull with rebase: You have unstaged changes", seen 9 Nov 09:35 UTC: 3 reports lost)
+  git reset -q --hard HEAD
+  push_main || return 1
   if [ "$new" -gt 0 ]; then
     # a push made with the job's token starts no workflow: start the publish workflow (pages, bell, push alerts)
     gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
@@ -62,8 +72,9 @@ sports_writer_cycle() {
   # 3. sports NEWS articles (tools/sports_writer.py) on the owner's own Claude API key (secret ANTHROPIC_API_KEY, billed
   #    per use, separate from the owner's Claude plan): the fresh sports stories handed to branch world-feed are checked,
   #    written in Somali + 8 languages and published with a licensed photo, or kept as a draft (Sugaya sawir) with the reason
-  if [ -z "${ANTHROPIC_API_KEY:-}" ]; then echo "sports writer: off (add the secret ANTHROPIC_API_KEY to switch it on)"; return 0; fi
-  python3 -c "import anthropic" 2>/dev/null || python3 -m pip install -q 'anthropic>=2.6,<3' || return 1
+  # without the key it still runs (no API call): it counts the new sports stories and why each would be skipped
+  if [ -z "${ANTHROPIC_API_KEY:-}" ]; then echo "sports writer: off (add the secret ANTHROPIC_API_KEY to switch it on)"
+  else python3 -c "import anthropic" 2>/dev/null || python3 -m pip install -q 'anthropic>=2.6,<3' || return 1; fi
   git fetch -q origin world-feed && git show FETCH_HEAD:candidates.json > /tmp/sw-cand.json || { echo "sports writer: no world-feed list"; return 0; }
   [ -s /tmp/fast/sports-writer-state.json ] || echo '{}' > /tmp/fast/sports-writer-state.json
   [ -s /tmp/fast/sports-writer-status.json ] || cp data/world/sports-writer-status.json /tmp/fast/ 2>/dev/null || true
@@ -88,7 +99,10 @@ sports_writer_cycle() {
   pub=$(grep -c '^wrote .*(published)' /tmp/sw.txt 2>/dev/null || true); pub=${pub:-0}
   msg="Ciyaaraha: xaaladda qoraaga wararka"; [ "$new" -gt 0 ] && msg="Ciyaaraha: $new war cusub ($pub la daabacay, $((new - pub)) sugaya sawir)"
   git "${BOT[@]}" commit -q -m "$msg" || return 1
-  for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+  # the rebuilt data/news.json etc. are not committed (the publish workflow builds them): drop them, or the rebase
+  # refuses to start ("cannot pull with rebase: You have unstaged changes", seen 9 Nov 09:35 UTC: 3 reports lost)
+  git reset -q --hard HEAD
+  push_main || return 1
   if [ "$pub" -gt 0 ]; then
     gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
   fi
@@ -125,6 +139,7 @@ news_writer_cycle() {
   pub=$(grep -c '^wrote .*(published)' /tmp/nw.txt 2>/dev/null || true); pub=${pub:-0}
   msg="Wararka: xaaladda qoraaga wararka"; [ "$new" -gt 0 ] && msg="Wararka (otomaatig): $new war cusub ($pub la daabacay, $((new - pub)) sugaya sawir)"
   git "${BOT[@]}" commit -q -m "$msg" || return 1
+  git reset -q --hard HEAD   # drop the rebuilt, uncommitted files so the rebase can start
   push_main || return 1
   if [ "$pub" -gt 0 ]; then
     # a push made with the job's token starts no workflow: start the publish workflow (pages, bell, push alerts)
@@ -184,7 +199,7 @@ cycle() {
 
   # state and candidates: branch fast-feed, one commit, no history
   ( cd /tmp/fast && rm -rf .git && git init -q -b fast-feed && git add state.json candidates.json fast-status.json alerts.txt README.txt \
-    && for f in sports-writer-state.json sports-writer-status.json news-writer-state.json news-writer-status.json watchdog.json automation-status.json; do [ ! -f "$f" ] || git add "$f"; done \
+    && for f in sports-writer-state.json sports-writer-status.json sports-results-status.json news-writer-state.json news-writer-status.json watchdog.json automation-status.json; do [ ! -f "$f" ] || git add "$f"; done \
     && git "${BOT[@]}" commit -q -m "5-minute monitor $(date -u +%FT%TZ)" && git push -q -f "$REMOTE" fast-feed ) || echo "could not save fast-feed"
 
   # the admin copy (/admin/ -> Ilaha wararka -> Ilaha degdegga ah): about once an hour, or at once when an alert starts or ends

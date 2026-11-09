@@ -29,7 +29,7 @@ on:
   push:
     # test run on a work branch when the monitor changes (nothing is saved)
     branches-ignore: [main, world-feed, fast-feed]
-    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/news_writer.py', 'tools/automation_watchdog.py', 'tools/quarantine.py', 'tools/live_feeds_cycle.sh', 'tools/world_news.py', 'tools/sports_results.py', 'tools/sports_writer.py', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
+    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/news_writer.py', 'tools/automation_watchdog.py', 'tools/quarantine.py', 'tools/live_feeds_cycle.sh', 'tools/world_news.py', 'tools/sports_results.py', 'tools/sports_writer.py', 'tools/sports_sources.py', 'data/sports/official-sources.json', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
 permissions:
   contents: write
   issues: write
@@ -47,7 +47,7 @@ jobs:
         with:
           fetch-depth: 300   # enough history to read when each article file first reached main
       - name: Self-test (no network)
-        run: python3 tools/fast_monitor.py test && python3 tools/live_feeds.py test && python3 tools/sports_results.py test && python3 tools/sports_writer.py test && python3 tools/news_writer.py test && python3 tools/automation_watchdog.py test && python3 tools/quarantine.py test && bash -n tools/fast_loop.sh
+        run: python3 tools/fast_monitor.py test && python3 tools/live_feeds.py test && python3 tools/sports_results.py test && python3 tools/sports_writer.py test && python3 tools/sports_sources.py test && python3 tools/news_writer.py test && python3 tools/automation_watchdog.py test && python3 tools/quarantine.py test && bash -n tools/fast_loop.sh
       - name: Feed check (work branches only)
         if: github.ref != 'refs/heads/main'
         run: |
@@ -55,6 +55,8 @@ jobs:
           # the match-result reports that would be published now, and whether they pass the site checks
           # (files are written in this test copy only, never pushed)
           python3 tools/sports_results.py && python3 tools/build_news.py | tail -3 && python3 tools/check_site.py | tail -5
+          # the official club / competition sources: reachable, robots.txt, which social accounts the club's own site links to
+          python3 tools/sports_sources.py check || true
       - name: Publishing watchdog dry run (work branches only, starts nothing)
         if: github.ref != 'refs/heads/main'
         env:
@@ -83,7 +85,8 @@ jobs:
           # sports NEWS articles written by Claude (tools/sports_writer.py): the owner's own API key from console.anthropic.com,
           # billed per use by Anthropic, separate from the owner's Claude plan. Without it the sports writer stays off.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          SPORTS_WRITER_DAILY_MAX: ${{ vars.SPORTS_WRITER_DAILY_MAX || '40' }}
+          SPORTS_WRITER_DAILY_MAX: ${{ vars.SPORTS_WRITER_DAILY_MAX || '20' }}
+          SPORTS_WRITER_DAILY_USD: ${{ vars.SPORTS_WRITER_DAILY_USD || '5' }}
           # World News + Somalia & East Africa articles on the same key (tools/news_writer.py). "fallback" = only while the
           # hourly Claude routine has stopped (e.g. Claude Max limit reached); "always" = every fresh story; "off".
           NEWS_WRITER_MODE: ${{ vars.NEWS_WRITER_MODE || 'fallback' }}
