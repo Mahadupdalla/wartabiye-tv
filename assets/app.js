@@ -288,7 +288,9 @@
       // Stories already in the headlines are not repeated; each section is newest first and holds only its own stories.
       [['world','worldBlock','navy','#caalamka'],['sports','sportsBlock','green','#ciyaaraha']].forEach(function(b){
         var l=items.filter(function(x){return section(x)===b[0]&&!x.sponsored&&shown.indexOf(x)<0&&(!showMosaic||inMosaic.indexOf(x)<0)});if(!l.length)return;
-        var s=el('section','secblock');s.setAttribute('aria-label',tr(b[1]));s.append(head(tr(b[1]),b[2],b[3]),cardsGrid(l.slice(0,6)));B.append(s)});
+        var s=el('section','secblock is-'+b[0]);s.setAttribute('aria-label',tr(b[1]));s.append(head(tr(b[1]),b[2],b[3]),cardsGrid(l.slice(0,6)));B.append(s)});
+      // live scores and the latest final results, right after the Sports stories
+      if(window.WT_MEDIA&&WT_MEDIA.scoreStrip){var ss=el('div');var sb=B.querySelector('.secblock.is-sports');if(sb&&sb.nextSibling)B.insertBefore(ss,sb.nextSibling);else B.append(ss);WT_MEDIA.scoreStrip(ss)}
       var lnb=liveNewsTeaser();if(lnb)B.append(lnb);
       if(window.WT_MEDIA)WT_MEDIA.homeStrip(B);
     }
@@ -405,6 +407,8 @@
       if(!l.length){main.append(head(tr(HUBK[kind].l)),el('p','empty',loaded?(q?tr('noMatch'):tr(HUBK[kind].n)):tr('loadingStory')));return}
       var lead=l[0];var rest=l.slice(1);
       main.append(head(tr(HUBK[kind].l)),cardsGrid([lead],true,'one'));
+      // Ciyaaraha: live scores and the latest final results right under the lead story (assets/media.js scoreStrip)
+      if(kind==='sports'&&window.WT_MEDIA&&WT_MEDIA.scoreStrip){var sh=el('div');main.append(sh);WT_MEDIA.scoreStrip(sh)}
       if(rest.length){var s2=el('section','secblock');var g=cardsGrid([]);s2.append(g);main.append(s2);
         pager(s2,rest,function(part){part.forEach(function(it){g.append(card(it))})},all.length>list.length?'#raadi?s='+kind:null)}}
     draw();

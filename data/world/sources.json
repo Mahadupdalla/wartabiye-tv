@@ -991,7 +991,129 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "ESPN's RSS addresses answer with a web page from GitHub's servers, so the 08:00/18:00 task checks ESPN with WebSearch / WebFetch. ESPN photos are never reused.",
+   "notes": "ESPN's RSS addresses answer GitHub's servers with an empty bot-check page (HTTP 202, tested 9 Nov 2026), so it is no longer read every 5 minutes (it failed 160+ checks in a row). The hourly news task checks ESPN with WebSearch / WebFetch. ESPN photos are never reused.",
+   "fastPoll": false
+  },
+  {
+   "id": "bundesliga-official",
+   "name": "Bundesliga.com (official)",
+   "shareLink": "",
+   "homepage": "https://www.bundesliga.com/en/bundesliga",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 85,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.bundesliga.com/en/bundesliga/news/rss"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "The Bundesliga's OFFICIAL news feed (DFL). Tested from GitHub Actions on 9 Nov 2026: answers with RSS. Headline, link and time are used to discover a story; Bundesliga/DFL photos are all rights reserved and never reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "guardian-football",
+   "name": "The Guardian – Football",
+   "shareLink": "",
+   "homepage": "https://www.theguardian.com/football",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 78,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.theguardian.com/football/rss"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.theguardian.com/sport/rss"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "The Guardian's public football and sport RSS (tested from GitHub Actions on 9 Nov 2026). Headline, link and time only; Guardian and agency photos are never reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "skysports",
+   "name": "Sky Sports",
+   "shareLink": "",
+   "homepage": "https://www.skysports.com/football",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 76,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.skysports.com/rss/12040"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.skysports.com/rss/11095"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Sky Sports' public RSS (12040 = news, 11095 = football; tested from GitHub Actions on 9 Nov 2026). Headline, link and time only; Sky photos are never reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "dw-sports",
+   "name": "DW Sports",
+   "shareLink": "",
+   "homepage": "https://www.dw.com/en/sports/s-8162",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 72,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://rss.dw.com/rdf/rss-en-sports"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "DW's public sports RSS (tested from GitHub Actions on 9 Nov 2026). Headline, link and time only; DW photos are never reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "france24-sports",
+   "name": "France 24 Sport",
+   "shareLink": "",
+   "homepage": "https://www.france24.com/en/sport/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 72,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.france24.com/en/sport/rss"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "France 24's public sport RSS (tested from GitHub Actions on 9 Nov 2026). Headline, link and time only; photos are never reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "capitalfm-sports",
+   "name": "Capital FM Kenya – Sports",
+   "shareLink": "",
+   "homepage": "https://www.capitalfm.co.ke/sports/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.capitalfm.co.ke/sports/feed/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "East African sport (Kenya). Capital FM's public sports RSS (tested from GitHub Actions on 9 Nov 2026). Headline, link and time only; photos are never reused.",
    "fastPoll": true
   },
   {
@@ -1005,7 +1127,7 @@
    "priority": 85,
    "feeds": [],
    "imagePolicy": "all-rights-reserved",
-   "notes": "premierleague.com, laliga.com, legaseriea.it, bundesliga.com, ligue1.com, uefa.com, fifa.com, nba.com, atptour.com, wtatennis.com, formula1.com, worldathletics.org: checked by the 08:00/18:00 task to confirm results (WebFetch / WebSearch). League and club photos are never reused.",
+   "notes": "premierleague.com, laliga.com, legaseriea.it, bundesliga.com, ligue1.com, uefa.com, fifa.com, nba.com, atptour.com, wtatennis.com, formula1.com, worldathletics.org: checked by the 08:00/18:00 task to confirm results (WebFetch / WebSearch). League and club photos are never reused. Bundesliga.com has an official RSS feed and is read every 5 minutes as its own source (bundesliga-official). premierleague.com, laliga.com, ligue1.com, legaseriea.it, uefa.com and fifa.com offer no working public RSS (tested 9 Nov 2026: 404 or empty).",
    "searchOnly": true
   },
   {

@@ -79,6 +79,8 @@ const LD = age => ({
 async function mock(ctx, data) {
   // open data: only the test copy when given, otherwise unreachable (the page must then say the data is unavailable)
   await ctx.route(/^https:\/\/api\.openligadb\.de\//, r => data.ol ? olRoute(r) : r.abort());
+  // team crests (football-data.org crest files): a small test image, so the test does not depend on that server
+  await ctx.route(/^https:\/\/crests\.football-data\.org\/\d+\.png$/, r => r.fulfill({ path: require('path').join(__dirname, 'test-image.png'), contentType: 'image/png' }));
   await ctx.route(/\/data\/sports-feed\/([a-zA-Z0-9-]+)\.json/, r => { const k = r.request().url().match(/sports-feed\/([a-zA-Z0-9-]+)\.json/)[1]; return data.feed && data.feed[k] ? r.fulfill({ json: data.feed[k] }) : r.fulfill({ status: 404, body: '' }) });
   await ctx.route(/\/data\/(videos|live|live-status|sports)\.json/, r => { const k = r.request().url().match(/data\/([a-z-]+)\.json/)[1]; return k in data ? r.fulfill({ json: data[k] }) : r.continue() });
   // Video News / LIVE News feeds written by GitHub Actions (branch live-data, fallback data/live-feeds): test copy only
@@ -259,6 +261,22 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     s = await st(p); if (!/OpenLigaDB/.test(s.text) || !/football-data\.org/.test(s.text)) fail(`${name}: data credits missing`);
     if (s.overflow) fail(`${name}: open-data sports page scrolls sideways`);
     await p.screenshot({ path: `${out}/media-${name}-sports-open.png`, fullPage: name === 'desktop' });
+    // team crests: matched by team id to the checked crest list (sports-src.js OL_FD), never an unrelated or http image
+    { const cr = await p.$$eval('#pageView .mrow', r => r.map(x => ({ t: x.innerText.replace(/\s+/g, ' '), img: [...x.querySelectorAll('img.crest')].map(i => i.getAttribute('src')) })));
+      const row = cr.find(x => /Stuttgart/.test(x.t)); console.log(name, 'crests:', JSON.stringify(row));
+      if (!row || row.img[0] !== 'https://crests.football-data.org/10.png' || row.img[1] !== 'https://crests.football-data.org/6.png') fail(`${name}: Stuttgart / Schalke crests are not the checked football-data.org crests`);
+      if (cr.some(x => x.img.some(u => !/^https:\/\//.test(u)))) fail(`${name}: a crest that is not https`) }
+    // Ciyaaraha page and homepage: live scores and the latest final results strip
+    await p.goto(base + '?lang=en#ciyaaraha', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(2000);
+    { const t = await p.$eval('#pageView .scorestrip', e => e.hidden ? '' : e.innerText.replace(/\s+/g, ' ')).catch(() => '');
+      console.log(name, 'Ciyaaraha scores strip:', t.slice(0, 200));
+      if (!/Scores & live matches/i.test(t) || !/Stuttgart/.test(t) || !/Bayern 2 – 1/.test(t.replace(/\bB\b /g, '')) || /Leverkusen|Freiburg/.test(t)) fail(`${name}: Ciyaaraha scores strip (live + latest results only)`);
+      if ((await st(p)).overflow) fail(`${name}: Ciyaaraha page scrolls sideways`);
+      await (await p.$('#pageView .scorestrip')).screenshot({ path: `${out}/media-${name}-ciyaaraha-scores.png` }) }
+    await p.goto(base + '?lang=en', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(2500);
+    { const t = await p.$eval('#blocks .scorestrip', e => e.hidden ? '' : e.innerText.replace(/\s+/g, ' ')).catch(() => '');
+      console.log(name, 'homepage scores strip:', t.slice(0, 120));
+      if (!/Stuttgart/.test(t)) fail(`${name}: homepage scores strip missing`) }
     await p.goto(base + '?lang=en#ciyaaraha-toos?tab=today', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(1200);
     orow = await p.$$eval('#pageView .mrow', r => r.map(x => ({ live: x.classList.contains('is-live'), aw: x.classList.contains('is-await'), t: x.innerText.replace(/\s+/g, ' ') })));
     const aw = orow.find(r => /Leipzig/.test(r.t));

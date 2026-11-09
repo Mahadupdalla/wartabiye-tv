@@ -36,7 +36,15 @@
     return (Array.isArray(o.leagues)?o.leagues:[]).filter(function(l){return l&&l.enabled!==false&&/^[A-Za-z0-9_-]{1,20}$/.test(String(l.id||''))&&/^\d{4}$/.test(String(l.season||''))})}
   // feed competitions that an open-data league already covers live (for example BL1 = bl1) are left out, so no match is listed twice
   function sameSet(cfg){var o={};olLeagues(cfg).forEach(function(l){String(l.same||'').split(',').forEach(function(x){x=x.trim();if(x)o[x]=1})});return o}
-  function olTeam(t){return t?{id:'ol'+t.teamId,name:t.shortName||t.teamName,crest:t.teamIconUrl||null}:null}
+  // Team crests. OpenLigaDB's own icon links are community-entered: some point at reddit or imgur, some are tiny http://
+  // images a https page cannot load, some are missing. So each OpenLigaDB team is matched by its OpenLigaDB team id to
+  // its football-data.org team id, and the crest football-data.org publishes for that id is shown (every pair below was
+  // checked by eye on 9 Nov 2026: right club, right crest). A team that is not in the list keeps its OpenLigaDB icon
+  // only when it is a https file on upload.wikimedia.org; otherwise the page shows the team's initials, never a guess.
+  var FD_CREST='https://crests.football-data.org/';
+  var OL_FD={65:1,80:28,81:15,6:3,7:4,87:18,91:19,95:16,40:5,9:6,100:7,1635:721,112:17,31:29,134:12,175:2,16:10,199:44,98:20,129:36,131:11,378:100,438:58,4241:78,8787:7397,2617:57,356:81,1210:851,370:64,375:503,1770:675,5707:5721,2554:610,733:108,1204:521,4244:65,2556:66,2281:524,376:674,5962:546,1804:90,1133:86,1186:1887,4578:930,1205:498,2331:113,382:94,441:98,369:109,1819:523,2557:516,1816:1903,1201:1877,4606:7283,2547:548,455:678};
+  function olCrest(t){var f=OL_FD[t.teamId];if(f)return FD_CREST+f+'.png';var u=String(t.teamIconUrl||t.iconUrl||'');return /^https:\/\/upload\.wikimedia\.org\/[^\s"'<>]+$/.test(u)?u:null}
+  function olTeam(t){return t?{id:'ol'+t.teamId,name:t.shortName||t.teamName,crest:olCrest(t)}:null}
   function olStatus(m,t){if(m.matchIsFinished)return 'FT';var k=Date.parse(m.matchDateTimeUTC);if(isNaN(k))return 'SCHEDULED';if(t<k)return 'SCHEDULED';return t-k<=LIVE_WINDOW?'LIVE':'AWAIT'}
   function olNorm(m,lg){var t=now(),st=olStatus(m,t),res=(m.matchResults||[]).slice().sort(function(a,b){return a.resultOrderID-b.resultOrderID});
     var fin=res.filter(function(r){return r.resultTypeID===2})[0]||res[res.length-1],ht=res.filter(function(r){return r.resultTypeID===1})[0];
@@ -71,7 +79,7 @@
     results:function(cfg,comp){var lg=OPEN.lg(cfg,comp);return olRounds(lg,[-2,-1,0],60e3).then(function(l){return l.filter(function(m){return m.status==='FT'}).sort(byDate).reverse()})},
     standings:function(cfg,comp){var lg=OPEN.lg(cfg,comp);return getJSON(OL+'/getbltable/'+encodeURIComponent(lg.id)+'/'+lg.season,10*60e3).then(function(rows){
       rows=Array.isArray(rows)?rows:[];return {competition:{id:lg.id,name:lg.name},season:lg.season+'/'+String(+lg.season+1).slice(2),
-        table:rows.map(function(r,i){return {position:i+1,team:{id:'ol'+r.teamInfoId,name:r.shortName||r.teamName,crest:r.teamIconUrl||null},played:r.matches,won:r.won,draw:r.draw,lost:r.lost,goalDifference:r.goalDiff,points:r.points}})}})},
+        table:rows.map(function(r,i){return {position:i+1,team:{id:'ol'+r.teamInfoId,name:r.shortName||r.teamName,crest:olCrest({teamId:r.teamInfoId,teamIconUrl:r.teamIconUrl})},played:r.matches,won:r.won,draw:r.draw,lost:r.lost,goalDifference:r.goalDiff,points:r.points}})}})},
     match:function(cfg,id){var n=String(id).replace(/^ol/,'');if(!/^\d{1,10}$/.test(n))return Promise.resolve({match:null});
       return getJSON(OL+'/getmatchdata/'+n,30e3).then(function(m){if(!m||!m.matchID)return {match:null};var lg=olLeagues(cfg).filter(function(l){return l.id===m.leagueShortcut})[0]||{id:m.leagueShortcut,name:m.leagueName,season:m.leagueSeason};
         return {match:olNorm(m,lg),eventsAvailable:true,statisticsAvailable:false,eventTypes:'goals'}})},
@@ -140,5 +148,5 @@
         a.forEach(function(pair){pair.forEach(function(d){if(!d)return;guard(d,d.matches||[]).forEach(function(m){var side=m.home&&String(m.home.id)===tid?m.home:m.away&&String(m.away.id)===tid?m.away:null;if(side){t=t||side;ms.push(m);src=src||d}})})});
         return {team:t,matches:ms.sort(byDate),provider:src&&src.provider,updatedAt:src&&src.updatedAt}})})}
     return Promise.reject(new Error('not found'))}
-  window.WT_SPORTS={call:call,competitions:competitions,connected:connected,useWorker:useWorker,_t:{olNorm:olNorm,olStatus:olStatus,guard:guard,ymdEAT:ymdEAT,FEED_FRESH:FEED_FRESH,LIVE_WINDOW:LIVE_WINDOW}};
+  window.WT_SPORTS={call:call,competitions:competitions,connected:connected,useWorker:useWorker,_t:{olCrest:olCrest,OL_FD:OL_FD,olNorm:olNorm,olStatus:olStatus,guard:guard,ymdEAT:ymdEAT,FEED_FRESH:FEED_FRESH,LIVE_WINDOW:LIVE_WINDOW}};
 })();
