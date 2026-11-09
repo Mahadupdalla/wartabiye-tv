@@ -709,12 +709,15 @@ def test(_args):
             {'url': 'https://a.test/2', 'discoveredAt': 'T2', 'firstSeenBy': '5-minute monitor', 'source': 'abcnews'}]})
         w.save(wa, {'fetchedAt': '2026-11-07T21:55:31+03:00', 'sources': [{'id': 'bbc-world'}], 'items': [
             {'url': 'https://a.test/2?x=1', 'source': 'abcnews', 'title': 'kept', 'publishedAt': iso(now())},
-            {'url': 'https://a.test/old', 'source': 'bbc-world', 'title': 'old', 'publishedAt': '2026-11-07T10:00:00+03:00'}]})
+            {'url': 'https://a.test/old', 'source': 'bbc-world', 'title': 'old', 'publishedAt': '2026-11-07T10:00:00+03:00'},
+            {'url': 'https://so.test/10h', 'source': 'hiiraan', 'title': 'somalia 10h', 'publishedAt': iso(now() - datetime.timedelta(hours=10))},
+            {'url': 'https://so.test/30h', 'source': 'hiiraan', 'title': 'somalia 30h', 'publishedAt': iso(now() - datetime.timedelta(hours=30))}]})
         import contextlib, io
         with contextlib.redirect_stdout(io.StringIO()):
             handoff(['--fast', fa, '--world', wa]); handoff(['--fast', fa, '--world', wa])
         r = load(wa, {})
-        ok(len(r['items']) == 2 and r['items'][0].get('discoveredAt') == 'T2' and r['items'][0]['title'] == 'kept', f'hand-off adds once, keeps fresh items, drops old ones: {r}')
+        ok(len(r['items']) == 3 and r['items'][0].get('discoveredAt') == 'T2' and r['items'][0]['title'] == 'kept'
+           and 'somalia 10h' in [x.get('title') for x in r['items']] and 'somalia 30h' not in [x.get('title') for x in r['items']], f'hand-off adds once, keeps fresh items and 24h Somalia items, drops old ones: {r}')
         ok(r['fetchedAt'] == 'x' and r['collectorFetchedAt'] == '2026-11-07T21:55:31+03:00', 'list time = monitor check time')
     # every fastPoll source in sources.json is complete
     for s in load(SOURCES, {'sources': []})['sources']:
@@ -757,9 +760,14 @@ def handoff(args):
     path = w.opt(args, '--world')
     wf = load(path, None) or {'fetchedAt': fast.get('fetchedAt'), 'since': None, 'sources': [], 'items': []}
     # the hourly collector's own items older than the freshness limit are dropped (they can never be published)
+    # Somalia stories stay for the collector's 24-hour Somalia catch-up (tools/world_news.py SOMALIA_HOURS); dropping them
+    # here every 5 minutes was why the catch-up never reached the news task (9 Nov 2026)
     cut = now() - datetime.timedelta(hours=KEEP_CANDIDATE_H)
+    so_cut = now() - datetime.timedelta(hours=w.SOMALIA_HOURS)
+    so_src = {s['id'] for s in load(SOURCES, {'sources': []})['sources'] if s.get('country') == 'so'}
+    is_so = lambda x: x.get('country') == 'so' or x.get('source') in so_src
     wf['items'] = [x for x in wf.get('items', []) if x.get('firstSeenBy') != '5-minute monitor'
-                   and (parse(x.get('publishedAt')) or now()) >= cut]
+                   and (parse(x.get('publishedAt')) or now()) >= (so_cut if is_so(x) else cut)]
     # the list is now as fresh as this monitor check (it reads every enabled source); the collector's own time is kept
     if not wf.get('collectorFetchedAt'): wf['collectorFetchedAt'] = wf.get('fetchedAt')
     wf['fetchedAt'] = fast.get('fetchedAt') or wf.get('fetchedAt')
