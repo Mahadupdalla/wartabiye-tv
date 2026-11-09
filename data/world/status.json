@@ -1,24 +1,18 @@
 {
- "lastRunAt": "2026-11-09T04:28:03+03:00",
- "lastSuccessAt": "2026-11-09T04:28:03+03:00",
+ "lastRunAt": "2026-11-09T05:17:11+03:00",
+ "lastSuccessAt": "2026-11-09T05:17:11+03:00",
  "lastRun": {
-  "at": "2026-11-09T04:28:03+03:00",
+  "at": "2026-11-09T05:17:11+03:00",
   "ok": true,
   "collected": 201,
   "duplicatesRemoved": 0,
   "alreadyKnown": 0,
   "published": 2,
-  "pendingImage": 2,
-  "pendingIds": [
-   "2026-11-09-khor-mor-duqsi-koronto-kurdistan",
-   "2026-11-09-aselsan-tamarta-qorraxda"
-  ],
-  "imageErrors": [
-   "2026-11-09-khor-mor-duqsi-koronto-kurdistan: no free-licence photo of Khor Mor on Wikimedia Commons",
-   "2026-11-09-aselsan-tamarta-qorraxda: no free-licence photo of Aselsan solar plants"
-  ],
+  "pendingImage": 0,
+  "pendingIds": [],
+  "imageErrors": [],
   "errors": [
-   "full collector list from 2026-11-07 (older than 90 min); local fetch blocked/timed out; East Africa feeds checked with WebFetch: KBC, Nile Post, Radio Tamazuj (nothing in window), Capital FM and BBC Africa blocked to WebFetch"
+   "Collector list from 7 Nov (fast monitor only); local fetch blocked by proxy; East Africa checked with WebFetch (KBC, Nile Post, Radio Tamazuj, Eye Radio): nothing in window"
   ]
  },
  "sources": [
@@ -467,7 +461,7 @@
    "collected": 10,
    "duplicates": 0,
    "published": 0,
-   "pendingImage": 1,
+   "pendingImage": 0,
    "errors": "rss https://www.turkiyetoday.com/rss: ValueError: not a feed (the address answers with a web page)"
   },
   {
@@ -494,7 +488,7 @@
    "method": "sitemap https://edition.cnn.com/sitemap/news.xml",
    "collected": 10,
    "duplicates": 0,
-   "published": 1,
+   "published": 0,
    "pendingImage": 0,
    "errors": "rss http://rss.cnn.com/rss/edition_world.rss: ValueError: feed is stale (newest item 2023-09-18)"
   },
@@ -620,8 +614,8 @@
    "method": "rss https://www.aljazeera.com/xml/rss/all.xml",
    "collected": 10,
    "duplicates": 0,
-   "published": 1,
-   "pendingImage": 1,
+   "published": 0,
+   "pendingImage": 0,
    "errors": ""
   },
   {
@@ -648,7 +642,7 @@
    "method": "rss https://www.france24.com/en/rss",
    "collected": 10,
    "duplicates": 0,
-   "published": 0,
+   "published": 1,
    "pendingImage": 0,
    "errors": ""
   },
@@ -760,12 +754,20 @@
    "method": "rss https://swedenherald.com/rss.xml",
    "collected": 5,
    "duplicates": 0,
-   "published": 0,
+   "published": 1,
    "pendingImage": 0,
    "errors": ""
   }
  ],
  "history": [
+  {
+   "at": "2026-11-09T05:17:11+03:00",
+   "ok": true,
+   "collected": 201,
+   "duplicatesRemoved": 0,
+   "published": 2,
+   "pendingImage": 0
+  },
   {
    "at": "2026-11-09T04:28:03+03:00",
    "ok": true,
