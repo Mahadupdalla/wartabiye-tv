@@ -38,7 +38,7 @@ async function newsFiles() { const r = await api(`repos/${REPO}/contents/data/ne
   const field = async (text) => { const id = await p.evaluate(t => { const l = [...document.querySelectorAll('[id$="-label"]')].find(e => e.offsetParent && e.textContent.trim().replace(/\*$/, '').trim() === t); return l && l.id }, text); if (!id) throw new Error('no field ' + text); return p.locator(`[aria-labelledby="${id}"]`).first() };
   try {
     const before = await newsFiles();
-    await p.goto(SITE + 'admin/', { waitUntil: 'networkidle' }); await shot('0-login');
+    await p.goto(SITE + 'admin/legacy/?ci=1', { waitUntil: 'networkidle' }); await shot('0-login');
     const body0 = await p.evaluate(() => document.body.innerText);
     console.log('login page offers:', body0.replace(/\s+/g, ' ').slice(0, 200));
     await p.getByText('Sign In Using Access Token').click(); await sleep(500);

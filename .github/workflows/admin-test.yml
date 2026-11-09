@@ -26,7 +26,9 @@ jobs:
           [ "$b" = 401 ]
       - name: The public site has no passwords or keys
         run: |
-          if grep -rniE 'ghp_[A-Za-z0-9]{20}|github_pat_|password *[:=]|client_secret|api[_-]?key *[:=]|BEGIN (RSA|OPENSSH) PRIVATE' --include='*.html' --include='*.yml' --include='*.json' --include='*.js' . --exclude-dir=.git --exclude-dir=vendor --exclude=admin-test.yml; then echo "FOUND something that looks like a secret"; exit 1; fi
+          # names of secrets are fine (e.g. "${{ secrets.X }}", or code reading client_secret from the Worker's encrypted store); values are not
+          if grep -rniE 'ghp_[A-Za-z0-9]{20}|github_pat_|password *[:=]|client_secret|api[_-]?key *[:=]|BEGIN (RSA|OPENSSH) PRIVATE' --include='*.html' --include='*.yml' --include='*.json' --include='*.js' . --exclude-dir=.git --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=.wrangler --exclude=admin-test.yml \
+             | grep -vE '\$\{\{ *secrets\.[A-Z_]+ *\}\}|client_secret: (env|app)\.|app\.client_secret'; then echo "FOUND something that looks like a secret"; exit 1; fi
           echo "no secrets found"
       - name: There is no sign-up page; the dashboard only offers GitHub token sign-in
         run: |
@@ -34,6 +36,16 @@ jobs:
           URL="https://$(tr -d '[:space:]' < CNAME)"
           curl -fsS "$URL/admin/config.yml" | grep -q 'auth_methods: \[token\]'
           echo "live admin config: token sign-in only, write access checked by GitHub"
+      - name: The secure dashboard (workers/admin) is closed to anyone who is not signed in
+        run: |
+          [ -f data/admin.json ] || { echo "secure dashboard not set up yet (no data/admin.json)"; exit 0; }
+          URL=$(jq -r .url data/admin.json); URL=${URL%/}
+          curl -fsS "$URL/health" | jq -e '.ok == true and .signIn == true'
+          for p in / /cms/ /index.html; do c=$(curl -s -o /dev/null -w '%{http_code}' "$URL$p"); echo "$p -> $c"; [ "$c" = 302 ]; done
+          for p in /api/me /api/analytics/summary /api/analytics/realtime /api/security /api/automation /api/github/api/v3/user; do c=$(curl -s -o /dev/null -w '%{http_code}' "$URL$p"); echo "$p -> $c"; [ "$c" = 401 ]; done
+          c=$(curl -s -o /dev/null -w '%{http_code}' -H 'Cookie: __Host-wtv_s=forged-session-value-1234567890' "$URL/api/me"); echo "forged cookie -> $c"; [ "$c" = 401 ]
+          if curl -fsS "$URL/login" | grep -qiE 'client_secret|ghu_|ghp_|github_pat_'; then echo "secret-looking text on the login page"; exit 1; fi
+          echo "secure dashboard: every page and API needs the owner's sign-in"
   admin:
     runs-on: ubuntu-latest
     needs: security

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="so">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Wartabiye TV — Maamulka (token, ku-meel-gaar)</title>
+<link rel="icon" href="../../img/logo.png">
+<link href="../config.yml" type="application/yaml" rel="cms-config-url">
+<!-- Arabic typed in any field is shown right-to-left, Somali/English/French left-to-right -->
+<style>textarea,input[type=text],input:not([type]){unicode-bidi:plaintext;text-align:start}</style>
+<script>
+// Temporary token sign-in, ONLY until the secure dashboard (workers/admin) is live. As soon as data/admin.json names
+// the secure address, this page sends you there and removes any GitHub token this browser saved for the old sign-in.
+// (?ci=1 keeps it for the automatic end-to-end test in .github/workflows/admin-test.yml, which uses a 1-hour token.)
+(function () {
+  if (/[?&]ci=1/.test(location.search)) return;
+  var x = new XMLHttpRequest();
+  try { x.open('GET', '../../data/admin.json?v=' + Date.now(), false); x.send(); } catch (e) { return; }
+  if (x.status !== 200) return;
+  try { var j = JSON.parse(x.responseText); if (j && /^https:\/\//.test(j.url)) { try { localStorage.removeItem('sveltia-cms.user'); } catch (e) {} location.replace(j.url); document.write(''); } } catch (e) {}
+})();
+</script>
+</head>
+<body>
+<!-- Sveltia CMS 0.237.0 (MIT, see ../vendor/SVELTIA-LICENSE.txt). Sign-in is checked by GitHub. No secret is stored here. -->
+<script src="../vendor/sveltia-cms-0.237.0.js"></script>
+</body>
+</html>

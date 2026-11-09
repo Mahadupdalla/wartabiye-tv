@@ -328,6 +328,8 @@
     var A=$('story');A.innerHTML='';fillSide($('storySide'),[]);
     if(!it){A.append(el('p','empty',loaded?tr('notFound'):tr('loadingStory')));var b0=el('a','back',tr('back'));b0.href='#hoyga';A.append(b0);return}
     setTitle(F(it,'title'));
+    // tells assets/stats.js which article (and category) is shown, for the visitor statistics; previews are not counted
+    try{window.dispatchEvent(new CustomEvent('wt:view',{detail:{id:id,category:it.category||'',section:it.section||'',preview:!!it._preview}}))}catch(e){}
     if(it._preview)A.append(el('div','pvbar','MUUQAAL HORE (preview) · '+(it.published===false?'Qabyo: warkan bogga weli kama muuqdo.':'Warkan waa la daabacay.')+' Luqadda ka beddel midigta sare si aad u eegto turjumaad kasta.'));
     var cr=el('nav','crumbs');cr.setAttribute('aria-label','breadcrumb');var h0=el('a',null,tr('home'));h0.href='#hoyga';cr.append(h0,el('span',null,tr('sep')));
     var s=section(it);{var hs=el('a',null,tr(s==='sports'?'sports':s==='world'?'world':'eastAfrica'));hs.href=s==='sports'?'#ciyaaraha':s==='world'?'#caalamka':'#bariga-afrika';cr.append(hs,el('span',null,tr('sep')))}
