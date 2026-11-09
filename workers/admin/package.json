@@ -1,0 +1,16 @@
+{
+  "name": "wartabiye-admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare-assets": "node scripts/prepare.mjs",
+    "test": "node --test test/*.test.mjs",
+    "dev": "node scripts/prepare.mjs && wrangler dev"
+  },
+  "dependencies": {
+    "qrcode-generator": "1.4.4"
+  },
+  "devDependencies": {
+    "wrangler": "4.150.0"
+  }
+}

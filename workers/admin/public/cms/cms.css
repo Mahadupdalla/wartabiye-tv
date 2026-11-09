@@ -1,0 +1,2 @@
+/* Arabic typed in any field is shown right-to-left, Somali/English/French left-to-right */
+textarea,input[type=text],input:not([type]){unicode-bidi:plaintext;text-align:start}

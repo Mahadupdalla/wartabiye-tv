@@ -1,0 +1,37 @@
+# Wartabiye TV secure admin + visitor statistics (Cloudflare Workers + D1, free plan is enough).
+# Deployed automatically by .github/workflows/admin-deploy.yml (needs the two repository secrets CLOUDFLARE_API_TOKEN and
+# CLOUDFLARE_ACCOUNT_ID). The workflow creates the database, generates SESSION_SECRET and fills in database_id.
+# No secret is ever written in this file.
+name = "wartabiye-admin"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+not_found_handling = "none"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wartabiye-admin"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+[triggers]
+# 00:05 in Mogadishu: summarise yesterday's visits and delete old raw rows
+crons = ["5 21 * * *"]
+
+[vars]
+REPO = "Mahadupdalla/wartabiye-tv"
+# private advertising-requests repository edited from Advertising → Requests (optional)
+EXTRA_REPOS = "Mahadupdalla/wartabiye-codsiyada"
+SITE_URL = "https://www.wartabiyetv.com/"
+# only these sites may send page views to /c
+SITE_ORIGINS = "https://www.wartabiyetv.com,https://wartabiyetv.com"
+# optional extra lock: comma separated GitHub user ids allowed to sign in (empty = any ADMIN of REPO, today only the owner)
+OWNER_GITHUB_IDS = ""
+SESSION_IDLE_MINUTES = "30"
+SESSION_MAX_HOURS = "8"
+TZ_OFFSET_MINUTES = "180"

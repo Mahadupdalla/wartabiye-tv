@@ -1,0 +1,136 @@
+name: Maamulka ammaan ah (secure admin + visitor statistics deploy)
+# Builds, tests and deploys workers/admin (Cloudflare Workers + D1, free plan) and tells the website where it is.
+# Needs two repository secrets, added once by the owner (see workers/admin/README.md):
+#   CLOUDFLARE_API_TOKEN   (Cloudflare → My Profile → API Tokens: "Edit Cloudflare Workers" template + Account · D1 · Edit)
+#   CLOUDFLARE_ACCOUNT_ID  (Cloudflare dashboard → Workers & Pages → Account ID on the right)
+# Without them the tests still run and nothing else changes. No secret is printed or written to the repository:
+# SESSION_SECRET is generated here once and stored only inside Cloudflare.
+on:
+  push:
+    branches: [main]
+    paths: ['workers/admin/**', 'admin/config.yml', 'admin/codsiyada/config.yml', 'admin/vendor/**', 'img/logo.png', '.github/workflows/admin-deploy.yml']
+  workflow_dispatch:
+    inputs:
+      reset_mfa:
+        description: 'Lost your phone AND the recovery codes? Type RESET to remove the authenticator app (you set a new one at the next sign-in; GitHub sign-in is still required).'
+        required: false
+        default: ''
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: admin-deploy
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: workers/admin } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - run: npm ci --no-audit --no-fund
+      - name: Tests (sign-in, 2-step code, lockout, sessions, GitHub proxy, visitor counting)
+        run: npm test
+      - name: Publishing tool configuration can be generated
+        run: node scripts/prepare.mjs
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    defaults: { run: { working-directory: workers/admin } }
+    steps:
+      - name: Cloudflare account connected?
+        id: cf
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::notice::Secure admin not deployed: add the repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID (workers/admin/README.md), then run this workflow again."
+            echo "ready=no" >> "$GITHUB_OUTPUT"
+          else echo "ready=yes" >> "$GITHUB_OUTPUT"; fi
+        working-directory: .
+      - uses: actions/checkout@v4
+        if: steps.cf.outputs.ready == 'yes'
+      - uses: actions/setup-node@v4
+        if: steps.cf.outputs.ready == 'yes'
+        with: { node-version: '22' }
+      - name: Install
+        if: steps.cf.outputs.ready == 'yes'
+        run: npm ci --no-audit --no-fund
+      - name: workers.dev address (created once)
+        if: steps.cf.outputs.ready == 'yes'
+        run: |
+          api="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/subdomain"
+          sub=$(curl -fsS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "$api" | jq -r '.result.subdomain // empty' || true)
+          if [ -z "$sub" ]; then
+            for name in wartabiye wartabiyetv "wartabiye-$(openssl rand -hex 3)"; do
+              if curl -fsS -X PUT -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H 'Content-Type: application/json' -d "{\"subdomain\":\"$name\"}" "$api" >/dev/null; then sub=$name; break; fi
+            done
+          fi
+          [ -n "$sub" ] || { echo "::error::could not create the workers.dev address: check the API token permissions"; exit 1; }
+          echo "workers.dev subdomain: $sub"
+      - name: Database (created once) and its tables
+        if: steps.cf.outputs.ready == 'yes'
+        run: |
+          id=$(npx wrangler d1 list --json | jq -r '.[] | select(.name=="wartabiye-admin") | .uuid')
+          if [ -z "$id" ]; then npx wrangler d1 create wartabiye-admin >/dev/null; id=$(npx wrangler d1 list --json | jq -r '.[] | select(.name=="wartabiye-admin") | .uuid'); fi
+          [ -n "$id" ] || { echo "::error::could not create the D1 database: the API token needs Account · D1 · Edit"; exit 1; }
+          sed -i "s/^database_id = .*/database_id = \"$id\"/" wrangler.toml
+          npx wrangler d1 migrations apply wartabiye-admin --remote
+      - name: Build and deploy
+        if: steps.cf.outputs.ready == 'yes'
+        id: deploy
+        run: |
+          node scripts/prepare.mjs
+          npx wrangler deploy 2>&1 | tee deploy.log
+          url=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
+          [ -n "$url" ] || { echo "::error::no workers.dev address in the deploy output"; exit 1; }
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+      - name: Session key (generated once, stored only in Cloudflare)
+        if: steps.cf.outputs.ready == 'yes'
+        run: |
+          if npx wrangler secret list 2>/dev/null | grep -q '"SESSION_SECRET"\|SESSION_SECRET'; then echo "SESSION_SECRET already set"; else
+            openssl rand -base64 48 | tr -d '\n' | npx wrangler secret put SESSION_SECRET >/dev/null && echo "SESSION_SECRET created"; fi
+      - name: Reset the authenticator app (only when asked)
+        if: steps.cf.outputs.ready == 'yes' && github.event.inputs.reset_mfa == 'RESET'
+        run: |
+          npx wrangler d1 execute wartabiye-admin --remote --command "DELETE FROM mfa; DELETE FROM sessions; INSERT INTO audit (ts, event, ok, detail) VALUES (strftime('%s','now'), 'mfa_reset', 1, 'authenticator removed by workflow run ${{ github.run_id }} (${{ github.actor }})');"
+          echo "::warning::Authenticator removed. The next sign-in (GitHub owner only) sets up a new one."
+      - name: Check it is live and closed to strangers
+        if: steps.cf.outputs.ready == 'yes'
+        env: { URL: '${{ steps.deploy.outputs.url }}' }
+        run: |
+          for i in 1 2 3 4 5 6; do curl -fsS "$URL/health" | tee health.json && break; sleep 10; done
+          jq -e '.ok == true' health.json
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/api/analytics/summary"); echo "analytics without sign-in: $code"; [ "$code" = 401 ]
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/"); echo "dashboard without sign-in: $code"; [ "$code" = 302 ]
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/api/github/api/v3/user"); echo "GitHub proxy without sign-in: $code"; [ "$code" = 401 ]
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Origin: https://evil.example' -d '{"p":"/"}' "$URL/c"); echo "counter from another site: $code"; [ "$code" = 403 ]
+          echo "Secure admin: $URL/"
+      - name: Tell the website where the dashboard and the counter are
+        if: steps.cf.outputs.ready == 'yes'
+        working-directory: .
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git checkout -- workers/admin/wrangler.toml
+          for d in 2 4 8 16 0; do
+            git pull -q --rebase origin main || true
+            printf '{\n "url": "%s/",\n "note": "Secure admin dashboard and visitor counter (workers/admin). Written by admin-deploy.yml."\n}\n' "$URL" > data/admin.json
+            sed -i -E "s#(<script src=\"assets/stats\.js[^\"]*\" data-endpoint=\")[^\"]*(\")#\1$URL\2#" index.html
+            grep -q "data-endpoint=\"$URL\"" index.html || { echo "::error::stats.js tag not found in index.html"; exit 1; }
+            git add data/admin.json index.html
+            if git diff --cached --quiet; then echo "website already points at $URL"; exit 0; fi
+            git config user.name "wartabiye-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -q -m "Maamulka: cinwaanka dashboard-ka ammaan ah iyo tiriyaha booqdayaasha"
+            if git push -q origin HEAD:main; then
+              # a push made with the workflow token does not start other workflows: start the publication explicitly
+              for w in 5 15 30; do gh workflow run publish.yml --ref main && break; sleep $w; done
+              exit 0
+            fi
+            git reset -q --hard origin/main 2>/dev/null || true
+            [ "$d" = 0 ] || sleep "$d"
+          done
+          echo "::error::could not save data/admin.json"; exit 1

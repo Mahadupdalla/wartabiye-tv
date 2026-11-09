@@ -1,5 +1,12 @@
 # Hagaha maamulka Wartabiye TV
 
+> **CUSUB (9 Nov 2026): dashboard ammaan ah + tirakoobka booqdayaasha.** Login-ka cusub waa GitHub + koodh 6-god ah oo
+> ka yimaada app-ka authenticator-ka ee telefoonkaaga; token GitHub ah browser-ka laguma kaydiyo. Dashboard-ku wuxuu
+> sidoo kale muujiyaa booqdayaasha dhabta ah (maanta, shalay, toddobaadkan, bishan, 30 maalmood, hadda online, wararka
+> ugu badan ee la akhriyo, dalalka, mobile/kombiyuutar, meesha ay ka yimaadeen). Habka hore (token) wuxuu shaqaynayaa
+> oo kaliya ilaa aad dhammaystirto dejinta hal mar ah: **eeg `workers/admin/README.md`** (Cloudflare bilaash ah, ~10 daqiiqo).
+> Kadib, tirtir token-kii hore ee GitHub.
+
 Dashboard-ka maamulka: **https://www.wartabiyetv.com/admin/**
 
 ## Sida login-ku u shaqeeyo (amniga)
