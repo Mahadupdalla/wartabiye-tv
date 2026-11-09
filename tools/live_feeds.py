@@ -282,7 +282,10 @@ def update_live_channels(cfg, status, t, prev=None, getter=None):
             if os.environ.get('LIVE_DEBUG'):
                 txt = body.decode('utf-8', 'replace')
                 print('LIVE_DEBUG', ch.get('name'), st, len(txt), state, vid, re.findall(r'<link rel="canonical"[^>]{0,120}', txt)[:1],
-                      re.findall(r'"(isLiveNow|isLive|playableInEmbed|isUpcoming)":(true|false)', txt)[:6], re.findall(r'<title>[^<]{0,80}', txt)[:1])
+                      re.findall(r'"(isLiveNow|isLive|playableInEmbed|isUpcoming)":(true|false)', txt)[:6], re.findall(r'<title>[^<]{0,80}', txt)[:1],
+                      re.findall(r'"videoDetails":\{"videoId":"[^"]+"', txt)[:2], re.findall(r'"playabilityStatus":\{"status":"[A-Z_]+"(?:,"reason":"[^"]{0,80}")?', txt)[:2],
+                      re.findall(r'"liveBroadcastDetails":\{[^}]{0,160}', txt)[:1], re.findall(r'.{60}"isLive":true.{60}', txt)[:2],
+                      re.findall(r'watch\?v=([A-Za-z0-9_-]{11})', txt)[:5], 'key' if os.environ.get('YOUTUBE_TOKEN') else 'nokey')
             if state == 'live' and not embeddable(vid, {}):
                 state = 'noembed'
         except Exception as ex:
