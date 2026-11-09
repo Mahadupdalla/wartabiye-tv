@@ -11,8 +11,16 @@ const fs = require('fs');
     p.on('pageerror', e => errs.push(e.message));
     // the site's own files must all load; a third-party image or data service that answers 404/429 (a removed YouTube
     // thumbnail, OpenLigaDB rate-limiting this one test machine) is shown with a fallback by the page: logged, not a failure
-    p.on('response', r => { if (r.status() >= 400) { const own = r.url().startsWith(base) || r.url().startsWith(new URL(base).origin); (own ? errs : notes).push(r.status() + ' ' + r.url()) } });
-    await p.goto(base + hash, { waitUntil: 'networkidle' }); await p.waitForTimeout(1000); return { p, errs };
+    // a 5xx from GitHub Pages itself (a short CDN hiccup, e.g. one 503 on a card image) is asked again before it counts
+    const retry = [];
+    p.on('response', r => { if (r.status() >= 400) { const own = r.url().startsWith(base) || r.url().startsWith(new URL(base).origin); (own ? (r.status() >= 500 ? retry : errs) : notes).push(r.status() + ' ' + r.url()) } });
+    await p.goto(base + hash, { waitUntil: 'networkidle' }); await p.waitForTimeout(1000);
+    for (const e of retry) {
+      const u = e.slice(e.indexOf(' ') + 1); let st = 0;
+      for (let i = 0; i < 3 && !(st >= 200 && st < 400); i++) { await p.waitForTimeout(2000 * (i + 1)); try { st = (await p.request.get(u, { timeout: 20000 })).status() } catch (x) { st = 0 } }
+      (st >= 200 && st < 400 ? notes : errs).push(e + (st >= 200 && st < 400 ? ' (worked when asked again)' : ''));
+    }
+    return { p, errs };
   }
   async function slots(p) {
     await p.evaluate(async () => { for (const im of document.querySelectorAll('.ph>img')) { im.loading = 'eager'; im.scrollIntoView(); await new Promise(r => setTimeout(r, 40)) } window.scrollTo(0, 0) });

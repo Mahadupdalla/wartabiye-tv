@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     # the LIVE TV status file is updated by live-status.yml (only when a broadcast starts or ends); no full check for that
-    paths-ignore: ['data/live-status.json', 'data/push-log.json', 'data/world/fast-status.json', 'data/sports-feed/**', 'data/live-feeds/**']
+    paths-ignore: ['data/live-status.json', 'data/push-log.json', 'data/world/fast-status.json', 'data/sports-feed/**', 'data/live-feeds/**', 'data/automation-status.json', 'data/world/news-writer-status.json', 'data/world/sports-writer-status.json']
   schedule:
     # The news update itself is NOT scheduled here: it is the Claude scheduled task, every hour, 24/7 (Africa/Nairobi).
     # GitHub only publishes (publish.yml, on push) and checks. This check runs every 3 hours (GitHub may start it late).
@@ -51,19 +51,29 @@ jobs:
           sys.exit(0 if ok else 1)
           PY
   live:
-    # Tests the real public website (GitHub Pages) in a browser, desktop and mobile.
+    # Tests the real public website (GitHub Pages) in a browser, desktop and mobile. Not on a push: the publish workflow
+    # starts this check itself once GitHub Pages really shows the new version (testing 2 minutes after a push raced the
+    # deploy and failed for no reason); the schedule and manual starts test the site as it is.
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     needs: check
     steps:
       - uses: actions/checkout@v4
-      - name: Wait for GitHub Pages to publish this commit
-        if: github.event_name != 'schedule'
-        run: sleep 120
-      - name: Live data matches the repo
+      - name: Live data matches the repo (a few tries, the Pages cache may need a minute)
         run: |
           URL="https://$(tr -d '[:space:]' < CNAME)"
           echo "Live site: $URL/"
-          curl -fsS "$URL/data/news.json?ts=$(date +%s)" -o live.json
+          for d in 0 30 60 90 120; do
+            sleep $d
+            git fetch -q origin main && git checkout -q origin/main -- data/news.json
+            curl -fsS --retry 3 --retry-delay 5 "$URL/data/news.json?ts=$(date +%s)" -o live.json || continue
+            python3 - <<'PY' && exit 0
+          import json, sys
+          repo = json.load(open('data/news.json', encoding='utf-8'))
+          live = json.load(open('live.json', encoding='utf-8'))
+          sys.exit(0 if (len(repo['news']) == len(live['news']) and repo.get('lastRunAt') == live.get('lastRunAt')) else 1)
+          PY
+          done
           python3 - <<'PY'
           import json, sys
           repo = json.load(open('data/news.json', encoding='utf-8'))

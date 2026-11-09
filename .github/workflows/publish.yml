@@ -23,23 +23,37 @@ jobs:
         with:
           ref: main
       - name: Small card images (img/news/w480)
-        run: pip install -q pillow && python3 tools/make_thumbs.py
+        run: |
+          for d in 5 15 30; do pip install -q pillow && break; echo "pip failed, retrying in $d s"; sleep $d; done
+          python3 tools/make_thumbs.py
       - name: Build news.json and ads.json
         run: python3 tools/build_news.py
       - name: Check news, dates and images (nothing is published if this fails)
-        run: python3 tools/media_test.py && node tools/sports_feed.mjs test && python3 tools/live_feeds.py test && python3 tools/check_site.py && python3 -c "import json;[json.load(open(f)) for f in ('data/site.json','data/live.json','data/sports.json','data/media-sources.json')]"
+        run: |
+          python3 tools/media_test.py && node tools/sports_feed.mjs test && python3 tools/live_feeds.py test
+          python3 -c "import json;[json.load(open(f)) for f in ('data/site.json','data/live.json','data/sports.json','data/media-sources.json')]"
+          # one bad NEW automatic article (no photo, shared photo, missing description ...) is held in Sugaya sawir with the
+          # reason instead of blocking every other article; anything else still stops the publication (tools/quarantine.py)
+          python3 tools/check_site.py || python3 tools/quarantine.py
       - name: Build the notification feed (published stories and the owner's alerts only)
         run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && python3 tools/build_notifications.py
       - name: Build article pages, section pages, sitemap and RSS
         run: python3 tools/build_pages.py
       - name: Commit the built files
         run: |
-          git add -A data/news.json data/ads.json data/videos.json data/notifications.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml rss.xml ciyaaraha caalamka bariga-afrika wararka-tooska xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
+          git add -A data/news data/news.json data/ads.json data/videos.json data/notifications.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml rss.xml ciyaaraha caalamka bariga-afrika wararka-tooska xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
           if git diff --cached --quiet; then echo "built files already up to date"; exit 0; fi
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Daabac: cusboonaysii news.json iyo boggaga"
-          for i in 1 2 3; do git pull --rebase origin main && git push origin HEAD:main && break; sleep 5; done
+          # another save may land while this runs: rebase on the newest main and try again (2, 4, 8, 16 s); fail loudly
+          # (the watchdog then starts the publish again) instead of silently leaving the site unpublished
+          for d in 2 4 8 16 0; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            git rebase --abort 2>/dev/null || true
+            [ "$d" = 0 ] || sleep "$d"
+          done
+          echo "::error::could not push the built files to main"; exit 1
       - name: Make sure GitHub Pages publishes the newest version
         # Several saves in a row start several Pages builds, and GitHub refuses a build while another
         # is deploying. Wait, ask again, and only finish when the newest commit is really live.
@@ -69,8 +83,9 @@ jobs:
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/push-log.json && git commit -q -m "Ogeysiisyada: xaaladda dirista"
-          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+          for d in 2 4 8 16; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; git rebase --abort 2>/dev/null || true; sleep "$d"; done
+          echo "::warning::push log not saved after 4 tries; an alert sent in this run may be repeated by the next publish"
       - name: Start the live-site check
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run check-news.yml --ref main
+        run: for d in 5 15 30; do gh workflow run check-news.yml --ref main && exit 0; sleep $d; done

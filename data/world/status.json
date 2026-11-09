@@ -1,16 +1,28 @@
 {
- "lastRunAt": "2026-11-09T10:25:46+03:00",
- "lastSuccessAt": "2026-11-09T10:25:46+03:00",
+ "lastRunAt": "2026-11-09T12:20:56+03:00",
+ "lastSuccessAt": "2026-11-09T12:20:56+03:00",
  "lastRun": {
-  "at": "2026-11-09T10:25:46+03:00",
+  "at": "2026-11-09T12:20:56+03:00",
   "ok": true,
   "collected": 201,
   "duplicatesRemoved": 0,
   "alreadyKnown": 0,
-  "published": 5,
-  "pendingImage": 0,
-  "pendingIds": [],
-  "imageErrors": [],
+  "published": 4,
+  "pendingImage": 5,
+  "pendingIds": [
+   "2026-11-09-koonfur-suudaan-nec-3161-xarumood-diiwaangelin",
+   "2026-11-09-jonglei-guddoomiye-nabad-uror-doorashada",
+   "2026-11-09-arusha-bandhiga-hortilogistica-42-dal",
+   "2026-11-09-midowga-yurub-shabakad-ruush-rabshadaha-faransiiska",
+   "2026-11-09-dar-city-bal-kooxda-b-nairobi"
+  ],
+  "imageErrors": [
+   "2026-11-09-koonfur-suudaan-nec-3161-xarumood-diiwaangelin: sawir sharci ah lama helin",
+   "2026-11-09-jonglei-guddoomiye-nabad-uror-doorashada: sawir sharci ah lama helin",
+   "2026-11-09-arusha-bandhiga-hortilogistica-42-dal: sawir sharci ah lama helin",
+   "2026-11-09-midowga-yurub-shabakad-ruush-rabshadaha-faransiiska: sawir sharci ah lama helin",
+   "2026-11-09-dar-city-bal-kooxda-b-nairobi: sawir sharci ah lama helin"
+  ],
   "errors": []
  },
  "sources": [
@@ -206,7 +218,7 @@
    "method": "rss https://www.capitalfm.co.ke/news/feed/",
    "collected": 9,
    "duplicates": 0,
-   "published": 2,
+   "published": 0,
    "pendingImage": 0,
    "errors": ""
   },
@@ -234,7 +246,7 @@
    "method": "rss https://www.kbc.co.ke/feed/",
    "collected": 10,
    "duplicates": 0,
-   "published": 0,
+   "published": 2,
    "pendingImage": 0,
    "errors": ""
   },
@@ -276,8 +288,8 @@
    "method": "rss https://dailynews.co.tz/feed/",
    "collected": 9,
    "duplicates": 0,
-   "published": 0,
-   "pendingImage": 0,
+   "published": 1,
+   "pendingImage": 2,
    "errors": ""
   },
   {
@@ -304,7 +316,7 @@
    "method": "rss https://nilepost.co.ug/feed",
    "collected": 10,
    "duplicates": 0,
-   "published": 0,
+   "published": 1,
    "pendingImage": 0,
    "errors": ""
   },
@@ -375,7 +387,7 @@
    "collected": 9,
    "duplicates": 0,
    "published": 0,
-   "pendingImage": 0,
+   "pendingImage": 2,
    "errors": ""
   },
   {
@@ -458,8 +470,8 @@
    "method": "html https://www.turkiyetoday.com/",
    "collected": 10,
    "duplicates": 0,
-   "published": 1,
-   "pendingImage": 0,
+   "published": 0,
+   "pendingImage": 1,
    "errors": "rss https://www.turkiyetoday.com/rss: ValueError: not a feed (the address answers with a web page)"
   },
   {
@@ -500,7 +512,7 @@
    "method": "rss https://www.euronews.com/rss?level=theme&name=news",
    "collected": 10,
    "duplicates": 0,
-   "published": 1,
+   "published": 0,
    "pendingImage": 0,
    "errors": ""
   },
@@ -598,7 +610,7 @@
    "method": "rss https://feeds.bbci.co.uk/news/world/rss.xml",
    "collected": 10,
    "duplicates": 0,
-   "published": 1,
+   "published": 0,
    "pendingImage": 0,
    "errors": ""
   },
@@ -755,9 +767,109 @@
    "published": 0,
    "pendingImage": 0,
    "errors": ""
+  },
+  {
+   "id": "bundesliga-official",
+   "name": "Bundesliga.com (official)",
+   "homepage": "",
+   "section": "sports",
+   "state": "working",
+   "working": true,
+   "method": "rss https://www.bundesliga.com/en/bundesliga/news/rss",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
+  },
+  {
+   "id": "guardian-football",
+   "name": "The Guardian – Football",
+   "homepage": "",
+   "section": "sports",
+   "state": "working",
+   "working": true,
+   "method": "rss https://www.theguardian.com/football/rss",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
+  },
+  {
+   "id": "skysports",
+   "name": "Sky Sports",
+   "homepage": "",
+   "section": "sports",
+   "state": "working",
+   "working": true,
+   "method": "rss https://www.skysports.com/rss/12040",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
+  },
+  {
+   "id": "dw-sports",
+   "name": "DW Sports",
+   "homepage": "",
+   "section": "sports",
+   "state": "working",
+   "working": true,
+   "method": "rss https://rss.dw.com/rdf/rss-en-sports",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
+  },
+  {
+   "id": "france24-sports",
+   "name": "France 24 Sport",
+   "homepage": "",
+   "section": "sports",
+   "state": "working",
+   "working": true,
+   "method": "rss https://www.france24.com/en/sport/rss",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
+  },
+  {
+   "id": "capitalfm-sports",
+   "name": "Capital FM Kenya – Sports",
+   "homepage": "",
+   "section": "sports",
+   "state": "working",
+   "working": true,
+   "method": "rss https://www.capitalfm.co.ke/sports/feed/",
+   "collected": 0,
+   "duplicates": 0,
+   "published": 0,
+   "pendingImage": 0,
+   "errors": ""
   }
  ],
  "history": [
+  {
+   "at": "2026-11-09T12:20:56+03:00",
+   "ok": true,
+   "collected": 201,
+   "duplicatesRemoved": 0,
+   "published": 4,
+   "pendingImage": 5
+  },
+  {
+   "at": "2026-11-09T11:40:50+03:00",
+   "ok": true,
+   "collected": 201,
+   "duplicatesRemoved": 2,
+   "published": 4,
+   "pendingImage": 9
+  },
   {
    "at": "2026-11-09T10:25:46+03:00",
    "ok": true,
