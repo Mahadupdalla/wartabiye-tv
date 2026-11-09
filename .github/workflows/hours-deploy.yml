@@ -1,0 +1,68 @@
+name: Saacadaha furitaanka (opening hours 07:00-24:00 Nairobi)
+# Tests workers/hours on every change. Deploys it ONLY when the owner runs this workflow by hand and types DEPLOY.
+# The Worker then sits in front of www.wartabiyetv.com and opens/closes the site by itself every day (no GitHub needed).
+# It needs the domain's DNS on Cloudflare (see workers/hours/README.md); if it is not, the deploy stops and says so.
+# To undo: run again and type REMOVE (the site is then served exactly as before, 24/7).
+on:
+  push:
+    paths: ['workers/hours/**', '.github/workflows/hours-deploy.yml']
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Type DEPLOY to switch on the nightly closure, or REMOVE to switch it off completely.'
+        required: true
+        default: ''
+permissions:
+  contents: read
+concurrency:
+  group: hours-deploy
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: workers/hours } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Schedule tests (every minute boundary, 30 days, owner preview, machine files)
+        run: npm test
+  deploy:
+    needs: test
+    if: github.event_name == 'workflow_dispatch' && (inputs.action == 'DEPLOY' || inputs.action == 'REMOVE')
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CF_ACCOUNT_SECRET: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    defaults: { run: { working-directory: workers/hours } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Is wartabiyetv.com on Cloudflare?
+        run: |
+          [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo "::error::CLOUDFLARE_API_TOKEN secret missing"; exit 1; }
+          echo "CLOUDFLARE_ACCOUNT_ID=$(printf '%s' "$CF_ACCOUNT_SECRET" | tr -d '[:space:]\"')" >> "$GITHUB_ENV"
+          z=$(curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "https://api.cloudflare.com/client/v4/zones?name=wartabiyetv.com")
+          status=$(echo "$z" | jq -r '.result[0].status // "missing"')
+          echo "Cloudflare zone status: $status"
+          if [ "$status" != active ]; then
+            echo "::error::wartabiyetv.com is not active on Cloudflare yet (status: $status). Add the site in Cloudflare, keep the GitHub Pages DNS records, change the nameservers at the registrar, wait for 'Active', and make sure the API token also has Zone · Workers Routes · Edit. Nothing was changed."
+            exit 1
+          fi
+      - name: Deploy (closure on)
+        if: inputs.action == 'DEPLOY'
+        run: npx --yes wrangler@3 deploy
+      - name: Remove (closure off, site served as before)
+        if: inputs.action == 'REMOVE'
+        run: npx --yes wrangler@3 delete --name wartabiye-hours --force
+      - name: Live check
+        if: inputs.action == 'DEPLOY'
+        run: |
+          sleep 20
+          h=$(TZ=Africa/Nairobi date +%H)
+          code=$(curl -s -o /dev/null -w '%{http_code}' "https://www.wartabiyetv.com/?v=$RANDOM")
+          robots=$(curl -s -o /dev/null -w '%{http_code}' "https://www.wartabiyetv.com/robots.txt")
+          news=$(curl -s -o /dev/null -w '%{http_code}' "https://www.wartabiyetv.com/data/news.json")
+          echo "Nairobi hour $h: home $code, robots.txt $robots, news.json $news"
+          [ "$robots" = 200 ] && [ "$news" = 200 ] || { echo "::error::machine files must stay 200"; exit 1; }
+          if [ "$h" -lt 7 ]; then [ "$code" = 503 ]; else [ "$code" = 200 ]; fi
