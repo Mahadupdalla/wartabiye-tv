@@ -1282,7 +1282,7 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .lcplay{display:flex;flex-direction:column;align-items:center;gap:10px;background:none;border:0;color:#fff;font:800 15px var(--display);cursor:pointer;padding:20px;text-align:center}
 .lcplay .vicon{position:static;margin:0}
 .lchead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:22px;margin:0 0 10px}
-.lcbadge{margin:0;font-size:11px;padding:4px 7px}
+.lclive{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font:800 11px/1 var(--display);letter-spacing:.12em;padding:4px 7px;border-radius:4px}.lclive i{width:7px;height:7px;border-radius:50%;background:#fff}
 .lcoff{display:inline-block;background:#e6e9ee;color:#4a5462;font:800 11px/1 var(--display);letter-spacing:.1em;padding:4px 7px;border-radius:4px}
 .lcstage .vframe{border-radius:12px;cursor:auto;background:#000}
 .lcmsg{color:#dfe6ef;font-size:15px;line-height:1.5;padding:18px;text-align:center;margin:0}
@@ -1295,6 +1295,12 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .lctab[aria-selected="true"]{border-color:var(--blue,#0b5cad);box-shadow:0 0 0 2px var(--blue,#0b5cad) inset}
 .lctab:disabled{opacity:.55;cursor:not-allowed}
 .livechans{margin-top:8px}
+.lnbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:20px 0 10px;font-size:14px;color:var(--muted)}
+.lnbar .onair{margin:0}
+.lnupd{font-weight:700;color:var(--fg)}
+.lntick{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);margin:2px 0 14px}
+.lntick:hover .wtinner,.lntick:focus-within .wtinner{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.lntick .wtinner{animation:none}}
 .vyt{display:inline-block;font-size:13.5px;font-weight:700;color:var(--link);margin-top:4px}
 .vsrc{font-weight:800;color:var(--fg)}
 .htable{width:100%;border-collapse:collapse;font-size:13.5px}.htable th,.htable td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:start;vertical-align:top}

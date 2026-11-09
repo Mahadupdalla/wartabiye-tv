@@ -205,21 +205,24 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     if (!tl.length || !/Golaha wasiirada/.test(tl[0].t) || !/BBC Somali/.test(tl[0].t)) fail(`${name}: newest update first, with its full text naming the newsroom`);
     if (tl.some(x => x.ext)) fail(`${name}: a timeline item links to another website`);
     if (await p.$('#pageView .wirebox, #pageView .wiretick')) fail(`${name}: the old list of external headlines is still shown`);
-    // live channels: LIVE sign only on a channel YouTube confirmed on air in the last 20 minutes; OFFLINE when confirmed off;
-    // no sign when the check is old; played inside the page; no links to other websites
-    // live player at the top: the confirmed live channel is loaded at once in YouTube's own player (visitor presses Play);
-    // LIVE sign only for a check under 20 minutes old; OFFLINE channels cannot be chosen; no links to other websites
-    const lcst = () => p.evaluate(() => { const b = document.querySelector('#pageView .lchans'); if (!b) return null;
-      return { cls: b.className, h: b.querySelector('h2').innerText.replace(/\s+/g, ' '), src: (b.querySelector('.lcstage iframe') || {}).src || '', first: b.compareDocumentPosition(document.querySelector('#pageView ol.lntl')) & 4,
-        tabs: [...b.querySelectorAll('.lctab')].map(t => ({ t: t.innerText.replace(/\s+/g, ' '), dis: t.disabled, sel: t.getAttribute('aria-selected') })), ext: b.querySelectorAll('a[href]').length } });
-    let lc = await lcst();
-    console.log(name, 'live player:', JSON.stringify(lc));
-    if (!lc || !/lc-live/.test(lc.cls) || !/^TOOS ?Al Jazeera/.test(lc.h) || !lc.first) fail(`${name}: confirmed live channel in the player at the top, with a LIVE sign`);
-    if (!new RegExp('youtube-nocookie\\.com/embed/' + YT + '\\?.*autoplay=0').test(lc.src)) fail(`${name}: the live broadcast is loaded in the page player (no autoplay)`);
-    if (lc.tabs.length !== 3 || !/MA BAAHINAYO ?DW/.test(lc.tabs[2].t) || !lc.tabs[2].dis || /TOOS/.test(lc.tabs[1].t) || lc.tabs[1].dis) fail(`${name}: channel buttons (France 24 old check: no sign; DW off air: disabled)`);
-    if (lc.ext) fail(`${name}: the live player links to another website`);
-    await p.click('#pageView .lctab:nth-child(2)'); await p.waitForTimeout(300); lc = await lcst();
-    if (!/embed\/live_stream\?channel=UCQfwfsi5VrQ8yKZ-UWmAEFg/.test(lc.src) || /TOOS/.test(lc.h)) fail(`${name}: switching to France 24 (unconfirmed: no LIVE sign)`);
+    // LIVE News is written news only: no video player, no channel buttons, no iframes
+    if (await p.$('#pageView .lchans, #pageView .lnbroadcast, #pageView iframe, #pageView video')) fail(`${name}: a video player or channel selector is still on LIVE News`);
+    // status line: red LIVE while updates are arriving (newest 8 minutes old), the latest update time and the last check
+    const bar = await p.$eval('#pageView .lnbar', x => ({ t: x.innerText.replace(/\s+/g, ' '), live: !!x.querySelector('.onair') })).catch(() => null);
+    console.log(name, 'LIVE bar:', JSON.stringify(bar));
+    if (!bar || !bar.live || !/War ugu dambeeyay: \d\d:\d\d/.test(bar.t) || !/La hubiyay: \d\d:\d\d/.test(bar.t)) fail(`${name}: LIVE status line`);
+    const tk = await p.$$eval('#pageView .lntick .wtinner a', l => l.map(a => ({ h: a.getAttribute('href'), t: a.innerText })));
+    if (!tk.length || !/Golaha wasiirada/.test(tk[0].t) || tk.some(a => /^https?:/.test(a.h))) fail(`${name}: ticker of the newest headlines, inside the site`);
+    // a new update written while the visitor is on the page appears at the top by itself (30-second check, no reload)
+    if (name === 'desktop') {
+      const extra = { id: 'lu-new1', publishedAt: new Date(Date.now() - 60e3).toISOString(), region: 'somalia', so: { title: 'War cusub oo hadda la qoray', text: 'Warbixin cusub ayaa timid, sida ay BBC Somali sheegtay.' }, sources: [] };
+      await ctx.route(/live-data\/live-updates\.json/, async r => { const j = JSON.parse(JSON.stringify(LD(0)['live-updates.json'])); j.items.unshift(extra); j.updatedAt = new Date().toISOString(); return r.fulfill({ json: j, headers: { 'Access-Control-Allow-Origin': '*' } }) });
+      await p.waitForTimeout(33000);
+      const top = await p.$eval('#pageView ol.lntl > li.lnitem', x => ({ t: x.innerText.replace(/\s+/g, ' '), cls: x.className }));
+      console.log(name, 'after 33 s without reload:', JSON.stringify(top));
+      if (!/War cusub oo hadda la qoray/.test(top.t) || !/\bnew\b/.test(top.cls)) fail(`${name}: new update did not appear at the top without a reload`);
+      await ctx.unroute(/live-data\/live-updates\.json/);
+    }
     if (await p.$('#pageView .vyt')) fail(`${name}: "Watch on YouTube" link on LIVE News`);
     await p.click('#pageView .wirechips button:nth-child(5)'); await p.waitForTimeout(200);
     { const w5 = await p.$$eval('#pageView ol.lntl > li.lnitem.lu', l => l.map(x => x.innerText)); if (w5.length !== 1 || !/Geneva/.test(w5[0])) fail(`${name}: World filter`) }
@@ -234,8 +237,6 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     await go(p, 'wararka-tooska'); await p.waitForTimeout(800);
     if (await p.$('#pageView .lnwarn, #pageView .lnstatus, #pageView .wirest, #pageView .lndot')) fail(`${name}: public source-status block is still shown`);
     if (!(await p.$$('#pageView ol.lntl > li.lnitem.lu')).length) fail(`${name}: LIVE updates missing with an older feed file`);
-    if (await p.$('#pageView .lchans .onair')) fail(`${name}: LIVE sign on a channel from an old check`);
-    if (!(await p.$('#pageView .lchans .lcstage iframe'))) fail(`${name}: player missing with an old channel check`);
     // LIVE TV page while Wartabiye TV is off air: the official live news player, inside the page
     await go(p, 'toos'); await p.waitForTimeout(1200);
     if (!(await p.$('#pageView .livechans:not([hidden]) .lchans .lcstage iframe'))) fail(`${name}: live news player on the LIVE TV page while off air`);
