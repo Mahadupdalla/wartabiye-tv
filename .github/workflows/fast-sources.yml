@@ -29,7 +29,7 @@ on:
   push:
     # test run on a work branch when the monitor changes (nothing is saved)
     branches-ignore: [main, world-feed, fast-feed]
-    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/news_writer.py', 'tools/automation_watchdog.py', 'tools/quarantine.py', 'tools/live_feeds_cycle.sh', 'tools/world_news.py', 'tools/sports_results.py', 'tools/sports_writer.py', 'tools/sports_sources.py', 'tools/sports_publishers.py', 'data/sports/official-sources.json', 'data/sports/publishers.json', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
+    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/news_writer.py', 'tools/automation_watchdog.py', 'tools/quarantine.py', 'tools/live_feeds_cycle.sh', 'tools/live_updates.py', 'tools/world_news.py', 'tools/sports_results.py', 'tools/sports_writer.py', 'tools/sports_sources.py', 'tools/sports_publishers.py', 'data/sports/official-sources.json', 'data/sports/publishers.json', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
 permissions:
   contents: write
   issues: write
@@ -47,7 +47,7 @@ jobs:
         with:
           fetch-depth: 300   # enough history to read when each article file first reached main
       - name: Self-test (no network)
-        run: python3 tools/fast_monitor.py test && python3 tools/live_feeds.py test && python3 tools/sports_results.py test && python3 tools/sports_writer.py test && python3 tools/sports_sources.py test && python3 tools/sports_publishers.py test && python3 tools/news_writer.py test && python3 tools/automation_watchdog.py test && python3 tools/quarantine.py test && bash -n tools/fast_loop.sh
+        run: python3 tools/fast_monitor.py test && python3 tools/live_feeds.py test && python3 tools/live_updates.py test && python3 tools/sports_results.py test && python3 tools/sports_writer.py test && python3 tools/sports_sources.py test && python3 tools/sports_publishers.py test && python3 tools/news_writer.py test && python3 tools/automation_watchdog.py test && python3 tools/quarantine.py test && bash -n tools/fast_loop.sh
       - name: Feed check (work branches only)
         if: github.ref != 'refs/heads/main'
         run: |
@@ -58,6 +58,18 @@ jobs:
           # the official club / competition sources: reachable, robots.txt, which social accounts the club's own site links to
           python3 tools/sports_sources.py check || true
           python3 tools/sports_publishers.py probe --out /tmp/publishers-report.json && echo PUBLISHERS_REPORT_JSON && python3 -c "import json;print(json.dumps(json.load(open('/tmp/publishers-report.json')),ensure_ascii=False))" || true
+      - name: LIVE News updates test (work branches only, real feeds, at most 2 updates written, nothing saved)
+        if: github.ref != 'refs/heads/main'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LIVE_UPDATES_MODEL: ${{ vars.LIVE_UPDATES_MODEL || 'claude-opus-5-5' }}
+          LIVE_UPDATES_PER_RUN: '2'
+        run: |
+          mkdir -p /tmp/lu && git fetch -q --depth=1 origin live-data && git show FETCH_HEAD:live-wire.json > /tmp/lu/live-wire.json || true
+          python3 tools/live_feeds.py /tmp/lu
+          if [ -n "$ANTHROPIC_API_KEY" ]; then python3 -m pip install -q 'anthropic>=2.6,<3'; fi
+          python3 tools/live_updates.py /tmp/lu
+          echo LIVE_UPDATES_JSON && python3 -c "import json;print(json.dumps(json.load(open('/tmp/lu/live-updates.json')),ensure_ascii=False))"
       - name: Publishing watchdog dry run (work branches only, starts nothing)
         if: github.ref != 'refs/heads/main'
         env:
@@ -93,6 +105,10 @@ jobs:
           NEWS_WRITER_MODE: ${{ vars.NEWS_WRITER_MODE || 'fallback' }}
           NEWS_WRITER_DAILY_MAX: ${{ vars.NEWS_WRITER_DAILY_MAX || '24' }}
           NEWS_WRITER_MODEL: ${{ vars.NEWS_WRITER_MODEL || 'claude-opus-5-5' }}
+          # LIVE News updates written inside the site from the newsroom wire (tools/live_updates.py), same key, own limit
+          LIVE_UPDATES_MODE: ${{ vars.LIVE_UPDATES_MODE || 'on' }}
+          LIVE_UPDATES_MODEL: ${{ vars.LIVE_UPDATES_MODEL || 'claude-opus-5-5' }}
+          LIVE_UPDATES_DAILY_USD: ${{ vars.LIVE_UPDATES_DAILY_USD || '1' }}
           FORCE: ${{ inputs.force && 'true' || 'false' }}
           LOOP_MINUTES: ${{ inputs.minutes || 330 }}
         run: |

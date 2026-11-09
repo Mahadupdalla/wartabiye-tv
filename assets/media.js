@@ -429,7 +429,18 @@
         row(tb,'OpenLigaDB',(sp.openData||{}).enabled!==false&&((sp.openData||{}).leagues||[]).length?true:null,'','',((sp.openData||{}).leagues||[]).map(function(x){return x.name}).join(', '),'');
         row(tb,'football-data.org feed',sf?true:null,sf?tm(sf.updatedAt):'',sf?tm(sf.updatedAt):'',sf?(sf.competitions||[]).map(function(c){return c.name}).join(', '):tr('healthNoKey'),'');
         row(tb,'Sports proxy (apiBase)',/^https:/.test(sp.apiBase||'')?true:null,'','',sp.apiBase||tr('healthNoKey'),'')});
-      if(r[0]&&r[0].checkedAt)w.append(el('p','vnote',trf('wireChecked',{t:tm(r[0].checkedAt)+' (EAT)'})))})}
+      if(r[0]&&r[0].checkedAt)w.append(el('p','vnote',trf('wireChecked',{t:tm(r[0].checkedAt)+' (EAT)'})));
+      // LIVE News updates (tools/live_updates.py): the record of every update's sources, links and original times, and the
+      // day's counts and spend. Kept here for the editors; the public timeline shows no source links.
+      Promise.all([liveFeed('live-updates.json',30000).catch(function(){return null}),liveFeed('live-updates-status.json',30000).catch(function(){return null})]).then(function(q){
+        var lu=q[0]&&q[0].items||[],ls=q[1]||{};w.append(C.head('LIVE updates: sources (record)'));
+        var dk=Object.keys(ls.days||{}).sort().pop();var dd=dk?ls.days[dk]:null;
+        w.append(el('p','vnote','Mode: '+(ls.mode||'–')+' · model '+(ls.model||'–')+(dd?' · '+dk+': written '+dd.written+', merged '+dd.merged+', skipped '+dd.skipped+', declined '+dd.declined+', failed '+dd.failed+', $'+(+dd.usd||0).toFixed(3)+' of $'+((ls.limits||{}).usdPerDay||'–'):'')+(ls.lastCheckAt?' · checked '+tm(ls.lastCheckAt):'')));
+        var t=el('table','htable');var hr=el('tr');['Published (EAT)','Wartabiye TV update','Sources'].forEach(function(h){hr.append(el('th',null,h))});var th=el('thead');th.append(hr);var tb=el('tbody');t.append(th,tb);
+        lu.slice(0,60).forEach(function(u){var x=el('tr');var sc=el('td');(u.sources||[]).forEach(function(s,i){if(i)sc.append(document.createTextNode(' · '));var a=el('a',null,(s.name||'?')+' '+tm(s.publishedAt));var su=C.safeUrl(s.url);if(su){a.href=su;a.target='_blank';a.rel='noopener'}sc.append(a)});
+          x.append(el('td',null,tm(u.publishedAt)),el('td',null,(u.so&&u.so.title)||''),sc);tb.append(x)});
+        if(!lu.length){var e0=el('tr');e0.append(el('td',null,'–'),el('td',null,'No LIVE updates yet'),el('td'));tb.append(e0)}
+        var sc2=el('div','tscroll');sc2.append(t);w.append(sc2)})})}
 
   // desktop menu that scrolls sideways on narrower screens: fade the edge while more links are hidden
   function navFade(){var l=document.getElementById('links');if(!l)return;var max=l.scrollWidth-l.clientWidth;var x=Math.abs(l.scrollLeft);l.classList.toggle('fade',innerWidth>860&&max>2&&x<max-2)}

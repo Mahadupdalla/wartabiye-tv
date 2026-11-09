@@ -1314,3 +1314,11 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .mini .ph.rescard{padding:4px;gap:2px}.mini .ph.rescard .rc-comp,.mini .ph.rescard .rc-team b,.mini .ph.rescard .rc-ft{display:none}.mini .ph.rescard .rc-crest{width:26px;height:26px;padding:3px}.mini .ph.rescard .rc-score{font-size:14px}
 @media (max-width:520px){.ph.rescard .rc-crest{width:44px;height:44px}.ph.rescard .rc-score{font-size:24px}.ph.rescard.hero .rc-crest{width:64px;height:64px}.ph.rescard.hero .rc-score{font-size:34px}}
 .figure .ph.hero.rescard{aspect-ratio:16/9;display:flex;border:0;background:linear-gradient(135deg,var(--blue),var(--blue-d))}
+
+/* LIVE News timeline inside the site: updates written by Wartabiye TV (assets/app.js luItem) */
+.lnitem.lu .lntx h3{font-size:17.5px}
+.lnitem.lu .lubody{margin:0 0 6px;font-size:15px;line-height:1.55;color:var(--fg)}
+.lnitem.lu .meta{margin-top:2px}
+.lnitem.lu:target{background:var(--chip);border-radius:8px}
+@media (max-width:480px){.lntl::before{inset-inline-start:60px}.lnitem{grid-template-columns:54px minmax(0,1fr);gap:18px}.lnitem::before{inset-inline-start:56px}
+  .lnitem time b{font-size:15px}.lnitem.lu .lntx h3{font-size:16.5px}.lnitem.lu .lubody{font-size:14.5px}}

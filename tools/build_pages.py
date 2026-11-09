@@ -103,6 +103,17 @@ SECTIONS = {
     'siyaasadda-xayeysiiska': (None, None, 'adpolicy'),
 }
 sec_wanted = set()
+# public match results switched off in /admin/ (data/site.json sections.liveSports = false, owner's decision 9 Nov 2026):
+# the old Ciyaaraha Toos address sends visitors to the Ciyaaraha (sports news) page and leaves the sitemap
+try: LIVE_SPORTS = json.load(open(os.path.join(root, 'data', 'site.json'), encoding='utf-8')).get('sections', {}).get('liveSports', True) is not False
+except Exception: LIVE_SPORTS = True
+if not LIVE_SPORTS:
+    SECTIONS.pop('ciyaaraha-toos', None)
+    write(os.path.join(root, 'ciyaaraha-toos', 'index.html'),
+          '<!doctype html><html lang="so"><head><meta charset="utf-8"><title>Ciyaaraha | Wartabiye TV</title>'
+          f'<link rel="canonical" href="{SITE_URL}ciyaaraha/"><meta name="robots" content="noindex">'
+          f'<meta http-equiv="refresh" content="0; url={SITE_URL}ciyaaraha/"></head>'
+          f'<body><p><a href="{SITE_URL}ciyaaraha/">Ciyaaraha · Wartabiye TV</a></p></body></html>\n', sec_wanted)
 for route, (title, desc, key) in SECTIONS.items():
     pre = ''
     if key:
