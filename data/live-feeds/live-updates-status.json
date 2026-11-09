@@ -1,22 +1,22 @@
 {
  "about": "LIVE News updates written by tools/live_updates.py (Claude API, owner's key). Counts per day (Africa/Nairobi). \"merged\" = the same event from another newsroom, added to an existing update as a corroborating source.",
- "mode": "on",
+ "mode": "off",
  "model": "claude-opus-5-5",
  "limits": {
   "usdPerDay": 1.0,
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-09T16:10:12Z",
+ "lastCheckAt": "2026-11-09T17:05:11Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-09": {
    "written": 0,
    "merged": 0,
-   "skipped": 112,
+   "skipped": 128,
    "declined": 0,
-   "failed": 20,
-   "calls": 20,
+   "failed": 29,
+   "calls": 29,
    "usd": 0.0
   }
  },
@@ -132,488 +132,504 @@
   "ed6d0ef8aaf5e722": "2026-11-09T16:00:10Z",
   "38538d9e949dce3b": "2026-11-09T16:05:10Z",
   "26f12835f3225138": "2026-11-09T16:05:10Z",
-  "45e67a501d3facdb": "2026-11-09T16:10:12Z"
+  "45e67a501d3facdb": "2026-11-09T16:10:12Z",
+  "b4ef7c62c1d1c150": "2026-11-09T16:15:12Z",
+  "65f24affe7aa1b53": "2026-11-09T16:20:11Z",
+  "8debe6bdfb8f8874": "2026-11-09T16:20:11Z",
+  "19eb1a6ed784472c": "2026-11-09T16:25:11Z",
+  "070907ad8b1193e8": "2026-11-09T16:30:13Z",
+  "3765347f4b605c13": "2026-11-09T16:30:13Z",
+  "a987b421dd7c728a": "2026-11-09T16:40:11Z",
+  "85b98edeaf065989": "2026-11-09T16:45:12Z",
+  "f09da9951cab2c4d": "2026-11-09T16:45:12Z",
+  "2706ead396cc890c": "2026-11-09T16:50:13Z",
+  "238d632ee3999845": "2026-11-09T16:55:12Z",
+  "0c83b5f2de47a3c1": "2026-11-09T16:55:12Z",
+  "2ad20e12736945da": "2026-11-09T17:00:11Z",
+  "cff7db0b80ca6d91": "2026-11-09T17:05:11Z",
+  "29a34417faa37394": "2026-11-09T17:05:11Z",
+  "42f9ed387f0e1c8a": "2026-11-09T17:05:11Z"
  },
  "recent": [
   {
-   "at": "2026-11-09T16:10:12Z",
+   "at": "2026-11-09T17:05:11Z",
    "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Iran stands by demands to end the war as US ramps up military pressure",
-   "url": "https://www.aljazeera.com/news/2026/11/9/iran-stands-by-demands-to-end-the-war-as-us-ramps-up-military-pressure?traffic_source=rss"
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "BBC News",
+   "title": "Men recruited to French gang as children to kill give rare insight into drug underworld",
+   "url": "https://www.bbc.co.uk/news/videos/cwe9l98l5n2po?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-09T16:10:12Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "at": "2026-11-09T17:05:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "BBC Somali",
    "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
    "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-09T16:05:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "COP31: Betting on electricity to break the climate deadlock",
-   "url": "https://www.france24.com/en/environment/20261109-cop31-betting-on-electricity-to-break-the-climate-deadlock"
-  },
-  {
-   "at": "2026-11-09T16:05:10Z",
+   "at": "2026-11-09T17:05:11Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
    "source": "UN News",
-   "title": "Security Council LIVE: Strikes on Ukraine’s power grid, as peace talks loom",
-   "url": "https://news.un.org/feed/view/en/story/2026/11/1168761"
+   "title": "Families who fled Ethiopia for Kenya’s Moyale need food, water and shelter",
+   "url": "https://news.un.org/feed/view/en/story/2026/11/1168762"
   },
   {
-   "at": "2026-11-09T16:05:10Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
-   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "More than 50,000 displaced by deadly Ethiopia border clashes",
+   "url": "https://www.aljazeera.com/news/2026/11/9/more-than-50000-displaced-by-deadly-ethiopia-border-clashes?traffic_source=rss"
   },
   {
-   "at": "2026-11-09T16:00:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
-   "title": "Russell Brand sentenced to over 10 years in prison for rape and sexual assault convictions",
-   "url": "https://www.dw.com/en/russell-brand-sentenced-to-over-10-years-in-prison-for-rape-and-sexual-assault-convictions/a-79896124?maca=en-rss-en-all-1573-rdf"
+   "title": "Fake news in Africa: In an age of disinformation, who decides what's true?",
+   "url": "https://www.dw.com/en/fake-news-in-africa-in-an-age-of-disinformation-who-decides-what-s-true/a-79874039?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-09T16:00:10Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
-   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:55:11Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "France 24",
-   "title": "'Such an extraordinary story': What we know so far about Nvidia spying claims",
-   "url": "https://www.france24.com/en/video/20261109-such-an-extraordinary-story-what-we-know-so-far-about-nvidia-spying-claims"
-  },
-  {
-   "at": "2026-11-09T15:55:11Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "France 24",
-   "title": "Shock and grief in Poland after weekend mass shooting",
-   "url": "https://www.france24.com/en/video/20261109-shock-and-grief-in-poland-after-weekend-mass-shooting"
-  },
-  {
-   "at": "2026-11-09T15:55:11Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "France 24",
-   "title": "Nvidia CEO probed over alleged China spy: Who exactly is Jensen Huang?",
-   "url": "https://www.france24.com/en/video/20261109-nvidia-ceo-probed-over-alleged-china-spy-who-exactly-is-jensen-huang"
-  },
-  {
-   "at": "2026-11-09T15:55:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "More than 100,000 sign petition for inquiry into UK role in Gaza genocide",
-   "url": "https://www.aljazeera.com/news/2026/11/9/more-than-100000-sign-petition-for-inquiry-into-uk-role-in-gaza-genocide?traffic_source=rss"
+   "title": "France accuses Iran of cyberattack on European fridges",
+   "url": "https://www.aljazeera.com/news/2026/11/9/france-accuses-iran-of-cyberattack-on-european-fridges?traffic_source=rss"
   },
   {
-   "at": "2026-11-09T15:55:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "‘No concession’: What to expect from Russia-US-Ukraine talks in Abu Dhabi",
-   "url": "https://www.aljazeera.com/news/2026/11/9/no-concession-what-to-expect-from-russia-us-ukraine-talks-in-abu-dhabi?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-09T15:55:11Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
-   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:50:11Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "Al Jazeera",
-   "title": "Trump says Iran is sealed off. But can new US task force stop weapons flow?",
-   "url": "https://www.aljazeera.com/news-analysis/2026/11/9/trump-says-iran-is-sealed-off-but-can-new-us-task-force-stop-weapons-flow?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-09T15:50:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Saving the Venetian lagoon: A natural buffer against climate change",
-   "url": "https://www.france24.com/en/tv-shows/focus/20261109-saving-the-venetian-lagoon-a-natural-buffer-against-climate-change"
-  },
-  {
-   "at": "2026-11-09T15:50:11Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
-   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:45:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "What ‘catastrophic’ South Africa local election results mean for ANC",
-   "url": "https://www.aljazeera.com/news/2026/11/9/what-catastrophic-south-africa-local-election-results-mean-for-anc?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-09T15:45:11Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
-   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:40:10Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
-   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:35:12Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
-   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:30:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "British-Somali ‌‌‌‌boxer Ramla Ali defeats Mikiah Kreps for first ⁠⁠⁠⁠world title",
-   "url": "https://www.aljazeera.com/sports/2026/11/9/british-somali-boxer-ramla-ali-defeats-mikiah-kreps-for-first-%e2%81%a0%e2%81%a0world-title?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-09T15:30:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "37 years after fall of Berlin Wall: How divided are Germans?",
-   "url": "https://www.dw.com/en/37-years-after-fall-of-berlin-wall-how-divided-are-germans/a-79877461?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-09T15:30:10Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Dunida Iyo Maanta",
-   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsqt3zcy6r?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:25:08Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "Al Jazeera",
-   "title": "IRGC strikes three tankers near Hormuz over ‘US links’",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/9/irgc-strikes-three-tankers-near-hormuz-over-us?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-09T15:25:08Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "French PM brings forward 1.6% increase in minimum wage in bid to calm protests",
-   "url": "https://www.france24.com/en/france/20261109-french-pm-lecornu-announces-increase-minimum-wage-bid-to-calm-protests"
-  },
-  {
-   "at": "2026-11-09T15:25:08Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Dunida Iyo Maanta",
-   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsqt3zcy6r?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:20:08Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
-   "title": "Thirteen migrants die after boat sinks off Crete",
-   "url": "https://www.bbc.co.uk/news/articles/c65ynyxrjdyeo?at_medium=RSS&at_campaign=rss"
+   "title": "Trump questions midterm elections integrity after previously accepting results",
+   "url": "https://www.bbc.co.uk/news/articles/ck79p9350zp9o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-09T15:20:08Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Iran sees 'golden opportunity for a sweetheart deal' after US midterms, expert says",
-   "url": "https://www.france24.com/en/iran-sees-golden-opportunity-for-a-sweetheart-deal-after-us-midterms-expert-says"
+   "title": "Social unrest ahead of French elections: Protesters 'don't believe politics can achieve anything'",
+   "url": "https://www.france24.com/en/social-unrest-ahead-of-french-elections-protesters-don-t-believe-politics-can-achieve-anything"
   },
   {
-   "at": "2026-11-09T15:20:08Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Dunida Iyo Maanta",
-   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsqt3zcy6r?at_medium=RSS&at_campaign=rss"
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "🔴 Iran's Revolutionary Guards behind cyberattacks on supermarket fridges, says French FM",
+   "url": "https://www.france24.com/en/europe/20261109-iran-revolutionary-guards-behind-cyberattacks-on-supermarket-fridges-says-french-fm-barrot"
   },
   {
-   "at": "2026-11-09T15:15:08Z",
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "French officials blame Iran for supermarket fridge hacking",
+   "url": "https://www.dw.com/en/french-officials-blame-iran-for-supermarket-fridge-hacking/a-79903646?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Russia: Independent Novaya Gazeta shuts its Moscow newsroom",
+   "url": "https://www.dw.com/en/russia-independent-novaya-gazeta-shuts-its-moscow-newsroom/a-79899827?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "India’s demonetization: 10 years on, promises remain unfulfilled",
+   "url": "https://www.dw.com/en/india-s-demonetization-10-years-on-promises-remain-unfulfilled/a-79903331?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israel’s Shin Bet finds no evidence of foreign election meddling: Report",
+   "url": "https://www.aljazeera.com/news/2026/11/9/israels-shin-bet-finds-no-evidence-of-foreign-election-meddling-report?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Ice hockey: Norway says it's been kicked out of World Juniors in favor of Russia",
+   "url": "https://www.dw.com/en/ice-hockey-norway-says-it-s-been-kicked-out-of-world-juniors-in-favor-of-russia/a-79901844?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "COP31 climate summit: Can we electrify the world?",
+   "url": "https://www.france24.com/en/tv-shows/down-to-earth/20261109-cop31-climate-summit-can-we-electrify-the-world"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Nvidia shares slump amid investigation into CEO Jensen Huang",
+   "url": "https://www.aljazeera.com/economy/2026/11/9/nvidia-shares-slump-amid-investigation-into-ceo-jensen-huang?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Turkey: Workers killed in Izmir steel plant blast",
+   "url": "https://www.dw.com/en/turkey-workers-killed-in-izmir-steel-plant-blast/a-79900748?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Spain's right holds poll lead over Sanchez's Socialists ahead of November 29 snap election",
+   "url": "https://www.france24.com/en/europe/20261109-spain-right-leads-sanchez-socialists-in-polls-for-november-29-snap-election"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian network used social media to blame French riots on immigration, EU report says",
+   "url": "https://www.france24.com/en/france/20261109-russian-network-used-social-media-to-blame-french-riots-on-immigration-eu-report-says"
+  },
+  {
+   "at": "2026-11-09T17:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Melanie C: From Sporty Spice to dance DJ with 'Sweat'",
+   "url": "https://www.france24.com/en/tv-shows/arts24/20261109-melanie-c-from-sporty-spice-to-dance-dj-with-sweat"
+  },
+  {
+   "at": "2026-11-09T17:00:11Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
    "source": "Al Jazeera",
-   "title": "Paraguay raids ex-president’s home: Why a bank crash brought down Pena",
-   "url": "https://www.aljazeera.com/news/2026/11/9/paraguay-raids-ex-presidents-home-why-a-bank-crash-brought-down-pena?traffic_source=rss"
+   "title": "Senegal human rights group demands government action after deadly sinking",
+   "url": "https://www.aljazeera.com/news/2026/11/9/senegal-human-rights-group-demands-government-action-after-deadly-sinking?traffic_source=rss"
   },
   {
-   "at": "2026-11-09T15:15:08Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC Somali",
-   "title": "Dunida Iyo Maanta",
-   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsqt3zcy6r?at_medium=RSS&at_campaign=rss"
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-09T15:10:09Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Dunida Iyo Maanta",
-   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsqt3zcy6r?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:05:19Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "BBC Somali",
-   "title": "Dunida Iyo Maanta",
-   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsqt3zcy6r?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T15:00:08Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "British-Somali ‌‌‌‌boxer Ramla Ali defeats Mikiah Kreps for first ⁠⁠⁠⁠world title",
-   "url": "https://www.aljazeera.com/sports/2026/11/9/british-somali-boxer-ramla-ali-defeats-mikiah-kreps-for-first-%e2%81%a0%e2%81%a0world-title?traffic_source=rss"
+   "title": "More than 50,000 displaced by deadly Ethiopia border clashes",
+   "url": "https://www.aljazeera.com/news/2026/11/9/more-than-50000-displaced-by-deadly-ethiopia-border-clashes?traffic_source=rss"
   },
   {
-   "at": "2026-11-09T14:55:09Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Fake news in Africa: In an age of disinformation, who decides what's true?",
+   "url": "https://www.dw.com/en/fake-news-in-africa-in-an-age-of-disinformation-who-decides-what-s-true/a-79874039?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "France accuses Iran of cyberattack on European fridges",
+   "url": "https://www.aljazeera.com/news/2026/11/9/france-accuses-iran-of-cyberattack-on-european-fridges?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
-   "title": "Who is the suspected Chinese spy at centre of the Nvidia investigation?",
-   "url": "https://www.bbc.co.uk/news/videos/c80404zyr53wo?at_medium=RSS&at_campaign=rss"
+   "title": "Trump questions midterm elections integrity after previously accepting results",
+   "url": "https://www.bbc.co.uk/news/articles/ck79p9350zp9o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-09T14:55:09Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "France brings forward minimum wage increase in bid to quell unrest",
-   "url": "https://www.france24.com/en/video/20261109-france-brings-forward-minimum-wage-increase-in-bid-to-quell-unrest"
+   "title": "Social unrest ahead of French elections: Protesters 'don't believe politics can achieve anything'",
+   "url": "https://www.france24.com/en/social-unrest-ahead-of-french-elections-protesters-don-t-believe-politics-can-achieve-anything"
   },
   {
-   "at": "2026-11-09T14:55:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "🔴 Iran's Revolutionary Guards behind cyberattacks on supermarket fridges, says French FM",
+   "url": "https://www.france24.com/en/europe/20261109-iran-revolutionary-guards-behind-cyberattacks-on-supermarket-fridges-says-french-fm-barrot"
+  },
+  {
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
-   "title": "Pope urges Argentina's Milei to put people before economy",
-   "url": "https://www.dw.com/en/pope-urges-argentina-s-milei-to-put-people-before-economy/a-79894779?maca=en-rss-en-all-1573-rdf"
+   "title": "French officials blame Iran for supermarket fridge hacking",
+   "url": "https://www.dw.com/en/french-officials-blame-iran-for-supermarket-fridge-hacking/a-79903646?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-09T14:55:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
-   "title": "Trump says Iran strikes unlikely if peace talks keep moving",
-   "url": "https://www.dw.com/en/trump-says-iran-strikes-unlikely-if-peace-talks-keep-moving/a-79894190?maca=en-rss-en-all-1573-rdf"
+   "title": "Russia: Independent Novaya Gazeta shuts its Moscow newsroom",
+   "url": "https://www.dw.com/en/russia-independent-novaya-gazeta-shuts-its-moscow-newsroom/a-79899827?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-09T14:55:09Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "India’s demonetization: 10 years on, promises remain unfulfilled",
+   "url": "https://www.dw.com/en/india-s-demonetization-10-years-on-promises-remain-unfulfilled/a-79903331?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "British-Somali ‌‌‌‌boxer Ramla Ali defeats Mikiah Kreps for first ⁠⁠⁠⁠world title",
-   "url": "https://www.aljazeera.com/sports/2026/11/9/british-somali-boxer-ramla-ali-defeats-mikiah-kreps-for-first-%e2%81%a0%e2%81%a0world-title?traffic_source=rss"
+   "title": "Israel’s Shin Bet finds no evidence of foreign election meddling: Report",
+   "url": "https://www.aljazeera.com/news/2026/11/9/israels-shin-bet-finds-no-evidence-of-foreign-election-meddling-report?traffic_source=rss"
   },
   {
-   "at": "2026-11-09T14:50:08Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Ice hockey: Norway says it's been kicked out of World Juniors in favor of Russia",
+   "url": "https://www.dw.com/en/ice-hockey-norway-says-it-s-been-kicked-out-of-world-juniors-in-favor-of-russia/a-79901844?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "COP31 climate summit: Can we electrify the world?",
+   "url": "https://www.france24.com/en/tv-shows/down-to-earth/20261109-cop31-climate-summit-can-we-electrify-the-world"
+  },
+  {
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "British-Somali ‌‌‌‌boxer Ramla Ali defeats Mikiah Kreps for first ⁠⁠⁠⁠world title",
-   "url": "https://www.aljazeera.com/sports/2026/11/9/british-somali-boxer-ramla-ali-defeats-mikiah-kreps-for-first-%e2%81%a0%e2%81%a0world-title?traffic_source=rss"
+   "title": "Nvidia shares slump amid investigation into CEO Jensen Huang",
+   "url": "https://www.aljazeera.com/economy/2026/11/9/nvidia-shares-slump-amid-investigation-into-ceo-jensen-huang?traffic_source=rss"
   },
   {
-   "at": "2026-11-09T14:45:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Which Republicans are running for minority leadership roles in US Congress?",
-   "url": "https://www.aljazeera.com/news/2026/11/9/which-republicans-are-running-for-minority-leadership-roles-in-congress?traffic_source=rss"
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Turkey: Workers killed in Izmir steel plant blast",
+   "url": "https://www.dw.com/en/turkey-workers-killed-in-izmir-steel-plant-blast/a-79900748?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-09T14:45:09Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "Al Jazeera",
-   "title": "British-Somali ‌‌‌‌boxer Ramla Ali defeats Mikiah Kreps for first ⁠⁠⁠⁠world title",
-   "url": "https://www.aljazeera.com/sports/2026/11/9/british-somali-boxer-ramla-ali-defeats-mikiah-kreps-for-first-%e2%81%a0%e2%81%a0world-title?traffic_source=rss"
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Spain's right holds poll lead over Sanchez's Socialists ahead of November 29 snap election",
+   "url": "https://www.france24.com/en/europe/20261109-spain-right-leads-sanchez-socialists-in-polls-for-november-29-snap-election"
   },
   {
-   "at": "2026-11-09T14:40:08Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Sudan teachers go on strike over meagre salaries and dilapidated schools",
-   "url": "https://www.aljazeera.com/economy/2026/11/9/sudan-teachers-go-on-strike-over-meagre-salaries-and-dilapidated-schools?traffic_source=rss"
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian network used social media to blame French riots on immigration, EU report says",
+   "url": "https://www.france24.com/en/france/20261109-russian-network-used-social-media-to-blame-french-riots-on-immigration-eu-report-says"
   },
   {
-   "at": "2026-11-09T14:40:08Z",
-   "result": "failed",
-   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
-   "source": "Al Jazeera",
-   "title": "British-Somali ‌‌‌‌boxer Ramla Ali defeats Mikiah Kreps for first ⁠⁠⁠⁠world title",
-   "url": "https://www.aljazeera.com/sports/2026/11/9/british-somali-boxer-ramla-ali-defeats-mikiah-kreps-for-first-%e2%81%a0%e2%81%a0world-title?traffic_source=rss"
+   "at": "2026-11-09T17:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Melanie C: From Sporty Spice to dance DJ with 'Sweat'",
+   "url": "https://www.france24.com/en/tv-shows/arts24/20261109-melanie-c-from-sporty-spice-to-dance-dj-with-sweat"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
+   "at": "2026-11-09T16:55:12Z",
    "result": "skipped",
    "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "France 24",
-   "title": "All eyes on Rubio as Iran, Ukraine set to dominate G7 meeting in Paris",
-   "url": "https://www.france24.com/en/video/20261109-all-eyes-on-rubio-as-iran-ukraine-set-to-dominate-g7-meeting-in-paris"
+   "title": "French PM brings forward hike in minimum wage to calm protesters",
+   "url": "https://www.france24.com/en/video/20261109-french-pm-brings-forward-hike-in-minimum-wage-to-calm-protesters"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
+   "at": "2026-11-09T16:55:12Z",
    "result": "skipped",
    "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "France 24",
-   "title": "COP31: A focus on electrification as extreme weather events shake the world",
-   "url": "https://www.france24.com/en/video/20261109-cop31-a-focus-on-electrification-as-extreme-weather-events-shake-the-world"
+   "title": "Nvidia shares tumble after spy probe announced",
+   "url": "https://www.france24.com/en/video/20261109-nvidia-shares-tumble-after-spy-probe-announced"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "France 24",
-   "title": "Thick smog shrouds Delhi after Diwali celebrations",
-   "url": "https://www.france24.com/en/video/20261109-thick-smog-shrouds-delhi-after-diwali-celebrations"
+   "at": "2026-11-09T16:55:12Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "France 24",
-   "title": "Trump admits deportation policy 'might have been too tough'",
-   "url": "https://www.france24.com/en/video/20261109-trump-admits-deportation-policy-might-have-been-too-tough"
-  },
-  {
-   "at": "2026-11-09T14:35:09Z",
+   "at": "2026-11-09T16:50:13Z",
    "result": "skipped",
    "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "Syria confirms sending troops to Saudi Arabia amid battle against Houthis",
-   "url": "https://www.aljazeera.com/features/2026/11/9/syria-confirms-sending-troops-to-saudi-arabia-amid-battle-against-houthis?traffic_source=rss"
+   "title": "Man uses excavator to destroy Chinese government building",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/9/man-uses-excavator-to-destroy-chinese-government-building?traffic_source=rss"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
+   "at": "2026-11-09T16:50:13Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T16:45:12Z",
    "result": "skipped",
    "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "BBC News",
-   "title": "What we know so far about Jensen Huang's affair with suspected Chinese spy",
-   "url": "https://www.bbc.co.uk/news/articles/ckgel338xql3o?at_medium=RSS&at_campaign=rss"
+   "source": "France 24",
+   "title": "Russell Brand sentenced to 10-and-a-half years in jail for rape, sexual assault",
+   "url": "https://www.france24.com/en/video/20261109-russell-brand-sentenced-to-10-and-a-half-years-in-jail-for-rape-sexual-assault"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
+   "at": "2026-11-09T16:45:12Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "France 24",
+   "title": "Nvidia in turmoil as China denies spying claims",
+   "url": "https://www.france24.com/en/video/20261109-nvidia-in-turmoil-as-china-denies-spying-claims"
+  },
+  {
+   "at": "2026-11-09T16:45:12Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T16:40:11Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
    "source": "Al Jazeera",
-   "title": "China rejects ‘baseless’ claims it spied on Nvidia boss",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/9/china-rejects-baseless-claims-it-spied-on-nvidia-boss?traffic_source=rss"
+   "title": "Los Angeles mayoral race points to growing sway of democratic socialists",
+   "url": "https://www.aljazeera.com/news/2026/11/9/los-angeles-mayoral-race-points-to-growing-sway-of-democratic-socialists?traffic_source=rss"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "BBC News Africa",
-   "title": "Nine foreigners caught allegedly trying to leave South Africa to fight in Ukraine",
-   "url": "https://www.bbc.co.uk/news/articles/cm93z3lp5lnpo?at_medium=RSS&at_campaign=rss"
+   "at": "2026-11-09T16:40:11Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
+   "at": "2026-11-09T16:35:11Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T16:30:13Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
    "source": "BBC Somali",
-   "title": "Taliyaha ciidamada Badda Itoobiya oo sheegay in adeegsiga xooggu uu yahay mid ka mid tallaabooyinka lagu heli karo marin Badda Cas ka tirsan",
-   "url": "https://www.bbc.com/somali/articles/c6lyky70pwe5o?at_medium=RSS&at_campaign=rss"
+   "title": "Dunida Iyo Maanta",
+   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsqt3zcy6r?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Partial collapse of Pakistan’s Tarbela dam causes flood water surge",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/9/partial-collapse-of-pakistans-tarbela-dam-causes-flood-water-surge?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "Germany: CDU names Ilse Aigner as candidate for president",
-   "url": "https://www.dw.com/en/germany-cdu-names-ilse-aigner-as-candidate-for-president/a-79898143?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "At least 21 migrants and refugees die trying to reach Greece’s Crete",
-   "url": "https://www.aljazeera.com/news/2026/11/9/at-least-21-migrants-and-refugees-die-trying-to-reach-greeces-crete?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "UN News",
-   "title": "‘Exceptional’ extreme temperatures to continue into next year, UN reports",
-   "url": "https://news.un.org/feed/view/en/story/2026/11/1168760"
-  },
-  {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "BBC News",
-   "title": "Krakow shooting suspect has died in hospital, police say",
-   "url": "https://www.bbc.co.uk/news/articles/c6y434dw8319o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-09T14:35:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "EU aims to pick new ECB chief by year-end",
-   "url": "https://www.dw.com/en/eu-aims-to-pick-new-ecb-chief-by-year-end/a-79898169?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-09T14:35:09Z",
+   "at": "2026-11-09T16:30:13Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
    "source": "France 24",
-   "title": "AI, affair and espionage: Why is Nvidia's chief Jensen Huang under scrutiny?",
-   "url": "https://www.france24.com/en/video/20261109-ai-affair-and-espionage-why-is-nvidia-s-chief-jensen-huang-under-scrutiny"
+   "title": "Chef Alan Geaam on building his Parisian culinary empire",
+   "url": "https://www.france24.com/en/tv-shows/entre-nous/20261109-chef-alan-geaam-on-building-his-parisian-culinary-empire"
+  },
+  {
+   "at": "2026-11-09T16:30:13Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T16:25:11Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "France 24",
+   "title": "'Sexual predator' Russell Brand jailed for 10 years for rape, assault",
+   "url": "https://www.france24.com/en/video/20261109-sexual-predator-russell-brand-jailed-for-10-years-for-rape-assault"
+  },
+  {
+   "at": "2026-11-09T16:25:11Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T16:20:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "DW News",
+   "title": "Strait of Hormuz still a source of leverage for Iran",
+   "url": "https://www.dw.com/en/strait-of-hormuz-still-a-source-of-leverage-for-iran/a-79901647?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-09T16:20:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Russell Brand sentenced to 10 years, 6 months for rape and sexual assault",
+   "url": "https://www.france24.com/en/europe/20261109-russell-brand-sentenced-to-10-years-6-months-for-rape-and-sexual-assault"
+  },
+  {
+   "at": "2026-11-09T16:20:11Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T16:15:12Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "Al Jazeera",
+   "title": "UK court hands comedian Russell Brand 10.5 years for rape, sexual assault",
+   "url": "https://www.aljazeera.com/news/2026/11/9/uk-court-hands-comedian-russel-brand-10-5-years-for-rape-sexual-assault?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-09T16:15:12Z",
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go",
+   "source": "BBC Somali",
+   "title": "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?",
+   "url": "https://www.bbc.com/somali/articles/cm5yny9pgz98o?at_medium=RSS&at_campaign=rss"
   }
  ]
 }
