@@ -51,6 +51,17 @@ jobs:
       - name: Feed check (work branches only)
         if: github.ref != 'refs/heads/main'
         run: python3 tools/fast_monitor.py probe
+      - name: Publishing watchdog dry run (work branches only, starts nothing)
+        if: github.ref != 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          WATCHDOG_DRY: '1'
+        run: |
+          mkdir -p /tmp/wd && git fetch -q origin main fast-feed && git show origin/fast-feed:fast-status.json > /tmp/wd/fast-status.json || true
+          git checkout -q origin/main -- data/news.json
+          python3 tools/automation_watchdog.py run --state /tmp/wd && cat /tmp/wd/automation-status.json
+          git checkout -q HEAD -- data/news.json
       - name: One check (work branches only, nothing saved)
         if: github.ref != 'refs/heads/main'
         run: |
