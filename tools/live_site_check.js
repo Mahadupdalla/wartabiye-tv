@@ -83,6 +83,38 @@ async function sectionState(page, route) {
     console.log('\nRESULTS SECTION REMOVED: ' + JSON.stringify(r) + ' ' + JSON.stringify(h));
     if (!/\/ciyaaraha\/(\?|#|$)/.test(r.url) || r.menu || r.rows || h.hash !== '#ciyaaraha' || h.rows) bad.push('the public Results section can still be reached: ' + JSON.stringify([r, h]));
     await ctx.close(); }
+  // 2c. Soomaaliya (owner's request, 9 Nov 2026): the newest Somalia article in the live news.json is shown on the
+  // Soomaaliya page and on the homepage, and its own page opens, desktop and mobile
+  { require('fs').mkdirSync('public-shots', { recursive: true });
+    const ctx0 = await b.newContext(); const p0 = await ctx0.newPage();
+    const nj = await (await p0.request.get(SITE + 'data/news.json?' + bust())).json();
+    const so = (nj.news || []).filter(n => (n.section || 'somalia') === 'somalia' && n.country === 'so')
+      .sort((a, c) => String(c.publishedAt).localeCompare(String(a.publishedAt)));
+    const top = so[0]; await ctx0.close();
+    console.log('\nSOOMAALIYA: ' + so.length + ' Somalia articles in news.json; newest: ' + (top ? `${top.publishedAt} ${top.id} "${top.title}"` : 'none'));
+    if (!top) bad.push('Soomaaliya: no Somalia article in the live news.json');
+    for (const [name, opt, mobile] of top ? [['desktop', { viewport: { width: 1366, height: 900 } }, false], ['mobile', { ...devices['iPhone 13'] }, true]] : []) {
+      const ctx = await b.newContext(opt); const p = await ctx.newPage();
+      const shows = () => p.evaluate(t => document.getElementById('pageView').innerText.includes(t) || document.body.innerText.includes(t), top.title);
+      await p.goto(SITE + '?' + bust() + '#hoyga', { waitUntil: 'networkidle' }); await p.waitForTimeout(2500);
+      const home = await shows();
+      const nav = (await menu(p, mobile)).find(x => x.href === '#soomaaliya');
+      await p.goto(SITE + '?' + bust() + '#soomaaliya', { waitUntil: 'networkidle' }); await p.waitForTimeout(2500);
+      const hub = await shows();
+      const first = await p.evaluate(() => ((document.querySelector('#pageView .card h3, #pageView .card .t, #pageView .card') || {}).innerText || '').replace(/\s+/g, ' ').trim().slice(0, 120));
+      const r = await p.goto(SITE + 'war/' + top.id + '.html?' + bust(), { waitUntil: 'networkidle' }); await p.waitForTimeout(1500);
+      const art = await p.evaluate(t => document.body.innerText.includes(t), top.title);
+      console.log(`  ${name}: menu "${nav ? nav.text : '(missing)'}" visible=${!!(nav && nav.shown)} | on Soomaaliya page=${hub} | on homepage=${home} | article page HTTP ${r.status()} shows headline=${art} | first card on Soomaaliya: "${first}"`);
+      console.log(`  ${name}: ${SITE}war/${top.id}.html`);
+      if (!(nav && nav.shown)) bad.push(`Soomaaliya ${name}: not visible in the menu`);
+      if (!hub) bad.push(`Soomaaliya ${name}: the newest Somalia article is not on the Soomaaliya page`);
+      if (!home) bad.push(`Soomaaliya ${name}: the newest Somalia article is not on the homepage`);
+      if (r.status() !== 200 || !art) bad.push(`Soomaaliya ${name}: the article page does not open`);
+      await p.goto(SITE + '?' + bust() + '#soomaaliya', { waitUntil: 'networkidle' }); await p.waitForTimeout(2000);
+      await p.screenshot({ path: `public-shots/soomaaliya-${name}.png` }).catch(() => {});
+      await ctx.close();
+    }
+  }
   // 3. nine languages: the menu labels of the four sections
   console.log('\nLANGUAGES (menu labels)');
   const ctx = await b.newContext({ viewport: { width: 1366, height: 900 } }); const p = await ctx.newPage();
