@@ -15,7 +15,9 @@
   function set(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
   if (P.get('notrack') === '1') set('wtv-notrack', '1');
   if (P.get('notrack') === '0') set('wtv-notrack', null);
-  if (P.has('preview') || get('wtv-notrack') === '1' || navigator.webdriver) return;
+  // ?wtvselftest=<one-time token>: the deploy check (admin-deploy.yml) in an automated browser; counted apart and deleted
+  var ST = /^[a-f0-9]{32}$/.test(P.get('wtvselftest') || '') ? P.get('wtvselftest') : '';
+  if (P.has('preview') || get('wtv-notrack') === '1' || (navigator.webdriver && !ST)) return;
 
   var PAGES = /^(ciyaaraha|caalamka|bariga-afrika|wararka-tooska|muuqaal|toos|ciyaaraha-toos|raadi|kaydsan|xiriir|xayeysiimaha|ilaha-xaaladda|nagu-saabsan|anshaxa|saxitaannada|asturnaanta|siyaasadda-xayeysiiska)$/;
   function pathNow() {
@@ -44,6 +46,7 @@
   var first = true, last = '', utm = P.get('utm_source') || '';
   function send(path, cat) {
     var body = { p: path, l: (document.documentElement.lang || '').slice(0, 2) };
+    if (ST) body.t = ST;
     if (cat) body.c = cat;
     if (first) { body.e = 1; body.r = document.referrer || ''; if (utm) body.u = utm.slice(0, 40); }
     var r = retFlag(); if (r !== undefined) body.n = r;

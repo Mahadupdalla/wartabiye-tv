@@ -47,6 +47,14 @@ export function corsHeaders(req, env) {
   return allowed.includes(o) ? { 'access-control-allow-origin': o, 'access-control-allow-methods': 'POST', 'access-control-max-age': '86400', vary: 'Origin' } : null;
 }
 
+export const SELFTEST_DAY = '0000-00-00';
+async function selftestOk(env, token) {
+  if (!/^[a-f0-9]{32}$/.test(token)) return false;
+  const row = await env.DB.prepare("SELECT v FROM config WHERE k = 'selftest'").first();
+  if (!row) return false;
+  try { const c = JSON.parse(row.v); return c.exp > now() && c.h === await sha256hex(token); } catch { return false; }
+}
+
 // POST /c  — one page view from the public website (sent by assets/stats.js with navigator.sendBeacon)
 export async function collect(req, env) {
   const cors = corsHeaders(req, env);
@@ -54,12 +62,16 @@ export async function collect(req, env) {
   if (!cors) return done(403);
   if (req.method === 'OPTIONS') return done(204);
   const ua = req.headers.get('user-agent') || '';
-  if (!ua || BOT.test(ua)) return done();
   let b;
   try { const t = await req.text(); if (t.length > 2048) return done(413); b = JSON.parse(t); } catch { return done(400); }
+  // Deploy self-test (admin-deploy.yml): a one-time token, valid 20 minutes, stored only as its SHA-256. Its visits go
+  // to the separate day SELFTEST_DAY, which no report reads and the workflow deletes straight after checking it.
+  const selftest = b && typeof b.t === 'string' ? await selftestOk(env, b.t) : false;
+  if (b && typeof b.t === 'string' && !selftest) return done(403);
+  if (!selftest && (!ua || BOT.test(ua))) return done();
   const path = typeof b.p === 'string' ? b.p.toLowerCase().slice(0, 160) : '';
   if (!PATH.test(path)) return done(400);
-  const t = now(), day = dayOf(t, env);
+  const t = now(), day = selftest ? SELFTEST_DAY : dayOf(t, env);
   const vid = (await sha256hex((await saltFor(env, day)) + '|' + clientIp(req) + '|' + ua + '|' + (req.headers.get('accept-language') || '').slice(0, 20))).slice(0, 32);
   const lang = /^[a-z]{2}$/.test(b.l) ? b.l : null;
   const ret = b.n === 1 ? 1 : b.n === 0 ? 0 : null;
@@ -83,7 +95,7 @@ export async function collect(req, env) {
 // ---- finished days are summarised once into day_stats; raw visitor rows are removed after 8 days ----------------
 export async function rollup(env, t = now()) {
   const today = dayOf(t, env);
-  const { results } = await env.DB.prepare(`SELECT DISTINCT day FROM visitors WHERE day < ?1 AND day NOT IN (SELECT day FROM day_stats WHERE dim = 'total')`).bind(today).all();
+  const { results } = await env.DB.prepare(`SELECT DISTINCT day FROM visitors WHERE day < ?1 AND day > '0000-00-00' AND day NOT IN (SELECT day FROM day_stats WHERE dim = 'total')`).bind(today).all();
   for (const { day } of results) {
     await env.DB.batch([
       env.DB.prepare(`INSERT OR REPLACE INTO day_stats (day, dim, key, visitors, views, sessions, ret, consented)
@@ -160,7 +172,7 @@ export async function summary(req, env) {
       dailyTotals(env, R.from, R.to), dailyTotals(env, R.prevFrom, R.prevTo),
       dailyTotals(env, addDays(T, -59), T),
       env.DB.prepare(`SELECT SUM(visitors) visitors, SUM(views) views, SUM(sessions) sessions FROM day_stats WHERE dim = 'total'`).first(),
-      env.DB.prepare(`SELECT MIN(day) d FROM (SELECT MIN(day) day FROM day_stats UNION ALL SELECT MIN(day) FROM visitors UNION ALL SELECT MIN(day) FROM pages)`).first(),
+      env.DB.prepare(`SELECT MIN(day) d FROM (SELECT MIN(day) day FROM day_stats UNION ALL SELECT MIN(day) FROM visitors WHERE day > '0000-00-00' UNION ALL SELECT MIN(day) FROM pages WHERE day > '0000-00-00')`).first(),
       env.DB.prepare(`SELECT path, MAX(cat) cat, SUM(views) views FROM pages WHERE day BETWEEN ?1 AND ?2 GROUP BY path ORDER BY views DESC LIMIT 200`).bind(R.from, R.to).all(),
       env.DB.prepare(`SELECT kind, host, SUM(visits) visits FROM sources WHERE day BETWEEN ?1 AND ?2 GROUP BY kind, host ORDER BY visits DESC LIMIT 60`).bind(R.from, R.to).all(),
       dims(env, 'device', R.from, R.to, T), dims(env, 'country', R.from, R.to, T), dims(env, 'lang', R.from, R.to, T),
