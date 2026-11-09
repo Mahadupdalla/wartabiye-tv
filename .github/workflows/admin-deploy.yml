@@ -171,7 +171,7 @@ jobs:
         run: |
           # wait until GitHub Pages serves the website version that points at this dashboard (publish.yml)
           ok=; for i in $(seq 1 60); do
-            if curl -fsS -m 20 "$SITE/?v=$RANDOM$i" | grep -q "data-endpoint=\"$URL\"" && curl -fsS -m 20 "$SITE/assets/stats.js?v=$RANDOM$i" | grep -q wtvselftest \
+            if curl -fsS -m 20 "$SITE/?v=$RANDOM$i" | grep -q "data-endpoint=\"$URL\"" && curl -fsS -m 20 "$SITE/assets/stats.js?v=$RANDOM$i" > stats.now && grep -q wtvselftest stats.now && ! grep -q wtvConsent stats.now \
               && curl -fsS -m 20 "$SITE/data/admin.json?v=$RANDOM$i" | grep -q "$URL"; then ok=1; break; fi
             sleep 20
           done

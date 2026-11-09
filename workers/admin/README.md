@@ -35,8 +35,8 @@ contains the page, the site language and the referring site. The Worker counts i
 * No cookies. No IP address is stored. A visitor is a daily one-way code made from the IP and the browser with a
   random daily key, and the key is deleted after 2 days.
 * Country only (Cloudflare's network estimate), never a city or exact location.
-* "Returning visitors" are measured only for visitors who press **Allow** on the small notice. Only then does their
-  browser remember the day of their first visit.
+* No pop-up or consent notice: nothing is stored on the visitor's device. "Returning visitors" are therefore not
+  measured (the dashboard says so); every visit is still counted.
 * Robots, link previews, automated browsers (the site checks) and the owner's `?preview=` pages are not counted.
   Open `https://www.wartabiyetv.com/?notrack=1` once on your own phone or computer to stop counting your own visits.
 * Raw per-visitor rows are deleted after 8 days. Daily totals are kept.

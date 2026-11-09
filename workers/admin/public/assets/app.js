@@ -342,7 +342,7 @@
           setLab(kpi('', 'eye', n(T.views), delta(T.views, Pv.views)), 'Page views'),
           setLab(kpi('', 'layers', n(T.sessions), delta(T.sessions, Pv.sessions)), 'Visits (sessions)'),
           setLab(kpi('', 'file', T.visitors ? (T.views / T.visitors).toFixed(1) : '0', h('div', { class: 'note', text: 'pages per visitor per day' })), 'Pages per visitor'),
-          setLab(kpi('', 'repeat', T.consented ? Math.round(T.returning * 100 / T.consented) + '%' : '—', h('div', { class: 'note', text: T.consented ? n(T.returning) + ' of ' + n(T.consented) + ' visitors who allowed "remember this device"' : 'measured only for visitors who allow "remember this device"' })), 'Returning visitors'),
+          setLab(kpi('', 'repeat', T.consented ? Math.round(T.returning * 100 / T.consented) + '%' : '—', h('div', { class: 'note', text: T.consented ? n(T.returning) + ' of ' + n(T.consented) + ' visitors (earlier version)' : 'not measured: nothing is stored on visitors\' devices' })), 'Returning visitors'),
           setLab(kpi('', 'globe', n(S.quick.allTime.visitors), h('div', { class: 'note', text: n(S.quick.allTime.views) + ' page views since ' + (S.since ? dayLabel(S.since) : 'start') })), 'Total visitors (all time)'));
         draw();
         var hrs = Array.from({ length: 24 }, function (_, i) { var v = S.hours.filter(function (x) { return x.hour === i && x.day === S.range.to; }).reduce(function (a, x) { return a + x.views; }, 0); return { v: v, label: String(i).padStart(2, '0'), long: dayLabel(S.range.to, true) + ', ' + String(i).padStart(2, '0') + ':00–' + String(i).padStart(2, '0') + ':59' }; });
@@ -387,7 +387,7 @@
       ['Users', 'Google Analytics calls a person followed across days with a cookie a "user". We deliberately do not do that, so "users" is not measured here; "Visitors" is the closest figure.'],
       ['Visits (sessions)', 'A period of reading. A new visit starts when a visitor comes back after more than 30 minutes without opening a page.'],
       ['Page views', 'Every page or article opened, including several pages in the same visit.'],
-      ['Returning visitors', 'Visitors whose browser remembers an earlier visit. Measured only for visitors who press "Allow" on the small privacy notice; others are counted without being remembered.'],
+      ['Returning visitors', 'Visitors who came back on another day. Not measured, because the website stores nothing on visitors\' devices and shows no consent notice; every visitor is still counted.'],
       ['Not counted', 'Search-engine robots, link previews, automatic site checks and your own article previews (?preview=) are left out.']];
     return h('dl', { class: 'defs' }, d.map(function (x) { return h('div', null, h('dt', { text: x[0] }), h('dd', { text: x[1] })); }));
   }
