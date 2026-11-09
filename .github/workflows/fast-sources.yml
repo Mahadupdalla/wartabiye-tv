@@ -50,7 +50,11 @@ jobs:
         run: python3 tools/fast_monitor.py test && python3 tools/live_feeds.py test && python3 tools/sports_results.py test && python3 tools/sports_writer.py test
       - name: Feed check (work branches only)
         if: github.ref != 'refs/heads/main'
-        run: python3 tools/fast_monitor.py probe
+        run: |
+          python3 tools/fast_monitor.py probe
+          # the match-result reports that would be published now, and whether they pass the site checks
+          # (files are written in this test copy only, never pushed)
+          python3 tools/sports_results.py && python3 tools/build_news.py | tail -3 && python3 tools/check_site.py | tail -5
       - name: One check (work branches only, nothing saved)
         if: github.ref != 'refs/heads/main'
         run: |

@@ -18,7 +18,7 @@ for n in items:
         seen.add(u)
     img = n.get('image')
     if not img and n.get('by') != 'auto-results': errors.append(f'{nid}: published without a photo (every article needs its own photo)')
-    elif img in used_imgs: errors.append(f'{nid}: uses the same photo as {used_imgs[img]} (every article needs its own photo)')
+    elif img and img in used_imgs: errors.append(f'{nid}: uses the same photo as {used_imgs[img]} (every article needs its own photo)')
     else: used_imgs[img] = nid
     if img and not n.get('imageAlt'): errors.append(f'{nid}: photo needs a description (imageAlt)')
     if img:
