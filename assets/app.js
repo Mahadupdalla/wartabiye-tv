@@ -94,10 +94,14 @@
     var s=section(it);if(s==='sports'||s==='world')return el('span','cat',tr(s));
     return it.category?el('span','cat',catName(it.category)):null}
   function whenText(it){var d=new Date(it.publishedAt);if(isNaN(d))return tr('timeUnknown');if(it.timeVerified===false)return dayMonth(d)+' · '+tr('timeUnverified');return ago(it.publishedAt)}
-  // Sports news shows no publisher names or source links on cards and articles (owner's decision, 9 Nov 2026): the stories
-  // are written in Wartabiye TV's own words; the source, its link and time stay in data/news/<id>.json and /admin/.
+  // No section shows publisher names or "read on another website" links on cards and articles (owner's decisions of
+  // 9 Nov 2026: Sports first, then Somalia, East Africa and World News): the stories are written in Wartabiye TV's own
+  // words; the source, its link, original headline, time and verification stay in data/news/<id>.json and /admin/.
   // An article whose licence or agreement requires public credit sets "attributionRequired": true and keeps it.
-  function showSrc(it){return !!(it&&it.source&&it.source!=='Wartabiye TV'&&(section(it)!=='sports'||it.attributionRequired===true))}
+  function showSrc(it){return !!(it&&it.source&&it.source!=='Wartabiye TV'&&it.attributionRequired===true)}
+  // an article based on another outlet's reporting says so (without naming it), so it is never presented as Wartabiye
+  // TV's own first-hand reporting
+  function basedOnOthers(it){return !!(it&&it.by!=='admin'&&it.source&&it.source!=='Wartabiye TV'&&!showSrc(it))}
   function meta(it,withSrc){
     var m=el('div','meta');m.append(el('b',null,'Wartabiye TV'));var w=whenText(it);if(w){var ws=el('span','dot',w);if(it.timeVerified!==false&&tms(it))ws.setAttribute('data-ago',it.publishedAt);m.append(ws)}
     if(withSrc&&showSrc(it)){var s=el('span','dot',tr('sources')+': ');var su=safeUrl(it.sourceUrl);if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';s.append(a)}else s.append(it.source);m.append(s)}
@@ -388,6 +392,7 @@
     var su=safeUrl(it.sourceUrl);
     if(showSrc(it)){var sb=el('div','srcbox');sb.append(el('span',null,trf('srcNote',{src:it.source})));
       if(su){var a2=el('a',null,tr('readOriginal')+' ('+it.source+') ↗');a2.href=su;a2.target='_blank';a2.rel='noopener';sb.append(a2)}A.append(sb)}
+    else if(basedOnOthers(it)){var bn=el('div','srcbox');bn.append(el('span',null,tr('basedNote')));A.append(bn)}
     var ad=adSlot('article');if(ad){ad.style.marginTop='24px';A.append(ad)}
     // previous / next in the same section
     var sl=items.filter(function(x){return section(x)===s});var i=sl.indexOf(it);

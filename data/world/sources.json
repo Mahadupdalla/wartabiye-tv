@@ -6,6 +6,58 @@
  },
  "sources": [
   {
+   "id": "radiomuqdisho",
+   "name": "Radio Muqdisho (state broadcaster)",
+   "shareLink": "https://share.google/ObVo3NJ6hTSFSwzhC",
+   "homepage": "https://radiomuqdisho.so/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 90,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://radiomuqdisho.so/feed/",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Federal Government of Somalia state broadcaster (Ministry of Information). Label it as state media and attribute government claims. Official site and feed checked 2026-11-09 (RSS 2.0, 10 items, newest 9 Nov 2026).",
+   "country": "so",
+   "fastPoll": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "facts-only",
+    "checkedAt": "2026-11-09",
+    "terms": "https://radiomuqdisho.so/ (footer: \"© 2022 Radio Muqdisho\"; no terms page)",
+    "robots": "User-agent * : only /wp-admin/ disallowed",
+    "summary": "© Radio Muqdisho, no syndication licence. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time."
+   }
+  },
+  {
+   "id": "sonna",
+   "name": "SONNA (state news agency)",
+   "shareLink": "",
+   "homepage": "https://sonna.so/so",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 88,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Somali National News Agency (government). It has NO RSS feed (sonna.so/feed/ is a web page) and its sitemap stopped in July 2026. Its terms forbid broad automated harvesting without permission, so the collector does not read it: the news task finds single SONNA stories with WebSearch \"site:sonna.so\" and opens only those pages to verify them. Label it as state media.",
+   "country": "so",
+   "searchOnly": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "search-only",
+    "checkedAt": "2026-11-09",
+    "terms": "https://sonna.so/so/terms",
+    "robots": "User-agent * : /admin/ and /api/ disallowed",
+    "summary": "Content is copyright SONNA; short excerpts are allowed only with a clear credit to SONNA; republishing or commercial use needs written permission; broad automated collection is not allowed. Wartabiye TV never republishes or excerpts SONNA text: it writes its own report and keeps the SONNA link in /admin/. If SONNA text is ever quoted, set \"attributionRequired\": true so the credit is shown publicly."
+   }
+  },
+  {
    "id": "bbc-somali",
    "name": "BBC Somali",
    "shareLink": "",
@@ -30,78 +82,375 @@
     "checkedAt": "2026-11-08",
     "terms": "https://www.bbc.co.uk/usingthebbc/terms",
     "summary": "BBC Somali's own public RSS feed (feeds.bbci.co.uk/somali/rss.xml). BBC content and photos are all rights reserved and Wartabiye TV has no syndication licence: only the feed's headline, link and publication time are used to discover a story. The article page is never scraped; Wartabiye TV writes its own Somali report from facts it verified, names BBC Somali as the source and links to the original. BBC text and photos are never copied, translated or republished, and a headline is never attributed to BBC unless it is in BBC's own feed."
+   },
+   "country": "so",
+   "attributionRequired": false
+  },
+  {
+   "id": "goobjoog",
+   "name": "Goobjoog News",
+   "shareLink": "",
+   "homepage": "https://goobjoog.com/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 80,
+   "feeds": [
+    {
+     "type": "sitemap",
+     "url": "https://goobjoog.com/news-sitemap.xml",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Mogadishu. Google News sitemap (Somali, 27 items, newest 9 Nov 2026) checked 2026-11-09; the old /feed/ address is gone.",
+   "country": "so",
+   "attributionRequired": false,
+   "permission": {
+    "status": "facts-only",
+    "checkedAt": "2026-11-09",
+    "terms": "https://goobjoog.com/ (footer: \"© 2012-2026 Goobjoog Media Group. Dhammaan xuquuqdu way dhowrantahay\")",
+    "robots": "User-agent * : allowed except /admin/, /api/..., /profile/, /search",
+    "summary": "All rights reserved. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time."
+   }
+  },
+  {
+   "id": "hiiraan",
+   "name": "Hiiraan Online",
+   "shareLink": "",
+   "homepage": "https://www.hiiraan.com/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 78,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.hiiraan.com/wararkamaanta.xml",
+     "maxAgeDays": 3
+    },
+    {
+     "type": "rss",
+     "url": "https://www.hiiraan.com/news.xml",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Somali (\"Wararka Maanta\") and English RSS feeds, both current on 2026-11-09. Hiiraan also reposts other outlets and opinion pieces: never publish an opinion article as news.",
+   "country": "so",
+   "fastPoll": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "facts-only",
+    "checkedAt": "2026-11-09",
+    "terms": "https://www.hiiraan.com/ (footer: \"All Rights Reserved Copyright © 1999-2026\")",
+    "robots": "User-agent * : only /comments/ and /social/ disallowed",
+    "summary": "All rights reserved. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time."
+   }
+  },
+  {
+   "id": "garoweonline",
+   "name": "Garowe Online",
+   "shareLink": "",
+   "homepage": "https://www.garoweonline.com/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 76,
+   "feeds": [
+    {
+     "type": "html",
+     "url": "https://www.garoweonline.com/en/news",
+     "linkPattern": "^https://(www\\.)?garoweonline\\.com/(en|so)/news/[a-z0-9-]+/[a-z0-9-]{12,}$"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "English and Somali. No RSS feed (checked 2026-11-09): the collector reads the public news listing page and each article page for its date.",
+   "country": "so",
+   "attributionRequired": false,
+   "permission": {
+    "status": "facts-only",
+    "checkedAt": "2026-11-09",
+    "terms": "https://www.garoweonline.com/ (footer: \"Copyright © GAROWONLINE All Rights Reserved\")",
+    "robots": "User-agent * : only /cgi-bin/ and /admin disallowed",
+    "summary": "All rights reserved. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time."
+   }
+  },
+  {
+   "id": "puntlandpost",
+   "name": "Puntland Post",
+   "shareLink": "",
+   "homepage": "https://puntlandpost.net/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 72,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://puntlandpost.net/feed/",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Garowe (Puntland). RSS 2.0 checked 2026-11-09 (10 items, newest 9 Nov 2026).",
+   "country": "so",
+   "fastPoll": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "facts-only",
+    "checkedAt": "2026-11-09",
+    "terms": "https://puntlandpost.net/",
+    "robots": "User-agent * : only /wp-admin/ disallowed",
+    "summary": "No licence for reuse. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time."
+   }
+  },
+  {
+   "id": "shabellemedia",
+   "name": "Shabelle Media Network",
+   "shareLink": "",
+   "homepage": "https://shabellemedia.com/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 70,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://shabellemedia.com/feed/",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Mogadishu. RSS 2.0 checked 2026-11-09 (10 items, newest 9 Nov 2026). Its terms forbid republishing, copying or redistributing its material, so it is a headline-and-link discovery source only.",
+   "country": "so",
+   "headlineOnly": true,
+   "fastPoll": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-09",
+    "terms": "https://shabellemedia.com/terms-and-conditions/",
+    "robots": "User-agent * : only /wp-admin/ disallowed",
+    "summary": "Terms: \"All intellectual property rights are reserved\"; you must not republish, reproduce, duplicate, copy or redistribute material. Only the feed's headline, link and publication time are used to discover a story; the article page, text and photos are never read or kept. Wartabiye TV publishes it only after confirming the facts in another reliable source and writes its own report."
+   }
+  },
+  {
+   "id": "caasimada",
+   "name": "Caasimada Online",
+   "shareLink": "",
+   "homepage": "https://www.caasimada.net/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 68,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.caasimada.net/feed/",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Mogadishu. RSS checked 2026-11-09 (newest 9 Nov 2026). Its robots.txt refuses ClaudeBot for the whole site, so its pages are NEVER opened with WebFetch or any Claude tool: headline, link and time from the feed only.",
+   "country": "so",
+   "headlineOnly": true,
+   "fastPoll": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-09",
+    "terms": "https://www.caasimada.net/ (footer: \"© Caasimada Online 2012 | All Rights Reserved\")",
+    "robots": "User-agent * : admin and Cloudflare paths only; User-agent ClaudeBot: Disallow /",
+    "summary": "All rights reserved; robots.txt disallows ClaudeBot. Only the feed's headline, link and publication time are used to discover a story; the article page, text and photos are never read or kept. Wartabiye TV publishes it only after confirming the facts in another reliable source and writes its own report."
+   }
+  },
+  {
+   "id": "daljir",
+   "name": "Radio Daljir",
+   "shareLink": "",
+   "homepage": "https://www.daljir.com/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 66,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.daljir.com/feed/",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Garowe (Puntland). RSS 2.0 checked 2026-11-09 (10 items, newest 9 Nov 2026). Many items are quotes from politicians: attribute them and publish only real news.",
+   "country": "so",
+   "attributionRequired": false,
+   "permission": {
+    "status": "facts-only",
+    "checkedAt": "2026-11-09",
+    "terms": "https://www.daljir.com/",
+    "robots": "User-agent * : only /wp-admin/ disallowed",
+    "summary": "No licence for reuse. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time."
+   }
+  },
+  {
+   "id": "horseedmedia",
+   "name": "Horseed Media",
+   "shareLink": "",
+   "homepage": "https://horseedmedia.net/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 60,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://horseedmedia.net/feed/",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "RSS 2.0 checked 2026-11-09 (newest 8 Nov 2026). Its robots.txt refuses ClaudeBot for the whole site, so its pages are NEVER opened with WebFetch or any Claude tool: headline, link and time from the feed only.",
+   "country": "so",
+   "headlineOnly": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-09",
+    "terms": "https://horseedmedia.net/",
+    "robots": "User-agent * : login, search, wp-json disallowed; ClaudeBot and other bots: Disallow /",
+    "summary": "No licence for reuse; robots.txt disallows ClaudeBot. Only the feed's headline, link and publication time are used to discover a story; the article page, text and photos are never read or kept. Wartabiye TV publishes it only after confirming the facts in another reliable source and writes its own report."
+   }
+  },
+  {
+   "id": "radiodalsan",
+   "name": "Radio Dalsan",
+   "shareLink": "",
+   "homepage": "https://radiodalsan.com/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 58,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://radiodalsan.com/feed/",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Mogadishu. RSS 2.0 checked 2026-11-09, but its newest item was 4 Nov 2026 (feed updates rarely: reported as stale when older than 3 days). robots.txt asks for a 30-second crawl delay, so only the feed is read, never the article pages.",
+   "country": "so",
+   "headlineOnly": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-09",
+    "terms": "https://radiodalsan.com/",
+    "robots": "User-agent * : Crawl-delay 30, no path rules",
+    "summary": "No licence for reuse; crawl delay 30 s. Only the feed's headline, link and publication time are used to discover a story; the article page, text and photos are never read or kept. Wartabiye TV publishes it only after confirming the facts in another reliable source and writes its own report."
+   }
+  },
+  {
+   "id": "somaliguardian",
+   "name": "Somali Guardian",
+   "shareLink": "",
+   "homepage": "https://www.somaliguardian.com/",
+   "section": "somalia",
+   "enabled": true,
+   "verified": true,
+   "priority": 56,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.somaliguardian.com/feed/",
+     "maxAgeDays": 3
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "English. RSS 2.0 checked 2026-11-09 (newest 9 Nov 2026). Terms page not found, so it is used as a headline-and-link discovery source only.",
+   "country": "so",
+   "headlineOnly": true,
+   "attributionRequired": false,
+   "permission": {
+    "status": "headline-and-link",
+    "checkedAt": "2026-11-09",
+    "terms": "https://www.somaliguardian.com/",
+    "robots": "not checked (feed only)",
+    "summary": "Terms not published; treated as all rights reserved. Only the feed's headline, link and publication time are used to discover a story; the article page, text and photos are never read or kept. Wartabiye TV publishes it only after confirming the facts in another reliable source and writes its own report."
    }
   },
   {
    "id": "voa-somali",
    "name": "VOA Somali",
    "shareLink": "",
-   "homepage": "https://www.voasomali.com",
+   "homepage": "https://www.voasomali.com/",
    "section": "somalia",
    "enabled": false,
-   "verified": true,
-   "priority": 80,
+   "verified": false,
+   "priority": 50,
    "feeds": [
     {
      "type": "rss",
      "url": "https://www.voasomali.com/api/zoju_l-vomx-tpep_jy",
      "maxAgeDays": 3
-    },
-    {
-     "type": "rss",
-     "url": "https://www.voasomali.com/api/zubjil-vomx-tpegvrqm",
-     "maxAgeDays": 3
-    },
-    {
-     "type": "html",
-     "url": "https://www.voasomali.com/",
-     "linkPattern": "^https://www\\.voasomali\\.com/a/([^/]+/)?\\d+\\.html$"
     }
    ],
    "imagePolicy": "public-domain-unless-agency",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
+   "notes": "Checked 2026-11-09: every VOA Somali RSS feed stopped in March 2025 and the site now carries only radio programme pages, so there are no written news stories to collect. Switch it on again in /admin/ if VOA Somali resumes written news (VOA staff work is US public domain).",
+   "country": "so",
+   "attributionRequired": false,
+   "permission": {
+    "status": "public-domain",
+    "checkedAt": "2026-11-09",
+    "terms": "https://www.voasomali.com/",
+    "robots": "User-agent * : allowed except programme archives",
+    "summary": "VOA staff text and photos are US government work (public domain); agency photos are not."
+   }
   },
   {
-   "id": "hiiraan",
-   "name": "Hiiraan Online",
+   "id": "radiokulmiye",
+   "name": "Radio Kulmiye",
    "shareLink": "",
-   "homepage": "https://www.hiiraan.com",
+   "homepage": "",
    "section": "somalia",
    "enabled": false,
-   "verified": true,
-   "priority": 70,
-   "feeds": [
-    {
-     "type": "html",
-     "url": "https://www.hiiraan.com/",
-     "linkPattern": "^https?://(www\\.)?hiiraan\\.com/news[24]/20(2[5-9]|[3-9]\\d)/[A-Za-z]{3}/\\d+/[^/]+\\.aspx$"
-    }
-   ],
+   "verified": false,
+   "priority": 50,
+   "feeds": [],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
+   "notes": "Checked 2026-11-09: no official website or feed of Radio Kulmiye could be verified. Stays off until the owner gives its official address.",
+   "country": "so",
+   "attributionRequired": false,
+   "permission": {
+    "status": "not-verified",
+    "checkedAt": "2026-11-09",
+    "terms": "",
+    "robots": "",
+    "summary": "No official website found."
+   }
   },
   {
-   "id": "garoweonline",
-   "name": "Garowe Online",
+   "id": "sntv",
+   "name": "Somali National Television (SNTV)",
    "shareLink": "",
-   "homepage": "https://www.garoweonline.com",
+   "homepage": "https://moi.gov.so/ova_dep/sntv/",
    "section": "somalia",
    "enabled": false,
-   "verified": true,
-   "priority": 70,
-   "feeds": [
-    {
-     "type": "rss",
-     "url": "https://www.garoweonline.com/en/rss"
-    },
-    {
-     "type": "html",
-     "url": "https://www.garoweonline.com/en",
-     "linkPattern": "^https://(www\\.)?garoweonline\\.com/(en|so)/news/[a-z0-9-]+/[a-z0-9-]{12,}$"
-    }
-   ],
+   "verified": false,
+   "priority": 50,
+   "feeds": [],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
+   "notes": "Checked 2026-11-09: SNTV has no news website or feed of its own; the Ministry of Information lists it as a department. Its news reaches the site through Radio Muqdisho and SONNA (same ministry). Stays off until an official SNTV feed exists.",
+   "country": "so",
+   "attributionRequired": false,
+   "permission": {
+    "status": "not-verified",
+    "checkedAt": "2026-11-09",
+    "terms": "https://moi.gov.so/department.php?slug=sntv",
+    "robots": "",
+    "summary": "No own news site or feed."
+   }
   },
   {
    "id": "dawan",
@@ -128,115 +477,7 @@
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
-  },
-  {
-   "id": "somaliguardian",
-   "name": "Somali Guardian",
-   "shareLink": "",
-   "homepage": "https://www.somaliguardian.com",
-   "section": "somalia",
-   "enabled": false,
-   "verified": true,
-   "priority": 65,
-   "feeds": [
-    {
-     "type": "rss",
-     "url": "https://www.somaliguardian.com/feed/"
-    }
-   ],
-   "imagePolicy": "all-rights-reserved",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
-  },
-  {
-   "id": "goobjoog",
-   "name": "Goobjoog News",
-   "shareLink": "",
-   "homepage": "https://goobjoog.com",
-   "section": "somalia",
-   "enabled": false,
-   "verified": true,
-   "priority": 65,
-   "feeds": [
-    {
-     "type": "rss",
-     "url": "https://goobjoog.com/feed/"
-    },
-    {
-     "type": "html",
-     "url": "https://goobjoog.com/",
-     "linkPattern": "^https://goobjoog\\.com/20\\d\\d/\\d\\d/\\d\\d/[a-z0-9-]{15,}/?$"
-    }
-   ],
-   "imagePolicy": "all-rights-reserved",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
-  },
-  {
-   "id": "radiodalsan",
-   "name": "Radio Dalsan",
-   "shareLink": "",
-   "homepage": "https://www.radiodalsan.com",
-   "section": "somalia",
-   "enabled": false,
-   "verified": true,
-   "priority": 60,
-   "feeds": [
-    {
-     "type": "rss",
-     "url": "https://www.radiodalsan.com/feed/"
-    },
-    {
-     "type": "rss",
-     "url": "https://www.radiodalsan.com/so/feed/"
-    },
-    {
-     "type": "rss",
-     "url": "https://www.radiodalsan.com/en/feed/"
-    }
-   ],
-   "imagePolicy": "all-rights-reserved",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
-  },
-  {
-   "id": "horseedmedia",
-   "name": "Horseed Media",
-   "shareLink": "",
-   "homepage": "https://horseedmedia.net",
-   "section": "somalia",
-   "enabled": false,
-   "verified": true,
-   "priority": 60,
-   "feeds": [
-    {
-     "type": "rss",
-     "url": "https://horseedmedia.net/feed/"
-    }
-   ],
-   "imagePolicy": "all-rights-reserved",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
-  },
-  {
-   "id": "sonna",
-   "name": "SONNA (state news agency)",
-   "shareLink": "",
-   "homepage": "https://sonna.so",
-   "section": "somalia",
-   "enabled": false,
-   "verified": true,
-   "priority": 55,
-   "feeds": [
-    {
-     "type": "rss",
-     "url": "https://sonna.so/feed/"
-    },
-    {
-     "type": "html",
-     "url": "https://sonna.so/en",
-     "linkPattern": "^https://sonna\\.so/(en|so)/article/[A-Za-z0-9-]{15,}$"
-    }
-   ],
-   "imagePolicy": "all-rights-reserved",
-   "notes": "Switched off on 2026-11-05. Since 2026-11-08 Somalia sources are no longer banned, but this one stays off until the owner switches it on in /admin/ (check its terms first: most Somali outlets are all rights reserved, headline and link only)."
+   "notes": "Not re-checked on 2026-11-09; stays off until its feed and terms are verified."
   },
   {
    "id": "bbc-africa",

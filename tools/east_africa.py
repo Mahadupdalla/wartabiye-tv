@@ -65,7 +65,14 @@ _SO = (r"somalia\w*|somaliland\w*|soomaaliya\w*|soomaaliland\w*|"
        r"galkayo|gaalkacyo|bosaso|boosaaso|berbera|hargeisa|hargeysa|garowe|garoowe|las\s*anod|laascaanood|"
        r"dhusamareb|dhuusamareeb|jowhar|baraawe|barawe|aussom|amisom|atmis|unsom|unsos|"
        r"villa\s+somalia|hassan\s+sheikh|xasan\s+sheekh|hamza\s+abdi\s+barre|abdirahman\s+irro|cirro|al-?\s?shabaab|alshabaab|"
-       r"gedo|mudug|nugaal|galgaduud|bakool|togdheer|sanaag|shabeellaha|laftagareen|madoobe|deni\b|xamza\s+cabdi\s+barre")
+       r"gedo|mudug|nugaal|galgaduud|bakool|togdheer|sanaag|shabeellaha|laftagareen|madoobe|deni\b|xamza\s+cabdi\s+barre|"
+       # Somali spellings of towns, districts and institutions (Somali outlets name them without the country, 9 Nov 2026)
+       r"bele?dweyne|beladweyne|balidoogle|baledogle|dayniile|daynile|leego|afgooye|xudur|wanlaweyn|buulobarde|guriceel|"
+       r"cadaado|hobyo|ceerigaabo|erigavo|burco|burao|boorama|borama|qardho|buuhoodle|ceelwaaq|luuq|beledxaawo|doolow|"
+       r"bardheere|jilib|jamaame|afmadow|balcad|xarardheere|ceelbuur|ceel\s?dheer|hodan\s+district|"
+       r"hiiraan\s+region|gobolka\s+hiiraan|reer\s+hiiraan|golaha\s+shacabka|golaha\s+wasiirada|aqalka\s+sare|"
+       r"dowladda\s+federaalka|dowlad\s+goboleedka|dowlad\s+goboleed|jfs\b|nisa\b|ciidanka\s+xoogga|sodma\b|"
+       r"xildhibaan\w*|sonna\b|radio\s+muqdisho|soomaalida")
 SO_RE = re.compile(r'(?<![a-z])(?:' + _SO + r')', re.I)
 # the bare word "Somali(s)" is also an ethnic group living in Ethiopia, Kenya and Djibouti: it only marks a story as
 # Somalia-focused when the headline names none of the nine countries (and never in "Somali region" of Ethiopia)
@@ -98,7 +105,12 @@ FOREIGN_RE = re.compile(r"(?<![a-z])(?:(?<!south\s)sudan(?:ese)?\b|khartoum|darf
     r"india\b|indian|pakistan\w*|afghan\w*|hong\s+kong|taiwan\w*|australia\w*|europe\w*|\beu\b|britain|british|\buk\b|"
     r"london|france|french|paris|german\w*|berlin|spain|spanish|madrid|ital\w*|rome|vatican|pope|united\s+states|america\w*|"
     r"\bus\b|\bu\.s\.|washington|trump|biden|vance|white\s+house|midterm\w*|canada|mexic\w*|brazil\w*|venezuela\w*|"
-    r"champions\s+league|premier\s+league|la\s?liga|serie\s+a|bundesliga|dortmund|napoli|porto|man(?:chester)?\s+city|haaland)", re.I)
+    r"champions\s+league|premier\s+league|la\s?liga|serie\s+a|bundesliga|dortmund|napoli|porto|man(?:chester)?\s+city|haaland|"
+    # the same places in Somali, for Somali outlets whose own country is assumed when a headline names no place (9 Nov 2026)
+    r"masar|qaahira|mareykan\w*|maraykan\w*|shiinaha|ruushk\w*|ruush\b|yukreeyn|ukreyn|ingiriis\w*|faransiis\w*|jarmal\w*|"
+    r"turkiga|sacuudi\w*|imaaraadka|qadar\b|iiraan|israa.?iil\w*|falastiin\w*|qaza\b|suuriya|ciraaq|lubnaan|yaman\b|"
+    r"liibiya|aljeeriya|tuuniisiya|marooko|nayjeeriya|hindiya|bakistaan|afgaanistaan|yurub\w*|xuutiyiin\w*|"
+    r"colombia|kolombiya|erdo[gğ]an|netanyahu|suudaan\b)", re.I)
 NOT_NEWS_RE = re.compile(r"^\W*(?:haddas\s+ertra|eritrea\s+(?:profile|haddas|alhaditha)|from\s+the\s+archives?)\b|^\W*pix\s+of\s+the\s+day", re.I)
 
 
@@ -141,7 +153,7 @@ def gate(item, src=None):
     if sec == 'sports': return True, None
     if sec == 'somalia':  # the regional feed: Somalia & East Africa
         if NOT_NEWS_RE.search(item.get('title') or ''): return False, 'not a news article (newspaper issue, archive or photo gallery)'
-        if re.search(r'/sports?/', urllib.parse.urlsplit(item.get('url') or '').path): return False, 'sports page of a regional outlet (Sports has its own sources)'
+        if re.search(r'/(sports?|ciyaaraha|isboorti)/', urllib.parse.urlsplit(item.get('url') or '').path): return False, 'sports page of a regional outlet (Sports has its own sources)'
         home = (src or {}).get('country') or item.get('homeCountry')
         c = country(item, 1, home if home in COUNTRIES else None)
         if not c:
@@ -201,6 +213,18 @@ TESTS = [
     (False, 'not about', {'url': 'https://www.radiotamazuj.org/en/news/article/x', 'title': 'Sudan energy minister defends fuel supply', 'section': 'somalia'}),
     (False, 'not about', {'url': 'https://www.ktpress.rw/x', 'title': 'Kilo of salt is $30 in Minembwe as DR Congo implements blockade', 'section': 'somalia', 'homeCountry': 'rw'}),
     (False, 'not a news', {'url': 'https://shabait.com/x', 'title': 'Haddas Ertra 04 November 2026', 'section': 'somalia', 'homeCountry': 'er'}),
+    # Somali outlets (country "so", 9 Nov 2026): local headlines rarely name Somalia; foreign stories are refused
+    (True, 'so', {'url': 'https://radiomuqdisho.so/x', 'title': "Hay'adda SoDMA oo agab muhiim ah guddoonsiisay bulshada Beladweyne", 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (True, 'so', {'url': 'https://puntlandpost.net/x', 'title': 'Madaxweyne Deni oo magacaabis sameeyay', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (True, 'so', {'url': 'https://www.caasimada.net/x', 'title': 'Ciidanka Mareykanka oo isaga baxay saldhigga Balidoogle', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (True, 'so', {'url': 'https://goobjoog.com/x', 'title': 'Soomaaliya, Masar iyo Jabuuti oo Isku Raacay in Amniga Badda Cas', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (True, 'so', {'url': 'https://shabellemedia.com/x', 'title': 'Guddiyada Maaliyadda ee labada Aqal oo su\'aalo ka weydiiyey Wasiirka Maaliyadda', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (True, 'et', {'url': 'https://www.hiiraan.com/x', 'title': 'Taliyaha Ciidanka Badda Itoobiya oo ku hanjabay in dalkiisu dib u hantiyi doono dekedaha Eriteriya', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (False, 'not about', {'url': 'https://radiomuqdisho.so/y', 'title': 'Weerar sababay khasaaro nafeed oo lagu qaaday saldhig ku yaalla dalka Colombia', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (False, 'not about', {'url': 'https://goobjoog.com/y', 'title': 'Ugu Yaraan 7 Qof oo ku Geeriyooday Shil Tareen oo ka Dhacay Masar', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (False, 'not about', {'url': 'https://horseedmedia.net/y', 'title': 'Xuutiyiinta Yemen oo sheegay inay bartilmaameedsadeen garoonka King Khalid ee Sacuudiga', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (False, 'not about', {'url': 'https://www.caasimada.net/y', 'title': 'Erdoğan oo ka walaacsan in Trump uu weerar cusub ku qaado', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
+    (False, 'sports page', {'url': 'https://goobjoog.com/ciyaaraha/z', 'title': 'Xiddigaha Soomaaliya oo guuleystay', 'section': 'somalia'}, {'id': 'x', 'section': 'somalia', 'country': 'so'}),
     (True, 'world', {'url': 'https://www.france24.com/x', 'title': 'South Africans vote in key municipal elections', 'description': 'Abiy Ahmed of Ethiopia and Ethiopia observers watch.', 'section': 'world'}),
     (True, 'world', {'url': 'https://www.bbc.com/news/2', 'title': "Bulgaria's first woman president sworn in", 'section': 'world'}),
     (True, 'sports', {'url': 'https://www.bbc.com/sport/1', 'title': 'Arsenal beat Chelsea 2-1', 'section': 'sports'}),
