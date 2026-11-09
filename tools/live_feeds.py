@@ -252,6 +252,23 @@ def live_state(page):
     if 'ytInitialPlayerResponse' not in s and 'ytInitialData' not in s:
         return 'unknown', None, None  # consent, sign-in or error page: say nothing
     can = re.search(r'<link rel="canonical" href="https://www\.youtube\.com/watch\?v=([A-Za-z0-9_-]{11})"', s)
+    if not can and re.search(r'"isLive"\s*:\s*true', s) and re.search(r'"text":" watching now"', s):
+        # YouTube may ask a data-centre server to sign in before PLAYING (playabilityStatus LOGIN_REQUIRED) but still sends the
+        # watch page data: the current video, its live viewer count ("N watching now") and "isLive": that is a live broadcast now
+        i = s.find('"currentVideoEndpoint"')
+        m = re.search(r'"videoId":"([A-Za-z0-9_-]{11})"', s[i:i + 800]) if i >= 0 else None
+        if not m:
+            return 'unknown', None, None
+        t = re.search(r'"videoPrimaryInfoRenderer":\{"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"', s)
+        title = ''
+        if t:
+            try:
+                title = json.loads('"' + t.group(1) + '"')
+            except Exception:
+                title = ''
+        if re.search(r'"playableInEmbed"\s*:\s*false', s):
+            return 'noembed', m.group(1), None
+        return 'live', m.group(1), clean(title, 160)
     if not can:
         # /live opens the channel page itself: no broadcast now. Anything else (consent, sign-in, a changed page): unknown
         return ('offline', None, None) if re.search(r'<link rel="canonical" href="https://www\.youtube\.com/(channel/UC|@)', s) else ('unknown', None, None)
@@ -281,11 +298,7 @@ def update_live_channels(cfg, status, t, prev=None, getter=None):
             state, vid, title = live_state(body) if st == 200 else ('unknown', None, None)
             if os.environ.get('LIVE_DEBUG'):
                 txt = body.decode('utf-8', 'replace')
-                print('LIVE_DEBUG', ch.get('name'), st, len(txt), state, vid, re.findall(r'<link rel="canonical"[^>]{0,120}', txt)[:1],
-                      re.findall(r'"(isLiveNow|isLive|playableInEmbed|isUpcoming)":(true|false)', txt)[:6], re.findall(r'<title>[^<]{0,80}', txt)[:1],
-                      re.findall(r'"videoDetails":\{"videoId":"[^"]+"', txt)[:2], re.findall(r'"playabilityStatus":\{"status":"[A-Z_]+"(?:,"reason":"[^"]{0,80}")?', txt)[:2],
-                      re.findall(r'"liveBroadcastDetails":\{[^}]{0,160}', txt)[:1], re.findall(r'.{60}"isLive":true.{60}', txt)[:2],
-                      re.findall(r'watch\?v=([A-Za-z0-9_-]{11})', txt)[:5], 'key' if os.environ.get('YOUTUBE_TOKEN') else 'nokey')
+                print('LIVE_DEBUG', ch.get('name'), st, len(txt), state, vid, title, re.findall(r'"currentVideoEndpoint".{0,260}', txt)[:1])
             if state == 'live' and not embeddable(vid, {}):
                 state = 'noembed'
         except Exception as ex:
@@ -407,6 +420,12 @@ def selftest():
     check(live_state(LIVE_PAGE.encode())[:2] == ('live', 'SGa4wqWNXnE') and live_state(LIVE_PAGE)[2] == 'Al Jazeera English | Live', 'live channel detected')
     check(live_state(OFF_PAGE)[0] == 'offline' and live_state(UPCOMING)[0] == 'offline', 'no broadcast / upcoming is not live')
     check(live_state('<html>Before you continue to YouTube</html>')[0] == 'unknown', 'consent page says nothing')
+    GATED = ('<link rel="canonical" href="undefined"><script>var ytInitialPlayerResponse = {"playabilityStatus":{"status":"LOGIN_REQUIRED"}};'
+             'var ytInitialData = {"currentVideoEndpoint":{"clickTrackingParams":"x","commandMetadata":{"webCommandMetadata":{"url":"/watch?v=S9K1wzPJ16k"}},"watchEndpoint":{"videoId":"S9K1wzPJ16k"}},'
+             '"videoPrimaryInfoRenderer":{"title":{"runs":[{"text":"Al Jazeera English | Live \\u0026 more"}]},"viewCount":{"videoViewCountRenderer":{"viewCount":{"runs":[{"text":"10,096"},{"text":" watching now"}]},"isLive":true}}}};</script>')
+    check(live_state(GATED) == ('live', 'S9K1wzPJ16k', 'Al Jazeera English | Live & more'), 'live read from the watch data when playback asks to sign in')
+    check(live_state(GATED.replace('"currentVideoEndpoint"', '"otherEndpoint"'))[0] == 'unknown', 'no current video: unknown')
+    check(live_state(GATED.replace(' watching now', ' views'))[0] == 'unknown', 'no live viewer count: not live')
     check(live_state(LIVE_PAGE.replace('"playableInEmbed":true', '"playableInEmbed":false'))[0] == 'noembed', 'embedding off is not shown as playable')
     fetch = f2
     lc = {'liveChannels': [{'name': 'AJE', 'channelId': 'UCNye-wNBqNL5ZzHSJj3l8Bg'}, {'name': 'DW', 'channelId': 'UCknLrEdhRCp1aegoMqRaCZg'}, {'name': 'F24', 'channelId': 'UCQfwfsi5VrQ8yKZ-UWmAEFg'}]}

@@ -414,23 +414,25 @@
   // OFFLINE when YouTube shows no broadcast; no sign at all when the check failed or is old. No links to other websites.
   function chState(c){var d=new Date(c&&c.checkedAt);var fresh=!isNaN(d)&&Date.now()-d.getTime()<20*60e3&&d.getTime()<=Date.now()+5*60e3;
     return fresh&&/^(live|offline|noembed)$/.test(c.state)?c.state:'unknown'}
+  // A large 16:9 player at the top of the page, loaded at once with the official player of the chosen channel (the visitor
+  // presses Play in YouTube's own player; browsers do not allow sound to start by itself). Channel buttons switch the player.
+  // A channel confirmed off air or with embedding switched off cannot be chosen, and says why.
   function liveChannels(main){var box=el('section','lchans');box.setAttribute('aria-label',tr('lcTitle'));main.append(box);
     return liveFeed('video-feed.json',5*60e3).then(function(d){var l=(d&&Array.isArray(d.liveChannels)?d.liveChannels:[]).filter(function(c){return c&&/^UC[A-Za-z0-9_-]{22}$/.test(c.channelId)});if(!l.length){box.remove();return}
       var rank={live:0,unknown:1,offline:2,noembed:3};l=l.map(function(c,i){return {c:c,s:chState(c),i:i}}).sort(function(a,b){return rank[a.s]-rank[b.s]||a.i-b.i});
-      box.append(C.head(tr('lcTitle')),el('p','vnote',tr('lcSub')));var g=el('div','lcgrid');
-      l.forEach(function(x,k){var c=x.c,s=x.s;var card=el('div','lccard lc-'+s+(k===0&&s==='live'?' lcfeat':''));var st=el('div','vframe lcposter');
-        var hd=el('h3');if(s==='live'){var bd=el('span','onair lcbadge');bd.append(el('i'),document.createTextNode(tr('lcLive')));hd.append(bd)}else if(s==='offline'){hd.append(el('span','lcoff',tr('lcOff')))}
-        hd.append(document.createTextNode(c.name||''));
-        if(s==='live'||s==='unknown'){var b=el('button','lcplay');b.type='button';b.setAttribute('aria-label',trf('lcWatch',{s:c.name}));
-          var ic=el('span','vicon');ic.innerHTML=C.svg('M8 5v14l11-7z');b.append(ic,el('span',null,trf('lcWatch',{s:c.name})));st.append(b);
-          b.addEventListener('click',function(){var pv=s==='live'&&/^[A-Za-z0-9_-]{11}$/.test(c.videoId||'')?{p:'youtube',id:c.videoId}:{p:'youtube-channel',id:c.channelId};
-            var p=playerBox(pv,{title:(c.title||c.name),autoplay:true,eager:true});card.replaceChild(p,st)})}
-        else st.append(el('p','lcmsg',tr(s==='offline'?'lcOffTxt':'lcNoEmbed')));
-        card.append(st,hd);
-        if(s==='live'&&c.title)card.append(el('p','lctitle',c.title));
-        if(s==='unknown')card.append(el('p','lcmeta',tr('lcUnknown')));
-        else{var ck=new Date(c.checkedAt);card.append(el('p','lcmeta',trf('lcChecked',{t:eatHM(ck)})))}
-        g.append(card)});box.append(g)}).catch(function(){box.remove()})}
+      var top=el('div','lctop');var h=el('h2','lchead');top.append(h);box.append(top);
+      var stage=el('div','lcstage');var cap=el('div','lccap');var tabs=el('div','lctabs');tabs.setAttribute('role','tablist');box.append(stage,cap,tabs,el('p','vnote',tr('lcSub')));
+      function badge(s){if(s==='live'){var b=el('span','onair lcbadge');b.append(el('i'),document.createTextNode(tr('lcLive')));return b}if(s==='offline')return el('span','lcoff',tr('lcOff'));return null}
+      function show(x){var c=x.c,s=x.s;stage.innerHTML='';cap.innerHTML='';h.innerHTML='';var b=badge(s);if(b)h.append(b);h.append(document.createTextNode(c.name||''));box.className='lchans lc-'+s;
+        if(s==='live'||s==='unknown'){var pv=s==='live'&&/^[A-Za-z0-9_-]{11}$/.test(c.videoId||'')?{p:'youtube',id:c.videoId}:{p:'youtube-channel',id:c.channelId};
+          stage.append(playerBox(pv,{title:(c.title||c.name)+' (YouTube)',eager:true}))}
+        else{var o=el('div','vframe lcposter');o.append(el('p','lcmsg',tr(s==='offline'?'lcOffTxt':'lcNoEmbed')));stage.append(o)}
+        if(s==='live'&&c.title)cap.append(el('p','lctitle',c.title));
+        cap.append(el('p','lcmeta',s==='unknown'?tr('lcUnknown'):trf('lcChecked',{t:eatHM(new Date(c.checkedAt))})));
+        [].forEach.call(tabs.children,function(t){t.setAttribute('aria-selected',String(t._x===x))})}
+      l.forEach(function(x){var t=el('button','lctab');t.type='button';t.setAttribute('role','tab');t._x=x;var b=badge(x.s);if(b)t.append(b);t.append(el('span',null,x.c.name||''));
+        if(x.s==='offline'||x.s==='noembed')t.disabled=true;else t.addEventListener('click',function(){show(x)});tabs.append(t)});
+      if(l.length<2)tabs.remove();show(l[0])}).catch(function(){box.remove()})}
   // source health (admin): #ilaha-xaaladda — every feed's last check, last success, newest item and last error
   function sourceHealth(V){V.innerHTML='';C.setTitle(tr('healthTitle'));V.append(hub('videos',tr('healthTitle'),tr('healthSub')));var w=el('div','wrap page');V.append(w);w.append(el('p','empty',tr('loadingStory')));
     Promise.all([liveFeed('feeds-status.json',30000).catch(function(){return null}),json('data/live-status.json',30000).catch(function(){return null}),json('data/sports.json',60000).catch(function(){return null}),

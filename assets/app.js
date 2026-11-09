@@ -473,7 +473,7 @@
     LU_REG.forEach(function(r){var b=el('button','chip',tr(r[1]));b.type='button';b.setAttribute('aria-pressed',String(r[0]===reg));b.addEventListener('click',function(){reg=r[0];[].forEach.call(chips.children,function(c){c.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');draw([])});chips.append(b)});
     // the newsrooms' official 24/7 channels, played inside the site in their own embedded players with a checked LIVE /
     // OFFLINE state (assets/media.js); never restreamed. Shown above the timeline.
-    var chw=el('div');main.append(bc,chw,head(tr('luTitle'),'red'),el('p','vnote',tr('luNote')),chips,tl);
+    var chw=el('div','lnchw');main.append(bc,chw,head(tr('luTitle'),'red'),el('p','vnote',tr('luNote')),chips,tl);
     if(window.WT_MEDIA&&WT_MEDIA.liveChannels)WT_MEDIA.liveChannels(chw);
     main.append(el('p','vnote',tr('lnRule')));
     fillSide(side,[sideTrending(),adSlot('sidebar'),sideFollow()]);
@@ -484,7 +484,7 @@
       WT_MEDIA.liveState().then(function(s){bc.innerHTML='';var ob=h1.querySelector('.onair');if(ob)ob.remove();
         if(s.live&&s.pv&&WT_MEDIA.player){var b=el('span','onair');b.append(el('i'),document.createTextNode('LIVE'));h1.append(b);
           bc.append(WT_MEDIA.player(s),el('p','vmeta',tr('lnBroadcast')+(s.title?': '+s.title:'')))}
-        else bc.append(el('p','lnoff',tr('lnNoBroadcast')))}).catch(function(){bc.append(el('p','lnoff',tr('lnNoBroadcast')))})}
+        else if(!chw.firstChild)bc.append(el('p','lnoff',tr('lnNoBroadcast')))}).catch(function(){if(!chw.firstChild)bc.append(el('p','lnoff',tr('lnNoBroadcast')))})}
     function draw(added){var now=Date.now();tl.innerHTML='';
       var ups=(LU&&Array.isArray(LU.items)?LU.items:[]).filter(function(u){return luOk(u,now)}).map(function(u){return {t:new Date(u.publishedAt).getTime(),u:u,id:u.id,r:u.region}});
       var own=lnList().map(function(it){return {t:new Date(it.publishedAt).getTime(),a:it,id:it._id,r:regOf(it)}});

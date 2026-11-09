@@ -207,15 +207,19 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     if (await p.$('#pageView .wirebox, #pageView .wiretick')) fail(`${name}: the old list of external headlines is still shown`);
     // live channels: LIVE sign only on a channel YouTube confirmed on air in the last 20 minutes; OFFLINE when confirmed off;
     // no sign when the check is old; played inside the page; no links to other websites
-    const lc = await p.$$eval('#pageView .lchans .lccard', l => l.map(x => ({ h: x.querySelector('h3').innerText.replace(/\s+/g, ' '), cls: x.className, play: !!x.querySelector('.lcplay'), ext: x.querySelectorAll('a[href]').length })));
-    console.log(name, 'live channels:', JSON.stringify(lc));
-    if (lc.length !== 3 || !/^TOOS ?Al Jazeera/.test(lc[0].h) || !/lcfeat/.test(lc[0].cls) || !lc[0].play) fail(`${name}: confirmed live channel first, featured, with a LIVE sign`);
-    if (/TOOS|LIVE/.test(lc[1].h) || !/lc-unknown/.test(lc[1].cls) || !lc[1].play) fail(`${name}: an old live check shows no LIVE sign (France 24)`);
-    if (!/MA BAAHINAYO/.test(lc[2].h) || lc[2].play) fail(`${name}: a channel confirmed off air shows OFFLINE and no player`);
-    if (lc.some(x => x.ext) || await p.$('#pageView .lchans a[href^="http"]')) fail(`${name}: a live channel card links to another website`);
-    if (s.iframes.some(f => /live_stream|youtube/.test(f))) fail(`${name}: a live channel player loads before the visitor presses play`);
-    await p.click('#pageView .lcfeat .lcplay'); await p.waitForTimeout(300);
-    if (!(await st(p)).iframes.some(f => new RegExp('youtube-nocookie\\.com/embed/' + YT + '\\?.*autoplay=1').test(f))) fail(`${name}: the live broadcast plays inside the page`);
+    // live player at the top: the confirmed live channel is loaded at once in YouTube's own player (visitor presses Play);
+    // LIVE sign only for a check under 20 minutes old; OFFLINE channels cannot be chosen; no links to other websites
+    const lcst = () => p.evaluate(() => { const b = document.querySelector('#pageView .lchans'); if (!b) return null;
+      return { cls: b.className, h: b.querySelector('h2').innerText.replace(/\s+/g, ' '), src: (b.querySelector('.lcstage iframe') || {}).src || '', first: b.compareDocumentPosition(document.querySelector('#pageView ol.lntl')) & 4,
+        tabs: [...b.querySelectorAll('.lctab')].map(t => ({ t: t.innerText.replace(/\s+/g, ' '), dis: t.disabled, sel: t.getAttribute('aria-selected') })), ext: b.querySelectorAll('a[href]').length } });
+    let lc = await lcst();
+    console.log(name, 'live player:', JSON.stringify(lc));
+    if (!lc || !/lc-live/.test(lc.cls) || !/^TOOS ?Al Jazeera/.test(lc.h) || !lc.first) fail(`${name}: confirmed live channel in the player at the top, with a LIVE sign`);
+    if (!new RegExp('youtube-nocookie\\.com/embed/' + YT + '\\?.*autoplay=0').test(lc.src)) fail(`${name}: the live broadcast is loaded in the page player (no autoplay)`);
+    if (lc.tabs.length !== 3 || !/MA BAAHINAYO ?DW/.test(lc.tabs[2].t) || !lc.tabs[2].dis || /TOOS/.test(lc.tabs[1].t) || lc.tabs[1].dis) fail(`${name}: channel buttons (France 24 old check: no sign; DW off air: disabled)`);
+    if (lc.ext) fail(`${name}: the live player links to another website`);
+    await p.click('#pageView .lctab:nth-child(2)'); await p.waitForTimeout(300); lc = await lcst();
+    if (!/embed\/live_stream\?channel=UCQfwfsi5VrQ8yKZ-UWmAEFg/.test(lc.src) || /TOOS/.test(lc.h)) fail(`${name}: switching to France 24 (unconfirmed: no LIVE sign)`);
     if (await p.$('#pageView .vyt')) fail(`${name}: "Watch on YouTube" link on LIVE News`);
     await p.click('#pageView .wirechips button:nth-child(5)'); await p.waitForTimeout(200);
     { const w5 = await p.$$eval('#pageView ol.lntl > li.lnitem.lu', l => l.map(x => x.innerText)); if (w5.length !== 1 || !/Geneva/.test(w5[0])) fail(`${name}: World filter`) }
@@ -231,9 +235,10 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     if (await p.$('#pageView .lnwarn, #pageView .lnstatus, #pageView .wirest, #pageView .lndot')) fail(`${name}: public source-status block is still shown`);
     if (!(await p.$$('#pageView ol.lntl > li.lnitem.lu')).length) fail(`${name}: LIVE updates missing with an older feed file`);
     if (await p.$('#pageView .lchans .onair')) fail(`${name}: LIVE sign on a channel from an old check`);
-    // LIVE TV page while Wartabiye TV is off air: the official live channels, playable inside the page
+    if (!(await p.$('#pageView .lchans .lcstage iframe'))) fail(`${name}: player missing with an old channel check`);
+    // LIVE TV page while Wartabiye TV is off air: the official live news player, inside the page
     await go(p, 'toos'); await p.waitForTimeout(1200);
-    if (!(await p.$$('#pageView .livechans:not([hidden]) .lccard')).length) fail(`${name}: live news channels on the LIVE TV page while off air`);
+    if (!(await p.$('#pageView .livechans:not([hidden]) .lchans .lcstage iframe'))) fail(`${name}: live news player on the LIVE TV page while off air`);
     await ctx.close();
 
     // 3. LIVE TV states

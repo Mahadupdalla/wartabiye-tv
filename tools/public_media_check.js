@@ -72,23 +72,24 @@ const go = async (p, hash, wait = 5000) => { await p.goto(SITE + '?cb=' + Date.n
     const vf = await p.evaluate(() => fetch('https://raw.githubusercontent.com/Mahadupdalla/wartabiye-tv/live-data/video-feed.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).catch(() => null));
     const lcd = (vf && vf.liveChannels || []).map(c => `${c.name}=${c.state || '?'}${c.videoId ? ' ' + c.videoId : ''} @${c.checkedAt || '-'}`);
     console.log(`${name} live channel check (data): ${lcd.join(' | ')}`);
-    const lcs = await p.$$eval('#pageView .lchans .lccard', l => l.map(x => ({ h: x.querySelector('h3').innerText.replace(/\s+/g, ' '), live: !!x.querySelector('.onair'), play: !!x.querySelector('.lcplay'), ext: x.querySelectorAll('a[href]').length })));
-    console.log(`${name} live channel cards: ${JSON.stringify(lcs)}`);
-    if (lcs.some(x => x.ext)) fail(`${name}: a live channel card links to another website`);
-    for (const x of lcs) { const c = (vf && vf.liveChannels || []).find(c => x.h.indexOf(c.name) >= 0);
-      if (x.live && !(c && c.state === 'live' && Date.now() - new Date(c.checkedAt).getTime() < 20 * 60e3)) fail(`${name}: LIVE sign on ${x.h} without a fresh YouTube confirmation`) }
-    const liveCard = await p.$('#pageView .lchans .lccard.lc-live .lcplay') || await p.$('#pageView .lchans .lcplay');
-    if (liveCard) {
-      await liveCard.click(); await p.waitForTimeout(6000);
-      const lf = await p.$$eval('#pageView .lchans iframe', f => f.map(x => x.src));
-      console.log(`${name} live channel player: ${lf[0] || 'none'}`);
-      if (!lf.length) fail(`${name}: live channel player did not load`);
-      // what the embedded player itself says (YouTube may ask a data-centre server to sign in; a visitor's browser plays it)
-      const fr = p.frames().find(f => /youtube/.test(f.url()));
-      if (fr) { const ps = await fr.evaluate(() => { const v = document.querySelector('video'); return { time: v ? v.currentTime : null, paused: v ? v.paused : null, msg: ((document.querySelector('.ytp-error-content-wrap, .ytp-error') || {}).innerText || '').slice(0, 120) } }).catch(e => ({ err: String(e).slice(0, 80) }));
-        console.log(`${name} live player state: ${JSON.stringify(ps)}`) }
-      await p.screenshot({ path: `${OUT}/${name}-live-channel.png` });
-    } else console.log(`${name}: no live channel is on air or playable right now`);
+    const lcs = await p.evaluate(() => { const b = document.querySelector('#pageView .lchans'); if (!b) return null;
+      return { h: b.querySelector('h2').innerText.replace(/\s+/g, ' '), live: !!b.querySelector('h2 .onair'), src: (b.querySelector('.lcstage iframe') || {}).src || '', top: !!(b.compareDocumentPosition(document.querySelector('#pageView ol.lntl')) & 4),
+        tabs: [...b.querySelectorAll('.lctab')].map(t => t.innerText.replace(/\s+/g, ' ') + (t.disabled ? ' (off)' : '')), ext: b.querySelectorAll('a[href]').length } });
+    console.log(`${name} live player: ${JSON.stringify(lcs)}`);
+    if (!lcs || !lcs.top) fail(`${name}: no live news player above the LIVE News timeline`);
+    else {
+      if (lcs.ext) fail(`${name}: the live player links to another website`);
+      const c = (vf && vf.liveChannels || []).find(c => lcs.h.indexOf(c.name) >= 0);
+      if (lcs.live && !(c && c.state === 'live' && Date.now() - new Date(c.checkedAt).getTime() < 20 * 60e3)) fail(`${name}: LIVE sign on ${lcs.h} without a fresh YouTube confirmation`);
+      if (lcs.src) {
+        // press Play inside YouTube's player and read what the player itself reports (a data-centre server may be asked to sign in)
+        const fr = p.frames().find(f => f.url() === lcs.src || /youtube/.test(f.url()));
+        if (fr) { await fr.click('.ytp-large-play-button, .ytp-cued-thumbnail-overlay', { timeout: 8000 }).catch(() => {}); await p.waitForTimeout(8000);
+          const ps = await fr.evaluate(() => { const v = document.querySelector('video'); return { time: v ? v.currentTime : null, paused: v ? v.paused : null, muted: v ? v.muted : null, title: (document.querySelector('.ytp-title-link') || {}).innerText || '', liveBadge: !!document.querySelector('.ytp-live-badge:not([disabled]), .ytp-live'), msg: ((document.querySelector('.ytp-error-content-wrap, .ytp-error') || {}).innerText || '').slice(0, 140) } }).catch(e => ({ err: String(e).slice(0, 80) }));
+          console.log(`${name} live player after pressing Play: ${JSON.stringify(ps)}`) }
+        await p.screenshot({ path: `${OUT}/${name}-live-channel.png` });
+      } else console.log(`${name}: no channel is playable right now (all confirmed off air)`);
+    }
     // Sports: news articles only; the public results section is gone (the old address opens Ciyaaraha)
     await go(p, 'ciyaaraha-toos', 5000);
     const sp = await p.evaluate(() => ({ hash: location.hash, cards: [...document.querySelectorAll('#pageView .card')].slice(0, 6).map(c => c.innerText.replace(/\s+/g, ' ').slice(0, 120)),
