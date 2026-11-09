@@ -70,6 +70,11 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         if t.get('status') != 'manual':
             t['status'] = 'auto' if h and h == text_hash(t) else 'manual'
         n[lang] = t
+    # regional stories written before 8 Nov 2026 have no "country": derive it from the headline (or the outlet's home
+    # country) so the Somalia page (#soomaaliya) lists them too; only data/news.json changes, never the article file
+    if (n.get('section') or 'somalia') == 'somalia' and not n.get('country') and n.get('region') != 'east-africa-wide':
+        c = east_africa.country({'title': n.get('originalTitle') or n.get('title'), 'description': n.get('summary')}, 1)
+        if c and c != 'ea': n['country'] = c
     news.append(n)
 news.sort(key=lambda x: x.get('publishedAt') or '', reverse=True)
 # adverts: data/ads/<id>.json (edited in /admin/) -> data/ads.json; paused and expired ones are left out
