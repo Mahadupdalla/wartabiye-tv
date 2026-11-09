@@ -2,15 +2,23 @@
  "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
  "mode": "on",
  "limits": {
-  "articlesPerDay": 20,
-  "usdPerDay": 5.0,
-  "perCheck": 2
+  "articlesPerDay": 2,
+  "usdPerDay": 1.0,
+  "perScheduledRun": 1,
+  "estimatedMaxPerStoryUsd": 0.45
  },
- "lastCheckAt": "2026-11-09T14:41:53+03:00",
+ "schedule": {
+  "times (Africa/Nairobi)": [
+   "08:00",
+   "18:00"
+  ],
+  "windowMinutes": 55,
+  "nextRun": "2026-11-09T18:00+03:00"
+ },
+ "lastCheckAt": "2026-11-09T15:41:26+03:00",
  "lastRun": {
   "skipped": 1,
-  "usd": 0,
-  "failed": 2
+  "waitingForSchedule": 130
  },
  "lastWrittenAt": null,
  "days": {
@@ -18,13 +26,231 @@
    "written": 0,
    "published": 0,
    "held": 0,
-   "skipped": 21,
+   "skipped": 46,
    "refused": 0,
-   "failed": 6,
+   "failed": 8,
    "usd": 0
   }
  },
  "recent": [
+  {
+   "at": "2026-11-09T15:41:26+03:00",
+   "result": "skipped",
+   "reason": "same story as The Guardian – Football: Bears edge Bucs with game-winning field goal despite Caleb Williams’s sloppy nig",
+   "source": "the-athletic",
+   "title": "With defensive grit, Bears find a way to escape a Caleb Williams' turnover binge",
+   "url": "https://www.nytimes.com/athletic/7766906/2026/11/09/bears-defense-win-buccaneers-sunday-night-football/"
+  },
+  {
+   "at": "2026-11-09T15:36:42+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "the-athletic",
+   "title": "Colts backfield tops fantasy football watch list as the trade deadline looms",
+   "url": "https://www.nytimes.com/athletic/7766548/2026/11/09/fantasy-football-mcgowan-trade-running-back-injuries/"
+  },
+  {
+   "at": "2026-11-09T15:32:42+03:00",
+   "result": "skipped",
+   "reason": "same story as Mundo Deportivo: Baja por lesión en Inglaterra para medirse a España",
+   "source": "mundodeportivo",
+   "title": "Oyarzabal, baja para España ante Chequia por enfermedad y duda contra Inglaterra",
+   "url": "https://www.mundodeportivo.com/futbol/real-sociedad/20261109/1004249001/oyarzabal-baja-temporal-perdera-minimo-partido-chequia-duda-inglaterra.html"
+  },
+  {
+   "at": "2026-11-09T15:32:42+03:00",
+   "result": "skipped",
+   "reason": "same story as The Athletic: With defensive grit, Bears find a way to escape a Caleb Williams' turnover binge",
+   "source": "the-athletic",
+   "title": "Caleb Williams kept throwing despite four INTs, and put the Bears in position to win",
+   "url": "https://www.nytimes.com/athletic/7766913/2026/11/09/caleb-williams-bears-win-bucs-sunday-night-football/"
+  },
+  {
+   "at": "2026-11-09T15:21:39+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "skysports",
+   "title": "Respite for troubled trio as Charlton, Preston & Derby win - Championship talking points",
+   "url": "https://www.skysports.com/football/live-blog/11095/13163353/championship-news-transfer-latest-and-gossip-plus-efl-updates-from-league-one-and-league-two"
+  },
+  {
+   "at": "2026-11-09T15:11:20+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Vikings vs. Bills prediction, odds, line: Josh Allen faces NFL's top defense on Monday night",
+   "url": "https://www.cbssports.com/nfl/news/vikings-vs-bills-prediction-odds-line-josh-allen-monday-night-football/"
+  },
+  {
+   "at": "2026-11-09T15:11:20+03:00",
+   "result": "skipped",
+   "reason": "same story as La Gazzetta dello Sport: Yildiz: \"Juve, mi manchi! Torno a dicembre\". E Capello lo incorona: \"È il Lamine",
+   "source": "tuttosport",
+   "title": "\"Juve, ecco quando torno!\", l'annuncio di Yildiz e l'elogio di Capello: \"Lo Yamal d'Italia\"",
+   "url": "https://www.tuttosport.com/news/calcio/serie-a/juventus/2026/11/09-152491023/juve_ecco_quando_torno_l_annuncio_di_yildiz_e_l_elogio_di_capello_lo_yamal_d_italia/"
+  },
+  {
+   "at": "2026-11-09T15:07:47+03:00",
+   "result": "skipped",
+   "reason": "same story as BBC Sport: Alisson wants to sign new Liverpool contract",
+   "source": "the-athletic",
+   "title": "Alisson in talks over extending Liverpool contract: 'I'm happy to stay'",
+   "url": "https://www.nytimes.com/athletic/7767027/2026/11/09/alisson-liverpool-contract-news/"
+  },
+  {
+   "at": "2026-11-09T15:07:47+03:00",
+   "result": "skipped",
+   "reason": "same story as CBS Sports: Are the Broncos the NFL's luckiest Super Bowl contender? Their 7-2 start is unli",
+   "source": "the-athletic",
+   "title": "49ers' 'hounding' defense can build off win over Raiders, feels at 'a Super Bowl level'",
+   "url": "https://www.nytimes.com/athletic/7766545/2026/11/09/49ers-defense-momentum-raiders/"
+  },
+  {
+   "at": "2026-11-09T15:07:47+03:00",
+   "result": "skipped",
+   "reason": "same story as The Athletic: So this is Notre Dame when it all clicks, and more thoughts from toppling No. 1 ",
+   "source": "the-athletic",
+   "title": "Miami's offense ran through Malachi Toney. Without him, Notre Dame took it apart",
+   "url": "https://www.nytimes.com/athletic/7765994/2026/11/09/miami-notre-dame-malachi-toney-offense/"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "same story as Mundo Deportivo: La reflexión de Xavi sobre la ubicación de De Jong como '2'",
+   "source": "mundodeportivo",
+   "title": "Las vuelta de Frenkie De Jong con Países Bajos la 'paga' alguien y Xavi da explicaciones",
+   "url": "https://www.mundodeportivo.com/futbol/internacional/20261109/1004249008/vuelta-frenkie-jong-paises-bajos-paga-alguien-xavi-da-explicaciones.html"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "liverpool-official",
+   "title": "'We have to keep improving' - Alexis Mac Allister on Liverpool's post-international break aims",
+   "url": "https://www.liverpoolfc.com/news/alexis-mac-allister-liverpool-international-break-aims"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "guardian-football",
+   "title": "Trump’s pathetic Dana White gambit could not mask his midterm humiliation | Howard Bryant",
+   "url": "https://www.theguardian.com/sport/2026/nov/09/donald-trump-dana-white-ufc-midterms-sports-politics"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "skysports",
+   "title": "Ref Watch LIVE! The weekend's major incidents analysed",
+   "url": "https://www.skysports.com/football/live-blog/11095/13576553/ref-watch-premier-league-weekend-reaction-live-dermot-gallagher-assesses-the-big-refereeing-decisions"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "skysports",
+   "title": "How has Sage's Palace tenure unravelled so quickly?",
+   "url": "https://www.skysports.com/football/news/11095/13607192/pierre-sage-under-pressure-how-crystal-palace-and-last-seasons-ligue-1-manager-of-the-year-are-both-suffering"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mancity-official",
+   "title": "Pablo Zabaleta: Ricky Hatton captured the spirit of Manchester!",
+   "url": "https://www.mancity.com/news/mens/pablo-zabaleta-game4ricky-preview-63929816"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "Warum sich Wachbleiben für Bills gegen Vikings heute Nacht mehr als lohnt",
+   "url": "https://www.kicker.de/warum-sich-wachbleiben-fuer-bills-gegen-vikings-heute-nacht-mehr-als-lohnt-1270078/artikel#omrss"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "same story as La Gazzetta dello Sport: Yildiz: \"Juve, mi manchi! Torno a dicembre\". E Capello lo incorona: \"È il Lamine",
+   "source": "corrieredellosport",
+   "title": "Yildiz svela quando tornerà in campo dopo l'infortunio: \"Mi manca la Juve, e presto...\"",
+   "url": "https://www.corrieredellosport.it/news/calcio/serie-a/juve/2026/11/09-152491403/yildiz_svela_quando_torner_in_campo_dopo_l_infortunio_mi_manca_la_juve_e_presto_/"
+  },
+  {
+   "at": "2026-11-09T15:01:47+03:00",
+   "result": "skipped",
+   "reason": "same story as Sky Sport Italia: Teddy Riner, il mito olimpico si candida alle elezioni presidenziali in Francia ",
+   "source": "rmcsport",
+   "title": "Teddy Riner candidat à la présidentielle: toutes ces fois où le judoka a dit qu'il voulait se lancer en politique",
+   "url": "https://rmcsport.bfmtv.com/judo/teddy-riner-candidat-a-la-presidentielle-toutes-ces-fois-ou-le-judoka-a-dit-qu-il-voulait-se-lancer-en-politique_AV-202611090489.html"
+  },
+  {
+   "at": "2026-11-09T14:56:20+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "Ali weeps as world title dream realised in Texas",
+   "url": "https://www.bbc.co.uk/sport/boxing/articles/cqkglg1y4jwwo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-09T14:56:20+03:00",
+   "result": "skipped",
+   "reason": "same story as Tuttosport: Kalulu infortunato: salta Italia-Francia e la Turchia. Juve, non c’è pace: un al",
+   "source": "gazzetta",
+   "title": "Juve, niente nazionale per Kalulu: lesione muscolare, resta a Torino",
+   "url": "https://www.gazzetta.it/Calcio/Serie-A/Juventus/09-11-2026/juve-infortunio-kalulu-esito-degli-esami-e-tempi-di-recupero.shtml"
+  },
+  {
+   "at": "2026-11-09T14:47:03+03:00",
+   "source": "kicker",
+   "title": "RTL überträgt HSV gegen Schalke im Free-TV",
+   "url": "https://www.kicker.de/rtl-uebertraegt-hsv-gegen-schalke-im-free-tv-1270121/artikel#omrss",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-09T14:47:03+03:00",
+   "source": "kicker",
+   "title": "Die Geschichte hinter Wirtz' erstem Premier-League-Tor",
+   "url": "https://www.kicker.de/die-geschichte-hinter-wirtz-erstem-premier-league-tor-1270108/artikel#omrss",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-09T14:47:03+03:00",
+   "result": "skipped",
+   "reason": "same story as BBC Sport: Musiala may never return to his best - Hoeness",
+   "source": "corrieredellosport",
+   "title": "Mistero Musiala, Hoeness lancia l'allarme: \"Impossibile sapere se tornerà ai suoi livelli\"",
+   "url": "https://www.corrieredellosport.it/news/calcio/calcio-estero/bundesliga/2026/11/09-152490634/mistero_musiala_hoeness_lancia_l_allarme_impossibile_sapere_se_torner_ai_suoi_livelli/"
+  },
+  {
+   "at": "2026-11-09T14:47:03+03:00",
+   "result": "skipped",
+   "reason": "same story as L'Équipe: Espagne : Lamine Yamal et Mikel Oyarzabal retardent leur arrivée en sélection et",
+   "source": "as",
+   "title": "Lamine y Oyarzabal no van a Praga",
+   "url": "https://as.com/futbol/seleccion/lamine-y-oyarzabal-retrasan-su-incorporacion-a-la-concentracion-de-la-seleccion-f202611-n/"
+  },
+  {
+   "at": "2026-11-09T14:47:03+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "skysports",
+   "title": "Warner: Khawaja's Australia Sandpapergate claims '100 per cent accurate'",
+   "url": "https://www.skysports.com/cricket/news/12040/13610084/australia-sandpapergate-david-warner-backs-usman-khawajas-claim-entire-team-knew-about-2018-ball-tampering-plan-in-south-africa"
+  },
+  {
+   "at": "2026-11-09T14:47:03+03:00",
+   "result": "skipped",
+   "reason": "same story as L'Équipe: Blessé avec la Juventus, Pierre Kalulu déclare forfait pour le rassemblement des",
+   "source": "rmcsport",
+   "title": "DIRECT. Equipe de France: Pierre Kalulu forfait pour le rassemblement des Bleus, un remplaçant attendu",
+   "url": "https://rmcsport.bfmtv.com/football/equipe-de-france/direct-equipe-de-france-toutes-les-infos-sur-les-bleus-avant-le-match-de-ligue-des-nations-contre-l-italie_LN-202611090456.html"
+  },
   {
    "at": "2026-11-09T14:41:53+03:00",
    "source": "kicker",
