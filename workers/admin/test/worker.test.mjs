@@ -6,7 +6,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { D1 } from './d1.mjs';
 import worker from '../src/index.js';
-import { totpAt, verifyTotp, seal, unseal, base32, unbase32 } from '../src/util.js';
+import { totpAt, verifyTotp, seal, unseal, base32, unbase32, sha256hex } from '../src/util.js';
 import { device, sourceOf, dayOf } from '../src/analytics.js';
 import { allowed } from '../src/github.js';
 
@@ -253,6 +253,23 @@ test('visitors, page views, visits, sources, devices, countries and articles add
   assert.equal(S.countries.length, 3);
   assert.equal(S.hours.reduce((a, x) => a + x.views, 0), 6);
   const R = await (await b.go('/api/analytics/realtime')).json(); assert.equal(R.active5, 3);
+});
+test('deploy self-test visits are kept apart and need a valid, unexpired token', async () => {
+  const env = makeEnv();
+  const tok = 'a'.repeat(32), h = await sha256hex(tok), t = Math.floor(Date.now() / 1000);
+  assert.equal((await beacon(env, { p: '/', t: tok })).status, 403, 'no token stored yet');
+  env.DB.db.exec(`INSERT INTO config VALUES ('selftest', '{"h":"${h}","exp":${t + 600}}', ${t})`);
+  assert.equal((await beacon(env, { p: '/', t: 'b'.repeat(32) })).status, 403, 'wrong token');
+  assert.equal((await beacon(env, { p: '/war/x', c: 'Siyaasad', t: tok }, { ua: 'Mozilla/5.0 HeadlessChrome/140' })).status, 204);
+  const rows = (await env.DB.prepare('SELECT day FROM pages').all()).results;
+  assert.deepEqual(rows.map(r => r.day), ['0000-00-00']);
+  const b = browser(env); await signIn(env, b);
+  const secret = (await (await b.go('/mfa')).text()).match(/class="mono">([A-Z2-7 ]+)</)[1].replace(/ /g, '');
+  await b.go('/mfa', form({ code: await totpAt(secret, Math.floor(Date.now() / 30000)) }));
+  const S = await (await b.go('/api/analytics/summary?range=30d')).json();
+  assert.equal(S.totals.views, 0); assert.equal(S.articles.length, 0); assert.notEqual(S.since, '0000-00-00');
+  env.DB.db.exec(`UPDATE config SET v = '{"h":"${h}","exp":${t - 1}}' WHERE k = 'selftest'`);
+  assert.equal((await beacon(env, { p: '/', t: tok })).status, 403, 'expired token');
 });
 test('finished days are summarised and old raw rows removed', async () => {
   const env = makeEnv();

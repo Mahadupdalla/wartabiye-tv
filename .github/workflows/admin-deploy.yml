@@ -99,6 +99,7 @@ jobs:
           if [ -z "$id" ]; then npx wrangler d1 create wartabiye-admin >/dev/null; id=$(npx wrangler d1 list --json | jq -r '.[] | select(.name=="wartabiye-admin") | .uuid'); fi
           [ -n "$id" ] || { echo "::error::could not create the D1 database: the API token needs Account · D1 · Edit"; exit 1; }
           sed -i "s/^database_id = .*/database_id = \"$id\"/" wrangler.toml
+          echo "D1_ID=$id" >> "$GITHUB_ENV"
           npx wrangler d1 migrations apply wartabiye-admin --remote
       - name: Build and deploy
         if: steps.cf.outputs.ready == 'yes'
@@ -123,12 +124,17 @@ jobs:
         if: steps.cf.outputs.ready == 'yes'
         env: { URL: '${{ steps.deploy.outputs.url }}' }
         run: |
-          for i in 1 2 3 4 5 6; do curl -fsS "$URL/health" | tee health.json && break; sleep 10; done
+          # a brand-new workers.dev address can take a few minutes before its HTTPS certificate is ready
+          ok=; for i in $(seq 1 40); do if curl -fsS -m 15 -o health.json "$URL/health"; then ok=1; break; fi; sleep 15; done
+          [ -n "$ok" ] || { echo "::error::$URL is not reachable after 10 minutes"; exit 1; }
+          cat health.json; echo
           jq -e '.ok == true' health.json
           code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/api/analytics/summary"); echo "analytics without sign-in: $code"; [ "$code" = 401 ]
           code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/"); echo "dashboard without sign-in: $code"; [ "$code" = 302 ]
           code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/api/github/api/v3/user"); echo "GitHub proxy without sign-in: $code"; [ "$code" = 401 ]
           code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Origin: https://evil.example' -d '{"p":"/"}' "$URL/c"); echo "counter from another site: $code"; [ "$code" = 403 ]
+          code=$(curl -s -o login.html -w '%{http_code}' "$URL/login"); echo "sign-in page: $code"; [ "$code" = 200 ]
+          grep -qE 'Sign in with GitHub|Secure sign-in is not set up yet' login.html
           echo "Secure admin: $URL/"
       - name: Tell the website where the dashboard and the counter are
         if: steps.cf.outputs.ready == 'yes'
@@ -157,3 +163,37 @@ jobs:
             [ "$d" = 0 ] || sleep "$d"
           done
           echo "::error::could not save data/admin.json"; exit 1
+      - name: Live check on the real website (counter, article, /admin/ link)
+        if: steps.cf.outputs.ready == 'yes'
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+          SITE: https://www.wartabiyetv.com
+        run: |
+          # wait until GitHub Pages serves the website version that points at this dashboard (publish.yml)
+          ok=; for i in $(seq 1 60); do
+            if curl -fsS -m 20 "$SITE/?v=$RANDOM$i" | grep -q "data-endpoint=\"$URL\"" && curl -fsS -m 20 "$SITE/assets/stats.js?v=$RANDOM$i" | grep -q wtvselftest \
+              && curl -fsS -m 20 "$SITE/data/admin.json?v=$RANDOM$i" | grep -q "$URL"; then ok=1; break; fi
+            sleep 20
+          done
+          [ -n "$ok" ] || { echo "::error::the website did not show the new version within 20 minutes"; exit 1; }
+          sed -i "s/^database_id = .*/database_id = \"$D1_ID\"/" wrangler.toml
+          token=$(openssl rand -hex 16); hash=$(printf '%s' "$token" | sha256sum | cut -d' ' -f1)
+          npx wrangler d1 execute wartabiye-admin --remote --command "INSERT OR REPLACE INTO config (k, v, updated) VALUES ('selftest', '{\"h\":\"$hash\",\"exp\":'||(strftime('%s','now')+1200)||'}', strftime('%s','now'))" >/dev/null
+          npm i --no-save --no-audit --no-fund playwright@1.55.0 >/dev/null && npx playwright install --with-deps chromium >/dev/null
+          TOKEN=$token node scripts/live-check.mjs
+          art=$(cat live-check/article.txt)
+          npx wrangler d1 execute wartabiye-admin --remote --json --command "SELECT path, cat, views FROM pages WHERE day = '0000-00-00'; SELECT COUNT(*) n, SUM(hits) hits, MAX(country) country, MAX(device) device FROM visitors WHERE day = '0000-00-00'" > counted.json
+          jq -c '.[].results' counted.json
+          jq -e '.[0].results | map(.path) | index("/")' counted.json >/dev/null || { echo "::error::the home page visit was not stored"; exit 1; }
+          if [ -n "$art" ]; then jq -e --arg p "/war/$art" '.[0].results | map(.path) | index($p)' counted.json >/dev/null || { echo "::error::the article visit was not stored"; exit 1; }; fi
+          jq -e '.[1].results[0].n == 1' counted.json >/dev/null || { echo "::error::expected exactly one test visitor"; exit 1; }
+          echo "Live website → counter → database: OK"
+      - name: Remove the test visits
+        if: always() && steps.cf.outputs.ready == 'yes'
+        run: |
+          sed -i "s/^database_id = .*/database_id = \"$D1_ID\"/" wrangler.toml
+          npx wrangler d1 execute wartabiye-admin --remote --command "DELETE FROM visitors WHERE day = '0000-00-00'; DELETE FROM pages WHERE day = '0000-00-00'; DELETE FROM hours WHERE day = '0000-00-00'; DELETE FROM sources WHERE day = '0000-00-00'; DELETE FROM salts WHERE day = '0000-00-00'; DELETE FROM config WHERE k = 'selftest'" >/dev/null || true
+      - name: Live check screenshots
+        if: always() && steps.cf.outputs.ready == 'yes'
+        uses: actions/upload-artifact@v4
+        with: { name: live-check, path: workers/admin/live-check, if-no-files-found: ignore, retention-days: 7 }
