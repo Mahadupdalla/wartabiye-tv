@@ -19,6 +19,7 @@ CFG = os.path.join(root, 'data', 'sports', 'publishers.json')
 REPORT = os.path.join(root, 'data', 'sports', 'publishers-report.json')
 SOURCES = os.path.join(root, 'data', 'world', 'sources.json')
 EAT = datetime.timezone(datetime.timedelta(hours=3))
+STALE_DAYS = 3
 CREDENTIALS = {'paywall': 'subscription for full articles (headlines are free)'}
 
 
@@ -66,8 +67,13 @@ def probe(out=REPORT):
             pass
         feeds = [test_feed(u) for u in p.get('feeds', [])]
         trans = [test_feed(u) for u in p.get('transfers', [])]
-        good = [f for f in feeds if f.get('ok') and f.get('dated')]
-        good_t = [f for f in trans if f.get('ok') and f.get('dated')]
+        cut = (datetime.datetime.now(EAT) - datetime.timedelta(days=STALE_DAYS)).isoformat()
+        live = lambda f: f.get('ok') and f.get('dated') and ((f.get('newest') or {}).get('publishedAt') or '') >= cut
+        for f in feeds + trans:
+            if f.get('ok') and not live(f):
+                f['ok'] = False; f['error'] = f"stale: newest article {(f.get('newest') or {}).get('publishedAt')}"
+        good = [f for f in feeds if live(f)]
+        good_t = [f for f in trans if live(f)]
         newest = max([f['newest'] for f in good + good_t if f['newest'].get('publishedAt')],
                      key=lambda n: n['publishedAt'], default=None)
         e = {'id': p['id'], 'name': p['name'], 'country': p.get('country'), 'homepage': p['homepage'],
@@ -94,8 +100,12 @@ def apply(rep_path=REPORT):
     d = json.load(open(SOURCES, encoding='utf-8'))
     by = {s['id']: s for s in d['sources']}
     added, updated = [], []
+    cut = (datetime.datetime.fromisoformat(rep['checkedAt']) - datetime.timedelta(days=STALE_DAYS)).isoformat()
+    fresh = lambda fs: [f['url'] for f in sorted([f for f in fs if f.get('ok') and ((f.get('newest') or {}).get('publishedAt') or '') >= cut],
+                                                 key=lambda f: f['newest']['publishedAt'], reverse=True)]
     for e in rep['publishers']:
-        feeds = [{'type': 'rss', 'url': u} for u in e['workingFeeds'][:2] + e['workingTransferFeeds'][:1]]
+        # the freshest feeds first; a feed whose newest article is older than STALE_DAYS is not used (abandoned feed)
+        feeds = [{'type': 'rss', 'url': u} for u in fresh(e['feeds'])[:2] + fresh(e['transferFeeds'])[:1]]
         note = (f"Tested from GitHub Actions {rep['checkedAt'][:10]} (tools/sports_publishers.py). Headline, link and time only, "
                 f"to find a story; written in our own words; photos never reused. {e['terms']}")
         if e['id'] in by:

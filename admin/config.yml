@@ -688,6 +688,26 @@ collections:
               - {name: html_url, label: 'Log-ka (GitHub Actions)', widget: string, required: false}
           - {name: hourlyRoutineLastRunAt, label: 'Hawsha Claude ee saacadlaha ah: orodkii u dambeeyay', widget: string, required: false}
           - {name: updatedAt, label: 'La cusbooneysiiyay', widget: string, required: false}
+      - name: sportsPublishers
+        label: 'Ciyaaraha: ilaha warbaahinta caalamka (sports publishers test report)'
+        file: data/sports/publishers-report.json
+        format: json
+        description: 'Natiijada tijaabada tools/sports_publishers.py probe (GitHub Actions): goob kasta, feed-keeda RSS, inuu shaqeeyo, wakhtiga hubinta, maqaalkii ugu dambeeyay iyo xaddidaadaha. Kuwa shaqeeya waxaa la hubiyaa 5 daqiiqo kasta (Ilaha degdegga ah). Ha beddelin.'
+        fields:
+          - {name: checkedAt, label: 'Wakhtiga tijaabada (checked at)', widget: string, required: false}
+          - name: publishers
+            label: 'Ilaha'
+            widget: list
+            required: false
+            fields:
+              - {name: name, label: 'Magaca', widget: string}
+              - {name: homepage, label: 'Bogga rasmiga ah', widget: string, required: false}
+              - {name: working, label: 'Wuu shaqeeyaa (feed)', widget: boolean, required: false}
+              - {name: collection, label: 'Habka', widget: string, required: false}
+              - {name: workingFeeds, label: 'Feed-yada shaqeeya', widget: list, required: false}
+              - {name: lastSuccessfulCheck, label: 'Hubintii guulaysatay', widget: string, required: false}
+              - {name: terms, label: 'Xuquuqda / shuruudaha', widget: text, required: false}
+              - {name: credentials, label: 'Is-diiwaangelin / API key', widget: string, required: false}
       - name: sportsResults
         label: 'Ciyaaraha: natiijooyinka otomaatigga ah (match-result reports, 5 daqiiqo kasta)'
         file: data/world/sports-results-status.json

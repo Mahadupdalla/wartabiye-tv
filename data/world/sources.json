@@ -1007,10 +1007,14 @@
     {
      "type": "rss",
      "url": "https://www.bundesliga.com/en/bundesliga/news/rss"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.bundesliga.com/sitemaps/en/sitemap-news.xml"
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "The Bundesliga's OFFICIAL news feed (DFL). Tested from GitHub Actions on 9 Nov 2026: answers with RSS. Headline, link and time are used to discover a story; Bundesliga/DFL photos are all rights reserved and never reused.",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
    "fastPoll": true
   },
   {
@@ -1025,15 +1029,15 @@
    "feeds": [
     {
      "type": "rss",
-     "url": "https://www.theguardian.com/football/rss"
+     "url": "https://www.theguardian.com/sport/rss"
     },
     {
      "type": "rss",
-     "url": "https://www.theguardian.com/sport/rss"
+     "url": "https://www.theguardian.com/football/rss"
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "The Guardian's public football and sport RSS (tested from GitHub Actions on 9 Nov 2026). Headline, link and time only; Guardian and agency photos are never reused.",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
    "fastPoll": true
   },
   {
@@ -1048,15 +1052,19 @@
    "feeds": [
     {
      "type": "rss",
+     "url": "https://www.skysports.com/rss/11095"
+    },
+    {
+     "type": "rss",
      "url": "https://www.skysports.com/rss/12040"
     },
     {
      "type": "rss",
-     "url": "https://www.skysports.com/rss/11095"
+     "url": "https://www.skysports.com/rss/12691"
     }
    ],
    "imagePolicy": "all-rights-reserved",
-   "notes": "Sky Sports' public RSS (12040 = news, 11095 = football; tested from GitHub Actions on 9 Nov 2026). Headline, link and time only; Sky photos are never reused.",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
    "fastPoll": true
   },
   {
@@ -1270,6 +1278,506 @@
     "summary": "'© 2026 Sweden Herald'; no syndication terms published. Part of its copy is translated from the Swedish news agency TT. Only headline and link are used to discover stories; Wartabiye TV writes its own report with attribution and a link. Photos (including CC-licensed Wikimedia ones on its pages) are not taken from the site."
    },
    "notes": "English-language Swedish news; official feed /rss.xml linked from its homepage."
+  },
+  {
+   "id": "sky-it",
+   "name": "Sky Sport Italia",
+   "shareLink": "",
+   "homepage": "https://sport.sky.it/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://sport.sky.it/rss/sport.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "sky-de",
+   "name": "Sky Sport Deutschland",
+   "shareLink": "",
+   "homepage": "https://sport.sky.de/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "sky-at",
+   "name": "Sky Sport Austria",
+   "shareLink": "",
+   "homepage": "https://sport.sky.at/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "marca",
+   "name": "MARCA",
+   "shareLink": "",
+   "homepage": "https://www.marca.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://e00-marca.uecdn.es/rss/futbol/primera-division.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "as",
+   "name": "AS",
+   "shareLink": "",
+   "homepage": "https://as.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://feeds.as.com/mrss-s/pages/as/site/as.com/portada/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "mundodeportivo",
+   "name": "Mundo Deportivo",
+   "shareLink": "",
+   "homepage": "https://www.mundodeportivo.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.mundodeportivo.com/rss/futbol.xml"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.mundodeportivo.com/rss/home.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "sport-es",
+   "name": "SPORT",
+   "shareLink": "",
+   "homepage": "https://www.sport.es/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "gazzetta",
+   "name": "La Gazzetta dello Sport",
+   "shareLink": "",
+   "homepage": "https://www.gazzetta.it/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.gazzetta.it/dynamic-feed/rss/section/Calcio.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Some or all articles need a subscription: only the free headline is read; facts are confirmed in another source.",
+   "fastPoll": true
+  },
+  {
+   "id": "corrieredellosport",
+   "name": "Corriere dello Sport",
+   "shareLink": "",
+   "homepage": "https://www.corrieredellosport.it/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.corrieredellosport.it/rss/calcio"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.corrieredellosport.it/rss/calcio/serie-a"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "tuttosport",
+   "name": "Tuttosport",
+   "shareLink": "",
+   "homepage": "https://www.tuttosport.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.tuttosport.com/rss/calcio"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "talksport",
+   "name": "talkSPORT",
+   "shareLink": "",
+   "homepage": "https://talksport.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "tntsports",
+   "name": "TNT Sports",
+   "shareLink": "",
+   "homepage": "https://www.tntsports.co.uk/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "kicker",
+   "name": "kicker",
+   "shareLink": "",
+   "homepage": "https://www.kicker.de/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://newsfeed.kicker.de/news/aktuell"
+    },
+    {
+     "type": "rss",
+     "url": "https://newsfeed.kicker.de/news/fussball"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "bild-sport",
+   "name": "BILD Sport",
+   "shareLink": "",
+   "homepage": "https://www.bild.de/sport/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Some or all articles need a subscription: only the free headline is read; facts are confirmed in another source.",
+   "searchOnly": true
+  },
+  {
+   "id": "lequipe",
+   "name": "L'Équipe",
+   "shareLink": "",
+   "homepage": "https://www.lequipe.fr/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://dwh.lequipe.fr/api/edito/rss?path=/Football/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Some or all articles need a subscription: only the free headline is read; facts are confirmed in another source.",
+   "fastPoll": true
+  },
+  {
+   "id": "rmcsport",
+   "name": "RMC Sport",
+   "shareLink": "",
+   "homepage": "https://rmcsport.bfmtv.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://rmcsport.bfmtv.com/rss/fil-sport/"
+    },
+    {
+     "type": "rss",
+     "url": "https://rmcsport.bfmtv.com/rss/football/"
+    },
+    {
+     "type": "rss",
+     "url": "https://rmcsport.bfmtv.com/rss/football/transferts/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "goal",
+   "name": "GOAL",
+   "shareLink": "",
+   "homepage": "https://www.goal.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "cbssports",
+   "name": "CBS Sports",
+   "shareLink": "",
+   "homepage": "https://www.cbssports.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.cbssports.com/rss/headlines/"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.cbssports.com/rss/headlines/soccer/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "beinsports",
+   "name": "beIN SPORTS",
+   "shareLink": "",
+   "homepage": "https://www.beinsports.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "the-athletic",
+   "name": "The Athletic",
+   "shareLink": "",
+   "homepage": "https://www.nytimes.com/athletic/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.nytimes.com/athletic/rss/news/"
+    },
+    {
+     "type": "rss",
+     "url": "https://www.nytimes.com/athletic/rss/football/"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Some or all articles need a subscription: only the free headline is read; facts are confirmed in another source.",
+   "fastPoll": true
+  },
+  {
+   "id": "90min",
+   "name": "90min",
+   "shareLink": "",
+   "homepage": "https://www.90min.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "onefootball",
+   "name": "OneFootball",
+   "shareLink": "",
+   "homepage": "https://onefootball.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "fifa",
+   "name": "FIFA (official)",
+   "shareLink": "",
+   "homepage": "https://www.fifa.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://cxm-api.fifa.com/fifaplusweb/api/sitemaps/news/0"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "uefa",
+   "name": "UEFA (official)",
+   "shareLink": "",
+   "homepage": "https://www.uefa.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.uefa.com/sitemap/news/latest.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "caf",
+   "name": "CAF (official)",
+   "shareLink": "",
+   "homepage": "https://www.cafonline.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
+  },
+  {
+   "id": "liverpool-official",
+   "name": "Liverpool FC (official)",
+   "shareLink": "",
+   "homepage": "https://www.liverpoolfc.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.liverpoolfc.com/sitemap-news.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "mancity-official",
+   "name": "Manchester City (official)",
+   "shareLink": "",
+   "homepage": "https://www.mancity.com/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.mancity.com/newssitemap.xml"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Tested from GitHub Actions 2026-11-09 (tools/sports_publishers.py). Headline, link and time only, to find a story; written in our own words; photos never reused. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "fastPoll": true
+  },
+  {
+   "id": "napoli-official",
+   "name": "SSC Napoli (official)",
+   "shareLink": "",
+   "homepage": "https://sscnapoli.it/",
+   "section": "sports",
+   "enabled": true,
+   "verified": true,
+   "priority": 74,
+   "feeds": [],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Manually reviewed source: no allowed public feed answered our test. Public RSS: headline, link and time may be read to find a story and link to it. The text, photos and video stay the publisher's copyright: never copied, translated line by line or reused.",
+   "searchOnly": true
   }
  ]
 }
