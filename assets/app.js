@@ -94,9 +94,13 @@
     var s=section(it);if(s==='sports'||s==='world')return el('span','cat',tr(s));
     return it.category?el('span','cat',catName(it.category)):null}
   function whenText(it){var d=new Date(it.publishedAt);if(isNaN(d))return tr('timeUnknown');if(it.timeVerified===false)return dayMonth(d)+' · '+tr('timeUnverified');return ago(it.publishedAt)}
+  // Sports news shows no publisher names or source links on cards and articles (owner's decision, 9 Nov 2026): the stories
+  // are written in Wartabiye TV's own words; the source, its link and time stay in data/news/<id>.json and /admin/.
+  // An article whose licence or agreement requires public credit sets "attributionRequired": true and keeps it.
+  function showSrc(it){return !!(it&&it.source&&it.source!=='Wartabiye TV'&&(section(it)!=='sports'||it.attributionRequired===true))}
   function meta(it,withSrc){
     var m=el('div','meta');m.append(el('b',null,'Wartabiye TV'));var w=whenText(it);if(w){var ws=el('span','dot',w);if(it.timeVerified!==false&&tms(it))ws.setAttribute('data-ago',it.publishedAt);m.append(ws)}
-    if(withSrc&&it.source&&it.source!=='Wartabiye TV'){var s=el('span','dot',tr('sources')+': ');var su=safeUrl(it.sourceUrl);if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';s.append(a)}else s.append(it.source);m.append(s)}
+    if(withSrc&&showSrc(it)){var s=el('span','dot',tr('sources')+': ');var su=safeUrl(it.sourceUrl);if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';s.append(a)}else s.append(it.source);m.append(s)}
     return m;
   }
 
@@ -223,7 +227,7 @@
     var tx=el('div','tx');var h=el('h3');var a=tEl('a',null,it,'title');a.href=href(it);h.append(a);var mt=meta(it,true);var sb=soBadge(it);if(sb)mt.append(sb);tx.append(h,mt);
     if(F(it,'summary'))tx.append(tEl('p',null,it,'summary'));
     var mo=el('div','more');var rd=el('a',null,tr('readMore'));rd.href=href(it);mo.append(rd);
-    var ou=safeUrl(it.sourceUrl);if(ou&&it.source!=='Wartabiye TV'){var oa=el('a','orig',tr('original')+': '+(it.source||tr('sourceWord'))+' ↗');oa.href=ou;oa.target='_blank';oa.rel='noopener';mo.append(oa)}
+    var ou=safeUrl(it.sourceUrl);if(ou&&showSrc(it)){var oa=el('a','orig',tr('original')+': '+(it.source||tr('sourceWord'))+' ↗');oa.href=ou;oa.target='_blank';oa.rel='noopener';mo.append(oa)}
     mo.append(bmBtn(it));tx.append(mo);r.append(pa,tx);return r;
   }
   function card(it,lead){
@@ -380,7 +384,7 @@
     var bd=soAttr(el('div','body'),isSo(it));var txt2=(body||sum||F(it,'title'));
     txt2.split(/\n+/).forEach(function(p){if(p.trim())bd.append(el('p',null,p.trim()))});A.append(bd);
     var su=safeUrl(it.sourceUrl);
-    if(it.source&&it.source!=='Wartabiye TV'){var sb=el('div','srcbox');sb.append(el('span',null,trf('srcNote',{src:it.source})));
+    if(showSrc(it)){var sb=el('div','srcbox');sb.append(el('span',null,trf('srcNote',{src:it.source})));
       if(su){var a2=el('a',null,tr('readOriginal')+' ('+it.source+') ↗');a2.href=su;a2.target='_blank';a2.rel='noopener';sb.append(a2)}A.append(sb)}
     var ad=adSlot('article');if(ad){ad.style.marginTop='24px';A.append(ad)}
     // previous / next in the same section
@@ -438,10 +442,23 @@
   function lnItem(it,isNew){var li=el('li','lnitem'+(isBreaking(it)?' brk':'')+(isNew?' new':''));var d=new Date(it.publishedAt);
     var t=el('time');t.dateTime=it.publishedAt;t.append(el('b',null,it.timeVerified===false?'--:--':eat(d)),el('span',null,it.timeVerified===false?tr('timeUnverified'):ago(it.publishedAt)));
     var tx=el('div','lntx');var tg=el('p','lntags');if(isNew)tg.append(el('span','lnnew',tr('lnNew')));if(isBreaking(it))tg.append(el('span','cat red',tr('breaking')));tg.append(lnSecTag(it));tx.append(tg);
-    var h=el('h3');var a=tEl('a',null,it,'title');a.href=href(it);h.append(a);tx.append(h);if(F(it,'summary'))tx.append(tEl('p',null,it,'summary'));tx.append(meta(it,true));
+    var h=el('h3');var a=tEl('a',null,it,'title');a.href=href(it);h.append(a);tx.append(h);if(F(it,'summary'))tx.append(tEl('p',null,it,'summary'));tx.append(meta(it));
     li.append(t,tx);return li}
   function liveNewsTeaser(){var l=lnList().slice(0,5);if(!l.length)return null;var s=el('section','secblock lnteaser');s.setAttribute('aria-label',tr('liveNewsNav'));
     s.append(head(tr('liveNewsNav'),'red','#wararka-tooska'));var ol=el('ol','lntl compact');l.forEach(function(it){ol.append(lnItem(it,false))});s.append(ol);return s}
+  // LIVE updates written inside Wartabiye TV (tools/live_updates.py, every 5 minutes): a headline and two or three sentences
+  // in our own words from the official newsroom feeds, with the PUBLISHER's time. Read from branch live-data (assets/media.js
+  // liveFeed); the sources' names, links and times are kept in that file and in /admin/, not on the public timeline.
+  var LU_REG=[['','wireAll'],['somalia','wireSomalia'],['eastafrica','wireEastAfrica'],['africa','wireAfrica'],['world','wireWorld']];
+  function luT(u,f){var t=L!=='so'&&u[L]&&typeof u[L][f]==='string'&&u[L][f].trim();return t?{t:t,so:false}:{t:(u.so&&u.so[f])||'',so:L!=='so'}}
+  function luOk(u,now){var t=new Date(u&&u.publishedAt).getTime();return !!(u&&u.id&&u.so&&u.so.title&&u.so.text)&&!isNaN(t)&&t<=now+5*60e3&&now-t<LN_DAY}
+  function luItem(u,isNew){var li=el('li','lnitem lu'+(u.breaking?' brk':'')+(isNew?' new':''));li.id=u.id;var d=new Date(u.publishedAt);
+    var t=el('time');t.dateTime=u.publishedAt;t.append(el('b',null,eat(d)),el('span',null,ago(u.publishedAt)));t.lastChild.setAttribute('data-ago',u.publishedAt);
+    var tx=el('div','lntx');var tg=el('p','lntags');if(isNew)tg.append(el('span','lnnew',tr('lnNew')));if(u.breaking)tg.append(el('span','cat red',tr('breaking')));
+    var rg=LU_REG.filter(function(r){return r[0]===u.region})[0];tg.append(el('span','lnsec s-'+(u.region==='world'?'world':'somalia'),tr(rg?rg[1]:'wireWorld')));tx.append(tg);
+    var h=luT(u,'title'),b=luT(u,'text');tx.append(soAttr(el('h3',null,h.t),h.so),soAttr(el('p','lubody',b.t),b.so));
+    var m=el('div','meta');m.append(el('b',null,'Wartabiye TV'));if(u.corroborated>1)m.append(el('span','dot',trf('luCorrob',{n:u.corroborated})));tx.append(m);
+    li.append(t,tx);return li}
   function renderLiveNews(){
     var V=$('pageView');V.innerHTML='';setTitle(tr('liveNewsNav'));
     var hh=el('section','hubhead livenews');var w=el('div','wrap');var h1=el('h1');h1.append(tr('lnTitle'));w.append(h1,el('p',null,tr('lnSub')));
@@ -450,27 +467,40 @@
     // no public source-monitoring status here (owner's decision, 8 Nov 2026): check times, delays and errors are shown only
     // in /admin/ (Ilaha degdegga ah) and in the GitHub Actions logs
     var bc=el('div','lnbroadcast');
-    var tl=el('ol','lntl');main.append(bc);
-    // the newsrooms' own latest headlines (every 5 minutes) and their official live channels: assets/media.js
-    if(window.WT_MEDIA&&WT_MEDIA.liveWire){WT_MEDIA.liveWire(main);WT_MEDIA.liveChannels(main)}
-    main.append(head(tr('lnOwnTitle'),'red'),tl,el('p','vnote',tr('lnRule')));
+    // ONE timeline inside the site (owner's request, 9 Nov 2026: real content, not links to other websites): the LIVE updates
+    // Wartabiye TV writes from the official newsroom feeds, and Wartabiye TV's own published stories, newest first.
+    var tl=el('ol','lntl');var reg='';var chips=el('div','wirechips');
+    LU_REG.forEach(function(r){var b=el('button','chip',tr(r[1]));b.type='button';b.setAttribute('aria-pressed',String(r[0]===reg));b.addEventListener('click',function(){reg=r[0];[].forEach.call(chips.children,function(c){c.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');draw([])});chips.append(b)});
+    main.append(bc,head(tr('luTitle'),'red'),el('p','vnote',tr('luNote')),chips,tl);
+    // the newsrooms' official 24/7 channels in their own embedded players (assets/media.js); never restreamed
+    if(window.WT_MEDIA&&WT_MEDIA.liveChannels)WT_MEDIA.liveChannels(main);
+    main.append(el('p','vnote',tr('lnRule')));
     fillSide(side,[sideTrending(),adSlot('sidebar'),sideFollow()]);
+    var LU=null;
+    function regOf(it){var s=section(it);if(s==='world')return 'world';if(s==='somalia')return it.region==='somalia'||!it.region?'somalia':'eastafrica';return 'sports'}
+    function fits(r){return !reg||r===reg||(reg==='africa'&&(r==='eastafrica'||r==='somalia'))||(reg==='eastafrica'&&r==='somalia')}
     function drawBroadcast(){bc.innerHTML='';if(!window.WT_MEDIA||!WT_MEDIA.liveState){bc.append(el('p','lnoff',tr('lnNoBroadcast')));return}
       WT_MEDIA.liveState().then(function(s){bc.innerHTML='';var ob=h1.querySelector('.onair');if(ob)ob.remove();
         if(s.live&&s.pv&&WT_MEDIA.player){var b=el('span','onair');b.append(el('i'),document.createTextNode('LIVE'));h1.append(b);
           bc.append(WT_MEDIA.player(s),el('p','vmeta',tr('lnBroadcast')+(s.title?': '+s.title:'')))}
         else bc.append(el('p','lnoff',tr('lnNoBroadcast')))}).catch(function(){bc.append(el('p','lnoff',tr('lnNoBroadcast')))})}
-    function draw(added){var l=lnList();tl.innerHTML='';var now=Date.now();
-      if(!lnSeen){lnSeen={};l.forEach(function(x){lnSeen[x._id]=1})}
+    function draw(added){var now=Date.now();tl.innerHTML='';
+      var ups=(LU&&Array.isArray(LU.items)?LU.items:[]).filter(function(u){return luOk(u,now)}).map(function(u){return {t:new Date(u.publishedAt).getTime(),u:u,id:u.id,r:u.region}});
+      var own=lnList().map(function(it){return {t:new Date(it.publishedAt).getTime(),a:it,id:it._id,r:regOf(it)}});
+      var l=ups.concat(own).filter(function(x){return fits(x.r)}).sort(function(a,b){return b.t-a.t});
+      if(!lnSeen){lnSeen={};l.forEach(function(x){lnSeen[x.id]=1})}
       var fresh={};(added||[]).forEach(function(id){fresh[id]=1});
-      if(!l.length)tl.append(el('li','empty',loaded?tr('lnEmpty'):tr('loadingStory')));
-      l.forEach(function(it){tl.append(lnItem(it,!!fresh[it._id]))});
-    }
-    draw();drawBroadcast();
+      if(!l.length)tl.append(el('li','empty',loaded&&LU!==null?tr('luEmpty'):tr('loadingStory')));
+      l.slice(0,80).forEach(function(x){tl.append(x.u?luItem(x.u,!!fresh[x.id]):lnItem(x.a,!!fresh[x.id]))});
+      var hid=(location.hash.split('?')[1]||'').match(/(?:^|&)u=([\w-]+)/);if(hid&&!draw.jumped){var tgt=document.getElementById(hid[1]);if(tgt){draw.jumped=1;tgt.scrollIntoView({block:'center'})}}}
+    function loadLU(){if(!window.WT_MEDIA||!WT_MEDIA.liveFeed){LU={items:[]};return Promise.resolve([])}
+      return WT_MEDIA.liveFeed('live-updates.json',55000).then(function(d){var before={};(LU&&LU.items||[]).forEach(function(u){before[u.id]=1});var first=LU===null;LU=d&&Array.isArray(d.items)?d:{items:[]};
+        return first?[]:LU.items.filter(function(u){return !before[u.id]}).map(function(u){return u.id})}).catch(function(){if(LU===null)LU={items:[]};return []})}
+    draw();drawBroadcast();loadLU().then(function(){draw()});
     if(lnTimer)clearInterval(lnTimer);
     lnTimer=setInterval(function(){
       if((location.hash||'').slice(1).split('?')[0]!=='wararka-tooska'&&window.WARTABIYE_ROUTE!=='wararka-tooska'){clearInterval(lnTimer);lnTimer=null;return}
-      reloadNews().then(function(added){draw(added);drawBroadcast()}).catch(function(){draw()})},60000);
+      Promise.all([reloadNews().catch(function(){return []}),loadLU()]).then(function(r){draw(r[0].concat(r[1]));drawBroadcast()})},60000);
   }
   // reload data/news.json (LIVE News page): returns the ids of stories that were not there before; refreshes the ticker
   function reloadNews(){return getJSON('data/news.json').then(function(j){var before={};ALL.forEach(function(x){before[x._id]=1});
@@ -822,6 +852,8 @@
     var base=h.split('?')[0];
     var story=base.indexOf('war-')===0?h.slice(4):null;
     var cat=base.indexOf('qayb-')===0?base.slice(5):null;
+    // public match results are off (data/site.json sections.liveSports): the old LIVE Sports address opens the Sports news page
+    if(base==='ciyaaraha-toos'&&(!SITE||!sec('liveSports'))){base=h='ciyaaraha';if(SITE&&(location.hash||'').indexOf('#ciyaaraha-toos')===0)history.replaceState(null,'',location.pathname+location.search+'#ciyaaraha')}
     var page=!story&&!cat&&['ciyaaraha','caalamka','bariga-afrika','wararka-tooska','muuqaal','toos','ciyaaraha-toos','raadi','kaydsan','xiriir','xayeysiimaha','ilaha-xaaladda'].concat(Object.keys(PAGE_ROUTES)).indexOf(base)>=0?base:null;
     var isHome=!story&&!page;
     $('homeView').hidden=!isHome;$('storyView').hidden=!story;$('pageView').hidden=!page;$('barnaamijyada').hidden=!isHome||!sec('programmes');

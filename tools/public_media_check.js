@@ -50,17 +50,23 @@ const go = async (p, hash, wait = 5000) => { await p.goto(SITE + '?cb=' + Date.n
     else if (!played) fail(`${name}: no publisher video played`);
     // LIVE News
     await go(p, 'wararka-tooska');
-    const wire = await p.$$eval('#pageView .wirebox .lntl li', l => l.map(x => ({ t: x.innerText.replace(/\s+/g, ' ').slice(0, 140), href: (x.querySelector('a[href^="https://"]') || {}).href || '' })));
-    // the source-check time is no longer shown to visitors: read it from the data file itself (a real check, not a timer)
-    const wd = await p.evaluate(() => fetch('https://raw.githubusercontent.com/Mahadupdalla/wartabiye-tv/live-data/live-wire.json?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).catch(() => null));
-    const ageMin = wd && wd.updatedAt ? (Date.now() - new Date(wd.updatedAt).getTime()) / 60000 : 1e9;
-    const status = `wire checked ${wd && wd.updatedAt} (${Math.round(ageMin)} min ago)`;
+    // LIVE News is ONE timeline inside the site: updates written by Wartabiye TV from the official newsroom feeds
+    // (tools/live_updates.py) and Wartabiye TV's own stories; no list of links to other websites
+    await p.waitForTimeout(2500);
+    const wire = await p.$$eval('#pageView ol.lntl > li.lnitem', l => l.map(x => ({ lu: x.classList.contains('lu'), t: x.innerText.replace(/\s+/g, ' ').slice(0, 220), ext: x.querySelectorAll('a[href^="http"]').length })));
+    // the check time is not shown to visitors: read it from the data files themselves (a real check, not a timer)
+    const wd = await p.evaluate(() => Promise.all(['live-wire.json', 'live-updates.json'].map(f => fetch('https://raw.githubusercontent.com/Mahadupdalla/wartabiye-tv/live-data/' + f + '?t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).catch(() => null))));
+    const ageOf = d => d && d.updatedAt ? (Date.now() - new Date(d.updatedAt).getTime()) / 60000 : 1e9;
+    const ageMin = Math.max(ageOf(wd[0]), ageOf(wd[1]));
+    const status = `wire checked ${wd[0] && wd[0].updatedAt}, LIVE updates file ${wd[1] && wd[1].updatedAt} with ${(wd[1] && wd[1].items || []).length} update(s) (${Math.round(ageMin)} min ago)`;
     if (await p.$('#pageView .lnwarn, #pageView .lnstatus, #pageView .wirest')) fail(`${name}: public source-status block is still shown`);
     const chans = await p.$$eval('#pageView .lchans .lccard h3', h => h.map(x => x.textContent));
-    console.log(`${name} LIVE News: ${wire.length} headlines | ${status} | live channels: ${chans.join(', ')}`);
-    wire.slice(0, 8).forEach(w => console.log('   ', w.t, '->', w.href));
+    console.log(`${name} LIVE News: ${wire.length} timeline items, ${wire.filter(w => w.lu).length} written LIVE updates | ${status} | live channels: ${chans.join(', ')}`);
+    wire.slice(0, 8).forEach(w => console.log('   ', w.lu ? '[LIVE update]' : '[story]', w.t));
     await p.screenshot({ path: `${OUT}/${name}-live-news.png` });
-    if (wire.length < 5 || wire.slice(0, 5).some(w => !w.href)) fail(`${name}: LIVE News has fewer than 5 linked headlines`);
+    if (!wire.length) fail(`${name}: LIVE News timeline is empty`);
+    if (wire.some(w => w.ext)) fail(`${name}: a LIVE News timeline item links to another website`);
+    if (await p.$('#pageView .wirebox, #pageView .wiretick')) fail(`${name}: the old list of external headlines is still shown`);
     if (ageMin > 30) fail(`${name}: LIVE News data is stale (${Math.round(ageMin)} min since the last source check)`);
     if (chans.length) {
       await p.click('#pageView .lcplay'); await p.waitForTimeout(4000);
@@ -69,14 +75,13 @@ const go = async (p, hash, wait = 5000) => { await p.goto(SITE + '?cb=' + Date.n
       if (!lf.length) fail(`${name}: live channel player did not load`);
       await p.screenshot({ path: `${OUT}/${name}-live-channel.png` });
     }
-    // LIVE Matches
-    await go(p, 'ciyaaraha-toos', 7000);
-    const heads = await p.$$eval('#pageView h3.sgh', h => h.map(x => x.textContent));
-    const rows = await p.$$eval('#pageView .mrow', r => r.map(x => (x.classList.contains('is-live') ? '[LIVE] ' : '') + x.innerText.replace(/\s+/g, ' ')));
-    console.log(`${name} LIVE Matches: sections ${JSON.stringify(heads)}, ${rows.length} matches`); rows.slice(0, 12).forEach(r => console.log('   ', r));
-    await p.screenshot({ path: `${OUT}/${name}-live-matches.png`, fullPage: true });
-    if (!heads.length) fail(`${name}: LIVE Matches overview missing`);
-    if (!rows.length && !/unavailable|lama heli karo/i.test(await p.$eval('#pageView', e => e.innerText))) fail(`${name}: LIVE Matches shows neither matches nor a message`);
+    // Sports: news articles only; the public results section is gone (the old address opens Ciyaaraha)
+    await go(p, 'ciyaaraha-toos', 5000);
+    const sp = await p.evaluate(() => ({ hash: location.hash, cards: [...document.querySelectorAll('#pageView .card')].slice(0, 6).map(c => c.innerText.replace(/\s+/g, ' ').slice(0, 120)),
+      results: document.querySelectorAll('.scorestrip:not([hidden]), .mrow, .rescard').length, labels: [...document.querySelectorAll('#pageView .card .meta')].filter(m => /Ilaha|Source/.test(m.innerText)).length }));
+    console.log(`${name} Sports: ${JSON.stringify({ hash: sp.hash, results: sp.results, sourceLabels: sp.labels })}`); sp.cards.forEach(c => console.log('   ', c));
+    await p.screenshot({ path: `${OUT}/${name}-sports.png`, fullPage: false });
+    if (sp.hash !== '#ciyaaraha' || sp.results || sp.labels || !sp.cards.length) fail(`${name}: Sports page: ${JSON.stringify({ hash: sp.hash, results: sp.results, labels: sp.labels, cards: sp.cards.length })}`);
     if (errs.length) fail(`${name}: page errors ${[...new Set(errs)].join('; ')}`);
     await ctx.close();
   }

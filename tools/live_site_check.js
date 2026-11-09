@@ -7,7 +7,7 @@ const SITE = (process.argv[2] || 'https://www.wartabiyetv.com/').replace(/\/?$/,
 const SECTIONS = [
   { key: 'LIVE News', route: 'wararka-tooska' },
   { key: 'LIVE TV', route: 'toos' },
-  { key: 'LIVE Matches', route: 'ciyaaraha-toos' },
+  { key: 'Sports news', route: 'ciyaaraha' },
   { key: 'Video News', route: 'muuqaal' },
 ];
 const LANGS = ['so', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es'];
@@ -31,9 +31,9 @@ async function sectionState(page, route) {
     const V = document.getElementById('pageView'); const h1 = V.querySelector('h1');
     const txt = s => (V.querySelector(s) || {}).innerText || '';
     const o = { title: h1 ? h1.innerText.trim() : '', liveBadge: !!(h1 && h1.querySelector('.onair')) };
-    if (route === 'wararka-tooska') { o.updates = V.querySelectorAll('.lntl .lnitem').length; o.status = txt('.lnstatus').replace(/\s+/g, ' '); o.broadcast = txt('.lnbroadcast').replace(/\s+/g, ' '); }
+    if (route === 'wararka-tooska') { o.updates = V.querySelectorAll('.lntl .lnitem').length; o.liveUpdates = V.querySelectorAll('.lntl .lnitem.lu').length; o.externalLinks = V.querySelectorAll('.lntl a[href^="http"]').length; o.status = txt('.lnstatus').replace(/\s+/g, ' '); o.broadcast = txt('.lnbroadcast').replace(/\s+/g, ' '); }
     if (route === 'toos') { o.player = !!V.querySelector('.livestage.on iframe, .livestage.on video, .livestage.on .vframe'); o.offline = txt('.offline').replace(/\s+/g, ' ').slice(0, 160); }
-    if (route === 'ciyaaraha-toos') { o.matchRows = V.querySelectorAll('.mrow').length; o.liveMatches = V.querySelectorAll('.mrow.is-live').length; o.note = (V.innerText || '').replace(/\s+/g, ' ').slice(0, 400); }
+    if (route === 'ciyaaraha') { o.cards = V.querySelectorAll('.card').length; o.resultWidgets = document.querySelectorAll('.scorestrip:not([hidden]), .mrow, .rescard').length; o.sourceLabels = [...V.querySelectorAll('.card .meta')].filter(m => /Ilaha|Source|Fuente|Quelle|Kaynak|Bron|Fonte/.test(m.innerText)).length; }
     if (route === 'muuqaal') { o.videos = V.querySelectorAll('.vcard, .vgrid > *').length; o.empty = txt('.empty').replace(/\s+/g, ' ').slice(0, 160); }
     return o;
   }, route);
@@ -69,9 +69,20 @@ async function sectionState(page, route) {
       console.log(`  ${s.key} ${name}: ${SITE}${s.route}/  HTTP ${r.status()}  ` + JSON.stringify(st));
       if (r.status() !== 200) bad.push(`${s.key}: ${SITE}${s.route}/ answered HTTP ${r.status()}`);
       if (!st.title) bad.push(`${s.key} ${name}: the page did not render (no heading)`);
+      if (s.route === 'ciyaaraha' && (st.resultWidgets || st.sourceLabels || !st.cards)) bad.push(`Sports ${name}: results widgets ${st.resultWidgets}, source labels ${st.sourceLabels}, cards ${st.cards}`);
+      if (s.route === 'wararka-tooska' && st.externalLinks) bad.push(`LIVE News ${name}: ${st.externalLinks} timeline item(s) link to other websites`);
       await ctx.close();
     }
   }
+  // 2b. public match results are off: no menu entry, and the old address sends visitors to the Sports news page
+  { const ctx = await b.newContext({ viewport: { width: 1366, height: 900 } }); const p = await ctx.newPage();
+    await p.goto(SITE + 'ciyaaraha-toos/?' + bust(), { waitUntil: 'networkidle' }); await p.waitForTimeout(2500);
+    const r = await p.evaluate(() => ({ url: location.href, menu: [...document.querySelectorAll('#links a')].some(a => a.getAttribute('href') === '#ciyaaraha-toos'), rows: document.querySelectorAll('.mrow, .scorestrip:not([hidden])').length }));
+    await p.goto(SITE + '?' + bust() + '#ciyaaraha-toos', { waitUntil: 'networkidle' }); await p.waitForTimeout(2500);
+    const h = await p.evaluate(() => ({ hash: location.hash, rows: document.querySelectorAll('.mrow, .scorestrip:not([hidden])').length }));
+    console.log('\nRESULTS SECTION REMOVED: ' + JSON.stringify(r) + ' ' + JSON.stringify(h));
+    if (!/\/ciyaaraha\/(\?|#|$)/.test(r.url) || r.menu || r.rows || h.hash !== '#ciyaaraha' || h.rows) bad.push('the public Results section can still be reached: ' + JSON.stringify([r, h]));
+    await ctx.close(); }
   // 3. nine languages: the menu labels of the four sections
   console.log('\nLANGUAGES (menu labels)');
   const ctx = await b.newContext({ viewport: { width: 1366, height: 900 } }); const p = await ctx.newPage();

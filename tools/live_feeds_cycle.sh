@@ -18,13 +18,21 @@ if [ ! -s "$OUT/feeds-status.json" ]; then
     && git checkout -q FETCH_HEAD -- . && cp -f ./*.json "$OUT"/ ) 2>/dev/null || echo "live feeds: first run"
 fi
 python3 tools/live_feeds.py "$OUT" || { echo "live feeds: update failed (logged; the next check retries)"; exit 1; }
+# LIVE News updates written inside Wartabiye TV from the fresh wire items (tools/live_updates.py; Claude API on the owner's
+# key ANTHROPIC_API_KEY with its own daily limit LIVE_UPDATES_DAILY_USD). A failure never stops the wire update.
+if [ -n "${ANTHROPIC_API_KEY:-}" ] && [ "${LIVE_UPDATES_MODE:-on}" != off ]; then
+  python3 -c "import anthropic" 2>/dev/null || python3 -m pip install -q 'anthropic>=2.6,<3' || echo "live updates: could not install the anthropic package"
+fi
+timeout 300 python3 tools/live_updates.py "$OUT" || echo "live updates: failed this time (the next check retries)"
 ( cd "$OUT" && rm -rf .git && git init -q -b live-data && git add video-feed.json live-wire.json feeds-status.json \
+  && for f in live-updates.json live-updates-status.json; do [ ! -f "$f" ] || git add "$f"; done \
   && git "${BOT[@]}" commit -q -m "Live feeds $(date -u +%FT%TZ)" && git push -q -f "$REMOTE" live-data ) || { echo "live feeds: could not save branch live-data"; exit 1; }
 # hourly copy on the website itself (fallback when raw.githubusercontent.com cannot be reached)
 mkdir -p data/live-feeds
 age=$(python3 -c "import json,datetime as D;t=json.load(open('data/live-feeds/feeds-status.json'))['checkedAt'];print(int((D.datetime.now(D.timezone.utc)-D.datetime.fromisoformat(t.replace('Z','+00:00'))).total_seconds()))" 2>/dev/null || echo 999999)
 if [ "$age" -ge 3300 ]; then
   cp "$OUT/video-feed.json" "$OUT/live-wire.json" "$OUT/feeds-status.json" data/live-feeds/
+  for f in live-updates.json live-updates-status.json; do [ ! -f "$OUT/$f" ] || cp "$OUT/$f" data/live-feeds/; done
   git add data/live-feeds
   if ! git diff --cached --quiet && git "${BOT[@]}" commit -q -m "Muuqaal iyo wararka tooska: nuqul saacadle ah"; then
     for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done

@@ -175,7 +175,9 @@ def rss_items(xml_bytes):
         if not link and it.find('a:link', NS) is not None:
             link = it.find('a:link', NS).get('href', '')
         when = it.findtext('pubDate') or it.findtext('dc:date', None, NS) or it.findtext('a:published', None, NS) or it.findtext('a:updated', None, NS) or ''
-        out.append({'title': clean(title, 220), 'url': (link or '').strip(), 'time': when})
+        # the publisher's own short description: input for tools/live_updates.py (the facts of the LIVE update); never shown
+        desc = it.findtext('description') or it.findtext('rss1:description', None, NS) or it.findtext('a:summary', None, NS) or ''
+        out.append({'title': clean(title, 220), 'url': (link or '').strip(), 'time': when, 'desc': clean(desc, 400)})
     return out
 
 
@@ -217,6 +219,8 @@ def update_wire(cfg, prev, status, t):
                      'region': region_of(title, f.get('region')), 'publishedAt': iso(pub)}
                 if brk:
                     x['breaking'] = True
+                if it.get('desc') and it['desc'] != title:
+                    x['desc'] = it['desc']
                 o = old.get(iid)
                 x['firstSeenAt'] = o.get('firstSeenAt', iso(t)) if o else iso(t)
                 if o and o.get('title') != title:

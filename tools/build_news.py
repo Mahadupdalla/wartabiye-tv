@@ -28,11 +28,19 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import east_africa
 try: ARCHIVED = set(json.load(open(os.path.join(root, east_africa.ARCHIVE), encoding='utf-8'))['ids'])
 except Exception: ARCHIVED = None
-news, pending = [], []
+# Public match results (owner's decision, 9 Nov 2026): while /admin/ → Bogga → "Ciyaaraha Toos" (sections.liveSports) is
+# off, the automatic match-result reports (tools/sports_results.py) stay INTERNAL: their files and verified match data
+# are kept in data/news/ (and in /admin/), but they are not published as results-only cards. Sports news is unaffected.
+try: RESULTS_PUBLIC = json.load(open(os.path.join(root, 'data', 'site.json'), encoding='utf-8')).get('sections', {}).get('liveSports', True) is not False
+except Exception: RESULTS_PUBLIC = True
+news, pending, internal = [], [], 0
 for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     n = json.load(open(f, encoding='utf-8'))
     n['id'] = os.path.basename(f)[:-5]
     if n.get('published', True) is False:
+        continue
+    if result_card(n) and not RESULTS_PUBLIC:
+        internal += 1
         continue
     why = east_africa.blocked_article(n, ARCHIVED) if ARCHIVED is not None else None
     if why:
@@ -113,6 +121,8 @@ if not os.path.exists(vpath) or json.load(open(vpath, encoding='utf-8')) != vout
     json.dump(vout, open(vpath, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(f'{len(videos)} videos -> data/videos.json')
 
+if internal:
+    print(f'{internal} match-result report(s) kept internal (public results are off: site.json sections.liveSports)')
 if pending:
     print(f'{len(pending)} article(s) waiting for a photo, not published: ' + ', '.join(pending))
 
