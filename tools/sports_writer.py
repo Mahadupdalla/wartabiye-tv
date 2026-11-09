@@ -31,7 +31,17 @@ EAT = datetime.timezone(datetime.timedelta(hours=3))
 MODEL = 'claude-opus-5-5'
 MAX_AGE_MIN = 120                                        # the site rule: never publish a story older than 2 hours as new
 MAX_PER_RUN = int(os.environ.get('SPORTS_WRITER_PER_RUN', '2'))
-MAX_PER_DAY = int(os.environ.get('SPORTS_WRITER_DAILY_MAX', '40'))  # cost guard
+MAX_PER_DAY = int(os.environ.get('SPORTS_WRITER_DAILY_MAX', '20'))  # cost guard: articles a day
+# spending limit: the writer stops for the day once the estimated cost of today's calls reaches this (US dollars).
+# Estimate from each reply's usage at the list prices of claude-opus-5-5 ($4 / $20 per million input / output tokens,
+# $0.20 cache reads) and web search ($10 per 1,000 searches). Also set a monthly limit in console.anthropic.com.
+MAX_USD_PER_DAY = float(os.environ.get('SPORTS_WRITER_DAILY_USD', '5'))
+PRICE = {'in': 4e-6, 'out': 20e-6, 'cache_read': 0.2e-6, 'cache_write': 5e-6, 'search': 0.01}
+
+
+def cost(log):
+    return round(sum(x.get('in', 0) * PRICE['in'] + x.get('out', 0) * PRICE['out'] + x.get('cacheRead', 0) * PRICE['cache_read']
+                     + x.get('cacheWrite', 0) * PRICE['cache_write'] + x.get('searches', 0) * PRICE['search'] for x in log), 4)
 SKIP_WORDS = re.compile(r"\b(quiz|quizzes|live:|as it happened|live updates|live blog|in pictures|gallery|photos:|watch:|"
                         r"podcast|betting|odds|tips|predictions?|fantasy|crossword|newsletter)\b", re.I)
 LANG_NAMES = {'en': 'English', 'ar': 'Modern Standard Arabic', 'fr': 'French', 'nl': 'Dutch', 'it': 'Italian',
@@ -97,7 +107,7 @@ SYSTEM = """You are the sports desk of Wartabiye TV (wartabiyetv.com), a Somali-
 
 Work in this order:
 1. Open the original article with web_fetch (the URL you are given). If it cannot be opened, use the headline and description you were given.
-2. Verify the key facts (who, what, the score or result if any, when, which competition) in at least one other reliable source with web_search: an official club, league or federation site, BBC Sport, ESPN, Reuters, AP, The Guardian, Sky Sports, DW, France 24 or a national broadcaster. Check the date on every page: search results often show older meetings or older news about the same people. Do at most 4 searches and 4 fetches.
+2. Verify the key facts (who, what, the score or result if any, when, which competition) in at least one other reliable source with web_search: first the official club, league or federation sites you are given (fetch their news page or search them with site:), then BBC Sport, ESPN, Reuters, AP, The Guardian, Sky Sports, DW, France 24 or a national broadcaster. Check the date on every page: search results often show older meetings or older news about the same people. Do at most 4 searches and 4 fetches.
 3. Decide. Answer decision "skip" (and explain in "reason") when: the facts cannot be confirmed; it is not a news story (quiz, opinion column, live blog, gallery, podcast, betting, fantasy, advert, newsletter); it is old news re-published; it is only a rumour from one outlet; or it is about something that has not happened yet but is presented as a result.
 4. Otherwise write the report:
    - in your OWN words, neutral Somali; never copy or translate the publisher's sentences one by one; never quote more than one short sentence and always say who said it;
@@ -167,13 +177,22 @@ def commons_search(q):
         fi.fetch = orig
 
 
+def official_for(c):
+    try:
+        import sports_sources
+        return sports_sources.for_text(' '.join(str(c.get(k) or '') for k in ('title', 'description')))
+    except Exception:
+        return []
+
+
 def ask_claude(client, c, log):
     """-> (answer dict or None, reason)."""
     import anthropic
     user = ('Fresh sports story found by our source monitor:\n' + json.dumps({
         'publisher': c.get('sourceName') or c.get('source'), 'url': c.get('canonicalUrl') or c.get('url'),
         'headline': c.get('title'), 'description': c.get('description'), 'excerpt': (c.get('excerpt') or '')[:1500],
-        'publishedAt (publisher time)': c.get('publishedAt'), 'today (Africa/Nairobi)': now().strftime('%Y-%m-%d %H:%M')},
+        'publishedAt (publisher time)': c.get('publishedAt'), 'today (Africa/Nairobi)': now().strftime('%Y-%m-%d %H:%M'),
+        'official sources to check first (club / competition websites)': official_for(c)},
         ensure_ascii=False, indent=1) + '\n\nVerify it, decide, and if it is a real verified sports news story write the report, the translations and find a photo.')
     messages = [{'role': 'user', 'content': user}]
     base = dict(model=MODEL, max_tokens=16000, system=SYSTEM, tools=TOOLS, thinking={'type': 'adaptive'})
@@ -193,7 +212,11 @@ def ask_claude(client, c, log):
             return None, f'API error: {str(e)[:200]}'
         except anthropic.APIError as e:
             return None, f'API error: {str(e)[:200]}'
-        log.append({'model': getattr(msg, 'model', MODEL), 'stop': msg.stop_reason, 'in': msg.usage.input_tokens, 'out': msg.usage.output_tokens})
+        u = msg.usage
+        stu = getattr(u, 'server_tool_use', None)
+        log.append({'model': getattr(msg, 'model', MODEL), 'stop': msg.stop_reason, 'in': u.input_tokens or 0, 'out': u.output_tokens or 0,
+                    'cacheRead': getattr(u, 'cache_read_input_tokens', 0) or 0, 'cacheWrite': getattr(u, 'cache_creation_input_tokens', 0) or 0,
+                    'searches': (getattr(stu, 'web_search_requests', 0) or 0) if stu else 0})
         if msg.stop_reason == 'refusal':
             return None, 'Claude declined this story'
         if msg.stop_reason == 'max_tokens':
@@ -330,13 +353,15 @@ def write_status(st, run):
     s = load_json(STATUS, {})
     day = now().strftime('%Y-%m-%d')
     days = s.get('days', {})
-    d = days.get(day, {'written': 0, 'published': 0, 'held': 0, 'skipped': 0, 'refused': 0, 'failed': 0})
-    for k in d:
-        d[k] += run['counts'].get(k, 0)
+    d = days.get(day, {})
+    for k in ('written', 'published', 'held', 'skipped', 'refused', 'failed', 'usd'):
+        d[k] = round(d.get(k, 0) + run['counts'].get(k, 0), 4)
     days[day] = d
     recent = (run['items'] + s.get('recent', []))[:60]
     out = {'about': 'Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); '
                      '"held" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.',
+           'mode': 'on' if os.environ.get('ANTHROPIC_API_KEY') else 'off (no ANTHROPIC_API_KEY secret)',
+           'limits': {'articlesPerDay': MAX_PER_DAY, 'usdPerDay': MAX_USD_PER_DAY, 'perCheck': MAX_PER_RUN},
            'lastCheckAt': run['at'], 'lastRun': run['counts'], 'lastWrittenAt': run['at'] if run['counts'].get('written') else s.get('lastWrittenAt'),
            'days': dict(sorted(days.items())[-14:]), 'recent': recent}
     with open(STATUS, 'w', encoding='utf-8') as f:
@@ -358,14 +383,19 @@ def run(cand_path, state_path, dry=False):
         print(f"skip: {c.get('source')} | {c.get('title')} | {why}")
         state['seen'][norm(c.get('canonicalUrl') or c.get('url'))] = t.isoformat(timespec='seconds')
         run['items'].append({'at': run['at'], 'result': 'skipped', 'reason': why, 'source': c.get('source'), 'title': c.get('title'), 'url': c.get('url')})
-    room = max(0, min(MAX_PER_RUN, MAX_PER_DAY - used_today))
-    print(f'{len(todo)} new sports stor(ies) to write, {len(skipped)} skipped, room for {room} this check ({used_today}/{MAX_PER_DAY} today)')
+    spent = state.get('usd', {}).get(day, 0.0)
+    room = max(0, min(MAX_PER_RUN, MAX_PER_DAY - used_today)) if spent < MAX_USD_PER_DAY else 0
+    print(f'{len(todo)} new sports stor(ies) to write, {len(skipped)} skipped, room for {room} this check '
+          f'({used_today}/{MAX_PER_DAY} articles, ${spent:.2f}/${MAX_USD_PER_DAY:.2f} today)')
+    if todo and not room:
+        run['counts']['heldByLimit'] = len(todo)
     if dry:
         for c in todo:
             print(f"would write: {c.get('source')} | {c.get('publishedAt')} | {c.get('title')}")
         return 0
     if todo and room and not os.environ.get('ANTHROPIC_API_KEY'):
         print('ANTHROPIC_API_KEY is not set: no article written (add the secret to switch the sports writer on)')
+        run['counts']['waitingForKey'] = len(todo)
         todo = []
     client = None
     for c in todo[:room]:
@@ -374,8 +404,12 @@ def run(cand_path, state_path, dry=False):
             import anthropic
             client = anthropic.Anthropic(max_retries=3, timeout=300)
         log = []
+        if state.get('usd', {}).get(day, 0.0) >= MAX_USD_PER_DAY:
+            print(f'daily spending limit ${MAX_USD_PER_DAY:.2f} reached: the rest waits for tomorrow'); break
         a, why = ask_claude(client, c, log)
         state['days'] = {day: state.get('days', {}).get(day, 0) + 1}
+        state['usd'] = {day: round(state.get('usd', {}).get(day, 0.0) + cost(log), 4)}
+        run['counts']['usd'] = round(run['counts'].get('usd', 0) + cost(log), 4)
         item = {'at': run['at'], 'source': c.get('source'), 'title': c.get('title'), 'url': c.get('url'), 'api': log}
         if a is None:
             print(f"failed: {c.get('title')} | {why}")
@@ -410,8 +444,7 @@ def run(cand_path, state_path, dry=False):
     state['seen'] = {k: v for k, v in state['seen'].items() if v >= cut}
     if state_path:
         json.dump(state, open(state_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    if run['items']:
-        write_status(state, run)
+    write_status(state, run)
     return 0
 
 

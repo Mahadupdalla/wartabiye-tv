@@ -165,6 +165,9 @@ def ol_match(m, lg, name):
             'provider': 'OpenLigaDB', 'providerUrl': f"https://api.openligadb.de/getmatchdata/{m.get('matchID')}"}
 
 
+FAILED = []   # competitions whose data could not be read in this check (for the status file)
+
+
 def collect_ol(t):
     out = []
     for lg, name in RESULT_LEAGUES.items():
@@ -177,6 +180,7 @@ def collect_ol(t):
                     r = ol_match(m, lg, name)
                     if r: out.append(r)
         except Exception as e:
+            FAILED.append(name)
             print(f'sports results: {lg} unavailable ({e})')
     return out
 
@@ -311,7 +315,35 @@ def run(dry=False):
             json.dump(n, f, ensure_ascii=False, indent=2); f.write('\n')
         print('wrote', n['id'], '|', n['title'])
     print(f'sports results: {len(results)} finished matches in the data, {len(new)} new report(s)')
+    if not dry:
+        write_status(t, results, new)
     return new
+
+
+STATUS = os.environ.get('SPORTS_RESULTS_STATUS') or os.path.join(root, 'data', 'world', 'sports-results-status.json')
+
+
+def write_status(t, results, new):
+    """the last check, for /admin/ and the owner: when the data was read, what failed, what was published"""
+    try: s = json.load(open(STATUS, encoding='utf-8'))
+    except Exception: s = {}
+    at = t.isoformat(timespec='seconds')
+    comps = list(RESULT_LEAGUES.values()) + (sorted({r['competition'] for r in results if r.get('source') == 'football-data'}) or [])
+    ok = [c for c in RESULT_LEAGUES.values() if c not in FAILED]
+    day = t.strftime('%Y-%m-%d')
+    days = s.get('days', {}); days[day] = days.get(day, 0) + len(new)
+    recent = ([{'at': at, 'id': n['id'], 'title': n['title'], 'source': n.get('result', {}).get('provider') or n.get('source')} for n in new]
+              + s.get('recent', []))[:40]
+    out = {'about': 'Automatic match-result reports (tools/sports_results.py), checked every 5 minutes. Africa/Nairobi times.',
+           'lastCheckAt': at, 'lastSuccessAt': at if ok else s.get('lastSuccessAt'),
+           'dataSources': {'OpenLigaDB (open data)': ok, 'football-data.org': 'on' if glob.glob(os.path.join(root, 'data', 'sports-feed', 'results-*.json')) else 'off (needs the secret FOOTBALL_DATA_TOKEN)'},
+           'failed': list(FAILED), 'competitions': comps, 'finishedMatchesInData': len(results), 'newReports': len(new),
+           'lastReportAt': at if new else s.get('lastReportAt'), 'reportsPerDay': dict(sorted(days.items())[-14:]), 'recent': recent}
+    try:
+        with open(STATUS, 'w', encoding='utf-8') as f:
+            json.dump(out, f, ensure_ascii=False, indent=1)
+    except Exception as e:
+        print('sports results: status not saved,', e)
 
 
 def self_test():

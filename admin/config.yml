@@ -688,6 +688,56 @@ collections:
               - {name: html_url, label: 'Log-ka (GitHub Actions)', widget: string, required: false}
           - {name: hourlyRoutineLastRunAt, label: 'Hawsha Claude ee saacadlaha ah: orodkii u dambeeyay', widget: string, required: false}
           - {name: updatedAt, label: 'La cusbooneysiiyay', widget: string, required: false}
+      - name: sportsResults
+        label: 'Ciyaaraha: natiijooyinka otomaatigga ah (match-result reports, 5 daqiiqo kasta)'
+        file: data/world/sports-results-status.json
+        format: json
+        description: 'Waxaa qora tools/sports_results.py 5 daqiiqo kasta (GitHub Actions, aan ku xirnayn Claude). Ciyaar kasta oo dhammaatay waxay helaysaa warbixin natiijo ah (9 luqadood, sawirka natiijada oo leh astaanta kooxaha). Nuqulkan waa la keydiyaa saacaddii mar iyo marka natiijo cusub timaado. Ha beddelin.'
+        fields:
+          - {name: lastCheckAt, label: 'Hubintii u dambeysay (last check)', widget: string, required: false}
+          - {name: lastSuccessAt, label: 'Hubintii u dambeysay ee guulaysatay (last successful check)', widget: string, required: false}
+          - {name: lastReportAt, label: 'Natiijadii u dambeysay ee la daabacay (last report published)', widget: string, required: false}
+          - {name: finishedMatchesInData, label: 'Ciyaaraha dhammaaday ee xogta ku jira', widget: number, required: false}
+          - {name: newReports, label: 'Natiijooyin cusub (hubintii u dambeysay)', widget: number, required: false}
+          - {name: competitions, label: 'Tartamada', widget: list, required: false}
+          - {name: failed, label: 'Xogta aan la akhrin karin (hubintii u dambeysay)', widget: list, required: false}
+          - name: recent
+            label: 'Natiijooyinkii u dambeeyay'
+            widget: list
+            required: false
+            summary: '{{fields.at}}: {{fields.title}}'
+            fields:
+              - {name: at, label: Waqtiga, widget: string}
+              - {name: id, label: Id, widget: string, required: false}
+              - {name: title, label: Cinwaan, widget: string, required: false}
+      - name: sportsWriter
+        label: 'Ciyaaraha: qoraaga wararka (sports news writer, Claude API)'
+        file: data/world/sports-writer-status.json
+        format: json
+        description: 'Waxaa qora tools/sports_writer.py 5 daqiiqo kasta. Wuxuu shaqeeyaa kaliya marka sirta ANTHROPIC_API_KEY la geliyo (lacag ayuu ku kacayaa; xadka maalinlaha ah: limits). "held" = waa la qoray laakiin wuxuu sugayaa sawir sharci ah (Sugaya sawir). Ha beddelin.'
+        fields:
+          - {name: mode, label: 'Xaaladda (on / off)', widget: string, required: false}
+          - {name: lastCheckAt, label: 'Hubintii u dambeysay', widget: string, required: false}
+          - {name: lastWrittenAt, label: 'Warkii u dambeeyay ee la qoray', widget: string, required: false}
+          - name: limits
+            label: 'Xadka (limits)'
+            widget: object
+            required: false
+            fields:
+              - {name: articlesPerDay, label: 'Warar maalintii', widget: number, required: false}
+              - {name: usdPerDay, label: 'Doollar maalintii (US$)', widget: number, required: false}
+              - {name: perCheck, label: 'Hubin kasta', widget: number, required: false}
+          - name: recent
+            label: 'Wararkii u dambeeyay (published / held / refused / skipped iyo sababta)'
+            widget: list
+            required: false
+            summary: '{{fields.at}} {{fields.result}}: {{fields.title}} ({{fields.reason}})'
+            fields:
+              - {name: at, label: Waqtiga, widget: string}
+              - {name: result, label: Natiijada, widget: string, required: false}
+              - {name: title, label: Cinwaan, widget: string, required: false}
+              - {name: reason, label: Sababta, widget: string, required: false}
+              - {name: id, label: Id, widget: string, required: false}
       - name: status
         label: 'Xaaladda cusbooneysiintii u dambeysay (waxaa qora hawsha, ha beddelin)'
         file: data/world/status.json
