@@ -1,8 +1,7 @@
 /* Wartabiye TV visitor statistics (privacy-friendly, no cookies).
    Sends one small anonymous message per page opened to our own counter (Cloudflare Worker): the page address,
    the site language, and where the visit came from (e.g. "google.com"). Nothing else: no name, no IP stored,
-   no advertising or cross-site tracking. Only if the visitor presses "Allow" does this browser remember the day of its
-   first visit (localStorage "wtv-stats-first"), so that "returning visitors" can be counted. Owner previews
+   no advertising or cross-site tracking. Nothing is stored on the visitor's device and no question is asked. Owner previews
    (?preview=), automated browsers and visitors who opt out (?notrack=1) are not counted. */
 (function () {
   'use strict';
@@ -32,24 +31,12 @@
     return { p: '/' };
   }
 
-  // consent only for remembering this device (returning visitors); counting itself stores nothing on the device
-  var today = new Date().toISOString().slice(0, 10);
-  var gpc = navigator.globalPrivacyControl === true || navigator.doNotTrack === '1';
-  function consent() { var c = get('wtv-stats-consent'); return c === 'yes' ? true : c === 'no' || gpc ? false : null; }
-  function retFlag() {
-    if (consent() !== true) return undefined;
-    var f = get('wtv-stats-first');
-    if (!f) { set('wtv-stats-first', today); return 0; }
-    return f < today ? 1 : 0;
-  }
-
   var first = true, last = '', utm = P.get('utm_source') || '';
   function send(path, cat) {
     var body = { p: path, l: (document.documentElement.lang || '').slice(0, 2) };
     if (ST) body.t = ST;
     if (cat) body.c = cat;
     if (first) { body.e = 1; body.r = document.referrer || ''; if (utm) body.u = utm.slice(0, 40); }
-    var r = retFlag(); if (r !== undefined) body.n = r;
     first = false;
     var data = JSON.stringify(body);
     try {
@@ -82,30 +69,6 @@
   addEventListener('hashchange', track);
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', track); else track();
 
-  // ---- small privacy notice (once): Allow / No thanks ------------------------------------------------------------
-  var T = {
-    so: ['Wartabiye TV waxay booqashooyinka u tirisaa si qarsoodi ah, cookies la’aan. Ma noo oggolaanaysaa inaan xasuusanno qalabkan si aan u ogaanno akhristayaasha soo noqda?', 'Oggolow', 'Maya, mahadsanid', 'Asturnaanta'],
-    en: ['Wartabiye TV counts visits anonymously, without cookies. May we remember this device to count returning readers?', 'Allow', 'No thanks', 'Privacy'],
-    ar: ['يحصي موقع وارتابيي TV الزيارات بشكل مجهول ودون ملفات تعريف الارتباط. هل تسمح لنا بتذكّر هذا الجهاز لإحصاء القرّاء العائدين؟', 'السماح', 'لا، شكرًا', 'الخصوصية'],
-    fr: ['Wartabiye TV compte les visites de façon anonyme, sans cookies. Pouvons-nous mémoriser cet appareil pour compter les lecteurs qui reviennent ?', 'Autoriser', 'Non merci', 'Confidentialité'],
-    nl: ['Wartabiye TV telt bezoeken anoniem, zonder cookies. Mogen we dit apparaat onthouden om terugkerende lezers te tellen?', 'Toestaan', 'Nee, bedankt', 'Privacy'],
-    it: ['Wartabiye TV conta le visite in modo anonimo, senza cookie. Possiamo ricordare questo dispositivo per contare i lettori che ritornano?', 'Consenti', 'No, grazie', 'Privacy'],
-    de: ['Wartabiye TV zählt Besuche anonym und ohne Cookies. Dürfen wir uns dieses Gerät merken, um wiederkehrende Leser zu zählen?', 'Erlauben', 'Nein, danke', 'Datenschutz'],
-    tr: ['Wartabiye TV ziyaretleri çerez kullanmadan, anonim olarak sayar. Geri dönen okuyucuları sayabilmek için bu cihazı hatırlamamıza izin verir misiniz?', 'İzin ver', 'Hayır, teşekkürler', 'Gizlilik'],
-    es: ['Wartabiye TV cuenta las visitas de forma anónima, sin cookies. ¿Podemos recordar este dispositivo para contar a los lectores que vuelven?', 'Permitir', 'No, gracias', 'Privacidad'],
-  };
-  function notice() {
-    if (consent() !== null || document.getElementById('wtvConsent')) return;
-    var L = (document.documentElement.lang || 'so').slice(0, 2), t = T[L] || T.so;
-    var box = document.createElement('div'); box.id = 'wtvConsent'; box.className = 'wtv-consent'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-label', t[3]);
-    box.dir = L === 'ar' ? 'rtl' : 'ltr';
-    var p = document.createElement('p'); p.textContent = t[0] + ' ';
-    var a = document.createElement('a'); a.href = 'asturnaanta/'; a.textContent = t[3]; p.append(a);
-    var row = document.createElement('div'); row.className = 'wtv-consent-row';
-    function btn(txt, val, cls) { var b = document.createElement('button'); b.type = 'button'; b.className = cls; b.textContent = txt; b.addEventListener('click', function () { set('wtv-stats-consent', val); if (val === 'no') set('wtv-stats-first', null); box.remove(); }); return b; }
-    row.append(btn(t[2], 'no', 'wtv-c-no'), btn(t[1], 'yes', 'wtv-c-yes'));
-    box.append(p, row); document.body.append(box);
-  }
-  setTimeout(notice, 2500);
-  window.WTV_STATS = { reset: function () { set('wtv-stats-consent', null); set('wtv-stats-first', null); notice(); } };
+  // no notice and nothing stored on the device; remove what an earlier version stored after "Allow"
+  set('wtv-stats-consent', null); set('wtv-stats-first', null);
 })();

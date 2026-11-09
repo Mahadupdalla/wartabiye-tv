@@ -19,7 +19,9 @@ page.on('request', r => { if (r.url().startsWith(W + '/c')) beacons.push({ body:
 page.on('response', r => { if (r.url().startsWith(W + '/c')) console.log('counter answered', r.status()); });
 
 await page.goto(`${SITE}/?wtvselftest=${TOKEN}`, { waitUntil: 'load' });
-await sleep(3000);
+await sleep(4000);
+if (await page.locator('#wtvConsent, .wtv-consent').count()) fail('a consent pop-up is shown on the website');
+else console.log('no consent pop-up on the website');
 const art = await page.evaluate(() => {
   for (const a of document.querySelectorAll('a[href]')) {
     const m = a.getAttribute('href').match(/(?:#war-|war\/)([a-z0-9-]+?)(?:\.html)?$/);

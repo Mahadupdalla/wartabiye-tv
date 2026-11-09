@@ -88,10 +88,8 @@ try {
     await pg.goto(SITE + '/#war-' + art, { waitUntil: 'load' }); views++; await sleep(2500);    // same document: hash route
     if (i === 0) { await pg.evaluate(id => { location.hash = 'war-' + id; }, art2); views++; await sleep(2500); await pg.evaluate(() => { location.hash = 'ciyaaraha'; }); views++; await sleep(1200); }
     if (i === 1) {
-      const btn = pg.locator('#wtvConsent .wtv-c-yes');
-      check(await btn.isVisible().catch(() => false), 'privacy notice shows Allow / No thanks');
-      await pg.screenshot({ path: join(OUT, 'site-consent-notice.png') });
-      await btn.click();
+      check(await pg.locator('#wtvConsent').count() === 0, 'no consent pop-up on the website');
+      check(await pg.evaluate(() => Object.keys(localStorage).filter(k => k.startsWith('wtv-stats')).length) === 0, 'counter stores nothing in the browser');
       await pg.goto(SITE + '/war/' + art + '.html', { waitUntil: 'load' }); views++; await sleep(2500);
     }
     await ctx.close();
@@ -137,7 +135,7 @@ try {
   check(S.devices.length === 3, 'mobile, desktop and tablet each recorded');
   check(S.articles[0]?.id === art && S.articles[0].views === 4, 'most read article = the one opened 4 times');
   check(S.categories.length >= 1, 'article category recorded: ' + JSON.stringify(S.categories));
-  check(S.totals.consented === 1, 'returning-visitor flag only for the visitor who pressed Allow');
+  check(S.totals.consented === 0, 'no returning-visitor data (nothing stored on devices)');
   check(S.sources.some(x => x.kind === 'search') && S.sources.some(x => x.kind === 'social') && S.sources.some(x => x.kind === 'direct'), 'sources: search, social, direct');
   await p.goto(W + '/#analytics'); await p.waitForSelector('#v-analytics .chart svg'); await sleep(2500);
   await p.screenshot({ path: join(OUT, '07-analytics-30d.png'), fullPage: true });
