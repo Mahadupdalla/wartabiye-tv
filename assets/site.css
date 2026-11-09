@@ -1298,6 +1298,8 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .lnbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:20px 0 10px;font-size:14px;color:var(--muted)}
 .lnbar .onair{margin:0}
 .lnupd{font-weight:700;color:var(--fg)}
+.lnstory{border:0;background:var(--red);color:#fff;font:800 11px/1 var(--display);letter-spacing:.06em;padding:4px 7px;border-radius:4px;cursor:pointer}
+.lnback{margin:4px 0 12px}
 .lntick{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);margin:2px 0 14px}
 .lntick:hover .wtinner,.lntick:focus-within .wtinner{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.lntick .wtinner{animation:none}}

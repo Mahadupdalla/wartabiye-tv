@@ -108,7 +108,7 @@ jobs:
           NEWS_WRITER_DAILY_MAX: ${{ vars.NEWS_WRITER_DAILY_MAX || '24' }}
           NEWS_WRITER_MODEL: ${{ vars.NEWS_WRITER_MODEL || 'claude-opus-5-5' }}
           # LIVE News updates written inside the site from the newsroom wire (tools/live_updates.py), same key, own limit
-          LIVE_UPDATES_MODE: ${{ vars.LIVE_UPDATES_MODE || 'on' }}
+          LIVE_UPDATES_MODE: ${{ vars.LIVE_UPDATES_MODE || 'off' }}
           LIVE_UPDATES_MODEL: ${{ vars.LIVE_UPDATES_MODEL || 'claude-opus-5-5' }}
           LIVE_UPDATES_DAILY_USD: ${{ vars.LIVE_UPDATES_DAILY_USD || '1' }}
           FORCE: ${{ inputs.force && 'true' || 'false' }}

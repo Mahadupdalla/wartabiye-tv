@@ -20,7 +20,7 @@ fi
 python3 tools/live_feeds.py "$OUT" || { echo "live feeds: update failed (logged; the next check retries)"; exit 1; }
 # LIVE News updates written inside Wartabiye TV from the fresh wire items (tools/live_updates.py; Claude API on the owner's
 # key ANTHROPIC_API_KEY with its own daily limit LIVE_UPDATES_DAILY_USD). A failure never stops the wire update.
-if [ -n "${ANTHROPIC_API_KEY:-}" ] && [ "${LIVE_UPDATES_MODE:-on}" != off ]; then
+if [ -n "${ANTHROPIC_API_KEY:-}" ] && [ "${LIVE_UPDATES_MODE:-off}" = on ]; then
   python3 -c "import anthropic" 2>/dev/null || python3 -m pip install -q 'anthropic>=2.6,<3' || echo "live updates: could not install the anthropic package"
 fi
 timeout 300 python3 tools/live_updates.py "$OUT" || echo "live updates: failed this time (the next check retries)"
