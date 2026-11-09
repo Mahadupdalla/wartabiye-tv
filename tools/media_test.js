@@ -100,6 +100,9 @@ async function realSports(ctx, p) {
   let round;
   try { const g = await (await ctx.request.get('https://api.openligadb.de/getcurrentgroup/bl1', { timeout: 15000 })).json(); round = await (await ctx.request.get(`https://api.openligadb.de/getmatchdata/bl1/${lg.season}/${g.groupOrderID}`, { timeout: 15000 })).json(); }
   catch (e) { console.log('real sports: api.openligadb.de not reachable from here, skipped'); return }
+  // OpenLigaDB answers a rate-limited or failed request with an error object instead of the list of matches: the page
+  // shows its own fallback then, so there is nothing to compare (this crashed the whole check on 9 Nov 2026, run 42588338927)
+  if (!Array.isArray(round)) { console.log('real sports: api.openligadb.de did not return the match list (' + JSON.stringify(round).slice(0, 120) + '), skipped'); return }
   const done = round.filter(m => m.matchIsFinished && m.matchResults && m.matchResults.length);
   for (const m of round.filter(m => !m.matchIsFinished && Date.parse(m.matchDateTimeUTC) > Date.now() + 3600e3)) done.push(m); // and upcoming ones
   await go(p, 'ciyaaraha-toos?tab=results&c=bl1'); await p.waitForTimeout(2500); const res = (await st(p)).text;
