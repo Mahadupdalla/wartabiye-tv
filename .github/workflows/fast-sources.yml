@@ -29,7 +29,7 @@ on:
   push:
     # test run on a work branch when the monitor changes (nothing is saved)
     branches-ignore: [main, world-feed, fast-feed]
-    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/news_writer.py', 'tools/automation_watchdog.py', 'tools/quarantine.py', 'tools/live_feeds_cycle.sh', 'tools/live_updates.py', 'tools/world_news.py', 'tools/sports_results.py', 'tools/sports_writer.py', 'tools/sports_sources.py', 'tools/sports_publishers.py', 'data/sports/official-sources.json', 'data/sports/publishers.json', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
+    paths: ['tools/fast_monitor.py', 'tools/fast_loop.sh', 'tools/news_writer.py', 'tools/automation_watchdog.py', 'tools/quarantine.py', 'tools/live_feeds_cycle.sh', 'tools/live_feeds.py', 'tools/live_updates.py', 'tools/world_news.py', 'tools/sports_results.py', 'tools/sports_writer.py', 'tools/sports_sources.py', 'tools/sports_publishers.py', 'data/sports/official-sources.json', 'data/sports/publishers.json', 'data/world/sources.json', '.github/workflows/fast-sources.yml']
 permissions:
   contents: write
   issues: write
@@ -64,9 +64,11 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           LIVE_UPDATES_MODEL: ${{ vars.LIVE_UPDATES_MODEL || 'claude-opus-5-5' }}
           LIVE_UPDATES_PER_RUN: '2'
+          YOUTUBE_TOKEN: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           mkdir -p /tmp/lu && git fetch -q --depth=1 origin live-data && git show FETCH_HEAD:live-wire.json > /tmp/lu/live-wire.json || true
-          python3 tools/live_feeds.py /tmp/lu
+          LIVE_DEBUG=1 YOUTUBE_TOKEN="$YOUTUBE_TOKEN" python3 tools/live_feeds.py /tmp/lu
+          echo LIVE_CHANNELS_JSON && python3 -c "import json;print(json.dumps(json.load(open('/tmp/lu/video-feed.json')).get('liveChannels'),ensure_ascii=False))"
           if [ -n "$ANTHROPIC_API_KEY" ]; then python3 -m pip install -q 'anthropic>=2.6,<3'; fi
           python3 tools/live_updates.py /tmp/lu
           echo LIVE_UPDATES_JSON && python3 -c "import json;print(json.dumps(json.load(open('/tmp/lu/live-updates.json')),ensure_ascii=False))"

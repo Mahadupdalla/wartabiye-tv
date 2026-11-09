@@ -162,7 +162,6 @@
     var body=vT(v,'body')||vT(v,'summary');if(body){var bd=C.soAttr(el('div','vbody'),vSo(v,vT(v,'body')?'body':'summary'));String(body).split(/\n{2,}/).forEach(function(p){if(p.trim())bd.append(el('p',null,p.trim()))});tx.append(bd)}
     var cr=el('p','vcredit');var su=C.safeUrl(v.sourceUrl);cr.append(tr('sources')+': ');if(v.auto)cr.classList.add('auto');if(su){var a=el('a',null,v.source||tr('sourceWord'));a.href=su;a.target='_blank';a.rel='noopener';cr.append(a)}else cr.append(v.source||'Wartabiye TV');
     if(v.auto)cr.append(' · '+tr('vOfficialChannel'));else{if(v.credit)cr.append(' · '+tr('videoCredit')+': '+v.credit);if(v.license)cr.append(' · '+v.license)}tx.append(cr);
-    if(v.auto){var yo=el('a','vyt',tr('vWatchOnYouTube'));yo.href=v.youtube;yo.target='_blank';yo.rel='noopener';tx.append(yo)}
     var sh=el('div','vshare');var cp=el('button',null,tr('copy'));cp.type='button';cp.addEventListener('click',function(){var u=vUrl(v);(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){cp.textContent=tr('copied')}).catch(function(){prompt('',u)})});sh.append(cp);
     if(navigator.share){var sb=el('button',null,tr('share'));sb.type='button';sb.addEventListener('click',function(){navigator.share({title:vT(v,'title'),url:vUrl(v)}).catch(function(){})});sh.append(sb)}
     tx.append(sh);art.append(tx);main.append(art);
@@ -216,7 +215,10 @@
   function renderLive(){
     var V=C.$('pageView');V.innerHTML='';clearLd();C.setTitle(tr('liveTvNav'));
     if(!C.sec('live')){off(V,'liveTvNav');return}
-    var head=hub('livetv',tr('liveTvTitle'),tr('liveTvSub'));var lay=el('div','wrap livewrap');V.append(head,lay);lay.append(el('p','empty',tr('loadingStory')));
+    var head=hub('livetv',tr('liveTvTitle'),tr('liveTvSub'));var lay=el('div','wrap livewrap');var chw=el('div','wrap livechans');chw.hidden=true;V.append(head,lay,chw);lay.append(el('p','empty',tr('loadingStory')));
+    // while Wartabiye TV is not on air: the official live news channels, playable inside the page (built once, so a playing
+    // player is not reset by the 60-second status refresh)
+    var chDone=false;
     function draw(s){lay.innerHTML='';var stage=el('div','livestage'+(s.live?' on':''));var main=el('div','livemain');stage.append(main);
       var h1=head.querySelector('h1');var ob=h1.querySelector('.onair');if(ob)ob.remove();if(s.live)h1.append(badge());
       if(s.live){main.append(playerBox(s.pv,{title:s.title||tr('liveTvNav'),autoplay:true,mute:true,eager:true}));
@@ -232,6 +234,7 @@
         var a=el('a','mbtn',tr('mWatchVideos'));a.href='#muuqaal';offl.append(a);main.append(offl);
         if(!s.pv)main.append(el('p','vnote',tr('mNoStreamSet')))}
       lay.append(stage);
+      chw.hidden=!!s.live;if(!s.live&&!chDone){chDone=true;liveChannels(chw)}
       // schedule
       var sch=el('section','schedule');sch.append(C.head(tr('mSchedule')));
       if(!s.upcoming.length)sch.append(el('p','empty',tr('mNoSchedule')));
@@ -405,16 +408,31 @@
     function load(){return liveFeed('live-wire.json',55000).then(function(d){var ids=(d&&d.items||[]).map(function(x){return x.id});var added=seen?ids.filter(function(id){return !seen[id]}):[];seen={};ids.forEach(function(id){seen[id]=1});data=d;draw(added)})
       .catch(function(){if(!data){ol.innerHTML='';ol.append(el('li','empty',tr('wireUnavailable')))}})}
     load();timer=setInterval(function(){if(!document.body.contains(sec)){clearInterval(timer);return}load()},60000);return sec}
-  // official 24/7 news channels of the publishers, in YouTube's own live player (loaded only when the visitor presses play).
-  // Whether a broadcast is on right now is shown by YouTube's player; Wartabiye TV adds no LIVE sign of its own here.
+  // official 24/7 news channels, played INSIDE the site in YouTube's own embedded player (loaded only when the visitor presses
+  // play). tools/live_feeds.py reads each channel's public /live page every 5 minutes: the red LIVE sign is shown only when
+  // YouTube itself said the broadcast is on now and embedding is allowed, and that check is under 20 minutes old.
+  // OFFLINE when YouTube shows no broadcast; no sign at all when the check failed or is old. No links to other websites.
+  function chState(c){var d=new Date(c&&c.checkedAt);var fresh=!isNaN(d)&&Date.now()-d.getTime()<20*60e3&&d.getTime()<=Date.now()+5*60e3;
+    return fresh&&/^(live|offline|noembed)$/.test(c.state)?c.state:'unknown'}
+  // A large 16:9 player at the top of the page, loaded at once with the official player of the chosen channel (the visitor
+  // presses Play in YouTube's own player; browsers do not allow sound to start by itself). Channel buttons switch the player.
+  // A channel confirmed off air or with embedding switched off cannot be chosen, and says why.
   function liveChannels(main){var box=el('section','lchans');box.setAttribute('aria-label',tr('lcTitle'));main.append(box);
-    liveFeed('video-feed.json',5*60e3).then(function(d){var l=(d&&Array.isArray(d.liveChannels)?d.liveChannels:[]).filter(function(c){return c&&/^UC[A-Za-z0-9_-]{22}$/.test(c.channelId)});if(!l.length){box.remove();return}
-      box.append(C.head(tr('lcTitle')),el('p','vnote',tr('lcSub')));var g=el('div','lcgrid');
-      l.forEach(function(c){var card=el('div','lccard');var st=el('div','vframe lcposter');var b=el('button','lcplay');b.type='button';b.setAttribute('aria-label',trf('lcWatch',{s:c.name}));
-        var ic=el('span','vicon');ic.innerHTML=C.svg('M8 5v14l11-7z');b.append(ic,el('span',null,trf('lcWatch',{s:c.name})));st.append(b);
-        b.addEventListener('click',function(){var p=playerBox({p:'youtube-channel',id:c.channelId},{title:c.name,autoplay:true,eager:true});card.replaceChild(p,st)});
-        var a=el('a','vyt',tr('vWatchOnYouTube'));var u=C.safeUrl(c.watchUrl);if(u){a.href=u;a.target='_blank';a.rel='noopener'}
-        card.append(st,el('h3',null,c.name),a);g.append(card)});box.append(g)}).catch(function(){box.remove()})}
+    return liveFeed('video-feed.json',5*60e3).then(function(d){var l=(d&&Array.isArray(d.liveChannels)?d.liveChannels:[]).filter(function(c){return c&&/^UC[A-Za-z0-9_-]{22}$/.test(c.channelId)});if(!l.length){box.remove();return}
+      var rank={live:0,unknown:1,offline:2,noembed:3};l=l.map(function(c,i){return {c:c,s:chState(c),i:i}}).sort(function(a,b){return rank[a.s]-rank[b.s]||a.i-b.i});
+      var top=el('div','lctop');var h=el('h2','lchead');top.append(h);box.append(top);
+      var stage=el('div','lcstage');var cap=el('div','lccap');var tabs=el('div','lctabs');tabs.setAttribute('role','tablist');box.append(stage,cap,tabs,el('p','vnote',tr('lcSub')));
+      function badge(s){if(s==='live'){var b=el('span','onair lcbadge');b.append(el('i'),document.createTextNode(tr('lcLive')));return b}if(s==='offline')return el('span','lcoff',tr('lcOff'));return null}
+      function show(x){var c=x.c,s=x.s;stage.innerHTML='';cap.innerHTML='';h.innerHTML='';var b=badge(s);if(b)h.append(b);h.append(document.createTextNode(c.name||''));box.className='lchans lc-'+s;
+        if(s==='live'||s==='unknown'){var pv=s==='live'&&/^[A-Za-z0-9_-]{11}$/.test(c.videoId||'')?{p:'youtube',id:c.videoId}:{p:'youtube-channel',id:c.channelId};
+          stage.append(playerBox(pv,{title:(c.title||c.name)+' (YouTube)',eager:true}))}
+        else{var o=el('div','vframe lcposter');o.append(el('p','lcmsg',tr(s==='offline'?'lcOffTxt':'lcNoEmbed')));stage.append(o)}
+        if(s==='live'&&c.title)cap.append(el('p','lctitle',c.title));
+        cap.append(el('p','lcmeta',s==='unknown'?tr('lcUnknown'):trf('lcChecked',{t:eatHM(new Date(c.checkedAt))})));
+        [].forEach.call(tabs.children,function(t){t.setAttribute('aria-selected',String(t._x===x))})}
+      l.forEach(function(x){var t=el('button','lctab');t.type='button';t.setAttribute('role','tab');t._x=x;var b=badge(x.s);if(b)t.append(b);t.append(el('span',null,x.c.name||''));
+        if(x.s==='offline'||x.s==='noembed')t.disabled=true;else t.addEventListener('click',function(){show(x)});tabs.append(t)});
+      if(l.length<2)tabs.remove();show(l[0])}).catch(function(){box.remove()})}
   // source health (admin): #ilaha-xaaladda — every feed's last check, last success, newest item and last error
   function sourceHealth(V){V.innerHTML='';C.setTitle(tr('healthTitle'));V.append(hub('videos',tr('healthTitle'),tr('healthSub')));var w=el('div','wrap page');V.append(w);w.append(el('p','empty',tr('loadingStory')));
     Promise.all([liveFeed('feeds-status.json',30000).catch(function(){return null}),json('data/live-status.json',30000).catch(function(){return null}),json('data/sports.json',60000).catch(function(){return null}),
