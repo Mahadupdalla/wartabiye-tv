@@ -5,7 +5,8 @@ ANTHROPIC_API_KEY, billed per use by Anthropic, separate from the owner's Claude
 Input: the fresh sports stories the 5-minute monitor found (branch world-feed, candidates.json: the publishers in
 data/sports/publishers.json whose feed works (BBC Sport, Sky Sports, MARCA, AS, Gazzetta, kicker, L'Équipe, UEFA, FIFA ...), Bundesliga.com,
 The Guardian, Sky Sports, DW, France 24, Capital FM Kenya ...). For each story, newest first, at most MAX_PER_RUN per
-check and MAX_PER_DAY a day:
+check and MAX_PER_DAY a day, ONLY at the scheduled times SLOTS (08:00 and 18:00 Africa/Nairobi; at most one
+article per scheduled run, and an API call only while the day's spend + EST_CALL_USD stays within $1):
   - skipped at once (no API call) when it is older than MAX_AGE_MIN, a quiz / live blog / gallery / betting item, or its
     link or headline is already on the site (deleted and unpublished articles included: tools/known_sources.py);
   - Claude opens the original article (web_fetch), checks the facts in at least one more reliable source (web_search),
@@ -31,12 +32,18 @@ STATUS = os.environ.get('SPORTS_WRITER_STATUS') or os.path.join(root, 'data', 'w
 EAT = datetime.timezone(datetime.timedelta(hours=3))
 MODEL = 'claude-opus-5-5'
 MAX_AGE_MIN = 120                                        # the site rule: never publish a story older than 2 hours as new
-MAX_PER_RUN = int(os.environ.get('SPORTS_WRITER_PER_RUN', '2'))
-MAX_PER_DAY = int(os.environ.get('SPORTS_WRITER_DAILY_MAX', '20'))  # cost guard: articles a day
+# the owner's schedule (9 Nov 2026): paid AI sports articles only at 08:00 and 18:00 Africa/Nairobi, ONE article per
+# scheduled run, at most $1 a day. Headlines (RSS) and match results keep updating every 5 minutes without paid AI.
+SLOTS = [x.strip() for x in os.environ.get('SPORTS_WRITER_SLOTS', '08:00,18:00').split(',') if x.strip()]
+SLOT_WINDOW_MIN = 55          # a scheduled run may start in the first 55 minutes after its time (the 5-minute loop)
+MAX_CALLS_PER_SLOT = 2        # if Claude refuses the first story (not verified, duplicate ...), one more story is tried
+EST_CALL_USD = 0.45           # worst usual cost of one story: a call is only made while spent + this <= the daily limit
+MAX_PER_RUN = int(os.environ.get('SPORTS_WRITER_PER_RUN') or '1')
+MAX_PER_DAY = int(os.environ.get('SPORTS_WRITER_DAILY_MAX') or '2')  # cost guard: articles a day
 # spending limit: the writer stops for the day once the estimated cost of today's calls reaches this (US dollars).
 # Estimate from each reply's usage at the list prices of claude-opus-5-5 ($4 / $20 per million input / output tokens,
 # $0.20 cache reads) and web search ($10 per 1,000 searches). Also set a monthly limit in console.anthropic.com.
-MAX_USD_PER_DAY = float(os.environ.get('SPORTS_WRITER_DAILY_USD', '5'))
+MAX_USD_PER_DAY = float(os.environ.get('SPORTS_WRITER_DAILY_USD') or '1')
 PRICE = {'in': 4e-6, 'out': 20e-6, 'cache_read': 0.2e-6, 'cache_write': 5e-6, 'search': 0.01}
 
 
@@ -453,6 +460,30 @@ def load_json(p, default):
         return default
 
 
+def current_slot(t):
+    """-> 'HH:MM' when t (Africa/Nairobi) is inside a scheduled writing time, else None."""
+    for sl in SLOTS:
+        h, m = (int(x) for x in sl.split(':'))
+        start = t.replace(hour=h, minute=m, second=0, microsecond=0)
+        if datetime.timedelta(0) <= t - start < datetime.timedelta(minutes=SLOT_WINDOW_MIN):
+            return sl
+    return None
+
+
+def next_slot(t):
+    for d in (0, 1):
+        for sl in sorted(SLOTS):
+            h, m = (int(x) for x in sl.split(':'))
+            st = (t + datetime.timedelta(days=d)).replace(hour=h, minute=m, second=0, microsecond=0)
+            if st > t:
+                return st.isoformat(timespec='minutes')
+
+
+def can_call(state, day):
+    """the daily limit, checked BEFORE every API call (with the worst usual cost of one story)"""
+    return state.get('usd', {}).get(day, 0.0) + EST_CALL_USD <= MAX_USD_PER_DAY + 1e-9
+
+
 def write_status(st, run):
     s = load_json(STATUS, {})
     day = now().strftime('%Y-%m-%d')
@@ -465,7 +496,9 @@ def write_status(st, run):
     out = {'about': 'Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); '
                      '"held" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.',
            'mode': 'on' if os.environ.get('ANTHROPIC_API_KEY') else 'off (no ANTHROPIC_API_KEY secret)',
-           'limits': {'articlesPerDay': MAX_PER_DAY, 'usdPerDay': MAX_USD_PER_DAY, 'perCheck': MAX_PER_RUN},
+           'limits': {'articlesPerDay': MAX_PER_DAY, 'usdPerDay': MAX_USD_PER_DAY, 'perScheduledRun': MAX_PER_RUN,
+                      'estimatedMaxPerStoryUsd': EST_CALL_USD},
+           'schedule': {'times (Africa/Nairobi)': SLOTS, 'windowMinutes': SLOT_WINDOW_MIN, 'nextRun': next_slot(now())},
            'lastCheckAt': run['at'], 'lastRun': run['counts'], 'lastWrittenAt': run['at'] if run['counts'].get('written') else s.get('lastWrittenAt'),
            'days': dict(sorted(days.items())[-14:]), 'recent': recent}
     with open(STATUS, 'w', encoding='utf-8') as f:
@@ -478,7 +511,10 @@ def run(cand_path, state_path, dry=False):
     state = load_json(state_path, {}) if state_path else {}
     state.setdefault('seen', {})
     day = t.strftime('%Y-%m-%d')
-    used_today = state.get('days', {}).get(day, 0)
+    used_today = state.get('written', {}).get(day, 0)
+    slot = current_slot(t)
+    sk_ = f'{day} {slot}' if slot else None
+    sl_st = state.get('slots', {}).get(sk_, {}) if slot else {}
     import known_sources
     ids, urls, titles, _ = known_sources.collect()
     todo, skipped = select(cands, set(urls), titles, state, t)
@@ -488,11 +524,14 @@ def run(cand_path, state_path, dry=False):
         state['seen'][norm(c.get('canonicalUrl') or c.get('url'))] = t.isoformat(timespec='seconds')
         run['items'].append({'at': run['at'], 'result': 'skipped', 'reason': why, 'source': c.get('source'), 'title': c.get('title'), 'url': c.get('url')})
     spent = state.get('usd', {}).get(day, 0.0)
-    room = max(0, min(MAX_PER_RUN, MAX_PER_DAY - used_today)) if spent < MAX_USD_PER_DAY else 0
-    print(f'{len(todo)} new sports stor(ies) to write, {len(skipped)} skipped, room for {room} this check '
-          f'({used_today}/{MAX_PER_DAY} articles, ${spent:.2f}/${MAX_USD_PER_DAY:.2f} today)')
+    room = max(0, min(MAX_PER_RUN - sl_st.get('written', 0), MAX_PER_DAY - used_today)) if can_call(state, day) else 0
+    calls_left = MAX_CALLS_PER_SLOT - sl_st.get('calls', 0)
+    if not slot or calls_left <= 0:
+        room = 0
+    print(f'{len(todo)} new sports stor(ies), {len(skipped)} skipped; scheduled run: {slot or "no (next " + str(next_slot(t)) + ")"}; '
+          f'room for {room} ({used_today}/{MAX_PER_DAY} articles, ${spent:.2f}/${MAX_USD_PER_DAY:.2f} today)')
     if todo and not room:
-        run['counts']['heldByLimit'] = len(todo)
+        run['counts']['waitingForSchedule' if not slot or calls_left <= 0 else 'heldByLimit'] = len(todo)
     if dry:
         for c in todo:
             print(f"would write: {c.get('source')} | {c.get('publishedAt')} | {c.get('title')}")
@@ -502,15 +541,22 @@ def run(cand_path, state_path, dry=False):
         run['counts']['waitingForKey'] = len(todo)
         todo = []
     client = None
-    for c in todo[:room]:
+    written_now = 0
+    for c in (todo if room else []):
+        if written_now >= room or calls_left <= 0:
+            break
         u = norm(c.get('canonicalUrl') or c.get('url'))
         if client is None:
             import anthropic
             client = anthropic.Anthropic(max_retries=3, timeout=300)
         log = []
-        if state.get('usd', {}).get(day, 0.0) >= MAX_USD_PER_DAY:
+        if not can_call(state, day):
             print(f'daily spending limit ${MAX_USD_PER_DAY:.2f} reached: the rest waits for tomorrow'); break
         a, why = ask_claude(client, c, log)
+        if a is not None or 'API error' not in why:
+            calls_left -= 1
+            sl_st['calls'] = sl_st.get('calls', 0) + 1
+            state.setdefault('slots', {})[sk_] = sl_st
         state['days'] = {day: state.get('days', {}).get(day, 0) + 1}
         state['usd'] = {day: round(state.get('usd', {}).get(day, 0.0) + cost(log), 4)}
         run['counts']['usd'] = round(run['counts'].get('usd', 0) + cost(log), 4)
@@ -521,7 +567,10 @@ def run(cand_path, state_path, dry=False):
             item.update(result='failed', reason=why)
             if 'API error' not in why:
                 state['seen'][u] = run['at']   # an API outage is retried at the next check; a refusal is not
-            run['items'].insert(0, item); continue
+            run['items'].insert(0, item)
+            if 'API error' in why:
+                break                          # no credit / API down: do not try the other stories now
+            continue
         state['seen'][u] = run['at']
         if a.get('decision') != 'publish':
             print(f"refused: {c.get('title')} | {a.get('reason')}")
@@ -543,6 +592,9 @@ def run(cand_path, state_path, dry=False):
         run['counts']['written'] = run['counts'].get('written', 0) + 1
         run['counts']['published' if ok else 'held'] = run['counts'].get('published' if ok else 'held', 0) + 1
         ids[n['id']] = 'current'
+        written_now += 1
+        sl_st['written'] = sl_st.get('written', 0) + 1
+        state['written'] = {day: state.get('written', {}).get(day, 0) + 1}
         if key:
             state.setdefault('keys', {})[key] = {'type': a.get('storyType'), 'id': n['id'], 'at': run['at']}
         item.update(result='published' if ok else 'held (Sugaya sawir)', id=n['id'], reason=None if ok else note,
@@ -552,6 +604,7 @@ def run(cand_path, state_path, dry=False):
     # remember the last 2 days of handled links only
     cut = (t - datetime.timedelta(days=2)).isoformat()
     state['seen'] = {k: v for k, v in state['seen'].items() if v >= cut}
+    state['slots'] = {k: v for k, v in state.get('slots', {}).items() if k[:10] >= (t - datetime.timedelta(days=2)).strftime('%Y-%m-%d')}
     kcut = (t - datetime.timedelta(days=7)).isoformat()
     state['keys'] = {k: v for k, v in state.get('keys', {}).items() if v.get('at', '') >= kcut}
     if state_path:
@@ -601,6 +654,12 @@ def self_test():
     assert n['de']['title'].startswith('Gerücht: ') and n['transfer']['status'] == 'rumour'
     assert label('Rumour: Rumour: X', 'en') == 'Rumour: X'
     assert validate({**a, 'storyType': 'transfer-confirmed', 'officialAnnouncement': ''}) == ['transfer called confirmed without the official club announcement']
+    # the schedule: 08:00 and 18:00 Nairobi only, and the $1 limit before every call
+    at = lambda h, m: datetime.datetime(2026, 11, 9, h, m, tzinfo=EAT)
+    assert current_slot(at(8, 0)) == '08:00' and current_slot(at(8, 54)) == '08:00' and current_slot(at(8, 55)) is None
+    assert current_slot(at(7, 59)) is None and current_slot(at(18, 20)) == '18:00' and current_slot(at(12, 0)) is None
+    assert next_slot(at(12, 0)) == '2026-11-09T18:00+03:00' and next_slot(at(19, 0)) == '2026-11-10T08:00+03:00'
+    assert can_call({'usd': {'d': 0.5}}, 'd') and not can_call({'usd': {'d': 0.6}}, 'd') and can_call({}, 'd')
     json.dumps(SCHEMA)
     print('SPORTS WRITER OK')
 
