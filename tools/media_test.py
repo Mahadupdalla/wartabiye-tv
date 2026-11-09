@@ -52,7 +52,9 @@ _feed = 'data/sports-feed'
 import os as _os
 for _f in (_os.listdir(_feed) if _os.path.isdir(_feed) else []):
     _t = open(_os.path.join(_feed, _f)).read()
-    check(not _re.search(r'(?i)(token|api[_-]?key|x-auth)', _t), f'no key in {_f}')
+    # a key would be a JSON field or a URL parameter; the word "token" in a note such as "until the secret
+    # FOOTBALL_DATA_TOKEN is added" is not a key (that note blocked every publish on 9 Nov 2026, runs #96 / #215)
+    check(not _re.search(r'(?i)("(token|access_token|api_?key|key|secret|x-auth-token)"\s*:|[?&](key|token|api_?key)=|x-auth-token\s*[:=]\s*\w)', _t), f'no key in {_f}')
 # Video News / LIVE News sources: official channels and https feeds only, unique ids, no key in the public files
 _ms = _j.load(open('data/media-sources.json'))
 for _c in _ms['videos']['channels'] + _ms.get('liveChannels', []):
