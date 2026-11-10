@@ -30,11 +30,11 @@ const HDRS = ['cache-control', 'age', 'last-modified', 'etag', 'x-cache', 'x-cac
   // 1. what the server and its caches hand out: the plain address (what a browser or crawler without our
   //    cache-buster gets) and the cache-busted one (what the site's own script asks for)
   console.log('\nHTTP (headers that decide caching)');
-  for (const path of ['', 'data/news.json', 'assets/app.js', 'war/' + (want[0] && want[0].id) + '.html', 'soomaaliya/', 'caalamka/', 'rss.xml']) {
+  for (const path of ['', 'data/news.json', 'assets/app.js', 'war/' + (want[0] && want[0].id) + '.html', 'soomaaliya/', 'bariga-afrika/', 'caalamka/', 'rss.xml']) {
     const r = await rq.get(SITE + path, { failOnStatusCode: false });
     const h = r.headers(); const keep = HDRS.filter(k => h[k]).map(k => `${k}=${h[k]}`).join(' ');
     console.log(`  /${path}  HTTP ${r.status()}  ${keep}`);
-    if (r.status() !== 200 && path !== 'soomaaliya/') bad.push(`/${path} answered HTTP ${r.status()}`);
+    if (r.status() !== 200) bad.push(`/${path} answered HTTP ${r.status()}`);
   }
   const live = {};
   for (const [k, url] of [['plain', SITE + 'data/news.json'], ['busted', SITE + 'data/news.json?' + bust()]]) {
