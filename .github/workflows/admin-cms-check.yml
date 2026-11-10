@@ -1,0 +1,44 @@
+name: Maamulka - tijaabada qalabka daabacaadda (publishing tool check)
+# Runs the secure admin Worker locally with the real publishing tool in a real browser, against the REAL repository
+# (GitHub API calls use this workflow's own short-lived token). Read-only unless "write_test" is chosen, which edits
+# one real article headline from the dashboard's Articles screen, publishes, checks www.wartabiyetv.com and then
+# restores it and checks again.
+on:
+  workflow_dispatch:
+    inputs:
+      write_test:
+        description: 'Also do the reversible edit-and-publish test on the live website (yes/no)'
+        required: false
+        default: 'no'
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths: ['workers/admin/**', 'admin/config.yml', '.github/workflows/admin-cms-check.yml']
+  push:
+    branches: [main]
+    paths: ['workers/admin/**', 'admin/config.yml', '.github/workflows/admin-cms-check.yml']
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: admin-cms-check
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    defaults: { run: { working-directory: workers/admin } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - run: npm ci --no-audit --no-fund
+      - run: node scripts/prepare.mjs
+      - run: npm i --no-save --no-audit --no-fund playwright@1.55.0 >/dev/null && npx playwright install --with-deps chromium >/dev/null
+      - name: Publishing tool with the real content
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # the live edit test runs when chosen by hand, or on a pull request labelled "live-edit-test"
+          WRITE_TEST: ${{ (github.event.inputs.write_test == 'yes' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'live-edit-test'))) && '1' || '0' }}
+        run: node test/cms-ci.mjs cms-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: cms-check, path: workers/admin/cms-ci, retention-days: 7 }

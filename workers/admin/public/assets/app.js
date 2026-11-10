@@ -169,12 +169,14 @@
     analytics: { title: 'Analytics', render: renderAnalytics },
     automation: { title: 'Automation Status', render: renderAutomation },
     security: { title: 'Security & sessions', render: renderSecurity },
-    articles: { title: 'Articles', cms: '#/collections/news', links: [['All articles', '#/collections/news'], ['New article', '#/collections/news/new']], note: 'Filters at the top of the list: Qabyo (drafts), Sugaya sawir (waiting for a photo), Degdeg (breaking), Ciyaaraha, Caalamka.' },
-    world: { title: 'World News', cms: '#/collections/news', links: [['World articles (use the "Caalamka" filter)', '#/collections/news'], ['World news sources', '#/collections/world']] },
-    sports: { title: 'Sports News', cms: '#/collections/news', links: [['Sports articles (use the "Ciyaaraha" filter)', '#/collections/news'], ['Sports writer & sources', '#/collections/world/entries/sportsWriter'], ['Match results report', '#/collections/world/entries/sportsResults'], ['Live scores settings', '#/collections/media/entries/sports']] },
+    articles: { title: 'Articles', native: 'articles' },
+    world: { title: 'World News', native: 'world' },
+    sports: { title: 'Sports News', native: 'sports' },
+    somalia: { title: 'Somalia News', native: 'somalia' },
+    editor: { title: 'Full editor', cms: '#/collections/news', links: [['All articles', '#/collections/news'], ['New article', '#/collections/news/new'], ['World news sources', '#/collections/world'], ['Sports writer & sources', '#/collections/world/entries/sportsWriter'], ['Live scores settings', '#/collections/media/entries/sports']], note: 'Every field of every file. Saving here also publishes to the website.' },
     live: { title: 'LIVE News', cms: '#/collections/media/entries/sources', links: [['LIVE News sources', '#/collections/media/entries/sources'], ['LIVE TV stream', '#/collections/media/entries/live'], ['Fast sources (5 minutes)', '#/collections/world/entries/fast']] },
-    media: { title: 'Media Library', cms: '#/assets', links: [['All images', '#/assets'], ['Videos', '#/collections/videos']] },
-    homepage: { title: 'Homepage & pages', cms: '#/collections/settings/entries/site', links: [['Homepage & site settings', '#/collections/settings/entries/site'], ['About, policies & privacy pages', '#/collections/pages/entries/pages']] },
+    media: { title: 'Media Library', native: 'media' },
+    homepage: { title: 'Homepage', native: 'homepage' },
     ads: { title: 'Advertising', cms: '#/collections/ads', links: [['Adverts', '#/collections/ads'], ['New advert', '#/collections/ads/new']], extra: [['Advertising requests (private)', '/cms/codsiyada/']] },
     notifications: { title: 'Notifications', cms: '#/collections/alerts', links: [['Alerts', '#/collections/alerts'], ['Notification settings & delivery log', '#/collections/notify']] },
     settings: { title: 'Settings', cms: '#/collections/settings/entries/site', links: [['Website settings', '#/collections/settings/entries/site'], ['Pages', '#/collections/pages/entries/pages'], ['News sources', '#/collections/world/entries/sources']] },
@@ -188,13 +190,15 @@
     $('viewTitle').textContent = VIEWS[v].title; document.title = VIEWS[v].title + ' · Wartabiye TV Admin';
     document.querySelectorAll('.view').forEach(function (x) { x.hidden = true; });
     closeMenu();
-    if (VIEWS[v].cms) return openCms(VIEWS[v]);
+    if (VIEWS[v].cms) return openCms(VIEWS[v], pendingCms);
+    if (VIEWS[v].native) { var ne = $('v-native'); ne.hidden = false; return (window.WTV_VIEWS[VIEWS[v].native])(ne, (location.hash.split('?')[1] || '')); }
     var el = $('v-' + v); el.hidden = false; VIEWS[v].render(el);
   }
 
   // ---- publishing tool (Sveltia CMS) inside the dashboard ----
-  var cmsLoaded = false;
-  function openCms(V) {
+  var cmsLoaded = false, pendingCms = null;
+  function openCms(V, first) {
+    pendingCms = null;
     var sec = $('v-cms'); sec.hidden = false;
     var bar = $('cmsBar'); bar.innerHTML = '';
     var fr = $('cmsFrame');
@@ -205,8 +209,10 @@
       if (!cmsLoaded) { fr.src = '/cms/' + hash; cmsLoaded = true; return; }
       try { fr.contentWindow.location.hash = hash; } catch (e) { fr.src = '/cms/' + hash; }
     }
-    nav(V.cms);
+    nav(first || V.cms);
   }
+  // open the full editor at one entry, e.g. '#/collections/news/entries/<id>'
+  function openFullEditor(hash) { pendingCms = hash; if (current === 'editor') return openCms(VIEWS.editor, hash); location.hash = '#editor'; }
 
   // ---- Dashboard (overview) ----
   function renderDashboard(el) {
@@ -215,7 +221,7 @@
     var hello = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
     el.append(h('div', { class: 'hero' }, h('div', null, h('h2', { text: hello + (ME && (ME.name || ME.login) ? ', ' + (ME.name || ME.login).split(' ')[0] : '') }), h('p', { text: 'Here is how Wartabiye TV is doing right now.' })),
       h('div', { class: 'actions' },
-        h('a', { class: 'btn primary', href: '#articles', html: ic('plus') + '<span>New article</span>', onclick: function () { setTimeout(function () { try { $('cmsFrame').contentWindow.location.hash = '#/collections/news/new'; } catch (e) {} }, 400); } }),
+        h('a', { class: 'btn primary', href: '#articles?new', html: ic('plus') + '<span>New article</span>' }),
         h('a', { class: 'btn', href: '#analytics', html: ic('chart') + '<span>Full analytics</span>' }),
         h('a', { class: 'btn', href: SITE, target: '_blank', rel: 'noopener', html: ic('ext') + '<span>Open website</span>' }))));
     var note = h('div'); el.append(note);
@@ -486,6 +492,10 @@
   addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
 
   var rz = 0, lastW = innerWidth; addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (innerWidth !== lastW && (current === 'analytics' || current === 'dashboard')) { lastW = innerWidth; go(); } }, 300); });
+
+  // ---- shared with content.js (articles, media library, homepage) ----
+  window.WTV = { h: h, ic: ic, icon: icon, card: card, api: api, errBox: errBox, every: every, clearTimers: clearTimers, showTip: showTip, hideTip: hideTip,
+    site: function () { return SITE; }, me: function () { return ME; }, openFullEditor: openFullEditor, ago: ago, n: n };
 
   // ---- start ----
   api('/api/me').then(function (me) {

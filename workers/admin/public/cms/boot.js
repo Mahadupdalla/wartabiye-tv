@@ -18,11 +18,19 @@
       return r;
     });
   };
-  // if GitHub could not be reached, the tool falls back to its own sign-in screen: cover it with a clear retry message
+  // if GitHub could not be reached, the tool stays on its own sign-in screen: cover it with a clear retry message.
+  // The tool shows that screen for a moment on every start before it signs in by itself, so only react when it is
+  // still there after 12 seconds, and take the message away again as soon as the tool has loaded.
+  var since = 0;
+  function signInScreen() {
+    return [].some.call(document.querySelectorAll('button'), function (b) { return /Sign In Using Access Token|Work with Local Repository/.test(b.textContent); });
+  }
   function guard() {
-    var hit = [].some.call(document.querySelectorAll('button'), function (b) { return /Sign In Using Access Token|Work with Local Repository/.test(b.textContent); });
-    if (!hit || document.getElementById('wtvRetry')) return;
-    var o = document.createElement('div'); o.id = 'wtvRetry';
+    var o = document.getElementById('wtvRetry');
+    if (!signInScreen()) { since = 0; if (o) o.remove(); return; }
+    if (!since) since = Date.now();
+    if (o || Date.now() - since < 12000) return;
+    o = document.createElement('div'); o.id = 'wtvRetry';
     o.setAttribute('style', 'position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#f1f5fa;font:16px system-ui,sans-serif;color:#0b1c33;padding:20px;text-align:center');
     var box = document.createElement('div');
     var h = document.createElement('h2'); h.textContent = 'Could not connect to GitHub';
@@ -32,7 +40,7 @@
     b.addEventListener('click', function () { try { localStorage.setItem('sveltia-cms.user', JSON.stringify({ backendName: 'github', token: 'server-session' })); } catch (e) {} location.reload(); });
     box.append(h, p, b); o.append(box); document.body.append(o);
   }
-  new MutationObserver(guard).observe(document.documentElement, { childList: true, subtree: true });
+  setInterval(guard, 1000);
   // keep the session alive while the owner is working in the editor
   var last = 0;
   ['keydown', 'pointerdown'].forEach(function (ev) {
