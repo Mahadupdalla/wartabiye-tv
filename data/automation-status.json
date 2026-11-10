@@ -1,53 +1,58 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-10T23:51:27+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
- "lastSuccessfulPublishAt": "2026-11-10T19:50:24Z",
- "newestArticleAt": "2026-11-10T20:35:07+03:00",
- "lastSourceCheckAt": "2026-11-10T23:50:18+03:00",
+ "updatedAt": "2026-11-11T00:41:21+03:00",
+ "overall": "retrying",
+ "overallText": "Cillad ku meel gaar ah: si otomaatig ah ayaa dib loogu celinayaa",
+ "lastSuccessfulPublishAt": "2026-11-10T21:23:40Z",
+ "newestArticleAt": "2026-11-10T23:45:51+03:00",
+ "lastSourceCheckAt": "2026-11-11T00:40:18+03:00",
  "sourceChecks24h": 294,
- "publishedArticles": 352,
- "liveArticles": 352,
+ "publishedArticles": 365,
+ "liveArticles": 365,
  "waitingForImage": 78,
  "liveInSync": true,
- "publishFailures24h": 2,
+ "publishFailures24h": 3,
  "lastPublishRun": {
-  "created_at": "2026-11-10T19:50:24Z",
-  "conclusion": "success",
+  "created_at": "2026-11-10T21:40:12Z",
+  "conclusion": "failure",
   "event": "push",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/42889264473"
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/42907270138"
  },
- "retry": null,
+ "retry": {
+  "attempts": 1,
+  "max": 4,
+  "lastRetryAt": "2026-11-10T21:41:19+00:00",
+  "since": "2026-11-10T21:41:19+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-10T21:10:16+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-11T00:45:00+03:00",
  "writers": {
   "sports": {
    "mode": "on",
-   "lastCheckAt": "2026-11-10T23:51:25+03:00",
+   "lastCheckAt": "2026-11-11T00:41:18+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 3,
-    "waitingForSchedule": 73
+    "skipped": 7,
+    "waitingForSchedule": 64
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-10T23:50:11+03:00",
-   "lastSuccessAt": "2026-11-10T23:50:11+03:00",
+   "lastCheckAt": "2026-11-11T00:40:12+03:00",
+   "lastSuccessAt": "2026-11-11T00:40:12+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-10T21:10:16+03:00",
+  "lastSourceCheckAt": "2026-11-11T00:45:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-10T20:05:05+03:00",
-   "sourceName": "Shabelle Media Network",
-   "title": "UN Women backs NUSOJ-led nationwide consultations on Somalia’s accession to CEDAW",
-   "url": "https://shabellemedia.com/un-women-backs-nusoj-led-nationwide-consultations-on-somalias-accession-to-cedaw/"
+   "publishedAt": "2026-11-10T22:20:31+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Foreign-backed plot seeks to stoke security panic in Somalia",
+   "url": "https://www.caasimada.net/foreign-backed-plot-seeks-to-stoke-security-panic-in-somalia/"
   },
   "latestPublished": {
    "id": "2026-11-10-daahir-shire-beledweyne-tabashada-hiiraan",
@@ -57,22 +62,14 @@
    "url": "/war/2026-11-10-daahir-shire-beledweyne-tabashada-hiiraan.html"
   },
   "publishedLastRun": 0,
-  "rejectedLastRun": 15,
+  "rejectedLastRun": 3,
   "rejectedReasons": {
-   "old": 3,
-   "known": 1,
-   "duplicate": 11
+   "duplicate": 3
   },
   "taskRejectedReasons": [
-   "Shir xasaasi ah oo u socda taliyeyaasha ciidamada iyo mucaaradka DF (Caasimada): headline-only, il kale oo la akhrin karo lama helin -> pending (Caasimada: lama xaqiijin)",
-   "UN Women backs NUSOJ-led nationwide consultations on Somalia's accession to CEDAW (Shabelle): headline-only, il kale lama helin -> pending (Shabelle: lama xaqiijin)",
-   "Guddoomiyihii xilka laga qaaday ee Maxkamadda Sare oo sheegay in loo hanjabay (Shabelle): headline-only, eedeyn culus oo hal il ah -> pending (Shabelle: lama xaqiijin)",
-   "Wasiirka Gaashaandhigga Soomaaliya oo la kulmay safiirka Sweden (Shabelle): borotokool, qiime war ma leh",
-   "Guddiga Aqalka Sare oo kulan la yeeshay mas'uuliyiin ka tirsan Wasaaradda Maaliyadda (Shabelle): kulan caadi ah oo go'aan la'aan ah",
-   "Dunida Iyo Maanta (BBC Somali): barnaamij raadiye, war ma aha",
-   "Daawo: Ujeedka wafdiga DF ee maanta gaaray Beledweyne (Caasimada): nuqul (warka Daahir Shire ee orodkii hore)",
-   "Somali Danab Commandos / Algeria scholarships / Somalia condolences to Egypt (Shabelle): horey ayay pending ugu jireen (lama xaqiijin), weli il kale lama helin",
-   "Garaad Cabdiqani Wuu Ka Digay Isku Dayga Burburinta Qarannimada Soomaaliya (Puntland Post): faallo/ra'yi, war ma aha"
+   "Qareennada Bariga Afrika oo baaq u jeediyay madaxweyne Xasan Sheekh (Puntland Post): eedeyn siyaasadeed oo hal il kaliya ah, il madax-bannaan lama helin -> pending",
+   "Foreign-backed plot seeks to stoke security panic in Somalia (Caasimada): headline-only, il kale oo la akhrin karo lama helin -> pending (Caasimada: lama xaqiijin)",
+   "Baashe Yuusuf oo war cusub soo saaray kuna adkeystay… (Caasimada): headline-only, cinwaan aan dhammeystirnayn, il kale lama helin -> pending (Caasimada: lama xaqiijin)"
   ],
   "waitingForImage": 1,
   "waitingIds": [
@@ -80,6 +77,6 @@
   ],
   "stale": false,
   "problems": [],
-  "lastSuccessfulPublishAt": "2026-11-10T19:50:24Z"
+  "lastSuccessfulPublishAt": "2026-11-10T21:23:40Z"
  }
 }
