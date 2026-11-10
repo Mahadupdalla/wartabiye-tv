@@ -151,7 +151,7 @@
   function flag(cc) { return cc && cc.length === 2 ? String.fromCodePoint.apply(null, cc.toUpperCase().split('').map(function (c) { return 127397 + c.charCodeAt(0); })) : '🌐'; }
   function countryName(cc) { if (!cc) return 'Unknown'; try { return REGION ? REGION.of(cc) : cc; } catch (e) { return cc; } }
   function langName(l) { if (!l) return 'Not set'; try { return LANGN ? LANGN.of(l) : l; } catch (e) { return l; } }
-  var SOURCE = { direct: 'Direct (typed, bookmarks, apps)', search: 'Search engines', social: 'Social media', website: 'Other websites', email: 'Email', campaign: 'Campaign links' };
+  var SOURCE = { direct: 'Direct (typed, bookmarks, apps)', search: 'Search engines', social: 'Social media', website: 'Other websites', email: 'Email', campaign: 'Campaign links', app: 'Wartabiye TV app' };
   var SECTION = { '/': 'Homepage', '/ciyaaraha': 'Sports', '/caalamka': 'World', '/bariga-afrika': 'Somalia & East Africa', '/wararka-tooska': 'LIVE News', '/toos': 'LIVE TV', '/muuqaal': 'Video', '/ciyaaraha-toos': 'Live scores', '/xayeysiimaha': 'Advertise', '/xiriir': 'Contact', '/nagu-saabsan': 'About', '/raadi': 'Search', '/kaydsan': 'Saved', '/asturnaanta': 'Privacy policy' };
 
   // article titles come from the public website's own article files

@@ -19,6 +19,13 @@
  *                                         outgoing requests per call); the caller repeats with "next" until it is null.
  *                                         The same id is never sent twice (KV "sent:<id>").
  *   GET  /v1/stats        (Bearer token)  subscriber counts per category and the last 50 deliveries
+ *   POST /v1/app/register   (mobile app)  {token:"ExponentPushToken[...]", categories:[...], lang, platform}
+ *   POST /v1/app/unregister (mobile app)  {token}
+ *
+ * The Wartabiye TV mobile app (mobile/, Android + iOS) registers an Expo push token instead of a browser subscription.
+ * /v1/send delivers to the browsers first and then to the app tokens through the Expo push service (FCM for Android,
+ * APNs for iOS; up to 100 devices per request). Optional secret EXPO_ACCESS_TOKEN: only needed when "enhanced push
+ * security" is switched on for the Expo project. A token Expo reports as DeviceNotRegistered is deleted.
  *
  * Nothing here invents content: it only delivers what the publish workflow or the owner sends, and every link must be
  * on the Wartabiye TV site (SITE_URL).
@@ -137,6 +144,10 @@ async function readBody(req) {
   return JSON.parse(t || '{}');
 }
 const configured = env => !!(env.SUBS && env.VAPID_PUBLIC_KEY && env.VAPID_PRIVATE_JWK);
+// the mobile app needs only the store (Expo signs and delivers; no VAPID key)
+const appConfigured = env => !!env.SUBS;
+const EXPO_PUSH = 'https://exp.host/--/api/v2/push/send';
+export const validExpoToken = t => typeof t === 'string' && /^Expo(nent)?PushToken\[[A-Za-z0-9_-]{16,200}\]$/.test(t);
 
 // ---------- endpoints ----------
 async function subscribe(req, env) {
@@ -160,6 +171,82 @@ async function unsubscribe(req, env) {
   return { status: 200, body: { ok: true } };
 }
 
+function cleanCats(list) {
+  let cats = Array.isArray(list) ? list.filter(c => CATEGORIES.includes(c)) : [];
+  if (!cats.includes('breaking')) cats.unshift('breaking');
+  return [...new Set(cats)];
+}
+
+// ---------- mobile app (Expo push tokens) ----------
+async function appRegister(req, env) {
+  const b = await readBody(req);
+  if (!validExpoToken(b.token)) return { status: 400, body: { ok: false, error: 'bad token' } };
+  // the app lets people switch Breaking News off too; an empty list means "no notifications" and removes the token
+  const cats = Array.isArray(b.categories) ? [...new Set(b.categories.filter(c => CATEGORIES.includes(c)))] : ['breaking'];
+  const id = 'app:' + await sha256hex(b.token);
+  if (!cats.length) { await env.SUBS.delete(id); return { status: 200, body: { ok: true, categories: [] } }; }
+  const lang = /^(so|en|ar|fr|nl|it|de|tr|es)$/.test(b.lang) ? b.lang : 'so';
+  const platform = b.platform === 'ios' ? 'ios' : 'android';
+  const rec = { token: b.token, categories: cats, lang, platform, at: new Date().toISOString() };
+  await env.SUBS.put(id, JSON.stringify(rec), { metadata: { c: cats.join(','), l: lang, p: platform } });
+  return { status: 200, body: { ok: true, categories: cats } };
+}
+
+async function appUnregister(req, env) {
+  const b = await readBody(req);
+  if (!validExpoToken(b.token)) return { status: 400, body: { ok: false, error: 'bad token' } };
+  await env.SUBS.delete('app:' + await sha256hex(b.token));
+  return { status: 200, body: { ok: true } };
+}
+
+// path inside the app for a site link: https://www.wartabiyetv.com/war/<id>.html -> /war/<id>
+export function appPath(url, env) {
+  try {
+    const u = new URL(url), site = new URL(env.SITE_URL || 'https://www.wartabiyetv.com/');
+    const p = u.pathname.slice(site.pathname.length - 1);
+    const m = p.match(/^\/war\/([A-Za-z0-9_.-]+?)(\.html)?$/);
+    if (m) return '/war/' + m[1];
+    if (/^\/(toos|wararka-tooska)\/?$/.test(p)) return '/live';
+    return '/';
+  } catch (e) { return '/'; }
+}
+
+async function sendApp(page, m, url, env, stats) {
+  const msgs = [], keys = [];
+  for (const k of page.keys) {
+    const cats = String((k.metadata && k.metadata.c) || 'breaking').split(',');
+    if (!cats.includes(m.category)) continue; // urgent alerts have category "breaking"; people can switch it off in the app
+    stats.matched++;
+    if (m.dryRun) continue;
+    const raw = await env.SUBS.get(k.name);
+    if (!raw) continue;
+    const rec = JSON.parse(raw);
+    const txt = pickLang(m, rec.lang);
+    keys.push(k.name);
+    msgs.push({
+      to: rec.token, title: txt.title.slice(0, 120), body: txt.body.slice(0, 200), sound: 'default',
+      priority: m.urgent ? 'high' : 'default', channelId: m.urgent ? 'breaking' : 'news', ttl: m.urgent ? 6 * 3600 : 24 * 3600,
+      data: { id: m.id, url, path: appPath(url, env), category: m.category },
+    });
+  }
+  if (!msgs.length) return;
+  const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };
+  if (env.EXPO_ACCESS_TOKEN) headers.Authorization = 'Bearer ' + env.EXPO_ACCESS_TOKEN;
+  let tickets = [];
+  try {
+    const r = await fetch(EXPO_PUSH, { method: 'POST', headers, body: JSON.stringify(msgs) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || !Array.isArray(j.data)) { stats.failed += msgs.length; return; }
+    tickets = j.data;
+  } catch (e) { stats.failed += msgs.length; return; }
+  for (let i = 0; i < msgs.length; i++) {
+    const t = tickets[i] || {};
+    if (t.status === 'ok') stats.sent++;
+    else if (t.details && t.details.error === 'DeviceNotRegistered') { stats.removed++; await env.SUBS.delete(keys[i]); }
+    else stats.failed++;
+  }
+}
+
 function pickLang(m, lang) {
   const t = m.t && m.t[lang] && m.t[lang].title ? m.t[lang] : null;
   return { title: (t && t.title) || m.title, body: (t && t.body) || m.body || '' };
@@ -178,8 +265,27 @@ async function send(req, env) {
     if (prev) return { status: 200, body: { ok: true, duplicate: true, id: m.id, previous: JSON.parse(prev) } };
     if (!m.dryRun) await env.SUBS.put('sent:' + m.id, JSON.stringify({ at: new Date().toISOString(), state: 'sending' }), { expirationTtl: 90 * 86400 });
   }
-  const page = await env.SUBS.list({ prefix: 'sub:', cursor: m.cursor || undefined, limit });
+  // two phases: browsers ("sub:", cursor as KV gives it) then mobile app tokens (cursor "app:" or "app:<KV cursor>")
+  const appPhase = typeof m.cursor === 'string' && m.cursor.startsWith('app:');
   const stats = { matched: 0, sent: 0, failed: 0, removed: 0 };
+  let next;
+  if (appPhase) {
+    const c = m.cursor.slice(4);
+    const page = await env.SUBS.list({ prefix: 'app:', cursor: c || undefined, limit: 100 });
+    await sendApp(page, m, url, env, stats);
+    next = page.list_complete ? null : 'app:' + page.cursor;
+  } else {
+    const page = configured(env) ? await env.SUBS.list({ prefix: 'sub:', cursor: m.cursor || undefined, limit }) : { keys: [], list_complete: true };
+    await sendWeb(page, m, url, env, stats);
+    // browsers done: go on with the app tokens, if there are any
+    next = page.list_complete ? ((await env.SUBS.list({ prefix: 'app:', limit: 1 })).keys.length ? 'app:' : null) : page.cursor;
+  }
+  if (!m.dryRun) await env.SUBS.put(`log:${Date.now()}:${m.id}`.slice(0, 480), JSON.stringify({ id: m.id, category: m.category, urgent: !!m.urgent, title: m.title.slice(0, 120), url, at: new Date().toISOString(), phase: appPhase ? 'app' : 'web', ...stats, done: !next }), { expirationTtl: 60 * 86400 });
+  if (!next && !m.dryRun) await env.SUBS.put('sent:' + m.id, JSON.stringify({ at: new Date().toISOString(), state: 'sent' }), { expirationTtl: 90 * 86400 });
+  return { status: 200, body: { ok: true, id: m.id, dryRun: !!m.dryRun, ...stats, next } };
+}
+
+async function sendWeb(page, m, url, env, stats) {
   const image = m.image ? siteLink(m.image, env) : null;
   const icon = siteLink('img/logo.png', env);
   for (const k of page.keys) {
@@ -199,11 +305,6 @@ async function send(req, env) {
       else stats.failed++;
     } catch (e) { stats.failed++; }
   }
-  const next = page.list_complete ? null : page.cursor;
-  // one log line per page; the stats endpoint adds the pages up
-  if (!m.dryRun) await env.SUBS.put(`log:${Date.now()}:${m.id}`.slice(0, 480), JSON.stringify({ id: m.id, category: m.category, urgent: !!m.urgent, title: m.title.slice(0, 120), url, at: new Date().toISOString(), ...stats, done: !next }), { expirationTtl: 60 * 86400 });
-  if (!next && !m.dryRun) await env.SUBS.put('sent:' + m.id, JSON.stringify({ at: new Date().toISOString(), state: 'sent' }), { expirationTtl: 90 * 86400 });
-  return { status: 200, body: { ok: true, id: m.id, dryRun: !!m.dryRun, ...stats, next } };
 }
 
 async function stats(env) {
@@ -219,11 +320,23 @@ async function stats(env) {
     }
     cursor = p.list_complete ? null : p.cursor;
   } while (cursor);
+  const app = { total: 0, android: 0, ios: 0 }; CATEGORIES.forEach(c => { app[c] = 0; });
+  cursor = undefined;
+  do {
+    const p = await env.SUBS.list({ prefix: 'app:', cursor, limit: 1000 });
+    for (const k of p.keys) {
+      app.total++;
+      const m = k.metadata || {};
+      app[m.p === 'ios' ? 'ios' : 'android']++;
+      String(m.c || 'breaking').split(',').forEach(c => { if (c in app) app[c]++; });
+    }
+    cursor = p.list_complete ? null : p.cursor;
+  } while (cursor);
   const logs = await env.SUBS.list({ prefix: 'log:', limit: 1000 });
   const names = logs.keys.map(k => k.name).sort().reverse().slice(0, 50);
   const recent = [];
   for (const n of names) { const v = await env.SUBS.get(n); if (v) recent.push(JSON.parse(v)); }
-  return { ok: true, subscribers: counts, languages: langs, recent };
+  return { ok: true, subscribers: counts, app, languages: langs, recent };
 }
 
 export default {
@@ -232,11 +345,11 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: h });
     const path = new URL(req.url).pathname.replace(/\/+$/, '');
     try {
-      if (path === '/v1/health') return json({ ok: true, configured: configured(env) }, 200, h);
-      if (path === '/v1/key' && req.method === 'GET') return configured(env) ? json({ publicKey: env.VAPID_PUBLIC_KEY }, 200, { ...h, 'Cache-Control': 'public, max-age=3600' }) : json({ ok: false, error: 'not configured' }, 503, h);
-      if (!configured(env)) return json({ ok: false, error: 'not configured' }, 503, h);
-      if (path === '/v1/subscribe' && req.method === 'POST') { const r = await subscribe(req, env); return json(r.body, r.status, h); }
-      if (path === '/v1/unsubscribe' && req.method === 'POST') { const r = await unsubscribe(req, env); return json(r.body, r.status, h); }
+      if (path === '/v1/health') return json({ ok: true, configured: configured(env), app: appConfigured(env) }, 200, h);
+      if (!appConfigured(env)) return json({ ok: false, error: 'not configured' }, 503, h);
+      // mobile app (no browser keys needed)
+      if (path === '/v1/app/register' && req.method === 'POST') { const r = await appRegister(req, env); return json(r.body, r.status, h); }
+      if (path === '/v1/app/unregister' && req.method === 'POST') { const r = await appUnregister(req, env); return json(r.body, r.status, h); }
       if (path === '/v1/send' && req.method === 'POST') {
         if (!authorised(req, env)) return json({ ok: false, error: 'unauthorised' }, 401, h);
         const r = await send(req, env); return json(r.body, r.status, h);
@@ -245,6 +358,11 @@ export default {
         if (!authorised(req, env)) return json({ ok: false, error: 'unauthorised' }, 401, h);
         return json(await stats(env), 200, h);
       }
+      // browser push needs the VAPID keys as well
+      if (path === '/v1/key' && req.method === 'GET') return configured(env) ? json({ publicKey: env.VAPID_PUBLIC_KEY }, 200, { ...h, 'Cache-Control': 'public, max-age=3600' }) : json({ ok: false, error: 'not configured' }, 503, h);
+      if (!configured(env)) return json({ ok: false, error: 'not configured' }, 503, h);
+      if (path === '/v1/subscribe' && req.method === 'POST') { const r = await subscribe(req, env); return json(r.body, r.status, h); }
+      if (path === '/v1/unsubscribe' && req.method === 'POST') { const r = await unsubscribe(req, env); return json(r.body, r.status, h); }
       return json({ ok: false, error: 'not found' }, 404, h);
     } catch (e) {
       return json({ ok: false, error: String(e && e.message || e).slice(0, 200) }, 400, h);

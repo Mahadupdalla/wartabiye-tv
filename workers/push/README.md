@@ -35,3 +35,11 @@ new subscriber or delivery log), 100 000 reads per day.
 
 Tests (no network, no keys): `node --test test/worker.test.mjs` — each test message is decrypted with the browser's
 keys (RFC 8291) and the VAPID signature is verified (RFC 8292).
+
+## Mobile app (Android + iPhone)
+The Wartabiye TV app (`mobile/`) uses this same Worker. It registers an Expo push token with `POST /v1/app/register`
+(`{token, categories, lang, platform}`; an empty category list removes it) and `POST /v1/app/unregister`. `/v1/send`
+delivers to browsers first, then to app tokens through the Expo push service (Firebase for Android, Apple for iPhone),
+100 per request; a tapped notification opens the article inside the app. The app works with only the `SUBS` store and
+`PUSH_ADMIN_TOKEN` (no VAPID key needed). Optional secret `EXPO_ACCESS_TOKEN` if "enhanced push security" is on in Expo.
+`/v1/stats` reports app tokens under `app` (total, android, ios, per category).

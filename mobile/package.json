@@ -1,0 +1,50 @@
+{
+  "name": "wartabiye-tv-app",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "dependencies": {
+    "@expo-google-fonts/archivo": "^0.4.2",
+    "@expo-google-fonts/public-sans": "^0.4.2",
+    "@expo/metro-runtime": "~58.0.17",
+    "@expo/vector-icons": "^15.0.2",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/netinfo": "12.0.1",
+    "expo": "~58.0.23",
+    "expo-application": "~58.1.2",
+    "expo-constants": "~58.0.15",
+    "expo-device": "~58.0.5",
+    "expo-font": "~58.0.11",
+    "expo-image": "~58.0.18",
+    "expo-linear-gradient": "~58.0.3",
+    "expo-linking": "~58.0.16",
+    "expo-notifications": "~58.1.8",
+    "expo-router": "~58.0.30",
+    "expo-splash-screen": "~58.0.13",
+    "expo-status-bar": "~58.0.4",
+    "expo-system-ui": "~58.0.7",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-native": "0.88.1",
+    "react-native-safe-area-context": "~5.11.1",
+    "react-native-screens": "~4.30.1",
+    "react-native-web": "~0.21.4",
+    "react-native-webview": "14.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "typescript": "~6.0.3"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "sync-i18n": "node scripts/sync-i18n.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node test/sync.e2e.mjs && node test/app.e2e.mjs",
+    "build:pwa": "node scripts/build-pwa.mjs",
+    "prebuild": "expo prebuild --clean",
+    "test:live": "node test/app.e2e.mjs --live https://www.wartabiyetv.com/"
+  },
+  "private": true
+}

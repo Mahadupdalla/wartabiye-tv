@@ -301,3 +301,16 @@ test('helpers: device and source classification, GitHub allow-list', () => {
   assert.ok(!allowed(env, 'PUT', '/repos/Mahadupdalla/wartabiye-tv/actions/permissions'));
   assert.ok(!allowed(env, 'POST', '/repos/Mahadupdalla/wartabiye-tv/actions/workflows/../../secrets/dispatches'));
 });
+test('mobile app page views: counted only with the app User-Agent and no web Origin, source "app"', async () => {
+  const env = makeEnv();
+  const app = (body, ua, origin) => { const req = new Request(ORIGIN + '/c', { method: 'POST', body: JSON.stringify(body), headers: { 'user-agent': ua, 'cf-connecting-ip': '7.7.7.7', ...(origin ? { origin } : {}) } }); Object.defineProperty(req, 'cf', { value: { country: 'SO' } }); return worker.fetch(req, env, {}); };
+  assert.equal((await app({ p: '/' }, 'okhttp/4.12.0')).status, 403, 'other native clients are refused');
+  assert.equal((await app({ p: '/' }, 'WartabiyeTV-App/1.0.0 (android; Mobile)', 'https://evil.test')).status, 403, 'a web page cannot pose as the app');
+  assert.equal((await app({ p: '/', e: 1, l: 'so' }, 'WartabiyeTV-App/1.0.0 (android; Mobile)')).status, 204);
+  assert.equal((await app({ p: '/war/2026-11-10-x', c: 'Ciyaaraha', l: 'so' }, 'WartabiyeTV-App/1.0.0 (android; Mobile)')).status, 204);
+  assert.equal((await beacon(env, { p: '/', e: 1, u: 'app-pwa' }, { ip: '8.8.8.8' })).status, 204);
+  const src = (await env.DB.prepare('SELECT kind, host, visits FROM sources ORDER BY host').all()).results;
+  assert.deepEqual(src.map(r => [r.kind, r.host, r.visits]), [['app', 'android', 1], ['app', 'pwa', 1]]);
+  const v = (await env.DB.prepare("SELECT device, hits FROM visitors WHERE device = 'mobile' ORDER BY hits DESC").all()).results;
+  assert.equal(v[0].hits, 2);
+});

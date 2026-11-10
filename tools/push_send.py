@@ -74,7 +74,8 @@ def plan(feed, log, cfg, now):
     keep = [i['id'] for i in items]
     if first:
         return [], [(i['id'], 'first run: existing stories are not announced') for i in new], keep
-    if not cfg['pushEnabled'] or not cfg['workerUrl'] or not cfg['publicKey']:
+    # the browser bell needs the public key too, but the mobile app needs only the Worker address
+    if not cfg['pushEnabled'] or not cfg['workerUrl']:
         return [], [(i['id'], 'push is switched off or not configured') for i in new], keep
     day = now.astimezone(EAT).date().isoformat()
     today = [s for s in log.get('sent', []) if (parse(s.get('at')) or now).astimezone(EAT).date().isoformat() == day and s.get('result', {}).get('ok', True)]
@@ -174,13 +175,16 @@ def run(mode, dry):
     else:
         log['knownIds'] = [i for i in keep if i not in retry]
     log['sent'] = (results + log.get('sent', []))[:100]
-    stats = None
+    stats = app_stats = None
     if token and cfg['workerUrl']:
-        try: stats = get(cfg['workerUrl'].rstrip('/') + '/v1/stats', token).get('subscribers')
+        try:
+            st = get(cfg['workerUrl'].rstrip('/') + '/v1/stats', token)
+            stats, app_stats = st.get('subscribers'), st.get('app')
         except Exception as e: print('stats:', e)
     log['lastRun'] = {'at': iso(now), 'mode': mode, 'sent': len([r for r in results if r['result'].get('ok')]), 'skipped': [{'id': i, 'why': w} for i, w in skipped][:40],
-                      'pushEnabled': bool(cfg['pushEnabled']), 'configured': bool(cfg['workerUrl'] and cfg['publicKey'] and token)}
+                      'pushEnabled': bool(cfg['pushEnabled']), 'configured': bool(cfg['workerUrl'] and token), 'browserConfigured': bool(cfg['workerUrl'] and cfg['publicKey'] and token)}
     if stats is not None: log['subscribers'] = stats
+    if app_stats is not None: log['appSubscribers'] = app_stats
     json.dump(log, open(log_p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 

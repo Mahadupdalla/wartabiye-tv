@@ -153,3 +153,72 @@ test('bad input and not configured', async () => {
   r = await worker.fetch(req('/v1/send', 'POST', { id: 'x', category: 'nope', title: 't', url: 'war/x.html' }, ADMIN), env);
   assert.equal(r.status, 400);
 });
+
+test('mobile app: register Expo tokens, send through Expo after the browsers, dedupe, drop dead tokens', async () => {
+  const { env } = await makeEnv();
+  const b1 = await browser('w1');
+  await worker.fetch(req('/v1/subscribe', 'POST', { subscription: b1.sub, categories: ['world'], lang: 'so' }), env);
+  const T = n => `ExponentPushToken[${'a'.repeat(20)}${n}]`;
+  const app = (path, body) => new Request('https://push.wartabiyetv.workers.dev' + path, { method: 'POST', body: JSON.stringify(body), headers: { 'Content-Type': 'application/json' } }); // native app: no Origin
+  let r = await worker.fetch(app('/v1/app/register', { token: 'not-a-token' }), env);
+  assert.equal(r.status, 400);
+  r = await worker.fetch(app('/v1/app/register', { token: T(1), categories: ['breaking', 'world'], lang: 'en', platform: 'android' }), env);
+  assert.deepEqual((await r.json()).categories, ['breaking', 'world']);
+  await worker.fetch(app('/v1/app/register', { token: T(2), categories: ['sports'], lang: 'ar', platform: 'ios' }), env);
+  await worker.fetch(app('/v1/app/register', { token: T(3), categories: ['world', 'breaking'], lang: 'so', platform: 'ios' }), env);
+  // empty list = notifications off: the token is removed
+  await worker.fetch(app('/v1/app/register', { token: T(4), categories: ['world'] }), env);
+  r = await worker.fetch(app('/v1/app/register', { token: T(4), categories: [] }), env);
+  assert.deepEqual((await r.json()).categories, []);
+
+  const expo = [], web = [];
+  globalThis.fetch = async (url, init) => {
+    if (String(url).startsWith('https://exp.host/')) {
+      const msgs = JSON.parse(init.body); expo.push(...msgs);
+      return new Response(JSON.stringify({ data: msgs.map(m => m.to === T(3) ? { status: 'error', details: { error: 'DeviceNotRegistered' } } : { status: 'ok', id: 'x' }) }), { status: 200 });
+    }
+    web.push(url); return new Response(null, { status: 201 });
+  };
+  const msg = { id: 'n-world-app', category: 'world', title: 'Adduunka', body: 'Qoraal', t: { en: { title: 'World', body: 'Text' } }, url: 'war/2026-11-10-x.html' };
+  let next = null, tot = { sent: 0, removed: 0, matched: 0 }, calls = 0;
+  do {
+    const j = await (await worker.fetch(req('/v1/send', 'POST', { ...msg, cursor: next }, ADMIN), env)).json();
+    tot.sent += j.sent; tot.removed += j.removed; tot.matched += j.matched; next = j.next; calls++;
+  } while (next && calls < 5);
+  assert.equal(calls, 2, 'one call for the browsers, one for the app');
+  assert.equal(web.length, 1);
+  assert.equal(expo.length, 2, 'only the tokens that chose World');
+  const m1 = expo.find(m => m.to === T(1));
+  assert.equal(m1.title, 'World'); // the app user's language
+  assert.equal(m1.data.path, '/war/2026-11-10-x', 'tapping opens the article inside the app');
+  assert.equal(m1.data.url, 'https://www.wartabiyetv.com/war/2026-11-10-x.html');
+  assert.equal(m1.channelId, 'news');
+  assert.equal(tot.sent, 2); assert.equal(tot.removed, 1);
+  // never twice
+  const again = await (await worker.fetch(req('/v1/send', 'POST', msg, ADMIN), env)).json();
+  assert.equal(again.duplicate, true);
+  // urgent breaking: only tokens that kept Breaking News on, high priority
+  expo.length = 0;
+  next = null; calls = 0;
+  do { const j = await (await worker.fetch(req('/v1/send', 'POST', { ...msg, id: 'b-1', category: 'breaking', urgent: true, cursor: next }, ADMIN), env)).json(); next = j.next; calls++; } while (next && calls < 5);
+  assert.deepEqual(expo.map(m => m.to), [T(1)]);
+  assert.equal(expo[0].priority, 'high'); assert.equal(expo[0].channelId, 'breaking');
+  const st = await (await worker.fetch(req('/v1/stats', 'GET', null, ADMIN), env)).json();
+  assert.equal(st.app.total, 2); assert.equal(st.app.ios, 1); assert.equal(st.app.android, 1);
+  // unregister
+  await worker.fetch(app('/v1/app/unregister', { token: T(1) }), env);
+  const st2 = await (await worker.fetch(req('/v1/stats', 'GET', null, ADMIN), env)).json();
+  assert.equal(st2.app.total, 1);
+});
+
+test('mobile app only (no browser keys yet): register and send still work', async () => {
+  const env = { SUBS: new KV(), PUSH_ADMIN_TOKEN: 'x'.repeat(40), SITE_URL: 'https://www.wartabiyetv.com/' };
+  const tok = `ExponentPushToken[${'b'.repeat(22)}]`;
+  let r = await worker.fetch(new Request('https://p/v1/app/register', { method: 'POST', body: JSON.stringify({ token: tok, categories: ['sports'] }) }), env);
+  assert.equal(r.status, 200);
+  assert.equal((await worker.fetch(req('/v1/key'), env)).status, 503, 'browser push stays off without VAPID');
+  let n = 0; globalThis.fetch = async (u, i) => { n++; return new Response(JSON.stringify({ data: JSON.parse(i.body).map(() => ({ status: 'ok' })) })); };
+  let next = null, sent = 0;
+  do { const j = await (await worker.fetch(req('/v1/send', 'POST', { id: 's-1', category: 'sports', title: 'T', url: 'war/s.html', cursor: next }, ADMIN), env)).json(); sent += j.sent; next = j.next; } while (next);
+  assert.equal(sent, 1); assert.equal(n, 1);
+});

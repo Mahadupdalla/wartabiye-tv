@@ -21,7 +21,19 @@ export function device(ua = '') {
   if (/Mobi|iPhone|iPod|Android|Windows Phone|Opera Mini|IEMobile/i.test(ua)) return 'mobile';
   return 'desktop';
 }
-export function sourceOf(ref, utm, siteHosts) {
+// The Wartabiye TV mobile app (mobile/) sends the same anonymous page views. A native app has no web Origin, so it is
+// recognised by its own User-Agent "WartabiyeTV-App/<version> (android|ios; ...)" and counted under source "app".
+// The installable web app (PWA) runs on the website itself and marks its first view with utm "app-pwa".
+const APP_UA = /^WartabiyeTV-App\/\d+(?:\.\d+){0,3} \((android|ios);/i;
+export function appOf(req) {
+  if (req.headers.get('origin')) return null;
+  const m = (req.headers.get('user-agent') || '').match(APP_UA);
+  return m ? m[1].toLowerCase() : null;
+}
+
+export function sourceOf(ref, utm, siteHosts, app) {
+  if (app) return { kind: 'app', host: app };
+  if (/^app-(android|ios|pwa)$/i.test(utm || '')) return { kind: 'app', host: utm.slice(4).toLowerCase() };
   if (utm) return { kind: /face|fb|insta|tiktok|whats|telegram|twitter|x\.com|youtube|social/i.test(utm) ? 'social' : /mail|newsletter/i.test(utm) ? 'email' : 'campaign', host: utm.toLowerCase().replace(/[^a-z0-9._-]/g, '').slice(0, 40) };
   if (!ref) return { kind: 'direct', host: '' };
   let host;
@@ -58,8 +70,9 @@ async function selftestOk(env, token) {
 // POST /c  — one page view from the public website (sent by assets/stats.js with navigator.sendBeacon)
 export async function collect(req, env) {
   const cors = corsHeaders(req, env);
+  const app = cors ? null : appOf(req);
   const done = (s = 204) => new Response(null, { status: s, headers: cors || {} });
-  if (!cors) return done(403);
+  if (!cors && !app) return done(403);
   if (req.method === 'OPTIONS') return done(204);
   const ua = req.headers.get('user-agent') || '';
   let b;
@@ -77,7 +90,7 @@ export async function collect(req, env) {
   const ret = b.n === 1 ? 1 : b.n === 0 ? 0 : null;
   const cat = typeof b.c === 'string' ? b.c.replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 60) : '';
   const siteHosts = String(env.SITE_ORIGINS || '').split(',').map(s => { try { return new URL(s.trim()).hostname; } catch { return ''; } }).filter(Boolean);
-  const src = b.e ? sourceOf(typeof b.r === 'string' ? b.r.slice(0, 300) : '', typeof b.u === 'string' ? b.u : '', siteHosts) : null;
+  const src = b.e ? sourceOf(typeof b.r === 'string' ? b.r.slice(0, 300) : '', typeof b.u === 'string' ? b.u : '', siteHosts, app) : null;
   const stmts = [
     env.DB.prepare(`INSERT INTO visitors (day, vid, first_ts, last_ts, hits, sessions, device, country, lang, ret) VALUES (?1, ?2, ?3, ?3, 1, 1, ?4, ?5, ?6, ?7)
       ON CONFLICT(day, vid) DO UPDATE SET hits = hits + 1, sessions = sessions + (CASE WHEN ?3 - last_ts > 1800 THEN 1 ELSE 0 END),

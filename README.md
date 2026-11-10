@@ -28,6 +28,9 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `assets/notify.js`, `sw.js`, `manifest.webmanifest` | Gambaleelka ogeysiisyada, banner-ka wararka cusub iyo push (browser) |
 | `tools/build_notifications.py`, `tools/push_send.py`, `data/alerts/`, `data/notify-settings.json` | Feed-ka gambaleelka (`data/notifications.json`), ogeysiisyada gacanta iyo xeerarka push (kadib marka bogga la daabaco) |
 | `workers/push/` | Adeegga push (Cloudflare Worker): furaha VAPID iyo is-diiwaangelinta, sirta kuma jirto repo-ga |
+| `mobile/`, `app/` | **App-ka Wartabiye TV** (Android, iPhone iyo web app `/app/`), React Native + Expo. Wuxuu akhriyaa wararka isku midka ah ee bogga, ma laha database u gaar ah. Faahfaahin: `mobile/README.md` |
+| `tools/build_app_api.py`, `api/v1/` | Feed-ka app-ka (`meta.json`, `feed/<luqad>.json`, `a/<id>.json`, `ids.json`), waxaa laga dhisaa `data/news.json` mar kasta oo bogga la daabaco (publish.yml). Wax lagu beddelo /admin/ (war cusub, sixid, sawir cusub, qabyo ka dhigis) isla daabacaadda ayuu app-ka ku gaaraa. Ma jiro kharash AI |
+| `.github/workflows/mobile-app.yml` | Tijaabooyinka app-ka (isku xirka, 9 luqadood, bogga tooska ah) iyo dhismaha Android (APK + AAB) |
 | `tools/notify_test.js` | Tijaabada gambaleelka (desktop + mobile, RTL, link kasta war dhab ah) |
 
 ## Cusbooneysiinta saacad kasta

@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
+<script>
+/* the installable web app (/app/) has its own pages: send its links (e.g. /app/war/<id>) to the app, which opens them */
+(function(){var p=location.pathname;if(p.indexOf('/app/')===0&&p!=='/app/'){location.replace('/app/?r='+encodeURIComponent(p.slice(4)+location.search))}})();
+</script>
 <title>Boggan lama helin · Wartabiye TV</title>
 <link rel="icon" href="/img/logo.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;600&display=swap">
