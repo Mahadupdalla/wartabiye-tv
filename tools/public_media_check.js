@@ -19,10 +19,9 @@ const go = async (p, hash, wait = 5000) => { await p.goto(SITE + '?cb=' + Date.n
     // Video News
     await go(p, 'muuqaal');
     const vids = await p.$$eval('#pageView a.vcard', a => [...new Map(a.map(x => [x.getAttribute('href'), x.innerText.replace(/\s+/g, ' ').slice(0, 110)])).entries()]);
-    // the contact email lives in the footer (set in /admin/ -> Website settings -> Footer), not in the header
-    const email = await p.$eval('#fmail:not([hidden])', e => e.getAttribute('href')).catch(() => '');
-    console.log(`${name} footer email: ${email || 'MISSING'}`);
-    if (!/^mailto:[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(email)) fail(`${name}: email missing in the footer`);
+    const email = await p.$eval('.hmail', e => e.textContent.trim()).catch(() => '');
+    console.log(`${name} header email: ${email || 'MISSING'}`);
+    if (email !== 'wartabiyetv@gmail.com') fail(`${name}: email missing in the header`);
     console.log(`${name} Video News: ${vids.length} videos`); vids.slice(0, 6).forEach(v => console.log('   ', v[0], '|', v[1]));
     await p.screenshot({ path: `${OUT}/${name}-video-news.png` });
     if (!vids.length) fail(`${name}: Video News lists no videos`);
