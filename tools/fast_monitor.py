@@ -211,7 +211,9 @@ def check_source(s, st, t, log):
         log.append(f"{s['id']}: reachable, {len(listing)} items, newest {st.get('latestPublishedAt')} (monitor only, not collected)")
         return []
     seen = st.setdefault('seen', {})
-    first = not st.get('baselineDone')
+    # a Somali source's first check is not a silent baseline: its stories of the last 24 hours go to the Somalia catch-up
+    # (the dedup step still drops everything the site already has). Other sources start with a baseline as before.
+    first = not st.get('baselineDone') and not is_somali(s)
     cut = t - datetime.timedelta(hours=SO_KEEP_H if is_somali(s) else NEW_MAX_AGE_H)
     for g in listing:
         k = item_key(g)
@@ -682,8 +684,9 @@ def test(_args):
         # (owner's request, 10 Nov 2026); a 30-hour-old one is not; a world source's 6-hour-old story is still "old"
         so = {'id': 'hiiraan', 'name': 'Hiiraan Online', 'section': 'somalia', 'country': 'so', 'feeds': [{'type': 'rss', 'url': 'so'}]}
         sst = {}
-        feeds['so'] = rss([('soomaaliya-base', now_ - datetime.timedelta(hours=1))])
-        check_source(so, sst, now_, log)
+        feeds['so'] = rss([('soomaaliya-base', now_ - datetime.timedelta(hours=1)), ('soomaaliya-old', now_ - datetime.timedelta(hours=40))])
+        g0 = check_source(so, sst, now_, log)
+        ok([g['title'] for g in g0] == ['soomaaliya-base'], f'Somali source, first check: its last-24 h stories go to the catch-up (no silent baseline): {[g["title"] for g in g0]}')
         feeds['so'] = rss([('soomaaliya-shir-6h', now_ - datetime.timedelta(hours=6)), ('soomaaliya-shir-30h', now_ - datetime.timedelta(hours=30))])
         g3 = check_source(so, sst, now_, log)
         ok([g['title'] for g in g3] == ['soomaaliya-shir-6h'] and g3[0]['intake'] == 'catchup' and g3[0]['priority'] == 2 and not g3[0]['freshAtDiscovery'],
