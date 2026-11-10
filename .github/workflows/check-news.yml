@@ -35,7 +35,7 @@ jobs:
               print('::error::the 5-minute source check has STOPPED (no check for more than 20 minutes): Actions -> "Ilaha degdegga ah" -> Run workflow')
               sys.exit(1)
           PY
-      - name: Check the news update ran (hourly 24/7; 08:00 / 18:00 only when the owner switched hourly off)
+      - name: Check the news update ran (every 3 hours 24/7; 08:00 / 18:00 only when the owner switched hourly off)
         if: github.event_name == 'schedule'
         run: |
           python3 - <<'PY'
@@ -44,7 +44,7 @@ jobs:
           try: hourly = json.load(open('data/schedule.json', encoding='utf-8')).get('hourly', True) is not False
           except Exception: hourly = True
           now = datetime.datetime.now(datetime.timezone.utc)
-          limit = 3 if hourly else 14   # hours; news runs every hour, day and night; the scheduler does not guarantee the exact minute
+          limit = 4.5 if hourly else 14   # hours; news runs every 3 hours, day and night (10 Nov 2026); the scheduler does not guarantee the exact minute
           u = d.get('lastRunAt') or d.get('updatedAt')
           ok = u and (now - datetime.datetime.fromisoformat(u.replace('Z', '+00:00'))).total_seconds() < limit*3600
           print('lastRunAt', u, '| last successful update', d.get('lastSuccessAt'), '| hourly' if hourly else '| twice a day', '| fresh' if ok else f'| STALE (older than {limit} h)')

@@ -31,8 +31,8 @@ jobs:
       - name: Regional rule tests (Somalia & East Africa sections)
         run: python3 tools/east_africa.py test
       - name: Read all news sources (East Africa, World, Sports)
-        # the last 3 hours only (owner's freshness rule: nothing older than 2 hours is published as new)
-        run: python3 tools/world_news.py fetch --since "$(date -u -d '3 hours ago' +%FT%TZ)" --out /tmp/world/candidates.json
+        # the last 4 hours only (owner's freshness rule: nothing older than 3.5 hours is published as new; runs every 3 hours)
+        run: python3 tools/world_news.py fetch --since "$(date -u -d '4 hours ago' +%FT%TZ)" --out /tmp/world/candidates.json
       - name: Remove duplicates and check images
         run: python3 tools/world_news.py dedup /tmp/world/candidates.json --out /tmp/world/plan.json
       - name: Report

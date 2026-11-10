@@ -8,7 +8,7 @@ stories, checks whether each publisher photo may be reused, and writes the run r
                                        public page, robots.txt respected), open each article for its canonical URL,
                                        publication time, Open Graph image and photo credit
   python3 tools/world_news.py merge a.json b.json --out cand.json   join candidate files (e.g. Actions + WebFetch)
-  python3 tools/world_news.py dedup cand.json --out plan.json [--since ISO] [--max-age-hours 2]
+  python3 tools/world_news.py dedup cand.json --out plan.json [--since ISO] [--max-age-hours 3.5]
                                        group reports of the same event (within the run and against everything the site
                                        has ever had), choose one main article per event, assess its image
   python3 tools/world_news.py report plan.json            readable test report (per source, duplicates, images)
@@ -31,7 +31,8 @@ SOURCES = os.path.join(root, 'data', 'world', 'sources.json')
 STATUS = os.path.join(root, 'data', 'world', 'status.json')
 UA = 'WartabiyeTV-WorldNews/1.0 (+https://www.wartabiyetv.com/)'
 EAT = datetime.timezone(datetime.timedelta(hours=3))
-FRESH_HOURS = 2   # owner's rule (8 Nov 2026): stories older than this are never published as new
+FRESH_HOURS = 3.5   # owner's rule: stories older than this are never published as new (2 h with hourly runs; 3.5 h since the
+# 10 Nov 2026 switch to a run every 3 hours: 3 h between runs + 30 min for a late start, so no story falls between two runs)
 # Somalia catch-up (owner's decision, 9 Nov 2026): Somali outlets publish a few stories a day, often hours before an hourly
 # run sees them, so a Somalia story (country "so") not yet on the site stays eligible for 24 hours. It keeps the publisher's
 # own time, is marked "catchUp" when older than FRESH_HOURS, and is never breaking. Duplicate checks still apply.
@@ -625,7 +626,7 @@ def dedup(args):
         elif since and x.get('publishedAt') and parse_date(x['publishedAt']) < since:
             rejected.append({**pub(x), 'why': 'old', 'detail': 'published before the last successful update'}); continue
         elif x.get('publishedAt') and parse_date(x['publishedAt']) < fresh_cut:
-            # owner's rule (8 Nov 2026): never publish a story older than 2 hours as new
+            # owner's rule (8 Nov 2026): never publish a story older than FRESH_HOURS as new
             rejected.append({**pub(x), 'why': 'old', 'detail': f'published more than {max_age:g} h ago (freshness rule)'}); continue
         if keys & known_urls:
             rejected.append({**pub(x), 'why': 'known', 'detail': 'same URL already on the site (or deleted/unpublished by the owner)'}); continue
