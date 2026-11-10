@@ -1,0 +1,43 @@
+name: 'Hubi in wararka cusub la arko (newest news visible on the public site)'
+# After every publish, opens the REAL public website www.wartabiyetv.com in a fresh browser (desktop + mobile) and checks
+# that visitors really get the newest articles: data/news.json is the same as on main (plain address and cache-busted),
+# the newest article of the homepage, Soomaaliya, Bariga Afrika and Caalamka is shown, and the newest article pages open.
+# A green publish is not enough: this run turns red when visitors would still see older news. Read-only: changes nothing.
+on:
+  workflow_run:
+    workflows: ['Daabac bogga (publish)']
+    types: [completed]
+  schedule:
+    - cron: '40 */3 * * *'   # back-up check every 3 hours
+  workflow_dispatch:
+  push:
+    branches-ignore: [main, world-feed, fast-feed]
+    paths: ['tools/live_news_check.js', '.github/workflows/live-news-check.yml']
+permissions:
+  contents: read
+concurrency:
+  group: live-news-check
+  cancel-in-progress: true
+jobs:
+  check:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Browser
+        run: npm i --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - name: Check the public site against the newest news.json on main
+        run: |
+          # a new hourly save can land while this runs: compare with the newest main each time, try 3 times (3 min apart)
+          for i in 1 2 3; do
+            git fetch -q origin main && git show origin/main:data/news.json > /tmp/expected-news.json
+            node tools/live_news_check.js https://www.wartabiyetv.com/ /tmp/expected-news.json live-news-shots && exit 0
+            [ "$i" = 3 ] || { echo "try $i failed, checking again in 3 minutes"; sleep 180; }
+          done
+          echo "::error::visitors do not see the newest articles on www.wartabiyetv.com"; exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-news-screenshots
+          path: live-news-shots
