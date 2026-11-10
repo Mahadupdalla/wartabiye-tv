@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-10T13:31:51+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-10T13:36:28+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-10T10:22:07Z",
  "newestArticleAt": "2026-11-10T11:47:13+03:00",
- "lastSourceCheckAt": "2026-11-10T13:30:23+03:00",
+ "lastSourceCheckAt": "2026-11-10T13:35:19+03:00",
  "sourceChecks24h": 292,
- "publishedArticles": 314,
+ "publishedArticles": 322,
  "liveArticles": 314,
  "waitingForImage": 78,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-10T10:22:07Z",
@@ -18,36 +18,41 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/42798537358"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-09T09:31:07+00:00",
+  "since": "2026-11-10T10:36:27+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-10T12:30:31+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-10T13:35:12+03:00",
  "writers": {
   "sports": {
    "mode": "on",
-   "lastCheckAt": "2026-11-10T13:31:49+03:00",
+   "lastCheckAt": "2026-11-10T13:36:25+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 6,
-    "waitingForSchedule": 80
+    "skipped": 2,
+    "waitingForSchedule": 88
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-10T13:30:16+03:00",
-   "lastSuccessAt": "2026-11-10T13:30:16+03:00",
+   "lastCheckAt": "2026-11-10T13:35:12+03:00",
+   "lastSuccessAt": "2026-11-10T13:35:12+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-10T12:30:31+03:00",
+  "lastSourceCheckAt": "2026-11-10T13:10:40+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-10T11:34:01+03:00",
-   "sourceName": "Shabelle Media Network",
-   "title": "WHO, Jubaland Discuss Expanding Healthcare Services in Southern Somalia",
-   "url": "https://shabellemedia.com/who-jubaland-discuss-expanding-healthcare-services-in-southern-somalia/"
+   "publishedAt": "2026-11-10T12:41:16+03:00",
+   "sourceName": "BBC Somali",
+   "title": "Feryahanad Ramla Cali oo la ilmeysay guul kadib markii ay gaartay guul caalami ah",
+   "url": "https://www.bbc.com/somali/articles/c3wyvy22jwk9o?at_medium=RSS&at_campaign=rss"
   },
   "latestPublished": {
    "id": "2026-11-10-rubucda-wadahadallada-doorashada-14-18-nov",
@@ -57,20 +62,19 @@
    "url": "/war/2026-11-10-rubucda-wadahadallada-doorashada-14-18-nov.html"
   },
   "publishedLastRun": 0,
-  "rejectedLastRun": 29,
+  "rejectedLastRun": 21,
   "rejectedReasons": {
-   "excluded": 2,
    "old": 5,
    "known": 5,
-   "duplicate": 17
+   "duplicate": 11
   },
   "taskRejectedReasons": [
-   "WHO, Jubaland Discuss Expanding Healthcare Services in Southern Somalia: headline-only (Shabelle), lama xaqiijin -> pending",
-   "Jubaland iyo WHO oo xoojinaya iskaashiga: isla dhacdo (Shabelle, headline-only) -> pending",
-   "Cali Guudlaawe oo amray in la raadiyo Ugaas Yuusuf: headline-only (Caasimada), lama xaqiijin -> pending",
-   "Ciidanka DANAB oo howlgallo ka sameeyay Shabeellaha Dhexe: headline-only (Shabelle), faahfaahin iyo il kale ma jiraan -> pending",
-   "Soomaaliya oo tacsi u dirtay Masar (shilka tareenka Giza): borotokool, qiimo war oo yar",
-   "Catch-up (AUSSOM-Sweden, Sanbaloolshe, digniinta safarka Mareykanka, Jarmalka magangelyo, Ramla Ali, Hiiraan guddoomiye ku-xigeen, COP31, Garaad Cabdiqani, Golaha Mustaqbalka, Deyniile, Stephen Miller iwm.): sababihii orodkii 11:27 weli way jiraan (nuqul / hal il / headline-only / pending hore)"
+   "US Airstrikes Target Islamic State Positions in Somalia’s Puntland Region: headline-only (Shabelle); AFRICOM ama il kale lama helin -> pending",
+   "Itoobiya oo soo saartay hanjabaaddii ugu cuslayd ee ku saabsan helitaanka badda: headline-only (Caasimada, country et); il kale oo xaqiijisa lama helin -> pending",
+   "Feryahanad Ramla Cali oo la ilmeysay guul (BBC Somali): headline-only; ilo la akhrin karo oo xaqiijiya (facts-only/caalami) lama helin; horey pending ugu jirtay",
+   "WHO/Jubaland, Cali Guudlaawe–Ugaas Yuusuf, DANAB Shabeellaha Dhexe: headline-only, weli lama xaqiijin (pending hore)",
+   "Soomaaliya oo tacsi u dirtay Masar: borotokool, qiimo war oo yar",
+   "Catch-up (AUSSOM-Sweden, Sanbaloolshe, Garaad Cabdiqani, Golaha Mustaqbalka, Deyniile, Stephen Miller, Goobjoog duumada, Daljir hadallo siyaasadeed iwm.): sababihii orodkii 11:27/12:30 weli way jiraan (nuqul / hal il / headline-only / ra'yi / pending hore)"
   ],
   "waitingForImage": 1,
   "waitingIds": [
