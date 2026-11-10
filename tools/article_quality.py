@@ -17,7 +17,10 @@ so honestly: "limitedFacts": true and "lengthNote" (internal, Somali: why it is 
   python3 tools/article_quality.py check --new [<ref>]     check the article files added since <ref> (default origin/main)
   python3 tools/article_quality.py report [--limit N] [--json] [--all]
                                                            existing articles that are incomplete, editable ones first
-                                                           (Somalia first, then newest); --all also lists protected ones
+                                                           (Somalia, World, Sports, other; newest first); --all also
+                                                           lists protected ones
+  python3 tools/article_quality.py backlog [--json]       published articles per group: complete / pending / impossible
+                                                           (skip list) / protected (owner's edits, never touched)
   python3 tools/article_quality.py editable <id>           prints "editable" or "protected: <reason>" (exit 0 / 1)
   python3 tools/article_quality.py expand <file.json>      complete existing articles safely (see expand())
   python3 tools/article_quality.py skip <id> "<reason>"    the news task could not verify more facts: the report leaves it out
@@ -296,7 +299,7 @@ def cmd_report(args):
                      'published': n.get('published', True) is not False, 'publishedAt': n.get('publishedAt'), 'why': why,
                      'words': words(n.get('body')), 'protected': p, 'source': n.get('source'), 'sourceUrl': n.get('sourceUrl'),
                      'sourceRights': n.get('sourceRights'), 'title': n.get('title')})
-    rows.sort(key=lambda r: (r['protected'] is not None, not r['published'], r['country'] != 'so', r['section'] != 'somalia',
+    rows.sort(key=lambda r: (r['protected'] is not None, not r['published'], priority(r),
                              -(datetime.datetime.fromisoformat(r['publishedAt']).timestamp() if r['publishedAt'] else 0)))
     if lim:
         rows = rows[:lim]
@@ -306,6 +309,50 @@ def cmd_report(args):
         for r in rows:
             print(f"{r['id']}  [{r['section']}/{r['country'] or '-'}]  {', '.join(r['why'])}" + (f"  PROTECTED: {r['protected']}" if r['protected'] else ''))
     print(f'{len(rows)} incomplete article(s) listed', file=sys.stderr)
+    return 0
+
+
+def priority(r):
+    """Owner's order (10 Nov 2026): Somalia news, then World, then Sports, then everything else."""
+    if r.get('country') == 'so':
+        return 0
+    return {'somalia': 1, 'world': 2, 'sports': 3}.get(r.get('section'), 4)
+
+
+GROUPS = ['Soomaaliya', 'Bariga Afrika', 'Caalamka', 'Ciyaaraha', 'Kale']
+
+
+def group(n):
+    return GROUPS[{0: 0, 1: 1, 2: 2, 3: 3}.get(priority(n), 4)]
+
+
+def cmd_backlog(args):
+    """How far the completion backlog is: per group, the published articles that are complete, still pending (the task
+    may complete them), impossible to expand (no more verified facts: skip list) and protected (owner's / admin's)."""
+    skipped = skips()
+    t = {g: {'complete': 0, 'pending': 0, 'impossible': 0, 'protected': 0} for g in GROUPS}
+    for f in sorted(glob.glob(os.path.join(NEWS, '*.json'))):
+        n = load(f)
+        if n.get('published', True) is False:
+            continue
+        nid = n.get('id') or os.path.basename(f)[:-5]
+        g = t[group(n)]
+        if not completeness(n):
+            g['complete'] += 1
+        elif protected(n, os.path.relpath(f, root)):
+            g['protected'] += 1
+        elif nid in skipped:
+            g['impossible'] += 1
+        else:
+            g['pending'] += 1
+    tot = {k: sum(v[k] for v in t.values()) for k in ('complete', 'pending', 'impossible', 'protected')}
+    if '--json' in args:
+        print(json.dumps({'groups': t, 'total': tot}, ensure_ascii=False, indent=1))
+        return 0
+    print(f"{'':15}{'complete':>10}{'pending':>9}{'impossible':>12}{'protected':>11}")
+    for g in GROUPS + ['TOTAL']:
+        v = tot if g == 'TOTAL' else t[g]
+        print(f"{g:15}{v['complete']:>10}{v['pending']:>9}{v['impossible']:>12}{v['protected']:>11}")
     return 0
 
 
@@ -443,6 +490,8 @@ if __name__ == '__main__':
         sys.exit(1 if p else 0)
     if c == 'expand' and len(a) > 1:
         sys.exit(expand(a[1]))
+    if c == 'backlog':
+        sys.exit(cmd_backlog(a[1:]))
     if c == 'skip' and len(a) > 2:
         sys.exit(cmd_skip(a[1], a[2]))
     if c == 'test':
