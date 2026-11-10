@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, Image, Pressable, View, type LayoutChangeEvent } from 'react-native';
+import { Animated, Easing, Image, Pressable, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -15,8 +15,10 @@ const LOGO = require('../../assets/logo.png');
 /** The website's brand: round logo, WARTABIYE with the red TV box, the spaced tagline */
 export function Brand({ size = 'full' }: { size?: 'full' | 'bar' }) {
   const { colors, t } = useSettings();
+  const { width } = useWindowDimensions();
   const bar = size === 'bar';
-  const logo = bar ? 34 : 54;
+  const small = width < 360;
+  const logo = bar ? 34 : small ? 46 : 54;
   return (
     <Pressable onPress={() => router.navigate('/')} accessibilityRole="header" accessibilityLabel="Wartabiye TV">
       <Row style={{ gap: bar ? 10 : 12 }}>
@@ -25,12 +27,12 @@ export function Brand({ size = 'full' }: { size?: 'full' | 'bar' }) {
         </View>
         <View style={{ flexShrink: 1 }}>
           <Row style={{ gap: 6 }}>
-            <T f="brand" style={{ fontSize: bar ? 19 : 28, lineHeight: bar ? 22 : 31, letterSpacing: 0.6, color: bar || colors.dark ? '#fff' : colors.blue }}>WARTABIYE</T>
+            <T f="brand" style={{ fontSize: bar ? 19 : small ? 24 : 28, lineHeight: bar ? 22 : small ? 27 : 31, letterSpacing: 0.6, color: bar || colors.dark ? '#fff' : colors.blue }}>WARTABIYE</T>
             <View style={{ backgroundColor: colors.red, borderRadius: 5, paddingHorizontal: bar ? 5 : 7, paddingVertical: 1 }}>
-              <T f="brand" style={{ color: '#fff', fontSize: bar ? 15 : 22, lineHeight: bar ? 19 : 27, letterSpacing: 0.6 }}>TV</T>
+              <T f="brand" style={{ color: '#fff', fontSize: bar ? 15 : small ? 19 : 22, lineHeight: bar ? 19 : small ? 23 : 27, letterSpacing: 0.6 }}>TV</T>
             </View>
           </Row>
-          {!bar ? <T f="bodyBold" muted style={{ fontSize: 9.5, letterSpacing: 1.9, textTransform: 'uppercase', marginTop: 5 }} numberOfLines={1}>{t('tagline')}</T> : null}
+          {!bar ? <T f="bodyBold" muted style={{ fontSize: small ? 8.5 : 9.5, letterSpacing: small ? 1 : 1.9, textTransform: 'uppercase', marginTop: 5 }} numberOfLines={1}>{t('tagline')}</T> : null}
         </View>
       </Row>
     </Pressable>
