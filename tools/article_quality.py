@@ -23,6 +23,8 @@ so honestly: "limitedFacts": true and "lengthNote" (internal, Somali: why it is 
                                                            (skip list) / protected (owner's edits, never touched)
   python3 tools/article_quality.py editable <id>           prints "editable" or "protected: <reason>" (exit 0 / 1)
   python3 tools/article_quality.py expand <file.json>      complete existing articles safely (see expand())
+  python3 tools/article_quality.py behind [--limit N]     completed articles whose translations are still the old short
+                                                           ones ("translationsBehind"): JSON with the Somali text
   python3 tools/article_quality.py skip <id> "<reason>"    the news task could not verify more facts: the report leaves it out
                                                            (data/world/article-completion.json)
   python3 tools/article_quality.py test                    offline self-test
@@ -53,7 +55,7 @@ COMPLETE_WORDS = 120              # report: an existing article below this is "s
 AUTO_SUBJECT = re.compile(r'^(Wararka |Daabac:|Ciyaaraha:|Faahfaahin)')
 TEXT_KEYS = ('title', 'summary', 'body', 'category', 'section', 'country', 'publishedAt')
 EXPAND_KEYS = {'title', 'summary', 'body', 'verification', 'developing', 'limitedFacts', 'lengthNote', 'expandedAt',
-               'updatedAt', 'autoHash'} | set(LANGS)
+               'updatedAt', 'autoHash', 'translationsBehind'} | set(LANGS)
 END_OK = tuple('.!?…"”»\')]۔؟।') + ('.»', '."')
 # endings that promise more without saying anything (Somali + the eight translation languages)
 PLACEHOLDER = re.compile(r'(faahfaahin(o)? (dheeraad|kale|intaa ka badan)[^.]{0,40}(soo socota|soo socda|kala soco|la socda)'
@@ -152,9 +154,11 @@ def check_article(n, new=True):
             continue
         tb = t.get('body') or ''
         if body and not str(tb).strip():
+            if lang in (n.get('translationsBehind') or []):
+                continue
             (err if new else warn).append(f'{nid}/{lang}: the Somali article has a body but this translation has none')
             continue
-        if tb and new and len(paras(tb)) != so_lines:
+        if tb and new and len(paras(tb)) != so_lines and lang not in (n.get('translationsBehind') or []):
             err.append(f'{nid}/{lang}: {len(paras(tb))} paragraphs/subheadings, the Somali has {so_lines} (keep the same structure)')
         (err if new else warn).extend(f'{nid}/{e}' for e in text_problems(t.get('title'), t.get('summary'), tb, developing, lang))
     return err, warn
@@ -374,7 +378,9 @@ def cmd_skip(nid, reason):
 def expand(src, now=None):
     """Complete existing short articles. src = {"<id>": {"body": ..., "summary"?: ..., "title"?: ..., "verification": ...,
     "developing"?: bool, "limitedFacts"?: bool, "lengthNote"?: str, "translations": {"en": {"title","summary","body",
-    "imageAlt"?}, ... all eight}}}. Refused (file unchanged) when the article is protected, when the result breaks the
+    "imageAlt"?}, ... all eight}}}. "translations" may be left out (Somali first): the existing machine translations then
+    stay as they are and the article gets "translationsBehind": [langs], listed by `behind`; a later expand of the same
+    article WITH all eight translations brings them up to date and removes the mark. Refused (file unchanged) when the article is protected, when the result breaks the
     standard, or when the digits of a translation differ from the Somali. publishedAt, the photo and the source record are
     never touched; "expandedAt" and "updatedAt" record when it was completed."""
     data = load(src)
@@ -402,12 +408,21 @@ def expand(src, now=None):
         so_all = ' '.join(str(m.get(k) or '') for k in ('title', 'summary', 'body'))
         bad = [l for l in LANGS if not isinstance(tr.get(l), dict) or not str(tr[l].get('title') or '').strip()
                or not str(tr[l].get('body') or '').strip()]
-        if bad:
+        if not tr:
+            # Somali first (owner, 11 Nov 2026: the Somali readers must get the full story now): the existing machine
+            # translations stay as they are (shorter, but correct) and are marked to be brought up to date later.
+            m['translationsBehind'] = [l for l in LANGS if isinstance(n.get(l), dict)]
+            if not m['translationsBehind']:
+                m.pop('translationsBehind')
+            bad = []
+        else:
+            m.pop('translationsBehind', None)
+        if tr and bad:
             print(f'{nid}: missing translations {bad} (all eight are needed, with the body), refused'); refused += 1; continue
-        nums = [l for l in LANGS if numbers(so_all) != numbers(' '.join(str(tr[l].get(k) or '') for k in ('title', 'summary', 'body')))]
+        nums = [] if not tr else [l for l in LANGS if numbers(so_all) != numbers(' '.join(str(tr[l].get(k) or '') for k in ('title', 'summary', 'body')))]
         if nums:
             print(f'{nid}: digits differ from the Somali in {nums}, refused'); refused += 1; continue
-        for l in LANGS:
+        for l in (LANGS if tr else ()):
             old_alt = (n.get(l) or {}).get('imageAlt') if isinstance(n.get(l), dict) else None
             b = {k: str(tr[l][k]).strip() for k in ('title', 'summary', 'body', 'imageAlt') if str(tr[l].get(k) or '').strip()}
             if 'imageAlt' not in b and old_alt:
@@ -490,6 +505,17 @@ if __name__ == '__main__':
         sys.exit(1 if p else 0)
     if c == 'expand' and len(a) > 1:
         sys.exit(expand(a[1]))
+    if c == 'behind':
+        lim = int(a[a.index('--limit') + 1]) if '--limit' in a else 0
+        rows = []
+        for f in sorted(glob.glob(os.path.join(NEWS, '*.json')), reverse=True):
+            n = load(f)
+            if n.get('translationsBehind'):
+                rows.append({'id': n.get('id') or os.path.basename(f)[:-5], 'langs': n['translationsBehind'],
+                             **{k: n.get(k) for k in ('title', 'summary', 'body', 'imageAlt') if n.get(k)}})
+        print(json.dumps(rows[:lim] if lim else rows, ensure_ascii=False, indent=1))
+        print(f'{len(rows)} completed article(s) with translations still to bring up to date', file=sys.stderr)
+        sys.exit(0)
     if c == 'backlog':
         sys.exit(cmd_backlog(a[1:]))
     if c == 'skip' and len(a) > 2:
