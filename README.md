@@ -13,6 +13,7 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `img/news/` | Sawirrada wararka (Wikimedia Commons / VOA, liisan sharci ah) |
 | `tools/translations.py` | Turjumaadda wararka (en/ar/fr/nl/it/de/tr): liiska kuwa maqan, ku darid aan waxba dib u qorin, hubin |
 | `tools/lang_test.js` | Tijaabada badhanka luqadda (9 luqadood, desktop + mobile, RTL) |
+| `tools/article_quality.py` | Heerka war dhammaystiran (hordhac, qoraal buuxa, cinwaan-hoosaad `## `, gabagabo, jumlad aan goyan): `check --new` hawsha wararka, `report` wararka gaagaaban, `expand` dhammaystirka ammaan ah ee war hore (kuwa maamulku taabtay waa la ilaaliyaa) |
 | `tools/check_site.py` | Hubinta: JSON sax ah, taariikh sax ah, URL aan labanlaabmin, sawir kasta wuu jiraa, qaybaha iyo xayeysiisyada |
 | `tools/live_test.js` | Tijaabada browser-ka: bogga hore, war kasta, qaybaha, Ciyaaraha, Caalamka, Xayeysiimaha, boggaga |
 | `assets/media.js`, `assets/media-i18n.js` | Muuqaal Wararka (`#muuqaal`, `muuqaal/<id>.html`), LIVE TV (`#toos`), Ciyaaraha Toos (`#ciyaaraha-toos`), 9 luqadood |

@@ -232,7 +232,9 @@ export default function ArticleScreen() {
       </View>
 
       <View style={{ padding: 16, gap: 16 }}>
-        {paragraphs.map((para, i) => (i === 0 && !rtl && /^\p{L}/u.test(para) ? (
+        {paragraphs.map((para, i) => (/^##\s+/.test(para) ? (
+          <T key={i} f="display" style={[{ fontSize: textStyle.fontSize + 3, lineHeight: Math.round((textStyle.fontSize + 3) * 1.3), marginTop: 6 }, textLangProps?.style]} selectable accessibilityRole="header">{para.replace(/^##\s+/, '')}</T>
+        ) : i === paragraphs.findIndex(x => !/^##\s+/.test(x)) && !rtl && /^\p{L}/u.test(para) ? (
           <T key={i} style={[textStyle, textLangProps?.style]} selectable>
             <T f="brand" style={{ color: colors.blue, fontSize: Math.round(textStyle.fontSize * 2.4), lineHeight: Math.round(textStyle.fontSize * 2.4) }}>{para.charAt(0)}</T>
             {para.slice(1)}

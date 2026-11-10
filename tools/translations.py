@@ -11,9 +11,11 @@ translation is a missing imageAlt (photo description), when the Somali article h
   python3 tools/translations.py missing            list articles that lack a translation, or whose translation lacks the photo
                                                    description (imageAlt) the Somali has (JSON, Somali text included)
   python3 tools/translations.py add <file.json>    add translations: {"<id>": {"en": {...}, "ar": {...}, "fr": {...}, "nl": {...}, "it": {...}, "de": {...}, "tr": {...}, "es": {...}}}
-  python3 tools/translations.py verify [<ref>]     check that existing article files only GAINED translations since <ref> (default HEAD)
+  python3 tools/translations.py verify [<ref>]     check that existing article files only GAINED translations since <ref> (default HEAD),
+                                                   or were completed by tools/article_quality.py expand (unprotected articles only)
 """
 import json, os, sys, glob, re, hashlib, subprocess
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NEWS = os.path.join(root, 'data', 'news')
 LANGS = ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')
@@ -109,6 +111,12 @@ def verify(ref='HEAD'):
         if not os.path.exists(os.path.join(root, rel)):
             bad.append(f'{rel}: deleted'); continue
         a, b = json.loads(old.stdout), load(os.path.join(root, rel))
+        if b.get('expandedAt') != a.get('expandedAt'):
+            # completed by tools/article_quality.py expand: allowed only for an unprotected article, within the standard
+            import article_quality
+            if not article_quality.allowed_change(a, b):
+                bad.append(f'{rel}: changed, but not a valid completion by tools/article_quality.py expand')
+            continue
         for k in set(a) | set(b):
             if a.get(k) == b.get(k):
                 continue

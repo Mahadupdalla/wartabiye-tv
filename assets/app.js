@@ -388,7 +388,7 @@
     else{var fn=el('figcaption');fn.append(tr('noImg')+(L==='so'&&typeof it.imageNote==='string'&&it.imageNote?': '+it.imageNote:'.'));fig.append(fn)}
     A.append(fig);
     var bd=soAttr(el('div','body'),isSo(it));var txt2=(body||sum||F(it,'title'));
-    txt2.split(/\n+/).forEach(function(p){if(p.trim())bd.append(el('p',null,p.trim()))});A.append(bd);
+    txt2.split(/\n+/).forEach(function(p){p=p.trim();if(!p)return;if(/^##\s+/.test(p))bd.append(el('h2','sub',p.replace(/^##\s+/,'')));else bd.append(el('p',null,p))});A.append(bd);
     var su=safeUrl(it.sourceUrl);
     if(showSrc(it)){var sb=el('div','srcbox');sb.append(el('span',null,trf('srcNote',{src:it.source})));
       if(su){var a2=el('a',null,tr('readOriginal')+' ('+it.source+') ↗');a2.href=su;a2.target='_blank';a2.rel='noopener';sb.append(a2)}A.append(sb)}
