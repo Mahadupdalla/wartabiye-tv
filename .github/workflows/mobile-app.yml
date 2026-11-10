@@ -40,7 +40,8 @@ jobs:
           python3 tools/push_send.py test
           node --test workers/push/test/worker.test.mjs
       - name: Browser for the tests
-        run: npx playwright install --with-deps chromium
+        # Playwright only for these tests (not an app dependency)
+        run: npm install --no-save playwright && npx playwright install --with-deps chromium
       - name: Synchronisation test (publish, edit, new image, unpublish, offline)
         run: node test/sync.e2e.mjs
       - name: App checks against the live website
