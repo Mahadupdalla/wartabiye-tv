@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-10T21:26:36+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-10T21:41:34+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-10T16:31:34Z",
  "newestArticleAt": "2026-11-10T18:04:46+03:00",
- "lastSourceCheckAt": "2026-11-10T21:25:20+03:00",
+ "lastSourceCheckAt": "2026-11-10T21:40:20+03:00",
  "sourceChecks24h": 292,
- "publishedArticles": 341,
+ "publishedArticles": 352,
  "liveArticles": 341,
  "waitingForImage": 78,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 2,
  "lastPublishRun": {
   "created_at": "2026-11-10T16:31:34Z",
@@ -18,36 +18,41 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/42855394573"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-10T16:16:41+00:00",
+  "since": "2026-11-10T18:41:33+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-10T18:42:55+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-10T21:10:16+03:00",
  "writers": {
   "sports": {
    "mode": "on",
-   "lastCheckAt": "2026-11-10T21:26:33+03:00",
+   "lastCheckAt": "2026-11-10T21:41:30+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 3,
-    "waitingForSchedule": 90
+    "skipped": 9,
+    "waitingForSchedule": 86
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-10T21:25:13+03:00",
-   "lastSuccessAt": "2026-11-10T21:25:13+03:00",
+   "lastCheckAt": "2026-11-10T21:40:13+03:00",
+   "lastSuccessAt": "2026-11-10T21:40:13+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-10T18:45:00+03:00",
+  "lastSourceCheckAt": "2026-11-10T21:10:16+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-10T18:04:05+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Daawo: Ujeedka wafdiga DF ee maanta gaaray Beledweyne",
-   "url": "https://www.caasimada.net/daawo-ujeedka-wafdiga-df-ee-maanta-gaaray-beledweyne/"
+   "publishedAt": "2026-11-10T20:05:05+03:00",
+   "sourceName": "Shabelle Media Network",
+   "title": "UN Women backs NUSOJ-led nationwide consultations on Somalia’s accession to CEDAW",
+   "url": "https://shabellemedia.com/un-women-backs-nusoj-led-nationwide-consultations-on-somalias-accession-to-cedaw/"
   },
   "latestPublished": {
    "id": "2026-11-10-daahir-shire-beledweyne-tabashada-hiiraan",
@@ -56,21 +61,23 @@
    "source": "Hiiraan Online",
    "url": "/war/2026-11-10-daahir-shire-beledweyne-tabashada-hiiraan.html"
   },
-  "publishedLastRun": 2,
+  "publishedLastRun": 0,
   "rejectedLastRun": 15,
   "rejectedReasons": {
-   "known": 2,
-   "duplicate": 13
+   "old": 3,
+   "known": 1,
+   "duplicate": 11
   },
   "taskRejectedReasons": [
-   "Soomaaliya iyo Aljeeriya oo ka wada hadlay xoojinta xiriirka iyo iskaashiga labada dal (Shabelle): headline-only, il kale oo la akhrin karo lama helin -> pending (Shabelle: lama xaqiijin)",
-   "DF Soomaaliya oo garab istaag u muujisay Masar kadib musiibadii… (Caasimada): headline-only, il kale lama helin -> pending (Caasimada: lama xaqiijin)",
-   "Daawo: Ujeedka wafdiga DF ee maanta gaaray Beledweyne (Caasimada): isla dhacdada warka Daahir Shire (Hiiraan) – nuqul, alsoReportedBy",
-   "DF Soomaaliya oo 171 muwaadin dib ugu soo celisay dalka (Caasimada): isla dhacdada warka Hiiraan – nuqul, alsoReportedBy",
-   "Five workers, two NPRs killed in suspected Al-Shabaab ambush in Mandera (Capital FM): horey ayaa loo daabacay (2026-11-10-mandera-weerar-8-qof-waddada-arabia) – nuqul",
-   "Tiknoolajiyad cusub oo suuragelinaysa dhalmada carruur Galmo la'aan (BBC Somali): war Soomaaliya ma aha, headline-only",
+   "Shir xasaasi ah oo u socda taliyeyaasha ciidamada iyo mucaaradka DF (Caasimada): headline-only, il kale oo la akhrin karo lama helin -> pending (Caasimada: lama xaqiijin)",
+   "UN Women backs NUSOJ-led nationwide consultations on Somalia's accession to CEDAW (Shabelle): headline-only, il kale lama helin -> pending (Shabelle: lama xaqiijin)",
+   "Guddoomiyihii xilka laga qaaday ee Maxkamadda Sare oo sheegay in loo hanjabay (Shabelle): headline-only, eedeyn culus oo hal il ah -> pending (Shabelle: lama xaqiijin)",
+   "Wasiirka Gaashaandhigga Soomaaliya oo la kulmay safiirka Sweden (Shabelle): borotokool, qiime war ma leh",
+   "Guddiga Aqalka Sare oo kulan la yeeshay mas'uuliyiin ka tirsan Wasaaradda Maaliyadda (Shabelle): kulan caadi ah oo go'aan la'aan ah",
    "Dunida Iyo Maanta (BBC Somali): barnaamij raadiye, war ma aha",
-   "Catch-up (Garaad Cabdiqani, Golaha Mustaqbalka, Deyniile, Sanbaloolshe, Horseed Puntland, Caasimada, Deni-baarlamaanka iwm.): sababihii orodyadii hore weli way jiraan (nuqul / hal il / headline-only / ra'yi / borotokool / pending hore)"
+   "Daawo: Ujeedka wafdiga DF ee maanta gaaray Beledweyne (Caasimada): nuqul (warka Daahir Shire ee orodkii hore)",
+   "Somali Danab Commandos / Algeria scholarships / Somalia condolences to Egypt (Shabelle): horey ayay pending ugu jireen (lama xaqiijin), weli il kale lama helin",
+   "Garaad Cabdiqani Wuu Ka Digay Isku Dayga Burburinta Qarannimada Soomaaliya (Puntland Post): faallo/ra'yi, war ma aha"
   ],
   "waitingForImage": 1,
   "waitingIds": [
