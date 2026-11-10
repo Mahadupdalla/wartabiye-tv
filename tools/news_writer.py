@@ -8,7 +8,7 @@ Run by the 5-minute source loop (tools/fast_loop.sh news_writer_cycle). It never
 Modes (repository variable NEWS_WRITER_MODE):
   off        never writes (the default while ANTHROPIC_API_KEY is not set)
   fallback   writes ONLY while the hourly Claude routine has not run for NEWS_WRITER_FALLBACK_MIN minutes
-             (data/status.json lastRunAt; default 150 minutes). This is the default once the key is added.
+             (data/status.json lastRunAt; default 240 minutes: it runs every 3 hours). This is the default once the key is added.
   always     writes every fresh story itself, every 5 minutes (highest cost)
 
 What it does with each fresh story (branch world-feed, candidates.json, found by the 5-minute monitor):
@@ -35,7 +35,7 @@ STATUS = os.environ.get('NEWS_WRITER_STATUS') or os.path.join(root, 'data', 'wor
 MODEL = os.environ.get('NEWS_WRITER_MODEL') or 'claude-opus-5-5'
 MAX_PER_RUN = int(os.environ.get('NEWS_WRITER_PER_RUN') or '2')
 MAX_PER_DAY = int(os.environ.get('NEWS_WRITER_DAILY_MAX') or '24')
-FALLBACK_MIN = int(os.environ.get('NEWS_WRITER_FALLBACK_MIN') or '150')
+FALLBACK_MIN = int(os.environ.get('NEWS_WRITER_FALLBACK_MIN') or '240')  # the routine runs every 3 h (10 Nov 2026): 3 h + 1 h slack
 SECTIONS = ('world', 'somalia')
 REGION_CATS = ('Siyaasadda', 'Amniga', 'Bulshada', 'Dhaqaalaha')
 COUNTRIES = ('so', 'ke', 'et', 'tz', 'ug', 'rw', 'bi', 'ss', 'dj', 'er')
