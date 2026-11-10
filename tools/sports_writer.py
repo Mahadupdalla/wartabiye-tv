@@ -538,7 +538,9 @@ def write_status(st, run):
     recent = (run['items'] + s.get('recent', []))[:60]
     out = {'about': 'Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); '
                      '"held" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.',
-           'mode': 'on' if os.environ.get('ANTHROPIC_API_KEY') else 'off (no ANTHROPIC_API_KEY secret)',
+           'mode': ('paused: Anthropic API credit balance too low since ' + st['noCreditAt'] + ' (add credit in console.anthropic.com '
+                    '→ Plans & Billing; the $1 daily limit stays)') if st.get('noCreditAt') else
+                   'on' if os.environ.get('ANTHROPIC_API_KEY') else 'off (no ANTHROPIC_API_KEY secret)',
            'limits': {'articlesPerDay': MAX_PER_DAY, 'usdPerDay': MAX_USD_PER_DAY, 'perScheduledRun': MAX_PER_RUN,
                       'estimatedMaxPerStoryUsd': EST_CALL_USD},
            'schedule': {'times (Africa/Nairobi)': SLOTS, 'windowMinutes': SLOT_WINDOW_MIN, 'nextRun': next_slot(now())},
@@ -611,10 +613,20 @@ def run(cand_path, state_path, dry=False):
             if 'API error' not in why:
                 state['seen'][u] = run['at']   # an API outage is retried at the next check; a refusal is not
             run['items'].insert(0, item)
+            if 'credit balance is too low' in why:
+                # the owner's API account has no credit (an HTTP 400 that costs nothing): stop for this scheduled run instead
+                # of asking again every 5 minutes, and show it in /admin/. It starts again by itself once credit is added.
+                sl_st['calls'] = MAX_CALLS_PER_SLOT
+                state.setdefault('slots', {})[sk_] = sl_st
+                state['noCreditAt'] = run['at']
+                run['counts']['noCredit'] = 1
+                print('Anthropic API: credit balance too low. Add credit in console.anthropic.com (Plans & Billing); '
+                      'nothing is retried until the next scheduled run')
             if 'API error' in why:
                 break                          # no credit / API down: do not try the other stories now
             continue
         state['seen'][u] = run['at']
+        state.pop('noCreditAt', None)
         if a.get('decision') != 'publish':
             print(f"refused: {c.get('title')} | {a.get('reason')}")
             run['counts']['refused'] = run['counts'].get('refused', 0) + 1
