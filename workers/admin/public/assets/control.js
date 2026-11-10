@@ -624,8 +624,11 @@
   // ---------------------------------------------------------------- Website settings
   V.settings = function (el) {
     el.innerHTML = ''; el.append(C().loadingBox());
-    Promise.all([C().load(true), files(['data/notify-settings.json'])]).then(function (r) {
-      var ST = r[0], NS = r[1]['data/notify-settings.json'], S = JSON.parse(JSON.stringify(ST.site || {})), N = (NS && NS.json) || {};
+    // only the two settings files: fresh from GitHub, without reloading every article
+    files(['data/site.json', 'data/notify-settings.json']).then(function (r) {
+      var SF = r['data/site.json'], NS = r['data/notify-settings.json'];
+      if (!SF || !SF.json) throw new Error('Could not read data/site.json');
+      var ST = { site: SF.json, siteSha: SF.oid }, S = JSON.parse(JSON.stringify(ST.site)), N = (NS && NS.json) || {};
       el.innerHTML = '';
       el.append(hero('Website settings', 'Saved to the website files and published like an article. Secrets are never stored here.', [h('a', { class: 'btn ghost', href: '#editor', text: 'Every other setting (Full editor)' })]));
       // identity

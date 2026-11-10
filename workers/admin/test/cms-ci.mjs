@@ -136,6 +136,23 @@ try {
     check(!(await p.locator('#v-native .banner.bad').count()), `${v} screen opens without an error`);
   }
 
+  // 2. the Full editor (publishing tool) still lists the real articles
+  await p.goto(W + '/#editor');
+  const fr = p.frameLocator('#cmsFrame');
+  t0 = Date.now();
+  const titles = news.slice(0, 15).map(n => n.title);
+  let found = '';
+  for (let i = 0; i < 120 && !found; i++) {
+    const t = await fr.locator('body').innerText().catch(() => '');
+    found = titles.find(x => t.includes(x)) || '';
+    if (!found) await sleep(1000);
+  }
+  console.log(`Full editor list shown after ${Math.round((Date.now() - t0) / 1000)} s: ${found ? 'yes' : 'no'}`);
+  await sleep(1500); await p.screenshot({ path: join(OUT, 'cms-articles-desktop.png') });
+  if (!found) console.log('editor shows: ' + (await fr.locator('body').innerText().catch(e => 'unreadable: ' + e.message)).replace(/\s+/g, ' ').slice(0, 600) + '\n  hidden: ' + await p.locator('#v-cms').isHidden().catch(() => '?'));
+  check(!!found, 'Full editor lists the real articles');
+  check(!(await fr.locator('#wtvRetry').isVisible().catch(() => false)), 'no "Could not connect to GitHub" screen');
+
   // 1b. the control centre screens with the real data
   const txt = async () => (await p.locator('#v-native').innerText().catch(() => '')).replace(/\s+/g, ' ');
   await p.goto(W + '/#dashboard'); await p.waitForSelector('#v-native .kpi .val', { timeout: 60000 }).catch(() => {}); await sleep(9000);
@@ -154,29 +171,14 @@ try {
   await p.screenshot({ path: join(OUT, 'c-automation.png'), fullPage: true });
   for (const [v, re, what] of [['sections', /Published \d+/, 'Sections: numbers per section'], ['live', /Automatic writer (On|Off)/, 'LIVE News: status and timeline'], ['ads', /Google AdSense/, 'Advertising: AdSense state and adverts'],
     ['health', /Sitemap \d[\d,]* pages/, 'SEO & health: sitemap read from the live site'], ['settings', /Navigation menu/, 'Website settings: real settings loaded']]) {
-    await p.goto(W + '/#' + v); await sleep(6000); T = await txt();
+    await p.goto(W + '/#' + v); await sleep(3000);
+    for (let i = 0; i < 20 && !re.test(T = await txt()); i++) await sleep(1500);
     check(re.test(T) && !/Could not load this data/.test(T), what);
     await p.screenshot({ path: join(OUT, 'c-' + v + '.png'), fullPage: true });
   }
   await p.fill('#gsearch', news[2].title.split(' ').slice(0, 2).join(' ')); await sleep(800);
   check(await p.locator('#gresults .gr').count() >= 1, 'admin-wide search finds a real article');
   await p.screenshot({ path: join(OUT, 'c-search.png') }); await p.fill('#gsearch', '');
-
-  // 2. the Full editor (publishing tool) still lists the real articles
-  await p.goto(W + '/#editor');
-  const fr = p.frameLocator('#cmsFrame');
-  t0 = Date.now();
-  const titles = news.slice(0, 15).map(n => n.title);
-  let found = '';
-  for (let i = 0; i < 120 && !found; i++) {
-    const t = await fr.locator('body').innerText().catch(() => '');
-    found = titles.find(x => t.includes(x)) || '';
-    if (!found) await sleep(1000);
-  }
-  console.log(`Full editor list shown after ${Math.round((Date.now() - t0) / 1000)} s: ${found ? 'yes' : 'no'}`);
-  await sleep(1500); await p.screenshot({ path: join(OUT, 'cms-articles-desktop.png') });
-  check(!!found, 'Full editor lists the real articles');
-  check(!(await fr.locator('#wtvRetry').isVisible().catch(() => false)), 'no "Could not connect to GitHub" screen');
 
   // 3. mobile
   const m = await browser.newContext({ ...devices['iPhone 13'] });
