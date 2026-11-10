@@ -140,7 +140,7 @@ try {
   await p.goto(W + '/#editor');
   const fr = p.frameLocator('#cmsFrame');
   t0 = Date.now();
-  const titles = news.slice(0, 15).map(n => n.title);
+  const titles = news.map(n => n.title).filter(t => t && t.length > 12);   // any real headline: the editor's own sort order decides which are on screen
   let found = '';
   for (let i = 0; i < 120 && !found; i++) {
     const t = await fr.locator('body').innerText().catch(() => '');
@@ -149,7 +149,7 @@ try {
   }
   console.log(`Full editor list shown after ${Math.round((Date.now() - t0) / 1000)} s: ${found ? 'yes' : 'no'}`);
   await sleep(1500); await p.screenshot({ path: join(OUT, 'cms-articles-desktop.png') });
-  if (!found) console.log('editor shows: ' + (await fr.locator('body').innerText().catch(e => 'unreadable: ' + e.message)).replace(/\s+/g, ' ').slice(0, 600) + '\n  hidden: ' + await p.locator('#v-cms').isHidden().catch(() => '?'));
+  if (!found) console.log('editor shows: ' + (await fr.locator('body').innerText().catch(e => 'unreadable: ' + e.message)).replace(/\s+/g, ' ').slice(0, 2500) + '\n  hidden: ' + await p.locator('#v-cms').isHidden().catch(() => '?'));
   check(!!found, 'Full editor lists the real articles');
   check(!(await fr.locator('#wtvRetry').isVisible().catch(() => false)), 'no "Could not connect to GitHub" screen');
 
