@@ -5,7 +5,7 @@
 - <section>/index.html for the Sports, World, Advertising, About, Contact and policy pages, so they have
   real addresses (e.g. /ciyaaraha/) that search engines can index and people can share.
 - sitemap.xml and rss.xml (newest 30 articles, headline + our own summary + link)."""
-import json, os, glob, html, datetime, sys
+import json, os, glob, html, datetime, re, sys
 from email.utils import format_datetime
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE_URL = 'https://www.wartabiyetv.com/'
@@ -78,7 +78,10 @@ for n in news:
     extra = (alts + f'<meta property="article:published_time" content="{esc(n.get("publishedAt"))}">\n' + ld(art)
              + f'<script>window.WARTABIYE_STORY={json.dumps(nid)}</script>')
     seo = head(f'{title} | Wartabiye TV', desc, url, img, 'article', extra)
-    pre = f'<h1>{esc(title)}</h1><div class="body"><p>{esc(summary)}</p></div>'
+    # the whole article for readers without JavaScript and for search engines: lede, then paragraphs and "## " subheadings
+    paras = [p.strip() for p in re.split(r'\n+', str(n.get('body') or '')) if p.strip()]
+    inner = ''.join(f'<h2 class="sub">{esc(p[3:].strip())}</h2>' if p.startswith('## ') else f'<p>{esc(p)}</p>' for p in paras)
+    pre = f'<h1>{esc(title)}</h1><div class="body"><p>{esc(summary)}</p>{inner}</div>'
     write(os.path.join(out_dir, nid + '.html'), subpage(seo, pre), wanted)
 removed = 0
 for f in glob.glob(os.path.join(out_dir, '*.html')):

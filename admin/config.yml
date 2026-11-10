@@ -59,8 +59,8 @@ collections:
       - {label: Xayeysiis, field: sponsored, pattern: true}
     fields:
       - {name: title, label: Cinwaanka, widget: string}
-      - {name: summary, label: Soo koobid, widget: text}
-      - {name: body, label: Qoraalka buuxa, widget: text, required: false, hint: 'Ikhtiyaari. Qoraal adiga kuu gaar ah; ha koobiyeyn qoraalka wargeysyada kale.'}
+      - {name: summary, label: 'Hordhac (soo koobid)', widget: text, hint: '1-2 jumladood oo sheegaya xogta ugu muhiimsan: yaa, maxaa, xaggee, goorma. Waxay ka muuqataa kaararka iyo korka maqaalka.'}
+      - {name: body, label: Qoraalka buuxa, widget: text, required: false, hint: 'Warbixinta oo dhammaystiran, adiga ereyadaada. Sadar banaan = baaragaraaf cusub. Sadar ku bilaabma "## " = cinwaan-hoosaad (tusaale "## Waxa xiga"). Ku dar faahfaahinta, asalka, falcelinta la hubiyay iyo gabagabo; ha ku dhammeyn jumlad goyan. Hawsha wararka waligeed ma beddesho war aad halkan wax ka beddeshay.'}
       - name: category
         label: Qaybta
         widget: relation

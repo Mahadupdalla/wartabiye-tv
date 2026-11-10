@@ -217,6 +217,26 @@
 
   // ------------------------------------------------------------------ small UI pieces
   function toast(msg, bad) { var t = h('div', { class: 'toast' + (bad ? ' bad' : ''), role: 'status', text: msg }); document.body.append(t); setTimeout(function () { t.remove(); }, 5200); }
+  // article completeness (same rules as tools/article_quality.py): paragraphs, "## " subheadings, unfinished endings
+  var PLACEHOLDER = /(faahfaahin(o)? (dheeraad|kale)[^.]{0,40}(soo socota|soo socda|kala soco|la socda)|wixii ku soo kordha (kala|la) soco|nala soco|more (details|information) (coming|to follow|soon))/i;
+  function completeness(text) {
+    var ps = String(text || '').split(/\n+/).map(function (x) { return x.trim(); }).filter(Boolean);
+    var paras = ps.filter(function (x) { return !/^##\s/.test(x); }), heads = ps.length - paras.length;
+    var words = paras.join(' ').split(/\s+/).filter(Boolean).length, warn = [];
+    var cut = paras.filter(function (x) { return !/[.!?…"”»')\]؟]$/.test(x) || /\.\.$/.test(x); }).length;
+    if (!words) warn.push('No full text yet: only the headline and summary are shown.');
+    else if (words < 150) warn.push('Short: a full article usually has at least 150 words in 3 paragraphs (background, statements, what happens next, conclusion).');
+    if (cut) warn.push(cut + ' paragraph(s) end in the middle of a sentence.');
+    if (paras.length && PLACEHOLDER.test(paras[paras.length - 1])) warn.push('Ends with "more details coming soon": write a conclusion (only a developing story may say that).');
+    if (ps.length && /^##\s/.test(ps[ps.length - 1])) warn.push('The text ends with a subheading.');
+    if (words >= 350 && !heads) warn.push('Long article: add 2–4 subheadings (a line that starts with "## ").');
+    return { words: words, paras: paras.length, heads: heads, warn: warn };
+  }
+  function bodyNodes(text) {
+    return String(text || '').split(/\n+/).map(function (x) { return x.trim(); }).filter(Boolean).map(function (x) {
+      return /^##\s/.test(x) ? h('h3', { class: 'pv-h', text: x.replace(/^##\s+/, '') }) : h('p', { text: x });
+    });
+  }
   function chip(k, t) { return h('span', { class: 'chip st-' + k, text: t }); }
   function field(label, input, hint) { return h('label', { class: 'fld' }, h('span', { class: 'fl', text: label }), input, hint ? h('small', { class: 'hint', text: hint }) : null); }
   function inp(v, attrs) { var e = h('input', Object.assign({ class: 'in', type: 'text' }, attrs || {})); e.value = v == null ? '' : v; return e; }
@@ -227,7 +247,7 @@
   function failBox(el, e, retry) { el.innerHTML = ''; var b = W().errBox(e); el.append(b, h('p', null, h('button', { class: 'btn', type: 'button', text: 'Try again', onclick: retry }))); }
 
   // ------------------------------------------------------------------ Articles
-  var F = { q: '', section: '', st: '', tab: 'all', limit: 60, lang: '', from: '', to: '' };
+  var F = { q: '', section: '', st: '', tab: 'all', limit: 60, lang: '', from: '', to: '', short: false };
   function renderList(el, preset) {
     F.section = preset || ''; F.limit = 60;
     el.innerHTML = ''; el.append(loadingBox());
@@ -261,7 +281,8 @@
     var from = inp(F.from, { type: 'date', 'aria-label': 'From date' }), to = inp(F.to, { type: 'date', 'aria-label': 'To date' });
     from.addEventListener('change', function () { F.from = from.value; drawRows(); }); to.addEventListener('change', function () { F.to = to.value; drawRows(); });
     el.append(h('div', { class: 'card toolbar' }, tabs, h('div', { class: 'tb-row' }, q, sec, cat, lang), h('div', { class: 'tb-row' }, h('span', { class: 'sub', text: 'Date (Mogadishu):' }), from, h('span', { class: 'sub', text: 'to' }), to,
-      h('button', { class: 'btn small ghost', type: 'button', text: 'Clear filters', onclick: function () { F.q = ''; F.lang = ''; F.from = ''; F.to = ''; F.section = ''; drawList(el); } }))));
+      h('button', { class: 'btn small' + (F.short ? ' primary' : ''), type: 'button', text: 'Short or incomplete only', 'aria-pressed': String(F.short), onclick: function () { F.short = !F.short; drawList(el); } }),
+      h('button', { class: 'btn small ghost', type: 'button', text: 'Clear filters', onclick: function () { F.q = ''; F.lang = ''; F.from = ''; F.to = ''; F.section = ''; F.short = false; drawList(el); } }))));
     var list = h('div', { class: 'alist' }); el.append(list);
     function drawRows() {
       list.innerHTML = '';
@@ -276,6 +297,7 @@
         if (F.from && day < F.from) return false;
         if (F.to && day > F.to) return false;
         if (term && (a.title + ' ' + a.summary + ' ' + a.id + ' ' + (a.body || '')).toLowerCase().indexOf(term) < 0) return false;
+        if (F.short && !completeness(a.body).warn.length) return false;
         return true;
       });
       if (!rows.length) { list.append(h('div', { class: 'empty', text: F.tab === 'trash' ? 'Nothing deleted. Articles you delete here wait in this list so you can restore them.' : 'No article matches.' })); return; }
@@ -287,7 +309,7 @@
       var img = a.image ? h('img', { src: thumb(a.image), alt: '', loading: 'lazy', onerror: function () { this.onerror = null; this.src = full(a.image); } }) : h('div', { class: 'noimg', text: 'No photo' });
       var meta = h('div', { class: 'ameta' }, chip(st.k, trash ? 'Deleted' : st.t), a.breaking ? chip('brk', 'Breaking') : null, pinned ? chip('pin', (fe.indexOf(a.id) === 0 ? 'Lead story' : 'Pinned')) : null,
         h('span', { text: (SECTIONS.find(function (s) { return s[0] === (a.section || 'somalia'); }) || [, ''])[1] + ' · ' + (a.category || '—') + ' · ' + fmtDate(trash ? a.deletedAt : a.publishedAt) }),
-        h('span', { class: 'by', text: a.by === 'admin' ? 'by you' : 'automatic' }), !trash && st.k === 'pub' ? h('span', { class: onSite ? 'live ok' : 'live', text: onSite ? '● on the website' : '○ not on the website yet' }) : null);
+        h('span', { class: 'by', text: a.by === 'admin' ? 'by you' : 'automatic' }), !trash && completeness(a.body).warn.length ? chip('photo', completeness(a.body).words ? 'Short text (' + completeness(a.body).words + ' words)' : 'No full text') : null, !trash && st.k === 'pub' ? h('span', { class: onSite ? 'live ok' : 'live', text: onSite ? '● on the website' : '○ not on the website yet' }) : null);
       var acts = h('div', { class: 'aacts' });
       if (trash) acts.append(h('button', { class: 'btn small primary', type: 'button', text: 'Restore', onclick: function () { restore(a, el); } }));
       else {
@@ -338,7 +360,7 @@
     el.append(h('div', { class: 'ed-top' }, back, h('h2', { text: isNew ? 'New article' : 'Edit article' }), !isNew ? chip(status(a).k, status(a).t) : null,
       !isNew && STORE.live[a.id] ? h('a', { class: 'btn small', href: articleUrl(a.id), target: '_blank', rel: 'noopener', html: W().ic('ext') + '<span>View on website</span>' }) : null), form);
 
-    var title = inp(art.title, { maxlength: 160 }), summary = area(art.summary, 3), body = area(art.body, 10);
+    var title = inp(art.title, { maxlength: 160 }), summary = area(art.summary, 3), body = area(art.body, 14), meter = h('div', { class: 'meter', 'aria-live': 'polite' });
     var section = sel(art.section || 'somalia', SECTIONS);
     var cats = ((STORE.site && STORE.site.categories) || []).map(function (c) { return [c, c]; }); if (art.category && !cats.some(function (c) { return c[0] === art.category; })) cats.push([art.category, art.category]);
     var category = sel(art.category, cats);
@@ -350,7 +372,14 @@
     var kind = sel(art.imageKind || '', [['', '—'], ['actual', 'Photo of the event'], ['illustrative', 'Illustration / file photo']]);
 
     var main = h('div', { class: 'card ed-main' }, h('h3', { text: 'Somali (main text)' }),
-      field('Headline', title, 'Under 120 characters works best.'), field('Summary', summary, '1–2 sentences, shown on the cards.'), field('Full text (optional)', body, 'Your own words; never copy another outlet\'s text.'));
+      field('Headline', title, 'Under 120 characters works best.'), field('Summary (introduction)', summary, '1–2 sentences with the main fact: who, what, where, when. Shown on the cards and above the article.'),
+      field('Full text', body, 'The complete report in your own words (never copy another outlet\'s text). Leave an empty line between paragraphs. A line that starts with "## " is a subheading, e.g. "## Waxa xiga". Cover what happened, who, where, when, background, verified statements, what happens next, and end with a conclusion. The automatic news task never changes an article you saved here.'), meter);
+    function drawMeter() {
+      var c = completeness(body.value); meter.innerHTML = '';
+      meter.append(h('span', { class: 'chip ' + (c.warn.length ? 'warn' : 'ok'), text: c.words + ' words · ' + c.paras + ' paragraph(s)' + (c.heads ? ' · ' + c.heads + ' subheading(s)' : '') }));
+      c.warn.forEach(function (w) { meter.append(h('small', { class: 'hint', text: '• ' + w })); });
+    }
+    body.addEventListener('input', drawMeter); drawMeter();
     // translations
     var trBox = h('div', { class: 'card' }, h('h3', { text: 'Translations' }), h('p', { class: 'sub', text: 'The photo, category and links are shared by all nine languages. Edited translations are marked as checked by you.' }));
     var trTabs = h('div', { class: 'seg' }), trPane = h('div'), trInputs = {};
@@ -459,7 +488,7 @@
       var src = newPhoto ? newPhoto.url : n.image ? full(n.image) : '';
       prev.append(h('div', { class: 'card-h' }, h('h3', { text: 'Preview' }), h('button', { class: 'toggle', type: 'button', text: 'Close preview', onclick: function () { prev.hidden = true; } })),
         h('div', { class: 'pv' }, src ? h('div', { class: 'pv-img', style: 'background-image:url("' + src.replace(/"/g, '') + '");background-position:' + (n.imageFocus || 'center') }) : null,
-          h('span', { class: 'pv-cat', text: n.category }), h('h1', { text: n.title }), h('p', { class: 'pv-sum', text: n.summary }), n.body ? h('div', { class: 'pv-body', text: n.body }) : null, h('small', { text: fmtDate(n.publishedAt) + (n.imageCredit ? ' · Photo: ' + n.imageCredit : '') })));
+          h('span', { class: 'pv-cat', text: n.category }), h('h1', { text: n.title }), h('p', { class: 'pv-sum', text: n.summary }), n.body ? h('div', { class: 'pv-body' }, bodyNodes(n.body)) : null, h('small', { text: fmtDate(n.publishedAt) + (n.imageCredit ? ' · Photo: ' + n.imageCredit : '') })));
       prev.scrollIntoView({ behavior: 'smooth' });
     }
     var pub = !isNew && a.published !== false;
