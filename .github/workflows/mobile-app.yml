@@ -100,12 +100,9 @@ jobs:
             KS_PASS=testtest; KEY_ALIAS=test; KEY_PASS=testtest
             echo "SIGNING=test" >> "$GITHUB_ENV"
           fi
-          cat >> android/gradle.properties <<EOF
-          WTV_STORE_FILE=release.keystore
-          WTV_STORE_PASSWORD=$KS_PASS
-          WTV_KEY_ALIAS=$KEY_ALIAS
-          WTV_KEY_PASSWORD=$KEY_PASS
-          EOF
+          # leading newline: the generated gradle.properties may not end with one
+          printf '\nWTV_STORE_FILE=release.keystore\nWTV_STORE_PASSWORD=%s\nWTV_KEY_ALIAS=%s\nWTV_KEY_PASSWORD=%s\n' \
+            "$KS_PASS" "$KEY_ALIAS" "$KEY_PASS" >> android/gradle.properties
           # use this key for the release build type
           python3 - <<'PY'
           import re
@@ -113,10 +110,10 @@ jobs:
           s = open(p).read()
           s = s.replace("signingConfigs {", """signingConfigs {
                   wtvRelease {
-                      storeFile file(WTV_STORE_FILE)
-                      storePassword WTV_STORE_PASSWORD
-                      keyAlias WTV_KEY_ALIAS
-                      keyPassword WTV_KEY_PASSWORD
+                      storeFile file(project.property('WTV_STORE_FILE'))
+                      storePassword project.property('WTV_STORE_PASSWORD')
+                      keyAlias project.property('WTV_KEY_ALIAS')
+                      keyPassword project.property('WTV_KEY_PASSWORD')
                   }""", 1)
           s = re.sub(r"(release \{[^}]*?)signingConfig signingConfigs\.debug", r"\1signingConfig signingConfigs.wtvRelease", s, count=1, flags=re.S)
           open(p, 'w').write(s)
