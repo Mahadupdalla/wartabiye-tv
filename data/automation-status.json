@@ -1,121 +1,87 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-10T09:31:27+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
- "lastSuccessfulPublishAt": "2026-11-10T06:26:07Z",
+ "updatedAt": "2026-11-10T10:32:02+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
+ "lastSuccessfulPublishAt": "2026-11-10T07:28:46Z",
  "newestArticleAt": "2026-11-10T08:58:00+03:00",
- "lastSourceCheckAt": "2026-11-10T09:30:19+03:00",
+ "lastSourceCheckAt": "2026-11-10T10:30:20+03:00",
  "sourceChecks24h": 291,
- "publishedArticles": 300,
+ "publishedArticles": 304,
  "liveArticles": 300,
  "waitingForImage": 77,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
-  "created_at": "2026-11-10T06:26:07Z",
+  "created_at": "2026-11-10T07:28:46Z",
   "conclusion": "success",
-  "event": "push",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/42768482095"
+  "event": "workflow_dispatch",
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/42775559611"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-09T09:31:07+00:00",
+  "since": "2026-11-10T07:32:01+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-10T09:25:55+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-10T10:31:14+03:00",
  "writers": {
   "sports": {
    "mode": "on",
-   "lastCheckAt": "2026-11-10T09:31:24+03:00",
+   "lastCheckAt": "2026-11-10T10:31:58+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 1,
-    "waitingForSchedule": 72
+    "skipped": 10,
+    "waitingForSchedule": 75
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-10T09:30:10+03:00",
-   "lastSuccessAt": "2026-11-10T09:30:10+03:00",
+   "lastCheckAt": "2026-11-10T10:30:12+03:00",
+   "lastSuccessAt": "2026-11-10T10:30:12+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-10T09:25:55+03:00",
+  "lastSourceCheckAt": "2026-11-10T10:31:14+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-10T08:45:26+03:00",
-   "sourceName": "BBC Somali",
-   "title": "Warbaahinta Iiraan oo si jeesjees leh wax uga qortay guul-darradii uu Trump kala kulmay doorashada dhexe",
-   "url": "https://www.bbc.com/somali/articles/cmde8ez23wkjo?at_medium=RSS&at_campaign=rss"
+   "publishedAt": "2026-11-10T10:07:57+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Beesha caalamka oo door weyn ka ciyaaraysa wada-hadallada DF iyo mucaaradka",
+   "url": "https://www.caasimada.net/beesha-caalamka-oo-door-weyn-ka-ciyaaraysa-wada-hadallada-df-iyo-mucaaradka/"
   },
   "latestPublished": {
-   "id": "2026-11-10-turkiga-soomaaliya-iskaashi-milatari-falanqeyn",
-   "title": "Falanqeyn: Iskaashiga milatari ee Türkiye wuxuu Soomaaliya ka caawin karaa inay amnigeeda gacanteeda ku qabato, sida uu qoray Dr. Ismaaciil Cali Shiikhnuur",
-   "publishedAt": "2026-11-10T00:30:00+03:00",
-   "source": "Wartabiye TV",
-   "url": "/war/2026-11-10-turkiga-soomaaliya-iskaashi-milatari-falanqeyn.html"
+   "id": "2026-11-10-rubucda-wadahadallada-doorashada-14-18-nov",
+   "title": "Rubucda caalamka oo ku heshiisay inay fududeeyaan wada-hadallada doorashada Soomaaliya",
+   "publishedAt": "2026-11-10T09:35:39+03:00",
+   "source": "Hiiraan Online",
+   "url": "/war/2026-11-10-rubucda-wadahadallada-doorashada-14-18-nov.html"
   },
-  "publishedLastRun": 0,
-  "rejectedLastRun": 12,
+  "publishedLastRun": 1,
+  "rejectedLastRun": 26,
   "rejectedReasons": {
+   "excluded": 2,
+   "old": 5,
    "known": 5,
-   "old": 3,
-   "duplicate": 4
+   "duplicate": 14
   },
   "taskRejectedReasons": [
-   "5 meelood oo Jinku uu kaga nool yahay guryaheenna: maqaal guud/dhaqan (BBC headline-only), ma aha war",
-   "Garaad Cabdiqani Wuu Ka Digay Isku Dayga Burburinta Qarannimada Soomaaliya: faallo (Puntland Post \"Faallo PP\"), ma aha war",
-   "Somalia’s Future Council Condemns Dismissal of Supreme Court Chief Justice, Welcomes Court’s Election Ruling: pending hore ayuu ku jiraa (golaha-mustaqbalka-guddoomiyaha-maxkamadda)",
-   "Soomaaliya oo ansixisay qorshe lix bilood ah oo lagu dardargelinayo ciribtirka cudurka dabeysha: nuqul: qorshaha tallaalka dabaysha waxaa la daabacay 4 Nov (2026-11-04-qorshe-tallaalka-carruurta-dabaysha)",
-   "Somalia: Mogadishu’s Daynile district gripped by deadly clashes amid forced evictions: pending hore ayuu ku jiraa (deyniile-dagaal-guri-ka-saarid); khasaare hal il",
-   "Warbixin: Stephen Miller Oo Hay’adaha Mareykanka Ku Cadaadiyey Baaritaanno Lagu Beegsanayo Soomaalida Minnesota.: pending hore ayuu ku jiraa (stephen-miller-soomaalida-minnesota)",
-   "Degdeg: Sanbaloolshe oo BBC-da uga warramay qorshihiisa iyo waxa ka jira in dowlado shisheeye ay garab siinayaan: wareysi BBC (headline-only), ma aha war cusub oo la xaqiijin karo",
-   "Somali refugee wins women boxing world title at 37 in Texas fight: pending hore ayuu ku jiraa (feeryahanad-soomaali-horyaal-aduunka-texas)",
-   "Madaxweynaha Dowladda Puntland oo guddoomiyayaal degmo magacaabay.: headline-only (Horseed), lama xaqiijin orodkan (lama helin xaqiijin madax-bannaan 09:20)",
-   "Mashruuca cabsi-gelinta shacabka iyo qal-qal gelinta dowladnimada Soomaaliya: faallo (Caasimada), ma aha war",
-   "DF oo Shiinaha la wadaagtay dhagarro shisheeye oo loo maleegayo Soomaaliya: isla dhacdo (Fiqi iyo safiirka Shiinaha) oo la daabacay",
-   "Maxaad kala socotaa waxyaabaha ay salka ku hayso xiisadda Hiiraan ka jirta iyo ballanta ay sheegeen in looga baxay?: falanqeyn BBC (headline-only), ma aha war",
-   "Madaxweyne Deni oo kulan la yeeshay guddoonka baarlamaanka: kulan caadi ah oo aan go'aan lahayn (Puntland Post)",
-   "Xogta safar uu Xasan Sheekh ku tagayo Turkiga iyo ujeedka: isla dhacdo (COP31) oo la daabacay",
-   "Dunida Iyo Maanta: barnaamij raadiye, ma aha war",
-   "Soomaaliya iyo Shiinaha oo Ka Wada Hadlay Xoojinta Iskaashiga Difaaca iyo Amniga: isla dhacdo (Fiqi iyo safiirka Shiinaha) oo la daabacay (Hiiraan)",
-   "Shir looga tashanayo doorashooyinka Puntland oo Garowe ka qabsoomay.: headline-only (Horseed), lama xaqiijin orodkan (lama helin xaqiijin madax-bannaan 09:20)",
-   "Alkan oo kulan la qaatay Farmaajo: nuqul: horay ayaa loo daabacay (2026-11-09-danjire-alkan-farmaajo-kulan)",
-   "Daawo: Qoor Qoor oo si cajiib uga hadlay arrinta Laftagareen: muuqaal/faallo (Caasimada), headline-only",
-   "Wasiirka Gaashaandhigga Soomaaliya oo qaabilay Safiirka Shiinaha: isla dhacdo (Fiqi iyo safiirka Shiinaha) oo la daabacay",
-   "Saraakiil iyo saraakiil-xigeenno oo tababar ku saabsan ilaalinta dadka rayidka ah loogu furay Muqdisho: tababar caadi ah, qiimo war oo yar (Shabelle headline-only)",
-   "Madaxweyne Xasan Sheekh oo xarigga ka jaray xarumaha cusub ee Golaha Wakiillada iyo Wasaaradda Amniga Hirshabeelle: isla dhacdo (xarumaha Jowhar) oo la daabacay (Shabelle)",
-   "Maraakiib dagaal iyo doonyo kalluumeysi oo Turki ah oo kusoo wajahan xeebaha Soomaaliya: waxaa ku jira falanqeynta la daabacay (2026-11-10-turkiga-soomaaliya-iskaashi-milatari-falanqeyn); hal il",
-   "Somaliland oo abaalmarisay askari qabtay oo wareejiyay nin walaalkiis dilay: war maxalli ah oo qiimo yar",
-   "Warbaahinta Carabta oo toosh ku ifisay caqabadaha horyaalla dowladda dhiska Israa'il iyo ninka loo igmaday: dib-u-eegis warbaahinta Carabta (BBC headline-only), ma aha war Soomaaliya",
-   "Xasan Kheyre oo shaaciyay magacyada saraakiisha wadda howlgalka burburinta Dayniile: nuqul: horay ayaa loo daabacay (2026-11-09-khayre-saraakiil-deyniile-raadeerka)",
-   "“Waxaad Kamid Noqon Doontaan Ciidamada Daraawishta Hirshabelle ee Madaxtooyada ayaana leedin,,: khudbad/faallo (Daljir), ma aha war",
-   "Xildhibaan Odawaa: “Waxaa duurka galiyey Laftagareen waa Xasan; waxa Ugaaska ka oohiyey waa Xasan”: hadal siyaasadeed/faallo (Daljir), ma aha war",
-   "Cabdiraxmaan C.Shakuur: ” Xasan Sheekh dawlad, dal iyo dad ma hayo, tabartiina waa ka dhamaatay: hadal siyaasadeed/faallo (Daljir), ma aha war",
-   "Madaxweyne Xasan Sheekh oo Xarigga ka Jaray Xarumo Dowladeed oo ku Yaalla Jowhar: isla dhacdo (xarumaha Jowhar) oo la daabacay",
-   "Maya Jaamac oo ka tagtay shaqadeedii tebinta barnaamij caan ah: war shaqsi ah, qiimo war oo yar",
-   "Stephen Miller oo la ogaaday inuu ka dambeeyey ololaha beegsiga Soomaalida: pending hore ayuu ku jiraa (stephen-miller-soomaalida-minnesota)",
-   "Madaxweynaha Somaliland oo bil gudeheed safarkii labaad ugu baxay Dubai.: headline-only (Horseed), lama xaqiijin",
-   "Tabaarak ICT’s Regional Award Marks Major Milestone for Somalia’s Technology Industry: abaalmarin shirkadeed, headline-only (Shabelle), lama xaqiijin",
-   "11 siyaasi oo Afrikaan ah oo la xiray inta aysan madaxweynayaal noqon: maqaal taariikheed (BBC), ma aha war",
-   "Madaxweyne Xasan Sheekh: Wax walboo Hormar Iyo Wanaag ahi Nabadda ayay Ku Xiranyihiin.: khudbad guud oo aan go'aan lahayn",
-   "Sanbaloolshe : Xasan Sheekh sharciyad uma laha go'aaminta caasimadda Hirshabeelle: hadal siyaasadeed oo muran leh, hal il",
-   "Midowga Afrika iyo Midowga Yurub oo walaac ka muujiyey bixitaanka AUSSOM ee Somalia.: headline-only (Horseed), lama xaqiijin orodkan (lama helin xaqiijin madax-bannaan 09:20)",
-   "Khayre oo dowladda ku eedeeyay inay mushaarka ka jartay kumannaan askari: eedeyn siyaasadeed oo muran leh (Khayre), hal il",
-   "Ra’iisul Wasaaraha Soomaaliya oo bogaadiyay doorka reer Hiiraan ee dagaalka Al-Shabaab: khudbad bogaadin ah, qiimo war oo yar",
-   "Somali Opposition Accuses President of Using Force to Seize Supreme Court: eedeyn siyaasadeed oo muran leh; pending hore (golaha-mustaqbalka-guddoomiyaha-maxkamadda)",
-   "Somali Interior Ministry Reviews 2026 Progress, Begins Preparations for 2027: shir caadi ah oo dib-u-eegis ah, headline-only",
-   "Somalia, Libya Discuss Expanding Trade and Livestock Exports: nuqul: horay ayaa loo daabacay (2026-11-08-soomaaliya-liibiya-kulan-wasiirada)",
-   "Maxay tahay sababta uu isku casilay guddoomiyihii gobolka Hiiraan?: falanqeyn, ma aha war cusub",
-   "Shan siyaabood oo aad ku garan karto marka carruurtu ay bilaabaan inay la xiriiraan xagjiriin: maqaal talo-bixin ah (BBC), ma aha war",
-   "Mucaaradka oo dowladda ku eedeeyay inay afgambi ciidan xilka uga tuurtay Guddoomiyihii Maxkamadda Sare: eedeyn siyaasadeed oo muran leh; pending hore (golaha-mustaqbalka-guddoomiyaha-maxkamadda)",
-   "Soomaaliya oo ka qaybgalay Madasha Ganacsiga iyo Warshadaynta Soomaaliya iyo Shiinaha ee Yiwu: kulan ganacsi caadi ah, headline-only (Shabelle)",
-   "Agaasimaha Guud ee Wasaaradda Amniga Gudaha oo shir-guddoomiyey kulanka laba-toddobaadlaha ah ee Wasaaradda: kulan caadi ah oo laba-toddobaadle ah",
-   "Soomaaliya iyo Mareykanka oo ka wada hadlay iskaashiga amniga iyo mustaqbalka howlgalka AUSSOM: hal il (Hiiraan); lama xaqiijin orodkan (lama helin xaqiijin madax-bannaan 09:20)",
-   "Maraykanka oo muddo lix bilood ah aan duqeyn ka fulin saldhigyada Daacish-ta Soomaaliya, su’aalo ka dhashay hakadka dagaalka: falanqeyn, ma aha war cusub",
-   "Idaacadda Subaxnimo: barnaamij raadiye, ma aha war",
-   "Golaha Mustaqbalka Soomaaliya oo ka horyimid xilka qaadista Guddoomiyihii Maxkamadda Sare.: pending hore ayuu ku jiraa (golaha-mustaqbalka-guddoomiyaha-maxkamadda)"
+   "Beesha caalamka oo door weyn ka ciyaaraysa wada-hadallada DF iyo mucaaradka: isla dhacdo (Rubucda iyo wada-hadallada) oo la daabacay (Caasimada headline-only, alsoReportedBy)",
+   "AUSSOM iyo Sweden oo xoojiyey wada-shaqeynta amniga iyo xasilloonida Soomaaliya: kulan caadi ah oo aan go'aan lahayn",
+   "Sanbaloolshe oo diiday in madaxweyne ku-xigeenka Hirshabeelle uu matalo reer Hiiraan, kana hadlay inuu taageer: hadal siyaasadeed oo muran leh, hal il",
+   "Maraykanka oo Soomaaliya ku daray 23 dal oo uu muwaadiniintiisa uga digay inay u safraan: nuqul: horay ayaa loo daabacay (2026-11-09-mareykanka-soomaaliya-heerka-4-safarka)",
+   "U.S. maintains level 4 travel advisories for Uganda, DRC, Somalia and South Sudan: nuqul (2026-11-09-mareykanka-soomaaliya-heerka-4-safarka)",
+   "Jarmalka oo kala noqday magangelyadii haweeney Soomaaliyeed kaddib markii ay booqatay Somaliland: go'aanka maxkamadda Trier waa dhacdo hore (warbaahinta Jarmalka 2026), lama hubin inuu cusub yahay; hal il",
+   "Ramla Ali oo markii ugu horreysay ku guuleysatay laba suun oo horyaalnimada feerka adduunka ah: pending hore ayuu ku jiraa (feeryahanad-soomaali-horyaal-aduunka-texas)",
+   "British-Somali boxer Ramla Ali defeats Mikiah Kreps for first world title: pending hore (feeryahanad-soomaali-horyaal-aduunka-texas)",
+   "Guddoomiye ku-xigeenkii Arrimaha Bulshada Gobolka Hiiraan oo xilka iska casilay: headline-only (Shabelle), qiimo war oo yar, lama xaqiijin",
+   "Madaxweyne Xasan Sheekh oo ka qaybgalaya Shirka Cimilada ee COP31: nuqul (2026-11-09-xasan-sheekh-cop31-antalya)",
+   "IGAD iyo Jarmalka oo ka wada hadlay xoojinta iskaashiga istaraatiijiyadeed: kulan caadi ah, headline-only (Shabelle)",
+   "Catch-up 24 saac (Idaacadda Subaxnimo, Garaad Cabdiqani, Golaha Mustaqbalka, Deyniile, Stephen Miller, iwm.): sababihii orodkii 09:25 weli way jiraan (data/world/status.json)"
   ],
   "waitingForImage": 1,
   "waitingIds": [
@@ -123,6 +89,6 @@
   ],
   "stale": false,
   "problems": [],
-  "lastSuccessfulPublishAt": "2026-11-10T06:26:07Z"
+  "lastSuccessfulPublishAt": "2026-11-10T07:28:46Z"
  }
 }
