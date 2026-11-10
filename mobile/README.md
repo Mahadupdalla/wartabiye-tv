@@ -4,7 +4,7 @@ The Wartabiye TV mobile app, built with React Native and Expo. The same code bui
 
 | | What it is | Where |
 |---|---|---|
-| **Android app** | Native app (APK for testing, AAB for Google Play) | `.github/workflows/mobile-app.yml` builds it on every change; files under *Actions → Mobile app → Artifacts* |
+| **Android app** | Native app (APK for testing, AAB for Google Play) | `.github/workflows/mobile-app.yml` builds it on every change and opens it on an Android emulator. Test APK: `https://github.com/Mahadupdalla/wartabiye-tv/releases/download/android-test-build/wartabiye-tv.apk` (updated from main); AAB under *Actions → Mobile app → Artifacts* |
 | **iPhone app** | Native app (TestFlight / App Store) | Needs an Apple Developer account, see [iPhone](#iphone-testflight) |
 | **Web app (PWA)** | Installable from the browser ("Add to Home screen") | `https://www.wartabiyetv.com/app/` (folder `../app`, built by `npm run build:pwa`) |
 
@@ -68,6 +68,7 @@ Android on your own computer (Android Studio + JDK 17): `npx expo prebuild --pla
 * `test/app.e2e.mjs`: nine languages, Arabic right-to-left, sections, LIVE, bookmarks after restart, search, 320 / 390 /
   768 / 1280 px screens, dark mode, photo credit and licence, and that the app's code holds no admin address, token,
   GitHub key or AI service.
+* `test/android-smoke.sh`: installs the real APK on an Android emulator and checks it shows the live website's newest headline without crashing.
 * `../workers/push/test/worker.test.mjs`: app push registration, Expo delivery, categories, no repeats, dead tokens.
 * `../workers/admin/test/worker.test.mjs`: app visits in the owner's statistics.
 
