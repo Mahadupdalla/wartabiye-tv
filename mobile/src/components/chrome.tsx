@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, Image, Pressable, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
+import { Animated, Easing, Image, Linking, Pressable, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -152,9 +152,11 @@ export function Ticker() {
   );
 }
 
-/** The website's blue footer: logo, about text, motto and rights */
+/** The website's blue footer: logo, about text, contact email (from /admin/), motto and rights */
 export function SiteFooter() {
   const { colors, t } = useSettings();
+  const { meta } = useContent();
+  const email = meta?.contact?.email || '';
   return (
     <View style={{ backgroundColor: colors.foot, padding: 22, marginTop: 30, gap: 12 }}>
       <Row style={{ gap: 12 }}>
@@ -167,6 +169,14 @@ export function SiteFooter() {
         </Row>
       </Row>
       <T style={{ color: colors.footFg, fontSize: 14, lineHeight: 21 }}>{t('about')}</T>
+      {email ? (
+        <Pressable onPress={() => Linking.openURL('mailto:' + email)} accessibilityRole="link" accessibilityLabel={'Email: ' + email} hitSlop={8}>
+          <Row style={{ gap: 8 }}>
+            <Ionicons name="mail-outline" size={18} color="#fff" />
+            <T f="bodyBold" style={{ color: '#fff', fontSize: 14 }}>{email}</T>
+          </Row>
+        </Pressable>
+      ) : null}
       <T f="bodyBold" style={{ color: colors.footFg, fontSize: 12, letterSpacing: 1.6, textTransform: 'uppercase' }}>{t('motto')}</T>
       <T style={{ color: colors.footFg, fontSize: 12, opacity: 0.85 }}>© {new Date().getFullYear()} Wartabiye TV. {t('rights')}</T>
     </View>

@@ -20,7 +20,7 @@ reloads it; when an article is unpublished its file disappears and the app drops
   python3 tools/build_app_api.py           build api/v1 from data/
   python3 tools/build_app_api.py test      self-test (no files written)
 """
-import hashlib, json, os, shutil, sys, datetime
+import hashlib, json, os, re, shutil, sys, datetime
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = 'https://www.wartabiyetv.com/'
@@ -30,6 +30,15 @@ LIVE_UPDATES_FALLBACK = 'data/live-feeds/live-updates.json'
 VIDEO_FEED = 'https://raw.githubusercontent.com/Mahadupdalla/wartabiye-tv/live-data/video-feed.json'
 SCHEMA = 1
 CARD_TEXT = 320  # summary characters on a card (the article file has the full text)
+
+MAIL_RE = re.compile(r'^[^\s@<>()"\',;:\\]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$')
+
+
+def footer_contact(site):
+    site = site if isinstance(site, dict) else {}
+    footer = site.get('footer') if isinstance(site.get('footer'), dict) else {}
+    email = str((site.get('contact') or {}).get('email') or '').strip() if isinstance(site.get('contact'), dict) else ''
+    return {'email': email} if email and MAIL_RE.match(email) and footer.get('showEmail') is not False else {}
 
 
 def load(p, default):
@@ -173,6 +182,8 @@ def build(news, ads, videos, site, now, notify=None):
                      'items': [x for x in brk.get('items', []) if isinstance(x, (str, dict))][:10] if isinstance(brk.get('items'), list) else []},
         'featured': featured, 'trending': trending,
         'social': {k: v for k, v in ((site or {}).get('social') or {}).items() if isinstance(v, str) and v.startswith('https://')},
+        # the footer contact email set in /admin/ -> Website settings -> Footer (empty when none is set or it is switched off)
+        'contact': footer_contact(site),
         'ads': active_ads(ads.get('ads') if isinstance(ads, dict) else ads, today),
         # push notifications for the app: the same Worker and the same rules as the website's bell (/admin/ -> Ogeysiisyada)
         'push': {'enabled': bool((notify or {}).get('pushEnabled') and s((notify or {}).get('workerUrl')).startswith('https://')),

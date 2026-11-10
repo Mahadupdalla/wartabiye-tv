@@ -663,10 +663,39 @@
       // social + contact
       var soc = Object.assign({}, S.social || {}), socBox = h('div', { class: 'two' });
       ['facebook', 'youtube', 'tiktok', 'instagram', 'x', 'whatsapp', 'telegram'].forEach(function (k) { var i = C().inp(soc[k], { type: 'url', placeholder: 'https://…' }); i.addEventListener('change', function () { if (i.value.trim()) soc[k] = i.value.trim(); else delete soc[k]; }); socBox.append(C().field(k.charAt(0).toUpperCase() + k.slice(1), i)); });
-      el.append(section('Social media links', 'Shown in the header and footer. Leave empty to hide.', h('div', null, socBox, h('button', { class: 'btn primary', type: 'button', text: 'Save social links', onclick: function () {
+      el.append(section('Social media links', 'Facebook, YouTube and TikTok are shown on the website (header, menu and footer). The other platforms are kept here but are not shown. A footer icon also needs its switch on under Footer below.', h('div', null, socBox, h('button', { class: 'btn primary', type: 'button', text: 'Save social links', onclick: function () {
         for (var k in soc) if (!/^https:\/\//.test(soc[k])) return C().toast(k + ': the link must start with https://', true);
         S.social = soc; saveSite('social links', 'social', soc);
       } }))));
+      // footer: contact email + which official accounts get an icon (the header is not changed by these settings)
+      var FT = Object.assign({}, S.footer || {}), FI = Object.assign({}, FT.icons || {});
+      var MAIL = /^[^\s@<>()"',;:\\]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+      var fm = C().inp(S.contact && S.contact.email, { type: 'email', placeholder: 'name@example.com', autocomplete: 'off' });
+      var fshow = C().check(FT.showEmail !== false, 'Show the email in the footer');
+      var FSOC = [['facebook', 'Facebook'], ['youtube', 'YouTube'], ['tiktok', 'TikTok']];
+      var fchk = FSOC.map(function (x) { var has = /^https:\/\//.test((S.social || {})[x[0]] || ''); var c = C().check(has && FI[x[0]] !== false, x[1] + (has ? '' : ' (no link set above)')); c.firstChild.disabled = !has; return c; });
+      var fprev = h('div', { class: 'banner' });
+      function footPrev() {
+        var e = fm.value.trim(), icons = FSOC.filter(function (x, i) { return fchk[i].firstChild.checked; }).map(function (x) { return x[1]; });
+        var mail = !e ? 'no email (set one to show it)' : !MAIL.test(e) ? 'email not valid yet' : fshow.firstChild.checked ? e + ' (opens the reader\'s email app)' : 'email hidden';
+        fprev.className = 'banner ' + (e && !MAIL.test(e) ? 'bad' : 'ok');
+        fprev.textContent = 'Preview of the website footer: ' + mail + ' · icons: ' + (icons.length ? icons.join(', ') : 'none');
+      }
+      [fm, fshow.firstChild].concat(fchk.map(function (c) { return c.firstChild; })).forEach(function (x) { x.addEventListener('input', footPrev); x.addEventListener('change', footPrev); });
+      footPrev();
+      el.append(section('Footer', 'The contact email and the social icons at the bottom of every page. The header keeps its own icons and is not changed here.', h('div', null,
+        C().field('Contact email (shown as a clickable mailto: link)', fm, 'Leave empty to show no email.'), fshow,
+        h('div', { class: 'chips' }, fchk), fprev,
+        h('button', { class: 'btn primary', type: 'button', text: 'Save footer', onclick: function () {
+          var e = fm.value.trim();
+          if (e && !MAIL.test(e)) return C().toast('Enter a valid email address, for example name@example.com', true);
+          FSOC.forEach(function (x, i) { FI[x[0]] = fchk[i].firstChild.checked || (fchk[i].firstChild.disabled && FI[x[0]] !== false); });
+          var mailChanged = ((S.contact && S.contact.email) || '') !== e;
+          S.contact = Object.assign({}, S.contact, { email: e });
+          S.footer = Object.assign({}, FT, { showEmail: fshow.firstChild.checked, icons: FI });
+          // the publish tracker confirms the changed part on the live data/site.json
+          if (mailChanged) saveSite('footer email', 'contact', S.contact); else saveSite('footer', 'footer', S.footer);
+        } }))));
       var forms = Object.assign({}, S.forms || {}), fe = C().inp(forms.endpoint, { type: 'url' });
       el.append(section('Contact form', 'Where messages from the contact page are sent (' + (forms.provider || 'not set') + '). The form provider\'s key is public by design; no password belongs here.', h('div', null,
         C().field('Form address', fe), h('button', { class: 'btn', type: 'button', text: 'Save contact form', onclick: function () { forms.endpoint = fe.value.trim(); S.forms = forms; saveSite('contact form', 'forms', forms); } }))));

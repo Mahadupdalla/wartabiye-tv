@@ -102,6 +102,8 @@ export interface Meta {
   featured?: string[];
   trending?: string[];
   social?: { facebook?: string; youtube?: string; tiktok?: string };
+  /** the footer contact email set in /admin/ -> Website settings -> Footer (absent when none is set) */
+  contact?: { email?: string };
   /** "fallback" when the app had to read data/news.json because api/v1 was not reachable */
   origin?: 'api' | 'fallback';
 }
