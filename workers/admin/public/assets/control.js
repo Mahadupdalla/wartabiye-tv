@@ -663,7 +663,7 @@
       // social + contact
       var soc = Object.assign({}, S.social || {}), socBox = h('div', { class: 'two' });
       ['facebook', 'youtube', 'tiktok', 'instagram', 'x', 'whatsapp', 'telegram'].forEach(function (k) { var i = C().inp(soc[k], { type: 'url', placeholder: 'https://…' }); i.addEventListener('change', function () { if (i.value.trim()) soc[k] = i.value.trim(); else delete soc[k]; }); socBox.append(C().field(k.charAt(0).toUpperCase() + k.slice(1), i)); });
-      el.append(section('Social media links', 'Facebook, YouTube and TikTok are shown on the website (header, menu and footer). The other platforms are kept here but are not shown. A footer icon also needs its switch on under Footer below.', h('div', null, socBox, h('button', { class: 'btn primary', type: 'button', text: 'Save social links', onclick: function () {
+      el.append(section('Social media links', 'Facebook, YouTube and TikTok are shown in the website footer (and the "Nala soco" side box). The other platforms are kept here but are not shown. A footer icon also needs its switch on under Footer below.', h('div', null, socBox, h('button', { class: 'btn primary', type: 'button', text: 'Save social links', onclick: function () {
         for (var k in soc) if (!/^https:\/\//.test(soc[k])) return C().toast(k + ': the link must start with https://', true);
         S.social = soc; saveSite('social links', 'social', soc);
       } }))));
@@ -683,7 +683,7 @@
       }
       [fm, fshow.firstChild].concat(fchk.map(function (c) { return c.firstChild; })).forEach(function (x) { x.addEventListener('input', footPrev); x.addEventListener('change', footPrev); });
       footPrev();
-      el.append(section('Footer', 'The contact email and the social icons at the bottom of every page. The header keeps its own icons and is not changed here.', h('div', null,
+      el.append(section('Footer', 'The contact email and the social icons at the bottom of every page. They are shown only here, not in the header.', h('div', null,
         C().field('Contact email (shown as a clickable mailto: link)', fm, 'Leave empty to show no email.'), fshow,
         h('div', { class: 'chips' }, fchk), fprev,
         h('button', { class: 'btn primary', type: 'button', text: 'Save footer', onclick: function () {
