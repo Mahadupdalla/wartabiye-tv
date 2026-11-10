@@ -323,6 +323,28 @@ collections:
               - {name: facebook, label: Facebook, widget: string, required: false}
               - {name: tiktok, label: TikTok, widget: string, required: false}
               - {name: youtube, label: YouTube, widget: string, required: false}
+          - name: contact
+            label: 'Xiriirka (email-ka footer-ka)'
+            widget: object
+            required: false
+            hint: 'Email-ka rasmiga ah ee Wartabiye TV. Footer-ka wuxuu ku muujiyaa link mailto: ah. Haddii aad madhiso, footer-ka email ma muujiyo.'
+            fields:
+              - {name: email, label: Email, widget: string, required: false, pattern: ['^$|^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$', 'Email sax ah geli (tusaale: magac@domain.com)']}
+          - name: footer
+            label: 'Footer-ka (email iyo calaamadaha baraha bulshada)'
+            widget: object
+            required: false
+            hint: 'Calaamad kasta waxay ka muuqataa footer-ka kaliya marka link-geeda rasmiga ah la geliyo (Baraha bulshada) oo halkan la shido. Header-ka isma beddelo.'
+            fields:
+              - {name: showEmail, label: 'Muuji email-ka', widget: boolean, default: true, required: false}
+              - name: icons
+                label: Calaamadaha footer-ka
+                widget: object
+                required: false
+                fields:
+                  - {name: facebook, label: Facebook, widget: boolean, default: true, required: false}
+                  - {name: youtube, label: YouTube, widget: boolean, default: true, required: false}
+                  - {name: tiktok, label: TikTok, widget: boolean, default: true, required: false}
           - name: forms
             label: 'Foomamka (Nala Soo Xiriir, Codsiga xayeysiiska)'
             widget: object

@@ -205,6 +205,16 @@
   var SOC_ICON={"fb": "<svg class=\"bi\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"11.6\" style=\"fill:#fff\"/><path style=\"fill:#0866FF\" d=\"M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z\"/></svg>", "yt": "<svg class=\"bi\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path style=\"fill:#FF0000\" d=\"M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z\"/><path style=\"fill:#fff\" d=\"M9.545 15.568V8.432L15.818 12z\"/></svg>", "tt": "<svg class=\"bi\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><rect width=\"24\" height=\"24\" rx=\"5.5\" style=\"fill:#000\"/><g transform=\"translate(5.05 5.05) scale(.58)\"><path style=\"fill:#25F4EE\" transform=\"translate(-.9 -.9)\" d=\"M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z\"/><path style=\"fill:#FE2C55\" transform=\"translate(.9 .9)\" d=\"M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z\"/><path style=\"fill:#fff\" d=\"M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z\"/></g></svg>"};
   var SOC=[['fb','Facebook'],['yt','YouTube'],['tt','TikTok']];
   var FB_MONO='M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v9h4v-9h3l.5-4h-3.5V8.8c0-.5.3-.8.5-.8z';
+  // Footer (the header is not touched here): an icon shows only when its official link is set in /admin/ -> Website settings
+  // and its footer switch is on; the email is the contact email set there, as a mailto: link, and is hidden while none is set.
+  var MAIL_RE=/^[^\s@<>()"',;:\\]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
+  function renderFooter(){
+    var S=SITE||{},F=S.footer&&typeof S.footer==='object'?S.footer:{},on=F.icons&&typeof F.icons==='object'?F.icons:{},so=S.social||{};
+    var box=document.querySelector('footer .fsoc');
+    if(box){var n=0;box.querySelectorAll('a[data-soc]').forEach(function(a){var k=SOC_KEY[a.dataset.soc],u=/^https:\/\//.test(so[k]||'')?so[k]:null;var show=!!u&&on[k]!==false;a.hidden=!show;if(u)a.href=u;if(show)n++});box.hidden=!n}
+    var m=$('fmail');if(m){var e=String(S.contact&&S.contact.email||'').trim();var ok=MAIL_RE.test(e)&&F.showEmail!==false;m.hidden=!ok;
+      if(ok){m.href='mailto:'+e;m.lastChild.textContent=e;m.title=e;m.setAttribute('aria-label',tr('fEmail')+': '+e)}else{m.removeAttribute('href')}}
+  }
   function socUrl(k){var s=SITE&&SITE.social||{};return safeUrl(s[SOC_KEY[k]])||SOC_URL[k]}
   function head(t,cls,allHref){var h=el('div','blockhead'+(cls?' '+cls:''));h.append(el('h2',null,t));if(allHref){var a=el('a','all',tr('seeAll')+' →');a.href=allHref;h.append(a)}return h}
   function box(t,cls){var d=el('div');d.append(head(t,cls));return d}
@@ -303,6 +313,14 @@
       var sp=adSlot('spotlight');if(sp){var sd=el('section','secblock');sd.append(head(tr('adLabel')),sp);B.append(sd)}
       // separate sections with headings: World News and Sports (Somalia & East Africa is the list above), then LIVE News.
       // Stories already in the headlines are not repeated; each section is newest first and holds only its own stories.
+      // Soomaaliya (owner's request, 10 Nov 2026): every Somalia story of the Somalia page (up to 50, newest first) is also
+      // reachable on the homepage: 6 cards, "load more" 6 at a time, "see all" opens #soomaaliya. Stories already in the
+      // headlines or in the regional list above are not repeated.
+      var soL=newestFirst(items.filter(function(x){return inHub(x,'soomaaliya')&&!x.sponsored})).slice(0,PAGE_MAX).filter(function(x){return shown.indexOf(x)<0&&(!showMosaic||inMosaic.indexOf(x)<0)});
+      if(soL.length){var ss0=el('section','secblock is-soomaaliya');ss0.setAttribute('aria-label',tr('somaliaNav'));var sg=cardsGrid([]);ss0.append(head(tr('somaliaNav'),'red','#soomaaliya'),sg);
+        var sm=el('div','loadmore');var sn=0;(function more(){soL.slice(sn,sn+6).forEach(function(it){sg.append(card(it))});sn+=6;sm.innerHTML='';
+          if(sn<soL.length){var b=el('button','btn primary',tr('loadMore'));b.type='button';b.addEventListener('click',more);sm.append(b)}})();
+        ss0.append(sm);B.append(ss0)}
       [['world','worldBlock','navy','#caalamka'],['sports','sportsBlock','green','#ciyaaraha']].forEach(function(b){
         var l=items.filter(function(x){return section(x)===b[0]&&!x.sponsored&&shown.indexOf(x)<0&&(!showMosaic||inMosaic.indexOf(x)<0)});if(!l.length)return;
         var s=el('section','secblock is-'+b[0]);s.setAttribute('aria-label',tr(b[1]));s.append(head(tr(b[1]),b[2],b[3]),cardsGrid(l.slice(0,6)));B.append(s)});
@@ -433,7 +451,7 @@
       // Ciyaaraha: live scores and the latest final results right under the lead story (assets/media.js scoreStrip)
       if(kind==='sports'&&window.WT_MEDIA&&WT_MEDIA.scoreStrip){var sh=el('div');main.append(sh);WT_MEDIA.scoreStrip(sh)}
       if(rest.length){var s2=el('section','secblock');var g=cardsGrid([]);s2.append(g);main.append(s2);
-        pager(s2,rest,function(part){part.forEach(function(it){g.append(card(it))})},all.length>list.length?'#raadi?s='+(kind==='soomaaliya'?'somalia':kind):null)}}
+        pager(s2,rest,function(part){part.forEach(function(it){g.append(card(it))})},all.length>list.length?'#raadi?s='+kind:null)}}
     draw();
     fillSide(side,[adSlot('sidebar'),sideLatest(items.filter(function(x){return !inHub(x,kind)})),sideFollow()]);
     V.append(hubHead(kind),lay);
@@ -547,7 +565,7 @@
     function fld(lab,node){var l=el('label');l.append(lab,node);return l}
     var q=el('input');q.type='search';q.value=P.q||'';q.name='q';
     var c=el('select');c.name='c';[['',tr('any')]].concat(CATS.map(function(k){return [k,catName(k)]})).forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];if(P.c===o[0])op.selected=true;c.append(op)});
-    var s=el('select');s.name='s';[['',tr('any')],['somalia',tr('somalia')],['world',tr('world')],['sports',tr('sports')]].forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];if(P.s===o[0])op.selected=true;s.append(op)});
+    var s=el('select');s.name='s';[['',tr('any')],['soomaaliya',tr('somaliaNav')],['somalia',tr('somalia')],['world',tr('world')],['sports',tr('sports')]].forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];if(P.s===o[0])op.selected=true;s.append(op)});
     var fd=el('input');fd.type='date';fd.name='f';fd.value=P.f||'';var td=el('input');td.type='date';td.name='to';td.value=P.to||'';
     var go=el('button',null,tr('doSearch'));go.type='submit';
     f.append(fld(tr('keyword'),q),fld(tr('category'),c),fld(tr('section'),s),fld(tr('fromDate'),fd),fld(tr('toDate'),td),go);
@@ -555,7 +573,7 @@
     f.addEventListener('submit',function(e){e.preventDefault();location.hash=hubHash('raadi',{q:q.value.trim(),c:c.value,s:s.value,f:fd.value,to:td.value}).slice(1)});
     w.append(f);
     var qq=(P.q||'').trim().toLowerCase();var res=items.filter(function(x){
-      if(qq&&!matches(x,qq))return false;if(P.c&&x.category!==P.c)return false;if(P.s&&section(x)!==P.s)return false;
+      if(qq&&!matches(x,qq))return false;if(P.c&&x.category!==P.c)return false;if(P.s==='soomaaliya'){if(!inHub(x,'soomaaliya'))return false}else if(P.s&&section(x)!==P.s)return false;
       var d=new Date(x.publishedAt);if(isNaN(d))return !(P.f||P.to);var dd=ymd(d);if(P.f&&dd<P.f)return false;if(P.to&&dd>P.to)return false;return true});
     var info=el('div','blockhead');info.append(el('h2',null,trf('results',{n:res.length})));if(qq||P.c||P.s||P.f||P.to)info.append(clr);w.append(info);
     // the archive: every matching story, newest first by the publisher's time, 20 at a time ("Load more")
@@ -928,6 +946,7 @@
     // mobile menu: the same three official accounts at the bottom of the drawer
     var Lk=$('links');if(Lk){var ms=Lk.querySelector('.msoc');if(!ms){ms=el('div','msoc');ms.append(el('span'));SOC.forEach(function(s){var a=el('a',s[0]);a.dataset.soc=s[0];a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Wartabiye TV · '+s[1]);a.title='Wartabiye TV · '+s[1];a.innerHTML=SOC_ICON[s[0]];ms.append(a)});Lk.append(ms)}ms.firstChild.textContent=tr('follow')}
     document.querySelectorAll('a[data-soc]').forEach(function(a){a.href=socUrl(a.dataset.soc)});
+    renderFooter();
   }
 
   // ---------- language ----------

@@ -6,12 +6,13 @@ name: Mobile app (Android build + tests)
 #  3. the app checks against the LIVE website https://www.wartabiyetv.com/ (9 languages, sections, LIVE, bookmarks, sizes)
 #  4. an installable Android APK (test build) and a release AAB, kept as downloadable files of the run (30 days).
 #  5. the real APK on an Android emulator: it opens and shows the newest headline of the live website
-#  6. on main only: the tested APK replaces the file of the pre-release "android-test-build" (one fixed download link)
+#  6. the web app ON the live website (https://www.wartabiyetv.com/app/) after GitHub Pages published it
+#  7. on main only: the tested APK replaces the file of the pre-release "android-test-build" (one fixed download link)
 #     Without the owner's upload key (secrets ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS,
 #     ANDROID_KEY_PASSWORD) both are signed with a test key: fine for installing on phones, not accepted by Google Play.
 on:
   push:
-    paths: ['mobile/**', 'tools/build_app_api.py', 'workers/push/**', '.github/workflows/mobile-app.yml']
+    paths: ['mobile/**', 'app/**', 'tools/build_app_api.py', 'workers/push/**', '.github/workflows/mobile-app.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -188,3 +189,26 @@ jobs:
           gh release create android-test-build wartabiye-tv.apk --prerelease --target "$GITHUB_SHA" \
             --title "Wartabiye TV Android test build" \
             --notes "Test build of the Wartabiye TV app for Android, built and tested from commit $GITHUB_SHA. Signed with a $(ls dist/*.apk | grep -q owner && echo 'owner' || echo 'test') key: install it on a phone (allow installing unknown apps). It is not the Google Play version."
+
+  pwa-live:
+    # the installable web app as published on the live website (waits for GitHub Pages)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Browser
+        run: npm install --no-save --no-package-lock playwright && npx playwright install --with-deps chromium
+      - name: The web app on https://www.wartabiyetv.com/app/
+        run: node test/pwa-live.mjs https://www.wartabiyetv.com/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pwa-live-screenshots
+          path: mobile/test/output
+          retention-days: 30
