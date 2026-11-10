@@ -180,13 +180,16 @@
     gh('GET', '/repos/' + repo() + '/actions/workflows/publish.yml/runs?per_page=10&created=%3E%3D' + encodeURIComponent(since)).then(function (j) {
       var runs = (j && j.workflow_runs) || [];
       var mine = runs.filter(function (r) { return Date.parse(r.created_at) >= TR.at - 30000; });
-      var ok = mine.filter(function (r) { return r.conclusion === 'success'; });
+      // a successful rebuild of this very commit, or one started after the save (it builds a newer main)
+      var ok = mine.filter(function (r) { return r.conclusion === 'success' && (r.head_sha === TR.sha || Date.parse(r.created_at) >= TR.at - 5000); });
       var failed = mine.filter(function (r) { return r.status === 'completed' && r.conclusion === 'failure'; });
       var running = mine.filter(function (r) { return r.status !== 'completed'; });
       if (running.length) TR.note = 'Website rebuild running (started ' + W().ago(running[0].run_started_at || running[0].created_at) + ').';
       else if (!mine.length) TR.note = 'Waiting for the website rebuild to start…';
       if (failed.length && !running.length && !ok.length) { TR.error = 'The website rebuild stopped with an error, so the change is saved but not visible yet. Open Automation Status for details; nothing was lost.'; save(); return drawTracker(); }
-      return liveCheck().then(function (live) {
+      // a change that needs a rebuild is checked only after a rebuild that started after the save has finished:
+      // an undo (unpin, restore) looks like the old state, which a cached copy of the website can still show
+      return (TR.noBuild || ok.length ? liveCheck() : Promise.resolve(false)).then(function (live) {
         if (live) { TR.step = 'done'; TR.note = 'Checked on wartabiyetv.com ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) + '.'; }
         else if (ok.length) TR.note = 'Rebuilt. Waiting for wartabiyetv.com to show the new version (the website cache can take a few minutes)…';
         if (!live && Date.now() - TR.at > 25 * 60000) TR.error = 'The change is saved, but wartabiyetv.com did not show it within 25 minutes. Check Automation Status.';
