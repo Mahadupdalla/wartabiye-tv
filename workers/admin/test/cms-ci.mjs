@@ -88,7 +88,10 @@ const mainSha = async () => (await (await ghApi('GET', `/repos/${REPO}/commits/m
 async function liveTitle(id) {
   const j = await (await fetch(SITE + 'data/news.json?cb=' + Date.now(), { cache: 'no-store' })).json().catch(() => ({}));
   const a = (j.news || []).find(x => x.id === id);
-  const page = await (await fetch(SITE + 'war/' + id + '.html?cb=' + Date.now())).text().catch(() => '');
+  const raw = await (await fetch(SITE + 'war/' + id + '.html?cb=' + Date.now())).text().catch(() => '');
+  // the page writes quotes and ampersands as HTML entities: compare the decoded text
+  const page = raw.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(+n)).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)))
+    .replace(/&(apos|quot|lt|gt|nbsp);/g, (_, n) => ({ apos: "'", quot: '"', lt: '<', gt: '>', nbsp: ' ' })[n]).replace(/&amp;/g, '&');
   return { feed: a && a.title, page };
 }
 async function waitTracker(p, label) {
@@ -205,6 +208,7 @@ try {
     const live1 = await waitTracker(p, 'edit');
     const L1 = await liveTitle(id);
     check(live1, 'dashboard reports the change as visible on wartabiyetv.com');
+    if (!(L1.feed === changed && L1.page.includes(changed))) console.log('  feed: ' + JSON.stringify(L1.feed) + '\n  page has it: ' + L1.page.includes(changed));
     check(L1.feed === changed && L1.page.includes(changed), 'wartabiyetv.com really shows the changed headline (news feed and article page)');
     await p.goto(SITE + 'war/' + id + '.html?cb=' + Date.now()).catch(() => {}); await sleep(2500); await p.screenshot({ path: join(OUT, 'write-1-live-changed.png') });
     const mp2 = await m.newPage(); await mp2.goto(SITE + 'war/' + id + '.html?cb=' + Date.now()).catch(() => {}); await sleep(2500); await mp2.screenshot({ path: join(OUT, 'write-1-live-changed-mobile.png') });
