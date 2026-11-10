@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches-ignore: [main, world-feed, fast-feed]
-    paths: ['tools/live_site_check.js', 'tools/public_media_check.js', '.github/workflows/live-site-check.yml']
+    paths: ['tools/live_site_check.js', 'tools/live_footer_check.js', 'tools/public_media_check.js', '.github/workflows/live-site-check.yml']
 permissions:
   contents: read
 concurrency:
@@ -24,6 +24,9 @@ jobs:
       - name: Real content (video playback, LIVE News headlines, match data)
         if: always()
         run: node tools/public_media_check.js https://www.wartabiyetv.com/ public-shots
+      - name: Footer email and icons, header unchanged
+        if: always()
+        run: node tools/live_footer_check.js https://www.wartabiyetv.com/ public-shots/footer
       - uses: actions/upload-artifact@v4
         if: always()
         with:
