@@ -38,6 +38,13 @@ SITE_NEWS = 'https://www.wartabiyetv.com/data/news.json'
 EAT = w.EAT
 NEW_MAX_AGE_H = 2        # owner's rule (8 Nov 2026): a never-seen item older than 2 hours is never "new"
 KEEP_CANDIDATE_H = 3     # how long a discovered item stays in the hand-off list for the news task
+# Somalia (owner's request of 10 Nov 2026: "actively search for eligible Somalia stories instead of ignoring the category"):
+# a Somali source's story stays in the hand-off list, and a never-seen one is still passed on, for the 24-hour Somalia
+# catch-up (tools/world_news.py SOMALIA_HOURS). With the 3-hour limit the 3-hourly news task saw at most the last 3 hours
+# of Somalia stories (a late run saw less), and a story left "pending" (headline-only, no second source yet) vanished
+# before the next run could look for its confirmation again. The task's dedup still marks these "catchUp" (never breaking,
+# publisher's own time) and still rejects anything the site already has.
+SO_KEEP_H = w.SOMALIA_HOURS
 KEEP_DAYS = 7            # how long seen ids are remembered
 ERRORS_FOR_ALERT = 3     # consecutive failed checks (about 15 minutes) before "unavailable"
 # owner's rule (8 Nov 2026, evening): new intake = SOURCE STORY AGE <= 5 MINUTES. Age = the moment this check saw the item
@@ -131,7 +138,7 @@ def item_key(g):
     return w.norm_url(g.get('url') or '')
 
 
-def intake(published_at, seen_at, date_only=False):
+def intake(published_at, seen_at, date_only=False, max_h=None):
     """(age_minutes, tier) for a never-seen item. tier: 'fresh' (age <= 5 min: priority 1), 'recent' (older, inside the
     2-hour fallback: priority 2), 'old' (rejected), 'unverified' (no trustworthy publisher time: never fresh, never breaking)."""
     p = parse(published_at)
@@ -142,7 +149,17 @@ def intake(published_at, seen_at, date_only=False):
     if age < 0: return round(age, 1), 'unverified'
     if age <= FRESH_INTAKE_MIN: return round(age, 1), 'fresh'
     if age <= NEW_MAX_AGE_H * 60: return round(age, 1), 'recent'
+    # a Somali source's story found late (max_h = SO_KEEP_H): kept for the Somalia catch-up, never fresh or breaking
+    if max_h and age <= max_h * 60: return round(age, 1), 'catchup'
     return round(age, 1), 'old'
+
+
+def is_somali(s):
+    return (s or {}).get('country') == 'so'
+
+
+def so_sources():
+    return {s['id'] for s in load(SOURCES, {'sources': []})['sources'] if s.get('country') == 'so'}
 
 
 def date_only_time(s):
@@ -195,7 +212,7 @@ def check_source(s, st, t, log):
         return []
     seen = st.setdefault('seen', {})
     first = not st.get('baselineDone')
-    cut = t - datetime.timedelta(hours=NEW_MAX_AGE_H)
+    cut = t - datetime.timedelta(hours=SO_KEEP_H if is_somali(s) else NEW_MAX_AGE_H)
     for g in listing:
         k = item_key(g)
         if not k or k in seen: continue
@@ -244,7 +261,8 @@ def check_source(s, st, t, log):
         if pp and (upd or (fp and (fp - pp).total_seconds() > 600)):
             it['feedPublishedAt'] = it['publishedAt']; it['publishedAt'] = it['pagePublishedAt']; it['dateSource'] = 'article page (earlier than the feed time)'; upd = False
         # the age is measured against the moment this check first SAW the item (t), never against the import time
-        age, tier = intake(it['publishedAt'], t, upd or (date_only_time(it['publishedAt']) and not it.get('pagePublishedAt')))
+        age, tier = intake(it['publishedAt'], t, upd or (date_only_time(it['publishedAt']) and not it.get('pagePublishedAt')),
+                           SO_KEEP_H if is_somali(s) else None)
         if tier == 'unverified':
             # timestamp_unverified: never fresh, never breaking, never a made-up time; not passed on automatically
             seen[k] = {'at': iso(t), 'kind': 'timestamp-unverified', 'publishedAt': it['publishedAt']}; c['rejectedNoTimestamp'] += 1
@@ -491,7 +509,11 @@ def alerts_of(state, fast, t, sched):
 def save_all(sdir, state, cfg, fast, t, sched, new_items, log, skipped=False):
     # candidates for the hourly news task: discovered, not yet on the site, still fresh
     old = load(os.path.join(sdir, 'candidates.json'), {}) or {}
-    keep = {w.norm_url(x['url']): x for x in old.get('items', []) if parse(x.get('discoveredAt')) and parse(x['discoveredAt']) >= t - datetime.timedelta(hours=KEEP_CANDIDATE_H)}
+    sos = so_sources()
+    keep = {w.norm_url(x['url']): x for x in old.get('items', []) if parse(x.get('discoveredAt'))
+            and parse(x['discoveredAt']) >= t - datetime.timedelta(hours=SO_KEEP_H if x.get('source') in sos or x.get('country') == 'so' else KEEP_CANDIDATE_H)
+            # a Somalia story is kept 24 h after its PUBLISHER's time at most (never longer than the catch-up)
+            and not ((x.get('source') in sos or x.get('country') == 'so') and (parse(x.get('publishedAt')) or t) < t - datetime.timedelta(hours=SO_KEEP_H))}
     for x in new_items: keep[w.norm_url(x['url'])] = x
     for k, x in list(keep.items()):
         tr = state['tracked'].get(w.norm_url(x.get('canonicalUrl') or '')) or state['tracked'].get(k) or {}
@@ -656,6 +678,20 @@ def test(_args):
         w.article = lambda url: {}
         ok(st.get('oldIgnored') == 2, 'old never-seen items (the 4-day-old one and the re-sent one) are ignored, not new')
         ok(check_source(s, st, now_, log) == [], 'same item is never new twice')
+        # a Somali source: a story found 6 hours after its publisher's time is still passed on for the Somalia catch-up
+        # (owner's request, 10 Nov 2026); a 30-hour-old one is not; a world source's 6-hour-old story is still "old"
+        so = {'id': 'hiiraan', 'name': 'Hiiraan Online', 'section': 'somalia', 'country': 'so', 'feeds': [{'type': 'rss', 'url': 'so'}]}
+        sst = {}
+        feeds['so'] = rss([('soomaaliya-base', now_ - datetime.timedelta(hours=1))])
+        check_source(so, sst, now_, log)
+        feeds['so'] = rss([('soomaaliya-shir-6h', now_ - datetime.timedelta(hours=6)), ('soomaaliya-shir-30h', now_ - datetime.timedelta(hours=30))])
+        g3 = check_source(so, sst, now_, log)
+        ok([g['title'] for g in g3] == ['soomaaliya-shir-6h'] and g3[0]['intake'] == 'catchup' and g3[0]['priority'] == 2 and not g3[0]['freshAtDiscovery'],
+           f'Somali source: 6 h old story kept for the 24 h catch-up (never fresh), 30 h old one dropped: {[(g["title"], g.get("intake")) for g in g3]}')
+        feeds['u'] = rss([('world-6h', now_ - datetime.timedelta(hours=6))])
+        ok(check_source(s, st, now_, log) == [], 'world source: a 6 h old never-seen story is still old')
+        ok(intake(iso(now_ - datetime.timedelta(hours=6)), now_)[1] == 'old' and intake(iso(now_ - datetime.timedelta(hours=6)), now_, max_h=SO_KEEP_H)[1] == 'catchup',
+           'intake: catch-up tier only with the Somalia limit')
         nodate = b'<?xml version="1.0"?><rss><channel><item><title>n</title><link>https://ex.test/n</link></item></channel></rss>'
         feeds['u'] = nodate
         ok(check_source(s, st, now_, log) == [], 'item without a publication time is never passed on')
@@ -719,6 +755,17 @@ def test(_args):
         ok(len(r['items']) == 3 and r['items'][0].get('discoveredAt') == 'T2' and r['items'][0]['title'] == 'kept'
            and 'somalia 10h' in [x.get('title') for x in r['items']] and 'somalia 30h' not in [x.get('title') for x in r['items']], f'hand-off adds once, keeps fresh items and 24h Somalia items, drops old ones: {r}')
         ok(r['fetchedAt'] == 'x' and r['collectorFetchedAt'] == '2026-11-07T21:55:31+03:00', 'list time = monitor check time')
+        # the monitor's own hand-off list keeps a Somalia story for 24 h (catch-up, retry of "pending"), a world story 3 h
+        t0 = now(); H = lambda h: iso(t0 - datetime.timedelta(hours=h))
+        sd = os.path.join(d, 'fast'); os.makedirs(sd)
+        w.save(os.path.join(sd, 'candidates.json'), {'items': [
+            {'url': 'https://so.test/a', 'source': 'hiiraan', 'discoveredAt': H(10), 'publishedAt': H(10.5)},
+            {'url': 'https://so.test/b', 'source': 'hiiraan', 'discoveredAt': H(10), 'publishedAt': H(25)},
+            {'url': 'https://w.test/c', 'source': 'bbc-world', 'discoveredAt': H(4), 'publishedAt': H(4)}]})
+        with contextlib.redirect_stdout(io.StringIO()):
+            save_all(sd, {'sources': {}, 'tracked': {}}, {}, [], t0, {'hours': '24/7'}, [], [])
+        kept = [x['url'] for x in load(os.path.join(sd, 'candidates.json'), {})['items']]
+        ok(kept == ['https://so.test/a'], f'hand-off list: Somalia story kept 24 h after its publisher time, world story 3 h: {kept}')
     # every fastPoll source in sources.json is complete
     for s in load(SOURCES, {'sources': []})['sources']:
         if not s.get('fastPoll'): continue
