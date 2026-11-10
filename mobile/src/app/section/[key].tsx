@@ -5,7 +5,8 @@ import { useSettings } from '../../lib/settings';
 import { useContent } from '../../lib/content';
 import { catName } from '../../lib/i18n';
 import type { Card } from '../../lib/types';
-import { ArticleRow, HeroCard } from '../../components/cards';
+import { GridCard } from '../../components/cards';
+import { LinearGradient } from 'expo-linear-gradient';
 import { StatusLine } from '../../components/chrome';
 import { FeedSkeleton, T } from '../../components/ui';
 
@@ -13,11 +14,11 @@ import { FeedSkeleton, T } from '../../components/ui';
 const SPORT_NAMES: Record<string, string> = { football: '⚽', basketball: '🏀', athletics: '🏃', formula1: '🏎', tennis: '🎾', boxing: '🥊', cricket: '🏏' };
 
 export default function SectionScreen() {
-  const { key } = useLocalSearchParams<{ key: string }>();
+  const { key, cat } = useLocalSearchParams<{ key: string; cat?: string }>();
   const sec = key === 'world' || key === 'sports' ? key : 'somalia';
   const { colors, t, lang } = useSettings();
   const { items, status, refreshing, refresh } = useContent();
-  const [chip, setChip] = useState('');
+  const [chip, setChip] = useState(cat ? 'cat:' + cat : '');
   const base = useMemo(() => items.filter(c => c.section === sec && !c.sponsored).sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)), [items, sec]);
   const chips = useMemo(() => {
     if (sec === 'somalia') {
@@ -46,15 +47,15 @@ export default function SectionScreen() {
         <FlatList
           data={list.slice(1)}
           keyExtractor={c => c.id}
-          renderItem={({ item }) => <ArticleRow c={item} />}
+          renderItem={({ item }) => <GridCard c={item} />}
           initialNumToRender={8}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} colors={[colors.blue]} tintColor={colors.blue} />}
           ListHeaderComponent={
             <View>
-              <View style={{ backgroundColor: sec === 'sports' ? '#0a8f4e' : colors.blueD, padding: 16 }}>
-                <T f="display" style={{ color: '#fff', fontSize: 22 }}>{title}</T>
-                <T style={{ color: '#e6f0fb', fontSize: 13, marginTop: 4, lineHeight: 18 }}>{sub}</T>
-              </View>
+              <LinearGradient colors={[colors.blue, colors.blueD]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ paddingHorizontal: 16, paddingTop: 26, paddingBottom: 30 }}>
+                <T f="brand" style={{ color: '#fff', fontSize: 30, lineHeight: 34, letterSpacing: 0.3 }} accessibilityRole="header">{title}</T>
+                <T style={{ color: '#fff', fontSize: 15, marginTop: 10, lineHeight: 23, opacity: 0.95 }}>{sub}</T>
+              </LinearGradient>
               <StatusLine />
               {chips.length ? (
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ padding: 12, gap: 8 }}>
@@ -65,8 +66,10 @@ export default function SectionScreen() {
                   ))}
                 </ScrollView>
               ) : null}
-              {list[0] ? <HeroCard c={list[0]} /> : <T muted style={{ padding: 16 }}>{empty}</T>}
-              <View style={{ height: 10 }} />
+              <View style={{ marginHorizontal: 16, marginTop: chips.length ? 4 : 26, marginBottom: 18, backgroundColor: colors.blue, borderRadius: 6, paddingHorizontal: 14, paddingVertical: 9 }}>
+                <T f="display" style={{ color: '#fff', fontSize: 14, letterSpacing: 1.1, textTransform: 'uppercase' }}>{sec === 'somalia' ? t('latestSo') : sec === 'world' ? t('latestWorld') : t('latestSports')}</T>
+              </View>
+              {list[0] ? <GridCard c={list[0]} lead /> : <T muted style={{ padding: 16 }}>{empty}</T>}
             </View>
           }
         />

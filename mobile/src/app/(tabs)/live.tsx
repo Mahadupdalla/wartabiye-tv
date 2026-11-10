@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AppState, FlatList, Pressable, RefreshControl, ScrollView, View } from 'react-native';
 import { useSettings } from '../../lib/settings';
@@ -81,9 +82,9 @@ export default function LiveScreen() {
 
   const header = (
     <View>
-      <View style={{ backgroundColor: colors.bar, paddingHorizontal: 16, paddingVertical: 14 }}>
+      <LinearGradient colors={[colors.blue, colors.blueD]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ paddingHorizontal: 16, paddingTop: 22, paddingBottom: 22 }}>
         <Row style={{ gap: 10 }}>
-          <T f="display" style={{ color: '#fff', fontSize: 22 }}>{t('lnTitle')}</T>
+          <T f="brand" style={{ color: '#fff', fontSize: 26, lineHeight: 30, flexShrink: 1 }} accessibilityRole="header">{t('lnTitle')}</T>
           {on ? (
             <Row style={{ gap: 6, backgroundColor: colors.red, borderRadius: 4, paddingHorizontal: 8, paddingVertical: 3 }}>
               <LiveDot size={8} />
@@ -96,7 +97,7 @@ export default function LiveScreen() {
           {!on && newest ? t('liveNotActive', { t: clock(new Date(newest).toISOString()) }) + ' · ' : ''}
           {lastOk ? t('lnChecked', { t: clock(new Date(lastOk).toISOString()) }) : t('loading')}
         </T>
-      </View>
+      </LinearGradient>
       <StatusLine />
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ padding: 12, gap: 8 }}>
         {REG.map(([k, label]) => (

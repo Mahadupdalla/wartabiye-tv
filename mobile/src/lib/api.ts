@@ -78,6 +78,7 @@ export function cardOf(a: Article, lang: Lang): Card | null {
   if (a.sponsored) { c.sponsored = true; if (a.sponsor) c.sponsor = a.sponsor; }
   if (!a.timeVerified) c.timeVerified = false;
   if (t.status === 'auto') c.autoTranslated = true;
+  if (a.imageKind === 'illustrative') c.imageKind = 'illustrative';
   return c;
 }
 

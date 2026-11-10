@@ -4,7 +4,7 @@ import { useSettings } from '../lib/settings';
 import { useContent } from '../lib/content';
 import { SITE } from '../lib/config';
 import { AdSlot, adText } from '../components/ads';
-import { Notice, T } from '../components/ui';
+import { Notice, T, PageHero } from '../components/ui';
 
 // Xayeysiimaha: the website's advertising information and the adverts running now (from /admin/). Requests go to the
 // website's own advertising form; the app does not take payments and no paid ad service is switched on.
@@ -15,13 +15,11 @@ export default function Ads() {
   const why = [['adWhy1', 'adWhy1t'], ['adWhy2', 'adWhy2t'], ['adWhy3', 'adWhy3t'], ['adWhy4', 'adWhy4t']];
   return (
     <ScrollView style={{ backgroundColor: colors.bg }} contentContainerStyle={{ paddingBottom: 30 }}>
-      <View style={{ backgroundColor: colors.blueD, padding: 18 }}>
-        <T f="display" style={{ color: '#fff', fontSize: 22, lineHeight: 28 }}>{t('adHero')}</T>
-        <T style={{ color: '#e6f0fb', fontSize: 14, marginTop: 6, lineHeight: 20 }}>{t('adHeroSub')}</T>
+      <PageHero title={t('adHero')} sub={t('adHeroSub')}>
         <Pressable onPress={() => Linking.openURL(SITE + 'xayeysiimaha/')} accessibilityRole="link" style={{ backgroundColor: '#fff', alignSelf: 'flex-start', borderRadius: 8, paddingHorizontal: 16, paddingVertical: 10, marginTop: 14 }}>
           <T f="bodyBold" style={{ color: colors.blueD }}>{t('adOrder')}</T>
         </Pressable>
-      </View>
+      </PageHero>
       <Notice text={t('adsIntro')} />
       <T f="display" style={{ fontSize: 18, paddingHorizontal: 16, paddingTop: 18 }}>{t('adWhy')}</T>
       {why.map(([h, b]) => (

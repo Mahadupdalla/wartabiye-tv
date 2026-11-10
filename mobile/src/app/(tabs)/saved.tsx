@@ -5,7 +5,7 @@ import { useSettings } from '../../lib/settings';
 import { useContent } from '../../lib/content';
 import { AppHeader } from '../../components/chrome';
 import { ArticleRow } from '../../components/cards';
-import { Row, T } from '../../components/ui';
+import { Row, T, PageHero } from '../../components/ui';
 
 // Saved articles stay on this phone only, with an offline copy. An article that the website no longer publishes is
 // marked and its offline copy deleted (it is not shown any more).
@@ -18,7 +18,7 @@ export default function Saved() {
       <FlatList
         data={saved}
         keyExtractor={s => s.card.id}
-        ListHeaderComponent={<View style={{ padding: 16 }}><T f="display" style={{ fontSize: 22 }}>{t('saved')}</T><T muted style={{ fontSize: 13, marginTop: 4 }}>{t('savedOffline')}</T></View>}
+        ListHeaderComponent={<View style={{ marginBottom: 18 }}><PageHero title={t('saved')} sub={t('savedOffline')} /></View>}
         ListEmptyComponent={<T muted style={{ paddingHorizontal: 16, fontSize: 15, lineHeight: 22 }}>{t('savedEmpty')}</T>}
         renderItem={({ item }) => item.removed ? (
           <Row style={{ padding: 16, gap: 10, borderBottomWidth: 1, borderBottomColor: colors.line }}>

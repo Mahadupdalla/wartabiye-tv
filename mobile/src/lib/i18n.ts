@@ -49,6 +49,17 @@ export function fullDate(lang: Lang, iso: string): string {
     return `${p.d}.${p.m + 1}.${p.y} ${p.hh}:${p.mm}`;
   }
 }
+const SO_DAYS = ['Axad', 'Isniin', 'Talaado', 'Arbaco', 'Khamiis', 'Jimce', 'Sabti'];
+/** Today's date as in the website's top bar ("Talaado, 10 Nofembar 2026"), East Africa time */
+export function todayLine(lang: Lang, now = new Date()): string {
+  const x = new Date(now.getTime() + 3 * 3600_000);
+  if (lang === 'so') return `${SO_DAYS[x.getUTCDay()]}, ${x.getUTCDate()} ${SO_MONTHS[x.getUTCMonth()]} ${x.getUTCFullYear()}`;
+  try {
+    return new Intl.DateTimeFormat(LANG_INFO[lang].locale, { timeZone: 'Africa/Nairobi', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(now);
+  } catch (e) {
+    return `${x.getUTCDate()}.${x.getUTCMonth() + 1}.${x.getUTCFullYear()}`;
+  }
+}
 export function ago(lang: Lang, iso: string, now = Date.now()): string {
   const d = new Date(iso);
   if (isNaN(d.getTime())) return '';

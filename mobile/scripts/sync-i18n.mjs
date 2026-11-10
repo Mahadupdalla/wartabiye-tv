@@ -23,6 +23,7 @@ const KEYS = [
   'eaSub', 'eaBlock', 'worldTitle', 'worldSub', 'noWorld', 'latestWorld', 'savedEmpty', 'adHero', 'adHeroSub', 'adWhy', 'adWhy1', 'adWhy1t',
   'videoNewsNav', 'videoNewsTitle', 'videoNewsSub', 'adWhy2', 'adWhy2t', 'adWhy3', 'adWhy3t', 'adWhy4', 'adWhy4t', 'adOrder', 'adContact', 'adPolicy', 'privacy', 'editorial', 'aboutUs', 'contact',
   'noMatch', 'tagline', 'city', 'trHidden', 'somaliOnly', 'lnNone', 'lnDelayed', 'luCorrob', 'luStory', 'luAll',
+  'latestHeadlines', 'trending', 'categories', 'seeAll', 'updated', 'updatedDaily', 'follow', 'rights', 'motto', 'trendingNote', 'trendingAuto',
 ];
 
 const sandbox = { window: {} };

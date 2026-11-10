@@ -6,9 +6,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
+import { Brand } from '../components/chrome';
 // only the five weights the app uses (importing the package index would ship every weight)
-import { Archivo_700Bold } from '@expo-google-fonts/archivo/700Bold';
-import { Archivo_800ExtraBold } from '@expo-google-fonts/archivo/800ExtraBold';
 import { PublicSans_400Regular } from '@expo-google-fonts/public-sans/400Regular';
 import { PublicSans_500Medium } from '@expo-google-fonts/public-sans/500Medium';
 import { PublicSans_700Bold } from '@expo-google-fonts/public-sans/700Bold';
@@ -81,16 +80,19 @@ function Shell() {
       <Analytics />
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: colors.bar },
+          // the website's blue menu bar with the red rule underneath
+          headerStyle: { backgroundColor: colors.blue },
+          headerBackground: () => <View style={{ flex: 1, backgroundColor: colors.blue, borderBottomWidth: 3, borderBottomColor: colors.red }} />,
+          headerShadowVisible: false,
           headerTintColor: '#fff',
-          headerTitleStyle: { fontWeight: '800' },
+          headerTitleStyle: { fontFamily: 'ArchivoCond-800', fontWeight: '800' },
           contentStyle: { backgroundColor: colors.bg },
           headerBackButtonDisplayMode: 'minimal',
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="war/[id]" options={{ title: '' }} />
-        <Stack.Screen name="section/[key]" options={{ title: '' }} />
+        <Stack.Screen name="war/[id]" options={{ title: '', headerTitle: () => <Brand size="bar" /> }} />
+        <Stack.Screen name="section/[key]" options={{ title: '', headerTitle: () => <Brand size="bar" /> }} />
         <Stack.Screen name="search" options={{ title: t('search') }} />
         <Stack.Screen name="notifications" options={{ title: t('notifications') }} />
         <Stack.Screen name="settings" options={{ title: t('settings') }} />
@@ -103,7 +105,7 @@ function Shell() {
 }
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({ Archivo_700Bold, Archivo_800ExtraBold, PublicSans_400Regular, PublicSans_500Medium, PublicSans_700Bold });
+  const [fontsLoaded] = useFonts({ 'ArchivoCond-700': require('../../assets/fonts/ArchivoCond-700.ttf'), 'ArchivoCond-800': require('../../assets/fonts/ArchivoCond-800.ttf'), 'ArchivoCond-900': require('../../assets/fonts/ArchivoCond-900.ttf'), PublicSans_400Regular, PublicSans_500Medium, PublicSans_700Bold });
   useEffect(() => { registerPwa(); }, []);
   if (!fontsLoaded && Platform.OS !== 'web') return null;
   return (

@@ -91,6 +91,8 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
           seen.current = new Set(list.map(c => c.id));
         }
         setItems(list);
+        // one line in the phone's log (adb logcat, tag ReactNativeJS): what was loaded and from where; used by test/android-smoke.sh
+        console.log(`[WTV] feed ${l} ${m.origin || 'api'} ${list.length} newest=${list[0]?.id || '-'}`);
         feedVersion.current = m.version + ':' + l;
         save('feed:' + l, list);
         const prevVersion = metaRef.current?.version;

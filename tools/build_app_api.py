@@ -120,6 +120,8 @@ def card(a, lang):
             c[k] = True
     if not a['timeVerified']:
         c['timeVerified'] = False
+    if a['imageKind'] == 'illustrative':          # the website marks these photos "Sawir muujin ah"
+        c['imageKind'] = 'illustrative'
     if t['status'] == 'auto':
         c['autoTranslated'] = True
     return c
@@ -145,7 +147,17 @@ def build(news, ads, videos, site, now, notify=None):
     feeds = {}
     for lang in LANGS:
         feeds[lang] = [card(a, lang) for a in arts if lang in a['tr']]
-    version = hashlib.sha1(('|'.join(a['id'] + ':' + a['rev'] for a in arts) + json.dumps(ads, sort_keys=True)).encode()).hexdigest()[:16]
+    ids = {a['id'] for a in arts}
+    def picks(key):  # the editor's homepage picks in /admin/ (data/site.json "featured" / "trending"), as on the website
+        out = []
+        for f in (site or {}).get(key) or []:
+            i = f if isinstance(f, str) else (f.get('article') if isinstance(f, dict) else None)
+            if i in ids and i not in out:
+                out.append(i)
+        return out[:10]
+    featured, trending = picks('featured'), picks('trending')
+    version = hashlib.sha1(('|'.join(a['id'] + ':' + a['rev'] for a in arts) + json.dumps(ads, sort_keys=True)
+                            + json.dumps([featured, trending, (site or {}).get('breaking')], sort_keys=True)).encode()).hexdigest()[:16]
     today = now.astimezone(datetime.timezone(datetime.timedelta(hours=3))).date().isoformat()
     brk = (site or {}).get('breaking') or {}
     # no build clock in the files: a publish run that changes nothing leaves api/v1 byte-for-byte the same (no empty commits)
@@ -159,6 +171,8 @@ def build(news, ads, videos, site, now, notify=None):
         'videoFeed': {'url': VIDEO_FEED, 'fallback': 'data/live-feeds/video-feed.json', 'own': 'data/videos.json'},
         'breaking': {'mode': brk.get('mode', 'auto'), 'label': brk.get('label') or 'DEGDEG',
                      'items': [x for x in brk.get('items', []) if isinstance(x, (str, dict))][:10] if isinstance(brk.get('items'), list) else []},
+        'featured': featured, 'trending': trending,
+        'social': {k: v for k, v in ((site or {}).get('social') or {}).items() if isinstance(v, str) and v.startswith('https://')},
         'ads': active_ads(ads.get('ads') if isinstance(ads, dict) else ads, today),
         # push notifications for the app: the same Worker and the same rules as the website's bell (/admin/ -> Ogeysiisyada)
         'push': {'enabled': bool((notify or {}).get('pushEnabled') and s((notify or {}).get('workerUrl')).startswith('https://')),

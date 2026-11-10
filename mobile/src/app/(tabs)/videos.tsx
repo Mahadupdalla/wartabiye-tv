@@ -8,7 +8,7 @@ import { ago } from '../../lib/i18n';
 import type { Video } from '../../lib/types';
 import { AppHeader } from '../../components/chrome';
 import { VideoPlayer } from '../../components/VideoPlayer';
-import { FeedSkeleton, Notice, Photo, Row, T } from '../../components/ui';
+import { FeedSkeleton, Notice, Photo, Row, T, PageHero } from '../../components/ui';
 
 // Muuqaallo: Wartabiye TV's own videos (data/videos.json, /admin/) and the newest videos from publishers' official
 // YouTube channels that allow embedding (the website's video feed). Tapping plays the video inside the app.
@@ -36,10 +36,7 @@ export default function Videos() {
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} colors={[colors.blue]} tintColor={colors.blue} />}
           ListHeaderComponent={
             <View>
-              <View style={{ backgroundColor: colors.blueD, padding: 16 }}>
-                <T f="display" style={{ color: '#fff', fontSize: 22 }}>{t('videoNewsTitle')}</T>
-                <T style={{ color: '#e6f0fb', fontSize: 13, marginTop: 4, lineHeight: 18 }}>{t('videoNewsSub')}</T>
-              </View>
+              <PageHero title={t('videoNewsTitle')} sub={t('videoNewsSub')} />
               {err ? <Notice tone="error" text={t('loadFailed')} action={t('retry')} onAction={load} /> : null}
               <Row style={{ gap: 8, padding: 12, flexWrap: 'wrap' }}>
                 {kinds.map(([k, label]) => (

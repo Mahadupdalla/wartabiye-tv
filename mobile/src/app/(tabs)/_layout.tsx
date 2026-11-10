@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router/js-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useSettings } from '../../lib/settings';
-import { LiveDot } from '../../components/ui';
+import { LiveDot, ROW_RTL } from '../../components/ui';
 import { useContent } from '../../lib/content';
 import { LIVE_WINDOW_MS } from '../../lib/config';
 
@@ -20,8 +20,8 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarActiveTintColor: colors.blue,
         tabBarInactiveTintColor: colors.muted,
-        tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.line, flexDirection: rtl ? 'row-reverse' : 'row', height: 62 + insets.bottom, paddingTop: 6, paddingBottom: 6 + insets.bottom },
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '600', lineHeight: 15 },
+        tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.line, flexDirection: rtl ? ROW_RTL : 'row', height: 68 + insets.bottom, paddingTop: 6, paddingBottom: 8 + insets.bottom, borderTopWidth: 1 },
+        tabBarLabelStyle: { fontSize: 11, fontFamily: rtl ? undefined : 'PublicSans_700Bold', fontWeight: rtl ? '700' : undefined, lineHeight: 18 },
         sceneStyle: { backgroundColor: colors.bg },
       }}
     >

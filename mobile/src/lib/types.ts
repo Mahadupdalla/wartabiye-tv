@@ -36,6 +36,8 @@ export interface Card {
   sponsored?: boolean;
   timeVerified?: boolean;
   autoTranslated?: boolean;
+  /** 'illustrative': the website labels the photo "Sawir muujin ah" */
+  imageKind?: string;
 }
 
 export interface Translation { title: string; summary: string; body: string; imageAlt: string; status: 'original' | 'manual' | 'auto' }
@@ -96,6 +98,10 @@ export interface Meta {
   breaking: { mode: string; label: string; items: (string | { text?: string; link?: string; [k: string]: unknown })[] };
   ads: Ad[];
   push?: { enabled: boolean; workerUrl: string; categories: string[] };
+  /** the editor's homepage picks in /admin/ (article ids), as on the website */
+  featured?: string[];
+  trending?: string[];
+  social?: { facebook?: string; youtube?: string; tiktok?: string };
   /** "fallback" when the app had to read data/news.json because api/v1 was not reachable */
   origin?: 'api' | 'fallback';
 }
