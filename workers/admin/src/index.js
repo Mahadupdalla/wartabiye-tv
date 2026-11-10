@@ -57,7 +57,7 @@ export default {
       if (p.startsWith('/api/')) {
         if (req.method !== 'GET' && !sameOrigin(req)) return json({ error: 'forbidden' }, 403);
         const { idle } = limits(env);
-        if (p === '/api/me') return json({ login: s.login, name: s.name, avatar: s.avatar, signedInAt: s.created, expiresAt: Math.min(s.expires, s.seen + idle), maxAt: s.expires, idleMinutes: idle / 60, site: env.SITE_URL, repo: env.REPO });
+        if (p === '/api/me') return json({ login: s.login, name: s.name, avatar: s.avatar, signedInAt: s.created, expiresAt: Math.min(s.expires, s.seen + idle), maxAt: s.expires, idleMinutes: idle / 60, site: env.SITE_URL, repo: env.REPO, app: await githubApp(env).then(a => a && a.slug ? { slug: a.slug, url: a.html_url || null } : null).catch(() => null) });
         if (p === '/api/analytics/summary') return await summary(req, env);
         if (p === '/api/analytics/realtime') return await realtime(req, env);
         if (p === '/api/automation') return await automation(req, env, s);
@@ -88,7 +88,7 @@ export default {
         // the publishing tool (Sveltia CMS); it may only talk to this Worker
         return await asset(req, env, p, { 'content-security-policy': csp({ img: site + ' https:', connect: 'data: blob:', font: 'https://cdn.jsdelivr.net', style: 'https://cdn.jsdelivr.net', frame: "'self'", script: "'self' 'unsafe-eval' blob:" }) + "; worker-src 'self' blob:" });
       }
-      return await asset(req, env, p, { 'content-security-policy': csp({ img: site, connect: site }), 'cache-control': 'no-store' });
+      return await asset(req, env, p, { 'content-security-policy': csp({ img: site + ' https://raw.githubusercontent.com', connect: site + ' https://raw.githubusercontent.com https://www.googleapis.com' }), 'cache-control': 'no-store' });
     } catch (e) {
       console.error(e);
       if (p.startsWith('/api/') || p === '/c') return json({ error: 'server_error' }, 500);

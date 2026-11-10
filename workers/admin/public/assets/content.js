@@ -36,8 +36,8 @@
   }
 
   // one commit on main with several files: [{path, text | bytes | delete: true, expect: <blob sha when loaded> }]
-  function commitFiles(changes, message) {
-    var R = '/repos/' + repo();
+  function commitFiles(changes, message, branch) {
+    var R = '/repos/' + repo(), B = branch || 'main';
     return Promise.all(changes.map(function (c) {
       if (c.delete) return null;
       var body = c.bytes ? { content: b64(c.bytes), encoding: 'base64' } : { content: c.text, encoding: 'utf-8' };
@@ -45,7 +45,7 @@
     })).then(function (blobs) {
       var attempt = 0;
       function once() {
-        return gh('GET', R + '/git/ref/heads/main').then(function (ref) {
+        return gh('GET', R + '/git/ref/heads/' + B).then(function (ref) {
           var head = ref.object.sha;
           // stop if somebody (or the automation) changed one of these files after it was opened here
           return Promise.all(changes.map(function (c) {
@@ -56,7 +56,7 @@
             var tree = changes.map(function (c, i) { return { path: c.path, mode: '100644', type: 'blob', sha: c.delete ? null : blobs[i] }; });
             return gh('POST', R + '/git/trees', { base_tree: cm.tree.sha, tree: tree });
           }).then(function (t) { return gh('POST', R + '/git/commits', { message: message, tree: t.sha, parents: [head] }); })
-            .then(function (nc) { return gh('PATCH', R + '/git/refs/heads/main', { sha: nc.sha, force: false }).then(function () { return nc; }); });
+            .then(function (nc) { return gh('PATCH', R + '/git/refs/heads/' + B, { sha: nc.sha, force: false }).then(function () { return nc; }); });
         }).catch(function (e) {
           // the automation pushed in between: build the commit again on the new head
           if (!e.conflict && (e.status === 422 || e.status === 409) && attempt++ < 4) return new Promise(function (r) { setTimeout(r, 1500 * attempt); }).then(once);
@@ -101,6 +101,7 @@
   function featuredIds() { return ((STORE.site && STORE.site.featured) || []).map(function (f) { return typeof f === 'string' ? f : f && f.article; }).filter(Boolean); }
   function status(a) {
     if (a.published !== false) return { k: 'pub', t: 'Published' };
+    if (a.publishAt) return { k: 'sched', t: 'Scheduled ' + fmtDate(a.publishAt) };
     if (a.heldBy) return { k: 'held', t: 'Held by the publish check' };
     if (a.imagePending) return { k: 'photo', t: 'Waiting for photo' };
     return { k: 'draft', t: 'Draft' };
@@ -141,14 +142,19 @@
   }
   function save() { try { if (TR) sessionStorage.setItem('wtv-track', JSON.stringify(TR)); else sessionStorage.removeItem('wtv-track'); } catch (e) {} }
   // check = {id, expect: 'present'|'absent', title} or {siteFeatured: [...ids]}
-  function track(label, commit, check, link) {
-    TR = { label: label, sha: commit.sha, at: Date.now(), step: 'build', check: check, link: link, note: 'Saved. Publishing usually takes 2–5 minutes.' };
+  function track(label, commit, check, link, noBuild) {
+    TR = { label: label, sha: commit.sha, at: Date.now(), step: 'build', check: check, link: link, noBuild: !!noBuild, note: noBuild ? 'Saved. The website reads it within a few minutes.' : 'Saved. Publishing usually takes 2–5 minutes.' };
     save(); drawTracker(); poll();
   }
   var pollT = 0;
   function poll() {
     clearTimeout(pollT);
     if (!TR || TR.step === 'done' || TR.error) return;
+    if (TR.noBuild) return liveCheck().then(function (live) {
+      if (live) { TR.step = 'done'; TR.note = 'Checked on the live data ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) + '.'; }
+      else TR.note = 'Waiting for the website to read the new version…';
+      if (!live && Date.now() - TR.at > 20 * 60000) TR.error = 'Saved, but the website did not show it within 20 minutes. Nothing is lost: check News automation.';
+    }).catch(function () {}).then(function () { save(); drawTracker(); if (TR && TR.step !== 'done' && !TR.error) pollT = setTimeout(poll, 15000); });
     var since = new Date(TR.at - 60000).toISOString();
     gh('GET', '/repos/' + repo() + '/actions/workflows/publish.yml/runs?per_page=10&created=%3E%3D' + encodeURIComponent(since)).then(function (j) {
       var runs = (j && j.workflow_runs) || [];
@@ -168,6 +174,11 @@
   }
   function liveCheck() {
     var c = TR.check || {};
+    if (c.url) return fetch(c.url + (c.url.indexOf('?') < 0 ? '?' : '&') + 'cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+      if (!j) return false;
+      if (c.item) { var it = (j[c.list || 'items'] || []).find(function (x) { return x.id === c.item; }); return c.absent ? !it : !!it && (!c.title || JSON.stringify(it).indexOf(c.title) >= 0); }
+      return JSON.stringify(j[c.field]) === JSON.stringify(c.value);
+    }).catch(function () { return false; });
     if (c.siteFeatured) return fetch(site() + 'data/site.json?cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (s) { return !!s && JSON.stringify(s[c.field || 'featured']) === JSON.stringify(c.value); }).catch(function () { return false; });
     return fetch(site() + 'data/news.json?cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
       if (!j) return false;
@@ -192,7 +203,7 @@
   function failBox(el, e, retry) { el.innerHTML = ''; var b = W().errBox(e); el.append(b, h('p', null, h('button', { class: 'btn', type: 'button', text: 'Try again', onclick: retry }))); }
 
   // ------------------------------------------------------------------ Articles
-  var F = { q: '', section: '', st: '', tab: 'all', limit: 60 };
+  var F = { q: '', section: '', st: '', tab: 'all', limit: 60, lang: '', from: '', to: '' };
   function renderList(el, preset) {
     F.section = preset || ''; F.limit = 60;
     el.innerHTML = ''; el.append(loadingBox());
@@ -213,7 +224,7 @@
         h('button', { class: 'btn', type: 'button', html: W().ic('refresh') + '<span>Reload</span>', onclick: function () { el.innerHTML = ''; el.append(loadingBox()); load(true).then(function () { drawList(el); }, function (e) { failBox(el, e, function () { drawList(el); }); }); } })));
     el.append(head);
     var tabs = h('div', { class: 'seg', role: 'tablist' });
-    [['all', 'All'], ['pub', 'Published'], ['draft', 'Drafts'], ['photo', 'Waiting for photo'], ['held', 'Held'], ['trash', 'Recently deleted']].forEach(function (t) {
+    [['all', 'All'], ['pub', 'Published'], ['sched', 'Scheduled'], ['draft', 'Drafts'], ['photo', 'Waiting for photo'], ['held', 'Held'], ['trash', 'Recently deleted']].forEach(function (t) {
       tabs.append(h('button', { type: 'button', 'aria-pressed': String(F.tab === t[0]), text: t[1], onclick: function () { F.tab = t[0]; F.limit = 60; drawList(el); } }));
     });
     var q = inp(F.q, { type: 'search', placeholder: 'Search headline, text or id…', 'aria-label': 'Search articles' });
@@ -221,7 +232,12 @@
     var sec = sel(F.section, [['', 'All sections']].concat(SECTIONS)); sec.addEventListener('change', function () { F.section = sec.value; drawRows(); });
     var cats = ((STORE.site && STORE.site.categories) || []).map(function (c) { return [c, c]; });
     var cat = sel('', [['', 'All categories']].concat(cats)); cat.addEventListener('change', drawRows);
-    el.append(h('div', { class: 'card toolbar' }, tabs, h('div', { class: 'tb-row' }, q, sec, cat)));
+    var lang = sel(F.lang, [['', 'All languages']].concat(LANGS.map(function (l) { return ['has:' + l[0], 'Has ' + l[1]]; })).concat(LANGS.map(function (l) { return ['no:' + l[0], 'Missing ' + l[1]]; })));
+    lang.setAttribute('aria-label', 'Filter by translation'); lang.addEventListener('change', function () { F.lang = lang.value; drawRows(); });
+    var from = inp(F.from, { type: 'date', 'aria-label': 'From date' }), to = inp(F.to, { type: 'date', 'aria-label': 'To date' });
+    from.addEventListener('change', function () { F.from = from.value; drawRows(); }); to.addEventListener('change', function () { F.to = to.value; drawRows(); });
+    el.append(h('div', { class: 'card toolbar' }, tabs, h('div', { class: 'tb-row' }, q, sec, cat, lang), h('div', { class: 'tb-row' }, h('span', { class: 'sub', text: 'Date (Mogadishu):' }), from, h('span', { class: 'sub', text: 'to' }), to,
+      h('button', { class: 'btn small ghost', type: 'button', text: 'Clear filters', onclick: function () { F.q = ''; F.lang = ''; F.from = ''; F.to = ''; F.section = ''; drawList(el); } }))));
     var list = h('div', { class: 'alist' }); el.append(list);
     function drawRows() {
       list.innerHTML = '';
@@ -231,6 +247,10 @@
         if (F.tab !== 'all' && F.tab !== 'trash' && status(a).k !== F.tab) return false;
         if (F.section && (a.section || 'somalia') !== F.section) return false;
         if (cat.value && a.category !== cat.value) return false;
+        if (F.lang) { var lp = F.lang.split(':'), has = !!(a[lp[1]] && a[lp[1]].title); if ((lp[0] === 'has') !== has) return false; }
+        var day = toLocal(a.publishAt || a.publishedAt).slice(0, 10);
+        if (F.from && day < F.from) return false;
+        if (F.to && day > F.to) return false;
         if (term && (a.title + ' ' + a.summary + ' ' + a.id + ' ' + (a.body || '')).toLowerCase().indexOf(term) < 0) return false;
         return true;
       });
@@ -257,8 +277,9 @@
   }
 
   function togglePin(a, el) {
-    var fe = featuredIds(), i = fe.indexOf(a.id);
-    if (i >= 0) fe.splice(i, 1); else fe.push(a.id);
+    // keep every other pin exactly as saved (string or {article: …})
+    var fe = ((STORE.site && STORE.site.featured) || []).slice(), i = featuredIds().indexOf(a.id);
+    if (i >= 0) fe = fe.filter(function (f) { return (typeof f === 'string' ? f : f && f.article) !== a.id; }); else fe.push(a.id);
     saveSite({ featured: fe }, (i >= 0 ? 'Maamul: ka saar bogga hore "' : 'Maamul: ku dheji bogga hore "') + a.id + '"', i >= 0 ? 'Unpinned from the homepage' : 'Pinned to the homepage').then(function () { drawList(el); });
   }
   function saveSite(patch, msg, label) {
@@ -341,7 +362,8 @@
     var errs = h('div', { class: 'ed-errs', role: 'alert' });
     var prev = h('div', { class: 'card ed-prev', hidden: true });
     var bar = h('div', { class: 'ed-bar' });
-    form.append(h('div', { class: 'ed-grid' }, h('div', null, main, trBox), h('div', null, side, photoCard)), prev, errs, bar);
+    var hist = isNew ? null : historyCard(a);
+    form.append(h('div', { class: 'ed-grid' }, h('div', null, main, trBox), h('div', null, side, photoCard, hist)), prev, errs, bar);
     form.addEventListener('input', function () { dirty = true; }); form.addEventListener('change', function () { dirty = true; });
 
     function collect(publish) {
@@ -365,8 +387,9 @@
         t.status = 'manual';
         if (t.title) n[l[0]] = t; else delete n[l[0]];
       });
-      if (publish === true) { n.published = true; delete n.imagePending; delete n.heldBy; }
+      if (publish === true) { n.published = true; delete n.imagePending; delete n.heldBy; delete n.publishAt; }
       if (publish === false) n.published = false;
+      if (typeof publish === 'string' && publish.indexOf('schedule:') === 0) { n.published = false; n.publishAt = publish.slice(9); n.publishedAt = n.publishAt; delete n.imagePending; delete n.heldBy; }
       if (isNew) { n.by = 'admin'; n.id = (n.publishedAt || nowMogadishu()).slice(0, 10) + '-' + slug(n.title); var base = n.id, k = 2; while (STORE.articles.some(function (x) { return x.id === n.id; }) || STORE.trash.some(function (x) { return x.id === n.id; })) n.id = base + '-' + k++; }
       return n;
     }
@@ -376,7 +399,7 @@
       if (!n.category) e.push('Choose a category.');
       if (isNaN(Date.parse(n.publishedAt))) e.push('The date is not valid.');
       if (n.sourceUrl && !/^https?:\/\//.test(n.sourceUrl)) e.push('The source link must start with https://');
-      if (n.published !== false) {
+      if (n.published !== false || n.publishAt) {
         if (!n.summary) e.push('Write a summary.');
         if (!n.image) e.push('A published article needs its own photo (upload one or save as draft).');
         else {
@@ -398,11 +421,11 @@
       var changes = [{ path: 'data/news/' + n.id + '.json', text: json2(n), expect: isNew ? null : a._sha }];
       if (newPhoto) changes.push({ path: newPhoto.path, bytes: newPhoto.bytes, expect: null });
       busy(true);
-      var verb = isNew ? 'war cusub' : publish === false && a && a.published !== false ? 'ka qari bogga' : 'wax ka beddel';
+      var verb = isNew ? 'war cusub' : n.publishAt ? 'jadwal' : publish === false && a && a.published !== false ? 'ka qari bogga' : 'wax ka beddel';
       commitFiles(changes, 'Maamul: ' + verb + ' "' + n.id + '"').then(function (c) {
         dirty = false;
         track(label + ': ' + n.title, c, n.published !== false ? { id: n.id, expect: 'present', title: n.title, image: n.image } : { id: n.id, expect: 'absent' }, n.published !== false ? articleUrl(n.id) : null);
-        toast(n.published !== false ? 'Saved. Publishing to the website now.' : 'Saved as draft (not on the website).');
+        toast(n.published !== false ? 'Saved. Publishing to the website now.' : n.publishAt ? 'Scheduled. It goes on the website at ' + fmtDate(n.publishAt) + '.' : 'Saved as draft (not on the website).');
         return load(true).then(function () { var fresh = STORE.articles.find(function (x) { return x.id === n.id; }); if (fresh) openEditor(el, fresh); else drawList(el); });
       }).catch(function (er) { busy(false); errs.innerHTML = ''; errs.append(W().errBox(er)); }).finally(function () { busy(false); });
     }
@@ -422,10 +445,22 @@
       h('button', { class: 'btn', type: 'button', text: 'Unpublish', onclick: function () { if (confirm('Take this article off the website? It stays here as a draft.')) doSave(false, 'Unpublished'); } }));
     else bar.append(
       h('button', { class: 'btn primary', type: 'button', text: 'Publish', onclick: function () { doSave(true, 'Published'); } }),
+      h('button', { class: 'btn', type: 'button', text: art.publishAt ? 'Change schedule' : 'Schedule', onclick: schedule }),
       h('button', { class: 'btn', type: 'button', text: 'Save draft', onclick: function () { doSave(false, 'Draft saved'); } }),
       h('button', { class: 'btn', type: 'button', text: 'Preview', onclick: preview }));
     if (!isNew) bar.append(h('button', { class: 'btn danger', type: 'button', text: 'Delete', onclick: function () { del(); } }));
     bar.append(h('button', { class: 'btn ghost', type: 'button', text: 'Cancel', onclick: function () { if (!dirty || confirm('Discard your changes?')) drawList(el); } }));
+    function schedule() {
+      var when = inp(toLocal(art.publishAt || new Date(Date.now() + 3600e3).toISOString()), { type: 'datetime-local' });
+      var m = modal('Schedule publishing', h('div', null, h('p', { class: 'sub', text: 'The article is saved now as scheduled (not on the website). It is published automatically at this time (Mogadishu), checked every 15 minutes, so it appears within about 20 minutes of the time you choose.' }), field('Publish at (Mogadishu)', when)),
+        [art.publishAt ? h('button', { class: 'btn', type: 'button', text: 'Remove schedule', onclick: function () { m.remove(); delete art.publishAt; doSave(false, 'Schedule removed'); } }) : null,
+          h('button', { class: 'btn', type: 'button', text: 'Cancel', onclick: function () { m.remove(); } }),
+          h('button', { class: 'btn primary', type: 'button', text: 'Schedule', onclick: function () {
+            var t = when.value ? when.value + ':00+03:00' : '';
+            if (!t || Date.parse(t) < Date.now() - 60000) return toast('Choose a time in the future.', true);
+            m.remove(); doSave('schedule:' + t, 'Scheduled for ' + fmtDate(t));
+          } })]);
+    }
     function del() {
       if (!confirm('Delete this article? It disappears from the website and waits under “Recently deleted”, where you can restore it.')) return;
       var t = JSON.parse(JSON.stringify(a)); t.deletedAt = new Date().toISOString(); t.deletedFrom = a._file;
@@ -435,6 +470,43 @@
       commitFiles(changes, 'Maamul: tirtir "' + a.id + '"').then(function (c) { track('Deleted: ' + a.title, c, { id: a.id, expect: 'absent' }, null); return load(true); }).then(function () { drawList(el); })
         .catch(function (er) { busy(false); errs.innerHTML = ''; errs.append(W().errBox(er)); });
     }
+  }
+
+  // ------------------------------------------------------------------ article history (the repository's own record)
+  function historyCard(a) {
+    var body = h('div', null, h('p', { class: 'sub', text: 'Loading…' }));
+    var how = [['Written by', a.by === 'admin' ? 'You (dashboard)' : a.by === 'claude' || a.by === 'auto' || !a.by ? 'Automatic news routine' : String(a.by)],
+      ['First published', fmtDate(a.publishedAt)], a.updatedAt ? ['Last updated', fmtDate(a.updatedAt)] : null, a.source ? ['Source outlet', a.source] : null,
+      a.sourceUrl ? ['Source link', a.sourceUrl] : null, a.verification ? ['Verification', typeof a.verification === 'string' ? a.verification : JSON.stringify(a.verification)] : null].filter(Boolean);
+    var card = h('div', { class: 'card' }, h('h3', { text: 'How it was published, and its history' }),
+      h('dl', { class: 'kv' }, how.map(function (x) { return [h('dt', { text: x[0] }), h('dd', { text: x[1] })]; })), body);
+    var path = a._file || ('data/news/' + a.id + '.json');
+    gh('GET', '/repos/' + repo() + '/commits?per_page=30&path=' + encodeURIComponent(path)).then(function (list) {
+      body.innerHTML = '';
+      if (!list || !list.length) return body.append(h('p', { class: 'sub', text: 'No saved versions found.' }));
+      body.append(h('ol', { class: 'hist' }, list.map(function (c, i) {
+        var msg = (c.commit.message || '').split('\n')[0], who = /^Maamul:/.test(msg) ? 'You (dashboard)' : /bot|actions/i.test((c.commit.author || {}).name || '') ? 'Automation' : ((c.commit.author || {}).name || 'GitHub');
+        return h('li', null, h('b', { text: fmtDate(c.commit.author.date) }), h('span', { text: ' · ' + who }), h('div', { class: 'sub', text: msg }),
+          h('div', { class: 'row' }, h('a', { href: c.html_url, target: '_blank', rel: 'noopener', text: 'View this version' }),
+            i > 0 ? h('button', { class: 'btn small ghost', type: 'button', text: 'Restore this version', onclick: function () { restoreVersion(a, c, path); } }) : null));
+      })));
+    }).catch(function (e) { body.innerHTML = ''; body.append(h('p', { class: 'sub', text: 'History could not be loaded: ' + e.message })); });
+    return card;
+  }
+
+  // recovery: make an earlier saved version of the article the current one again (one new commit; nothing is lost)
+  function restoreVersion(a, c, path) {
+    if (!confirm('Restore the version of ' + fmtDate(c.commit.author.date) + '? The current version stays in the history.')) return;
+    gh('GET', '/repos/' + repo() + '/contents/' + path.split('/').map(encodeURIComponent).join('/') + '?ref=' + c.sha).then(function (f) {
+      var bin = atob(String(f.content || '').replace(/\n/g, '')), bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      var text = new TextDecoder().decode(bytes), old = JSON.parse(text);
+      return commitFiles([{ path: path, text: text, expect: a._sha }], 'Maamul: soo celi nooc hore "' + a.id + '"').then(function (cm) {
+        track('Restored earlier version: ' + old.title, cm, old.published !== false ? { id: a.id, expect: 'present', title: old.title, image: old.image } : { id: a.id, expect: 'absent' }, old.published !== false ? articleUrl(a.id) : null);
+        toast('Earlier version restored. Publishing to the website now.');
+        return load(true).then(function () { var fresh = STORE.articles.find(function (x) { return x.id === a.id; }); var el = document.getElementById('v-native'); if (fresh && el) openEditor(el, fresh); });
+      });
+    }).catch(function (e) { toast(e.message, true); });
   }
 
   // ------------------------------------------------------------------ photos: upload, crop, resize
@@ -522,24 +594,33 @@
         }); });
       } }))));
     var seg = h('div', { class: 'seg' }), q = inp('', { type: 'search', placeholder: 'Search by file name…' });
-    [['all', 'All photos'], ['used', 'In use'], ['free', 'Not used']].forEach(function (t) { seg.append(h('button', { type: 'button', 'aria-pressed': String(t[0] === 'all'), text: t[1], onclick: function (e) { M.f = t[0]; [].forEach.call(seg.children, function (b) { b.setAttribute('aria-pressed', String(b === e.target)); }); draw(); } })); });
+    [['all', 'All photos'], ['used', 'In use'], ['free', 'Not used'], ['dupe', 'Used twice'], ['missing', 'Articles without photo']].forEach(function (t) { seg.append(h('button', { type: 'button', 'aria-pressed': String(t[0] === 'all'), text: t[1], onclick: function (e) { M.f = t[0]; [].forEach.call(seg.children, function (b) { b.setAttribute('aria-pressed', String(b === e.target)); }); draw(); } })); });
     q.addEventListener('input', function () { M.q = q.value.toLowerCase(); draw(); });
     var grid = h('div', { class: 'mgrid big' }), more = 120;
     el.append(h('div', { class: 'card toolbar' }, seg, h('div', { class: 'tb-row' }, q)), grid);
     function draw() {
       grid.innerHTML = '';
-      var list = STORE.images.filter(function (x) { return (M.f === 'all' || (M.f === 'used') === !!used[x.path]) && (!M.q || x.name.indexOf(M.q) >= 0); });
+      if (M.f === 'missing') {
+        var miss = STORE.articles.filter(function (a) { return !a.image && (!M.q || (a.title + a.id).toLowerCase().indexOf(M.q) >= 0); });
+        if (!miss.length) grid.append(h('div', { class: 'empty', text: 'Every article has a photo.' }));
+        miss.slice(0, 200).forEach(function (a) { grid.append(h('div', { class: 'mcard' }, h('div', { class: 'noimg', text: 'No photo' }), h('div', { class: 'mc-b' }, h('b', { text: a.title }), h('small', { text: status(a).t + ' · ' + fmtDate(a.publishedAt) }), h('a', { class: 'btn small primary', href: '#articles?edit=' + encodeURIComponent(a.id), text: 'Add a photo' })))); });
+        return;
+      }
+      var list = STORE.images.filter(function (x) { var u = used[x.path] || []; return (M.f === 'all' || (M.f === 'dupe' ? u.length > 1 : (M.f === 'used') === !!u.length)) && (!M.q || x.name.indexOf(M.q) >= 0); });
       list.slice(0, more).forEach(function (x) {
         var u = used[x.path] || [];
         grid.append(h('div', { class: 'mcard' }, h('a', { href: full(x.path), target: '_blank', rel: 'noopener' }, h('img', { src: thumb(x.path), alt: u[0] ? (u[0].imageAlt || '') : '', loading: 'lazy', onerror: function () { this.onerror = null; this.src = full(x.path); } })),
           h('div', { class: 'mc-b' }, h('small', { text: x.name + (x.size ? ' · ' + Math.round(x.size / 1024) + ' KB' : '') }),
             u.length ? h('a', { class: 'mc-u', href: '#articles?edit=' + encodeURIComponent(u[0].id), text: 'Used by: ' + u[0].title + (u.length > 1 ? ' (+' + (u.length - 1) + ' more!)' : '') }) : h('span', { class: 'mc-u free', text: 'Not used' }),
             u[0] && u[0].imageAlt ? h('small', { class: 'hint', text: 'Description: ' + u[0].imageAlt }) : null,
+            u[0] ? h('small', { class: 'hint' + (u[0].imageLicense || u[0].by === 'admin' ? '' : ' warnt'), text: 'Photo: ' + (u[0].imageCredit || '—') + ' · Licence: ' + (u[0].imageLicense || (u[0].by === 'admin' ? 'your own' : 'not recorded')) }) : null,
             !u.length ? h('button', { class: 'btn small danger', type: 'button', text: 'Delete', onclick: function () {
               if (!confirm('Delete this unused photo from the website files?')) return;
               var ch = [{ path: x.path, delete: true, expect: x.sha }];
               var m = x.name.match(/^(.+)\.(jpe?g|png|webp)$/i);
-              commitFiles(ch, 'Maamul: tirtir sawir "' + x.path + '"').then(function () { toast('Photo deleted.'); return load(true); }).then(function () { drawMedia(el); }).catch(function (e) { toast(e.message, true); });
+              var tp = m ? 'img/news/w480/' + m[1] + '.webp' : null;
+              (tp ? gh('GET', '/repos/' + repo() + '/contents/' + tp.split('/').map(encodeURIComponent).join('/')).then(function (f) { ch.push({ path: tp, delete: true, expect: f.sha }); }, function () {}) : Promise.resolve())
+                .then(function () { return commitFiles(ch, 'Maamul: tirtir sawir "' + x.path + '"'); }).then(function () { toast('Photo deleted.'); return load(true); }).then(function () { drawMedia(el); }).catch(function (e) { toast(e.message, true); });
             } }) : null)));
       });
       if (list.length > more) grid.append(h('button', { class: 'btn', type: 'button', text: 'Show more', onclick: function () { more += 200; draw(); } }));
@@ -619,6 +700,10 @@
     el.append(h('p', { class: 'sub', html: 'Menu, social media links, categories, languages and all other settings: <a href="#settings">Settings</a> (full editor).' }));
   }
 
+  // shared with the other dashboard screens (control.js)
+  window.WTVC = { gh: gh, gql: gql, commitFiles: commitFiles, load: load, store: function () { return STORE; }, track: track, toast: toast, field: field, inp: inp, area: area, sel: sel, check: check, chip: chip,
+    fmtDate: fmtDate, toLocal: toLocal, articleUrl: articleUrl, status: status, json2: json2, modal: modal, loadingBox: loadingBox, failBox: failBox, repo: repo, site: site, thumb: thumb, full: full,
+    featuredIds: featuredIds, usedBy: usedBy, LANGS: LANGS, SECTIONS: SECTIONS, pickFile: pickFile, cropDialog: cropDialog, b64: b64, utf8: utf8 };
   VIEWS.articles = function (el) { renderList(el, ''); };
   VIEWS.somalia = function (el) { renderList(el, 'somalia'); };
   VIEWS.world = function (el) { renderList(el, 'world'); };

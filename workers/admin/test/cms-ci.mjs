@@ -61,6 +61,7 @@ const browser = await chromium.launch();
 const errs = [];
 async function signIn(ctx) {
   const p = await ctx.newPage();
+  p.on('dialog', d => d.accept());
   p.on('pageerror', e => errs.push('pageerror ' + e.message)); p.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
   await p.goto(W + '/'); await p.click('#signin'); await p.waitForURL(W + '/mfa');
   const secret = (await p.locator('.mono').textContent()).replace(/\s/g, '');
@@ -135,6 +136,32 @@ try {
     check(!(await p.locator('#v-native .banner.bad').count()), `${v} screen opens without an error`);
   }
 
+  // 1b. the control centre screens with the real data
+  const txt = async () => (await p.locator('#v-native').innerText().catch(() => '')).replace(/\s+/g, ' ');
+  await p.goto(W + '/#dashboard'); await p.waitForSelector('#v-native .kpi .val', { timeout: 60000 }).catch(() => {}); await sleep(9000);
+  let T = await txt();
+  check(/Website Online/.test(T), 'Overview: wartabiyetv.com shows as online');
+  check(/Published articles \d{3,}/.test(T), 'Overview: real published-article count');
+  check(/Last successful deployment \d+ (min|h|days?) ago|just now/.test(T), 'Overview: last deployment from GitHub Actions');
+  check(/Regular news Every 3 hours/.test(T) && /08:00 and 18:00/.test(T), 'Overview: publishing schedule (3-hourly news, sports 08:00/18:00)');
+  await p.screenshot({ path: join(OUT, 'c-overview.png'), fullPage: true });
+  for (const r of ['Yesterday', '7 days', '30 days']) { await p.click(`.rangebar button:text-is("${r}")`); await sleep(1500); }
+  check(/Visitors \d/.test(await txt()), 'Overview: visitor numbers for the chosen period');
+  await p.goto(W + '/#automation'); await p.waitForSelector('#v-native table', { timeout: 60000 }).catch(() => {}); await sleep(3000); T = await txt();
+  const jobs = await p.locator('#v-native .card').first().locator('tbody tr').count().catch(() => 0);
+  check(/Regular news \(Claude task\)/.test(T) && (await p.locator('#v-native tbody tr').count()) >= 10, 'Automation: every job listed with its state');
+  check(/Discovered \d/.test(T) && /Rejected \d/.test(T), 'Automation: discovered, published and rejected counts');
+  await p.screenshot({ path: join(OUT, 'c-automation.png'), fullPage: true });
+  for (const [v, re, what] of [['sections', /Published \d+/, 'Sections: numbers per section'], ['live', /Automatic writer (On|Off)/, 'LIVE News: status and timeline'], ['ads', /Google AdSense/, 'Advertising: AdSense state and adverts'],
+    ['health', /Sitemap \d[\d,]* pages/, 'SEO & health: sitemap read from the live site'], ['settings', /Navigation menu/, 'Website settings: real settings loaded']]) {
+    await p.goto(W + '/#' + v); await sleep(6000); T = await txt();
+    check(re.test(T) && !/Could not load this data/.test(T), what);
+    await p.screenshot({ path: join(OUT, 'c-' + v + '.png'), fullPage: true });
+  }
+  await p.fill('#gsearch', news[2].title.split(' ').slice(0, 2).join(' ')); await sleep(800);
+  check(await p.locator('#gresults .gr').count() >= 1, 'admin-wide search finds a real article');
+  await p.screenshot({ path: join(OUT, 'c-search.png') }); await p.fill('#gsearch', '');
+
   // 2. the Full editor (publishing tool) still lists the real articles
   await p.goto(W + '/#editor');
   const fr = p.frameLocator('#cmsFrame');
@@ -160,6 +187,10 @@ try {
   check(await mp.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'no sideways scrolling on a phone');
   await mp.locator('.arow .btn.primary').first().click(); await mp.waitForSelector('.editor').catch(() => {}); await sleep(600);
   await mp.screenshot({ path: join(OUT, 'native-editor-mobile.png') });
+  for (const v of ['dashboard', 'automation', 'live', 'health', 'settings']) {
+    await mp.goto(W + '/#' + v); await sleep(6000); await mp.screenshot({ path: join(OUT, 'm-' + v + '.png'), fullPage: true });
+    check(await mp.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${v}: no sideways scrolling on a phone`);
+  }
 
   // 4. the real, reversible edit-and-publish test on wartabiyetv.com
   if (process.env.WRITE_TEST === '1') {
@@ -193,6 +224,72 @@ try {
     const norm = o => JSON.stringify(Object.keys(o).sort().map(k => [k, o[k]]));
     if (norm(a0) !== norm(a2)) console.log('before: ' + JSON.stringify(a0) + '\nafter:  ' + JSON.stringify(a2));
     check(norm(a0) === norm(a2), 'article file identical to before the test');
+
+    // replace the article's photo with a new upload, see it live, then restore the earlier version from the history
+    const live = async () => { const j = await (await fetch(SITE + 'data/news.json?cb=' + Date.now(), { cache: 'no-store' })).json().catch(() => ({})); return (j.news || []).find(x => x.id === id) || {}; };
+    const origImage = (await live()).image;
+    const png = Buffer.from(await p.evaluate(() => { const c = document.createElement('canvas'); c.width = 1280; c.height = 720; const g = c.getContext('2d');
+      const gr = g.createLinearGradient(0, 0, 1280, 720); gr.addColorStop(0, '#04213f'); gr.addColorStop(1, '#037BDC'); g.fillStyle = gr; g.fillRect(0, 0, 1280, 720);
+      g.fillStyle = '#fff'; g.font = 'bold 72px sans-serif'; g.fillText('Wartabiye TV', 80, 330); g.font = '40px sans-serif'; g.fillText('Tijaabo sawir ' + new Date().toISOString().slice(0, 16), 80, 410);
+      return c.toDataURL('image/png').split(',')[1]; }), 'base64');
+    await p.goto(W + '/'); await p.goto(W + '/#articles?edit=' + encodeURIComponent(id)); await p.waitForSelector('.editor', { timeout: 90000 }); await sleep(500);
+    const [fc] = await Promise.all([p.waitForEvent('filechooser'), p.click('.ed-photo button:has-text("Replace")')]);
+    await fc.setFiles({ name: 'tijaabo.png', mimeType: 'image/png', buffer: png });
+    await p.waitForSelector('.modal .crop-cv'); await p.locator('.modal label.chk input').check(); await p.click('.modal button:text-is("Use this photo")'); await sleep(1500);
+    const imgBefore = await mainSha();
+    await p.click('.ed-bar button:text-is("Update")');
+    await p.waitForSelector('#pubTrack:not([hidden])', { timeout: 60000 }).catch(() => {});
+    const e3 = (await p.locator('.ed-errs').innerText().catch(() => '')).trim(); if (e3) console.log('editor says: ' + e3);
+    await rebuild(imgBefore);
+    const live3 = await waitTracker(p, 'photo');
+    const L3 = await live();
+    check(live3 && L3.image && L3.image !== origImage && /^img\/news\//.test(L3.image), 'replaced photo is live on wartabiyetv.com (' + L3.image + ')');
+    const ph = await (await fetch(SITE + L3.image + '?cb=' + Date.now())).arrayBuffer().catch(() => new ArrayBuffer(0));
+    check(ph.byteLength > 5000, 'the new photo file itself loads from wartabiyetv.com');
+    await p.goto(SITE + 'war/' + id + '.html?cb=' + Date.now()).catch(() => {}); await sleep(2500); await p.screenshot({ path: join(OUT, 'write-3-live-photo.png') });
+    // restore the earlier version (recovery) from the article history
+    await p.goto(W + '/'); await p.goto(W + '/#articles?edit=' + encodeURIComponent(id)); await p.waitForSelector('ol.hist li', { timeout: 90000 }); await sleep(500);
+    await p.screenshot({ path: join(OUT, 'write-4-history.png'), fullPage: true });
+    await p.locator('#pubTrack .iconbtn').click().catch(() => {});
+    const rsBefore = await mainSha();
+    await p.locator('ol.hist li').nth(1).locator('button:text-is("Restore this version")').click();
+    await p.waitForSelector('#pubTrack:not([hidden])', { timeout: 60000 }).catch(() => {});
+    await rebuild(rsBefore);
+    const live4 = await waitTracker(p, 'restore');
+    const L4 = await live();
+    check(live4 && L4.image === origImage && L4.title === original, 'earlier version restored on wartabiyetv.com (original photo and headline)');
+    check(norm(a0) === norm(await file('main')), 'article file identical to before the photo test');
+    // the test photo is now unused: delete it from the Media Library
+    const testName = L3.image.split('/').pop();
+    await p.goto(W + '/'); await p.goto(W + '/#media'); await p.waitForSelector('.mcard', { timeout: 90000 }); await sleep(500);
+    await p.fill('.toolbar input[type=search]', testName.slice(0, -5)); await sleep(600);
+    await p.locator('.mcard', { hasText: testName }).locator('button:text-is("Delete")').click(); await sleep(8000);
+    const gone = (await ghApi('GET', `/repos/${REPO}/contents/${L3.image}?ref=main`)).status === 404;
+    check(gone, 'unused test photo deleted from the website files');
+
+    // homepage: pin a story, see it in the live homepage settings, unpin it
+    const S0 = await (await fetch(SITE + 'data/site.json?cb=' + Date.now())).json();
+    const f0 = JSON.stringify(S0.featured || []);
+    // the newest story: without pins it already leads the homepage, so readers barely notice the test
+    const pinId = news.find(n => !(S0.featured || []).some(f => (typeof f === 'string' ? f : f.article) === n.id) && n.image).id;
+    async function pinToggle(label) {
+      await p.goto(W + '/'); await p.goto(W + '/#articles'); await p.waitForSelector('.arow', { timeout: 90000 });
+      await p.fill('.toolbar input[type=search]', pinId); await sleep(600);
+      const b = await mainSha();
+      await p.locator('.arow').first().locator('button:has-text("' + label + '")').click();
+      await p.waitForSelector('#pubTrack:not([hidden])', { timeout: 60000 }).catch(() => {});
+      await rebuild(b);
+      return waitTracker(p, label);
+    }
+    await p.locator('#pubTrack .iconbtn').click().catch(() => {});
+    const pin1 = await pinToggle('Pin to homepage');
+    const S1 = await (await fetch(SITE + 'data/site.json?cb=' + Date.now())).json();
+    check(pin1 && (S1.featured || []).some(f => (typeof f === 'string' ? f : f.article) === pinId), 'pinned story is in the live homepage settings');
+    await p.goto(SITE + '?cb=' + Date.now()).catch(() => {}); await sleep(3000); await p.screenshot({ path: join(OUT, 'write-5-live-home-pinned.png') });
+    await p.locator('#pubTrack .iconbtn').click().catch(() => {});
+    const pin2 = await pinToggle('Unpin');
+    const S2 = await (await fetch(SITE + 'data/site.json?cb=' + Date.now())).json();
+    check(pin2 && JSON.stringify(S2.featured || []) === f0, 'homepage pins back exactly as before');
   }
 } catch (e) { console.error(e); fails.push(String(e)); }
 finally {

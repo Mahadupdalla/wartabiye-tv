@@ -165,21 +165,24 @@
 
   // ---------------------------------------------------------------- views
   var VIEWS = {
-    dashboard: { title: 'Dashboard', render: renderDashboard },
+    dashboard: { title: 'Overview', native: 'overview' },
     analytics: { title: 'Analytics', render: renderAnalytics },
-    automation: { title: 'Automation Status', render: renderAutomation },
+    automation: { title: 'News automation', native: 'automation' },
+    sections: { title: 'Sections & categories', native: 'sections' },
+    health: { title: 'SEO & website health', native: 'health' },
     security: { title: 'Security & sessions', render: renderSecurity },
     articles: { title: 'Articles', native: 'articles' },
     world: { title: 'World News', native: 'world' },
     sports: { title: 'Sports News', native: 'sports' },
     somalia: { title: 'Somalia News', native: 'somalia' },
     editor: { title: 'Full editor', cms: '#/collections/news', links: [['All articles', '#/collections/news'], ['New article', '#/collections/news/new'], ['World news sources', '#/collections/world'], ['Sports writer & sources', '#/collections/world/entries/sportsWriter'], ['Live scores settings', '#/collections/media/entries/sports']], note: 'Every field of every file. Saving here also publishes to the website.' },
-    live: { title: 'LIVE News', cms: '#/collections/media/entries/sources', links: [['LIVE News sources', '#/collections/media/entries/sources'], ['LIVE TV stream', '#/collections/media/entries/live'], ['Fast sources (5 minutes)', '#/collections/world/entries/fast']] },
+    live: { title: 'LIVE News', native: 'live' },
+    livesrc: { title: 'LIVE News sources', cms: '#/collections/media/entries/sources', links: [['LIVE News sources', '#/collections/media/entries/sources'], ['Fast sources (5 minutes)', '#/collections/world/entries/fast']] },
     media: { title: 'Media Library', native: 'media' },
     homepage: { title: 'Homepage', native: 'homepage' },
-    ads: { title: 'Advertising', cms: '#/collections/ads', links: [['Adverts', '#/collections/ads'], ['New advert', '#/collections/ads/new']], extra: [['Advertising requests (private)', '/cms/codsiyada/']] },
+    ads: { title: 'Advertising', native: 'ads' },
     notifications: { title: 'Notifications', cms: '#/collections/alerts', links: [['Alerts', '#/collections/alerts'], ['Notification settings & delivery log', '#/collections/notify']] },
-    settings: { title: 'Settings', cms: '#/collections/settings/entries/site', links: [['Website settings', '#/collections/settings/entries/site'], ['Pages', '#/collections/pages/entries/pages'], ['News sources', '#/collections/world/entries/sources']] },
+    settings: { title: 'Website settings', native: 'settings' },
   };
 
   function go() {
@@ -495,6 +498,7 @@
 
   // ---- shared with content.js (articles, media library, homepage) ----
   window.WTV = { h: h, ic: ic, icon: icon, card: card, api: api, errBox: errBox, every: every, clearTimers: clearTimers, showTip: showTip, hideTip: hideTip,
+    kpi: kpi, setLab: setLab, ranked: ranked, lineChart: lineChart, barChart: barChart, articleTitles: articleTitles, dayLabel: dayLabel, autoList: autoList, auditTable: auditTable, runChip: runChip, emptyBox: emptyBox, current: function () { return current; },
     site: function () { return SITE; }, me: function () { return ME; }, openFullEditor: openFullEditor, ago: ago, n: n };
 
   // ---- start ----
