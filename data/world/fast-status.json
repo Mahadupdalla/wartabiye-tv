@@ -2,36 +2,247 @@
  "status": {
   "health": "healthy",
   "healthRule": "healthy = a completed check in the last 20 min; 0 new stories is healthy; stopped = no check for that long; failing = every source failed in the last check",
-  "lastSourceCheckAt": "2026-11-10T05:15:22+03:00",
-  "nextExpectedCheckAt": "2026-11-10T05:20:22+03:00",
+  "lastSourceCheckAt": "2026-11-10T06:10:23+03:00",
+  "nextExpectedCheckAt": "2026-11-10T06:15:23+03:00",
   "checks24h": 292,
   "freshRule": "source age <= 5 min when first seen = priority 1 (fresh); up to 2 h = priority 2 (fallback, never breaking); older = rejected; no trustworthy publisher time = timestamp_unverified, not passed on",
-  "newFound24h": 1420,
-  "fresh5min24h": 675,
-  "published24h": 90,
+  "newFound24h": 1426,
+  "fresh5min24h": 677,
+  "published24h": 91,
   "duplicatesSkipped24h": 50,
-  "oldSkipped24h": 275,
-  "missingTimestampSkipped24h": 9,
+  "oldSkipped24h": 276,
+  "missingTimestampSkipped24h": 10,
   "missingImageHeld24h": 52,
   "records": {
-   "lastSuccessfulSourceCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastArticlePublicationAt": "2026-11-10T04:15:26+03:00",
-   "lastWebsiteDeploymentAt": "2026-11-10T04:15:46+03:00",
-   "websiteCheckedAt": "2026-11-10T05:15:22+03:00",
-   "newestLiveArticle": "2026-11-10-mlb-mcgonigle-stewart-rookie-sanadka",
-   "lastNewArticleDiscoveredAt": "2026-11-10T05:10:20+03:00",
+   "lastSuccessfulSourceCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastArticlePublicationAt": "2026-11-10T05:18:48+03:00",
+   "lastWebsiteDeploymentAt": "2026-11-10T05:19:10+03:00",
+   "websiteCheckedAt": "2026-11-10T06:10:23+03:00",
+   "newestLiveArticle": "2026-11-10-maxkamadda-nairobi-khamriga-online",
+   "lastNewArticleDiscoveredAt": "2026-11-10T06:10:23+03:00",
    "lastNewArticle": {
     "source": "turkiyetoday",
-    "title": "Mecca defense pact could anchor Lebanon’s security, experts say",
-    "url": "https://www.turkiyetoday.com/region/mecca-defense-pact-could-anchor-lebanons-security-experts-say-3232068",
-    "publishedAt": "2026-11-10T05:06:48+03:00"
+    "title": "Trump tells Netanyahu to move ahead with Gaza plan: Report",
+    "url": "https://www.turkiyetoday.com/region/trump-tells-netanyahu-to-move-ahead-with-gaza-plan-report-3232070",
+    "publishedAt": "2026-11-10T06:07:30+03:00"
    },
-   "lastArticleLiveAt": "2026-11-10T04:20:22+03:00",
-   "lastArticleLive": "2026-11-10-mlb-mcgonigle-stewart-rookie-sanadka"
+   "lastArticleLiveAt": "2026-11-10T05:20:19+03:00",
+   "lastArticleLive": "2026-11-10-maxkamadda-nairobi-khamriga-online"
   },
   "activeCollectors": 61
  },
  "runLog": [
+  {
+   "check_started_at": "2026-11-10T06:10:23+03:00",
+   "check_finished_at": "2026-11-10T06:11:15+03:00",
+   "seconds": 51.8,
+   "sources_checked": 62,
+   "sources_failed": 2,
+   "stories_seen": 1472,
+   "stories_new": 1,
+   "stories_fresh_5min": 1,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw",
+    "un-news"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T06:05:20+03:00",
+   "check_finished_at": "2026-11-10T06:06:08+03:00",
+   "seconds": 48.3,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1550,
+   "stories_new": 0,
+   "stories_fresh_5min": 0,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 1,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T06:00:20+03:00",
+   "check_finished_at": "2026-11-10T06:01:24+03:00",
+   "seconds": 63.5,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1590,
+   "stories_new": 4,
+   "stories_fresh_5min": 2,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T05:55:19+03:00",
+   "check_finished_at": "2026-11-10T05:56:07+03:00",
+   "seconds": 48.2,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1434,
+   "stories_new": 0,
+   "stories_fresh_5min": 0,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T05:50:20+03:00",
+   "check_finished_at": "2026-11-10T05:51:15+03:00",
+   "seconds": 55.3,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1551,
+   "stories_new": 0,
+   "stories_fresh_5min": 0,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T05:45:19+03:00",
+   "check_finished_at": "2026-11-10T05:46:11+03:00",
+   "seconds": 52.3,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1469,
+   "stories_new": 0,
+   "stories_fresh_5min": 0,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T05:40:20+03:00",
+   "check_finished_at": "2026-11-10T05:41:22+03:00",
+   "seconds": 61.8,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1475,
+   "stories_new": 0,
+   "stories_fresh_5min": 0,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T05:35:19+03:00",
+   "check_finished_at": "2026-11-10T05:36:20+03:00",
+   "seconds": 60.6,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1494,
+   "stories_new": 1,
+   "stories_fresh_5min": 1,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 1,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T05:30:25+03:00",
+   "check_finished_at": "2026-11-10T05:31:39+03:00",
+   "seconds": 74.0,
+   "sources_checked": 62,
+   "sources_failed": 2,
+   "stories_seen": 1501,
+   "stories_new": 1,
+   "stories_fresh_5min": 0,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw",
+    "lanation-dj"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T05:25:19+03:00",
+   "check_finished_at": "2026-11-10T05:26:53+03:00",
+   "seconds": 93.7,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1457,
+   "stories_new": 1,
+   "stories_fresh_5min": 1,
+   "stories_rejected_old": 0,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 0,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
+  {
+   "check_started_at": "2026-11-10T05:20:19+03:00",
+   "check_finished_at": "2026-11-10T05:21:51+03:00",
+   "seconds": 92.2,
+   "sources_checked": 62,
+   "sources_failed": 1,
+   "stories_seen": 1640,
+   "stories_new": 2,
+   "stories_fresh_5min": 0,
+   "stories_rejected_old": 1,
+   "stories_rejected_duplicate": 0,
+   "stories_rejected_no_timestamp": 0,
+   "stories_excluded": 0,
+   "stories_rejected_no_image": 0,
+   "stories_published": 3,
+   "failed": [
+    "newtimes-rw"
+   ]
+  },
   {
    "check_started_at": "2026-11-10T05:15:22+03:00",
    "check_finished_at": "2026-11-10T05:16:19+03:00",
@@ -509,215 +720,6 @@
     "thereporter-et",
     "newtimes-rw"
    ]
-  },
-  {
-   "check_started_at": "2026-11-10T03:10:19+03:00",
-   "check_finished_at": "2026-11-10T03:11:16+03:00",
-   "seconds": 56.9,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1513,
-   "stories_new": 3,
-   "stories_fresh_5min": 3,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T03:05:19+03:00",
-   "check_finished_at": "2026-11-10T03:06:20+03:00",
-   "seconds": 61.3,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1531,
-   "stories_new": 2,
-   "stories_fresh_5min": 1,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T03:00:20+03:00",
-   "check_finished_at": "2026-11-10T03:01:25+03:00",
-   "seconds": 65.5,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1664,
-   "stories_new": 0,
-   "stories_fresh_5min": 0,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T02:55:19+03:00",
-   "check_finished_at": "2026-11-10T02:56:18+03:00",
-   "seconds": 58.6,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1465,
-   "stories_new": 3,
-   "stories_fresh_5min": 1,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 1,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T02:50:20+03:00",
-   "check_finished_at": "2026-11-10T02:51:12+03:00",
-   "seconds": 51.5,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1480,
-   "stories_new": 3,
-   "stories_fresh_5min": 0,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T02:45:22+03:00",
-   "check_finished_at": "2026-11-10T02:46:24+03:00",
-   "seconds": 61.7,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1579,
-   "stories_new": 3,
-   "stories_fresh_5min": 0,
-   "stories_rejected_old": 2,
-   "stories_rejected_duplicate": 3,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T02:40:19+03:00",
-   "check_finished_at": "2026-11-10T02:41:09+03:00",
-   "seconds": 50.5,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1443,
-   "stories_new": 1,
-   "stories_fresh_5min": 1,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T02:35:19+03:00",
-   "check_finished_at": "2026-11-10T02:36:42+03:00",
-   "seconds": 83.4,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1489,
-   "stories_new": 5,
-   "stories_fresh_5min": 1,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T02:30:24+03:00",
-   "check_finished_at": "2026-11-10T02:31:21+03:00",
-   "seconds": 57.0,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1668,
-   "stories_new": 5,
-   "stories_fresh_5min": 2,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T02:25:20+03:00",
-   "check_finished_at": "2026-11-10T02:26:31+03:00",
-   "seconds": 71.0,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1564,
-   "stories_new": 4,
-   "stories_fresh_5min": 0,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
-  },
-  {
-   "check_started_at": "2026-11-10T02:20:20+03:00",
-   "check_finished_at": "2026-11-10T02:21:23+03:00",
-   "seconds": 62.6,
-   "sources_checked": 62,
-   "sources_failed": 1,
-   "stories_seen": 1515,
-   "stories_new": 3,
-   "stories_fresh_5min": 1,
-   "stories_rejected_old": 0,
-   "stories_rejected_duplicate": 0,
-   "stories_rejected_no_timestamp": 0,
-   "stories_excluded": 0,
-   "stories_rejected_no_image": 0,
-   "stories_published": 0,
-   "failed": [
-    "newtimes-rw"
-   ]
   }
  ],
  "lastRunSources": [
@@ -1022,9 +1024,9 @@
   },
   {
    "source": "turkiyetoday",
-   "seen": 79,
-   "new": 0,
-   "fresh": 0,
+   "seen": 78,
+   "new": 1,
+   "fresh": 1,
    "rejectedOld": 0,
    "rejectedNoTimestamp": 0,
    "excluded": 0,
@@ -1100,14 +1102,14 @@
   },
   {
    "source": "un-news",
-   "seen": 30,
+   "seen": 0,
    "new": 0,
    "fresh": 0,
    "rejectedOld": 0,
    "rejectedNoTimestamp": 0,
    "excluded": 0,
    "rejectedDuplicate": 0,
-   "ok": true,
+   "ok": false,
    "published": 0,
    "heldNoImage": 0
   },
@@ -1152,7 +1154,7 @@
   },
   {
    "source": "france24",
-   "seen": 19,
+   "seen": 20,
    "new": 0,
    "fresh": 0,
    "rejectedOld": 0,
@@ -1178,7 +1180,7 @@
   },
   {
    "source": "bundesliga-official",
-   "seen": 33,
+   "seen": 32,
    "new": 0,
    "fresh": 0,
    "rejectedOld": 0,
@@ -1191,7 +1193,7 @@
   },
   {
    "source": "guardian-football",
-   "seen": 0,
+   "seen": 26,
    "new": 0,
    "fresh": 0,
    "rejectedOld": 0,
@@ -1477,7 +1479,7 @@
   },
   {
    "source": "fifa",
-   "seen": 71,
+   "seen": 73,
    "new": 0,
    "fresh": 0,
    "rejectedOld": 0,
@@ -1528,8 +1530,8 @@
    "heldNoImage": 0
   }
  ],
- "updatedAt": "2026-11-10T05:15:22+03:00",
- "lastCheckAt": "2026-11-10T05:15:22+03:00",
+ "updatedAt": "2026-11-10T06:10:23+03:00",
+ "lastCheckAt": "2026-11-10T06:10:23+03:00",
  "skippedOutsideHours": false,
  "operatingHours": "24/7",
  "timezone": "Africa/Nairobi",
@@ -1537,12 +1539,12 @@
  "pollMinutes": 5,
  "measuredIntervalMin": {
   "median": 5.0,
-  "max": 119.8,
+  "max": 7.7,
   "runs": 400
  },
  "delays24h": {
   "medianDiscoveryMin": 5.3,
-  "medianLiveMin": 69.2,
+  "medianLiveMin": 69.5,
   "medianDiscoveryToLiveMin": 59.9
  },
  "alerts": [],
@@ -1557,8 +1559,8 @@
    "permissionNote": "© Radio Muqdisho, no syndication licence. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time.",
    "pollMinutes": 5,
    "feedUrl": "https://radiomuqdisho.so/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T18:19:15+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -1574,7 +1576,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.8
+   "fetchSeconds": 0.5
   },
   {
    "id": "bbc-somali",
@@ -1586,8 +1588,8 @@
    "permissionNote": "BBC Somali's own public RSS feed (feeds.bbci.co.uk/somali/rss.xml). BBC content and photos are all rights reserved and Wartabiye TV has no syndication licence: only the feed's headline, link and publication time are used to discover a story. The article page is never scraped; Wartabiye TV writes its own Somali report from facts it verified, names BBC Somali as the source and links to the original. BBC text and photos are never copied, translated or republished, and a headline is never attributed to BBC unless it is in BBC's own feed.",
    "pollMinutes": 5,
    "feedUrl": "https://feeds.bbci.co.uk/somali/rss.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T20:59:22+03:00",
    "lastDiscoveredAt": "2026-11-09T21:05:49+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T20:59:22+03:00",
@@ -1603,7 +1605,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.2
+   "fetchSeconds": 0.4
   },
   {
    "id": "hiiraan",
@@ -1615,8 +1617,8 @@
    "permissionNote": "All rights reserved. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time.",
    "pollMinutes": 5,
    "feedUrl": "https://www.hiiraan.com/wararkamaanta.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T17:39:25+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -1632,7 +1634,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.3
+   "fetchSeconds": 0.2
   },
   {
    "id": "puntlandpost",
@@ -1644,8 +1646,8 @@
    "permissionNote": "No licence for reuse. Wartabiye TV writes its OWN Somali report from the facts; the publisher's text and photos are never copied, translated sentence by sentence or republished. The article page may be opened (robots.txt allows it) only to verify the facts and the publication time.",
    "pollMinutes": 5,
    "feedUrl": "https://puntlandpost.net/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T00:00:30+03:00",
    "lastDiscoveredAt": "2026-11-10T00:05:20+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T00:00:30+03:00",
@@ -1661,7 +1663,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.5
+   "fetchSeconds": 0.4
   },
   {
    "id": "shabellemedia",
@@ -1673,8 +1675,8 @@
    "permissionNote": "Terms: \"All intellectual property rights are reserved\"; you must not republish, reproduce, duplicate, copy or redistribute material. Only the feed's headline, link and publication time are used to discover a story; the article page, text and photos are never read or kept. Wartabiye TV publishes it only after confirming the facts in another reliable source and writes its own report.",
    "pollMinutes": 5,
    "feedUrl": "https://shabellemedia.com/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T15:51:43+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -1702,9 +1704,9 @@
    "permissionNote": "All rights reserved; robots.txt disallows ClaudeBot. Only the feed's headline, link and publication time are used to discover a story; the article page, text and photos are never read or kept. Wartabiye TV publishes it only after confirming the facts in another reliable source and writes its own report.",
    "pollMinutes": 5,
    "feedUrl": "https://www.caasimada.net/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
-   "latestOriginalPublishedAt": "2026-11-09T23:00:17+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
+   "latestOriginalPublishedAt": "2026-11-10T06:00:42+03:00",
    "lastDiscoveredAt": "2026-11-09T23:15:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T23:00:17+03:00",
    "lastSitePublishedAt": "2026-11-10T00:05:20+03:00",
@@ -1719,7 +1721,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.4
+   "fetchSeconds": 0.3
   },
   {
    "id": "bbc-africa",
@@ -1731,8 +1733,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://feeds.bbci.co.uk/news/world/africa/rss.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T20:06:18+03:00",
    "lastDiscoveredAt": "2026-11-09T10:40:09+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T10:37:33+03:00",
@@ -1748,7 +1750,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.0
+   "fetchSeconds": 0.1
   },
   {
    "id": "africanews",
@@ -1760,8 +1762,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.africanews.com/feed/rss",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T01:02:23+03:00",
    "lastDiscoveredAt": "2026-11-09T19:35:23+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T17:51:32+03:00",
@@ -1789,24 +1791,24 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.capitalfm.co.ke/news/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T05:04:56+03:00",
    "lastDiscoveredAt": "2026-11-10T05:05:20+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T05:04:56+03:00",
-   "lastSitePublishedAt": "2026-11-09T20:30:17+03:00",
+   "lastSitePublishedAt": "2026-11-10T05:20:19+03:00",
    "newTotal": 28,
    "new24h": 26,
-   "published24h": 6,
+   "published24h": 7,
    "held24h": 9,
    "notChosen24h": 0,
    "oldIgnored": 0,
    "medianDiscoveryDelayMin": 2.0,
-   "medianLiveDelayMin": 76.1,
+   "medianLiveDelayMin": 75.3,
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 2.1
+   "fetchSeconds": 1.8
   },
   {
    "id": "standard-ke",
@@ -1818,8 +1820,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.standardmedia.co.ke/rss/headlines.php",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T00:01:00+03:00",
    "lastDiscoveredAt": "2026-11-10T00:05:20+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T00:01:00+03:00",
@@ -1835,7 +1837,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.6
+   "fetchSeconds": 0.7
   },
   {
    "id": "kbc",
@@ -1847,8 +1849,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.kbc.co.ke/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T00:23:26+03:00",
    "lastDiscoveredAt": "2026-11-10T00:25:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T00:23:26+03:00",
@@ -1864,7 +1866,7 @@
    "consecutiveErrors": 0,
    "lastError": "https://www.kbc.co.ke/feed/: URLError: <urlopen error _ssl.c:983: The handshake operation timed out>",
    "lastErrorAt": "2026-11-10T00:35:16+03:00",
-   "fetchSeconds": 2.9
+   "fetchSeconds": 3.2
   },
   {
    "id": "fanabc",
@@ -1876,8 +1878,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.fanabc.com/english/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T17:31:38+03:00",
    "lastDiscoveredAt": "2026-11-09T17:35:21+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T17:31:38+03:00",
@@ -1893,7 +1895,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 6.2
+   "fetchSeconds": 4.9
   },
   {
    "id": "thereporter-et",
@@ -1905,8 +1907,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.thereporterethiopia.com/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-02T14:56:56+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -1934,8 +1936,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://dailynews.co.tz/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T19:22:47+03:00",
    "lastDiscoveredAt": "2026-11-09T19:25:23+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T19:22:47+03:00",
@@ -1951,7 +1953,7 @@
    "consecutiveErrors": 0,
    "lastError": "https://dailynews.co.tz/feed/: HTTPError: HTTP Error 500: Internal Server Error",
    "lastErrorAt": "2026-11-10T05:00:20+03:00",
-   "fetchSeconds": 3.3
+   "fetchSeconds": 3.7
   },
   {
    "id": "thecitizen-tz",
@@ -1963,8 +1965,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.thecitizen.co.tz/tanzania",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": null,
    "lastDiscoveredAt": "2026-11-09T18:35:24+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T18:10:01+03:00",
@@ -1980,7 +1982,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 1.2
+   "fetchSeconds": 1.0
   },
   {
    "id": "nilepost",
@@ -1992,8 +1994,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://nilepost.co.ug/feed",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T22:12:38+03:00",
    "lastDiscoveredAt": "2026-11-09T22:15:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T22:12:38+03:00",
@@ -2009,7 +2011,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.6
+   "fetchSeconds": 0.5
   },
   {
    "id": "newtimes-rw",
@@ -2021,7 +2023,7 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.newtimes.co.rw/rss",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
    "lastSuccessAt": null,
    "latestOriginalPublishedAt": null,
    "lastDiscoveredAt": null,
@@ -2035,10 +2037,10 @@
    "oldIgnored": 0,
    "medianDiscoveryDelayMin": null,
    "medianLiveDelayMin": null,
-   "consecutiveErrors": 407,
+   "consecutiveErrors": 418,
    "lastError": "https://www.newtimes.co.rw/rss: ValueError: not a feed (the address answers with a web page); https://www.newtimes.co.rw/: ValueError: feed has no items",
-   "lastErrorAt": "2026-11-10T05:15:22+03:00",
-   "fetchSeconds": 1.3
+   "lastErrorAt": "2026-11-10T06:10:23+03:00",
+   "fetchSeconds": 1.0
   },
   {
    "id": "ktpress",
@@ -2050,8 +2052,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.ktpress.rw/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T22:24:03+03:00",
    "lastDiscoveredAt": "2026-11-09T20:45:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T20:42:53+03:00",
@@ -2067,7 +2069,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 1.0
+   "fetchSeconds": 1.5
   },
   {
    "id": "iwacu",
@@ -2079,8 +2081,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.iwacu-burundi.org/englishnews/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2022-11-02T13:57:56+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -2108,8 +2110,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.eyeradio.org/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T22:17:05+03:00",
    "lastDiscoveredAt": "2026-11-09T22:20:17+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T22:17:05+03:00",
@@ -2125,7 +2127,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 1.1
+   "fetchSeconds": 1.0
   },
   {
    "id": "radiotamazuj",
@@ -2137,8 +2139,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.radiotamazuj.org/en/rss",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T17:04:06+03:00",
    "lastDiscoveredAt": "2026-11-09T17:05:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T17:04:06+03:00",
@@ -2154,7 +2156,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 2.4
+   "fetchSeconds": 1.5
   },
   {
    "id": "lanation-dj",
@@ -2166,8 +2168,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.lanation.dj/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T10:51:47+03:00",
    "lastDiscoveredAt": "2026-11-09T10:52:53+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T10:51:47+03:00",
@@ -2181,9 +2183,9 @@
    "medianDiscoveryDelayMin": 1.7,
    "medianLiveDelayMin": null,
    "consecutiveErrors": 0,
-   "lastError": "",
-   "lastErrorAt": null,
-   "fetchSeconds": 2.6
+   "lastError": "https://www.lanation.dj/feed/: URLError: <urlopen error [Errno -2] Name or service not known>",
+   "lastErrorAt": "2026-11-10T05:30:25+03:00",
+   "fetchSeconds": 2.5
   },
   {
    "id": "shabait",
@@ -2195,8 +2197,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://shabait.com/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T19:12:41+03:00",
    "lastDiscoveredAt": "2026-11-09T19:15:28+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T19:12:41+03:00",
@@ -2224,14 +2226,14 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.turkiyetoday.com/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": null,
-   "lastDiscoveredAt": "2026-11-10T05:10:20+03:00",
-   "lastDiscoveredPublishedAt": "2026-11-10T05:06:48+03:00",
+   "lastDiscoveredAt": "2026-11-10T06:10:23+03:00",
+   "lastDiscoveredPublishedAt": "2026-11-10T06:07:30+03:00",
    "lastSitePublishedAt": "2026-11-10T01:25:17+03:00",
-   "newTotal": 84,
-   "new24h": 67,
+   "newTotal": 85,
+   "new24h": 68,
    "published24h": 4,
    "held24h": 2,
    "notChosen24h": 0,
@@ -2240,8 +2242,8 @@
    "medianLiveDelayMin": 51.3,
    "consecutiveErrors": 0,
    "lastError": "https://www.turkiyetoday.com/rss: ValueError: not a feed (the address answers with a web page)",
-   "lastErrorAt": "2026-11-10T05:15:22+03:00",
-   "fetchSeconds": 1.8
+   "lastErrorAt": "2026-11-10T06:10:23+03:00",
+   "fetchSeconds": 1.6
   },
   {
    "id": "dailysabah",
@@ -2253,8 +2255,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.dailysabah.com/rss/world",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T00:07:00+03:00",
    "lastDiscoveredAt": "2026-11-10T00:50:17+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T00:07:00+03:00",
@@ -2270,7 +2272,7 @@
    "consecutiveErrors": 0,
    "lastError": "https://www.dailysabah.com/rss/world: HTTPError: HTTP Error 403: Forbidden; https://www.dailysabah.com/rss/politics: HTTPError: HTTP Error 403: Forbidden",
    "lastErrorAt": "2026-11-10T01:35:24+03:00",
-   "fetchSeconds": 0.7
+   "fetchSeconds": 0.6
   },
   {
    "id": "cnn",
@@ -2282,23 +2284,23 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://edition.cnn.com/sitemap/news.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
-   "latestOriginalPublishedAt": "2026-11-10T05:02:45+03:00",
-   "lastDiscoveredAt": "2026-11-10T05:05:20+03:00",
-   "lastDiscoveredPublishedAt": "2026-11-10T05:02:45+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
+   "latestOriginalPublishedAt": "2026-11-10T05:33:02+03:00",
+   "lastDiscoveredAt": "2026-11-10T05:35:19+03:00",
+   "lastDiscoveredPublishedAt": "2026-11-10T05:33:02+03:00",
    "lastSitePublishedAt": "2026-11-10T03:20:18+03:00",
-   "newTotal": 44,
+   "newTotal": 45,
    "new24h": 35,
    "published24h": 6,
    "held24h": 2,
    "notChosen24h": 0,
    "oldIgnored": 2,
-   "medianDiscoveryDelayMin": 2.9,
+   "medianDiscoveryDelayMin": 2.6,
    "medianLiveDelayMin": 56.5,
    "consecutiveErrors": 0,
    "lastError": "http://rss.cnn.com/rss/edition_world.rss: ValueError: feed is stale (newest item 2023-09-18)",
-   "lastErrorAt": "2026-11-10T05:15:22+03:00",
+   "lastErrorAt": "2026-11-10T06:10:23+03:00",
    "fetchSeconds": 0.7
   },
   {
@@ -2311,8 +2313,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.euronews.com/rss?level=theme&name=news",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T21:54:15+03:00",
    "lastDiscoveredAt": "2026-11-09T21:55:20+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T21:54:15+03:00",
@@ -2328,7 +2330,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.3
+   "fetchSeconds": 0.2
   },
   {
    "id": "igad",
@@ -2340,8 +2342,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://igad.int/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T12:24:44+03:00",
    "lastDiscoveredAt": "2026-11-09T12:25:14+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T12:24:44+03:00",
@@ -2357,7 +2359,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 4.4
+   "fetchSeconds": 0.6
   },
   {
    "id": "addisstandard",
@@ -2369,8 +2371,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://t.me/s/AddisstandardEng",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T18:00:29+03:00",
    "lastDiscoveredAt": "2026-11-09T17:15:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T17:15:18+03:00",
@@ -2385,7 +2387,7 @@
    "medianLiveDelayMin": null,
    "consecutiveErrors": 0,
    "lastError": "https://addisstandard.com/feed/: HTTPError: HTTP Error 403: Forbidden",
-   "lastErrorAt": "2026-11-10T05:15:22+03:00",
+   "lastErrorAt": "2026-11-10T06:10:23+03:00",
    "fetchSeconds": 1.3
   },
   {
@@ -2393,13 +2395,13 @@
    "name": "UN News",
    "homepage": "https://news.un.org",
    "section": "world",
-   "state": "working",
+   "state": "error",
    "permission": "as before (own rewrite + link)",
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://news.un.org/feed/subscribe/en/news/region/africa/feed/rss.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:05:20+03:00",
    "latestOriginalPublishedAt": "2026-11-09T15:00:00+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -2412,10 +2414,10 @@
    "oldIgnored": 31,
    "medianDiscoveryDelayMin": null,
    "medianLiveDelayMin": null,
-   "consecutiveErrors": 0,
-   "lastError": "https://news.un.org/feed/subscribe/en/news/region/africa/feed/rss.xml: ValueError: not a feed (the address answers with a web page)",
-   "lastErrorAt": "2026-11-10T02:20:20+03:00",
-   "fetchSeconds": 0.6
+   "consecutiveErrors": 1,
+   "lastError": "https://news.un.org/feed/subscribe/en/news/region/africa/feed/rss.xml: ValueError: not a feed (the address answers with a web page); https://news.un.org/feed/subscribe/en/news/all/rss.xml: ValueError: not a feed (the address answers with a web page)",
+   "lastErrorAt": "2026-11-10T06:10:23+03:00",
+   "fetchSeconds": 0.5
   },
   {
    "id": "bbc-world",
@@ -2427,20 +2429,20 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://feeds.bbci.co.uk/news/world/rss.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T04:55:22+03:00",
    "lastDiscoveredAt": "2026-11-10T04:40:20+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T04:38:19+03:00",
-   "lastSitePublishedAt": "2026-11-09T22:35:17+03:00",
+   "lastSitePublishedAt": "2026-11-10T05:20:19+03:00",
    "newTotal": 22,
    "new24h": 21,
-   "published24h": 3,
+   "published24h": 4,
    "held24h": 0,
    "notChosen24h": 0,
    "oldIgnored": 7,
    "medianDiscoveryDelayMin": 10.2,
-   "medianLiveDelayMin": 76.0,
+   "medianLiveDelayMin": 71.3,
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
@@ -2456,15 +2458,15 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.aljazeera.com/xml/rss/all.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
-   "latestOriginalPublishedAt": "2026-11-10T03:57:58+03:00",
-   "lastDiscoveredAt": "2026-11-10T04:15:21+03:00",
-   "lastDiscoveredPublishedAt": "2026-11-10T03:57:58+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
+   "latestOriginalPublishedAt": "2026-11-10T05:48:19+03:00",
+   "lastDiscoveredAt": "2026-11-10T06:00:20+03:00",
+   "lastDiscoveredPublishedAt": "2026-11-10T05:48:19+03:00",
    "lastSitePublishedAt": "2026-11-10T02:10:19+03:00",
-   "newTotal": 85,
-   "new24h": 56,
-   "published24h": 11,
+   "newTotal": 89,
+   "new24h": 59,
+   "published24h": 10,
    "held24h": 2,
    "notChosen24h": 0,
    "oldIgnored": 0,
@@ -2473,7 +2475,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.2
+   "fetchSeconds": 0.3
   },
   {
    "id": "dw",
@@ -2485,8 +2487,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://rss.dw.com/xml/rss-en-world",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T02:46:00+03:00",
    "lastDiscoveredAt": "2026-11-10T03:50:21+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T02:46:00+03:00",
@@ -2502,7 +2504,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.6
+   "fetchSeconds": 1.0
   },
   {
    "id": "france24",
@@ -2514,14 +2516,14 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.france24.com/en/rss",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
-   "latestOriginalPublishedAt": "2026-11-10T01:51:39+03:00",
-   "lastDiscoveredAt": "2026-11-10T02:10:19+03:00",
-   "lastDiscoveredPublishedAt": "2026-11-10T01:51:39+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
+   "latestOriginalPublishedAt": "2026-11-10T05:24:22+03:00",
+   "lastDiscoveredAt": "2026-11-10T05:30:25+03:00",
+   "lastDiscoveredPublishedAt": "2026-11-10T05:24:22+03:00",
    "lastSitePublishedAt": "2026-11-09T19:00:22+03:00",
-   "newTotal": 56,
-   "new24h": 31,
+   "newTotal": 57,
+   "new24h": 32,
    "published24h": 3,
    "held24h": 0,
    "notChosen24h": 0,
@@ -2531,7 +2533,7 @@
    "consecutiveErrors": 0,
    "lastError": "https://www.france24.com/en/rss: HTTPError: HTTP Error 403: Forbidden",
    "lastErrorAt": "2026-11-09T17:35:21+03:00",
-   "fetchSeconds": 0.1
+   "fetchSeconds": 0.2
   },
   {
    "id": "bbc-sport",
@@ -2543,8 +2545,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://feeds.bbci.co.uk/sport/rss.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T03:01:29+03:00",
    "lastDiscoveredAt": "2026-11-10T03:05:19+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T03:01:29+03:00",
@@ -2560,7 +2562,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.1
+   "fetchSeconds": 0.3
   },
   {
    "id": "bundesliga-official",
@@ -2572,8 +2574,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.bundesliga.com/en/bundesliga/news/rss",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T22:09:08+03:00",
    "lastDiscoveredAt": "2026-11-09T22:10:17+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T22:09:08+03:00",
@@ -2589,7 +2591,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.3
+   "fetchSeconds": 0.9
   },
   {
    "id": "guardian-football",
@@ -2601,24 +2603,24 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.theguardian.com/sport/rss",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T04:57:12+03:00",
    "lastDiscoveredAt": "2026-11-10T05:05:20+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T04:57:12+03:00",
-   "lastSitePublishedAt": null,
+   "lastSitePublishedAt": "2026-11-10T05:20:19+03:00",
    "newTotal": 26,
    "new24h": 25,
-   "published24h": 0,
+   "published24h": 1,
    "held24h": 0,
    "notChosen24h": 0,
    "oldIgnored": 15,
    "medianDiscoveryDelayMin": 15.2,
-   "medianLiveDelayMin": null,
+   "medianLiveDelayMin": 73.0,
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.3
+   "fetchSeconds": 0.2
   },
   {
    "id": "skysports",
@@ -2630,8 +2632,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.skysports.com/rss/11095",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T02:06:00+03:00",
    "lastDiscoveredAt": "2026-11-10T02:30:24+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T02:00:00+03:00",
@@ -2647,7 +2649,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.4
+   "fetchSeconds": 0.8
   },
   {
    "id": "dw-sports",
@@ -2659,8 +2661,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://rss.dw.com/rdf/rss-en-sports",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T19:02:00+03:00",
    "lastDiscoveredAt": "2026-11-09T19:15:28+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T19:02:00+03:00",
@@ -2676,7 +2678,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.4
+   "fetchSeconds": 0.3
   },
   {
    "id": "france24-sports",
@@ -2688,8 +2690,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.france24.com/en/sport/rss",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T09:14:33+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -2717,8 +2719,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.capitalfm.co.ke/sports/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T18:58:44+03:00",
    "lastDiscoveredAt": "2026-11-09T19:00:22+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T18:58:44+03:00",
@@ -2734,7 +2736,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.9
+   "fetchSeconds": 0.8
   },
   {
    "id": "moscowtimes",
@@ -2746,8 +2748,8 @@
    "permissionNote": "Official RSS feed listed on the publisher's own RSS page. Footer: '© The Moscow Times, all rights reserved'. No syndication licence: only the feed's headline and link are used to discover stories; Wartabiye TV writes its own Somali report with attribution and a direct link. Text and photos are never copied.",
    "pollMinutes": 5,
    "feedUrl": "https://www.themoscowtimes.com/rss/news",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T19:05:03+03:00",
    "lastDiscoveredAt": "2026-11-09T19:10:28+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T19:05:03+03:00",
@@ -2775,8 +2777,8 @@
    "permissionNote": "Terms of use: 'You may not copy, modify, reproduce, republish ... any material from this site'; personal non-commercial use only. Headline and link are used only to discover the story; Wartabiye TV writes its own report from verified facts with attribution and a link. Nothing is copied or translated from the article. Many articles are for members only (paywall): never bypassed.",
    "pollMinutes": 5,
    "feedUrl": "https://feeds.thelocal.com/rss/it",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T18:35:57+03:00",
    "lastDiscoveredAt": "2026-11-09T18:35:24+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T18:35:57+03:00",
@@ -2792,7 +2794,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 1.5
+   "fetchSeconds": 1.4
   },
   {
    "id": "dutchnews",
@@ -2804,8 +2806,8 @@
    "permissionNote": "DutchNews terms: commercial websites must contact editor@dutchnews.nl before using or syndicating its content; unauthorised use is invoiced. Wartabiye TV is advertising-supported, so NO headlines, links or text are collected or published until the owner has written permission. The 5-minute monitor only checks that the feed is reachable and how recent it is.",
    "pollMinutes": 5,
    "feedUrl": "https://www.dutchnews.nl/feed/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T19:09:32+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -2821,7 +2823,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 1.2
+   "fetchSeconds": 1.3
   },
   {
    "id": "abcnews",
@@ -2833,8 +2835,8 @@
    "permissionNote": "US ABC News (American Broadcasting Company, Disney), the official feeds listed on abcnews.go.com. ABC says it offers headlines by RSS 'to facilitate reading our stories via news aggregators'; content is under the Disney terms of use (all rights reserved). Only headline and link are used to discover the story; Wartabiye TV writes its own report with attribution and a link. Not the Australian ABC (abc.net.au).",
    "pollMinutes": 5,
    "feedUrl": "https://feeds.abcnews.com/abcnews/internationalheadlines",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T02:43:02+03:00",
    "lastDiscoveredAt": "2026-11-10T03:20:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T02:24:25+03:00",
@@ -2862,14 +2864,14 @@
    "permissionNote": "'© 2026 Sweden Herald'; no syndication terms published. Part of its copy is translated from the Swedish news agency TT. Only headline and link are used to discover stories; Wartabiye TV writes its own report with attribution and a link. Photos (including CC-licensed Wikimedia ones on its pages) are not taken from the site.",
    "pollMinutes": 5,
    "feedUrl": "https://swedenherald.com/rss.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
-   "latestOriginalPublishedAt": "2026-11-10T04:20:33+03:00",
-   "lastDiscoveredAt": "2026-11-10T04:20:22+03:00",
-   "lastDiscoveredPublishedAt": "2026-11-10T04:19:47+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
+   "latestOriginalPublishedAt": "2026-11-10T05:23:46+03:00",
+   "lastDiscoveredAt": "2026-11-10T05:25:19+03:00",
+   "lastDiscoveredPublishedAt": "2026-11-10T05:23:46+03:00",
    "lastSitePublishedAt": "2026-11-09T19:00:22+03:00",
-   "newTotal": 134,
-   "new24h": 97,
+   "newTotal": 135,
+   "new24h": 96,
    "published24h": 3,
    "held24h": 1,
    "notChosen24h": 0,
@@ -2879,7 +2881,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.5
+   "fetchSeconds": 0.4
   },
   {
    "id": "sky-it",
@@ -2891,8 +2893,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://sport.sky.it/rss/sport.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T03:30:00+03:00",
    "lastDiscoveredAt": "2026-11-10T03:05:19+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T02:31:27+03:00",
@@ -2908,7 +2910,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.3
+   "fetchSeconds": 0.5
   },
   {
    "id": "marca",
@@ -2920,8 +2922,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://e00-marca.uecdn.es/rss/futbol/primera-division.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-07T10:34:55+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -2949,8 +2951,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://feeds.as.com/mrss-s/pages/as/site/as.com/portada/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T04:01:26+03:00",
    "lastDiscoveredAt": "2026-11-10T04:10:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T04:01:26+03:00",
@@ -2966,7 +2968,7 @@
    "consecutiveErrors": 0,
    "lastError": "https://feeds.as.com/mrss-s/pages/as/site/as.com/portada/: TimeoutError: The read operation timed out",
    "lastErrorAt": "2026-11-10T03:50:21+03:00",
-   "fetchSeconds": 0.2
+   "fetchSeconds": 0.6
   },
   {
    "id": "mundodeportivo",
@@ -2978,19 +2980,19 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.mundodeportivo.com/rss/futbol.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
-   "latestOriginalPublishedAt": "2026-11-10T02:30:00+03:00",
-   "lastDiscoveredAt": "2026-11-10T02:30:24+03:00",
-   "lastDiscoveredPublishedAt": "2026-11-10T02:30:00+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
+   "latestOriginalPublishedAt": "2026-11-10T06:00:00+03:00",
+   "lastDiscoveredAt": "2026-11-10T06:00:20+03:00",
+   "lastDiscoveredPublishedAt": "2026-11-10T06:00:00+03:00",
    "lastSitePublishedAt": "2026-11-09T20:30:17+03:00",
-   "newTotal": 110,
-   "new24h": 109,
+   "newTotal": 112,
+   "new24h": 111,
    "published24h": 1,
    "held24h": 0,
    "notChosen24h": 0,
    "oldIgnored": 0,
-   "medianDiscoveryDelayMin": 15.3,
+   "medianDiscoveryDelayMin": 14.4,
    "medianLiveDelayMin": 110.2,
    "consecutiveErrors": 0,
    "lastError": "",
@@ -3007,8 +3009,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.gazzetta.it/dynamic-feed/rss/section/Calcio.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T03:12:16+03:00",
    "lastDiscoveredAt": "2026-11-10T03:15:20+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T03:12:16+03:00",
@@ -3024,7 +3026,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 1.8
+   "fetchSeconds": 0.7
   },
   {
    "id": "corrieredellosport",
@@ -3036,8 +3038,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.corrieredellosport.it/rss/calcio",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T00:42:20+03:00",
    "lastDiscoveredAt": "2026-11-10T00:55:23+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T00:42:20+03:00",
@@ -3053,7 +3055,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.5
+   "fetchSeconds": 0.6
   },
   {
    "id": "tuttosport",
@@ -3065,8 +3067,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.tuttosport.com/rss/calcio",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T00:44:36+03:00",
    "lastDiscoveredAt": "2026-11-10T00:55:23+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T00:44:36+03:00",
@@ -3082,7 +3084,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.6
+   "fetchSeconds": 0.4
   },
   {
    "id": "kicker",
@@ -3094,8 +3096,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://newsfeed.kicker.de/news/aktuell",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T02:05:00+03:00",
    "lastDiscoveredAt": "2026-11-10T02:15:19+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T02:05:00+03:00",
@@ -3111,7 +3113,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.3
+   "fetchSeconds": 0.4
   },
   {
    "id": "lequipe",
@@ -3123,8 +3125,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://dwh.lequipe.fr/api/edito/rss?path=/Football/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T02:30:00+03:00",
    "lastDiscoveredAt": "2026-11-10T02:45:22+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T02:30:00+03:00",
@@ -3152,8 +3154,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://rmcsport.bfmtv.com/rss/fil-sport/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T03:17:27+03:00",
    "lastDiscoveredAt": "2026-11-10T03:20:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T03:17:27+03:00",
@@ -3169,7 +3171,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.4
+   "fetchSeconds": 0.5
   },
   {
    "id": "cbssports",
@@ -3181,9 +3183,9 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.cbssports.com/rss/headlines/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
-   "latestOriginalPublishedAt": "2026-11-10T04:31:37+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
+   "latestOriginalPublishedAt": "2026-11-10T04:53:45+03:00",
    "lastDiscoveredAt": "2026-11-10T04:15:21+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T04:13:03+03:00",
    "lastSitePublishedAt": "2026-11-10T04:20:22+03:00",
@@ -3210,9 +3212,9 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.nytimes.com/athletic/rss/news/",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
-   "latestOriginalPublishedAt": "2026-11-10T05:15:01+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
+   "latestOriginalPublishedAt": "2026-11-10T06:10:08+03:00",
    "lastDiscoveredAt": "2026-11-10T05:10:20+03:00",
    "lastDiscoveredPublishedAt": "2026-11-10T05:06:33+03:00",
    "lastSitePublishedAt": "2026-11-10T00:05:20+03:00",
@@ -3227,7 +3229,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.6
+   "fetchSeconds": 0.8
   },
   {
    "id": "fifa",
@@ -3239,8 +3241,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://cxm-api.fifa.com/fifaplusweb/api/sitemaps/news/0",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-10T08:00:00+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -3250,13 +3252,13 @@
    "published24h": 0,
    "held24h": 0,
    "notChosen24h": 0,
-   "oldIgnored": 31,
+   "oldIgnored": 32,
    "medianDiscoveryDelayMin": null,
    "medianLiveDelayMin": null,
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.5
+   "fetchSeconds": 0.3
   },
   {
    "id": "uefa",
@@ -3268,8 +3270,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.uefa.com/sitemap/news/latest.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T16:09:00+03:00",
    "lastDiscoveredAt": null,
    "lastDiscoveredPublishedAt": null,
@@ -3285,7 +3287,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.4
+   "fetchSeconds": 0.5
   },
   {
    "id": "liverpool-official",
@@ -3297,8 +3299,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.liverpoolfc.com/sitemap-news.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T20:06:00+03:00",
    "lastDiscoveredAt": "2026-11-09T20:35:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T20:06:00+03:00",
@@ -3314,7 +3316,7 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 0.9
+   "fetchSeconds": 0.7
   },
   {
    "id": "mancity-official",
@@ -3326,8 +3328,8 @@
    "permissionNote": "",
    "pollMinutes": 5,
    "feedUrl": "https://www.mancity.com/newssitemap.xml",
-   "lastCheckAt": "2026-11-10T05:15:22+03:00",
-   "lastSuccessAt": "2026-11-10T05:15:22+03:00",
+   "lastCheckAt": "2026-11-10T06:10:23+03:00",
+   "lastSuccessAt": "2026-11-10T06:10:23+03:00",
    "latestOriginalPublishedAt": "2026-11-09T14:45:00+03:00",
    "lastDiscoveredAt": "2026-11-09T15:45:18+03:00",
    "lastDiscoveredPublishedAt": "2026-11-09T14:45:00+03:00",
@@ -3343,10 +3345,52 @@
    "consecutiveErrors": 0,
    "lastError": "",
    "lastErrorAt": null,
-   "fetchSeconds": 1.6
+   "fetchSeconds": 1.3
   }
  ],
  "recentPublished": [
+  {
+   "articleId": "2026-11-10-cricket-australia-baaritaan-sandpaper-diiday",
+   "source": "guardian-football",
+   "title": "Cricket Australia rules out reopening ball tampering investigation in wake of Khawaja book claims",
+   "url": "https://www.theguardian.com/sport/2026/nov/10/cricket-australia-rules-out-reopening-ball-tampering-investigation-usman-khawaja-book",
+   "publishedAt": "2026-11-10T04:07:21+03:00",
+   "discoveredAt": "2026-11-10T04:20:22+03:00",
+   "verifiedAt": "2026-11-10T05:16:04+03:00",
+   "committedAt": "2026-11-10T05:18:53+03:00",
+   "liveAt": "2026-11-10T05:20:19+03:00",
+   "discoveryDelayMin": 13.0,
+   "liveDelayMin": 73.0,
+   "overnight": false
+  },
+  {
+   "articleId": "2026-11-10-qantas-850-shaqo-india-accenture",
+   "source": "bbc-world",
+   "title": "Qantas to outsource 850 local jobs with most roles moving to India",
+   "url": "https://www.bbc.co.uk/news/articles/cry838v4qzvyo?at_medium=RSS&at_campaign=rss",
+   "publishedAt": "2026-11-10T04:38:19+03:00",
+   "discoveredAt": "2026-11-10T04:40:20+03:00",
+   "verifiedAt": "2026-11-10T05:16:04+03:00",
+   "committedAt": "2026-11-10T05:18:53+03:00",
+   "liveAt": "2026-11-10T05:20:19+03:00",
+   "discoveryDelayMin": 2.0,
+   "liveDelayMin": 42.0,
+   "overnight": false
+  },
+  {
+   "articleId": "2026-11-10-maxkamadda-nairobi-khamriga-online",
+   "source": "capitalfm-ke",
+   "title": "Court Suspends Online Alcohol Sales in Nairobi, Sets Tough Age Verification Rules",
+   "url": "https://capitalfm.africa/court-suspends-online-alcohol-sales-in-nairobi-sets-tough-age-verification-rules/?utm_source=rss&utm_medium=feed&utm_campaign=feed-news",
+   "publishedAt": "2026-11-10T05:04:56+03:00",
+   "discoveredAt": "2026-11-10T05:05:20+03:00",
+   "verifiedAt": "2026-11-10T05:16:04+03:00",
+   "committedAt": "2026-11-10T05:18:53+03:00",
+   "liveAt": "2026-11-10T05:20:19+03:00",
+   "discoveryDelayMin": 0.4,
+   "liveDelayMin": 15.4,
+   "overnight": false
+  },
   {
    "articleId": "2026-11-10-mlb-mcgonigle-stewart-rookie-sanadka",
    "source": "cbssports",
@@ -3724,51 +3768,139 @@
    "discoveryDelayMin": 1.2,
    "liveDelayMin": 96.1,
    "overnight": false
-  },
-  {
-   "articleId": "2026-11-09-cubarsi-golden-boy-2026",
-   "source": "mundodeportivo",
-   "title": "Oficial: Cubarsí, Golden Boy 2026",
-   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261109/1004249074/oficial-cubarsi-golden-boy-2026.html",
-   "publishedAt": "2026-11-09T18:40:05+03:00",
-   "discoveredAt": "2026-11-09T19:00:22+03:00",
-   "verifiedAt": null,
-   "committedAt": "2026-11-09T20:28:24+03:00",
-   "liveAt": "2026-11-09T20:30:17+03:00",
-   "discoveryDelayMin": 20.3,
-   "liveDelayMin": 110.2,
-   "overnight": false
-  },
-  {
-   "articleId": "2026-11-09-kindiki-usawa-ni-sawa-taita-taveta",
-   "source": "capitalfm-ke",
-   "title": "‘No region is lesser than another’: Kindiki pushes Usawa ni Sawa agenda",
-   "url": "https://capitalfm.africa/no-region-is-lesser-than-another-kindiki-pushes-usawa-ni-sawa-agenda/?utm_source=rss&utm_medium=feed&utm_campaign=feed-news",
-   "publishedAt": "2026-11-09T19:15:00+03:00",
-   "discoveredAt": "2026-11-09T19:15:28+03:00",
-   "verifiedAt": null,
-   "committedAt": "2026-11-09T20:28:24+03:00",
-   "liveAt": "2026-11-09T20:30:17+03:00",
-   "discoveryDelayMin": 0.5,
-   "liveDelayMin": 75.3,
-   "overnight": false
-  },
-  {
-   "articleId": "2026-11-09-raul-tababaraha-real-oviedo",
-   "source": "bbc-sport",
-   "title": "Real Madrid legend Raul named Real Oviedo manager",
-   "url": "https://www.bbc.co.uk/sport/football/articles/cwnv0v1yj585o?at_medium=RSS&at_campaign=rss",
-   "publishedAt": "2026-11-09T19:16:30+03:00",
-   "discoveredAt": "2026-11-09T19:20:24+03:00",
-   "verifiedAt": null,
-   "committedAt": "2026-11-09T20:28:24+03:00",
-   "liveAt": "2026-11-09T20:30:17+03:00",
-   "discoveryDelayMin": 3.9,
-   "liveDelayMin": 73.8,
-   "overnight": false
   }
  ],
  "recentDiscovered": [
+  {
+   "source": "turkiyetoday",
+   "title": "Trump tells Netanyahu to move ahead with Gaza plan: Report",
+   "url": "https://www.turkiyetoday.com/region/trump-tells-netanyahu-to-move-ahead-with-gaza-plan-report-3232070",
+   "publishedAt": "2026-11-10T06:07:30+03:00",
+   "discoveredAt": "2026-11-10T06:10:23+03:00",
+   "discoveryDelayMin": 2.9,
+   "sourceAgeMin": 2.9,
+   "intake": "fresh",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "aljazeera",
+   "title": "Harare demolitions leave families homeless after years of building",
+   "url": "https://www.aljazeera.com/news/2026/11/10/harare-demolitions-leave-families-homeless-after-years-of-building?traffic_source=rss",
+   "publishedAt": "2026-11-10T05:48:19+03:00",
+   "discoveredAt": "2026-11-10T06:00:20+03:00",
+   "discoveryDelayMin": 12.0,
+   "sourceAgeMin": 12.0,
+   "intake": "recent",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "aljazeera",
+   "title": "Russia, Ukraine and US to meet as Zelenskyy claims battlefield successes",
+   "url": "https://www.aljazeera.com/news/2026/11/10/russia-ukraine-and-us-to-meet-as-zelenskyy-claims-battlefield-successes?traffic_source=rss",
+   "publishedAt": "2026-11-10T05:45:14+03:00",
+   "discoveredAt": "2026-11-10T06:00:20+03:00",
+   "discoveryDelayMin": 15.1,
+   "sourceAgeMin": 15.1,
+   "intake": "recent",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "mundodeportivo",
+   "title": "Hacen falta más Fran Sol",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261110/1004249167/falta-mas-fran-sol.html",
+   "publishedAt": "2026-11-10T06:00:00+03:00",
+   "discoveredAt": "2026-11-10T06:00:20+03:00",
+   "discoveryDelayMin": 0.3,
+   "sourceAgeMin": 0.3,
+   "intake": "fresh",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "mundodeportivo",
+   "title": "Todos deberíamos tener alguien que nos abrazase como Gavi",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261110/1004249151/todos-deberiamos-alguien-abrazase-gavi.html",
+   "publishedAt": "2026-11-10T06:00:00+03:00",
+   "discoveredAt": "2026-11-10T06:00:20+03:00",
+   "discoveryDelayMin": 0.3,
+   "sourceAgeMin": 0.3,
+   "intake": "fresh",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "cnn",
+   "title": "Close call at LAX airport as plane turns in front of another aircraft taking off",
+   "url": "https://www.cnn.com/2026/11/09/us/lax-close-call-aircraft",
+   "publishedAt": "2026-11-10T05:33:02+03:00",
+   "discoveredAt": "2026-11-10T05:35:19+03:00",
+   "discoveryDelayMin": 2.3,
+   "sourceAgeMin": 2.3,
+   "intake": "fresh",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "france24",
+   "title": "Amnesty urges El Salvador to disclose terms of Haiti troop deployment",
+   "url": "https://www.france24.com/en/americas/20261110-amnesty-urges-el-salvador-to-disclose-terms-of-haiti-troop-deployment",
+   "publishedAt": "2026-11-10T05:24:22+03:00",
+   "discoveredAt": "2026-11-10T05:30:25+03:00",
+   "discoveryDelayMin": 6.0,
+   "sourceAgeMin": 6.0,
+   "intake": "recent",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "swedenherald",
+   "title": "Pink to Become the First Female Headliner at Las Vegas Sphere with 2027 Residency",
+   "url": "https://swedenherald.com/article/pink-to-become-the-first-female-headliner-at-las-vegas-sphere-with-2027-residency",
+   "publishedAt": "2026-11-10T05:23:46+03:00",
+   "discoveredAt": "2026-11-10T05:25:19+03:00",
+   "discoveryDelayMin": 1.6,
+   "sourceAgeMin": 1.6,
+   "intake": "fresh",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "aljazeera",
+   "title": "Cameroon sets date for twice-delayed legislative and local elections",
+   "url": "https://www.aljazeera.com/news/2026/11/10/cameroon-sets-date-for-twice-delayed-legislative-and-local-elections?traffic_source=rss",
+   "publishedAt": "2026-11-10T05:03:59+03:00",
+   "discoveredAt": "2026-11-10T05:20:19+03:00",
+   "discoveryDelayMin": 16.3,
+   "sourceAgeMin": 16.3,
+   "intake": "recent",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
+  {
+   "source": "aljazeera",
+   "title": "Poll finds Americans less likely to back pro-war candidates by 3-1 margin",
+   "url": "https://www.aljazeera.com/news/2026/11/10/poll-finds-voters-preferred-candidates-who-opposed-iran-war-by-3-1-margin?traffic_source=rss",
+   "publishedAt": "2026-11-10T04:56:47+03:00",
+   "discoveredAt": "2026-11-10T05:20:19+03:00",
+   "discoveryDelayMin": 23.5,
+   "sourceAgeMin": 23.5,
+   "intake": "recent",
+   "state": "discovered",
+   "articleId": null,
+   "overnight": false
+  },
   {
    "source": "turkiyetoday",
    "title": "Mecca defense pact could anchor Lebanon’s security, experts say",
@@ -3804,8 +3936,8 @@
    "discoveryDelayMin": 0.4,
    "sourceAgeMin": 0.4,
    "intake": "fresh",
-   "state": "discovered",
-   "articleId": null,
+   "state": "live",
+   "articleId": "2026-11-10-maxkamadda-nairobi-khamriga-online",
    "overnight": false
   },
   {
@@ -3895,8 +4027,8 @@
    "discoveryDelayMin": 2.0,
    "sourceAgeMin": 2.0,
    "intake": "fresh",
-   "state": "discovered",
-   "articleId": null,
+   "state": "live",
+   "articleId": "2026-11-10-qantas-850-shaqo-india-accenture",
    "overnight": false
   },
   {
@@ -3921,8 +4053,8 @@
    "discoveryDelayMin": 13.0,
    "sourceAgeMin": 13.0,
    "intake": "recent",
-   "state": "discovered",
-   "articleId": null,
+   "state": "live",
+   "articleId": "2026-11-10-cricket-australia-baaritaan-sandpaper-diiday",
    "overnight": false
   },
   {
@@ -4155,136 +4287,6 @@
    "discoveryDelayMin": 9.7,
    "sourceAgeMin": 9.7,
    "intake": "recent",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "cbssports",
-   "title": "Use BetMGM bonus code CBSSPORTS to get $1,500 in bonus bets for Bills vs. Vikings, NFL Monday Night Football",
-   "url": "https://www.cbssports.com/betting/news/use-betmgm-bonus-code-cbssports-to-get-1500-bonus-bets-bills-vs-vikings-nfl-monday-night-football/",
-   "publishedAt": "2026-11-10T03:13:13+03:00",
-   "discoveredAt": "2026-11-10T03:25:22+03:00",
-   "discoveryDelayMin": 12.2,
-   "sourceAgeMin": 12.2,
-   "intake": "recent",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "abcnews",
-   "title": "Peru's move to reconsider protections for Mashco Piro raises fears of Amazon logging",
-   "url": "https://abcnews.com/International/wireStory/perus-move-reconsider-protections-uncontacted-mashco-piro-raises-137994344",
-   "publishedAt": "2026-11-10T02:24:25+03:00",
-   "discoveredAt": "2026-11-10T03:20:18+03:00",
-   "discoveryDelayMin": 55.9,
-   "sourceAgeMin": 55.9,
-   "intake": "recent",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "rmcsport",
-   "title": "Elle déclenche un incendie en allumant sa cheminée: une double championne olympique se retrouve gravement brûlée",
-   "url": "https://rmcsport.bfmtv.com/natation/elle-declenche-un-incendie-en-allumant-sa-cheminee-une-double-championne-olympique-se-retrouve-gravement-brulee_AV-202611100057.html",
-   "publishedAt": "2026-11-10T03:17:27+03:00",
-   "discoveredAt": "2026-11-10T03:20:18+03:00",
-   "discoveryDelayMin": 2.9,
-   "sourceAgeMin": 2.9,
-   "intake": "fresh",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "bbc-world",
-   "title": "Ukraine peace talks resume with 'some flexibility' by warring sides, US officials say",
-   "url": "https://www.bbc.co.uk/news/articles/cqpvgvrpjvv8o?at_medium=RSS&at_campaign=rss",
-   "publishedAt": "2026-11-10T03:09:49+03:00",
-   "discoveredAt": "2026-11-10T03:15:20+03:00",
-   "discoveryDelayMin": 5.5,
-   "sourceAgeMin": 5.5,
-   "intake": "recent",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "bbc-world",
-   "title": "Epstein associate who still runs model agency 'put me in danger' says abuse survivor",
-   "url": "https://www.bbc.co.uk/news/articles/cm86z6w59gggo?at_medium=RSS&at_campaign=rss",
-   "publishedAt": "2026-11-10T03:14:03+03:00",
-   "discoveredAt": "2026-11-10T03:15:20+03:00",
-   "discoveryDelayMin": 1.3,
-   "sourceAgeMin": 1.3,
-   "intake": "fresh",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "aljazeera",
-   "title": "Iran war live: Trump says war ‘effectively over’, Iran demands ‘surrender’",
-   "url": "https://www.aljazeera.com/news/liveblog/2026/11/9/iran-war-live-trump-says-war-effectively-over-iran-demands-surrender?traffic_source=rss",
-   "publishedAt": "2026-11-10T02:55:23+03:00",
-   "discoveredAt": "2026-11-10T03:15:20+03:00",
-   "discoveryDelayMin": 19.9,
-   "sourceAgeMin": 19.9,
-   "intake": "recent",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "gazzetta",
-   "title": "Spalletti, le big si allontanano tutte: alla Juve serve un altro passo per tentare la rimonta",
-   "url": "https://www.gazzetta.it/Calcio/Serie-A/Juventus/10-11-2026/spalletti-le-big-si-allontanano-tutte-serve-un-altro-passo-per-tentare-la-rimonta.shtml",
-   "publishedAt": "2026-11-10T03:12:16+03:00",
-   "discoveredAt": "2026-11-10T03:15:20+03:00",
-   "discoveryDelayMin": 3.1,
-   "sourceAgeMin": 3.1,
-   "intake": "fresh",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "cbssports",
-   "title": "Best Kalshi promo code CBSSPORTS55: Get $55 bonus for Bills vs. Vikings, Monday Night Football predictions",
-   "url": "https://www.cbssports.com/betting/news/best-kalshi-promo-code-cbssports55-get-55-bonus-bills-vs-vikings-monday-night-football-predictions/",
-   "publishedAt": "2026-11-10T03:05:31+03:00",
-   "discoveredAt": "2026-11-10T03:15:20+03:00",
-   "discoveryDelayMin": 9.8,
-   "sourceAgeMin": 9.8,
-   "intake": "recent",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "turkiyetoday",
-   "title": "UN eyes stronger peacekeeping training ties with Türkiye",
-   "url": "https://www.turkiyetoday.com/world/un-eyes-stronger-peacekeeping-training-ties-with-turkiye-3232060",
-   "publishedAt": "2026-11-10T03:07:51+03:00",
-   "discoveredAt": "2026-11-10T03:10:19+03:00",
-   "discoveryDelayMin": 2.5,
-   "sourceAgeMin": 2.5,
-   "intake": "fresh",
-   "state": "discovered",
-   "articleId": null,
-   "overnight": false
-  },
-  {
-   "source": "bbc-world",
-   "title": "The superpower battle over energy – and what it means for your bills",
-   "url": "https://www.bbc.co.uk/news/articles/cw62y2z53pg1o?at_medium=RSS&at_campaign=rss",
-   "publishedAt": "2026-11-10T03:08:28+03:00",
-   "discoveredAt": "2026-11-10T03:10:19+03:00",
-   "discoveryDelayMin": 1.9,
-   "sourceAgeMin": 1.9,
-   "intake": "fresh",
    "state": "discovered",
    "articleId": null,
    "overnight": false
