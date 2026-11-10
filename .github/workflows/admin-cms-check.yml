@@ -1,7 +1,8 @@
 name: Maamulka - tijaabada qalabka daabacaadda (publishing tool check)
 # Runs the secure admin Worker locally with the real publishing tool in a real browser, against the REAL repository
 # (GitHub API calls use this workflow's own short-lived token). Read-only unless "write_test" is chosen, which edits
-# one real article headline, publishes, checks www.wartabiyetv.com and then restores it.
+# one real article headline from the dashboard's Articles screen, publishes, checks www.wartabiyetv.com and then
+# restores it and checks again.
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +11,7 @@ on:
         required: false
         default: 'no'
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
     paths: ['workers/admin/**', 'admin/config.yml', '.github/workflows/admin-cms-check.yml']
   push:
     branches: [main]
@@ -22,6 +24,7 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 80
     defaults: { run: { working-directory: workers/admin } }
     steps:
       - uses: actions/checkout@v4
@@ -33,7 +36,8 @@ jobs:
       - name: Publishing tool with the real content
         env:
           GH_TOKEN: ${{ github.token }}
-          WRITE_TEST: ${{ github.event.inputs.write_test == 'yes' && '1' || '0' }}
+          # the live edit test runs when chosen by hand, or on a pull request labelled "live-edit-test"
+          WRITE_TEST: ${{ (github.event.inputs.write_test == 'yes' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'live-edit-test'))) && '1' || '0' }}
         run: node test/cms-ci.mjs cms-ci
       - uses: actions/upload-artifact@v4
         if: always()

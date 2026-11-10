@@ -33,8 +33,11 @@ export async function proxy(req, env, s) {
   for (const k of ['accept', 'content-type', 'if-none-match', 'if-modified-since']) { const v = req.headers.get(k); if (v) h[k] = v; }
   const body = ['GET', 'HEAD'].includes(req.method) ? undefined : await req.arrayBuffer();
   const r = await fetch(ghApi(env) + path + url.search, { method: req.method, headers: h, body });
-  if (req.method !== 'GET') {
+  // one audit line per saved change: the branch update (a commit) or a single-file write; not every Git building block
+  const building = /\/git\/(blobs|trees|commits)$/.test(path) && req.method === 'POST';
+  if (req.method !== 'GET' && !building) {
     let detail = req.method + ' ' + path;
+    if (/\/git\/refs\/heads\/main$/.test(path) && req.method === 'PATCH') detail = 'publish commit (dashboard)';
     if (path === '/graphql' && body) { const q = new TextDecoder().decode(body.slice(0, 4000)); const m = q.match(/mutation\s*\w*|createCommitOnBranch/); if (!m) detail = null; else detail = 'save (GitHub commit)'; }
     if (detail) await audit(env, req, 'content_change', { login: s.login, ok: r.ok, detail });
   }

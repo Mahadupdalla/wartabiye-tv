@@ -70,13 +70,75 @@ async function signIn(ctx) {
   await p.click('a.btn.primary'); await p.waitForSelector('.kpi .val', { timeout: 30000 }).catch(() => {});
   return p;
 }
+const SITE = 'https://www.wartabiyetv.com/';
+const ghApi = (method, path, body) => fetch('https://api.github.com' + path, { method, body: body && JSON.stringify(body), headers: { authorization: 'Bearer ' + TOKEN, accept: 'application/vnd.github+json', 'user-agent': 'wartabiye-cms-ci' } });
+// a push made with the workflow token does not start other workflows, so the test starts the website rebuild itself
+// (a save made by the owner in the real dashboard starts it on its own)
+async function rebuild(after) {
+  for (let i = 0; i < 30; i++) {
+    const c = await (await ghApi('GET', `/repos/${REPO}/commits/main`)).json();
+    if (c.sha && c.sha !== after) break;
+    await sleep(2000);
+  }
+  const r = await ghApi('POST', `/repos/${REPO}/actions/workflows/publish.yml/dispatches`, { ref: 'main' });
+  console.log('website rebuild started:', r.status);
+}
+const mainSha = async () => (await (await ghApi('GET', `/repos/${REPO}/commits/main`)).json()).sha;
+async function liveTitle(id) {
+  const j = await (await fetch(SITE + 'data/news.json?cb=' + Date.now(), { cache: 'no-store' })).json().catch(() => ({}));
+  const a = (j.news || []).find(x => x.id === id);
+  const page = await (await fetch(SITE + 'war/' + id + '.html?cb=' + Date.now())).text().catch(() => '');
+  return { feed: a && a.title, page };
+}
+async function waitTracker(p, label) {
+  const t0 = Date.now();
+  for (let i = 0; i < 180; i++) {                                   // up to 30 min
+    const done = await p.locator('#pubTrack a.btn.primary').isVisible().catch(() => false);
+    const err = await p.locator('#pubTrack .pt-err').textContent().catch(() => '');
+    if (done || err) { console.log(`${label}: tracker ${done ? 'says visible on the website' : 'error: ' + err} after ${Math.round((Date.now() - t0) / 1000)} s`); return done; }
+    if (i % 6 === 0) console.log(`${label}: ` + ((await p.locator('#pubTrack .pt-note').textContent().catch(() => '')) || '…'));
+    await sleep(10000);
+  }
+  return false;
+}
+async function editTitle(p, id, to) {
+  await p.goto(W + '/#articles?edit=' + encodeURIComponent(id)); await p.waitForSelector('.editor', { timeout: 90000 }); await sleep(500);
+  const t = p.locator('.ed-main input').first();
+  const was = await t.inputValue(); await t.fill(to);
+  const before = await mainSha();
+  await p.click('.ed-bar button:text-is("Update")');
+  await p.waitForSelector('#pubTrack:not([hidden])', { timeout: 60000 }).catch(() => {});
+  const err = await p.locator('.ed-errs').innerText().catch(() => '');
+  if (err.trim()) console.log('editor says: ' + err.trim());
+  return { was, before };
+}
 try {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 950 } });
   const p = await signIn(ctx);
-  await p.goto(W + '/#articles');
-  const fr = p.frameLocator('#cmsFrame');
-  const t0 = Date.now();
   const news = JSON.parse(readFileSync(join(ADMIN, '..', '..', 'data', 'news.json'), 'utf8')).news;
+
+  // 1. the dashboard's own Articles screen reads the real website files
+  let t0 = Date.now();
+  await p.goto(W + '/#articles');
+  await p.waitForSelector('.arow', { timeout: 120000 }).catch(() => {});
+  const rows = await p.locator('.arow').count(), heroTxt = await p.locator('#v-native .hero p').first().textContent().catch(() => '');
+  console.log(`Articles screen after ${Math.round((Date.now() - t0) / 1000)} s: ${rows} rows shown; "${heroTxt}"`);
+  check(rows >= 20 && /\d{3,} articles/.test(heroTxt), 'Articles screen lists the real articles');
+  const listTxt = await p.locator('#v-native').innerText();
+  check(news.slice(0, 5).some(n => listTxt.includes(n.title)), 'newest real headlines are in the Articles list');
+  await p.screenshot({ path: join(OUT, 'native-articles-desktop.png') });
+  await p.fill('.toolbar input[type=search]', news[3].title.split(' ').slice(0, 3).join(' ')); await sleep(500);
+  check(await p.locator('.arow').count() >= 1, 'search finds a real article');
+  for (const v of ['media', 'homepage', 'sports', 'world']) {
+    await p.goto(W + '/#' + v); await sleep(1500); await p.waitForSelector('#v-native .card', { timeout: 60000 }).catch(() => {});
+    await sleep(1500); await p.screenshot({ path: join(OUT, `native-${v}.png`) });
+    check(!(await p.locator('#v-native .banner.bad').count()), `${v} screen opens without an error`);
+  }
+
+  // 2. the Full editor (publishing tool) still lists the real articles
+  await p.goto(W + '/#editor');
+  const fr = p.frameLocator('#cmsFrame');
+  t0 = Date.now();
   const titles = news.slice(0, 15).map(n => n.title);
   let found = '';
   for (let i = 0; i < 120 && !found; i++) {
@@ -84,18 +146,54 @@ try {
     found = titles.find(x => t.includes(x)) || '';
     if (!found) await sleep(1000);
   }
-  console.log(`article list shown after ${Math.round((Date.now() - t0) / 1000)} s: ${found ? 'yes ("' + found.slice(0, 60) + '")' : 'no'}`);
-  await sleep(2000);
-  await p.screenshot({ path: join(OUT, 'cms-articles-desktop.png') });
-  check(!!found, 'publishing tool lists the real articles');
+  console.log(`Full editor list shown after ${Math.round((Date.now() - t0) / 1000)} s: ${found ? 'yes' : 'no'}`);
+  await sleep(1500); await p.screenshot({ path: join(OUT, 'cms-articles-desktop.png') });
+  check(!!found, 'Full editor lists the real articles');
   check(!(await fr.locator('#wtvRetry').isVisible().catch(() => false)), 'no "Could not connect to GitHub" screen');
-  const txt = await fr.locator('body').innerText().catch(() => '');
-  writeFileSync(join(OUT, 'cms-text.txt'), txt);
-  // mobile
+
+  // 3. mobile
   const m = await browser.newContext({ ...devices['iPhone 13'] });
   await m.addCookies(await ctx.cookies());
-  const mp = await m.newPage(); await mp.goto(W + '/#articles'); await sleep(15000);
-  await mp.screenshot({ path: join(OUT, 'cms-articles-mobile.png') });
+  const mp = await m.newPage(); await mp.goto(W + '/#articles'); await mp.waitForSelector('.arow', { timeout: 120000 }).catch(() => {}); await sleep(1000);
+  await mp.screenshot({ path: join(OUT, 'native-articles-mobile.png') });
+  check(await mp.locator('.arow').count() >= 20, 'Articles screen works on a phone');
+  check(await mp.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'no sideways scrolling on a phone');
+  await mp.locator('.arow .btn.primary').first().click(); await mp.waitForSelector('.editor').catch(() => {}); await sleep(600);
+  await mp.screenshot({ path: join(OUT, 'native-editor-mobile.png') });
+
+  // 4. the real, reversible edit-and-publish test on wartabiyetv.com
+  if (process.env.WRITE_TEST === '1') {
+    const art = news.find((n, i) => i >= 8 && n.image && n.imageAlt && !n.breaking) || news[8];
+    const id = art.id, original = art.title, changed = original + ' (tijaabo)';
+    console.log(`\nWRITE TEST on "${id}"\n  original headline: ${original}`);
+    const e1 = await editTitle(p, id, changed);
+    check(e1.was === original, 'editor shows the real headline');
+    await rebuild(e1.before);
+    const live1 = await waitTracker(p, 'edit');
+    const L1 = await liveTitle(id);
+    check(live1, 'dashboard reports the change as visible on wartabiyetv.com');
+    check(L1.feed === changed && L1.page.includes(changed), 'wartabiyetv.com really shows the changed headline (news feed and article page)');
+    await p.goto(SITE + 'war/' + id + '.html?cb=' + Date.now()).catch(() => {}); await sleep(2500); await p.screenshot({ path: join(OUT, 'write-1-live-changed.png') });
+    const mp2 = await m.newPage(); await mp2.goto(SITE + 'war/' + id + '.html?cb=' + Date.now()).catch(() => {}); await sleep(2500); await mp2.screenshot({ path: join(OUT, 'write-1-live-changed-mobile.png') });
+    // reopen the dashboard: it shows the saved change
+    await p.goto(W + '/'); await sleep(500);
+    await p.goto(W + '/#articles?edit=' + encodeURIComponent(id)); await p.waitForSelector('.editor', { timeout: 90000 }); await sleep(500);
+    check(await p.locator('.ed-main input').first().inputValue() === changed, 'reopened dashboard shows the saved headline');
+    // revert
+    await p.locator('#pubTrack .iconbtn').click().catch(() => {});
+    const e2 = await editTitle(p, id, original);
+    await rebuild(e2.before);
+    const live2 = await waitTracker(p, 'revert');
+    const L2 = await liveTitle(id);
+    check(live2 && L2.feed === original && L2.page.includes(original) && !L2.page.includes(changed), 'headline restored on wartabiyetv.com');
+    await p.goto(SITE + 'war/' + id + '.html?cb=' + Date.now()).catch(() => {}); await sleep(2500); await p.screenshot({ path: join(OUT, 'write-2-live-restored.png') });
+    // nothing else in the article changed: compare the file with the version before the test
+    const file = async ref => JSON.parse(Buffer.from((await (await ghApi('GET', `/repos/${REPO}/contents/data/news/${id}.json?ref=${ref}`)).json()).content, 'base64').toString());
+    const [a0, a2] = [await file(e1.before), await file('main')];
+    const norm = o => JSON.stringify(Object.keys(o).sort().map(k => [k, o[k]]));
+    if (norm(a0) !== norm(a2)) console.log('before: ' + JSON.stringify(a0) + '\nafter:  ' + JSON.stringify(a2));
+    check(norm(a0) === norm(a2), 'article file identical to before the test');
+  }
 } catch (e) { console.error(e); fails.push(String(e)); }
 finally {
   writeFileSync(join(OUT, 'github-calls.txt'), calls.join('\n'));
