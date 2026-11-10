@@ -303,6 +303,14 @@
       var sp=adSlot('spotlight');if(sp){var sd=el('section','secblock');sd.append(head(tr('adLabel')),sp);B.append(sd)}
       // separate sections with headings: World News and Sports (Somalia & East Africa is the list above), then LIVE News.
       // Stories already in the headlines are not repeated; each section is newest first and holds only its own stories.
+      // Soomaaliya (owner's request, 10 Nov 2026): every Somalia story of the Somalia page (up to 50, newest first) is also
+      // reachable on the homepage: 6 cards, "load more" 6 at a time, "see all" opens #soomaaliya. Stories already in the
+      // headlines or in the regional list above are not repeated.
+      var soL=newestFirst(items.filter(function(x){return inHub(x,'soomaaliya')&&!x.sponsored})).slice(0,PAGE_MAX).filter(function(x){return shown.indexOf(x)<0&&(!showMosaic||inMosaic.indexOf(x)<0)});
+      if(soL.length){var ss0=el('section','secblock is-soomaaliya');ss0.setAttribute('aria-label',tr('somaliaNav'));var sg=cardsGrid([]);ss0.append(head(tr('somaliaNav'),'red','#soomaaliya'),sg);
+        var sm=el('div','loadmore');var sn=0;(function more(){soL.slice(sn,sn+6).forEach(function(it){sg.append(card(it))});sn+=6;sm.innerHTML='';
+          if(sn<soL.length){var b=el('button','btn primary',tr('loadMore'));b.type='button';b.addEventListener('click',more);sm.append(b)}})();
+        ss0.append(sm);B.append(ss0)}
       [['world','worldBlock','navy','#caalamka'],['sports','sportsBlock','green','#ciyaaraha']].forEach(function(b){
         var l=items.filter(function(x){return section(x)===b[0]&&!x.sponsored&&shown.indexOf(x)<0&&(!showMosaic||inMosaic.indexOf(x)<0)});if(!l.length)return;
         var s=el('section','secblock is-'+b[0]);s.setAttribute('aria-label',tr(b[1]));s.append(head(tr(b[1]),b[2],b[3]),cardsGrid(l.slice(0,6)));B.append(s)});
@@ -433,7 +441,7 @@
       // Ciyaaraha: live scores and the latest final results right under the lead story (assets/media.js scoreStrip)
       if(kind==='sports'&&window.WT_MEDIA&&WT_MEDIA.scoreStrip){var sh=el('div');main.append(sh);WT_MEDIA.scoreStrip(sh)}
       if(rest.length){var s2=el('section','secblock');var g=cardsGrid([]);s2.append(g);main.append(s2);
-        pager(s2,rest,function(part){part.forEach(function(it){g.append(card(it))})},all.length>list.length?'#raadi?s='+(kind==='soomaaliya'?'somalia':kind):null)}}
+        pager(s2,rest,function(part){part.forEach(function(it){g.append(card(it))})},all.length>list.length?'#raadi?s='+kind:null)}}
     draw();
     fillSide(side,[adSlot('sidebar'),sideLatest(items.filter(function(x){return !inHub(x,kind)})),sideFollow()]);
     V.append(hubHead(kind),lay);
@@ -547,7 +555,7 @@
     function fld(lab,node){var l=el('label');l.append(lab,node);return l}
     var q=el('input');q.type='search';q.value=P.q||'';q.name='q';
     var c=el('select');c.name='c';[['',tr('any')]].concat(CATS.map(function(k){return [k,catName(k)]})).forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];if(P.c===o[0])op.selected=true;c.append(op)});
-    var s=el('select');s.name='s';[['',tr('any')],['somalia',tr('somalia')],['world',tr('world')],['sports',tr('sports')]].forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];if(P.s===o[0])op.selected=true;s.append(op)});
+    var s=el('select');s.name='s';[['',tr('any')],['soomaaliya',tr('somaliaNav')],['somalia',tr('somalia')],['world',tr('world')],['sports',tr('sports')]].forEach(function(o){var op=el('option',null,o[1]);op.value=o[0];if(P.s===o[0])op.selected=true;s.append(op)});
     var fd=el('input');fd.type='date';fd.name='f';fd.value=P.f||'';var td=el('input');td.type='date';td.name='to';td.value=P.to||'';
     var go=el('button',null,tr('doSearch'));go.type='submit';
     f.append(fld(tr('keyword'),q),fld(tr('category'),c),fld(tr('section'),s),fld(tr('fromDate'),fd),fld(tr('toDate'),td),go);
@@ -555,7 +563,7 @@
     f.addEventListener('submit',function(e){e.preventDefault();location.hash=hubHash('raadi',{q:q.value.trim(),c:c.value,s:s.value,f:fd.value,to:td.value}).slice(1)});
     w.append(f);
     var qq=(P.q||'').trim().toLowerCase();var res=items.filter(function(x){
-      if(qq&&!matches(x,qq))return false;if(P.c&&x.category!==P.c)return false;if(P.s&&section(x)!==P.s)return false;
+      if(qq&&!matches(x,qq))return false;if(P.c&&x.category!==P.c)return false;if(P.s==='soomaaliya'){if(!inHub(x,'soomaaliya'))return false}else if(P.s&&section(x)!==P.s)return false;
       var d=new Date(x.publishedAt);if(isNaN(d))return !(P.f||P.to);var dd=ymd(d);if(P.f&&dd<P.f)return false;if(P.to&&dd>P.to)return false;return true});
     var info=el('div','blockhead');info.append(el('h2',null,trf('results',{n:res.length})));if(qq||P.c||P.s||P.f||P.to)info.append(clr);w.append(info);
     // the archive: every matching story, newest first by the publisher's time, 20 at a time ("Load more")
