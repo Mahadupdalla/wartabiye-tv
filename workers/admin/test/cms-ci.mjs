@@ -5,7 +5,7 @@
 //   GH_TOKEN=… node test/cms-ci.mjs <out-dir>         read-only unless WRITE_TEST=1
 import http from 'node:http';
 import { spawn } from 'node:child_process';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -76,16 +76,18 @@ try {
   await p.goto(W + '/#articles');
   const fr = p.frameLocator('#cmsFrame');
   const t0 = Date.now();
-  let listed = 0;
-  for (let i = 0; i < 90; i++) {
-    listed = await fr.locator('[role="row"], [role="gridcell"], .entry, a[href*="/collections/news/entries/"]').count().catch(() => 0);
-    if (listed > 5) break;
-    if (await fr.locator('#wtvRetry').isVisible().catch(() => false)) break;
-    await sleep(2000);
+  const news = JSON.parse(readFileSync(join(ADMIN, '..', '..', 'data', 'news.json'), 'utf8')).news;
+  const titles = news.slice(0, 15).map(n => n.title);
+  let found = '';
+  for (let i = 0; i < 120 && !found; i++) {
+    const t = await fr.locator('body').innerText().catch(() => '');
+    found = titles.find(x => t.includes(x)) || '';
+    if (!found) await sleep(1000);
   }
-  console.log(`articles visible after ${Math.round((Date.now() - t0) / 1000)} s: ${listed}`);
+  console.log(`article list shown after ${Math.round((Date.now() - t0) / 1000)} s: ${found ? 'yes ("' + found.slice(0, 60) + '")' : 'no'}`);
+  await sleep(2000);
   await p.screenshot({ path: join(OUT, 'cms-articles-desktop.png') });
-  check(listed > 5, 'publishing tool lists the real articles');
+  check(!!found, 'publishing tool lists the real articles');
   check(!(await fr.locator('#wtvRetry').isVisible().catch(() => false)), 'no "Could not connect to GitHub" screen');
   const txt = await fr.locator('body').innerText().catch(() => '');
   writeFileSync(join(OUT, 'cms-text.txt'), txt);
