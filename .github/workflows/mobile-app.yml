@@ -6,7 +6,7 @@ name: Mobile app (Android build + tests)
 #  3. the app checks against the LIVE website https://www.wartabiyetv.com/ (9 languages, sections, LIVE, bookmarks, sizes)
 #  4. an installable Android APK (test build) and a release AAB, kept as downloadable files of the run (30 days).
 #  5. the real APK on an Android emulator: it opens and shows the newest headline of the live website
-#  6. on main only, the web app ON the live website (https://www.wartabiyetv.com/app/) after GitHub Pages published it
+#  6. the web app ON the live website (https://www.wartabiyetv.com/app/) after GitHub Pages published it
 #  7. on main only: the tested APK replaces the file of the pre-release "android-test-build" (one fixed download link)
 #     Without the owner's upload key (secrets ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS,
 #     ANDROID_KEY_PASSWORD) both are signed with a test key: fine for installing on phones, not accepted by Google Play.
@@ -192,7 +192,6 @@ jobs:
 
   pwa-live:
     # the installable web app as published on the live website (waits for GitHub Pages)
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     defaults:
