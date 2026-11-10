@@ -943,7 +943,8 @@
     document.querySelectorAll('#homeView .layout').forEach(function(x){x.classList.toggle('noside',!sec('sidebar'))});
     var ftr=$('ftrend');if(ftr)ftr.parentNode.hidden=!sec('footerLatest');
     menuX();
-    // the official accounts and the email are in the footer only (not in the header or the mobile menu)
+    // mobile menu: the same three official accounts at the bottom of the drawer
+    var Lk=$('links');if(Lk){var ms=Lk.querySelector('.msoc');if(!ms){ms=el('div','msoc');ms.append(el('span'));SOC.forEach(function(s){var a=el('a',s[0]);a.dataset.soc=s[0];a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Wartabiye TV · '+s[1]);a.title='Wartabiye TV · '+s[1];a.innerHTML=SOC_ICON[s[0]];ms.append(a)});Lk.append(ms)}ms.firstChild.textContent=tr('follow')}
     document.querySelectorAll('a[data-soc]').forEach(function(a){a.href=socUrl(a.dataset.soc)});
     renderFooter();
   }
