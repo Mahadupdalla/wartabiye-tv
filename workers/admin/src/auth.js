@@ -330,7 +330,7 @@ export async function setupPage(req, env) {
     setup_url: origin + '/login?installed=1', setup_on_update: false,
     public: false, request_oauth_on_install: false,
     hook_attributes: { url: origin + '/setup/no-webhook', active: false },
-    default_permissions: { contents: 'write', metadata: 'read', actions: 'read' },
+    default_permissions: { contents: 'write', metadata: 'read', actions: 'write' },
     default_events: [],
   };
   const action = `${ghWeb(env)}/settings/apps/new?state=${state}`;

@@ -32,6 +32,25 @@ http.createServer(async (req, res) => {
   if (u.pathname === '/user') return send(200, { login: 'Mahadupdalla', id: 216855903, name: 'Mahad' });
   if (/^\/repos\/[^/]+\/[^/]+$/.test(u.pathname)) return send(200, { full_name: 'Mahadupdalla/wartabiye-tv', permissions: { admin: true, push: true } });
   if (u.pathname === '/graphql') {
+    const q = JSON.parse(body.toString()).query;
+    const bl = [...q.matchAll(/(b\d+):object\(oid:"([^"]+)"\)/g)];
+    if (bl.length) {
+      const byOid = {}; for (const d of ['data/news', 'data/trash/news']) for (const e of (tree(d, true) || { entries: [] }).entries) byOid[e.oid] = e.object.text;
+      return send(200, { data: { repository: Object.fromEntries(bl.map(([, k, oid]) => [k, byOid[oid] != null ? { text: byOid[oid] } : null])) } });
+    }
+    const al = [...q.matchAll(/(f\d+):object\(expression:"([^"]+)"\)/g)];
+    if (al.length) {   // files(): main = this checkout, live-data = data/live-feeds
+      const repository = {};
+      for (const [, k, ex] of al) {
+        const [ref, path] = ex.split(/:(.*)/s);
+        const local = ref === 'live-data' ? join('data', 'live-feeds', path) : path;
+        const f = join(ROOT, local);
+        if (!existsSync(f)) { repository[k] = null; continue; }
+        if (statSync(f).isDirectory()) { repository[k] = tree(local, true); continue; }
+        const b = readFileSync(f); repository[k] = { oid: sha(b), text: b.toString() };
+      }
+      return send(200, { data: { repository } });
+    }
     const s = readFileSync(join(ROOT, 'data', 'site.json'));
     return send(200, { data: { repository: { ref: { target: { oid: 'localhead' } }, news: tree('data/news', true), trash: tree('data/trash/news', true), site: { oid: sha(s), text: s.toString() }, imgs: tree('img/news', false) } } });
   }
@@ -47,6 +66,10 @@ http.createServer(async (req, res) => {
   if (/\/git\/commits\//.test(u.pathname)) return send(200, { tree: { sha: 'localtree' } });
   const m = u.pathname.match(/\/contents\/(.+)$/);
   if (m) { const f = join(ROOT, decodeURIComponent(m[1])); return existsSync(f) ? send(200, { sha: sha(readFileSync(f)) }) : send(404, { message: 'Not Found' }); }
+  if (/\/actions\/workflows$/.test(u.pathname)) return send(200, { workflows: readdirSync(join(ROOT, '.github', 'workflows')).map((f, i) => ({ id: i + 1, name: f.replace('.yml', ''), path: '.github/workflows/' + f, state: f === 'live-status.yml' ? 'disabled_manually' : 'active', html_url: 'https://github.com/x' })) });
+  if (/\/actions\/runs$/.test(u.pathname)) return send(200, { workflow_runs: [{ id: 9, name: 'Daabac bogga (publish)', path: '.github/workflows/publish.yml', status: 'completed', conclusion: 'success', created_at: new Date(Date.now() - 6e5).toISOString(), updated_at: new Date(Date.now() - 4e5).toISOString(), html_url: 'https://github.com/x', display_title: 'test', run_attempt: 1 },
+    { id: 8, name: 'feeds', path: '.github/workflows/world-feeds.yml', status: 'completed', conclusion: 'failure', created_at: new Date(Date.now() - 9e5).toISOString(), updated_at: new Date(Date.now() - 8e5).toISOString(), html_url: 'https://github.com/x', display_title: 't', run_attempt: 2 }] });
+  if (/\/commits$/.test(u.pathname)) return send(200, [{ html_url: 'https://github.com/x', commit: { message: 'Maamul: wax ka beddel', author: { name: 'Mahad', date: new Date().toISOString() } } }]);
   if (/actions\/workflows\/publish.yml\/runs/.test(u.pathname)) return send(200, { workflow_runs: [{ created_at: new Date().toISOString(), status: 'in_progress', run_started_at: new Date().toISOString() }] });
   return send(200, {});
 }).listen(8790);
@@ -88,5 +111,17 @@ try {
   const m = await browser.newContext({ ...devices['iPhone 13'] }); await m.addCookies(await ctx.cookies());
   const mp = await m.newPage(); await mp.goto(W + '/#articles'); await mp.waitForSelector('.arow'); await sleep(600); await mp.screenshot({ path: join(OUT, 'a6-mobile-list.png') });
   await mp.locator('.arow .btn.primary').first().click(); await mp.waitForSelector('.editor'); await sleep(400); await mp.screenshot({ path: join(OUT, 'a7-mobile-editor.png') });
+  // control centre screens
+  for (const v of ['dashboard', 'automation', 'sections', 'live', 'ads', 'health', 'settings']) {
+    await p.goto(W + '/#' + v); await sleep(3500);
+    await p.screenshot({ path: join(OUT, 'c-' + v + '.png'), fullPage: true });
+    console.log(v, 'banners:', (await p.locator('#v-native .banner.bad').allInnerTexts()).join(' | ').slice(0, 300) || 'none');
+  }
+  await p.fill('#gsearch', 'nairobi'); await sleep(600); console.log('search:', (await p.locator('#gresults').innerText()).slice(0, 200).replace(/\n/g, ' / '));
+  await p.screenshot({ path: join(OUT, 'c-search.png') });
+  await p.goto(W + '/#live'); await sleep(2500); await p.click('text=Add update'); await sleep(300);
+  await p.locator('.modal input.in').first().fill('Tijaabo'); await p.locator('.modal textarea').first().fill('Qoraal tijaabo ah.'); await p.click('.modal button:text-is("Publish update")'); await sleep(1500);
+  console.log('live write:', writes.slice(-4).map(w => w.slice(0, 160)).join('\n  '));
+  for (const v of ['dashboard', 'automation', 'live', 'settings']) { await mp.goto(W + '/#' + v); await sleep(3000); await mp.screenshot({ path: join(OUT, 'm-' + v + '.png'), fullPage: true }); console.log('mobile', v, 'overflow:', await mp.evaluate(() => document.documentElement.scrollWidth - innerWidth)); }
 } catch (e) { console.error(e); }
 finally { console.log('errors:', errs.join('\n')); await browser.close(); dev.kill('SIGINT'); process.exit(0); }

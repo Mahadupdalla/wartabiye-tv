@@ -295,5 +295,9 @@ test('helpers: device and source classification, GitHub allow-list', () => {
   assert.ok(allowed(env, 'GET', '/repos/Mahadupdalla/wartabiye-codsiyada/contents/requests'));
   assert.ok(!allowed(env, 'DELETE', '/repos/Mahadupdalla/wartabiye-tv'));
   assert.ok(!allowed(env, 'POST', '/repos/Mahadupdalla/wartabiye-tv/hooks'));
-  assert.ok(!allowed(env, 'POST', '/repos/Mahadupdalla/wartabiye-tv/actions/workflows/publish.yml/dispatches'));
+  assert.ok(allowed(env, 'POST', '/repos/Mahadupdalla/wartabiye-tv/actions/workflows/publish.yml/dispatches'));
+  assert.ok(allowed(env, 'PUT', '/repos/Mahadupdalla/wartabiye-tv/actions/workflows/123/disable'));
+  assert.ok(!allowed(env, 'DELETE', '/repos/Mahadupdalla/wartabiye-tv/actions/runs/5'));
+  assert.ok(!allowed(env, 'PUT', '/repos/Mahadupdalla/wartabiye-tv/actions/permissions'));
+  assert.ok(!allowed(env, 'POST', '/repos/Mahadupdalla/wartabiye-tv/actions/workflows/../../secrets/dispatches'));
 });

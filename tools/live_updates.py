@@ -276,6 +276,35 @@ def candidates(wire, done, t):
     return out
 
 
+ADMIN_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'live-admin.json')
+
+
+def apply_admin(items, t, path=None):
+    """The owner's own LIVE updates and corrections from /admin/ (data/live-admin.json on main, owner's request of
+    10 Nov 2026: "correct, add, approve or remove live text updates"). Applied on every check, so they survive the
+    5-minute rewrite of live-updates.json: "removed" ids leave the timeline, "edits" replace the given fields of an
+    automatic update, and "items" are the owner's own updates (by: admin), kept for KEEP_HOURS like every update."""
+    adm = load(path or ADMIN_FILE, {})
+    removed = set(adm.get('removed') or [])
+    edits = adm.get('edits') or {}
+    out = []
+    for u in items:
+        if u.get('id') in removed or u.get('by') == 'admin':
+            continue
+        e = edits.get(u.get('id'))
+        if isinstance(e, dict):
+            u = dict(u, **{k: v for k, v in e.items() if k in ('so', 'region', 'breaking', 'publishedAt') or k in LANGS}, editedBy='admin')
+            if e.get('breaking') is False:
+                u.pop('breaking', None)
+        out.append(u)
+    for u in adm.get('items') or []:
+        p = ptime(u.get('publishedAt'))
+        if u.get('id') and u['id'] not in removed and p and -600 <= (t - p).total_seconds() <= KEEP_HOURS * 3600 and (u.get('so') or {}).get('title'):
+            out.append(dict(u, by='admin'))
+    out.sort(key=lambda u: u['publishedAt'], reverse=True)
+    return out
+
+
 def run(out_dir, dry=False, client=None, t=None):
     t = t or now()
     wire = load(os.path.join(out_dir, 'live-wire.json'), {})
@@ -393,6 +422,7 @@ def run(out_dir, dry=False, client=None, t=None):
           'limits': {'usdPerDay': MAX_USD_PER_DAY, 'perCheck': PER_RUN, 'maxAgeMinutes': MAX_AGE_MIN},
           'lastCheckAt': iso(t), 'lastWrittenAt': max((u['writtenAt'] for u in items if u.get('writtenAt')), default=st.get('lastWrittenAt')),
           'days': days, 'done': done, 'recent': (log + (st.get('recent') or []))[:60]}
+    items = apply_admin(items, t)
     if not dry:
         json.dump({'updatedAt': iso(t), 'items': items}, open(os.path.join(out_dir, 'live-updates.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         json.dump(st, open(os.path.join(out_dir, 'live-updates-status.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
@@ -407,8 +437,9 @@ def run(out_dir, dry=False, client=None, t=None):
 # ---------------------------------------------------------------- offline self-test
 def selftest():
     import tempfile
-    global MODE
-    MODE = 'on'  # the self-test exercises the writer as if the owner had switched it on (no real API call is made)
+    global MODE, ADMIN_FILE
+    MODE = 'on'
+    ADMIN_FILE = '/nonexistent/live-admin.json'  # the real owner file never changes the self-test  # the self-test exercises the writer as if the owner had switched it on (no real API call is made)
     ok = [0]
 
     def check(c, m):
@@ -502,6 +533,18 @@ def selftest():
         os.environ.pop('ANTHROPIC_API_KEY', None)
         items, st = run(dd, t=t)
         check(not items and not st['done'].get('a1') and st['mode'] == 'off', 'off without the key, items stay open')
+    # the owner's own updates and corrections from /admin/
+    with tempfile.TemporaryDirectory() as dd:
+        ap = os.path.join(dd, 'live-admin.json')
+        json.dump({'items': [{'id': 'admin-1', 'publishedAt': '2026-11-09T11:50:00Z', 'region': 'somalia', 'so': {'title': 'Cusub', 'text': 'Qoraal.'}},
+                             {'id': 'admin-old', 'publishedAt': '2026-11-01T11:50:00Z', 'so': {'title': 'Duq', 'text': 'x'}}],
+                   'edits': {'a': {'so': {'title': 'Sax', 'text': 'Qoraal la saxay.'}, 'breaking': False, 'model': 'x'}}, 'removed': ['b']}, open(ap, 'w'))
+        got = apply_admin([{'id': 'a', 'publishedAt': '2026-11-09T11:00:00Z', 'so': {'title': 'Khalad', 'text': 'y'}, 'breaking': True, 'model': 'm'},
+                           {'id': 'b', 'publishedAt': '2026-11-09T11:10:00Z', 'so': {'title': 'Ka saar', 'text': 'z'}}], t, ap)
+        check([u['id'] for u in got] == ['admin-1', 'a'], 'owner update added, removed update gone, old owner update expired')
+        a = got[1]
+        check(a['so']['title'] == 'Sax' and 'breaking' not in a and a['model'] == 'm' and a['editedBy'] == 'admin', 'owner correction applied to the listed fields only')
+        check(apply_admin(got, t, ap) == got, 'applying twice changes nothing')
     print(f'LIVE UPDATES OK ({ok[0]} checks)')
 
 
