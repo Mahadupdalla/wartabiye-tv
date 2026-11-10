@@ -22,7 +22,14 @@
         return r.text().then(function (t) { var j = null; try { j = t ? JSON.parse(t) : null; } catch (e) {} if (!r.ok) { var er = new Error((j && j.message) || ('GitHub answered ' + r.status)); er.status = r.status; throw er; } return j; });
       });
   }
-  function gql(query, variables) {
+  function gql(query, variables, tries) {
+    tries = tries == null ? 2 : tries;
+    return gql1(query, variables).catch(function (e) {
+      if (tries > 0 && /50[234]|timeout|Failed to fetch/i.test(e.message)) return new Promise(function (r) { setTimeout(r, 1500); }).then(function () { return gql(query, variables, tries - 1); });
+      throw e;
+    });
+  }
+  function gql1(query, variables) {
     return fetch(GQL, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: query, variables: variables || {} }) })
       .then(function (r) { if (r.status === 401) { location.href = '/login?e=expired'; throw new Error('signed out'); } if (!r.ok) throw new Error('GitHub answered ' + r.status); return r.json(); })
       .then(function (j) { if (j.errors && !j.data) throw new Error(j.errors[0].message); return j.data; });
@@ -68,18 +75,32 @@
   }
 
   // ------------------------------------------------------------------ the website's content, read from the repository
-  var STORE = null, loading = null;
+  var STORE = null, loading = null, TEXTCACHE = {};
   var Q = 'query($o:String!,$n:String!){repository(owner:$o,name:$n){ref(qualifiedName:"refs/heads/main"){target{oid}}' +
-    'news:object(expression:"main:data/news"){... on Tree{entries{name oid object{... on Blob{text}}}}}' +
-    'trash:object(expression:"main:data/trash/news"){... on Tree{entries{name oid object{... on Blob{text}}}}}' +
+    'news:object(expression:"main:data/news"){... on Tree{entries{name oid}}}' +
+    'trash:object(expression:"main:data/trash/news"){... on Tree{entries{name oid}}}' +
     'site:object(expression:"main:data/site.json"){... on Blob{oid text}}' +
     'imgs:object(expression:"main:img/news"){... on Tree{entries{name oid type object{... on Blob{byteSize}}}}}}}';
   function load(force) {
     if (STORE && !force) return Promise.resolve(STORE);
     if (loading && !force) return loading;
     var p = repo().split('/');
+    // the file list first (small), then the article texts in batches: one huge query can time out on GitHub's side
+    var texts = TEXTCACHE;   // a blob's text never changes: kept by its id between loads
+    function fillTexts(R) {
+      var es = ((R.news && R.news.entries) || []).concat((R.trash && R.trash.entries) || []).filter(function (e) { return /\.json$/.test(e.name) && !texts[e.oid]; });
+      var batches = []; for (var i = 0; i < es.length; i += 70) batches.push(es.slice(i, i + 70));
+      var run = function (b) { return gql('query($o:String!,$n:String!){repository(owner:$o,name:$n){' + b.map(function (e, j) { return 'b' + j + ':object(oid:"' + e.oid + '"){... on Blob{text}}'; }).join('') + '}}', { o: p[0], n: p[1] })
+        .then(function (d) { b.forEach(function (e, j) { var o = d.repository['b' + j]; if (o) texts[e.oid] = o.text; }); }); };
+      var q = batches.slice(), workers = [];
+      for (var w = 0; w < 4; w++) workers.push((function next() { var b = q.shift(); return b ? run(b).then(next) : Promise.resolve(); })());
+      return Promise.all(workers).then(function () {
+        [R.news, R.trash].forEach(function (t) { ((t && t.entries) || []).forEach(function (e) { e.object = { text: texts[e.oid] }; }); });
+        return R;
+      });
+    }
     loading = Promise.all([
-      gql(Q, { o: p[0], n: p[1] }),
+      gql(Q, { o: p[0], n: p[1] }).then(function (d) { return fillTexts(d.repository).then(function () { return d; }); }),
       fetch(site() + 'data/news.json?cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
     ]).then(function (r) {
       var R = r[0].repository, live = {};

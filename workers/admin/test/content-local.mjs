@@ -33,6 +33,11 @@ http.createServer(async (req, res) => {
   if (/^\/repos\/[^/]+\/[^/]+$/.test(u.pathname)) return send(200, { full_name: 'Mahadupdalla/wartabiye-tv', permissions: { admin: true, push: true } });
   if (u.pathname === '/graphql') {
     const q = JSON.parse(body.toString()).query;
+    const bl = [...q.matchAll(/(b\d+):object\(oid:"([^"]+)"\)/g)];
+    if (bl.length) {
+      const byOid = {}; for (const d of ['data/news', 'data/trash/news']) for (const e of (tree(d, true) || { entries: [] }).entries) byOid[e.oid] = e.object.text;
+      return send(200, { data: { repository: Object.fromEntries(bl.map(([, k, oid]) => [k, byOid[oid] != null ? { text: byOid[oid] } : null])) } });
+    }
     const al = [...q.matchAll(/(f\d+):object\(expression:"([^"]+)"\)/g)];
     if (al.length) {   // files(): main = this checkout, live-data = data/live-feeds
       const repository = {};
