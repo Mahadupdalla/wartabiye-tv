@@ -9,6 +9,8 @@ on:
         description: 'Also do the reversible edit-and-publish test on the live website (yes/no)'
         required: false
         default: 'no'
+  pull_request:
+    paths: ['workers/admin/**', 'admin/config.yml', '.github/workflows/admin-cms-check.yml']
   push:
     branches: [main]
     paths: ['workers/admin/**', 'admin/config.yml', '.github/workflows/admin-cms-check.yml']
