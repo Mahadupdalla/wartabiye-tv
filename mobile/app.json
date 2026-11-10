@@ -1,0 +1,87 @@
+{
+  "expo": {
+    "name": "Wartabiye TV",
+    "slug": "wartabiye-tv",
+    "description": "Wararka Soomaaliya, Bariga Afrika, caalamka iyo ciyaaraha, sagaal luqadood. The same news as wartabiyetv.com.",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "wartabiye",
+    "userInterfaceStyle": "automatic",
+    "primaryColor": "#037BDC",
+    "backgroundColor": "#f4f7fb",
+    "ios": {
+      "bundleIdentifier": "com.wartabiyetv.app",
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "associatedDomains": ["applinks:www.wartabiyetv.com", "applinks:wartabiyetv.com"],
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["remote-notification"]
+      }
+    },
+    "android": {
+      "package": "com.wartabiyetv.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": ["android.permission.POST_NOTIFICATIONS", "android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE"],
+      "blockedPermissions": ["android.permission.RECORD_AUDIO", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_COARSE_LOCATION", "android.permission.CAMERA"],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            { "scheme": "https", "host": "www.wartabiyetv.com", "pathPrefix": "/war/" },
+            { "scheme": "https", "host": "wartabiyetv.com", "pathPrefix": "/war/" }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "single",
+      "name": "Wartabiye TV",
+      "shortName": "Wartabiye TV",
+      "lang": "so",
+      "themeColor": "#0263b3",
+      "backgroundColor": "#f4f7fb"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-image",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": { "image": "./assets/splash-icon.png", "backgroundColor": "#0a1424" }
+        }
+      ],
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#037BDC",
+          "defaultChannel": "news"
+        }
+      ]
+    ],
+    "experiments": {
+      "baseUrl": ""
+    },
+    "extra": {
+      "router": {},
+      "eas": {}
+    }
+  }
+}

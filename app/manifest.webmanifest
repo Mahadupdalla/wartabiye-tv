@@ -1,0 +1,23 @@
+{
+ "name": "Wartabiye TV",
+ "short_name": "Wartabiye TV",
+ "description": "Wararka Soomaaliya, caalamka iyo ciyaaraha, sagaal luqadood. The same news as wartabiyetv.com.",
+ "id": "/app/",
+ "start_url": "/app/",
+ "scope": "/app/",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#f4f7fb",
+ "theme_color": "#0263b3",
+ "lang": "so",
+ "categories": ["news"],
+ "icons": [
+  {"src": "pwa-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+  {"src": "pwa-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+  {"src": "pwa-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+ ],
+ "shortcuts": [
+  {"name": "Wararka Tooska", "url": "/app/live", "icons": [{"src": "pwa-192.png", "sizes": "192x192"}]},
+  {"name": "Ciyaaraha", "url": "/app/section/sports", "icons": [{"src": "pwa-192.png", "sizes": "192x192"}]}
+ ]
+}

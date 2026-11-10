@@ -27,7 +27,7 @@ jobs:
       - name: The public site has no passwords or keys
         run: |
           # names of secrets are fine (e.g. "${{ secrets.X }}", or code reading client_secret from the Worker's encrypted store); values are not
-          if grep -rniE 'ghp_[A-Za-z0-9]{20}|github_pat_|password *[:=]|client_secret|api[_-]?key *[:=]|BEGIN (RSA|OPENSSH) PRIVATE' --include='*.html' --include='*.yml' --include='*.json' --include='*.js' . --exclude-dir=.git --exclude-dir=vendor --exclude-dir=node_modules --exclude-dir=.wrangler --exclude=admin-test.yml \
+          if grep -rniE 'ghp_[A-Za-z0-9]{20}|github_pat_|password *[:=]|client_secret|api[_-]?key *[:=]|BEGIN (RSA|OPENSSH) PRIVATE' --include='*.html' --include='*.yml' --include='*.json' --include='*.js' . --exclude-dir=.git --exclude-dir=vendor --exclude-dir=_expo --exclude-dir=node_modules --exclude-dir=.wrangler --exclude=admin-test.yml \
              | grep -vE '\$\{\{ *secrets\.[A-Z_]+ *\}\}|client_secret: (env|app)\.|app\.client_secret'; then echo "FOUND something that looks like a secret"; exit 1; fi
           echo "no secrets found"
       - name: There is no sign-up page; the dashboard only offers GitHub token sign-in

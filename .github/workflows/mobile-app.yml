@@ -1,0 +1,138 @@
+name: Mobile app (Android build + tests)
+# The Wartabiye TV app (mobile/, React Native + Expo) for Android and iPhone, and the web app at /app/.
+# Runs when the app's code changes, or by hand from the Actions tab. It never publishes anything and makes no AI calls.
+#  1. typecheck + the data / push / analytics tests
+#  2. the synchronisation test (new article, edit, new image, unpublish, offline) on a private copy of the content
+#  3. the app checks against the LIVE website https://www.wartabiyetv.com/ (9 languages, sections, LIVE, bookmarks, sizes)
+#  4. an installable Android APK (test build) and a release AAB, kept as downloadable files of the run (30 days).
+#     Without the owner's upload key (secrets ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS,
+#     ANDROID_KEY_PASSWORD) both are signed with a test key: fine for installing on phones, not accepted by Google Play.
+on:
+  push:
+    paths: ['mobile/**', 'tools/build_app_api.py', 'workers/push/**', '.github/workflows/mobile-app.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mobile-app-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Content API and push tests
+        working-directory: .
+        run: |
+          python3 tools/build_app_api.py test
+          python3 tools/push_send.py test
+          node --test workers/push/test/worker.test.mjs
+      - name: Browser for the tests
+        run: npx playwright install --with-deps chromium
+      - name: Synchronisation test (publish, edit, new image, unpublish, offline)
+        run: node test/sync.e2e.mjs
+      - name: App checks against the live website
+        run: |
+          # GitHub Pages serves the website; if api/v1 is not published yet the app reads data/news.json (same content)
+          node test/app.e2e.mjs --live https://www.wartabiyetv.com/
+      - name: The app cannot use private admin APIs
+        run: |
+          # the admin's API answers only a signed-in owner (GitHub login + MFA); the app holds no session or token
+          code=$(curl -s -o /dev/null -w '%{http_code}' https://wartabiye-admin.wartabiye.workers.dev/api/me)
+          echo "admin /api/me without a session: HTTP $code"
+          [ "$code" = 401 ] || [ "$code" = 403 ] || [ "$code" = 302 ]
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: app-test-screenshots
+          path: mobile/test/output
+          retention-days: 30
+
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: npm ci
+      - name: Generate the Android project (Expo prebuild)
+        env:
+          EAS_PROJECT_ID: ${{ vars.EAS_PROJECT_ID }}
+        run: npx expo prebuild --platform android --no-install --clean
+      - name: Release signing key (owner's key if configured, otherwise a test key)
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -n "$KS" ]; then
+            echo "$KS" | base64 -d > android/app/release.keystore
+            echo "SIGNING=owner" >> "$GITHUB_ENV"
+          else
+            keytool -genkeypair -v -keystore android/app/release.keystore -alias test -keyalg RSA -keysize 2048 -validity 10000 \
+              -storepass testtest -keypass testtest -dname "CN=Wartabiye TV test build" >/dev/null
+            KS_PASS=testtest; KEY_ALIAS=test; KEY_PASS=testtest
+            echo "SIGNING=test" >> "$GITHUB_ENV"
+          fi
+          cat >> android/gradle.properties <<EOF
+          WTV_STORE_FILE=release.keystore
+          WTV_STORE_PASSWORD=$KS_PASS
+          WTV_KEY_ALIAS=$KEY_ALIAS
+          WTV_KEY_PASSWORD=$KEY_PASS
+          EOF
+          # use this key for the release build type
+          python3 - <<'PY'
+          import re
+          p = 'android/app/build.gradle'
+          s = open(p).read()
+          s = s.replace("signingConfigs {", """signingConfigs {
+                  wtvRelease {
+                      storeFile file(WTV_STORE_FILE)
+                      storePassword WTV_STORE_PASSWORD
+                      keyAlias WTV_KEY_ALIAS
+                      keyPassword WTV_KEY_PASSWORD
+                  }""", 1)
+          s = re.sub(r"(release \{[^}]*?)signingConfig signingConfigs\.debug", r"\1signingConfig signingConfigs.wtvRelease", s, count=1, flags=re.S)
+          open(p, 'w').write(s)
+          print('release signing:', 'wtvRelease' in s)
+          PY
+      - name: Build the APK (installable test build) and the AAB (Google Play)
+        working-directory: mobile/android
+        run: ./gradlew --no-daemon assembleRelease bundleRelease -PreactNativeArchitectures=arm64-v8a,armeabi-v7a,x86_64
+      - name: Collect
+        run: |
+          mkdir -p ../dist
+          cp android/app/build/outputs/apk/release/app-release.apk ../dist/wartabiye-tv-$SIGNING-signed.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab ../dist/wartabiye-tv-$SIGNING-signed.aab
+          ls -la ../dist
+          "$ANDROID_HOME"/build-tools/$(ls "$ANDROID_HOME"/build-tools | sort -V | tail -1)/aapt2 dump badging ../dist/*.apk | head -3 || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wartabiye-tv-android
+          path: dist
+          retention-days: 30

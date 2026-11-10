@@ -2,3 +2,11 @@ node_modules/
 __pycache__/
 lang-*.png
 live-*.png
+
+# the web app (app/) is built by mobile/scripts/build-pwa.mjs; its icon font lives under a node_modules path
+!/app/assets/node_modules/
+mobile/test/output/
+mobile/.expo/
+mobile/dist/
+mobile/android/
+mobile/ios/
