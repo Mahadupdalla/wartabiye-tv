@@ -228,12 +228,19 @@ def run_device(dev, art_id, title):
     fp = os.path.join(out, 'flow.yaml')
     open(fp, 'w').write(flow(art_id, title))
     t0 = time.time()
-    try:
-        r = subprocess.run(['maestro', '--device', udid, 'test', fp, '--test-output-dir', out], cwd=out,
-                           capture_output=True, text=True, timeout=2700)
-    except subprocess.TimeoutExpired as e:
-        r = subprocess.CompletedProcess(e.cmd, 124, (e.stdout or b'').decode(errors='replace') if isinstance(e.stdout, bytes) else (e.stdout or ''),
-                                        'maestro did not finish within 45 minutes')
+    # Maestro's helper app on the simulator sometimes starts too slowly on a busy Mac: give it 3 minutes, try twice
+    menv = dict(os.environ, MAESTRO_DRIVER_STARTUP_TIMEOUT='180000', MAESTRO_CLI_NO_ANALYTICS='1')
+    for attempt in (1, 2):
+        try:
+            r = subprocess.run(['maestro', '--device', udid, 'test', fp, '--test-output-dir', out], cwd=out, env=menv,
+                               capture_output=True, text=True, timeout=2700)
+        except subprocess.TimeoutExpired as e:
+            r = subprocess.CompletedProcess(e.cmd, 124, (e.stdout or b'').decode(errors='replace') if isinstance(e.stdout, bytes) else (e.stdout or ''),
+                                            'maestro did not finish within 45 minutes')
+        if r.returncode and 'DRIVER_STARTUP_TIMEOUT' in (r.stdout + r.stderr) and attempt == 1:
+            print('Maestro driver did not start; trying again', flush=True)
+            continue
+        break
     open(os.path.join(out, 'maestro.txt'), 'w').write(r.stdout + '\n' + r.stderr)
     print(r.stdout[-4000:], r.stderr[-2000:])
     if r.returncode:
