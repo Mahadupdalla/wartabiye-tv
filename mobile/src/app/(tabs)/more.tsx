@@ -1,10 +1,10 @@
 import React from 'react';
-import { Linking, Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { router, type Href } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSettings } from '../../lib/settings';
 import { useContent } from '../../lib/content';
-import { APP_VERSION, SITE } from '../../lib/config';
+import { APP_VERSION } from '../../lib/config';
 import { fullDate } from '../../lib/i18n';
 import { AppHeader } from '../../components/chrome';
 import { Row, T } from '../../components/ui';
@@ -40,8 +40,12 @@ export default function More() {
         {item('bookmark-outline', t('saved'), () => router.navigate('/saved'))}
         {item('notifications-outline', t('notifications'), nav('/notifications'))}
         {item('settings-outline', t('settings'), nav('/settings'))}
-        {item('information-circle-outline', t('aboutUs'), () => Linking.openURL(SITE + 'nagu-saabsan/'))}
-        {item('shield-checkmark-outline', t('privacy'), () => Linking.openURL(SITE + 'asturnaanta/'))}
+        <T f="bodyBold" muted style={{ paddingHorizontal: 16, paddingTop: 22, paddingBottom: 8, fontSize: 12, letterSpacing: 1 }}>WARTABIYE TV</T>
+        {item('information-circle-outline', t('aboutUs'), nav('/page/nagu-saabsan'))}
+        {item('mail-outline', t('contact'), nav('/page/xiriir'))}
+        {item('ribbon-outline', t('editorial'), nav('/page/anshaxa'))}
+        {item('create-outline', t('corrections'), nav('/page/saxitaannada'))}
+        {item('shield-checkmark-outline', t('privacy'), nav('/page/asturnaanta'))}
         <View style={{ padding: 16, gap: 4 }}>
           <T muted style={{ fontSize: 12 }}>{t('sameNews')}</T>
           {meta?.contentUpdatedAt ? <T muted style={{ fontSize: 12 }}>{t('updatedAt', { t: fullDate(lang, meta.contentUpdatedAt) })}</T> : null}

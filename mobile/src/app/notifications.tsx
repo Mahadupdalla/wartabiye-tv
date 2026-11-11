@@ -6,6 +6,7 @@ import { useContent } from '../lib/content';
 import { fetchAlerts, type AlertItem } from '../lib/api';
 import { syncPush, type PushState } from '../lib/push';
 import { ago } from '../lib/i18n';
+import { appPathFor } from '../lib/links';
 import { Notice, Row, T } from '../components/ui';
 
 // Notifications: the person's own choice of categories (Breaking, Somalia, World, Sport) and the latest alerts, which
@@ -62,9 +63,9 @@ export default function NotificationsScreen() {
       ListEmptyComponent={<T muted style={{ padding: 16 }}>{alerts === null ? t('loading') : t('notifEmpty')}</T>}
       renderItem={({ item: a }) => {
         const tx = lang !== 'so' && a.t?.[lang]?.title ? a.t[lang] : { title: a.title, summary: a.summary };
-        const m = String(a.url || '').match(/^war\/([A-Za-z0-9_.-]+?)\.html$/);
+        const to = !a.url ? null : appPathFor('/' + String(a.url || '').replace(/^https?:\/\/[^/]+\//, '').replace(/^\//, ''));
         return (
-          <Pressable disabled={!m} onPress={() => m && router.push({ pathname: '/war/[id]', params: { id: m[1] } })} accessibilityRole="link" style={{ paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.line, backgroundColor: colors.surface }}>
+          <Pressable disabled={!to} onPress={() => to && router.push(to as any)} accessibilityRole="link" style={{ paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.line, backgroundColor: colors.surface }}>
             <T f="bodyBold" style={{ fontSize: 12, color: a.kind === 'breaking' ? colors.red : colors.blue }}>{a.kind === 'breaking' ? t('breakingLabel') : a.kind === 'sports' ? t('sports') : a.kind === 'world' ? t('world') : t('somaliaNav')} · {ago(lang, a.time)}</T>
             <T f="displayBold" style={{ fontSize: 15, lineHeight: 20, marginTop: 3 }}>{tx.title}</T>
             {tx.summary ? <T muted style={{ fontSize: 13, marginTop: 3 }} numberOfLines={2}>{tx.summary}</T> : null}

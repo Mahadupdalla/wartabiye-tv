@@ -3,6 +3,7 @@
 // assets/i18n.js by scripts/sync-i18n.mjs). Article text is never here: it comes from the newsroom's own translations.
 export const APP_STRINGS: Record<string, Record<string, string>> = {
   so: {
+    corrections: 'Saxitaannada', openBrowser: 'Ka fur browser-ka', nextStory: 'Warka xiga', shareStory: 'La wadaag warkan', moreBreaking: '{n} war degdeg ah oo kale', sectionsBar: 'Qaybaha wararka',
     settings: 'Dejinta', language: 'Luqadda', appearance: 'Muuqaalka', light: 'Iftiin', dark: 'Mugdi', system: 'Sida taleefanka',
     fontSize: 'Cabbirka qoraalka', notifications: 'Ogeysiisyada', notifIntro: 'Dooro wararka aad rabto in lagugu soo wargeliyo.',
     notifBreaking: 'Wararka degdegga ah', notifSomalia: 'Soomaaliya', notifWorld: 'Caalamka', notifSports: 'Ciyaaraha',
@@ -23,6 +24,7 @@ export const APP_STRINGS: Record<string, Record<string, string>> = {
     imageCredit: 'Sawir', license: 'Liisanka', lastChecked: 'La hubiyay {t}', pushTest: 'Ogeysiis tijaabo ah', all: 'Dhammaan',
   },
   en: {
+    corrections: 'Corrections', openBrowser: 'Open in browser', nextStory: 'Next story', shareStory: 'Share this story', moreBreaking: '{n} more breaking stories', sectionsBar: 'News sections',
     settings: 'Settings', language: 'Language', appearance: 'Appearance', light: 'Light', dark: 'Dark', system: 'Same as phone',
     fontSize: 'Text size', notifications: 'Notifications', notifIntro: 'Choose which news you want to be alerted about.',
     notifBreaking: 'Breaking news', notifSomalia: 'Somalia', notifWorld: 'World', notifSports: 'Sport',
@@ -43,6 +45,7 @@ export const APP_STRINGS: Record<string, Record<string, string>> = {
     imageCredit: 'Photo', license: 'Licence', lastChecked: 'Checked {t}', pushTest: 'Test notification', all: 'All',
   },
   ar: {
+    corrections: 'التصحيحات', openBrowser: 'فتح في المتصفح', nextStory: 'الخبر التالي', shareStory: 'شارك هذا الخبر', moreBreaking: '{n} أخبار عاجلة أخرى', sectionsBar: 'أقسام الأخبار',
     settings: 'الإعدادات', language: 'اللغة', appearance: 'المظهر', light: 'فاتح', dark: 'داكن', system: 'مثل الهاتف',
     fontSize: 'حجم النص', notifications: 'الإشعارات', notifIntro: 'اختر الأخبار التي تريد أن تصلك إشعارات عنها.',
     notifBreaking: 'الأخبار العاجلة', notifSomalia: 'الصومال', notifWorld: 'العالم', notifSports: 'الرياضة',
@@ -63,6 +66,7 @@ export const APP_STRINGS: Record<string, Record<string, string>> = {
     imageCredit: 'صورة', license: 'الترخيص', lastChecked: 'آخر فحص {t}', pushTest: 'إشعار تجريبي', all: 'الكل',
   },
   fr: {
+    corrections: 'Corrections', openBrowser: 'Ouvrir dans le navigateur', nextStory: 'Article suivant', shareStory: 'Partager cet article', moreBreaking: '{n} autres dernières nouvelles', sectionsBar: 'Rubriques',
     settings: 'Paramètres', language: 'Langue', appearance: 'Apparence', light: 'Clair', dark: 'Sombre', system: 'Comme le téléphone',
     fontSize: 'Taille du texte', notifications: 'Notifications', notifIntro: 'Choisissez les actualités pour lesquelles vous voulez être alerté.',
     notifBreaking: 'Dernière minute', notifSomalia: 'Somalie', notifWorld: 'Monde', notifSports: 'Sport',
@@ -83,6 +87,7 @@ export const APP_STRINGS: Record<string, Record<string, string>> = {
     imageCredit: 'Photo', license: 'Licence', lastChecked: 'Vérifié {t}', pushTest: 'Notification de test', all: 'Tout',
   },
   nl: {
+    corrections: 'Correcties', openBrowser: 'Openen in browser', nextStory: 'Volgend bericht', shareStory: 'Deel dit bericht', moreBreaking: '{n} andere breaking berichten', sectionsBar: 'Nieuwsrubrieken',
     settings: 'Instellingen', language: 'Taal', appearance: 'Weergave', light: 'Licht', dark: 'Donker', system: 'Zoals de telefoon',
     fontSize: 'Tekstgrootte', notifications: 'Meldingen', notifIntro: 'Kies over welk nieuws je een melding wilt krijgen.',
     notifBreaking: 'Breaking news', notifSomalia: 'Somalië', notifWorld: 'Wereld', notifSports: 'Sport',
@@ -103,6 +108,7 @@ export const APP_STRINGS: Record<string, Record<string, string>> = {
     imageCredit: 'Foto', license: 'Licentie', lastChecked: 'Gecontroleerd {t}', pushTest: 'Testmelding', all: 'Alles',
   },
   it: {
+    corrections: 'Rettifiche', openBrowser: 'Apri nel browser', nextStory: 'Notizia successiva', shareStory: 'Condividi questa notizia', moreBreaking: 'Altre {n} ultime notizie', sectionsBar: 'Sezioni',
     settings: 'Impostazioni', language: 'Lingua', appearance: 'Aspetto', light: 'Chiaro', dark: 'Scuro', system: 'Come il telefono',
     fontSize: 'Dimensione del testo', notifications: 'Notifiche', notifIntro: 'Scegli per quali notizie vuoi ricevere avvisi.',
     notifBreaking: 'Ultim’ora', notifSomalia: 'Somalia', notifWorld: 'Mondo', notifSports: 'Sport',
@@ -123,6 +129,7 @@ export const APP_STRINGS: Record<string, Record<string, string>> = {
     imageCredit: 'Foto', license: 'Licenza', lastChecked: 'Controllato {t}', pushTest: 'Notifica di prova', all: 'Tutto',
   },
   tr: {
+    corrections: 'Düzeltmeler', openBrowser: 'Tarayıcıda aç', nextStory: 'Sonraki haber', shareStory: 'Bu haberi paylaş', moreBreaking: '{n} son dakika haberi daha', sectionsBar: 'Haber bölümleri',
     settings: 'Ayarlar', language: 'Dil', appearance: 'Görünüm', light: 'Açık', dark: 'Koyu', system: 'Telefonla aynı',
     fontSize: 'Yazı boyutu', notifications: 'Bildirimler', notifIntro: 'Hangi haberler için bildirim almak istediğinizi seçin.',
     notifBreaking: 'Son dakika', notifSomalia: 'Somali', notifWorld: 'Dünya', notifSports: 'Spor',
@@ -143,6 +150,7 @@ export const APP_STRINGS: Record<string, Record<string, string>> = {
     imageCredit: 'Fotoğraf', license: 'Lisans', lastChecked: 'Kontrol edildi {t}', pushTest: 'Test bildirimi', all: 'Tümü',
   },
   de: {
+    corrections: 'Korrekturen', openBrowser: 'Im Browser öffnen', nextStory: 'Nächste Meldung', shareStory: 'Diese Meldung teilen', moreBreaking: '{n} weitere Eilmeldungen', sectionsBar: 'Rubriken',
     settings: 'Einstellungen', language: 'Sprache', appearance: 'Darstellung', light: 'Hell', dark: 'Dunkel', system: 'Wie das Telefon',
     fontSize: 'Textgröße', notifications: 'Benachrichtigungen', notifIntro: 'Wählen Sie, zu welchen Nachrichten Sie benachrichtigt werden möchten.',
     notifBreaking: 'Eilmeldungen', notifSomalia: 'Somalia', notifWorld: 'Welt', notifSports: 'Sport',
@@ -163,6 +171,7 @@ export const APP_STRINGS: Record<string, Record<string, string>> = {
     imageCredit: 'Foto', license: 'Lizenz', lastChecked: 'Geprüft {t}', pushTest: 'Testbenachrichtigung', all: 'Alle',
   },
   es: {
+    corrections: 'Correcciones', openBrowser: 'Abrir en el navegador', nextStory: 'Siguiente noticia', shareStory: 'Compartir esta noticia', moreBreaking: '{n} noticias de última hora más', sectionsBar: 'Secciones',
     settings: 'Ajustes', language: 'Idioma', appearance: 'Apariencia', light: 'Claro', dark: 'Oscuro', system: 'Como el teléfono',
     fontSize: 'Tamaño del texto', notifications: 'Notificaciones', notifIntro: 'Elige sobre qué noticias quieres recibir avisos.',
     notifBreaking: 'Última hora', notifSomalia: 'Somalia', notifWorld: 'Mundo', notifSports: 'Deportes',

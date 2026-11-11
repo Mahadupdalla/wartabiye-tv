@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { Tabs } from 'expo-router/js-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,7 +14,11 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   // red dot on LIVE only while there is genuinely fresh coverage (a breaking story in the last hour)
   const liveNow = items.some(c => c.breaking && Date.now() - Date.parse(c.publishedAt) < 3600_000 && Date.now() - Date.parse(c.publishedAt) < LIVE_WINDOW_MS);
-  const icon = (name: keyof typeof Ionicons.glyphMap) => ({ color, size }: { color: any; size: number }) => <Ionicons name={name} size={size} color={color as string} />;
+  // the chosen tab: filled icon with a short blue line above it
+  const Mark = ({ on }: { on: boolean }) => <View style={{ position: 'absolute', top: -7, width: on ? 22 : 0, height: 3, borderRadius: 2, backgroundColor: colors.blue }} />;
+  const icon = (name: keyof typeof Ionicons.glyphMap, filled: keyof typeof Ionicons.glyphMap) => ({ color, size, focused }: { color: any; size: number; focused: boolean }) => (
+    <View style={{ alignItems: 'center' }}><Mark on={focused} /><Ionicons name={focused ? filled : name} size={size} color={color as string} /></View>
+  );
   return (
     <Tabs
       screenOptions={{
@@ -25,17 +30,19 @@ export default function TabsLayout() {
         sceneStyle: { backgroundColor: colors.bg },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: t('home'), tabBarIcon: icon('home-outline') }} />
+      <Tabs.Screen name="index" options={{ title: t('home'), tabBarIcon: icon('home-outline', 'home') }} />
       <Tabs.Screen
         name="live"
         options={{
           title: t('live'),
-          tabBarIcon: ({ color, size }) => (liveNow ? <LiveDot size={12} /> : <Ionicons name="radio-outline" size={size} color={color as string} />),
+          tabBarIcon: ({ color, size, focused }) => (
+            <View style={{ alignItems: 'center' }}><Mark on={focused} />{liveNow ? <View style={{ height: size, justifyContent: 'center' }}><LiveDot size={12} /></View> : <Ionicons name={focused ? 'radio' : 'radio-outline'} size={size} color={color as string} />}</View>
+          ),
         }}
       />
-      <Tabs.Screen name="videos" options={{ title: t('videosNav'), tabBarIcon: icon('play-circle-outline') }} />
-      <Tabs.Screen name="saved" options={{ title: t('savedBtn'), tabBarIcon: icon('bookmark-outline') }} />
-      <Tabs.Screen name="more" options={{ title: t('menu'), tabBarIcon: icon('menu') }} />
+      <Tabs.Screen name="videos" options={{ title: t('videosNav'), tabBarIcon: icon('play-circle-outline', 'play-circle') }} />
+      <Tabs.Screen name="saved" options={{ title: t('savedBtn'), tabBarIcon: icon('bookmark-outline', 'bookmark') }} />
+      <Tabs.Screen name="more" options={{ title: t('menu'), tabBarIcon: icon('menu', 'menu') }} />
     </Tabs>
   );
 }

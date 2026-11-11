@@ -44,6 +44,23 @@ in Settings. Interface text comes from the website's own `assets/i18n.js` (`npm 
 use `src/i18n/app.ts`. Articles are shown only in a language they have really been translated into; automatic
 translations are labelled, exactly as on the website.
 
+## Readers stay inside the app
+
+Every link goes through `src/lib/links.ts`:
+
+* A wartabiyetv.com address opens the matching app screen: `/war/<id>.html` the article, `/soomaaliya/`, `/caalamka/`,
+  `/ciyaaraha/` the sections, `/wararka-tooska/` LIVE, `/muuqaal/` and `/toos/` Videos. About us, Contact us, Privacy,
+  Editorial ethics, Corrections and the advertising pages open as the website's own page **inside the app**
+  (`app/page/[slug].tsx`, without the website's header and footer, in the reader's language and theme).
+* Links from outside the app use the same map (`app/+native-intent.tsx`): Android App Links (`app.json` intent filter,
+  verified by `/.well-known/assetlinks.json` on the website), iPhone Universal Links (`associatedDomains`; needs the
+  Apple Team ID in `/.well-known/apple-app-site-association` once the Apple Developer account exists), `wartabiye://`
+  links and notification taps.
+* Other websites the reader chooses to open (a news source, a photo credit, an advertiser, Facebook / YouTube / TikTok)
+  open in the app's own browser screen (`app/browser.tsx`) with a Back button. Only the share buttons (WhatsApp,
+  Facebook, X, Telegram, LinkedIn) hand the link to those apps, and e-mail links open the mail app.
+* `/admin/` and the admin Worker are never opened by the app (`test/links.test.mjs`).
+
 ## Commands
 
 ```bash
@@ -68,7 +85,15 @@ Android on your own computer (Android Studio + JDK 17): `npx expo prebuild --pla
 * `test/app.e2e.mjs`: nine languages, Arabic right-to-left, sections, LIVE, bookmarks after restart, search, 320 / 390 /
   768 / 1280 px screens, dark mode, photo credit and licence, and that the app's code holds no admin address, token,
   GitHub key or AI service.
-* `test/android-smoke.sh`: installs the real APK on an Android emulator and checks it shows the live website's newest headline without crashing.
+* `test/android-smoke.sh`: installs the real APK on an Android emulator, checks it shows the live website's newest
+  headline, and that `https://www.wartabiyetv.com/war/<id>.html`, `/caalamka/`, `/xiriir/` and `wartabiye://war/<id>`
+  open inside the app (the app stays in front, no browser), without crashing.
+* `test/ios-smoke.sh`: the iPhone app built for the iOS Simulator (`ios` job), opened on an iPhone simulator: live news,
+  an article link, the World section and the Contact page inside the app.
+* `test/links.test.mjs`: which screen every website address opens; the admin never.
+* `test/security-live.sh`: every private admin API refuses requests without the owner's session, also with a forged
+  cookie, a forged token, a forged Origin and write methods. The `android` job also scans the APK's code for admin
+  addresses, keys and tokens.
 * `../workers/push/test/worker.test.mjs`: app push registration, Expo delivery, categories, no repeats, dead tokens.
 * `../workers/admin/test/worker.test.mjs`: app visits in the owner's statistics.
 
