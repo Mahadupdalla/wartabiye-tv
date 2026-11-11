@@ -1,15 +1,15 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-12T00:11:28+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-12T00:41:41+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-11T19:56:16Z",
- "newestArticleAt": "2026-11-11T22:55:00+03:00",
- "lastSourceCheckAt": "2026-11-12T00:10:20+03:00",
+ "newestArticleAt": "2026-11-11T23:46:02+03:00",
+ "lastSourceCheckAt": "2026-11-12T00:40:21+03:00",
  "sourceChecks24h": 292,
- "publishedArticles": 406,
- "liveArticles": 406,
- "waitingForImage": 82,
+ "publishedArticles": 410,
+ "liveArticles": 410,
+ "waitingForImage": 83,
  "liveInSync": true,
  "publishFailures24h": 2,
  "lastPublishRun": {
@@ -18,36 +18,41 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43091793756"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-11T21:41:40+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-11T21:49:45+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-12T00:37:31+03:00",
  "writers": {
   "sports": {
    "mode": "paused: Anthropic API credit balance too low since 2026-11-11T18:01:41+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
-   "lastCheckAt": "2026-11-12T00:11:26+03:00",
+   "lastCheckAt": "2026-11-12T00:41:38+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 2,
-    "waitingForSchedule": 65
+    "skipped": 4,
+    "waitingForSchedule": 56
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-12T00:10:11+03:00",
-   "lastSuccessAt": "2026-11-12T00:10:11+03:00",
+   "lastCheckAt": "2026-11-12T00:40:12+03:00",
+   "lastSuccessAt": "2026-11-12T00:40:12+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-11T21:10:14+03:00",
+  "lastSourceCheckAt": "2026-11-12T00:37:31+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-11T20:56:08+03:00",
-   "sourceName": "Horseed Media",
-   "title": "Somali Opposition Group Holds Talks with Security Officials Amid Political Tensions",
-   "url": "https://horseedmedia.net/somali-opposition-group-holds-talks-with-security-officials-amid-political-tensions/427428/"
+   "publishedAt": "2026-11-11T23:00:56+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Xasan oo shirka Turkiga kaga dhawaaqay in Soomaaliya u baahan tahay kaalmo degdeg ah",
+   "url": "https://www.caasimada.net/xasan-oo-shirka-turkiga-kaga-dhawaaqay-in-soomaaliya-u-baahan-tahay-kaalmo-degdeg-ah/"
   },
   "latestPublished": {
    "id": "2026-11-11-nabad-iyo-nolol-war-saxaafadeed",
@@ -56,26 +61,30 @@
    "source": "Xisbiga Nabad iyo Nolol",
    "url": "/war/2026-11-11-nabad-iyo-nolol-war-saxaafadeed.html"
   },
-  "publishedLastRun": 0,
-  "rejectedLastRun": 79,
+  "publishedLastRun": 1,
+  "rejectedLastRun": 81,
   "rejectedReasons": {
    "old": 16,
-   "duplicate": 62,
-   "on-site": 1
+   "duplicate": 65
   },
   "taskRejectedReasons": [
-   "Ugu Yaraan 8 Qof oo lagu Diley Weerar ka Dhacay Xad-beenaadka Soomaaliya iyo Kenya (Goobjoog) + Hiiraan: duplicate (2026-11-10-mandera-weerar-8-qof-waddada-arabia)",
-   "Soomaaliya iyo Shiinaha oo ka wada hadlay horumarinta arrimaha Dalxiiska (Radio Muqdisho): protocol kulan (safaaradda Beijing + China Tourism Group), go'aan ama heshiis lama shaacin; hal il, bogga lama furi karin (proxy 403)",
-   "Hoggaamiyaha Galmudug iyo Safiirka Britain oo ka wada hadlay siyaasadda iyo amniga (Goobjoog): protocol, wada-hadal taleefan oo aan go'aan lahayn",
-   "Somali Opposition Group Holds Talks with Security Officials (Horseed): headline-only; isla kulankii hore (2026-11-11-saraakiisha-amniga-mucaaradka-kulan-muqdisho) -> duplicate",
-   "Kenya Falls Victim to Its Own Guest: Laftagareen Linked to Al-Shabaab (Horseed): headline-only, eedeyn culus oo hal il ah, faallo u eg -> lama daabicin",
-   "Somalia's Parliament and Public Are Questioning the President's Shadowy Oil Deal With Turkey (Horseed): headline-only, faallo/falanqeyn -> lama daabicin",
-   "Kenya allegedly hosts Al-Shabab figures amid deadly cross-border attacks (Shabelle): headline-only, eedeyn culus; Hiiraan/Goobjoog none -> pending",
-   "Wasiir ka tirsan DF oo soo saaray digniin culus (Caasimada): duplicate (2026-11-11-wasiirka-caddaaladda-digniin-dowladnimada)",
-   "Safiirka cusub ee Mareykanka oo lagu cadaadinayo ... aqoonsiga Somaliland (Caasimada): duplicate (2026-11-11-cruz-kennington-safiirka-somaliland)",
-   "Police launch probe into death of Somali TikToker (The Standard): arrin Kenya (Kiambu), hal il, baaritaan booliis oo socda; xaqiijin labaad lama helin",
-   "Muxuu yahay Filimka cusub ee Salman Khan (BBC Somali): madadaalo, ma aha war Soomaaliya",
-   "Dunida Iyo Maanta / Idaacadda Subaxnimo (BBC Somali): barnaamij raadiye, ma aha war"
+   "Madaxweynaha JFS oo ka qayb galay meertada 31-aad ee Shirweynaha QM (Radio Muqdisho): isla dhacdada Goobjoog -> alsoReportedBy (2026-11-11-xasan-sheekh-khudbadda-cop31-antalya)",
+   "Xasan oo shirka Turkiga kaga dhawaaqay in Soomaaliya u baahan tahay kaalmo degdeg ah (Caasimada): headline-only, isla khudbadda COP31 -> alsoReportedBy",
+   "Garoowe: 20 Askari oo rabashado geeystay oo Maxkamada dambiyada la horgeyey (Radio Daljir): bogga waa cinwaan + muuqaal YouTube oo keliya, magacyo/eedeymo lama sheegin; hal il, Goobjoog/Puntland Post none -> lama daabicin (xog yar)",
+   "Wasiirka Warfaafinta grabka lafta Gareen oo Ciidan Cusub soo dhaweyeey (Radio Daljir): protocol, faahfaahin lama bixin",
+   "Barnaamijka Baraarug ee Radio Daljir: barnaamij raadiye, ma aha war",
+   "Maxay Soomaaliya ka baraneysa tallaabada Congo ee xilliga dagaalka? (Caasimada): faallo",
+   "Somalia: US confirms troop exit from Baledogle airfield (Somali Guardian): duplicate (2026-11-11-mareykanka-xaqiijiyay-ka-bixitaanka-baledogle)",
+   "Dowladda Finland oo joojisay 7 mashruuc / Finland oo xanibtay lacago loogu deeqay Soomaaliya (Horseed, Caasimada): headline-only; Hiiraan/Goobjoog none, WebSearch so+en: kaliya go'aannadii hore (2024/2025) -> pending (lama xaqiijin)",
+   "Somali Opposition Group Holds Talks with Security Officials / Kenya Falls Victim to Its Own Guest / Parliament questioning oil deal (Horseed): duplicate / eedeyn hal il ah / faallo (sida run-kii hore)",
+   "Soomaaliya iyo Shiinaha oo ka wada hadlay dalxiiska (Radio Muqdisho): protocol, go'aan lama shaacin",
+   "Wasiir DF digniin culus; Safiirka Mareykanka & Somaliland; Qareennada Bariga Afrika; Danjire Alkan & Khayre; Baledogle; Xajka 2027; Libya 171; Somaliland 9 qof; Ebola 5,300; Xasan-Abiy (Goobjoog/Puntland Post/Horseed): duplicate (horey ayay bogga ugu jireen)",
+   "Hoggaamiyaha Galmudug iyo Safiirka Britain; Shirka Wasiirrada Caddaaladda Carabta (Goobjoog, Shabelle); Somalia-IOM; Wasiirka Ganacsiga Ningbo; CEDAW (Shabelle): protocol, go'aan lama gaarin",
+   "COP31: Qorshaha Cimilada Soomaaliya Ma Heli Doonaa Maalgelin? (Goobjoog): falanqeyn/faallo",
+   "BBC Somali: Salman Khan film / Guurkii shanta maalmood / cunnada habeenkii / Dunida Iyo Maanta / Idaacadda Subaxnimo: ma aha war Soomaaliya ama barnaamij raadiye",
+   "Baashe Yuusuf; Ilhaan Cumar qareenno (Hiiraan): arrimo Mareykan/shakhsi, hore loo eegay; Sucuudiga haweeney jeedal (Daljir): ma aha war Soomaaliya; Ciyaartoy lagu qisaasay Hargaysa (Daljir): hal il, dil -> lama daabicin",
+   "Police probe death of Somali TikToker (The Standard): arrin Kenya, hal il, baaritaan socda",
+   "Ali weeps as world title dream realised in Texas (Puntland Post): ciyaaraha feerka, ma aha war Soomaaliya"
   ],
   "waitingForImage": 1,
   "waitingIds": [
