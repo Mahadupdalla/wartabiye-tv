@@ -48,7 +48,6 @@ export function SiteWebView({ url, external, onTitle, onLoaded }: { url: string;
         onNavigationStateChange={s => { if (s.title && onTitle) onTitle(s.title); }}
         forceDarkOn={false}
         allowsBackForwardNavigationGestures={!!external}
-        decelerationRate="normal"
         style={{ flex: 1, backgroundColor: colors.bg }}
         originWhitelist={['https://*', 'http://*', 'about:*', 'data:*']}
       />
