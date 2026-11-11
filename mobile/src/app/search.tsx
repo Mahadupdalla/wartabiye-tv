@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useDeferredValue, useMemo, useState } from 'react';
 import { FlatList, TextInput, View } from 'react-native';
 import { useSettings } from '../lib/settings';
 import { useContent } from '../lib/content';
@@ -11,7 +11,9 @@ const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,
 export default function Search() {
   const { colors, t, lang, rtl } = useSettings();
   const { items } = useContent();
-  const [q, setQ] = useState('');
+  const [typed, setQ] = useState('');
+  // the field shows every letter at once; the result list follows a moment later, so fast typing never loses letters
+  const q = useDeferredValue(typed);
   const res = useMemo(() => {
     const words = fold(q).split(/\s+/).filter(w => w.length > 1);
     if (!words.length) return [];
@@ -24,7 +26,7 @@ export default function Search() {
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <View style={{ padding: 12, backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.line }}>
         <TextInput
-          value={q} onChangeText={setQ} autoFocus placeholder={t('searchPh')} placeholderTextColor={colors.muted} returnKeyType="search" clearButtonMode="while-editing"
+          value={typed} onChangeText={setQ} autoFocus placeholder={t('searchPh')} placeholderTextColor={colors.muted} returnKeyType="search" clearButtonMode="while-editing"
           accessibilityLabel={t('search')}
           style={{ backgroundColor: colors.bg, color: colors.fg, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, fontSize: 16, borderWidth: 1, borderColor: colors.line, textAlign: rtl ? 'right' : 'left' }}
         />

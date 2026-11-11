@@ -152,6 +152,9 @@ def flow(art_id, title):
             {'tapOn': {'text': txt(code, 'more'), 'index': 0}},
             {'extendedWaitUntil': {'visible': txt(code, key), 'timeout': 15000}},
             {'waitForAnimationToEnd': {'timeout': 8000}},
+            # on a small iPhone the item can sit below the tab bar: scroll it into the middle before tapping
+            {'scrollUntilVisible': {'element': {'text': txt(code, key)}, 'direction': 'DOWN', 'timeout': 15000,
+                                    'visibilityPercentage': 100, 'centerElement': True}},
             {'tapOn': {'text': txt(code, key), 'index': 0}},
             {'waitForAnimationToEnd': {'timeout': 8000}}]
         if expect:
@@ -181,6 +184,8 @@ def flow(art_id, title):
             steps += menu('en', 'search')
             steps += [
                 {'inputText': word},
+                {'extendedWaitUntil': {'visible': {'text': has(word)}, 'timeout': 10000}},
+                'hideKeyboard',
                 {'extendedWaitUntil': {'visible': tp, **W}},
                 {'takeScreenshot': 'search'},
                 # the story the website publishes now, opened inside the app from the search result
