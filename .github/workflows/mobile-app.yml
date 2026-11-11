@@ -198,10 +198,15 @@ jobs:
         run: |
           WS=$(ls -d ios/*.xcworkspace | head -1); SCHEME=$(basename "$WS" .xcworkspace)
           echo "workspace $WS scheme $SCHEME"
-          set -o pipefail
-          xcodebuild -workspace "$WS" -scheme "$SCHEME" -configuration Release -sdk iphonesimulator \
+          xcodebuild -version
+          mkdir -p test/output
+          if ! xcodebuild -workspace "$WS" -scheme "$SCHEME" -configuration Release -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO \
-            ONLY_ACTIVE_ARCH=NO build | tail -40
+            ONLY_ACTIVE_ARCH=NO build > test/output/xcodebuild.log 2>&1; then
+            grep -nE "error:|\*\* BUILD FAILED|fatal|Error:" test/output/xcodebuild.log | head -80
+            exit 1
+          fi
+          tail -5 test/output/xcodebuild.log
           APP=$(ls -d build/Build/Products/Release-iphonesimulator/*.app | head -1)
           echo "APP=$APP" >> "$GITHUB_ENV"
           ls -la "$APP"
