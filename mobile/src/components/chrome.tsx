@@ -130,7 +130,7 @@ export function MenuBar(_: { withBrand?: boolean }) {
   ];
   const tools: [keyof typeof Ionicons.glyphMap, string, () => void][] = [
     ['search-outline', t('search'), nav('/search')],
-    ['bookmark-outline', t('saved'), go(() => router.navigate('/saved'))],
+    ['bookmark-outline', t('savedBtn'), go(() => router.navigate('/saved'))],
     ['notifications-outline', t('notifications'), nav('/notifications')],
     ['settings-outline', t('settings'), nav('/settings')],
     ['megaphone-outline', t('advertise'), nav('/ads')],
