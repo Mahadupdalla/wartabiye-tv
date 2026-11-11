@@ -1,8 +1,8 @@
 import React from 'react';
-import { Linking, Pressable, ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
+import { router } from 'expo-router';
 import { useSettings } from '../lib/settings';
 import { useContent } from '../lib/content';
-import { SITE } from '../lib/config';
 import { AdSlot, adText } from '../components/ads';
 import { Notice, T, PageHero } from '../components/ui';
 
@@ -16,7 +16,7 @@ export default function Ads() {
   return (
     <ScrollView style={{ backgroundColor: colors.bg }} contentContainerStyle={{ paddingBottom: 30 }}>
       <PageHero title={t('adHero')} sub={t('adHeroSub')}>
-        <Pressable onPress={() => Linking.openURL(SITE + 'xayeysiimaha/')} accessibilityRole="link" style={{ backgroundColor: '#fff', alignSelf: 'flex-start', borderRadius: 8, paddingHorizontal: 16, paddingVertical: 10, marginTop: 14 }}>
+        <Pressable onPress={() => router.push('/page/xayeysiimaha')} accessibilityRole="link" style={{ backgroundColor: '#fff', alignSelf: 'flex-start', borderRadius: 8, paddingHorizontal: 16, paddingVertical: 10, marginTop: 14 }}>
           <T f="bodyBold" style={{ color: colors.blueD }}>{t('adOrder')}</T>
         </Pressable>
       </PageHero>
@@ -31,8 +31,8 @@ export default function Ads() {
       <T f="display" style={{ fontSize: 18, paddingHorizontal: 16, paddingTop: 22 }}>{t('adsActive')}</T>
       {ads.length ? ads.map(a => <T key={a.id} style={{ paddingHorizontal: 16, paddingTop: 6 }}>• {adText(a, 'title', lang) || a.advertiser || a.id}</T>) : <T muted style={{ paddingHorizontal: 16, paddingTop: 6 }}>{t('adsNone')}</T>}
       <AdSlot position="home" />
-      <Pressable onPress={() => Linking.openURL(SITE + 'siyaasadda-xayeysiiska/')} accessibilityRole="link" style={{ padding: 16 }}>
-        <T style={{ color: colors.link }}>{t('adPolicy')} ↗</T>
+      <Pressable onPress={() => router.push('/page/siyaasadda-xayeysiiska')} accessibilityRole="link" style={{ padding: 16 }}>
+        <T style={{ color: colors.link }}>{t('adPolicy')} ›</T>
       </Pressable>
     </ScrollView>
   );

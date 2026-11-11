@@ -306,3 +306,66 @@ export function NewStories({ onPress }: { onPress: () => void }) {
     </Pressable>
   );
 }
+
+/** Breaking-news banner at the top of Home: only while a story the newsroom marked "breaking" is under 12 hours old */
+export function BreakingBanner() {
+  const { colors, t, rtl } = useSettings();
+  const { items } = useContent();
+  const list = useMemo(() => items.filter(c => !c.sponsored && isBreaking(c)).sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)), [items]);
+  const a = useRef(new Animated.Value(0)).current;
+  const top = list[0];
+  useEffect(() => {
+    if (!top) return;
+    a.setValue(0);
+    Animated.timing(a, { toValue: 1, duration: 420, easing: Easing.out(Easing.cubic), useNativeDriver: NATIVE }).start();
+  }, [top?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (!top) return null;
+  const rise = a.interpolate({ inputRange: [0, 1], outputRange: [10, 0] });
+  return (
+    <Animated.View testID="breaking-banner" style={{ marginHorizontal: 16, marginTop: 14, opacity: a, transform: [{ translateY: rise }] }}>
+      <Pressable onPress={() => open(top)} accessibilityRole="link" accessibilityLabel={t('breakingLabel') + ': ' + top.title} style={({ pressed }) => ({ borderRadius: 12, overflow: 'hidden', backgroundColor: colors.red, transform: [{ scale: pressed ? 0.985 : 1 }], shadowColor: '#F2060A', shadowOpacity: 0.25, shadowRadius: 10, shadowOffset: { width: 0, height: 5 }, elevation: 3 })}>
+        <View style={{ padding: 14, gap: 8 }}>
+          <Row style={{ gap: 8 }}>
+            <Row style={{ gap: 6, backgroundColor: 'rgba(255,255,255,0.18)', borderRadius: 4, paddingHorizontal: 8, paddingVertical: 4 }}>
+              <LiveDot size={7} color="#fff" />
+              <T f="display" style={{ color: '#fff', fontSize: 11, letterSpacing: 1.6 }}>{t('breakingLabel')}</T>
+            </Row>
+            <T f="bodyBold" style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12 }}>{top.timeVerified === false ? '' : clock(top.publishedAt)}</T>
+          </Row>
+          <Row style={{ gap: 10, alignItems: 'flex-start' }}>
+            <T f="display" style={{ flex: 1, color: '#fff', fontSize: 18.5, lineHeight: 23 }} numberOfLines={3}>{top.title}</T>
+            <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={20} color="#fff" style={{ marginTop: 2 }} />
+          </Row>
+        </View>
+      </Pressable>
+      {list.length > 1 ? (
+        <Pressable onPress={() => router.push('/breaking')} accessibilityRole="link" hitSlop={6} style={{ paddingTop: 8, paddingHorizontal: 4 }}>
+          <T f="bodyBold" style={{ color: colors.red, fontSize: 13 }}>{t('moreBreaking', { n: list.length - 1 })} ›</T>
+        </Pressable>
+      ) : null}
+    </Animated.View>
+  );
+}
+
+/** Quick section bar under the menu: Soomaaliya, Caalamka, Ciyaaraha, LIVE, Degdeg, Muuqaal (the same sections as MENU) */
+export function SectionChips() {
+  const { colors, t, rtl } = useSettings();
+  const chips: [string, keyof typeof Ionicons.glyphMap, () => void, boolean?][] = [
+    [t('somaliaNav'), 'flag-outline', () => router.push('/section/somalia')],
+    [t('world'), 'globe-outline', () => router.push('/section/world')],
+    [t('sports'), 'football-outline', () => router.push('/section/sports')],
+    [t('liveNewsNav'), 'radio-outline', () => router.navigate('/live'), true],
+    [t('breakingTitle'), 'flash-outline', () => router.push('/breaking'), true],
+    [t('videosNav'), 'play-circle-outline', () => router.navigate('/videos')],
+  ];
+  return (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} accessibilityLabel={t('sectionsBar')} style={{ flexGrow: 0, transform: rtl && Platform.OS !== 'web' ? [{ scaleX: -1 }] : undefined }} contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 14, gap: 8 }}>
+      {chips.map(([label, icon, go, red]) => (
+        <Pressable key={label} onPress={go} accessibilityRole="link" style={({ pressed }) => ({ transform: [{ scaleX: rtl && Platform.OS !== 'web' ? -1 : 1 }, { scale: pressed ? 0.96 : 1 }], flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 13, paddingVertical: 8, borderRadius: 18, borderWidth: 1, borderColor: red ? colors.red : colors.line, backgroundColor: pressed ? colors.chip : colors.surface })}>
+          {red ? <LiveDot size={7} /> : <Ionicons name={icon} size={15} color={colors.blue} />}
+          <T f="bodyBold" style={{ fontSize: 13.5, color: red ? colors.red : colors.fg }}>{label}</T>
+        </Pressable>
+      ))}
+    </ScrollView>
+  );
+}

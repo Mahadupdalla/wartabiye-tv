@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Linking, Platform, Pressable, ScrollView, Share, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, Animated, Easing, Linking, Platform, Pressable, ScrollView, Share, View } from 'react-native';
 import { Stack, router, useLocalSearchParams, useNavigation } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSettings } from '../../lib/settings';
 import { useContent } from '../../lib/content';
 import { articleUrl } from '../../lib/config';
+import { openLink } from '../../lib/links';
 import { catName, fullDate, ago } from '../../lib/i18n';
 import { cardOf } from '../../lib/api';
 import type { Article, Lang } from '../../lib/types';
@@ -46,10 +47,27 @@ export default function ArticleScreen() {
   const viewLang: Lang = showSo ? 'so' : lang;
   const tx = article?.tr[viewLang];
   const card = useMemo(() => (article ? cardOf(article, article.tr[lang] ? lang : 'so') : null), [article, lang]);
+  // the next story: the one published just before this one in the same section (then the newest of the rest)
+  const next = useMemo(() => {
+    if (!article) return null;
+    const pool = items.filter(c => c.id !== article.id && !c.sponsored).sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+    const same = pool.filter(c => c.section === article.section);
+    return same.find(c => c.publishedAt < article.publishedAt) || same[0] || pool[0] || null;
+  }, [items, article]);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const contentH = useRef(0);
+  const viewH = useRef(0);
+  const [scrollMax, setScrollMax] = useState(0);
+  const fadeIn = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (!article) return;
+    fadeIn.setValue(0);
+    Animated.timing(fadeIn, { toValue: 1, duration: 320, easing: Easing.out(Easing.cubic), useNativeDriver: Platform.OS !== 'web' }).start();
+  }, [article?.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const related = useMemo(() => {
     if (!article) return [];
-    return items.filter(c => c.id !== article.id && !c.sponsored && c.section === article.section && (c.category === article.category || c.section !== 'somalia')).slice(0, 4);
-  }, [items, article]);
+    return items.filter(c => c.id !== article.id && c.id !== next?.id && !c.sponsored && c.section === article.section && (c.category === article.category || c.section !== 'somalia')).slice(0, 4);
+  }, [items, article, next]);
 
   const share = async (how: 'any' | 'whatsapp' | 'facebook' | 'x' | 'telegram' | 'linkedin') => {
     if (!article) return;
@@ -147,15 +165,35 @@ export default function ArticleScreen() {
   const credit = article.imageCredit;
   const textLangProps = viewLang === 'so' && lang !== 'so' ? { style: { textAlign: 'left' as const, writingDirection: 'ltr' as const } } : null;
 
+  const readMin = Math.max(1, Math.round((tx.title + ' ' + tx.summary + ' ' + tx.body).split(/\s+/).length / 200));
+  const sharePill = (name: string, icon: keyof typeof Ionicons.glyphMap, how: 'whatsapp' | 'facebook' | 'x' | 'telegram' | 'linkedin' | 'any', bg = colors.blue) => (
+    <Pressable key={name} onPress={() => share(how)} style={({ pressed }) => [shareBtn, { backgroundColor: bg, transform: [{ scale: pressed ? 0.96 : 1 }] }]} accessibilityRole="button" accessibilityLabel={name}>
+      <Row style={{ gap: 7 }}><Ionicons name={icon} size={15} color="#fff" /><T f="bodyBold" style={{ color: '#fff', fontSize: 13.5 }}>{name}</T></Row>
+    </Pressable>
+  );
+  const progress = scrollMax > 0 ? scrollY.interpolate({ inputRange: [0, scrollMax], outputRange: [0, 1], extrapolate: 'clamp' }) : 0;
+
   return (
-    <ScrollView style={{ backgroundColor: colors.bg }} contentContainerStyle={{ paddingBottom: 40 }}>
-      <Stack.Screen options={{ title: '', headerRight, headerLeft }} />
+    <View style={{ flex: 1, backgroundColor: colors.bg }}>
+    <Stack.Screen options={{ title: '', headerRight, headerLeft }} />
+    {/* reading progress under the blue bar */}
+    <View style={{ height: 3, backgroundColor: colors.dark ? '#1a2b46' : '#dfe7f1', zIndex: 2 }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      <Animated.View style={{ height: 3, width: '100%', backgroundColor: colors.red, transformOrigin: rtl ? 'right' : 'left', transform: [{ scaleX: progress as any }] }} />
+    </View>
+    <Animated.ScrollView
+      style={{ backgroundColor: colors.bg }}
+      contentContainerStyle={{ paddingBottom: 40 }}
+      scrollEventThrottle={16}
+      onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: Platform.OS !== 'web' })}
+      onLayout={e => { viewH.current = e.nativeEvent.layout.height; setScrollMax(Math.max(0, contentH.current - viewH.current)); }}
+      onContentSizeChange={(_, h) => { contentH.current = h; setScrollMax(Math.max(0, contentH.current - viewH.current)); }}
+    >
+      <Animated.View style={{ opacity: fadeIn, transform: [{ translateY: fadeIn.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }] }}>
       <View style={{ padding: 16, paddingBottom: 4, gap: 12 }}>
         <Row style={{ gap: 6, flexWrap: 'wrap' }}>
           <T style={{ fontSize: 13.5 }} onPress={() => router.navigate('/')}>{t('home')}</T>
           <T style={{ fontSize: 13.5 }} muted>›</T>
-          <T style={{ fontSize: 13.5 }} onPress={() => router.push(`/section/${article.section}`)}>{secLabel}</T>
-          <T style={{ fontSize: 13.5 }} muted>›</T>
+          <T style={{ fontSize: 13.5, color: colors.link }} onPress={() => router.push(`/section/${article.section}`)}>{secLabel}</T>
         </Row>
         <CatTag label={article.sponsored ? t('sponsored') : isBreaking(article) ? t('breaking') : article.section === 'somalia' ? catName(lang, article.category) || secLabel : secLabel} red={article.sponsored || isBreaking(article)} dot={isBreaking(article)} />
         {article.sponsored ? <Notice tone="warn" text={t('sponsored') + (article.sponsor ? ' · ' + t('sponsoredBy') + ': ' + article.sponsor : '')} /> : null}
@@ -167,53 +205,24 @@ export default function ArticleScreen() {
             </Pressable>
           </View>
         ) : null}
-        <T f="display" style={[{ fontSize: 31, lineHeight: 35 }, textLangProps?.style]} selectable accessibilityRole="header">{tx.title}</T>
-        {tx.body && tx.summary ? <T style={[{ fontSize: fontSize + 2, lineHeight: Math.round((fontSize + 2) * 1.55) }, textLangProps?.style]} selectable>{tx.summary}</T> : null}
-        <View style={{ paddingTop: 6, gap: 8 }}>
-          <View style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={LOGO} style={{ width: 36, height: 36, borderRadius: 18 }} />
+        <T f="display" style={[{ fontSize: 30, lineHeight: 35 }, textLangProps?.style]} selectable accessibilityRole="header">{tx.title}</T>
+        {tx.body && tx.summary ? <T style={[{ fontSize: fontSize + 1, lineHeight: Math.round((fontSize + 1) * 1.55), color: colors.soft }, textLangProps?.style]} selectable>{tx.summary}</T> : null}
+        <Row style={{ gap: 10, paddingTop: 4 }}>
+          <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' }}>
+            <Image source={LOGO} style={{ width: 38, height: 38, borderRadius: 19 }} />
           </View>
-          <Row style={{ gap: 8, flexWrap: 'wrap' }}>
-            <T f="bodyBold" style={{ fontSize: 12.5 }}>Wartabiye TV</T>
-            <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: colors.grey }} />
-            <T f="bodyMed" style={{ fontSize: 12.5 }}>{article.timeVerified ? fullDate(lang, article.publishedAt) : t('timeUnverifiedLong')}</T>
-          </Row>
-          <Row style={{ gap: 8, flexWrap: 'wrap' }}>
-            {article.timeVerified ? <T f="bodyMed" style={{ fontSize: 12.5 }}>{ago(lang, article.publishedAt)}</T> : null}
-            <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: colors.grey }} />
-            <T f="bodyMed" style={{ fontSize: 12.5 }}>{t('readTime', { n: Math.max(1, Math.round((tx.title + ' ' + tx.summary + ' ' + tx.body).split(/\s+/).length / 200)) })}</T>
-          </Row>
-          <Row style={{ gap: 8, paddingBottom: 14, borderBottomWidth: 1, borderBottomColor: colors.line }}>
-            <Pressable onPress={() => setFontSize(fontSize - 1)} style={outline} accessibilityRole="button" accessibilityLabel={t('smaller')}>
-              <T f="bodyBold" style={{ fontSize: 13 }}>A−</T>
-            </Pressable>
-            <Pressable onPress={() => setFontSize(fontSize + 1)} style={outline} accessibilityRole="button" accessibilityLabel={t('larger')}>
-              <T f="bodyBold" style={{ fontSize: 13 }}>A+</T>
-            </Pressable>
-            {card ? (
-              <Pressable onPress={() => toggleSaved(card)} style={[outline, isSaved(id) && { backgroundColor: colors.blue, borderColor: colors.blue }]} accessibilityRole="button" accessibilityLabel={isSaved(id) ? t('unsave') : t('save')}>
-                <Row style={{ gap: 6 }}>
-                  <Ionicons name={isSaved(id) ? 'bookmark' : 'bookmark-outline'} size={14} color={isSaved(id) ? '#fff' : colors.fg} />
-                  <T f="bodyBold" style={{ fontSize: 13, color: isSaved(id) ? '#fff' : colors.fg }}>{isSaved(id) ? t('savedBtn') : t('save')}</T>
-                </Row>
-              </Pressable>
-            ) : null}
-          </Row>
-        </View>
-        <Row style={{ gap: 8, flexWrap: 'wrap' }}>
-          {([['Facebook', 'logo-facebook', 'facebook'], ['WhatsApp', 'logo-whatsapp', 'whatsapp'], ['X', 'logo-x', 'x'], ['Telegram', 'paper-plane', 'telegram'], ['LinkedIn', 'logo-linkedin', 'linkedin']] as const).map(([name, icon, how]) => (
-            <Pressable key={name} onPress={() => share(how)} style={shareBtn} accessibilityRole="button" accessibilityLabel={name}>
-              <Row style={{ gap: 7 }}><Ionicons name={icon} size={15} color="#fff" /><T f="bodyBold" style={{ color: '#fff', fontSize: 13.5 }}>{name}</T></Row>
-            </Pressable>
-          ))}
-          <Pressable onPress={() => share('any')} style={[shareBtn, { backgroundColor: colors.blueD }]} accessibilityRole="button" accessibilityLabel={t('shareMore')}>
-            <Row style={{ gap: 7 }}><Ionicons name="share-social" size={15} color="#fff" /><T f="bodyBold" style={{ color: '#fff', fontSize: 13.5 }}>{t('shareMore')}</T></Row>
-          </Pressable>
+          <View style={{ flex: 1, gap: 3 }}>
+            <T f="bodyBold" style={{ fontSize: 13.5 }}>Wartabiye TV</T>
+            <T f="bodyMed" muted style={{ fontSize: 12.5 }}>
+              {article.timeVerified ? fullDate(lang, article.publishedAt) + ' · ' + ago(lang, article.publishedAt) : t('timeUnverifiedLong')}
+              {' · ' + t('readTime', { n: readMin })}
+            </T>
+          </View>
         </Row>
       </View>
 
-      <View style={{ paddingHorizontal: 16, paddingTop: 10 }}>
-        <Photo uri={article.image || article.thumb} alt={tx.imageAlt || somali.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10, borderWidth: 1, borderColor: colors.line }} rounded={10} priority="high" illus={article.imageKind === 'illustrative'} />
+      <View style={{ paddingHorizontal: 16, paddingTop: 12 }}>
+        <Photo uri={article.image || article.thumb} alt={tx.imageAlt || somali.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} rounded={12} priority="high" illus={article.imageKind === 'illustrative'} />
         <View style={{ paddingTop: 8 }}>
           {article.image ? (
             <T style={{ fontSize: 12.5, lineHeight: 18 }} muted>
@@ -221,7 +230,7 @@ export default function ArticleScreen() {
               {article.imageKind === 'illustrative' ? t('illusNote') : ''}
               {credit ? t('photo') + ': ' : ''}
               {credit ? (
-                article.imageSourceUrl ? <T style={{ color: colors.link, fontSize: 12.5, textDecorationLine: 'underline' }} onPress={() => Linking.openURL(article.imageSourceUrl)}>{credit}</T> : credit
+                article.imageSourceUrl ? <T style={{ color: colors.link, fontSize: 12.5, textDecorationLine: 'underline' }} onPress={() => openLink(article.imageSourceUrl)}>{credit}</T> : credit
               ) : null}
               {article.imageLicense ? ' · ' + article.imageLicense : ''}
             </T>
@@ -230,6 +239,28 @@ export default function ArticleScreen() {
           )}
         </View>
       </View>
+
+      {/* reading tools: text size, save, share */}
+      <Row style={{ gap: 8, marginHorizontal: 16, marginTop: 14, paddingVertical: 10, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line }}>
+        <Pressable onPress={() => setFontSize(fontSize - 1)} style={outline} accessibilityRole="button" accessibilityLabel={t('smaller')}>
+          <T f="bodyBold" style={{ fontSize: 13 }}>A−</T>
+        </Pressable>
+        <Pressable onPress={() => setFontSize(fontSize + 1)} style={outline} accessibilityRole="button" accessibilityLabel={t('larger')}>
+          <T f="bodyBold" style={{ fontSize: 15 }}>A+</T>
+        </Pressable>
+        <View style={{ flex: 1 }} />
+        {card ? (
+          <Pressable onPress={() => toggleSaved(card)} style={[outline, isSaved(id) && { backgroundColor: colors.blue, borderColor: colors.blue }]} accessibilityRole="button" accessibilityLabel={isSaved(id) ? t('unsave') : t('save')}>
+            <Row style={{ gap: 6 }}>
+              <Ionicons name={isSaved(id) ? 'bookmark' : 'bookmark-outline'} size={14} color={isSaved(id) ? '#fff' : colors.fg} />
+              <T f="bodyBold" style={{ fontSize: 13, color: isSaved(id) ? '#fff' : colors.fg }}>{isSaved(id) ? t('savedBtn') : t('save')}</T>
+            </Row>
+          </Pressable>
+        ) : null}
+        <Pressable onPress={() => share('any')} style={[outline, { backgroundColor: colors.blue, borderColor: colors.blue }]} accessibilityRole="button" accessibilityLabel={t('share')}>
+          <Row style={{ gap: 6 }}><Ionicons name="share-social" size={14} color="#fff" /><T f="bodyBold" style={{ fontSize: 13, color: '#fff' }}>{t('share')}</T></Row>
+        </Pressable>
+      </Row>
 
       <View style={{ padding: 16, gap: 16 }}>
         {paragraphs.map((para, i) => (/^##\s+/.test(para) ? (
@@ -244,8 +275,8 @@ export default function ArticleScreen() {
           <View style={[note, { gap: 6 }]}>
             <T style={{ fontSize: 14.5, lineHeight: 22 }}>{t('srcNote', { src: article.source })}</T>
             {article.sourceUrl ? (
-              <Pressable onPress={() => Linking.openURL(article.sourceUrl)} accessibilityRole="link">
-                <T f="bodyBold" style={{ color: colors.link, fontSize: 14 }}>{t('readOriginal')} ({article.source}) ↗</T>
+              <Pressable onPress={() => openLink(article.sourceUrl)} accessibilityRole="link">
+                <T f="bodyBold" style={{ color: colors.link, fontSize: 14 }}>{t('readOriginal')} ({article.source}) ›</T>
               </Pressable>
             ) : null}
           </View>
@@ -253,10 +284,30 @@ export default function ArticleScreen() {
           <View style={note}><T style={{ fontSize: 14.5, lineHeight: 22 }}>{t('basedNote')}</T></View>
         ) : null}
         {fromCache && offline ? <T muted style={{ fontSize: 12 }}>{t('savedOffline')}</T> : null}
-        <Pressable onPress={() => Linking.openURL(articleUrl(article.id))} accessibilityRole="link">
-          <T style={{ color: colors.link, fontSize: 13 }}>{t('openWebsite')} ↗</T>
-        </Pressable>
+
+        <T f="display" style={{ fontSize: 15, letterSpacing: 1, textTransform: 'uppercase', marginTop: 6 }}>{t('shareStory')}</T>
+        <Row style={{ gap: 8, flexWrap: 'wrap' }}>
+          {sharePill('WhatsApp', 'logo-whatsapp', 'whatsapp', '#128C4B')}
+          {sharePill('Facebook', 'logo-facebook', 'facebook', '#0866FF')}
+          {sharePill('X', 'logo-x', 'x', '#0b1c33')}
+          {sharePill('Telegram', 'paper-plane', 'telegram', '#1c8adb')}
+          {sharePill('LinkedIn', 'logo-linkedin', 'linkedin', '#0a66c2')}
+          {sharePill(t('shareMore'), 'share-social', 'any', colors.blueD)}
+        </Row>
       </View>
+
+      {next ? (
+        <Pressable onPress={() => router.replace({ pathname: '/war/[id]', params: { id: next.id, rev: next.rev } })} accessibilityRole="link" accessibilityLabel={t('nextStory') + ': ' + next.title} style={({ pressed }) => ({ marginHorizontal: 16, marginTop: 6, borderRadius: 12, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, overflow: 'hidden', transform: [{ scale: pressed ? 0.985 : 1 }] })}>
+          <Row style={{ gap: 12, padding: 12 }}>
+            <Photo uri={next.thumb || next.image} alt={next.imageAlt} style={{ width: 96, height: 64 }} rounded={8} />
+            <View style={{ flex: 1, gap: 4 }}>
+              <T f="display" style={{ color: colors.red, fontSize: 11.5, letterSpacing: 1.2, textTransform: 'uppercase' }}>{t('nextStory')}</T>
+              <T f="display" style={{ fontSize: 15, lineHeight: 19 }} numberOfLines={3}>{next.title}</T>
+            </View>
+            <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={20} color={colors.muted} />
+          </Row>
+        </Pressable>
+      ) : null}
 
       <AdSlot position="article" />
       {related.length ? (
@@ -265,7 +316,8 @@ export default function ArticleScreen() {
           {related.map(c => <GridCard key={c.id} c={c} />)}
         </View>
       ) : null}
-      {rtl ? null : null}
-    </ScrollView>
+      </Animated.View>
+    </Animated.ScrollView>
+    </View>
   );
 }

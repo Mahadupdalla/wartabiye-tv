@@ -36,6 +36,8 @@ jobs:
       - run: npm ci
       - name: Typecheck
         run: npx tsc --noEmit
+      - name: Links stay inside the app (website addresses -> app screens, admin never)
+        run: node --experimental-strip-types --test test/links.test.mjs
       - name: Content API and push tests
         working-directory: .
         run: |
@@ -51,12 +53,8 @@ jobs:
         run: |
           # GitHub Pages serves the website; if api/v1 is not published yet the app reads data/news.json (same content)
           node test/app.e2e.mjs --live https://www.wartabiyetv.com/
-      - name: The app cannot use private admin APIs
-        run: |
-          # the admin's API answers only a signed-in owner (GitHub login + MFA); the app holds no session or token
-          code=$(curl -s -o /dev/null -w '%{http_code}' https://wartabiye-admin.wartabiye.workers.dev/api/me)
-          echo "admin /api/me without a session: HTTP $code"
-          [ "$code" = 401 ] || [ "$code" = 403 ] || [ "$code" = 302 ]
+      - name: The admin API refuses public requests (server-side, also forged cookies, tokens and write methods)
+        run: sh test/security-live.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -134,6 +132,15 @@ jobs:
           cp android/app/build/outputs/bundle/release/app-release.aab ../dist/wartabiye-tv-$SIGNING-signed.aab
           ls -la ../dist
           "$ANDROID_HOME"/build-tools/$(ls "$ANDROID_HOME"/build-tools | sort -V | tail -1)/aapt2 dump badging ../dist/*.apk | head -3 || true
+      - name: The APK holds no admin feature, address, key or token
+        run: |
+          rm -rf /tmp/apk && mkdir -p /tmp/apk && cd /tmp/apk && unzip -q "$GITHUB_WORKSPACE"/dist/*.apk assets/index.android.bundle
+          ls -la assets/index.android.bundle
+          bad=0
+          for s in ghp_ github_pat_ gho_ ghu_ ghs_ x-access-token PUSH_ADMIN_TOKEN SESSION_SECRET VAPID_PRIVATE ANTHROPIC api.anthropic.com sk-ant- CLOUDFLARE_API_TOKEN api.cloudflare.com /api/github /api/me /api/security /api/automation /api/analytics wartabiye-admin.wartabiye.workers.dev/login /admin/ 'BEGIN PRIVATE KEY'; do
+            if grep -a -F -q -- "$s" assets/index.android.bundle; then echo "FOUND in the app: $s"; bad=1; else echo "absent: $s"; fi
+          done
+          [ $bad = 0 ]
       - uses: actions/upload-artifact@v4
         with:
           name: wartabiye-tv-android
@@ -167,6 +174,51 @@ jobs:
         with:
           name: android-emulator-screenshot
           path: mobile/test/output
+          retention-days: 30
+
+  ios:
+    # the real iPhone app (same code) built for the iOS Simulator and opened on an iPhone simulator. TestFlight needs
+    # the owner's Apple Developer account, so this build is unsigned and only runs in the simulator.
+    runs-on: macos-15
+    timeout-minutes: 75
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+      - name: Generate the iPhone project (Expo prebuild + CocoaPods)
+        run: npx expo prebuild --platform ios --clean
+      - name: Build for the iOS Simulator (Release)
+        run: |
+          WS=$(ls -d ios/*.xcworkspace | head -1); SCHEME=$(basename "$WS" .xcworkspace)
+          echo "workspace $WS scheme $SCHEME"
+          set -o pipefail
+          xcodebuild -workspace "$WS" -scheme "$SCHEME" -configuration Release -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO \
+            ONLY_ACTIVE_ARCH=NO build | tail -40
+          APP=$(ls -d build/Build/Products/Release-iphonesimulator/*.app | head -1)
+          echo "APP=$APP" >> "$GITHUB_ENV"
+          ls -la "$APP"
+      - name: Open it on an iPhone simulator (reads the live website)
+        run: sh test/ios-smoke.sh "$APP" test/output
+      - name: Keep the simulator build
+        if: always()
+        run: |
+          mkdir -p ../dist-ios
+          [ -n "$APP" ] && (cd "$(dirname "$APP")" && zip -qry "$GITHUB_WORKSPACE/dist-ios/wartabiye-tv-ios-simulator.zip" "$(basename "$APP")") || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wartabiye-tv-ios-simulator
+          path: |
+            dist-ios
+            mobile/test/output
           retention-days: 30
 
   test-build-link:

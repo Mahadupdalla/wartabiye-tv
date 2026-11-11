@@ -16,6 +16,7 @@ import { ContentProvider, useContent } from '../lib/content';
 import { trackView } from '../lib/analytics';
 import { registerPwa } from '../lib/pwa';
 import { syncPush } from '../lib/push';
+import { appPathFor } from '../lib/links';
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
 
@@ -28,7 +29,7 @@ function useNotificationTaps() {
       if (!d) return;
       const m = typeof d.path === 'string' && d.path.match(/^\/war\/([A-Za-z0-9_.-]+)$/);
       if (m) router.push({ pathname: '/war/[id]', params: { id: m[1] } });
-      else if (d.path === '/live') router.push('/live');
+      else if (typeof d.path === 'string') { const to = appPathFor(d.path); if (to) router.push(to as any); }
     };
     Notifications.getLastNotificationResponseAsync().then(go).catch(() => undefined);
     const sub = Notifications.addNotificationResponseReceivedListener(go);
@@ -51,14 +52,14 @@ function Analytics() {
   useEffect(() => {
     if (!ready) return;
     // same paths as the website's statistics: /war/<id> for an article, otherwise the section page
-    const p = path.startsWith('/war/') ? path.replace(/\.html$/, '') : ({ '/': '/', '/live': '/wararka-tooska', '/videos': '/muuqaal', '/saved': '/kaydsan', '/search': '/raadi', '/ads': '/xayeysiimaha', '/section/somalia': '/soomaaliya', '/section/world': '/caalamka', '/section/sports': '/ciyaaraha' } as Record<string, string>)[path];
+    const p = path.startsWith('/war/') ? path.replace(/\.html$/, '') : ({ '/': '/', '/live': '/wararka-tooska', '/videos': '/muuqaal', '/saved': '/kaydsan', '/search': '/raadi', '/ads': '/xayeysiimaha', '/section/somalia': '/soomaaliya', '/section/world': '/caalamka', '/section/sports': '/ciyaaraha', '/page/nagu-saabsan': '/nagu-saabsan', '/page/xiriir': '/xiriir', '/page/asturnaanta': '/asturnaanta' } as Record<string, string>)[path];
     if (p) trackView(analytics, p, lang);
   }, [path, analytics, lang, ready]);
   return null;
 }
 
 function Shell() {
-  const { colors, ready, t, lang, notif } = useSettings();
+  const { colors, ready, t, lang, notif, rtl } = useSettings();
   const { status, meta } = useContent();
   useNotificationTaps();
   useWebRedirect();
@@ -88,6 +89,11 @@ function Shell() {
           headerTitleStyle: { fontFamily: 'ArchivoCond-800', fontWeight: '800' },
           contentStyle: { backgroundColor: colors.bg },
           headerBackButtonDisplayMode: 'minimal',
+          // native-feeling page changes: slide in from the side (mirrored for Arabic), swipe back on iPhone
+          animation: Platform.OS === 'android' ? (rtl ? 'slide_from_left' : 'slide_from_right') : 'default',
+          animationDuration: 260,
+          gestureEnabled: true,
+          fullScreenGestureEnabled: true,
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -98,6 +104,8 @@ function Shell() {
         <Stack.Screen name="settings" options={{ title: t('settings') }} />
         <Stack.Screen name="ads" options={{ title: t('advertise') }} />
         <Stack.Screen name="breaking" options={{ title: t('breakingTitle') }} />
+        <Stack.Screen name="page/[slug]" options={{ title: '' }} />
+        <Stack.Screen name="browser" options={{ title: '', animation: Platform.OS === 'android' ? 'slide_from_bottom' : 'default', presentation: 'card' }} />
       </Stack>
      </View>
     </View>

@@ -4,7 +4,8 @@
 // MUUQAAL WARARKA, WARARKA CAALAMKA, CIYAARAHA, WARARKA TOOSKA, then the sidebar blocks (Nala soco, Muhiim hadda,
 // Ugu dambeeyay, Qaybaha) and the blue footer. Stories already in the headlines are not repeated below, as on the website.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Linking, Pressable, RefreshControl, ScrollView, View } from 'react-native';
+import { Pressable, RefreshControl, ScrollView, View } from 'react-native';
+import { openLink } from '../../lib/links';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSettings } from '../../lib/settings';
@@ -14,7 +15,7 @@ import { ago, catName, clock } from '../../lib/i18n';
 import { fetchVideos } from '../../lib/api';
 import type { Card, Video } from '../../lib/types';
 import { LANG_INFO } from '../../lib/types';
-import { MenuBar, NewStories, SiteFooter, SiteTop, StatusLine, Ticker } from '../../components/chrome';
+import { BreakingBanner, MenuBar, NewStories, SectionChips, SiteFooter, SiteTop, StatusLine, Ticker } from '../../components/chrome';
 import { GridCard, MetaLine, MiniRow, StoryCard, Tile, isBreaking, open } from '../../components/cards';
 import { BlockHead, FeedSkeleton, Notice, Photo, Row, T } from '../../components/ui';
 import { AdSlot } from '../../components/ads';
@@ -106,6 +107,8 @@ export default function Home() {
           {hidden > 0 ? <Notice text={t('noTranslationList', { lang: LANG_INFO[lang].name })} action={t('switchSomali')} onAction={() => setLang('so')} /> : null}
           {status === 'loading' && !items.length ? <FeedSkeleton /> : (
             <View>
+              <SectionChips />
+              <BreakingBanner />
               <AdSlot position="home" />
               {home.mosaic.length ? (
                 <View>
@@ -188,7 +191,7 @@ export default function Home() {
               <BlockHead title={t('follow')} />
               <Row style={{ marginHorizontal: 16, gap: 10, flexWrap: 'wrap' }}>
                 {soc.map(([name, url, icon, c]) => (
-                  <Pressable key={name} onPress={() => Linking.openURL(url)} accessibilityRole="link" accessibilityLabel={'Wartabiye TV · ' + name} style={{ flexGrow: 1, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 8, paddingVertical: 10, paddingHorizontal: 12 }}>
+                  <Pressable key={name} onPress={() => openLink(url)} accessibilityRole="link" accessibilityLabel={'Wartabiye TV · ' + name} style={{ flexGrow: 1, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 8, paddingVertical: 10, paddingHorizontal: 12 }}>
                     <Row style={{ gap: 8, justifyContent: 'center' }}>
                       <Ionicons name={icon} size={20} color={c} />
                       <T f="bodyBold" style={{ fontSize: 14 }}>{name}</T>

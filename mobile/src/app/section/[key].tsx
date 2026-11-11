@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, RefreshControl, ScrollView, View } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useSettings } from '../../lib/settings';
@@ -19,6 +19,7 @@ export default function SectionScreen() {
   const { colors, t, lang } = useSettings();
   const { items, status, refreshing, refresh } = useContent();
   const [chip, setChip] = useState(cat ? 'cat:' + cat : '');
+  useEffect(() => { console.log('[WTV] section ' + sec + ' shown'); }, [sec]);
   const base = useMemo(() => items.filter(c => c.section === sec && !c.sponsored).sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1)), [items, sec]);
   const chips = useMemo(() => {
     if (sec === 'somalia') {

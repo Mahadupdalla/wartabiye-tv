@@ -78,7 +78,7 @@ export const Tile = memo(function Tile({ c, big }: { c: Card; big?: boolean }) {
   const { width } = useWindowDimensions();
   const h = big ? (width >= 700 ? 380 : 340) : 220;
   return (
-    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => [{ opacity: pressed ? 0.92 : 1, marginHorizontal: 16, marginBottom: 8, borderRadius: 10, overflow: 'hidden', height: h, backgroundColor: colors.blueD }, shadow]}>
+    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => [{ opacity: pressed ? 0.94 : 1, transform: [{ scale: pressed ? 0.985 : 1 }], marginHorizontal: 16, marginBottom: 8, borderRadius: 10, overflow: 'hidden', height: h, backgroundColor: colors.blueD }, shadow]}>
       <Photo uri={big ? c.image || c.thumb : c.thumb || c.image} alt={c.imageAlt} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} rounded={0} priority={big ? 'high' : 'normal'} illus={c.imageKind === 'illustrative'} />
       <LinearGradient colors={['rgba(2,99,179,0)', 'rgba(2,99,179,0.92)']} locations={[0.35, 1]} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none" />
       <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: big ? 18 : 16, gap: 8 }}>
@@ -96,7 +96,7 @@ export const StoryCard = memo(function StoryCard({ c }: { c: Card }) {
   const cat = useCat(c);
   return (
     <View style={[{ marginHorizontal: 16, marginBottom: 20, padding: 16, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 10, gap: 10 }, shadow]}>
-      <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1, gap: 10 })}>
+      <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1, gap: 10, transform: [{ scale: pressed ? 0.99 : 1 }] })}>
         <Photo uri={c.thumb || c.image} alt={c.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} illus={c.imageKind === 'illustrative'}>
           <View style={[{ position: 'absolute', bottom: 10 }, rtl ? { right: 10 } : { left: 10 }]}><CatTag {...cat} /></View>
         </Photo>
@@ -119,7 +119,7 @@ export const GridCard = memo(function GridCard({ c, lead }: { c: Card; lead?: bo
   const { colors, rtl } = useSettings();
   const cat = useCat(c);
   return (
-    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => [{ opacity: pressed ? 0.88 : 1, marginHorizontal: 16, marginBottom: 18, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 10, overflow: 'hidden' }, shadow]}>
+    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => [{ opacity: pressed ? 0.92 : 1, transform: [{ scale: pressed ? 0.985 : 1 }], marginHorizontal: 16, marginBottom: 18, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 10, overflow: 'hidden' }, shadow]}>
       <Photo uri={c.thumb || c.image} alt={c.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} rounded={0} illus={c.imageKind === 'illustrative'}>
         <View style={[{ position: 'absolute', bottom: 10 }, rtl ? { right: 10 } : { left: 10 }]}><CatTag {...cat} /></View>
       </Photo>
@@ -136,7 +136,7 @@ export const GridCard = memo(function GridCard({ c, lead }: { c: Card; lead?: bo
 export const MiniRow = memo(function MiniRow({ c, first }: { c: Card; first?: boolean }) {
   const { colors } = useSettings();
   return (
-    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => ({ opacity: pressed ? 0.8 : 1, paddingVertical: 12, borderTopWidth: first ? 0 : 1, borderTopColor: colors.line })}>
+    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => ({ opacity: pressed ? 0.8 : 1, transform: [{ scale: pressed ? 0.99 : 1 }], paddingVertical: 12, borderTopWidth: first ? 0 : 1, borderTopColor: colors.line })}>
       <Row style={{ gap: 12, alignItems: 'flex-start' }}>
         <Photo uri={c.thumb || c.image} alt={c.imageAlt} style={{ width: 104, height: 68 }} />
         <View style={{ flex: 1, gap: 6 }}>
