@@ -91,7 +91,7 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild -workspace ios/WartabiyeTV.xcworkspace -scheme WartabiyeTV -configuration Release -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build > "$RUNNER_TEMP/xcodebuild.log" 2>&1 \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=YES build > "$RUNNER_TEMP/xcodebuild.log" 2>&1 \
             || { sh test/xcode-errors.sh "$RUNNER_TEMP/xcodebuild.log"; exit 1; }
           tail -5 "$RUNNER_TEMP/xcodebuild.log"
           ls -d build/Build/Products/Release-iphonesimulator/WartabiyeTV.app
@@ -100,7 +100,7 @@ jobs:
           curl -fsSL https://get.maestro.mobile.dev | bash
           echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
       - name: iPhone simulators, driven like a reader, against the live website
-        run: python3 test/ios-deep.py build/Build/Products/Release-iphonesimulator/WartabiyeTV.app test/output/ios 'iPhone SE (3rd generation)' 'Pro Max'
+        run: python3 test/ios-deep.py build/Build/Products/Release-iphonesimulator/WartabiyeTV.app test/output/ios
       - uses: actions/upload-artifact@v4
         if: always()
         with:

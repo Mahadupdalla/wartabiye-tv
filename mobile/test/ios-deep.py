@@ -20,8 +20,9 @@ import sys
 import time
 import urllib.request
 
-APP, OUT = sys.argv[1], sys.argv[2]
-WANTED = sys.argv[3:] or ['iPhone SE (3rd generation)', 'Pro Max']
+APP, OUT = os.path.abspath(sys.argv[1]), os.path.abspath(sys.argv[2])
+# a small iPhone (SE, or the smallest current model) and the largest one; names differ between Xcode versions
+WANTED = sys.argv[3:] or ['iPhone SE|iPhone 16e|iPhone 17e|iPhone 17$|iPhone 16$', 'Pro Max']
 BUNDLE = 'com.wartabiyetv.app'
 SITE = 'https://www.wartabiyetv.com'
 LANGS = [('en', 'English'), ('ar', 'العربية'), ('fr', 'Français'), ('nl', 'Nederlands'), ('it', 'Italiano'),
@@ -47,10 +48,14 @@ def pick_devices():
     phones = [(rt, x) for rt, l in d.items() if 'iOS' in rt for x in l if x['name'].startswith('iPhone')]
     phones.sort(key=lambda t: (t[0], t[1]['name']))
     chosen = []
+    print('iPhone simulators on this Mac:', sorted({x['name'] for _, x in phones}))
     for w in WANTED:
-        m = [p for p in phones if w in p[1]['name']]
-        if m:
-            chosen.append(m[-1][1])
+        for alt in w.split('|'):
+            m = [p for p in phones if re.search(alt, p[1]['name'])]
+            if m:
+                if m[-1][1]['udid'] not in [c['udid'] for c in chosen]:
+                    chosen.append(m[-1][1])
+                break
     if not chosen:
         chosen = [phones[-1][1]]
     return chosen
