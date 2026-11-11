@@ -135,14 +135,22 @@ def flow(art_id, title):
                 {'extendedWaitUntil': {'visible': {'id': 'menu-button'}, **W}},
                 {'waitForAnimationToEnd': {'timeout': 8000}}]
 
-    def menu(code, key):
-        # the blue MENU button in the header opens the menu panel; its last item ("More") opens the full menu screen
-        return [{'tapOn': {'id': 'menu-button'}},
-                {'extendedWaitUntil': {'visible': {'id': 'menu-panel'}, **W}},
-                {'tapOn': {'text': txt(code, 'more'), 'index': 0}},
-                {'extendedWaitUntil': {'visible': txt(code, key), **W}},
-                {'tapOn': {'text': txt(code, key), 'index': 0}},
-                {'waitForAnimationToEnd': {'timeout': 8000}}]
+    def menu(code, key, expect=None):
+        # restart the app (home screen, and proof the settings were kept), then the blue MENU button in the header,
+        # its last item ("More") and the item. A tap while a screen is still sliding in can land on the wrong item,
+        # so the whole path is tried up to three times, each time from a fresh start.
+        cmds = restart(code) + [
+            {'tapOn': {'id': 'menu-button'}},
+            {'extendedWaitUntil': {'visible': {'id': 'menu-panel'}, 'timeout': 10000}},
+            {'waitForAnimationToEnd': {'timeout': 4000}},
+            {'tapOn': {'text': txt(code, 'more'), 'index': 0}},
+            {'extendedWaitUntil': {'visible': txt(code, key), 'timeout': 15000}},
+            {'waitForAnimationToEnd': {'timeout': 8000}},
+            {'tapOn': {'text': txt(code, key), 'index': 0}},
+            {'waitForAnimationToEnd': {'timeout': 8000}}]
+        if expect:
+            cmds.append({'extendedWaitUntil': {'visible': expect, 'timeout': 15000}})
+        return [{'retry': {'maxRetries': 2, 'commands': cmds}}]
 
     steps = [
         {'launchApp': {'appId': BUNDLE, 'clearState': True}},
@@ -153,9 +161,8 @@ def flow(art_id, title):
     ]
     cur = 'so'
     for code, name in LANGS:
-        steps += menu(cur, 'settings')
-        steps += [{'extendedWaitUntil': {'visible': has(name), **W}},
-                  # tap the language and see the screen switch to it (the title "Settings" in that language);
+        steps += menu(cur, 'settings', has(name))
+        steps += [  # tap the language and see the screen switch to it (the title "Settings" in that language);
                   # a tap during the screen's slide-in can miss, so it is tried up to three times
                   {'retry': {'maxRetries': 2, 'commands': [
                       {'tapOn': {'text': has(name), 'index': 0}},
@@ -183,11 +190,10 @@ def flow(art_id, title):
                 {'extendedWaitUntil': {'visible': re.escape(STR['en']['unsave']), 'timeout': 10000}},
                 {'waitForAnimationToEnd': {'timeout': 2000}},
             ]
-            steps += restart('en') + menu('en', 'saved') + [
-                {'extendedWaitUntil': {'visible': tp, **W}}, {'takeScreenshot': 'saved'}]
+            steps += menu('en', 'saved', tp) + [{'takeScreenshot': 'saved'}]
             for key, shot in (('somaliaNav', 'section-somalia'), ('world', 'section-world'), ('sports', 'section-sports'),
                               ('liveNewsNav', 'live')):
-                steps += restart('en') + menu('en', key) + [{'takeScreenshot': shot}]
+                steps += menu('en', key) + [{'takeScreenshot': shot}]
     steps.append({'assertVisible': 'Wartabiye TV'})
     lines = [f'appId: {BUNDLE}', '---']
     for st in steps:
