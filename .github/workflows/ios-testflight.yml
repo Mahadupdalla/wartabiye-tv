@@ -2,6 +2,7 @@ name: iPhone app (simulator test + TestFlight)
 # The real native Wartabiye TV iPhone app (mobile/, the same React Native code as the Android app).
 #  1. checks:     typecheck, iPhone release settings (privacy manifest, build number, push mode), and an offline test of
 #                 the App Store Connect script against a fake Apple API
+#  (Expo SDK 58 needs Xcode 27 / Swift 6.4: Xcode 26.3 fails in ExpoModulesJSI with "sending ... risks causing data races")
 #  2. simulator:  builds the app for the iOS Simulator and drives it with taps on a small iPhone (SE) and the largest
 #                 iPhone (Pro Max) against the LIVE website: 9 languages, the newest story, bookmarks, search, sections
 #  3. device:     builds the app for real iPhones (arm64, Release). With the owner's Apple secrets it is signed and uploaded
@@ -65,7 +66,7 @@ jobs:
           python3 test/testflight.mock.py
 
   simulator:
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 90
     defaults:
       run:
@@ -108,7 +109,7 @@ jobs:
           retention-days: 30
 
   device:
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 120
     defaults:
       run:
