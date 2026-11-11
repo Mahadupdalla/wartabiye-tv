@@ -4,7 +4,9 @@
 //   APPLE_TEAM_ID         the owner's Apple Developer Team ID (10 characters), for signed iPhone builds (TestFlight)
 //   WTV_IOS_BUILD_NUMBER  the iPhone build number (CFBundleVersion); every TestFlight upload needs a higher one
 //   WTV_IOS_RELEASE       "1" for TestFlight / App Store builds: iPhone push uses Apple's production service
-// The iPhone workflow (.github/workflows/ios-testflight.yml) sets the last four.
+//   WTV_EXPO_GO           "1" when the Expo Go preview is published (.github/workflows/expo-go.yml): the code is sent to
+//                         Expo's update service for the Expo Go app of the newest SDK (needs EAS_PROJECT_ID)
+// The iPhone workflow (.github/workflows/ios-testflight.yml) sets APPLE_TEAM_ID and the two WTV_IOS_ settings.
 const PUSH_PLUGIN = 'expo-notifications';
 
 // Apple's privacy manifest: which "required reason" system APIs the app and its libraries use, and why. Without it
@@ -38,8 +40,13 @@ module.exports = ({ config }) => {
     if (Array.isArray(p) && p[0] === PUSH_PLUGIN) return [PUSH_PLUGIN, { ...(p[1] || {}), mode: 'production' }];
     return p;
   });
+  const expoGo = env.WTV_EXPO_GO === '1' && env.EAS_PROJECT_ID
+    ? { updates: { url: `https://u.expo.dev/${env.EAS_PROJECT_ID}` }, runtimeVersion: { policy: 'sdkVersion' } }
+    : {};
   return {
     ...config,
+    ...expoGo,
+    ...(env.EXPO_OWNER ? { owner: env.EXPO_OWNER } : {}),
     ios,
     plugins,
     experiments: { ...(config.experiments || {}), baseUrl: env.WTV_WEB_BASE || '' },

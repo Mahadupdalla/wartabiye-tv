@@ -1,0 +1,86 @@
+name: iPhone preview in Expo Go
+# Sends the app's code to Expo's free update service so it runs in the Expo Go app on the owner's iPhone, without the
+# Apple Developer Program. One fixed QR code / link: the pre-release "expo-go". Needs, once (see mobile/EXPO-GO.md):
+#   secret   EXPO_TOKEN      an access token of the owner's free Expo account
+#   variable EAS_PROJECT_ID  the id of the "wartabiye-tv" project on expo.dev
+# Nothing here pays for anything; Expo Go cannot receive push notifications (TestFlight builds can).
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['mobile/**', '.github/workflows/expo-go.yml']
+permissions:
+  contents: write   # only to publish the QR code as the "expo-go" pre-release
+concurrency:
+  group: expo-go
+  cancel-in-progress: true
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: mobile
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EAS_PROJECT_ID: ${{ vars.EAS_PROJECT_ID }}
+      WTV_EXPO_GO: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Owner's Expo settings present?
+        id: cfg
+        run: |
+          if [ -z "$EXPO_TOKEN" ] || [ -z "$EAS_PROJECT_ID" ]; then
+            echo "### Expo Go preview: not set up yet" >> "$GITHUB_STEP_SUMMARY"
+            echo "Add the secret EXPO_TOKEN and the variable EAS_PROJECT_ID (mobile/EXPO-GO.md)." >> "$GITHUB_STEP_SUMMARY"
+            echo "ready=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=1" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.cfg.outputs.ready == '1'
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+        if: steps.cfg.outputs.ready == '1'
+      - name: Does the Expo Go app in the App Store run this SDK?
+        if: steps.cfg.outputs.ready == '1'
+        run: |
+          SDK=$(node -p "require('expo/package.json').version.split('.')[0]").0.0
+          curl -fsS https://exp.host/--/api/v2/versions/latest > /tmp/versions.json
+          node -e '
+            const v = require("/tmp/versions.json"); const d = (v.data || v).sdkVersions || {};
+            const s = process.argv[1], e = d[s];
+            const newest = Object.keys(d).filter(k => !d[k].beta).sort((a, b) => parseInt(b) - parseInt(a))[0];
+            const line = e ? `SDK ${s} is known to Expo Go (iOS Expo Go ${e.iosClientVersion || "?"}${e.isDeprecated ? ", deprecated" : ""}${e.beta ? ", beta" : ""}); newest SDK: ${newest}`
+                           : `SDK ${s} is not listed by Expo; newest SDK: ${newest}`;
+            console.log(line); require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, "\n" + line + "\n");
+          ' "$SDK"
+      - name: Updates library (only for this preview, not committed)
+        if: steps.cfg.outputs.ready == '1'
+        run: npx expo install expo-updates
+      - name: Publish to Expo (channel expo-go)
+        if: steps.cfg.outputs.ready == '1'
+        run: |
+          npx eas-cli@latest update --channel expo-go --environment production --message "$(git log -1 --format=%s | cut -c1-80)" \
+            --non-interactive --json > /tmp/update.json || npx eas-cli@latest update --channel expo-go \
+            --message "$(git log -1 --format=%s | cut -c1-80)" --non-interactive --json > /tmp/update.json
+          cat /tmp/update.json
+      - name: Link and QR code for the iPhone
+        if: steps.cfg.outputs.ready == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SDK=$(node -p "require('expo/package.json').version.split('.')[0]").0.0
+          GROUP=$(node -p "const u=require('/tmp/update.json'); (Array.isArray(u)?u:[u]).find(x=>x.platform==='ios')?.group || (Array.isArray(u)?u[0]:u).group")
+          LINK="exp://u.expo.dev/$EAS_PROJECT_ID/group/$GROUP"
+          CHANNEL="exp://u.expo.dev/$EAS_PROJECT_ID?channel-name=expo-go&runtime-version=exposdk:$SDK"
+          pip install --quiet "qrcode[pil]"
+          python3 -c "import qrcode,sys; qrcode.make(sys.argv[1]).save('/tmp/wartabiye-tv-expo-go-qr.png')" "$CHANNEL"
+          { echo "### Expo Go preview published"; echo; echo "Always the newest: \`$CHANNEL\`"; echo; echo "This update: \`$LINK\`"; } >> "$GITHUB_STEP_SUMMARY"
+          gh release delete expo-go --cleanup-tag -y || true
+          gh release create expo-go /tmp/wartabiye-tv-expo-go-qr.png --prerelease --target "$GITHUB_SHA" \
+            --title "Wartabiye TV in Expo Go (iPhone preview)" \
+            --notes "Scan the QR code with the iPhone Camera (Expo Go must be installed from the App Store), or open this link on the iPhone: $CHANNEL . It always loads the newest code of main. Commit $GITHUB_SHA. Push notifications do not work in Expo Go."
