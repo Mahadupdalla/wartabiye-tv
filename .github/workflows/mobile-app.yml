@@ -244,6 +244,10 @@ jobs:
         with:
           name: wartabiye-tv-android
           path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: android-emulator-screenshot
+          path: shots
       - name: Replace the APK of the "android-test-build" pre-release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -251,7 +255,7 @@ jobs:
         run: |
           cp dist/*.apk wartabiye-tv.apk
           gh release delete android-test-build --cleanup-tag -y || true
-          gh release create android-test-build wartabiye-tv.apk --prerelease --target "$GITHUB_SHA" \
+          gh release create android-test-build wartabiye-tv.apk $(ls shots/*.png 2>/dev/null) --prerelease --target "$GITHUB_SHA" \
             --title "Wartabiye TV Android test build" \
             --notes "Test build of the Wartabiye TV app for Android, built and tested from commit $GITHUB_SHA. Signed with a $(ls dist/*.apk | grep -q owner && echo 'owner' || echo 'test') key: install it on a phone (allow installing unknown apps). It is not the Google Play version."
 

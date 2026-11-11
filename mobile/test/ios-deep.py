@@ -308,9 +308,12 @@ def run_device(dev, art_id, title):
     langs_ok = {c: bool(re.search(r'\[WTV\] feed ' + c + r' \S+ (\d+) newest=', log)) for c, _ in LANGS}
     counts = {c: int(m.group(1)) for c, _ in LANGS for m in [re.search(r'\[WTV\] feed ' + c + r' \S+ (\d+) newest=', log)] if m}
     article_ok = bool(re.search(r'\[WTV\] article ' + re.escape(art_id) + ' shown', log))
-    for f in os.listdir(out):
-        if f.endswith('.png'):
-            shutil.copy(os.path.join(out, f), os.path.join(OUT, f'{tag}-{f}'))
+    # Maestro saves the screenshots of a flow inside its own output folders: collect the named ones
+    shot = re.compile(r'(home-[\w-]+|search|article-\w+|saved|section-\w+|live|settings-ar-dark|after-reboot-\w+)\.png$')
+    for root, _, files in os.walk(out):
+        for f in files:
+            if shot.fullmatch(f):
+                shutil.copy(os.path.join(root, f), os.path.join(OUT, f'{tag}-{f}'))
     res = {'device': name, 'maestro_passed': r.returncode == 0, 'still_running': running, 'languages_loaded': langs_ok,
            'stories_per_language': counts, 'article_opened': article_ok, 'language_kept_after_device_restart': reboot_ok, 'seconds': int(time.time() - t0)}
     results.append(res)
