@@ -179,7 +179,7 @@ jobs:
   ios:
     # the real iPhone app (same code) built for the iOS Simulator and opened on an iPhone simulator. TestFlight needs
     # the owner's Apple Developer account, so this build is unsigned and only runs in the simulator.
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 75
     defaults:
       run:
@@ -192,6 +192,11 @@ jobs:
           cache: npm
           cache-dependency-path: mobile/package-lock.json
       - run: npm ci
+      - name: Newest Xcode on the runner (React Native 0.88 needs Xcode 26)
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          [ -n "$X" ] && sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
       - name: Generate the iPhone project (Expo prebuild + CocoaPods)
         run: npx expo prebuild --platform ios --clean
       - name: Build for the iOS Simulator (Release)
@@ -203,7 +208,7 @@ jobs:
           if ! xcodebuild -workspace "$WS" -scheme "$SCHEME" -configuration Release -sdk iphonesimulator \
             -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO \
             ONLY_ACTIVE_ARCH=NO build > test/output/xcodebuild.log 2>&1; then
-            grep -nE "error:|\*\* BUILD FAILED|fatal|Error:" test/output/xcodebuild.log | head -80
+            grep -nE -A12 "error:|\*\* BUILD FAILED|fatal|Error:" test/output/xcodebuild.log | head -150
             exit 1
           fi
           tail -5 test/output/xcodebuild.log
