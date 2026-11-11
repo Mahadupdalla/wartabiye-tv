@@ -46,7 +46,7 @@ jobs:
           node --test workers/push/test/worker.test.mjs
       - name: Browser for the tests
         # Playwright only for these tests (not an app dependency)
-        run: npm install --no-save playwright && npx playwright install --with-deps chromium
+        run: npm install --no-save playwright && (npx playwright install --with-deps chromium || { echo "::warning::Ubuntu package mirrors unreachable; using Chromium without extra system fonts"; npx playwright install chromium; })
       - name: Synchronisation test (publish, edit, new image, unpublish, offline)
         run: node test/sync.e2e.mjs
       - name: App checks against the live website
@@ -268,7 +268,7 @@ jobs:
         with:
           node-version: 22
       - name: Browser
-        run: npm install --no-save --no-package-lock playwright && npx playwright install --with-deps chromium
+        run: npm install --no-save --no-package-lock playwright && (npx playwright install --with-deps chromium || { echo "::warning::Ubuntu package mirrors unreachable; using Chromium without extra system fonts"; npx playwright install chromium; })
       - name: The web app on https://www.wartabiyetv.com/app/
         run: node test/pwa-live.mjs https://www.wartabiyetv.com/
       - uses: actions/upload-artifact@v4
