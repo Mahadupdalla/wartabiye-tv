@@ -93,7 +93,7 @@ def search_word(title):
 def regex_prefix(title):
     # Maestro matches text as a regular expression over the whole label: the first words of the headline, then anything
     words = title.split()[:4]
-    return re.escape(' '.join(words)).replace('\\ ', ' ') + '.*'
+    return '.*' + re.escape(' '.join(words)).replace('\\ ', ' ') + '.*'
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -114,8 +114,13 @@ def load_strings():
 STR = load_strings()
 
 
+def has(text):
+    # iOS joins a button's texts into one label (icon glyph, flag, name, tick), so match the text anywhere in it
+    return '.*' + re.escape(text) + '.*'
+
+
 def txt(code, key):
-    return re.escape(STR[code][key])
+    return has(STR[code][key])
 
 
 def flow(art_id, title):
@@ -127,7 +132,7 @@ def flow(art_id, title):
 
     def restart(code):
         return [{'launchApp': {'appId': BUNDLE, 'stopApp': True}},
-                {'extendedWaitUntil': {'visible': txt(code, 'home'), **W}},
+                {'extendedWaitUntil': {'visible': {'id': 'menu-button'}, **W}},
                 {'waitForAnimationToEnd': {'timeout': 8000}}]
 
     def menu(code, key):
@@ -142,15 +147,15 @@ def flow(art_id, title):
     steps = [
         {'launchApp': {'appId': BUNDLE, 'clearState': True}},
         {'extendedWaitUntil': {'visible': 'Wartabiye TV', 'timeout': 120000}},
-        {'extendedWaitUntil': {'visible': txt('so', 'home'), **W}},
+        {'extendedWaitUntil': {'visible': {'id': 'menu-button'}, **W}},
         {'waitForAnimationToEnd': {'timeout': 8000}},
         {'takeScreenshot': 'home-so-start'},
     ]
     cur = 'so'
     for code, name in LANGS:
         steps += menu(cur, 'settings')
-        steps += [{'extendedWaitUntil': {'visible': re.escape(name), **W}},
-                  {'tapOn': {'text': re.escape(name), 'index': 0}},
+        steps += [{'extendedWaitUntil': {'visible': has(name), **W}},
+                  {'tapOn': {'text': has(name), 'index': 0}},
                   {'waitForAnimationToEnd': {'timeout': 3000}}]
         cur = code
         steps += restart(code)
@@ -163,15 +168,15 @@ def flow(art_id, title):
                 {'takeScreenshot': 'search'},
                 # the story the website publishes now, opened inside the app from the search result
                 {'tapOn': {'text': tp, 'index': 0}},
-                {'extendedWaitUntil': {'visible': txt('en', 'save'), **W}},
+                {'extendedWaitUntil': {'visible': re.escape(STR['en']['save']), **W}},
                 {'waitForAnimationToEnd': {'timeout': 8000}},
                 {'assertVisible': tp},
                 {'takeScreenshot': 'article-top'},
                 {'scroll': {}}, {'scroll': {}},
                 {'takeScreenshot': 'article-body'},
                 # bookmark it, restart, and find it under Saved
-                {'tapOn': {'text': txt('en', 'save'), 'index': 0}},
-                {'extendedWaitUntil': {'visible': txt('en', 'unsave'), 'timeout': 10000}},
+                {'tapOn': {'text': re.escape(STR['en']['save']), 'index': 0}},
+                {'extendedWaitUntil': {'visible': re.escape(STR['en']['unsave']), 'timeout': 10000}},
                 {'waitForAnimationToEnd': {'timeout': 2000}},
             ]
             steps += restart('en') + menu('en', 'saved') + [
@@ -206,6 +211,16 @@ def run_device(dev, art_id, title):
                        capture_output=True, text=True, timeout=1800)
     open(os.path.join(out, 'maestro.txt'), 'w').write(r.stdout + '\n' + r.stderr)
     print(r.stdout[-4000:], r.stderr[-2000:])
+    if r.returncode:
+        # what the screen holds at the failure: every label, text and id Maestro can see
+        h = subprocess.run(['maestro', '--device', udid, 'hierarchy'], capture_output=True, text=True, timeout=300).stdout
+        open(os.path.join(out, 'hierarchy.json'), 'w').write(h)
+        seen = []
+        for m in re.finditer(r'"(accessibilityText|text|title|value|resource-id|hintText)"\s*:\s*"((?:[^"\\]|\\.)+)"', h):
+            v = m.group(1) + '=' + m.group(2)
+            if v not in seen:
+                seen.append(v)
+        print('screen at the failure:', ' | '.join(seen[:150]))
     time.sleep(2)
     lp.terminate()
     log = open(logf, errors='replace').read()
