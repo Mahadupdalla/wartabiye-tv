@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-11T03:01:22+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-11T03:31:45+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-10T23:25:40Z",
  "newestArticleAt": "2026-11-11T01:39:41+03:00",
- "lastSourceCheckAt": "2026-11-11T03:00:26+03:00",
- "sourceChecks24h": 292,
- "publishedArticles": 368,
+ "lastSourceCheckAt": "2026-11-11T03:30:18+03:00",
+ "sourceChecks24h": 293,
+ "publishedArticles": 373,
  "liveArticles": 368,
  "waitingForImage": 78,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 1,
  "lastPublishRun": {
   "created_at": "2026-11-10T23:25:40Z",
@@ -18,29 +18,34 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/42923271226"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-10T21:41:19+00:00",
+  "since": "2026-11-11T00:31:43+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-11T02:05:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-11T03:50:00+03:00",
  "writers": {
   "sports": {
    "mode": "on",
-   "lastCheckAt": "2026-11-11T03:01:19+03:00",
+   "lastCheckAt": "2026-11-11T03:31:09+03:00",
    "lastWrittenAt": null,
    "lastRun": {
     "skipped": 3,
-    "waitingForSchedule": 47
+    "waitingForSchedule": 36
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-11T03:00:20+03:00",
-   "lastSuccessAt": "2026-11-11T03:00:20+03:00",
+   "lastCheckAt": "2026-11-11T03:30:11+03:00",
+   "lastSuccessAt": "2026-11-11T03:30:11+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-11T02:05:00+03:00",
+  "lastSourceCheckAt": "2026-11-11T03:50:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
@@ -50,21 +55,39 @@
    "url": "https://www.caasimada.net/foreign-backed-plot-seeks-to-stoke-security-panic-in-somalia/"
   },
   "latestPublished": {
-   "id": "2026-11-10-daahir-shire-beledweyne-tabashada-hiiraan",
-   "title": "Wasiir Daahir Shire oo Beledweyne ka sheegay in dowladdu dareensan tahay tabashada reer Hiiraan",
-   "publishedAt": "2026-11-10T15:20:17+03:00",
-   "source": "Hiiraan Online",
-   "url": "/war/2026-11-10-daahir-shire-beledweyne-tabashada-hiiraan.html"
+   "id": "2026-11-10-ocha-300-milyan-qorshaha-gargaarka-2026",
+   "title": "OCHA: Qorshaha gargaarka Soomaaliya ee 2026 waxaa loo helay 300 milyan oo dollar, oo ah 35.2% kaliya",
+   "publishedAt": "2026-11-10T16:19:12+03:00",
+   "source": "Goobjoog News",
+   "url": "/war/2026-11-10-ocha-300-milyan-qorshaha-gargaarka-2026.html"
   },
-  "publishedLastRun": 0,
-  "rejectedLastRun": 3,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 34,
   "rejectedReasons": {
-   "duplicate": 3
+   "old": 10,
+   "duplicate": 24
   },
   "taskRejectedReasons": [
-   "Qareennada Bariga Afrika oo baaq u jeediyay madaxweyne Xasan Sheekh (Puntland Post): eedeyn siyaasadeed oo hal il ah; WebSearch en (EALS Hassan Sheikh) none -> pending",
-   "Foreign-backed plot seeks to stoke security panic in Somalia (Caasimada): headline-only; Hiiraan/Goobjoog none in plan -> pending (Caasimada: lama xaqiijin)",
-   "Baashe Yuusuf oo war cusub soo saaray kuna adkeystay… (Caasimada): headline-only, cinwaan aan dhammeystirnayn; plan none -> pending (Caasimada: lama xaqiijin)"
+   "9 Qof oo dil ay kufulineysa Somaliland si wadajir ah (Daljir): go'aan culus oo hal il ah; WebSearch so+en none -> pending",
+   "US Forces Carry Out Overnight Airstrikes Against ISIS Positions in Somalia's Puntland Region (Horseed): headline-only; plan none, WebSearch so+en none (AFRICOM bayaan cusub lama helin) -> pending",
+   "Foreign-backed plot seeks to stoke security panic in Somalia (Caasimada): headline-only; plan none -> pending (Caasimada: lama xaqiijin)",
+   "Baashe Yuusuf oo war cusub soo saaray kuna adkeystay… (Caasimada): headline-only, cinwaan aan dhammeystirnayn; plan none -> pending",
+   "Qareennada Bariga Afrika oo baaq u jeediyay madaxweyne Xasan Sheekh (Puntland Post): eedeyn siyaasadeed oo hal il ah -> pending",
+   "Dalladda ururada aan dowliga ahayn ee Puntland oo doorasho gelaysa (Horseed): headline-only; war yar oo aan qiimo weyn lahayn",
+   "Somalia army faces waves of desertions... (Somali Guardian): isla dhacdada Daljir -> lagu daray alsoReportedBy",
+   "Soomaaliya iyo Sweden oo ka wada hadlay xoojinta iskaashiga difaaca iyo amniga (Goobjoog): kulan borotokool ah oo aan go'aan lahayn",
+   "Sanbaloolshe: Dagaal u ma socdo... (Daljir): hadal diidmo shakhsi ah oo aan go'aan lahayn",
+   "Wasiir kuxigeenka Arimaha Dudaha Abdulqaadir Cubey oo ka hadlay Arrimo xasasi ah (Daljir): hadal guud oo aan war cusub lahayn",
+   "Haddii Siciid Deni kursiga madaxweynaha Puntland lagaga guulaysto... (Daljir): ra'yi (opinion)",
+   "Nicolás Maduro ma wuxuu ka Fikirayaa inuu Qaato Diinta Islaamka? (Goobjoog): war aan Soomaaliya ahayn, xan",
+   "Soomaaliya oo Tacsi u Dirtay Dowladda iyo Shacabka Masar (Goobjoog): borotokool",
+   "171 Muwaadin / Soomaaliya oo Dib u Soo Celisay 171 Muwaadin (Goobjoog, Horseed): duplicate (2026-11-10-171-muwaadin-libya-dib-loogu-celiyay)",
+   "Beesha Caalamka ... Wada-hadallada Doorashooyinka (Goobjoog): duplicate (2026-11-10-rubucda-wadahadallada-doorashada-14-18-nov)",
+   "Soomaaliya iyo Turkiga / Türkiye and Somalia Discuss Security Cooperation (Goobjoog, Horseed): duplicate (2026-11-10-turkiga-soomaaliya-amniga-alkan-aweys)",
+   "Eight killed in Al-Shabaab attack near Kenya-Somalia border (Somali Guardian): duplicate (2026-11-10-mandera-weerar-8-qof-waddada-arabia)",
+   "Mareykanka oo 23 Dal ... uga Digey inay u Safraan (Goobjoog): duplicate (2026-11-09-mareykanka-soomaaliya-heerka-4-safarka)",
+   "Madaxweyne Xasan Sheekh oo ka Qaybgalaya Shirka Cimilada COP31 (Goobjoog): duplicate (2026-11-09-xasan-sheekh-cop31-antalya)",
+   "Hoggaamiyihii Macawisleeyda Hiiraan oo gaarey Beledweyne (Horseed): headline-only; plan none -> pending"
   ],
   "waitingForImage": 1,
   "waitingIds": [
