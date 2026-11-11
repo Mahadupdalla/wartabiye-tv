@@ -119,6 +119,12 @@ def has(text):
     return '.*' + re.escape(text) + '.*'
 
 
+def lang_row(name):
+    # a language row is the flag, the name and maybe a check mark; nothing else may be glued to the name, so a video
+    # titled "FRANCE 24 English" or the word "Soomaaliya" on the screens behind is never tapped by mistake
+    return '[^A-Za-z0-9]*' + re.escape(name) + '[^A-Za-z0-9]*'
+
+
 def txt(code, key):
     return has(STR[code][key])
 
@@ -161,11 +167,11 @@ def flow(art_id, title):
     ]
     cur = 'so'
     for code, name in LANGS:
-        steps += menu(cur, 'settings', has(name))
+        steps += menu(cur, 'settings', lang_row(name))
         steps += [  # tap the language and see the screen switch to it (the title "Settings" in that language);
                   # a tap during the screen's slide-in can miss, so it is tried up to three times
                   {'retry': {'maxRetries': 2, 'commands': [
-                      {'tapOn': {'text': has(name), 'index': 0}},
+                      {'tapOn': {'text': lang_row(name), 'index': 0}},
                       {'waitForAnimationToEnd': {'timeout': 3000}},
                       {'extendedWaitUntil': {'visible': txt(code, 'settings'), 'timeout': 8000}}]}}]
         cur = code
@@ -217,8 +223,12 @@ def run_device(dev, art_id, title):
     fp = os.path.join(out, 'flow.yaml')
     open(fp, 'w').write(flow(art_id, title))
     t0 = time.time()
-    r = subprocess.run(['maestro', '--device', udid, 'test', fp, '--test-output-dir', out], cwd=out,
-                       capture_output=True, text=True, timeout=1800)
+    try:
+        r = subprocess.run(['maestro', '--device', udid, 'test', fp, '--test-output-dir', out], cwd=out,
+                           capture_output=True, text=True, timeout=2700)
+    except subprocess.TimeoutExpired as e:
+        r = subprocess.CompletedProcess(e.cmd, 124, (e.stdout or b'').decode(errors='replace') if isinstance(e.stdout, bytes) else (e.stdout or ''),
+                                        'maestro did not finish within 45 minutes')
     open(os.path.join(out, 'maestro.txt'), 'w').write(r.stdout + '\n' + r.stderr)
     print(r.stdout[-4000:], r.stderr[-2000:])
     if r.returncode:
