@@ -96,58 +96,93 @@ def regex_prefix(title):
     return re.escape(' '.join(words)).replace('\\ ', ' ') + '.*'
 
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def load_strings():
+    """The app's own interface text per language (src/i18n/app.ts, then the website's src/i18n/site.json)"""
+    site = json.load(open(os.path.join(HERE, '..', 'src', 'i18n', 'site.json')))
+    ts = open(os.path.join(HERE, '..', 'src', 'i18n', 'app.ts')).read()
+    out = {}
+    for code, _ in LANGS:
+        m = re.search(r'\n  ' + code + r': \{(.*?)\n  \},', ts, re.S)
+        app = dict(re.findall(r"(\w+): '((?:[^'\\]|\\.)*)'", m.group(1))) if m else {}
+        out[code] = {**site.get(code, {}), **app}
+    return out
+
+
+STR = load_strings()
+
+
+def txt(code, key):
+    return re.escape(STR[code][key])
+
+
 def flow(art_id, title):
+    """Taps like a reader. iOS asks before a wartabiye:// link from outside opens the app, so the test never uses links:
+    it taps the tab bar and the Menu, and restarts the app to return home (which also proves settings are kept)."""
     tp = regex_prefix(title)
     word = search_word(title)
+    W = {'timeout': 30000}
+
+    def restart(code):
+        return [{'launchApp': {'appId': BUNDLE, 'stopApp': True}},
+                {'extendedWaitUntil': {'visible': txt(code, 'home'), **W}},
+                {'waitForAnimationToEnd': {'timeout': 8000}}]
+
+    def menu(code, key):
+        # the blue MENU button in the header opens the menu panel; its last item ("More") opens the full menu screen
+        return [{'tapOn': {'id': 'menu-button'}},
+                {'extendedWaitUntil': {'visible': {'id': 'menu-panel'}, **W}},
+                {'tapOn': {'text': txt(code, 'more'), 'index': 0}},
+                {'extendedWaitUntil': {'visible': txt(code, key), **W}},
+                {'tapOn': {'text': txt(code, key), 'index': 0}},
+                {'waitForAnimationToEnd': {'timeout': 8000}}]
+
     steps = [
         {'launchApp': {'appId': BUNDLE, 'clearState': True}},
-        {'extendedWaitUntil': {'visible': 'Wartabiye TV', 'timeout': 90000}},
+        {'extendedWaitUntil': {'visible': 'Wartabiye TV', 'timeout': 120000}},
+        {'extendedWaitUntil': {'visible': txt('so', 'home'), **W}},
         {'waitForAnimationToEnd': {'timeout': 8000}},
         {'takeScreenshot': 'home-so-start'},
     ]
+    cur = 'so'
     for code, name in LANGS:
-        steps += [
-            {'openLink': 'wartabiye://settings'},
-            {'extendedWaitUntil': {'visible': re.escape(name), 'timeout': 30000}},
-            {'tapOn': {'text': re.escape(name), 'index': 0}},
-            {'openLink': 'wartabiye://'},
-            {'extendedWaitUntil': {'visible': 'Wartabiye TV', 'timeout': 30000}},
-            {'waitForAnimationToEnd': {'timeout': 8000}},
-            {'takeScreenshot': f'home-{code}'},
-        ]
+        steps += menu(cur, 'settings')
+        steps += [{'extendedWaitUntil': {'visible': re.escape(name), **W}},
+                  {'tapOn': {'text': re.escape(name), 'index': 0}},
+                  {'waitForAnimationToEnd': {'timeout': 3000}}]
+        cur = code
+        steps += restart(code)
+        steps.append({'takeScreenshot': f'home-{code}'})
         if code == 'en':
+            steps += menu('en', 'search')
             steps += [
-                # the story the website publishes now, opened inside the app
-                {'openLink': f'wartabiye://war/{art_id}'},
-                {'extendedWaitUntil': {'visible': tp, 'timeout': 60000}},
+                {'inputText': word},
+                {'extendedWaitUntil': {'visible': tp, **W}},
+                {'takeScreenshot': 'search'},
+                # the story the website publishes now, opened inside the app from the search result
+                {'tapOn': {'text': tp, 'index': 0}},
+                {'extendedWaitUntil': {'visible': txt('en', 'save'), **W}},
                 {'waitForAnimationToEnd': {'timeout': 8000}},
+                {'assertVisible': tp},
                 {'takeScreenshot': 'article-top'},
                 {'scroll': {}}, {'scroll': {}},
                 {'takeScreenshot': 'article-body'},
-                # bookmark it
-                {'tapOn': {'text': 'Save', 'index': 0}},
-                {'extendedWaitUntil': {'visible': 'Remove', 'timeout': 10000}},
-                {'openLink': 'wartabiye://saved'},
-                {'extendedWaitUntil': {'visible': tp, 'timeout': 20000}},
-                {'takeScreenshot': 'saved'},
-                # search for it
-                {'openLink': 'wartabiye://search'},
-                {'waitForAnimationToEnd': {'timeout': 5000}},
-                {'inputText': word},
-                {'extendedWaitUntil': {'visible': tp, 'timeout': 20000}},
-                {'hideKeyboard': None},
-                {'takeScreenshot': 'search'},
-                # sections and LIVE
-                {'openLink': 'wartabiye://section/somalia'}, {'waitForAnimationToEnd': {'timeout': 8000}}, {'takeScreenshot': 'section-somalia'},
-                {'openLink': 'wartabiye://section/world'}, {'waitForAnimationToEnd': {'timeout': 8000}}, {'takeScreenshot': 'section-world'},
-                {'openLink': 'wartabiye://section/sports'}, {'waitForAnimationToEnd': {'timeout': 8000}}, {'takeScreenshot': 'section-sports'},
-                {'openLink': 'wartabiye://live'}, {'waitForAnimationToEnd': {'timeout': 8000}}, {'takeScreenshot': 'live'},
+                # bookmark it, restart, and find it under Saved
+                {'tapOn': {'text': txt('en', 'save'), 'index': 0}},
+                {'extendedWaitUntil': {'visible': txt('en', 'unsave'), 'timeout': 10000}},
+                {'waitForAnimationToEnd': {'timeout': 2000}},
             ]
+            steps += restart('en') + menu('en', 'saved') + [
+                {'extendedWaitUntil': {'visible': tp, **W}}, {'takeScreenshot': 'saved'}]
+            for key, shot in (('somaliaNav', 'section-somalia'), ('world', 'section-world'), ('sports', 'section-sports'),
+                              ('liveNewsNav', 'live')):
+                steps += restart('en') + menu('en', key) + [{'takeScreenshot': shot}]
     steps.append({'assertVisible': 'Wartabiye TV'})
     lines = [f'appId: {BUNDLE}', '---']
-    for s in steps:
-        (cmd, arg), = s.items()
-        lines.append('- ' + cmd if arg is None else '- ' + json.dumps(s, ensure_ascii=False))
+    for st in steps:
+        lines.append('- ' + json.dumps(st, ensure_ascii=False))
     return '\n'.join(lines) + '\n'
 
 
