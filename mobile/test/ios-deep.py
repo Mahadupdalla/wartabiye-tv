@@ -155,10 +155,12 @@ def flow(art_id, title):
     for code, name in LANGS:
         steps += menu(cur, 'settings')
         steps += [{'extendedWaitUntil': {'visible': has(name), **W}},
-                  {'tapOn': {'text': has(name), 'index': 0}},
-                  {'waitForAnimationToEnd': {'timeout': 3000}},
-                  # the app saves the language a moment after the tap; give it time before the restart
-                  {'extendedWaitUntil': {'visible': 'wtv-pause-never-shown', 'timeout': 4000, 'optional': True}}]
+                  # tap the language and see the screen switch to it (the title "Settings" in that language);
+                  # a tap during the screen's slide-in can miss, so it is tried up to three times
+                  {'retry': {'maxRetries': 2, 'commands': [
+                      {'tapOn': {'text': has(name), 'index': 0}},
+                      {'waitForAnimationToEnd': {'timeout': 3000}},
+                      {'extendedWaitUntil': {'visible': txt(code, 'settings'), 'timeout': 8000}}]}}]
         cur = code
         steps += restart(code)
         steps.append({'takeScreenshot': f'home-{code}'})
