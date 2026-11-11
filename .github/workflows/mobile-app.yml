@@ -192,9 +192,10 @@ jobs:
           cache: npm
           cache-dependency-path: mobile/package-lock.json
       - run: npm ci
-      - name: Newest Xcode on the runner (React Native 0.88 needs Xcode 26)
+      - name: Newest Xcode on the runner (expo-modules-jsi 58 needs Swift 6.4 / Xcode 27)
         run: |
-          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          ls -d /Applications/Xcode*.app
+          X=$(ls -d /Applications/Xcode_*.app 2>/dev/null | grep -viE 'beta|_rc' | sort -V | tail -1)
           [ -n "$X" ] && sudo xcode-select -s "$X/Contents/Developer"
           xcodebuild -version
       - name: Generate the iPhone project (Expo prebuild + CocoaPods)
