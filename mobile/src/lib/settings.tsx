@@ -47,7 +47,11 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
       if (Platform.OS === 'web' && typeof window !== 'undefined') {
         try { webLang = new URLSearchParams(window.location.search).get('lang') || window.localStorage.getItem('wartabiye-lang'); } catch (e) { webLang = null; }
       }
-      const l = (LANGS as string[]).includes(webLang || '') ? (webLang as Lang) : s.lang && LANGS.includes(s.lang) ? s.lang : 'so';
+      // the language is also kept under its own key, written the moment the reader picks it (see chooseLang)
+      const own = await load<string | null>('lang', null);
+      const l = (LANGS as string[]).includes(webLang || '') ? (webLang as Lang)
+        : own && (LANGS as string[]).includes(own) ? (own as Lang)
+        : s.lang && LANGS.includes(s.lang) ? s.lang : 'so';
       setLangS(l);
       if (s.theme) setThemeS(s.theme);
       if (typeof s.fontSize === 'number') setFontS(Math.max(15, Math.min(24, s.fontSize)));
@@ -61,6 +65,13 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     if (!ready) return;
     save('settings', { lang, theme: themePref, fontSize, notif, analytics });
   }, [ready, lang, themePref, fontSize, notif, analytics]);
+
+  // save the chosen language at once, not after the next render, so closing the app straight away keeps it
+  const chooseLang = useCallback((l: Lang) => {
+    if (!LANGS.includes(l)) return;
+    setLangS(l);
+    save('lang', l);
+  }, []);
 
   const rtl = !!LANG_INFO[lang].rtl;
   useEffect(() => {
@@ -76,9 +87,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<Settings>(() => ({
     ready, lang, rtl, themePref, colors, fontSize, notif, analytics,
-    setLang: setLangS, setThemePref: setThemeS, setFontSize: (n: number) => setFontS(Math.max(15, Math.min(24, n))), setNotif: setNotifS,
+    setLang: chooseLang, setThemePref: setThemeS, setFontSize: (n: number) => setFontS(Math.max(15, Math.min(24, n))), setNotif: setNotifS,
     setAnalytics: setAnalyticsS, t,
-  }), [ready, lang, rtl, themePref, colors, fontSize, notif, analytics, t]);
+  }), [ready, lang, rtl, themePref, colors, fontSize, notif, analytics, t, chooseLang]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

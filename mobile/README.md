@@ -113,8 +113,11 @@ any Android phone (allow "install unknown apps"), but Google Play will not accep
 
 ## iPhone (TestFlight)
 
-With an Apple Developer account: `npx eas-cli build --platform ios --profile production`, then
-`npx eas-cli submit --platform ios`. EAS creates the certificates and the push key. Bundle id: `com.wartabiyetv.app`.
+`.github/workflows/ios-testflight.yml` builds the iPhone app on GitHub's Macs, drives it on iPhone SE and Pro Max
+simulators against the live website (9 languages, articles, bookmarks, search, sections), and builds it for real
+iPhones. With the owner's Apple Developer secrets it signs the build, uploads it to App Store Connect and invites the
+tester in TestFlight. The owner's steps (enrolment, App Store Connect app, API key, GitHub secrets) are in
+[IOS-TESTFLIGHT.md](IOS-TESTFLIGHT.md). Bundle id: `com.wartabiyetv.app`.
 
 ## Privacy and security
 
