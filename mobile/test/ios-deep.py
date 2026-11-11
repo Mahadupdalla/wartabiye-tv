@@ -156,7 +156,9 @@ def flow(art_id, title):
         steps += menu(cur, 'settings')
         steps += [{'extendedWaitUntil': {'visible': has(name), **W}},
                   {'tapOn': {'text': has(name), 'index': 0}},
-                  {'waitForAnimationToEnd': {'timeout': 3000}}]
+                  {'waitForAnimationToEnd': {'timeout': 3000}},
+                  # the app saves the language a moment after the tap; give it time before the restart
+                  {'extendedWaitUntil': {'visible': 'wtv-pause-never-shown', 'timeout': 4000, 'optional': True}}]
         cur = code
         steps += restart(code)
         steps.append({'takeScreenshot': f'home-{code}'})
@@ -221,6 +223,10 @@ def run_device(dev, art_id, title):
             if v not in seen:
                 seen.append(v)
         print('screen at the failure:', ' | '.join(seen[:150]))
+        for root, _, files in os.walk(out):
+            if 'maestro.log' in files:
+                tail = open(os.path.join(root, 'maestro.log'), errors='replace').read().splitlines()[-40:]
+                print('maestro.log (end):\n' + '\n'.join(tail))
     time.sleep(2)
     lp.terminate()
     log = open(logf, errors='replace').read()
