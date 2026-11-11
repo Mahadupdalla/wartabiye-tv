@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-11T10:20:10Z",
+ "lastCheckAt": "2026-11-11T11:15:10Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-09": {
@@ -31,7 +31,7 @@
   "2026-11-11": {
    "written": 0,
    "merged": 0,
-   "skipped": 100,
+   "skipped": 110,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -569,27 +569,37 @@
   "dbeaf7ae0a3119d3": "2026-11-11T10:00:08Z",
   "753a39da89f08f2f": "2026-11-11T10:05:10Z",
   "fd154e323254898b": "2026-11-11T10:15:09Z",
-  "af6e17bb1930f462": "2026-11-11T10:15:09Z"
+  "af6e17bb1930f462": "2026-11-11T10:15:09Z",
+  "8e81e3b89390e2b2": "2026-11-11T10:30:09Z",
+  "0a1eb846928abca4": "2026-11-11T10:30:09Z",
+  "de33799e0447f590": "2026-11-11T10:40:09Z",
+  "2f7d8028a26bba40": "2026-11-11T10:45:10Z",
+  "663ce4ed908a0958": "2026-11-11T10:45:10Z",
+  "3dc80394141b7ccb": "2026-11-11T10:45:10Z",
+  "a5d7c054a198d73f": "2026-11-11T11:10:09Z",
+  "07808ba6f73d0278": "2026-11-11T11:10:09Z",
+  "cb87e1a14f18bdb3": "2026-11-11T11:15:10Z",
+  "fbb1719a7a114674": "2026-11-11T11:15:10Z"
  },
  "recent": [
   {
-   "at": "2026-11-11T10:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Ma tahay qof aan cunnada iska celin karin xilliga jiifka? Talo ayaa laguu hayaa.",
-   "url": "https://www.bbc.com/somali/articles/cmvg6g2x5g0vo?at_medium=RSS&at_campaign=rss"
+   "at": "2026-11-11T11:15:10Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Israel kills Gaza goalkeeper days after playing in cup for slain athletes",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/11/israel-kills-gaza-goalkeeper-days-after-playing-in-cup-for-slain-athletes?traffic_source=rss"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Netanyahu mise Eisenkot: Warbaahinta Israa'iil oo ka doodaysa cidda dhisi karta dowladda cusub eeIsraa'iil",
-   "url": "https://www.bbc.com/somali/articles/cr62p3x0yqj3o?at_medium=RSS&at_campaign=rss"
+   "at": "2026-11-11T11:15:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "UK authorities arrest US soldier suspected of spying for Russia",
+   "url": "https://www.france24.com/en/uk-authorities-arrests-us-soldier-suspected-of-spying-for-russia"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
+   "at": "2026-11-11T11:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News Africa",
@@ -597,7 +607,95 @@
    "url": "https://www.bbc.co.uk/sport/swimming/articles/cmx27n60n3wno?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Man City whistleblower Rui Pinto could help UK uncover more sporting crime",
+   "url": "https://www.aljazeera.com/sports/2026/11/11/man-city-whistleblower-rui-pinto-could-help-uk-uncover-more-sporting-crime?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "🔴Italy: At least 300 schools evacuated after email bomb alerts",
+   "url": "https://www.france24.com/en/europe/20261111-hundreds-of-schools-in-italy-evacuated-after-receiving-bomb-threats"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Pope Leo to end Argentina tour with large outdoor mass before 'emotional' Peru homecoming",
+   "url": "https://www.france24.com/en/americas/20261111-pope-leo-to-end-argentina-tour-with-large-outdoor-mass-before-emotional-peru-homecoming"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia, Ukraine start second day of US-led talks: Kyiv lead negotiator",
+   "url": "https://www.france24.com/en/russia-ukraine-start-second-day-of-us-led-talks-kyiv-lead-negotiator"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "French journalist Christophe Gleizes marks 500 days in Algerian jail",
+   "url": "https://www.france24.com/en/french-journalist-christophe-gleizes-marks-500-days-in-algerian-jail"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Second day of Web Summit cancelled as Storm Charles puts Portugal on high alert",
+   "url": "https://www.france24.com/en/tv-shows/business/20261111-second-day-of-web-summit-cancelled-as-storm-charles-puts-portugal-on-high-alert"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Did Democrats save Pete Hegseth from impeachment?",
+   "url": "https://www.aljazeera.com/news/2026/11/11/did-democrats-save-pete-hegseth-from-impeachment?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Spain’s first general strike in 14 years begins",
+   "url": "https://www.aljazeera.com/news/2026/11/11/spains-first-general-strike-in-14-years-begins?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "What’s the Falklands oil project at the heart of latest UK-Argentina spat?",
+   "url": "https://www.aljazeera.com/news/2026/11/11/whats-the-falklands-oil-project-at-the-heart-of-latest-uk-argentina-spat?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US Treasury chief Bessent moved to military base after ‘Iranian threats’",
+   "url": "https://www.aljazeera.com/news/2026/11/11/us-treasury-chief-bessent-moved-to-military-base-after-iranian-threats?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gaza’s infrastructure collapse leaves residents defenceless against floods",
+   "url": "https://www.aljazeera.com/news/2026/11/11/gaza-infrastructure-collapse-leaves-residents-defenceless-against-floods?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -605,7 +703,7 @@
    "url": "https://www.france24.com/en/portugal-shuts-schools-tech-conference-as-it-braces-for-storm"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
+   "at": "2026-11-11T11:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -613,7 +711,7 @@
    "url": "https://www.france24.com/en/nayib-bukele-says-salvadoran-troops-destroyed-gang-hq-in-haiti"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
+   "at": "2026-11-11T11:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -621,7 +719,7 @@
    "url": "https://www.aljazeera.com/sports/2026/11/11/fatima-sana-pakistan-cricket-equal-treatment-wbbl-perth-scorchers?traffic_source=rss"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
+   "at": "2026-11-11T11:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -629,7 +727,7 @@
    "url": "https://www.france24.com/en/house-republicans-quash-effort-to-impeach-defense-secretary-hegseth"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
+   "at": "2026-11-11T11:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -637,7 +735,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/11/pakistans-pti-demands-access-to-jailed-khan-after-overnight-hospital-visit?traffic_source=rss"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
+   "at": "2026-11-11T11:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -645,71 +743,23 @@
    "url": "https://www.france24.com/en/africa-ghana-waste-dump-poses-health-environmental-crisis"
   },
   {
-   "at": "2026-11-11T10:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "UK authorities arrest US soldier suspected of spying for Russia",
-   "url": "https://www.france24.com/en/uk-authorities-arrests-us-soldier-suspected-of-spying-for-russia"
-  },
-  {
-   "at": "2026-11-11T10:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Football: Éli Junior Kroupi earns first France call-up from Zinédine Zidane",
-   "url": "https://www.france24.com/en/tv-shows/sports/20261111-football-%C3%A9li-junior-kroupi-earns-first-france-call-up-from-zin%C3%A9dine-zidane"
-  },
-  {
-   "at": "2026-11-11T10:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Housing crisis prompts general strike",
-   "url": "https://www.dw.com/en/spain-housing-crisis-prompts-general-strike/a-79915208?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-11T10:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US embassy refutes Houthis’ Yemen blockade claims, highlights siege on Taiz",
-   "url": "https://www.aljazeera.com/news/2026/11/11/us-embassy-refutes-houthis-yemen-blockade-claims-highlights-siege-on-taiz?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Want to live on the moon? NASA opens recruitment for Artemis programme",
-   "url": "https://www.france24.com/en/want-to-live-moon-nasa-opens-recruitment-for-artemis-programme"
-  },
-  {
-   "at": "2026-11-11T10:15:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "Germany news: Over 60s take month of sick leave per year",
-   "url": "https://www.dw.com/en/germany-news-over-60s-take-month-of-sick-leave-per-year/live-79915066?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-11T10:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC Somali",
    "title": "Ma tahay qof aan cunnada iska celin karin xilliga jiifka? Talo ayaa laguu hayaa.",
    "url": "https://www.bbc.com/somali/articles/cmvg6g2x5g0vo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Netanyahu mise Eisenkot: Warbaahinta Israa'iil oo ka doodaysa cidda dhisi karta dowladda cusub eeIsraa'iil",
-   "url": "https://www.bbc.com/somali/articles/cr62p3x0yqj3o?at_medium=RSS&at_campaign=rss"
+   "at": "2026-11-11T11:10:09Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Football: Éli Junior Kroupi earns first France call-up from Zinédine Zidane",
+   "url": "https://www.france24.com/en/tv-shows/sports/20261111-football-%C3%A9li-junior-kroupi-earns-first-france-call-up-from-zin%C3%A9dine-zidane"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News Africa",
@@ -717,7 +767,87 @@
    "url": "https://www.bbc.co.uk/sport/swimming/articles/cmx27n60n3wno?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "🔴Italy: At least 300 schools evacuated after email bomb alerts",
+   "url": "https://www.france24.com/en/europe/20261111-hundreds-of-schools-in-italy-evacuated-after-receiving-bomb-threats"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Pope Leo to end Argentina tour with large outdoor mass before 'emotional' Peru homecoming",
+   "url": "https://www.france24.com/en/americas/20261111-pope-leo-to-end-argentina-tour-with-large-outdoor-mass-before-emotional-peru-homecoming"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia, Ukraine start second day of US-led talks: Kyiv lead negotiator",
+   "url": "https://www.france24.com/en/russia-ukraine-start-second-day-of-us-led-talks-kyiv-lead-negotiator"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "French journalist Christophe Gleizes marks 500 days in Algerian jail",
+   "url": "https://www.france24.com/en/french-journalist-christophe-gleizes-marks-500-days-in-algerian-jail"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Second day of Web Summit cancelled as Storm Charles puts Portugal on high alert",
+   "url": "https://www.france24.com/en/tv-shows/business/20261111-second-day-of-web-summit-cancelled-as-storm-charles-puts-portugal-on-high-alert"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Did Democrats save Pete Hegseth from impeachment?",
+   "url": "https://www.aljazeera.com/news/2026/11/11/did-democrats-save-pete-hegseth-from-impeachment?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Spain’s first general strike in 14 years begins",
+   "url": "https://www.aljazeera.com/news/2026/11/11/spains-first-general-strike-in-14-years-begins?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "What’s the Falklands oil project at the heart of latest UK-Argentina spat?",
+   "url": "https://www.aljazeera.com/news/2026/11/11/whats-the-falklands-oil-project-at-the-heart-of-latest-uk-argentina-spat?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US Treasury chief Bessent moved to military base after ‘Iranian threats’",
+   "url": "https://www.aljazeera.com/news/2026/11/11/us-treasury-chief-bessent-moved-to-military-base-after-iranian-threats?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gaza’s infrastructure collapse leaves residents defenceless against floods",
+   "url": "https://www.aljazeera.com/news/2026/11/11/gaza-infrastructure-collapse-leaves-residents-defenceless-against-floods?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -725,7 +855,7 @@
    "url": "https://www.france24.com/en/portugal-shuts-schools-tech-conference-as-it-braces-for-storm"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -733,7 +863,7 @@
    "url": "https://www.france24.com/en/nayib-bukele-says-salvadoran-troops-destroyed-gang-hq-in-haiti"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -741,7 +871,7 @@
    "url": "https://www.aljazeera.com/sports/2026/11/11/fatima-sana-pakistan-cricket-equal-treatment-wbbl-perth-scorchers?traffic_source=rss"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -749,7 +879,7 @@
    "url": "https://www.france24.com/en/house-republicans-quash-effort-to-impeach-defense-secretary-hegseth"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -757,7 +887,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/11/pakistans-pti-demands-access-to-jailed-khan-after-overnight-hospital-visit?traffic_source=rss"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -765,7 +895,7 @@
    "url": "https://www.france24.com/en/africa-ghana-waste-dump-poses-health-environmental-crisis"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
+   "at": "2026-11-11T11:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -773,31 +903,7 @@
    "url": "https://www.france24.com/en/uk-authorities-arrests-us-soldier-suspected-of-spying-for-russia"
   },
   {
-   "at": "2026-11-11T10:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Football: Éli Junior Kroupi earns first France call-up from Zinédine Zidane",
-   "url": "https://www.france24.com/en/tv-shows/sports/20261111-football-%C3%A9li-junior-kroupi-earns-first-france-call-up-from-zin%C3%A9dine-zidane"
-  },
-  {
-   "at": "2026-11-11T10:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Housing crisis prompts general strike",
-   "url": "https://www.dw.com/en/spain-housing-crisis-prompts-general-strike/a-79915208?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-11T10:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US embassy refutes Houthis’ Yemen blockade claims, highlights siege on Taiz",
-   "url": "https://www.aljazeera.com/news/2026/11/11/us-embassy-refutes-houthis-yemen-blockade-claims-highlights-siege-on-taiz?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC Somali",
@@ -805,15 +911,95 @@
    "url": "https://www.bbc.com/somali/articles/cmvg6g2x5g0vo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Netanyahu mise Eisenkot: Warbaahinta Israa'iil oo ka doodaysa cidda dhisi karta dowladda cusub eeIsraa'iil",
-   "url": "https://www.bbc.com/somali/articles/cr62p3x0yqj3o?at_medium=RSS&at_campaign=rss"
+   "source": "BBC News Africa",
+   "title": "Tearful South African Olympian Tatjana Smith switches allegiance to the Netherlands",
+   "url": "https://www.bbc.co.uk/sport/swimming/articles/cmx27n60n3wno?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "🔴Italy: At least 300 schools evacuated after email bomb alerts",
+   "url": "https://www.france24.com/en/europe/20261111-hundreds-of-schools-in-italy-evacuated-after-receiving-bomb-threats"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Pope Leo to end Argentina tour with large outdoor mass before 'emotional' Peru homecoming",
+   "url": "https://www.france24.com/en/americas/20261111-pope-leo-to-end-argentina-tour-with-large-outdoor-mass-before-emotional-peru-homecoming"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia, Ukraine start second day of US-led talks: Kyiv lead negotiator",
+   "url": "https://www.france24.com/en/russia-ukraine-start-second-day-of-us-led-talks-kyiv-lead-negotiator"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "French journalist Christophe Gleizes marks 500 days in Algerian jail",
+   "url": "https://www.france24.com/en/french-journalist-christophe-gleizes-marks-500-days-in-algerian-jail"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Second day of Web Summit cancelled as Storm Charles puts Portugal on high alert",
+   "url": "https://www.france24.com/en/tv-shows/business/20261111-second-day-of-web-summit-cancelled-as-storm-charles-puts-portugal-on-high-alert"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Did Democrats save Pete Hegseth from impeachment?",
+   "url": "https://www.aljazeera.com/news/2026/11/11/did-democrats-save-pete-hegseth-from-impeachment?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Spain’s first general strike in 14 years begins",
+   "url": "https://www.aljazeera.com/news/2026/11/11/spains-first-general-strike-in-14-years-begins?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "What’s the Falklands oil project at the heart of latest UK-Argentina spat?",
+   "url": "https://www.aljazeera.com/news/2026/11/11/whats-the-falklands-oil-project-at-the-heart-of-latest-uk-argentina-spat?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US Treasury chief Bessent moved to military base after ‘Iranian threats’",
+   "url": "https://www.aljazeera.com/news/2026/11/11/us-treasury-chief-bessent-moved-to-military-base-after-iranian-threats?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gaza’s infrastructure collapse leaves residents defenceless against floods",
+   "url": "https://www.aljazeera.com/news/2026/11/11/gaza-infrastructure-collapse-leaves-residents-defenceless-against-floods?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -821,7 +1007,7 @@
    "url": "https://www.france24.com/en/portugal-shuts-schools-tech-conference-as-it-braces-for-storm"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -829,7 +1015,7 @@
    "url": "https://www.france24.com/en/nayib-bukele-says-salvadoran-troops-destroyed-gang-hq-in-haiti"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -837,7 +1023,7 @@
    "url": "https://www.aljazeera.com/sports/2026/11/11/fatima-sana-pakistan-cricket-equal-treatment-wbbl-perth-scorchers?traffic_source=rss"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -845,7 +1031,7 @@
    "url": "https://www.france24.com/en/house-republicans-quash-effort-to-impeach-defense-secretary-hegseth"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -853,7 +1039,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/11/pakistans-pti-demands-access-to-jailed-khan-after-overnight-hospital-visit?traffic_source=rss"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -861,15 +1047,7 @@
    "url": "https://www.france24.com/en/africa-ghana-waste-dump-poses-health-environmental-crisis"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Tearful Smith switches allegiance to Netherlands",
-   "url": "https://www.bbc.co.uk/sport/swimming/articles/cmx27n60n3wno?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -877,180 +1055,12 @@
    "url": "https://www.france24.com/en/uk-authorities-arrests-us-soldier-suspected-of-spying-for-russia"
   },
   {
-   "at": "2026-11-11T10:10:09Z",
+   "at": "2026-11-11T11:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
    "title": "Football: Éli Junior Kroupi earns first France call-up from Zinédine Zidane",
    "url": "https://www.france24.com/en/tv-shows/sports/20261111-football-%C3%A9li-junior-kroupi-earns-first-france-call-up-from-zin%C3%A9dine-zidane"
-  },
-  {
-   "at": "2026-11-11T10:10:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Housing crisis prompts general strike",
-   "url": "https://www.dw.com/en/spain-housing-crisis-prompts-general-strike/a-79915208?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-11T10:10:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US embassy refutes Houthis’ Yemen blockade claims, highlights siege on Taiz",
-   "url": "https://www.aljazeera.com/news/2026/11/11/us-embassy-refutes-houthis-yemen-blockade-claims-highlights-siege-on-taiz?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-11T10:10:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Want to live on the moon? NASA opens recruitment for Artemis programme",
-   "url": "https://www.france24.com/en/want-to-live-moon-nasa-opens-recruitment-for-artemis-programme"
-  },
-  {
-   "at": "2026-11-11T10:10:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Germany news: Over 60s take month of sick leave per year",
-   "url": "https://www.dw.com/en/germany-news-over-60s-take-month-of-sick-leave-per-year/live-79915066?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "How are Pakistan’s imports from India growing again despite tensions?",
-   "url": "https://www.aljazeera.com/news/2026/11/11/how-are-pakistans-imports-from-india-growing-again-despite-tensions?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Ma tahay qof aan cunnada iska celin karin xilliga jiifka? Talo ayaa laguu hayaa.",
-   "url": "https://www.bbc.com/somali/articles/cmvg6g2x5g0vo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Netanyahu mise Eisenkot: Warbaahinta Israa'iil oo ka doodaysa cidda dhisi karta dowladda cusub eeIsraa'iil",
-   "url": "https://www.bbc.com/somali/articles/cr62p3x0yqj3o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Portugal shuts schools, tech conference as it braces for storm",
-   "url": "https://www.france24.com/en/portugal-shuts-schools-tech-conference-as-it-braces-for-storm"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Nayib Bukele says Salvadoran troops destroyed gang HQ in Haiti",
-   "url": "https://www.france24.com/en/nayib-bukele-says-salvadoran-troops-destroyed-gang-hq-in-haiti"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "House Republicans quash effort to impeach Defense Secretary Hegseth",
-   "url": "https://www.france24.com/en/house-republicans-quash-effort-to-impeach-defense-secretary-hegseth"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Pakistan’s PTI demands access to jailed Khan after overnight hospital visit",
-   "url": "https://www.aljazeera.com/news/2026/11/11/pakistans-pti-demands-access-to-jailed-khan-after-overnight-hospital-visit?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Africa: Ghana waste dump poses health, environmental 'crisis'",
-   "url": "https://www.france24.com/en/africa-ghana-waste-dump-poses-health-environmental-crisis"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Tearful Smith switches allegiance to Netherlands",
-   "url": "https://www.bbc.co.uk/sport/swimming/articles/cmx27n60n3wno?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "UK authorities arrest US soldier suspected of spying for Russia",
-   "url": "https://www.france24.com/en/uk-authorities-arrests-us-soldier-suspected-of-spying-for-russia"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Football: Éli Junior Kroupi earns first France call-up from Zinédine Zidane",
-   "url": "https://www.france24.com/en/tv-shows/sports/20261111-football-%C3%A9li-junior-kroupi-earns-first-france-call-up-from-zin%C3%A9dine-zidane"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Housing crisis prompts general strike",
-   "url": "https://www.dw.com/en/spain-housing-crisis-prompts-general-strike/a-79915208?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US embassy refutes Houthis’ Yemen blockade claims, highlights siege on Taiz",
-   "url": "https://www.aljazeera.com/news/2026/11/11/us-embassy-refutes-houthis-yemen-blockade-claims-highlights-siege-on-taiz?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Want to live on the moon? NASA opens recruitment for Artemis programme",
-   "url": "https://www.france24.com/en/want-to-live-moon-nasa-opens-recruitment-for-artemis-programme"
-  },
-  {
-   "at": "2026-11-11T10:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Germany news: Over 60s take month of sick leave per year",
-   "url": "https://www.dw.com/en/germany-news-over-60s-take-month-of-sick-leave-per-year/live-79915066?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-11T10:00:08Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Spain’s general strike puts housing crisis at centre of upcoming elections",
-   "url": "https://www.france24.com/en/europe/20261111-spain-general-strike-puts-housing-crisis-centre-upcoming-elections"
-  },
-  {
-   "at": "2026-11-11T10:00:08Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Why China’s $1 trillion trade surplus isn’t all good news for its economy",
-   "url": "https://www.aljazeera.com/economy/2026/11/11/why-chinas-1-trillion-trade-surplus-isnt-all-good-news-for-its-economy?traffic_source=rss"
   }
  ]
 }
