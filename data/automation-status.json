@@ -1,39 +1,44 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-11T21:56:51+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-11T22:06:53+03:00",
+ "overall": "retrying",
+ "overallText": "Cillad ku meel gaar ah: si otomaatig ah ayaa dib loogu celinayaa",
  "lastSuccessfulPublishAt": "2026-11-11T18:50:05Z",
  "newestArticleAt": "2026-11-11T21:40:00+03:00",
- "lastSourceCheckAt": "2026-11-11T21:55:20+03:00",
+ "lastSourceCheckAt": "2026-11-11T22:05:21+03:00",
  "sourceChecks24h": 294,
  "publishedArticles": 404,
  "liveArticles": 404,
  "waitingForImage": 82,
  "liveInSync": true,
- "publishFailures24h": 0,
+ "publishFailures24h": 1,
  "lastPublishRun": {
-  "created_at": "2026-11-11T18:50:05Z",
-  "conclusion": "success",
+  "created_at": "2026-11-11T19:02:45Z",
+  "conclusion": "failure",
   "event": "push",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43081492253"
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43083475866"
  },
- "retry": null,
+ "retry": {
+  "attempts": 1,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-11T19:06:51+00:00"
+ },
  "problems": [],
  "hourlyRoutineLastRunAt": "2026-11-11T21:49:45+03:00",
  "writers": {
   "sports": {
    "mode": "paused: Anthropic API credit balance too low since 2026-11-11T18:01:41+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
-   "lastCheckAt": "2026-11-11T21:56:47+03:00",
+   "lastCheckAt": "2026-11-11T22:06:49+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 7,
-    "waitingForSchedule": 74
+    "skipped": 4,
+    "waitingForSchedule": 77
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-11T21:55:11+03:00",
-   "lastSuccessAt": "2026-11-11T21:55:11+03:00",
+   "lastCheckAt": "2026-11-11T22:05:12+03:00",
+   "lastSuccessAt": "2026-11-11T22:05:12+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
@@ -50,11 +55,11 @@
    "url": "https://horseedmedia.net/somali-opposition-group-holds-talks-with-security-officials-amid-political-tensions/427428/"
   },
   "latestPublished": {
-   "id": "2026-11-11-soomaaliya-jarmalka-66-sano",
-   "title": "Soomaaliya iyo Jarmalka: 66 sano oo xiriir diblomaasiyadeed, iskaashi iyo saaxiibtinnimo ah",
-   "publishedAt": "2026-11-11T21:40:00+03:00",
-   "source": "Eng Mahad AA",
-   "url": "/war/2026-11-11-soomaaliya-jarmalka-66-sano.html"
+   "id": "2026-11-11-xasan-sheekh-abiy-marin-badeedka-madaxbannaanida",
+   "title": "Kulanka Xasan Sheekh iyo Abiy: marin-badeedka iyo madaxbannaanida Soomaaliya",
+   "publishedAt": "2026-11-11T22:05:00+03:00",
+   "source": "Wartabiye TV",
+   "url": "/war/2026-11-11-xasan-sheekh-abiy-marin-badeedka-madaxbannaanida.html"
   },
   "publishedLastRun": 0,
   "rejectedLastRun": 79,
