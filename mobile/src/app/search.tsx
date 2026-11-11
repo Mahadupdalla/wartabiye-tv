@@ -1,17 +1,20 @@
-import React, { useMemo, useState } from 'react';
-import { FlatList, TextInput, View } from 'react-native';
+import React, { useDeferredValue, useMemo, useState } from 'react';
+import { FlatList, Pressable, TextInput, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useSettings } from '../lib/settings';
 import { useContent } from '../lib/content';
 import { catName } from '../lib/i18n';
 import { ArticleRow } from '../components/cards';
-import { T } from '../components/ui';
+import { EmptyState, Row, T } from '../components/ui';
 
 // Search in every published article of the chosen language (title, summary, category), newest first
 const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 export default function Search() {
   const { colors, t, lang, rtl } = useSettings();
   const { items } = useContent();
-  const [q, setQ] = useState('');
+  const [typed, setQ] = useState('');
+  // the field shows every letter at once; the result list follows a moment later, so fast typing never loses letters
+  const q = useDeferredValue(typed);
   const res = useMemo(() => {
     const words = fold(q).split(/\s+/).filter(w => w.length > 1);
     if (!words.length) return [];
@@ -22,20 +25,24 @@ export default function Search() {
   }, [q, items, lang]);
   return (
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
-      <View style={{ padding: 12, backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.line }}>
+      <View style={{ padding: 12, backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.hair }}>
+        <Row style={{ backgroundColor: colors.chip, borderRadius: 12, paddingHorizontal: 12, gap: 8, borderWidth: 1, borderColor: colors.hair }}>
+        <Ionicons name="search" size={18} color={colors.sub} />
         <TextInput
-          value={q} onChangeText={setQ} autoFocus placeholder={t('searchPh')} placeholderTextColor={colors.muted} returnKeyType="search" clearButtonMode="while-editing"
+          value={typed} onChangeText={setQ} autoFocus placeholder={t('searchPh')} placeholderTextColor={colors.muted} returnKeyType="search" clearButtonMode="while-editing"
           accessibilityLabel={t('search')}
-          style={{ backgroundColor: colors.bg, color: colors.fg, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, fontSize: 16, borderWidth: 1, borderColor: colors.line, textAlign: rtl ? 'right' : 'left' }}
+          style={{ flex: 1, color: colors.fg, paddingVertical: 11, fontSize: 16, textAlign: rtl ? 'right' : 'left', outlineStyle: 'none' } as any}
         />
+        {typed ? <Pressable onPress={() => setQ('')} hitSlop={8} accessibilityRole="button" accessibilityLabel="Clear"><Ionicons name="close-circle" size={18} color={colors.sub} /></Pressable> : null}
+        </Row>
       </View>
       <FlatList
         data={res}
         keyExtractor={c => c.id}
         keyboardShouldPersistTaps="handled"
         renderItem={({ item }) => <ArticleRow c={item} />}
-        ListHeaderComponent={q.trim().length > 1 ? <T muted style={{ padding: 12, fontSize: 13 }}>{t('searchResults')}: {res.length}</T> : undefined}
-        ListEmptyComponent={q.trim().length > 1 ? <T muted style={{ padding: 16 }}>{t('noMatch')}</T> : undefined}
+        ListHeaderComponent={q.trim().length > 1 && res.length ? <T f="bodyBold" style={{ paddingHorizontal: 16, paddingTop: 14, paddingBottom: 4, fontSize: 12, letterSpacing: 0.8, textTransform: 'uppercase', color: colors.sub }}>{t('searchResults')}: {res.length}</T> : undefined}
+        ListEmptyComponent={q.trim().length > 1 ? <EmptyState icon="search-outline" title={t('noMatch')} /> : <EmptyState icon="newspaper-outline" title={t('search')} text={t('searchPh')} />}
       />
     </View>
   );

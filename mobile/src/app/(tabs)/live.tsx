@@ -9,7 +9,7 @@ import { ago, clock } from '../../lib/i18n';
 import type { Card, LiveUpdate } from '../../lib/types';
 import { AppHeader, StatusLine } from '../../components/chrome';
 import { isBreaking, open } from '../../components/cards';
-import { LiveDot, Pill, Row, T } from '../../components/ui';
+import { EmptyState, LiveDot, Pill, Row, T } from '../../components/ui';
 
 // LIVE News: ONE written timeline, like the website's #wararka-tooska. It holds (1) the short LIVE updates Wartabiye TV
 // writes from official newsroom feeds (tools/live_updates.py, branch live-data) and (2) every story Wartabiye TV published
@@ -82,9 +82,9 @@ export default function LiveScreen() {
 
   const header = (
     <View>
-      <LinearGradient colors={[colors.blue, colors.blueD]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ paddingHorizontal: 16, paddingTop: 22, paddingBottom: 22 }}>
+      <LinearGradient colors={[colors.blue, colors.blueD]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ paddingHorizontal: 16, paddingTop: 18, paddingBottom: 18 }}>
         <Row style={{ gap: 10 }}>
-          <T f="brand" style={{ color: '#fff', fontSize: 26, lineHeight: 30, flexShrink: 1 }} accessibilityRole="header">{t('lnTitle')}</T>
+          <T f="brand" style={{ color: '#fff', fontSize: 25, lineHeight: 29, flexShrink: 1 }} accessibilityRole="header">{t('lnTitle')}</T>
           {on ? (
             <Row style={{ gap: 6, backgroundColor: colors.red, borderRadius: 4, paddingHorizontal: 8, paddingVertical: 3 }}>
               <LiveDot size={8} />
@@ -92,16 +92,16 @@ export default function LiveScreen() {
             </Row>
           ) : null}
         </Row>
-        <T style={{ color: '#d6e6f7', fontSize: 13, marginTop: 4, lineHeight: 18 }}>{t('lnSub')}</T>
+        <T style={{ color: '#d6e6f7', fontSize: 13, marginTop: 6, lineHeight: 18 }} numberOfLines={3}>{t('lnSub')}</T>
         <T style={{ color: '#d6e6f7', fontSize: 12, marginTop: 6 }}>
           {!on && newest ? t('liveNotActive', { t: clock(new Date(newest).toISOString()) }) + ' · ' : ''}
           {lastOk ? t('lnChecked', { t: clock(new Date(lastOk).toISOString()) }) : t('loading')}
         </T>
       </LinearGradient>
       <StatusLine />
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ padding: 12, gap: 8 }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 12, gap: 8 }}>
         {REG.map(([k, label]) => (
-          <Pressable key={k} onPress={() => setReg(k)} accessibilityRole="button" accessibilityState={{ selected: reg === k }} style={{ backgroundColor: reg === k ? colors.red : colors.surface, borderColor: reg === k ? colors.red : colors.line, borderWidth: 1, borderRadius: 18, paddingHorizontal: 12, paddingVertical: 6 }}>
+          <Pressable key={k} onPress={() => setReg(k)} accessibilityRole="button" accessibilityState={{ selected: reg === k }} style={{ backgroundColor: reg === k ? colors.red : colors.surface, borderColor: reg === k ? colors.red : colors.hair, borderWidth: 1, borderRadius: 17, height: 34, justifyContent: 'center', paddingHorizontal: 13 }}>
             <T f="bodyBold" style={{ fontSize: 13, color: reg === k ? '#fff' : colors.fg }}>{t(label)}</T>
           </Pressable>
         ))}
@@ -117,7 +117,7 @@ export default function LiveScreen() {
         keyExtractor={e => e.id}
         ListHeaderComponent={header}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} colors={[colors.red]} tintColor={colors.red} />}
-        ListEmptyComponent={<T muted style={{ padding: 16 }}>{updates === null ? t('loading') : t('lnEmpty')}</T>}
+        ListEmptyComponent={updates === null ? <T muted style={{ padding: 16 }}>{t('loading')}</T> : <EmptyState icon="radio-outline" title={t('lnEmpty')} />}
         ListFooterComponent={<T muted style={{ padding: 16, fontSize: 12, lineHeight: 17 }}>{t('lnRule')}</T>}
         renderItem={({ item: e }) => {
           const brk = e.u ? !!e.u.breaking : isBreaking(e.a!);
@@ -128,7 +128,7 @@ export default function LiveScreen() {
             <Row style={{ alignItems: 'flex-start', gap: 12, paddingHorizontal: 16, paddingVertical: 12, backgroundColor: isNew ? (colors.dark ? '#13263f' : '#eef6ff') : 'transparent' }}>
               <View style={{ width: 52, alignItems: 'center' }}>
                 <T f="display" style={{ fontSize: 15, color: brk ? colors.red : colors.blue }}>{e.a?.timeVerified === false ? '--:--' : clock(new Date(e.t).toISOString())}</T>
-                <T muted style={{ fontSize: 10, textAlign: 'center' }}>{ago(lang, new Date(e.t).toISOString(), now)}</T>
+                <T style={{ fontSize: 10.5, textAlign: 'center', color: colors.sub }}>{ago(lang, new Date(e.t).toISOString(), now)}</T>
               </View>
               <View style={{ width: 2, alignSelf: 'stretch', backgroundColor: brk ? colors.red : colors.line, borderRadius: 1 }} />
               <View style={{ flex: 1, gap: 4 }}>
@@ -138,14 +138,14 @@ export default function LiveScreen() {
                   <T f="bodyBold" style={{ fontSize: 11, color: colors.muted }}>{e.region === 'sports' ? t('sports') : t(REG.find(r => r[0] === e.region)?.[1] || 'wireWorld')}</T>
                 </Row>
                 <T f="displayBold" style={{ fontSize: 16, lineHeight: 21 }}>{title.s}</T>
-                {text.s ? <T muted style={{ fontSize: 14, lineHeight: 20 }} numberOfLines={e.u ? undefined : 3}>{text.s}</T> : null}
+                {text.s ? <T style={{ fontSize: 14, lineHeight: 20, color: colors.sub }} numberOfLines={e.u ? undefined : 3}>{text.s}</T> : null}
                 <T f="bodyBold" style={{ fontSize: 11, color: colors.muted }}>Wartabiye TV{e.u && (e.u.corroborated || 0) > 1 ? ' · ' + t('luCorrob', { n: e.u.corroborated! }) : ''}</T>
               </View>
             </Row>
           );
           return e.a ? <Pressable onPress={() => open(e.a!)} accessibilityRole="link">{body}</Pressable> : body;
         }}
-        ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: colors.line, marginLeft: 82 }} />}
+        ItemSeparatorComponent={() => <View style={{ height: 1, backgroundColor: colors.hair, marginStart: 82 }} />}
       />
     </View>
   );

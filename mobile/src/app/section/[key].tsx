@@ -5,13 +5,13 @@ import { useSettings } from '../../lib/settings';
 import { useContent } from '../../lib/content';
 import { catName } from '../../lib/i18n';
 import type { Card } from '../../lib/types';
-import { GridCard } from '../../components/cards';
+import { NewsRow, StoryCard } from '../../components/cards';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusLine } from '../../components/chrome';
-import { FeedSkeleton, T } from '../../components/ui';
+import { BlockHead, EmptyState, FeedSkeleton, T } from '../../components/ui';
 
 // Soomaaliya, Caalamka and Ciyaaraha: the same three sections as the website, newest first by the publisher's time
-const SPORT_NAMES: Record<string, string> = { football: '⚽', basketball: '🏀', athletics: '🏃', formula1: '🏎', tennis: '🎾', boxing: '🥊', cricket: '🏏' };
+const SPORT_NAMES: Record<string, string> = { football: 'Football', basketball: 'Basketball', athletics: 'Athletics', formula1: 'Formula 1', tennis: 'Tennis', boxing: 'Boxing', cricket: 'Cricket' };
 
 export default function SectionScreen() {
   const { key, cat } = useLocalSearchParams<{ key: string; cat?: string }>();
@@ -28,7 +28,7 @@ export default function SectionScreen() {
     }
     if (sec === 'sports') {
       const sports = [...new Set(base.map(c => c.sport).filter(Boolean))] as string[];
-      return sports.length > 1 ? [{ k: '', label: t('all') }, ...sports.map(s => ({ k: 'sport:' + s, label: (SPORT_NAMES[s] ? SPORT_NAMES[s] + ' ' : '') + s.charAt(0).toUpperCase() + s.slice(1) }))] : [];
+      return sports.length > 1 ? [{ k: '', label: t('all') }, ...sports.map(s => ({ k: 'sport:' + s, label: SPORT_NAMES[s] || s.charAt(0).toUpperCase() + s.slice(1) }))] : [];
     }
     return [];
   }, [base, sec, t, lang]);
@@ -48,29 +48,37 @@ export default function SectionScreen() {
         <FlatList
           data={list.slice(1)}
           keyExtractor={c => c.id}
-          renderItem={({ item }) => <GridCard c={item} />}
+          renderItem={({ item, index }) => {
+            const last = index === list.length - 2;
+            return (
+              <View style={{ marginHorizontal: 16, backgroundColor: colors.surface, overflow: 'hidden', borderTopLeftRadius: index === 0 ? 14 : 0, borderTopRightRadius: index === 0 ? 14 : 0, borderBottomLeftRadius: last ? 14 : 0, borderBottomRightRadius: last ? 14 : 0 }}>
+                <NewsRow c={item} first={index === 0} />
+              </View>
+            );
+          }}
+          ListFooterComponent={<View style={{ height: 28 }} />}
+          ListEmptyComponent={list.length ? undefined : <EmptyState icon={sec === 'sports' ? 'football-outline' : sec === 'world' ? 'earth-outline' : 'newspaper-outline'} title={empty} />}
           initialNumToRender={8}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} colors={[colors.blue]} tintColor={colors.blue} />}
           ListHeaderComponent={
             <View>
-              <LinearGradient colors={[colors.blue, colors.blueD]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ paddingHorizontal: 16, paddingTop: 26, paddingBottom: 30 }}>
-                <T f="brand" style={{ color: '#fff', fontSize: 30, lineHeight: 34, letterSpacing: 0.3 }} accessibilityRole="header">{title}</T>
-                <T style={{ color: '#fff', fontSize: 15, marginTop: 10, lineHeight: 23, opacity: 0.95 }}>{sub}</T>
+              <LinearGradient colors={[colors.blue, colors.blueD]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ paddingHorizontal: 16, paddingTop: 18, paddingBottom: 20 }}>
+                <T f="brand" style={{ color: '#fff', fontSize: 25, lineHeight: 29, letterSpacing: 0.3 }} accessibilityRole="header">{title}</T>
+                <T style={{ color: 'rgba(255,255,255,0.92)', fontSize: 13.5, marginTop: 6, lineHeight: 19 }} numberOfLines={3}>{sub}</T>
+                <T f="bodyBold" style={{ color: 'rgba(255,255,255,0.85)', fontSize: 12, marginTop: 10 }}>{base.length} · {t('allNews')}</T>
               </LinearGradient>
               <StatusLine />
               {chips.length ? (
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ padding: 12, gap: 8 }}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 12, gap: 8 }}>
                   {chips.map(c => (
-                    <Pressable key={c.k} onPress={() => setChip(c.k)} accessibilityRole="button" accessibilityState={{ selected: chip === c.k }} style={{ backgroundColor: chip === c.k ? colors.blue : colors.surface, borderWidth: 1, borderColor: chip === c.k ? colors.blue : colors.line, borderRadius: 18, paddingHorizontal: 12, paddingVertical: 6 }}>
+                    <Pressable key={c.k} onPress={() => setChip(c.k)} accessibilityRole="button" accessibilityState={{ selected: chip === c.k }} style={{ backgroundColor: chip === c.k ? colors.blue : colors.surface, borderWidth: 1, borderColor: chip === c.k ? colors.blue : colors.hair, borderRadius: 17, height: 34, justifyContent: 'center', paddingHorizontal: 13 }}>
                       <T f="bodyBold" style={{ fontSize: 13, color: chip === c.k ? '#fff' : colors.fg }}>{c.label}</T>
                     </Pressable>
                   ))}
                 </ScrollView>
               ) : null}
-              <View style={{ marginHorizontal: 16, marginTop: chips.length ? 4 : 26, marginBottom: 18, backgroundColor: colors.blue, borderRadius: 6, paddingHorizontal: 14, paddingVertical: 9 }}>
-                <T f="display" style={{ color: '#fff', fontSize: 14, letterSpacing: 1.1, textTransform: 'uppercase' }}>{sec === 'somalia' ? t('latestSo') : sec === 'world' ? t('latestWorld') : t('latestSports')}</T>
-              </View>
-              {list[0] ? <GridCard c={list[0]} lead /> : <T muted style={{ padding: 16 }}>{empty}</T>}
+              <BlockHead title={sec === 'somalia' ? t('latestSo') : sec === 'world' ? t('latestWorld') : t('latestSports')} style={{ marginTop: chips.length ? 6 : 22 }} />
+              {list[0] ? <StoryCard c={list[0]} lead /> : null}
             </View>
           }
         />

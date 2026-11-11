@@ -9,6 +9,7 @@ import { clock, todayLine } from '../lib/i18n';
 import type { Card } from '../lib/types';
 import { isBreaking, open } from './cards';
 import { LiveDot, Notice, ROW_RTL, Row, T } from './ui';
+import { LangButton } from './lang';
 
 const LOGO = require('../../assets/logo.png');
 
@@ -18,18 +19,19 @@ export function Brand({ size = 'full' }: { size?: 'full' | 'bar' }) {
   const { width } = useWindowDimensions();
   const bar = size === 'bar';
   const small = width < 360;
-  const logo = bar ? 34 : small ? 46 : 54;
+  const logo = bar ? (small ? 28 : 31) : small ? 46 : 54;
+  const word = bar ? (small ? 14 : width < 400 ? 16 : 18) : small ? 24 : 28;
   return (
-    <Pressable onPress={() => router.navigate('/')} accessibilityRole="header" accessibilityLabel="Wartabiye TV">
-      <Row style={{ gap: bar ? 10 : 12 }}>
+    <Pressable onPress={() => router.navigate('/')} accessibilityRole="header" accessibilityLabel="Wartabiye TV" hitSlop={4}>
+      <Row style={{ gap: bar ? 8 : 12 }}>
         <View style={{ width: logo, height: logo, borderRadius: logo / 2, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', shadowColor: '#037BDC', shadowOpacity: bar ? 0 : 0.18, shadowRadius: 7, shadowOffset: { width: 0, height: 4 }, elevation: bar ? 0 : 2, borderWidth: bar ? 0 : 1, borderColor: colors.line }}>
           <Image source={LOGO} style={{ width: logo - 2, height: logo - 2, borderRadius: logo / 2 }} accessibilityIgnoresInvertColors />
         </View>
         <View style={{ flexShrink: 1 }}>
-          <Row style={{ gap: 6 }}>
-            <T f="brand" style={{ fontSize: bar ? 19 : small ? 24 : 28, lineHeight: bar ? 22 : small ? 27 : 31, letterSpacing: 0.6, color: bar || colors.dark ? '#fff' : colors.blue }}>WARTABIYE</T>
-            <View style={{ backgroundColor: colors.red, borderRadius: 5, paddingHorizontal: bar ? 5 : 7, paddingVertical: 1 }}>
-              <T f="brand" style={{ color: '#fff', fontSize: bar ? 15 : small ? 19 : 22, lineHeight: bar ? 19 : small ? 23 : 27, letterSpacing: 0.6 }}>TV</T>
+          <Row style={{ gap: bar ? 4 : 6, flexShrink: 1 }}>
+            <T f="brand" numberOfLines={1} style={{ fontSize: word, lineHeight: word + 3, letterSpacing: 0.5, color: bar || colors.dark ? '#fff' : colors.blue }}>WARTABIYE</T>
+            <View style={{ backgroundColor: colors.red, borderRadius: 4, paddingHorizontal: bar ? 4 : 7, paddingVertical: bar ? 0 : 1 }}>
+              <T f="brand" style={{ color: '#fff', fontSize: word * 0.8, lineHeight: word * 0.8 + 4, letterSpacing: 0.5 }}>TV</T>
             </View>
           </Row>
           {!bar ? <T f="bodyBold" muted style={{ fontSize: small ? 8.5 : 9.5, letterSpacing: small ? 1 : 1.9, textTransform: 'uppercase', marginTop: 5 }} numberOfLines={1}>{t('tagline')}</T> : null}
@@ -39,67 +41,56 @@ export function Brand({ size = 'full' }: { size?: 'full' | 'bar' }) {
   );
 }
 
-/** Top of the homepage, as on the website: dark-blue date bar, then the white logo band */
-export function SiteTop() {
+/** Today's date in the reader's language: a quiet line at the top of Home (the website's dark-blue date bar) */
+export function DateLine() {
   const { colors, lang } = useSettings();
-  const insets = useSafeAreaInsets();
   return (
-    <View>
-      <View style={{ backgroundColor: colors.bar, paddingTop: insets.top }}>
-        <T f="bodyBold" style={{ color: '#fff', fontSize: 12.5, paddingHorizontal: 16, paddingVertical: 6 }}>{todayLine(lang)}</T>
-      </View>
-      <View style={{ backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.line, paddingHorizontal: 16, paddingVertical: 14 }}>
-        <Brand />
-      </View>
-    </View>
+    <Row style={{ paddingHorizontal: 16, paddingTop: 14, gap: 6 }}>
+      <Ionicons name="calendar-clear-outline" size={13} color={colors.sub} />
+      <T f="bodyBold" style={{ fontSize: 12.5, color: colors.sub }}>{todayLine(lang)}</T>
+    </Row>
   );
+}
+
+/** @deprecated kept for older imports: the date now sits in DateLine and the brand in the top bar */
+export function SiteTop() {
+  return <DateLine />;
 }
 
 const NATIVE = Platform.OS !== 'web';
 
-/** The three MENU lines: they turn into an X while the menu is open (p: 0 = lines, 1 = X) and back when it closes */
+/** The three menu lines: they turn into an X while the menu is open (p: 0 = lines, 1 = X) and back when it closes */
 function MenuIcon({ p }: { p: Animated.Value }) {
-  const line = { position: 'absolute' as const, left: 2, width: 20, height: 2.4, borderRadius: 2, backgroundColor: '#fff' };
-  // first the outer lines slide to the middle, then they turn; closing plays the same steps backwards
-  const move = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, 6, 6] });
-  const moveUp = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, -6, -6] });
+  const line = { position: 'absolute' as const, left: 2, width: 18, height: 2, borderRadius: 2, backgroundColor: '#fff' };
+  const move = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, 5.5, 5.5] });
+  const moveUp = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, -5.5, -5.5] });
   const turn = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: ['0deg', '0deg', '45deg'] });
   const turnBack = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: ['0deg', '0deg', '-45deg'] });
   const mid = p.interpolate({ inputRange: [0, 0.4, 1], outputRange: [1, 0, 0] });
   const midW = p.interpolate({ inputRange: [0, 0.4, 1], outputRange: [1, 0.2, 0.2] });
   return (
-    <View style={{ width: 24, height: 24 }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-      <Animated.View style={[line, { top: 4.8, transform: [{ translateY: move }, { rotate: turn }] }]} />
-      <Animated.View style={[line, { top: 10.8, opacity: mid, transform: [{ scaleX: midW }] }]} />
-      <Animated.View style={[line, { top: 16.8, transform: [{ translateY: moveUp }, { rotate: turnBack }] }]} />
+    <View style={{ width: 22, height: 22 }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      <Animated.View style={[line, { top: 5, transform: [{ translateY: move }, { rotate: turn }] }]} />
+      <Animated.View style={[line, { top: 10.5, opacity: mid, transform: [{ scaleX: midW }] }]} />
+      <Animated.View style={[line, { top: 16, transform: [{ translateY: moveUp }, { rotate: turnBack }] }]} />
     </View>
-  );
-}
-
-/** MENU button: the lines + the word MENU (the same look on the bar and on top of the open menu) */
-function MenuButtonFace({ p, label }: { p: Animated.Value; label: string }) {
-  return (
-    <Row style={{ gap: 10 }}>
-      <MenuIcon p={p} />
-      <T f="display" style={{ color: '#fff', fontSize: 14, letterSpacing: 1.4 }}>{label}</T>
-    </Row>
   );
 }
 
 type Rect = { x: number; y: number; w: number; h: number };
 
-/** The website's blue menu bar with the red rule: MENU, search, alerts, saved and LIVE TV */
-export function MenuBar({ withBrand }: { withBrand?: boolean }) {
+/** The app's top bar, in the website's blue with the red rule: menu, logo, language, search and alerts.
+ *  The same bar is on every main screen, so the reader always finds the language and search in one place. */
+export function MenuBar(_: { withBrand?: boolean }) {
   const { colors, t, rtl } = useSettings();
   const insets = useSafeAreaInsets();
-  const { height: screenH } = useWindowDimensions();
-  const ico = (name: keyof typeof Ionicons.glyphMap, label: string, go: () => void) => (
-    <Pressable onPress={go} hitSlop={6} style={{ padding: 8 }} accessibilityRole="button" accessibilityLabel={label}>
+  const { height: screenH, width: screenW } = useWindowDimensions();
+  const ico = (name: keyof typeof Ionicons.glyphMap, label: string, go: () => void, id?: string) => (
+    <Pressable testID={id} onPress={go} hitSlop={4} style={({ pressed }) => ({ width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center', backgroundColor: pressed ? 'rgba(255,255,255,0.16)' : 'transparent' })} accessibilityRole="button" accessibilityLabel={label}>
       <Ionicons name={name} size={21} color="#fff" />
     </Pressable>
   );
-  // MENU opens the sections under the bar with a short slide and fade, and closes the same way backwards.
-  // `open` is the one state the icon and the menu both follow, so the X is shown exactly while the menu is open.
+  // the menu opens under the bar with a short slide and fade, and closes the same way backwards
   const p = useRef(new Animated.Value(0)).current;
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
@@ -109,7 +100,7 @@ export function MenuBar({ withBrand }: { withBrand?: boolean }) {
   const btnRef = useRef<any>(null);
   const run = (to: 0 | 1) => {
     p.stopAnimation();
-    Animated.timing(p, { toValue: to, duration: to ? 300 : 240, easing: to ? Easing.out(Easing.cubic) : Easing.inOut(Easing.cubic), useNativeDriver: NATIVE }).start(({ finished }) => {
+    Animated.timing(p, { toValue: to, duration: to ? 260 : 200, easing: to ? Easing.out(Easing.cubic) : Easing.inOut(Easing.cubic), useNativeDriver: NATIVE }).start(({ finished }) => {
       if (finished && !to) setShown(false);
     });
   };
@@ -126,72 +117,82 @@ export function MenuBar({ withBrand }: { withBrand?: boolean }) {
   const go = (to: () => void) => () => { closeMenu(); to(); };
   const nav = (h: Href) => go(() => router.push(h));
   const top = bar ? bar.y + bar.h : 0;
-  const slide = p.interpolate({ inputRange: [0, 1], outputRange: [-14, 0] });
+  const slide = p.interpolate({ inputRange: [0, 1], outputRange: [-10, 0] });
   const fade = p.interpolate({ inputRange: [0, 0.7, 1], outputRange: [0, 0.95, 1] });
-  const items: [keyof typeof Ionicons.glyphMap, string, () => void, boolean?][] = [
-    ['newspaper-outline', t('allNews'), go(() => router.navigate('/'))],
+  const sections: [keyof typeof Ionicons.glyphMap, string, () => void, boolean?][] = [
+    ['home-outline', t('allNews'), go(() => router.navigate('/'))],
     ['flag-outline', t('somaliaNav'), nav('/section/somalia')],
-    ['globe-outline', t('world'), nav('/section/world')],
+    ['earth-outline', t('world'), nav('/section/world')],
     ['football-outline', t('sports'), nav('/section/sports')],
     ['radio-outline', t('liveNewsNav'), go(() => router.navigate('/live')), true],
     ['flash-outline', t('breakingTitle'), nav('/breaking'), true],
     ['play-circle-outline', t('videosNav'), go(() => router.navigate('/videos'))],
+  ];
+  const tools: [keyof typeof Ionicons.glyphMap, string, () => void][] = [
+    ['search-outline', t('search'), nav('/search')],
+    ['bookmark-outline', t('saved'), go(() => router.navigate('/saved'))],
+    ['notifications-outline', t('notifications'), nav('/notifications')],
+    ['settings-outline', t('settings'), nav('/settings')],
     ['megaphone-outline', t('advertise'), nav('/ads')],
     ['ellipsis-horizontal-circle-outline', t('more'), go(() => router.navigate('/more'))],
   ];
-  const label = t('menu').toUpperCase();
+  const wide = screenW >= 430;
+  const face = <MenuIcon p={p} />;
+  const btnStyle = ({ pressed }: { pressed: boolean }) => ({ width: 38, height: 38, borderRadius: 19, alignItems: 'center' as const, justifyContent: 'center' as const, backgroundColor: pressed ? 'rgba(255,255,255,0.16)' : 'transparent' });
   return (
-    <View ref={barRef} collapsable={false} style={{ backgroundColor: colors.blue, borderBottomWidth: 3, borderBottomColor: colors.red, paddingTop: withBrand ? insets.top : 0, shadowColor: '#0263b3', shadowOpacity: 0.18, shadowRadius: 9, shadowOffset: { width: 0, height: 6 }, elevation: 3, zIndex: 3 }}>
-      <Row style={{ height: 50, paddingHorizontal: 8, justifyContent: 'space-between' }}>
-        {withBrand ? <View style={{ flexShrink: 1, paddingStart: 6 }}><Brand size="bar" /></View> : (
-          <Pressable ref={btnRef} collapsable={false} testID="menu-button" onPress={toggle} accessibilityRole="button" accessibilityLabel={t('menu')} aria-expanded={open} style={({ pressed }) => ({ paddingHorizontal: 8, paddingVertical: 8, borderRadius: 6, backgroundColor: pressed ? 'rgba(255,255,255,0.14)' : 'transparent', transform: [{ scale: pressed ? 0.96 : 1 }] })}>
-            <MenuButtonFace p={p} label={label} />
-          </Pressable>
-        )}
-        <Row style={{ gap: 0 }}>
-          {ico('search', t('search'), () => router.push('/search'))}
-          {ico('notifications-outline', t('notifications'), () => router.push('/notifications'))}
-          {!withBrand ? ico('bookmark-outline', t('saved'), () => router.navigate('/saved')) : null}
-          {!withBrand ? (
-            <Pressable onPress={() => router.navigate('/videos')} accessibilityRole="link" style={{ marginStart: 6, borderWidth: 1, borderColor: 'rgba(255,255,255,0.7)', borderRadius: 4, paddingHorizontal: 9, paddingVertical: 5 }}>
-              <T f="display" style={{ color: '#fff', fontSize: 12, letterSpacing: 1.2 }}>LIVE TV</T>
-            </Pressable>
-          ) : null}
+    <View ref={barRef} collapsable={false} style={{ backgroundColor: colors.blue, borderBottomWidth: 3, borderBottomColor: colors.red, paddingTop: insets.top, zIndex: 3 }}>
+      <Row style={{ height: 52, paddingHorizontal: 6, gap: 2 }}>
+        <Pressable ref={btnRef} collapsable={false} testID="menu-button" onPress={toggle} accessibilityRole="button" accessibilityLabel={t('menu')} aria-expanded={open} style={btnStyle}>
+          {face}
+        </Pressable>
+        <View style={{ flex: 1, minWidth: 0, paddingHorizontal: 2, alignItems: rtl && NATIVE ? 'flex-end' : 'flex-start', overflow: 'hidden' }}><Brand size="bar" /></View>
+        <Row style={{ gap: 2 }}>
+          <View style={{ marginHorizontal: 2 }}><LangButton /></View>
+          {ico('search', t('search'), () => router.push('/search'), 'search-button')}
+          {wide ? ico('notifications-outline', t('notifications'), () => router.push('/notifications')) : null}
         </Row>
       </Row>
-      {!withBrand ? (
-        <Modal visible={shown} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={closeMenu}>
-          {/* a tap above the menu or on the dimmed page closes it */}
-          <Pressable testID="menu-scrim" onPress={closeMenu} accessibilityElementsHidden importantForAccessibility="no" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
-            <Animated.View style={{ position: 'absolute', top, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(11,28,51,0.55)', opacity: p }} />
+      <Modal visible={shown} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={closeMenu}>
+        <Pressable testID="menu-scrim" onPress={closeMenu} accessibilityElementsHidden importantForAccessibility="no" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+          <Animated.View style={{ position: 'absolute', top, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(11,28,51,0.5)', opacity: p }} />
+        </Pressable>
+        {btn ? (
+          <Pressable testID="menu-button-close" onPress={closeMenu} accessibilityRole="button" accessibilityLabel={t('menu')} aria-expanded style={(st) => [btnStyle(st), { position: 'absolute', left: btn.x, top: btn.y, width: btn.w, height: btn.h }]}>
+            {face}
           </Pressable>
-          {/* the same MENU button, exactly over the one on the bar: tapping it again closes the menu */}
-          {btn ? (
-            <Pressable testID="menu-button-close" onPress={closeMenu} accessibilityRole="button" accessibilityLabel={t('menu')} aria-expanded style={({ pressed }) => ({ position: 'absolute', left: btn.x, top: btn.y, width: btn.w, height: btn.h, paddingHorizontal: 8, paddingVertical: 8, borderRadius: 6, justifyContent: 'center', backgroundColor: pressed ? 'rgba(255,255,255,0.14)' : 'transparent', transform: [{ scale: pressed ? 0.96 : 1 }] })}>
-              <MenuButtonFace p={p} label={label} />
-            </Pressable>
-          ) : null}
-          <Animated.View testID="menu-panel" style={{ position: 'absolute', top, left: 0, right: 0, maxHeight: Math.max(200, screenH - top - insets.bottom), backgroundColor: colors.blueD, opacity: fade, transform: [{ translateY: slide }], shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 15, shadowOffset: { width: 0, height: 16 }, elevation: 8 }}>
-            <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 4, paddingBottom: 12 }} bounces={false}>
-              {items.map(([icon, text, onPress, live]) => (
-                <Pressable key={text} onPress={onPress} accessibilityRole="link" style={({ pressed }) => ({ paddingVertical: 13, paddingHorizontal: 4, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.12)', backgroundColor: pressed ? 'rgba(255,255,255,0.08)' : 'transparent' })}>
-                  <Row style={{ gap: 12 }}>
-                    <View style={{ width: 18, height: 18, alignItems: 'center', justifyContent: 'center' }}>{live ? <View style={{ width: 9, height: 9, borderRadius: 5, backgroundColor: colors.red, borderWidth: 1.5, borderColor: '#fff' }} /> : <Ionicons name={icon} size={18} color="rgba(255,255,255,0.85)" />}</View>
-                    <T f="display" style={{ flex: 1, color: '#fff', fontSize: 13.5, letterSpacing: 0.6, textTransform: 'uppercase', textAlign: rtl ? 'right' : 'left' }}>{text}</T>
-                  </Row>
+        ) : null}
+        <Animated.View testID="menu-panel" style={{ position: 'absolute', top, left: 0, right: 0, maxHeight: Math.max(200, screenH - top - insets.bottom), backgroundColor: colors.surface, borderBottomLeftRadius: 18, borderBottomRightRadius: 18, opacity: fade, transform: [{ translateY: slide }], shadowColor: '#000', shadowOpacity: 0.22, shadowRadius: 18, shadowOffset: { width: 0, height: 14 }, elevation: 10, overflow: 'hidden' }}>
+          <ScrollView contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 8, paddingBottom: 14 }} bounces={false}>
+            {sections.map(([icon, text, onPress, live]) => (
+              <Pressable key={text} onPress={onPress} accessibilityRole="link" style={({ pressed }) => ({ paddingVertical: 8, paddingHorizontal: 10, borderRadius: 10, backgroundColor: pressed ? colors.tint : 'transparent' })}>
+                <Row style={{ gap: 14 }}>
+                  <View style={{ width: 32, height: 32, borderRadius: 9, backgroundColor: live ? (colors.dark ? '#3b0d0e' : '#fdecec') : colors.tint, alignItems: 'center', justifyContent: 'center' }}>
+                    <Ionicons name={icon} size={17} color={live ? colors.red : colors.blue} />
+                  </View>
+                  <T f="display" style={{ flex: 1, fontSize: 15, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: rtl ? 'right' : 'left' }}>{text}</T>
+                  <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={16} color={colors.sub} />
+                </Row>
+              </Pressable>
+            ))}
+            <View style={{ height: 1, backgroundColor: colors.hair, marginVertical: 8, marginHorizontal: 10 }} />
+            <View style={{ flexDirection: rtl && NATIVE ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: 4, justifyContent: 'space-between' }}>
+              {tools.map(([icon, text, onPress]) => (
+                <Pressable key={text} onPress={onPress} accessibilityRole="link" style={({ pressed }) => ({ width: '31.6%', paddingVertical: 10, paddingHorizontal: 8, borderRadius: 10, borderWidth: 1, borderColor: colors.hair, alignItems: 'center', gap: 4, backgroundColor: pressed ? colors.tint : 'transparent' })}>
+                  <Ionicons name={icon} size={18} color={colors.blue} />
+                  <T f="bodyBold" numberOfLines={1} style={{ fontSize: 12, textAlign: 'center' }}>{text}</T>
                 </Pressable>
               ))}
-            </ScrollView>
-          </Animated.View>
-        </Modal>
-      ) : null}
+            </View>
+          </ScrollView>
+        </Animated.View>
+      </Modal>
     </View>
   );
 }
 
-/** Header of the other screens: the same blue bar with the red rule, the logo and name */
+/** Header of the other main screens: the same top bar */
 export function AppHeader(_: { title?: string }) {
-  return <MenuBar withBrand />;
+  return <MenuBar />;
 }
 
 /** DEGDEG ticker, built like the website's: owner's manual items, then breaking stories (12 h), then the newest */
@@ -223,29 +224,29 @@ export function Ticker() {
     <View style={{ flexDirection: rtl ? ROW_RTL : 'row' }} onLayout={k === 0 ? (e: LayoutChangeEvent) => setW(e.nativeEvent.layout.width) : undefined}>
       {list.map((it, i) => (
         <Pressable key={k + '-' + i} onPress={() => it.card && open(it.card)} accessibilityElementsHidden={k === 1} importantForAccessibility={k === 1 ? 'no-hide-descendants' : 'auto'}>
-          <Row style={{ paddingHorizontal: 22, gap: 12 }}>
-            <View style={{ width: 6, height: 6, backgroundColor: colors.blue, transform: [{ rotate: '45deg' }] }} />
-            <T f="bodyBold" style={{ fontSize: 14 }} numberOfLines={1}>{it.title}</T>
+          <Row style={{ paddingHorizontal: 18, gap: 10 }}>
+            <View style={{ width: 5, height: 5, borderRadius: 3, backgroundColor: colors.red }} />
+            <T f="bodyBold" style={{ fontSize: 13.5 }} numberOfLines={1}>{it.title}</T>
           </Row>
         </Pressable>
       ))}
     </View>
   );
   return (
-    <Row style={{ backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.line, height: 40, overflow: 'hidden' }}>
-      <Row style={{ backgroundColor: colors.red, height: '100%', paddingHorizontal: 14, gap: 8, zIndex: 2 }}>
-        <LiveDot size={7} color="#fff" />
-        <T f="display" style={{ color: '#fff', fontSize: 12, letterSpacing: 1.9 }}>{label}</T>
+    <Row style={{ backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.hair, height: 36, overflow: 'hidden' }}>
+      <Row style={{ backgroundColor: colors.red, height: '100%', paddingHorizontal: 12, gap: 7, zIndex: 2 }}>
+        <LiveDot size={6} color="#fff" />
+        <T f="display" style={{ color: '#fff', fontSize: 11, letterSpacing: 1.6 }}>{label}</T>
       </Row>
-      <View style={{ width: 0, height: 0, borderTopWidth: 20, borderBottomWidth: 20, borderLeftWidth: rtl ? 0 : 10, borderRightWidth: rtl ? 10 : 0, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: colors.red, borderRightColor: colors.red, zIndex: 2 }} />
+      <View style={{ width: 0, height: 0, borderTopWidth: 18, borderBottomWidth: 18, borderLeftWidth: rtl ? 0 : 10, borderRightWidth: rtl ? 10 : 0, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: colors.red, borderRightColor: colors.red, zIndex: 2 }} />
       <View style={{ flex: 1, overflow: 'hidden' }}>
         <Animated.View style={{ flexDirection: rtl ? ROW_RTL : 'row', transform: [{ translateX: tx }] }}>
           {strip(0)}
           {strip(1)}
         </Animated.View>
       </View>
-      <Pressable onPress={() => setPaused(p => !p)} accessibilityRole="button" accessibilityLabel={paused ? '▶' : 'II'} style={{ width: 40, height: '100%', alignItems: 'center', justifyContent: 'center', borderStartWidth: 1, borderStartColor: colors.line }}>
-        <Ionicons name={paused ? 'play' : 'pause'} size={14} color={colors.muted} />
+      <Pressable onPress={() => setPaused(p => !p)} accessibilityRole="button" accessibilityLabel={paused ? '▶' : 'II'} style={{ width: 36, height: '100%', alignItems: 'center', justifyContent: 'center', borderStartWidth: 1, borderStartColor: colors.hair }}>
+        <Ionicons name={paused ? 'play' : 'pause'} size={12} color={colors.sub} />
       </Pressable>
     </Row>
   );
@@ -352,18 +353,18 @@ export function SectionChips() {
   const { colors, t, rtl } = useSettings();
   const chips: [string, keyof typeof Ionicons.glyphMap, () => void, boolean?][] = [
     [t('somaliaNav'), 'flag-outline', () => router.push('/section/somalia')],
-    [t('world'), 'globe-outline', () => router.push('/section/world')],
+    [t('world'), 'earth-outline', () => router.push('/section/world')],
     [t('sports'), 'football-outline', () => router.push('/section/sports')],
     [t('liveNewsNav'), 'radio-outline', () => router.navigate('/live'), true],
     [t('breakingTitle'), 'flash-outline', () => router.push('/breaking'), true],
     [t('videosNav'), 'play-circle-outline', () => router.navigate('/videos')],
   ];
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} accessibilityLabel={t('sectionsBar')} style={{ flexGrow: 0, transform: rtl && Platform.OS !== 'web' ? [{ scaleX: -1 }] : undefined }} contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 14, gap: 8 }}>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} accessibilityLabel={t('sectionsBar')} style={{ flexGrow: 0, transform: rtl && Platform.OS !== 'web' ? [{ scaleX: -1 }] : undefined }} contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, gap: 8 }}>
       {chips.map(([label, icon, go, red]) => (
-        <Pressable key={label} onPress={go} accessibilityRole="link" style={({ pressed }) => ({ transform: [{ scaleX: rtl && Platform.OS !== 'web' ? -1 : 1 }, { scale: pressed ? 0.96 : 1 }], flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 13, paddingVertical: 8, borderRadius: 18, borderWidth: 1, borderColor: red ? colors.red : colors.line, backgroundColor: pressed ? colors.chip : colors.surface })}>
+        <Pressable key={label} onPress={go} accessibilityRole="link" style={({ pressed }) => ({ transform: [{ scaleX: rtl && Platform.OS !== 'web' ? -1 : 1 }, { scale: pressed ? 0.96 : 1 }], flexDirection: 'row', alignItems: 'center', gap: 6, height: 34, paddingHorizontal: 12, borderRadius: 17, borderWidth: 1, borderColor: red ? (colors.dark ? '#5a1a1c' : '#f6c3c4') : colors.hair, backgroundColor: pressed ? colors.tint : colors.surface })}>
           {red ? <LiveDot size={7} /> : <Ionicons name={icon} size={15} color={colors.blue} />}
-          <T f="bodyBold" style={{ fontSize: 13.5, color: red ? colors.red : colors.fg }}>{label}</T>
+          <T f="bodyBold" style={{ fontSize: 13, color: red ? colors.red : colors.fg }}>{label}</T>
         </Pressable>
       ))}
     </ScrollView>

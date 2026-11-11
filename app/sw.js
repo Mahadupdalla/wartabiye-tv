@@ -3,7 +3,7 @@
    - the news (api/v1, data/*.json) is always fetched fresh first and the last copy is used only when offline;
    - article photos are kept after they were seen (at most 300), for offline reading;
    - push: the same browser notifications as the website's bell; a tap opens the article inside the app. */
-const SHELL = 'wtv-app-shell-695137623d';
+const SHELL = 'wtv-app-shell-1bde1f12c9';
 const DATA = 'wtv-app-data';
 const IMG = 'wtv-app-img';
 self.addEventListener('install', e => {

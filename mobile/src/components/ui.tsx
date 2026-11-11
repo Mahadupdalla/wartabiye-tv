@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Platform, Pressable, StyleSheet, Text, View, type TextProps, type TextStyle, type ViewStyle, type StyleProp } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { useSettings } from '../lib/settings';
 import { FONT } from '../lib/theme';
 import { abs } from '../lib/config';
@@ -96,25 +97,27 @@ export function Photo({ uri, alt, style, rounded = 6, priority, illus, children 
 export function CatTag({ label, red, dot, style }: { label: string; red?: boolean; dot?: boolean; style?: StyleProp<ViewStyle> }) {
   const { colors } = useSettings();
   return (
-    <Row style={[{ backgroundColor: red ? colors.red : colors.blue, borderRadius: 4, paddingHorizontal: 9, paddingVertical: 6, alignSelf: 'flex-start', gap: 6 }, style]}>
+    <Row style={[{ backgroundColor: red ? colors.red : colors.blue, borderRadius: 5, paddingHorizontal: 8, paddingVertical: 5, alignSelf: 'flex-start', gap: 6 }, style]}>
       {dot ? <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#fff' }} /> : null}
-      <T f="display" style={{ color: '#fff', fontSize: 10.5, lineHeight: 11, letterSpacing: 0.95, textTransform: 'uppercase' }}>{label}</T>
+      <T f="display" style={{ color: '#fff', fontSize: 10.5, lineHeight: 12, letterSpacing: 0.9, textTransform: 'uppercase' }}>{label}</T>
     </Row>
   );
 }
 
-/** Website block heading (.blockhead): a filled blue (or red) label on a 2 px rule, "See all →" on the other side */
+/** Section heading: a short brand-coloured bar, the title, and "See all ›" on the other side */
 export function BlockHead({ title, red, onMore, moreLabel, style }: { title: string; red?: boolean; onMore?: () => void; moreLabel?: string; style?: StyleProp<ViewStyle> }) {
-  const { colors } = useSettings();
+  const { colors, rtl } = useSettings();
   const c = red ? colors.red : colors.blue;
   return (
-    <Row style={[{ marginHorizontal: 16, marginTop: 28, marginBottom: 16, borderBottomWidth: 2, borderBottomColor: c, justifyContent: 'space-between', alignItems: 'flex-end' }, style]}>
-      <View style={{ backgroundColor: c, borderTopLeftRadius: 6, borderTopRightRadius: 6, paddingHorizontal: 14, paddingVertical: 8, flexShrink: 1 }}>
-        <T f="display" style={{ color: '#fff', fontSize: 14, letterSpacing: 1.1, textTransform: 'uppercase' }} accessibilityRole="header">{title}</T>
-      </View>
+    <Row style={[{ marginHorizontal: 16, marginTop: 30, marginBottom: 14, justifyContent: 'space-between', gap: 12 }, style]}>
+      <Row style={{ gap: 9, flexShrink: 1 }}>
+        <View style={{ width: 4, height: 18, borderRadius: 2, backgroundColor: c }} />
+        <T f="display" numberOfLines={2} style={{ fontSize: 17, lineHeight: 21, letterSpacing: 0.6, textTransform: 'uppercase', flexShrink: 1 }} accessibilityRole="header">{title}</T>
+      </Row>
       {onMore ? (
-        <Pressable onPress={onMore} hitSlop={10} accessibilityRole="link" style={{ paddingBottom: 8, paddingStart: 10 }}>
-          <T f="display" style={{ color: colors.link, fontSize: 12, letterSpacing: 1, textTransform: 'uppercase' }}>{moreLabel}</T>
+        <Pressable onPress={onMore} hitSlop={10} accessibilityRole="link" accessibilityLabel={moreLabel ? moreLabel.replace(/[→←›]/g, '').trim() + ': ' + title : title} style={({ pressed }) => ({ flexDirection: rtl && Platform.OS !== 'web' ? 'row-reverse' : 'row', alignItems: 'center', gap: 2, opacity: pressed ? 0.6 : 1 })}>
+          <T f="bodyBold" style={{ color: colors.link, fontSize: 13 }}>{(moreLabel || '').replace(/\s*[→←›]\s*$/, '')}</T>
+          <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={14} color={colors.link} />
         </Pressable>
       ) : null}
     </Row>
@@ -176,10 +179,13 @@ export function Notice({ text, tone = 'info', action, onAction }: { text: string
   const bg = tone === 'warn' ? colors.amberBg : tone === 'error' ? (colors.dark ? '#3b0d0e' : '#fdecec') : colors.chip;
   const fg = tone === 'warn' ? colors.amber : tone === 'error' ? (colors.dark ? '#ff9b9d' : '#9b1114') : colors.fg;
   return (
-    <View style={{ backgroundColor: bg, marginHorizontal: 16, marginTop: 10, borderRadius: 8, padding: 12, gap: 8 }} accessibilityRole="alert">
-      <T style={{ color: fg, fontSize: 14 }}>{text}</T>
+    <View style={{ backgroundColor: bg, marginHorizontal: 16, marginTop: 12, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, gap: 8 }} accessibilityRole="alert">
+      <Row style={{ gap: 10, alignItems: 'flex-start' }}>
+        <Ionicons name={tone === 'error' ? 'alert-circle-outline' : tone === 'warn' ? 'cloud-offline-outline' : 'information-circle-outline'} size={18} color={fg} style={{ marginTop: 1 }} />
+        <T style={{ color: fg, fontSize: 14, lineHeight: 20, flex: 1 }}>{text}</T>
+      </Row>
       {action ? (
-        <Pressable onPress={onAction} accessibilityRole="button">
+        <Pressable onPress={onAction} accessibilityRole="button" hitSlop={8} style={{ alignSelf: 'flex-start', marginStart: 28 }}>
           <T f="bodyBold" style={{ color: colors.link, fontSize: 14 }}>{action}</T>
         </Pressable>
       ) : null}
@@ -195,10 +201,53 @@ export const s = StyleSheet.create({
 export function PageHero({ title, sub, red, children }: { title: string; sub?: string; red?: boolean; children?: React.ReactNode }) {
   const { colors } = useSettings();
   return (
-    <LinearGradient colors={red ? [colors.red, '#b80407'] : [colors.blue, colors.blueD]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ paddingHorizontal: 16, paddingTop: 24, paddingBottom: 26 }}>
-      <T f="brand" style={{ color: '#fff', fontSize: 28, lineHeight: 32, letterSpacing: 0.3 }} accessibilityRole="header">{title}</T>
-      {sub ? <T style={{ color: '#fff', fontSize: 14.5, marginTop: 10, lineHeight: 22, opacity: 0.95 }}>{sub}</T> : null}
+    <LinearGradient colors={red ? [colors.red, '#b80407'] : [colors.blue, colors.blueD]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ paddingHorizontal: 16, paddingTop: 20, paddingBottom: 22 }}>
+      <T f="brand" style={{ color: '#fff', fontSize: 25, lineHeight: 29, letterSpacing: 0.3 }} accessibilityRole="header">{title}</T>
+      {sub ? <T style={{ color: 'rgba(255,255,255,0.92)', fontSize: 14, marginTop: 6, lineHeight: 20 }}>{sub}</T> : null}
       {children}
     </LinearGradient>
+  );
+}
+
+/** A designed empty state: an icon in a soft circle, one line of title and one of help */
+export function EmptyState({ icon, title, text, action, onAction }: { icon: React.ComponentProps<typeof Ionicons>['name']; title: string; text?: string; action?: string; onAction?: () => void }) {
+  const { colors } = useSettings();
+  return (
+    <View style={{ alignItems: 'center', paddingHorizontal: 32, paddingVertical: 40, gap: 10 }}>
+      <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: colors.tint, alignItems: 'center', justifyContent: 'center', marginBottom: 4 }}>
+        <Ionicons name={icon} size={28} color={colors.blue} />
+      </View>
+      <T f="display" style={{ fontSize: 18, textAlign: 'center' }}>{title}</T>
+      {text ? <T style={{ fontSize: 14.5, lineHeight: 21, textAlign: 'center', color: colors.sub }}>{text}</T> : null}
+      {action ? (
+        <Pressable onPress={onAction} accessibilityRole="button" style={({ pressed }) => ({ marginTop: 8, backgroundColor: colors.blue, borderRadius: 999, paddingHorizontal: 18, paddingVertical: 10, opacity: pressed ? 0.85 : 1 })}>
+          <T f="bodyBold" style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>{action}</T>
+        </Pressable>
+      ) : null}
+    </View>
+  );
+}
+
+/** A grouped box (settings, menus): white card with soft corners */
+export function Group({ children, style }: { children: React.ReactNode; style?: StyleProp<ViewStyle> }) {
+  const { colors } = useSettings();
+  return <View style={[{ backgroundColor: colors.surface, marginHorizontal: 16, borderRadius: 14, borderWidth: colors.dark ? 1 : 0, borderColor: colors.hair, overflow: 'hidden', shadowColor: '#0b1c33', shadowOpacity: colors.dark ? 0 : 0.05, shadowRadius: 8, shadowOffset: { width: 0, height: 2 }, elevation: 1 }, style]}>{children}</View>;
+}
+
+/** One row of a Group: icon tile, label, optional value, chevron */
+export function GroupRow({ icon, label, value, onPress, color, first, right }: { icon: React.ComponentProps<typeof Ionicons>['name']; label: string; value?: string; onPress?: () => void; color?: string; first?: boolean; right?: React.ReactNode }) {
+  const { colors, rtl } = useSettings();
+  const c = color || colors.blue;
+  return (
+    <Pressable onPress={onPress} disabled={!onPress} accessibilityRole={onPress ? 'link' : undefined} style={({ pressed }) => ({ paddingHorizontal: 14, paddingVertical: 11, backgroundColor: pressed ? colors.tint : 'transparent', borderTopWidth: first ? 0 : 1, borderTopColor: colors.hair })}>
+      <Row style={{ gap: 12 }}>
+        <View style={{ width: 30, height: 30, borderRadius: 8, backgroundColor: c === colors.red ? (colors.dark ? '#3b0d0e' : '#fdecec') : colors.tint, alignItems: 'center', justifyContent: 'center' }}>
+          <Ionicons name={icon} size={17} color={c} />
+        </View>
+        <T f="bodyMed" style={{ flex: 1, fontSize: 15.5 }}>{label}</T>
+        {value ? <T style={{ fontSize: 14, color: colors.sub }}>{value}</T> : null}
+        {right ?? (onPress ? <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={16} color={colors.sub} /> : null)}
+      </Row>
+    </Pressable>
   );
 }
