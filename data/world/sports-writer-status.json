@@ -1,6 +1,6 @@
 {
  "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
- "mode": "paused: Anthropic API credit balance too low since 2026-11-11T08:02:17+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
+ "mode": "paused: Anthropic API credit balance too low since 2026-11-11T18:01:41+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
  "limits": {
   "articlesPerDay": 2,
   "usdPerDay": 1.0,
@@ -13,12 +13,14 @@
    "18:00"
   ],
   "windowMinutes": 55,
-  "nextRun": "2026-11-11T18:00+03:00"
+  "nextRun": "2026-11-12T08:00+03:00"
  },
- "lastCheckAt": "2026-11-11T17:01:43+03:00",
+ "lastCheckAt": "2026-11-11T18:01:41+03:00",
  "lastRun": {
-  "skipped": 20,
-  "waitingForSchedule": 99
+  "skipped": 13,
+  "usd": 0,
+  "failed": 1,
+  "noCredit": 1
  },
  "lastWrittenAt": null,
  "days": {
@@ -44,492 +46,493 @@
    "written": 0,
    "published": 0,
    "held": 0,
-   "skipped": 655,
+   "skipped": 731,
    "refused": 0,
-   "failed": 1,
+   "failed": 2,
    "usd": 0
   }
  },
  "recent": [
   {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "skysports",
-   "title": "Man Utd strike Poch agreement as Carrick takes training",
-   "url": "https://www.skysports.com/football/news/11095/13610949/mauricio-pochettino-man-utd-strike-agreement-with-michael-carricks-potential-successor"
+   "at": "2026-11-11T18:01:41+03:00",
+   "source": "capitalfm-sports",
+   "title": "Rising Stars strike late to sink Ivory Coast and Edge Closer to Olympics dream",
+   "url": "https://capitalfm.africa/rising-stars-strike-late-to-sink-ivory-coast-and-edge-closer-to-olympics-dream/?utm_source=rss&utm_medium=feed&utm_campaign=feed-sports",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
   },
   {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "bbc-sport",
-   "title": "Scotland without captain Weir for World Cup play-off",
-   "url": "https://www.bbc.co.uk/sport/football/articles/c64gnlevgj1zo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "liverpool-official",
-   "title": "'I always want to play for Liverpool' | How Lewis Koumas grasped the opportunity of a lifetime",
-   "url": "https://www.liverpoolfc.com/news/interview-lewis-koumas-liverpool-fc-grasped-opportunity-lifetime"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
+   "at": "2026-11-11T18:01:41+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "mundodeportivo",
-   "title": "Mbappé, premiado por LaLiga",
-   "url": "https://www.mundodeportivo.com/futbol/real-madrid/20261111/1004249832/mbappe-premiado-laliga.html"
+   "title": "Eva Olid alza la voz: \"Me siento valorada fuera de casa\"",
+   "url": "https://www.mundodeportivo.com/futbol/femenino/20261111/1004249867/eva-olid-alza-voz-falta-oportunidades-entrenadoras-espana-me-siento-valorada-fuera-casa.html"
   },
   {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "gazzetta",
-   "title": "Milan: un giovane della Roma, un vecchio pupillo e un atalantino. Ecco i colpi di gennaio per l'algoritmo",
-   "url": "https://www.gazzetta.it/Calcio/Serie-A/Milan/11-11-2026/calciomercato-milan-i-colpi-per-gennaio.shtml"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
+   "at": "2026-11-11T18:01:41+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "bbc-sport",
-   "title": "Super League approves expansion to 15 teams",
-   "url": "https://www.bbc.co.uk/sport/rugby-league/articles/cm0l384nz4r6o?at_medium=RSS&at_campaign=rss"
+   "title": "Pochettino a decade in Man Utd's making - but Carrick deserves better",
+   "url": "https://www.bbc.co.uk/sport/football/articles/cwzd9pvjy426o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "bbc-sport",
-   "title": "Fury v Joshua fight faces objections over 3am finish",
-   "url": "https://www.bbc.co.uk/news/articles/cwdd172l2nedo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "cbssports",
-   "title": "NFL pretenders and contenders after Week 9: NFC North is fierce, no faith in Giants and Steelers",
-   "url": "https://www.cbssports.com/nfl/news/nfl-pretenders-and-contenders-for-week-10-nfc-north-giants-steelers/"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
+   "at": "2026-11-11T18:01:41+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "the-athletic",
-   "title": "Tyran Stokes chose Kansas over Kentucky. Jayhawks' romp over Wildcats demonstrated why",
-   "url": "https://www.nytimes.com/athletic/7772766/2026/11/11/tyran-stokes-kansas-kentucky-champions-classic/"
+   "title": "Buster Posey sets up a Giants offseason with lowered sights: 'We have to be realistic'",
+   "url": "https://www.nytimes.com/athletic/7772204/2026/11/11/buster-posey-giants-offseason-general-managers-meetings/"
   },
   {
-   "at": "2026-11-11T17:01:43+03:00",
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "rmcsport",
+   "title": "Equipe de France: encore un petit nouveau appelé par Zidane, Mayulu convoqué chez les Bleus",
+   "url": "https://rmcsport.bfmtv.com/football/equipe-de-france/equipe-de-france-encore-un-petit-nouveau-appele-par-zidane-mayulu-convoque-chez-les-bleus_AV-202611110478.html"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "Wer könnte gehen? Bochum braucht Transfererträge",
+   "url": "https://www.kicker.de/wer-koennte-gehen-bochum-braucht-transferertraege-1270637/artikel#omrss"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "cbssports",
+   "title": "Prisco's Week 10 NFL picks: Giants over Commanders on 'TNF,' Lions top Patriots in Munich",
+   "url": "https://www.cbssports.com/nfl/news/pete-priscos-week-10-expert-nfl-picks/"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Xavi Simons ‘ficha’ por Harvard: el otro fútbol, de la toga al Cine Callao",
+   "url": "https://as.com/futbol/primera/xavi-simons-ficha-por-harvard-el-otro-futbol-de-la-toga-al-cine-callao-f202611-n/"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Week 10 NFL odds, picks, predictions: Computer model backs Bills and Texans",
+   "url": "https://www.cbssports.com/betting/news/nfl-odds-picks-predictions-bets-week-10-2026/"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Chargers' quiet trade deadline illustrates an awkward middle-ground status",
+   "url": "https://www.nytimes.com/athletic/7772286/2026/11/11/chargers-2026-nfl-trade-deadline/"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Twins have 'genuine interest' in reuniting with free-agent catcher Ryan Jeffers",
+   "url": "https://www.nytimes.com/athletic/7772334/2026/11/11/twins-free-agent-catcher-ryan-jeffers-reunite/"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "\"A Vinicius le diría que tiene que seguir trabajando. Que debe tener paciencia\"",
+   "url": "https://www.mundodeportivo.com/futbol/real-madrid/20261111/1004249843/vinicius-le-diria-seguir-trabajando-debe-paciencia.html"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "cbssports",
+   "title": "Ranking NFL's greatest in-season trades of all-time: Where Kirk Cousins to Vikings ranks among top 10",
+   "url": "https://www.cbssports.com/nfl/news/ranking-nfls-greatest-in-season-trades-kirk-cousins-vikings/"
+  },
+  {
+   "at": "2026-11-11T18:01:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Ruta Hagmann, centenaria de 102 años: “La actitud lo es todo; no sé qué traerá mañana, así que aprecio lo de hoy”",
+   "url": "https://as.com/tikitakas/virales/ruta-hagmann-centenaria-de-102-anos-la-actitud-lo-es-todo-no-se-que-traera-manana-asi-que-aprecio-lo-de-hoy-f202611-n/"
+  },
+  {
+   "at": "2026-11-11T17:56:34+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Gabriel defiende a Raphinha en Brasil: \"Es ejemplar\"",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261111/1004249881/gabriel-defiende-raphinha-brasil-ejemplar.html"
+  },
+  {
+   "at": "2026-11-11T17:56:34+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Fairleigh Dickinson vs. East Texas A&M prediction, odds: 2026 college basketball picks by proven model",
+   "url": "https://www.cbssports.com/betting/news/fairleigh-dickinson-east-texas-a-m-prediction-odds-time-2026-college-basketball-picks-november-11/"
+  },
+  {
+   "at": "2026-11-11T17:56:34+03:00",
+   "result": "skipped",
+   "reason": "same story as CBS Sports: Browns to start Deshaun Watson over Shedeur Sanders in Week 10 vs. Texans, per r",
+   "source": "the-athletic",
+   "title": "Deshaun Watson to return as Browns' starting QB vs. Texans: Source",
+   "url": "https://www.nytimes.com/athletic/7773300/2026/11/11/browns-deshaun-watson-starter-texans/"
+  },
+  {
+   "at": "2026-11-11T17:51:52+03:00",
+   "result": "skipped",
+   "reason": "same story as Corriere dello Sport: Il mistero del rapporto tra Zidane e Mbappé: nervi tesi e tensioni in ritiro",
+   "source": "lequipe",
+   "title": "Mbappé absent de l'entraînement, Zidane participe au toro",
+   "url": "https://www.lequipe.fr/Football/Video/Ligue-des-nations-bleus-kylian-mbappe-absent-de-l-entrainement-zinedine-zidane-participe-au-toro/20245335#at_medium=RSS_feeds"
+  },
+  {
+   "at": "2026-11-11T17:51:52+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Ryanair confirma la nueva norma con el equipaje que ya han entrado en funcionamiento en sus vuelos",
+   "url": "https://as.com/actualidad/sociedad/ryanair-confirma-la-nueva-norma-con-el-equipaje-que-ya-han-entrado-en-funcionamiento-en-sus-vuelos-f202611-n/"
+  },
+  {
+   "at": "2026-11-11T17:51:52+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "sky-it",
+   "title": "Olimpiadi 2028 Atletica, tempi e misure per qualificarsi: il punto sugli italiani",
+   "url": "https://sport.sky.it/olimpiadi/olimpiadi-2028-atletica-qualificazione-tempi-misure-italiani"
+  },
+  {
+   "at": "2026-11-11T17:51:52+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "“Marc sabe exactamente qué debe hacer”",
+   "url": "https://as.com/motor/motociclismo/marc-sabe-exactamente-que-debe-hacer-f202611-n/"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "El Italia-Francia, en el aire para Mbappé",
+   "url": "https://www.mundodeportivo.com/futbol/real-madrid/20261111/1004249879/italia-francia-aire-mbappe.html"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "El camino espinoso de Barrios",
+   "url": "https://as.com/futbol/seleccion/el-camino-espinoso-de-barrios-f202611-n/"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Man United's dreadful handling of Carrick is no way to treat anyone. But it's also not a surprise",
+   "url": "https://www.nytimes.com/athletic/7772967/2026/11/11/manchester-united-treatment-michael-carrick/"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "Der nächste Bundesliga-MVP? Wie der MBC Spencer Reaves halten konnte",
+   "url": "https://www.kicker.de/der-naechste-bundesliga-mvp-wie-der-mbc-spencer-reaves-halten-konnte-1270334/artikel#omrss"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Commanders vs. Giants prediction, odds, time: NFL Week 10 'Thursday Night Football' picks by proven model",
+   "url": "https://www.cbssports.com/betting/news/commanders-giants-prediction-odds-time-nfl-week-10-thursday-night-football-picks-bets/"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Momento Camavinga",
+   "url": "https://as.com/futbol/momento-camavinga-f202611-n/"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "Former BBC radio presenter Kelly dies aged 69",
+   "url": "https://www.bbc.co.uk/sport/football/articles/cmz9dwk90ny7o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "Klopp über eigene Karriere: \"Schlechte Schuhe, schlechte Bälle, schlechte Plätze\"",
+   "url": "https://www.kicker.de/klopp-ueber-eigene-karriere-schlechte-schuhe-schlechte-baelle-schlechte-plaetze-1270689/video#omrss"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "\"TV total\" im deutschen Handball: \"Sehr komfortable Situation\"",
+   "url": "https://www.kicker.de/tv-total-im-deutschen-handball-sehr-komfortable-situation-1270677/artikel#omrss"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Pedro Almodóvar, sobre los Javis tras el éxito de ‘La bola negra’: “Mi corazón está dividido”",
+   "url": "https://as.com/meristation/cine/pedro-almodovar-sobre-los-javis-tras-el-exito-de-la-bola-negra-mi-corazon-esta-dividido-f202611-n/"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "sky-it",
+   "title": "Kimi Antonelli, capelli tricolore per vittoria del titolo Mondiale di Formula 1. VIDEO",
+   "url": "https://sport.sky.it/formula-1/2026/11/11/f1-kimi-antonelli-capelli-tricolore-vittoria-mondiale-video"
+  },
+  {
+   "at": "2026-11-11T17:46:51+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Quinn Hughes says he’s playing the best hockey of his career — and it's not just the offense",
+   "url": "https://www.nytimes.com/athletic/7772509/2026/11/11/quinn-hughes-wild-defense/"
+  },
+  {
+   "at": "2026-11-11T17:41:38+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "capitalfm-sports",
+   "title": "About-turn? Government mulls subsidised tickets for Bayern Vs Ajax Clash",
+   "url": "https://capitalfm.africa/about-turn-government-mulls-subsidised-tickets-for-bayern-vs-ajax-clash/?utm_source=rss&utm_medium=feed&utm_campaign=feed-sports"
+  },
+  {
+   "at": "2026-11-11T17:41:38+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "rmcsport",
+   "title": "Le coup de pression de Dortmund à Felix Nmecha sur sa célébration polémique",
+   "url": "https://rmcsport.bfmtv.com/football/bundesliga/le-coup-de-pression-de-dortmund-a-felix-nmecha-sur-sa-celebration-polemique_AV-202611110471.html"
+  },
+  {
+   "at": "2026-11-11T17:41:38+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Se confirman los peores temores: Barrenetxea, adiós a casi toda la temporada",
+   "url": "https://www.mundodeportivo.com/futbol/real-sociedad/20261111/1004249868/barrenetxea.html"
+  },
+  {
+   "at": "2026-11-11T17:41:38+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "gazzetta",
+   "title": "Italia, le ultime da Coverciano: per l'Italia anti-Francia Mancini ha due dubbi",
+   "url": "https://www.gazzetta.it/Calcio/Nazionale/11-11-2026/italia-formazione-mancini-francia.shtml"
+  },
+  {
+   "at": "2026-11-11T17:37:25+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "The brothers and their dad driving England's World Cup bid",
+   "url": "https://www.bbc.co.uk/sport/rugby-league/articles/ckq6er93rd34o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-11T17:37:25+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "College basketball odds, picks, predictions, best bets for Wednesday: Experts, model backing Michigan, Cal",
+   "url": "https://www.cbssports.com/betting/news/college-basketball-odds-picks-predictions-best-bets-wednesday-experts-model-backing-michigan-cal/"
+  },
+  {
+   "at": "2026-11-11T17:37:25+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "College football odds, picks, predictions for Week 11, 2026: Computer likes Ole Miss, Wake Forest",
+   "url": "https://www.cbssports.com/betting/news/college-football-odds-picks-predictions-best-bets-week-11-2026/"
+  },
+  {
+   "at": "2026-11-11T17:37:25+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Toledo vs. UMass prediction, odds, time: Week 11 MACtion picks from proven model",
+   "url": "https://www.cbssports.com/betting/news/toledo-umass-prediction-odds-time-2026-week-11-maction-college-football-picks/"
+  },
+  {
+   "at": "2026-11-11T17:37:25+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Warriors vs. Rockets NBA odds, picks: Kevin Durant faces Steph Curry in latest Hall of Fame duel Wednesday",
+   "url": "https://www.cbssports.com/betting/news/warriors-vs-rockets-nba-odds-picks-kevin-durant-faces-steph-curry-in-latest-hall-of-fame-duel-wednesday/"
+  },
+  {
+   "at": "2026-11-11T17:37:25+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Central Michigan vs. Sacramento State prediction, odds, time: Week 11 MACtion picks from proven model",
+   "url": "https://www.cbssports.com/betting/news/central-michigan-sacramento-state-prediction-odds-time-2026-week-11-college-football-maction-picks/"
+  },
+  {
+   "at": "2026-11-11T17:37:25+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "tuttosport",
-   "title": "Pedro Gonçalves si è finalmente preso la Viola",
-   "url": "https://www.tuttosport.com/news/calcio/serie-a/fiorentina/2026/11/11-152518001/pedro_gonalves_si_finalmente_preso_la_viola/"
+   "title": "Coppa Italia stile FA Cup: il possibile nuovo modello, tante squadre di Serie C e big dai sedicesimi",
+   "url": "https://www.tuttosport.com/news/calcio/coppa-italia/2026/11/11-152521879/coppa_italia_stile_fa_cup_il_possibile_nuovo_modello_tante_squadre_di_serie_c_e_big_dai_sedicesimi/"
   },
   {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "fifa",
-   "title": "IR Iran rally to down Italy and claim bronze",
-   "url": "https://www.fifa.com/en/tournaments/youth-olympic-futsal-tournaments/dakar-2026/articles/matchday-nine-round-up-womens-tournament"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "fifa",
-   "title": "Futsal, JOJ (F) : La RI Iran se pare de bronze, l'Italie quatrième",
-   "url": "https://www.fifa.com/fr/tournaments/youth-olympic-futsal-tournaments/dakar-2026/articles/resumes-tournoi-futsal-feminin-jeux-olympiques-jeunesse-11-novembre"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "fifa",
-   "title": "Irã vira sobre a Itália e leva o bronze nos Jogos Olímpicos da Juventude",
-   "url": "https://www.fifa.com/pt/tournaments/youth-olympic-futsal-tournaments/dakar-2026/articles/olimpiadas-juventude-futsal-feminino-podio-medalhas"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "bbc-sport",
-   "title": "Welsh Grand National-winning jockey O'Brien dies aged 39",
-   "url": "https://www.bbc.co.uk/sport/horse-racing/articles/c3pw48qyjz2ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "Jiří Kulich 'searching for his game,' Dahlin's slow start and more: Sabres notes",
-   "url": "https://www.nytimes.com/athletic/7772265/2026/11/11/sabres-kulich-dahlin-zucker/"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "Rams made their biggest gamble yet by not trading for a wide receiver",
-   "url": "https://www.nytimes.com/athletic/7772036/2026/11/11/rams-wide-receivers-nfl-trade-deadline/"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "NFL Week 9 Quick Outs: Joe Burrow lights up the Falcons; David Bailey keeps delivering",
-   "url": "https://www.nytimes.com/athletic/7770508/2026/11/11/nfl-week-9-news-burrow-bailey/"
-  },
-  {
-   "at": "2026-11-11T17:01:43+03:00",
+   "at": "2026-11-11T17:37:25+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "as",
-   "title": "Natalia Hougham, experta en medicina estética: “La belleza no consiste en transformar el rostro para vernos mejor”",
-   "url": "https://as.com/tikitakas/estilo/natalia-hougham-experta-en-medicina-estetica-la-belleza-no-consiste-en-transformar-el-rostro-para-vernos-mejor-f202611-n/"
+   "title": "Barrenetxea sufre una lesión severa y pasará por el quirófano",
+   "url": "https://as.com/futbol/primera/barrenetxea-sufre-una-lesion-severa-y-pasara-por-el-quirofano-f202611-n/"
   },
   {
-   "at": "2026-11-11T17:01:43+03:00",
+   "at": "2026-11-11T17:37:25+03:00",
    "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "as",
-   "title": "Muere Retro Jake a los 29 años",
-   "url": "https://as.com/tikitakas/famosos/muere-retro-jake-a-los-29-anos-f202611-n/"
+   "reason": "same story as CBS Sports: Fernando Mendoza new favorite to win Offensive Rookie of the Year ahead of his f",
+   "source": "the-athletic",
+   "title": "How Fernando Mendoza changes the Raiders offense ahead of his first NFL start",
+   "url": "https://www.nytimes.com/athletic/7772427/2026/11/11/raiders-fernando-mendoza-scouting-report-seahawks/"
   },
   {
-   "at": "2026-11-11T17:01:43+03:00",
+   "at": "2026-11-11T17:37:25+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "the-athletic",
-   "title": "How Notre Dame's win over Miami sets up the Irish in the College Football Playoff rankings",
-   "url": "https://www.nytimes.com/athletic/7772666/2026/11/11/notre-dame-irish-college-football-playoff-rankings-miami-hurricanes/"
+   "title": "Fifty years later, Suns legend Gar Heard re-enacts 'Shot Heard 'Round the World'",
+   "url": "https://www.nytimes.com/athletic/7772230/2026/11/11/gar-heard-phoenix-suns-shot-heard-round-the-world/"
   },
   {
-   "at": "2026-11-11T16:56:34+03:00",
+   "at": "2026-11-11T17:32:24+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "guardian-football",
+   "title": "‘An eternal shame’: Bilic and Croatia aim to use 7-0 humbling as fuel against England",
+   "url": "https://www.theguardian.com/football/2026/nov/11/slaven-bilic-croatia-7-0-england-nations-league-wembley"
+  },
+  {
+   "at": "2026-11-11T17:32:24+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Why Chiefs' trade for Josh Downs is a fascinating double down — and a bet on Andy Reid",
+   "url": "https://www.nytimes.com/athletic/7770788/2026/11/11/chiefs-josh-downs-trade-analysis-andy-reid/"
+  },
+  {
+   "at": "2026-11-11T17:32:24+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Palizón físico en Valdebebas",
+   "url": "https://www.mundodeportivo.com/futbol/real-madrid/20261111/1004249834/palizon-fisico-valdebebas.html"
+  },
+  {
+   "at": "2026-11-11T17:32:24+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Tres promesas del Barça, a la Sub-16",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261111/1004249870/tres-promesas-barca-sub-16.html"
+  },
+  {
+   "at": "2026-11-11T17:32:24+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "guardian-football",
+   "title": "Jayson Tatum gives former teammate Jaylen Brown frosty greeting as Celtics beat 76ers",
+   "url": "https://www.theguardian.com/sport/2026/nov/11/jayson-tatum-jaylen-brown-76ers-celtics-greeting-nba"
+  },
+  {
+   "at": "2026-11-11T17:27:10+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "gazzetta",
-   "title": "Fullkrug è rinato, e spiega il flop al Milan: \"Non ero in forma, e poi la squadra non mi cercava\"",
-   "url": "https://www.gazzetta.it/Calcio/Serie-A/Milan/11-11-2026/fullkrug-milan-flop-motivi.shtml"
+   "title": "Idolo al Liverpool, bidone al Milan, ora fa lo studente ad Harvard: la nuova vita di Divock Origi",
+   "url": "https://www.gazzetta.it/Calcio/Serie-A/Milan/11-11-2026/divock-origi-l-ex-milan-studia-alla-harvard-business-school.shtml"
   },
   {
-   "at": "2026-11-11T16:56:34+03:00",
+   "at": "2026-11-11T17:27:10+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
-   "source": "as",
-   "title": "Importante cambio en las tarifas de los parquímetros de Madrid: los coches que pagarán más a partir de 2027",
-   "url": "https://as.com/actualidad/sociedad/importante-cambio-en-las-tarifas-de-los-parquimetros-de-madrid-los-coches-que-pagaran-mas-a-partir-de-2027-f202611-n/"
+   "source": "the-athletic",
+   "title": "Danny Kelly, beloved broadcaster and View From The Lane presenter, dies aged 69",
+   "url": "https://www.nytimes.com/athletic/7773051/2026/11/11/danny-kelly-tribute-tottenham-view-from-the-lane/"
   },
   {
-   "at": "2026-11-11T16:56:34+03:00",
+   "at": "2026-11-11T17:27:10+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "kicker",
-   "title": "Ein Konkurrent für Pickford: Arbeitsteilung im englischen Tor",
-   "url": "https://www.kicker.de/ein-konkurrent-fuer-pickford-arbeitsteilung-im-englischen-tor-1270651/artikel#omrss"
+   "title": "Lokal-Duell zum Auftakt und zum Abschluss: 12. Spieltag zeitgenau angesetzt",
+   "url": "https://www.kicker.de/lokal-duell-zum-auftakt-und-zum-abschluss-12-spieltag-zeitgenau-angesetzt-1270679/artikel#omrss"
   },
   {
-   "at": "2026-11-11T16:51:30+03:00",
+   "at": "2026-11-11T17:27:10+03:00",
    "result": "skipped",
-   "reason": "same story as Corriere dello Sport: Il mistero del rapporto tra Zidane e Mbappé: nervi tesi e tensioni in ritiro",
-   "source": "mundodeportivo",
-   "title": "Zidane reacciona a la incertidumbre con Mbappé llamando a uno de los ojitos derechos de Luis Enrique",
-   "url": "https://www.mundodeportivo.com/futbol/uefa-nations-league/20261111/1004249889/zidane-reacciona-incertidumbre-mbappe-llamando-ojitos-derechos-luis-enrique.html"
-  },
-  {
-   "at": "2026-11-11T16:51:30+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "bbc-sport",
-   "title": "Psychological uncertainty and tactics - assessing the issues at Man City",
-   "url": "https://www.bbc.co.uk/sport/football/articles/cw30e0yz0p04o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T16:51:30+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "bbc-sport",
-   "title": "'My boss will pay me to knock him out' - Doumbe",
-   "url": "https://www.bbc.co.uk/sport/boxing/articles/cm752n322gn9o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T16:51:30+03:00",
-   "result": "skipped",
-   "reason": "quiz, live blog, gallery or betting item (not a news story)",
-   "source": "the-athletic",
-   "title": "Fantasy football team matchup rankings: Week 10 strength of schedule",
-   "url": "https://www.nytimes.com/athletic/7773201/2026/11/11/fantasy-football-team-matchup-rankings-week-10-strength-of-schedule/"
-  },
-  {
-   "at": "2026-11-11T16:46:45+03:00",
-   "result": "skipped",
-   "reason": "quiz, live blog, gallery or betting item (not a news story)",
-   "source": "cbssports",
-   "title": "Early 2027 Fantasy Baseball Rankings: Top 20 at relief pitcher elevates newcomers like Mason Montgomery",
-   "url": "https://www.cbssports.com/fantasy/baseball/news/early-2027-fantasy-baseball-rankings-top-20-at-relief-pitcher/"
-  },
-  {
-   "at": "2026-11-11T16:46:45+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Maroan ya realiza carrera continua",
-   "url": "https://www.mundodeportivo.com/futbol/athletic-bilbao/20261111/1004249847/maroan-realiza-carrera-continua.html"
-  },
-  {
-   "at": "2026-11-11T16:46:45+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Jana Fernández se sincera: \"Alexia siempre ha sido mi capitana\"",
-   "url": "https://www.mundodeportivo.com/futbol/femenino/20261111/1004249842/jana-fernandez-sincera-genial-ver-fans-ingleses-siguen-todos-lados.html"
-  },
-  {
-   "at": "2026-11-11T16:46:45+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "\"El potencial que tenía era bárbaro\"",
-   "url": "https://www.mundodeportivo.com/futbol/rcd-espanyol/20261111/1004249631/potencial-tenia-barbaro.html"
-  },
-  {
-   "at": "2026-11-11T16:46:45+03:00",
-   "result": "skipped",
-   "reason": "quiz, live blog, gallery or betting item (not a news story)",
-   "source": "cbssports",
-   "title": "Fantasy football Week 10 QB preview: Kirk Cousins' Vikings reunion comes with catch amid wave of QB chaos",
-   "url": "https://www.cbssports.com/fantasy/football/news/fantasy-football-2026-week-10-qb-preview/"
-  },
-  {
-   "at": "2026-11-11T16:46:45+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "rmcsport",
-   "title": "\"Un moment hors du temps\": le Paris FC maître de cérémonie de la 6e édition du tournoi des Défenseurs de l’Enfance",
-   "url": "https://rmcsport.bfmtv.com/football/ligue-1/un-moment-hors-du-temps-le-paris-fc-maitre-de-ceremonie-de-la-6e-edition-du-tournoi-des-defenseurs-de-l-enfance_AN-202611110439.html"
-  },
-  {
-   "at": "2026-11-11T16:41:37+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Tresoldi, el 'tanque' moderno que sonó para el Barça y por el que pujan los grandes: ya tiene precio",
-   "url": "https://www.mundodeportivo.com/futbol/fichajes/top/20261111/1004249844/tresoldi-tanque-moderno-sono-barca-pujan-grandes-precio.html"
-  },
-  {
-   "at": "2026-11-11T16:41:37+03:00",
-   "result": "skipped",
-   "reason": "same story as L'Équipe: « Si on joue à domicile contre le PSG, tu crois qu'ils nous battent ? » : pour l",
-   "source": "rmcsport",
-   "title": "Barça: \"C'est la plus belle chose qu'un fils puisse faire\", le très beau cadeau de Marc Bernal à ses parents",
-   "url": "https://rmcsport.bfmtv.com/football/liga/barca-c-est-la-plus-belle-chose-qu-un-fils-puisse-faire-le-tres-beau-cadeau-de-marc-bernal-a-ses-parents_AV-202611110443.html"
-  },
-  {
-   "at": "2026-11-11T16:41:37+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
+   "reason": "same story as kicker: Mainzer Fassnachtstrikot im Schnorres-Design",
    "source": "kicker",
-   "title": "Der Anti-Immobile: Francesco Allocca",
-   "url": "https://www.kicker.de/der-anti-immobile-francesco-allocca-1268192/artikel#omrss"
+   "title": "Mainzer Fastnachtstrikot im Schnorres-Design",
+   "url": "https://www.kicker.de/mainzer-fastnachtstrikot-im-schnorres-design-1270692/artikel#omrss"
   },
   {
-   "at": "2026-11-11T16:41:37+03:00",
+   "at": "2026-11-11T17:27:10+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
-   "source": "skysports",
-   "title": "Ipswich latest: VAR missed Town penalty vs Hull says panel",
-   "url": "https://www.skysports.com/football/live-blog/11095/13279317/ipswich-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights"
+   "source": "mundodeportivo",
+   "title": "El Sevilla designa su equipo definitivo de capitanes",
+   "url": "https://www.mundodeportivo.com/futbol/sevilla/20261111/1004249864/sevilla-designa-equipo-definitivo-capitanes.html"
   },
   {
-   "at": "2026-11-11T16:41:37+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "sky-it",
-   "title": "Laver Cup 2027, Alcaraz e Zverev confermati nel Team Europe",
-   "url": "https://sport.sky.it/tennis/2026/11/11/laver-cup-2027-alcaraz-zverev-team-europe"
-  },
-  {
-   "at": "2026-11-11T16:41:37+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "rmcsport",
-   "title": "\"C’est un poste qui est usant\": mais d’où vient l’inquiétante pénurie de latéraux en équipe de France?",
-   "url": "https://rmcsport.bfmtv.com/football/equipe-de-france/c-est-un-poste-qui-est-usant-mais-d-ou-vient-l-inquietante-penurie-de-lateraux-en-equipe-de-france_AV-202611110436.html"
-  },
-  {
-   "at": "2026-11-11T16:41:37+03:00",
+   "at": "2026-11-11T17:27:10+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "as",
-   "title": "Sergio Martínez, a fuego lento",
-   "url": "https://as.com/futbol/sergio-martinez-a-fuego-lento-f202611-n/"
+   "title": "Diego Suárez, experto en longevidad: “La suplementación habitual reduce la duración de los resfriados en adultos”",
+   "url": "https://as.com/tikitakas/salud/diego-suarez-experto-en-longevidad-la-suplementacion-habitual-reduce-la-duracion-de-los-resfriados-en-adultos-f202611-n/"
   },
   {
-   "at": "2026-11-11T16:36:31+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "How President Trump’s Iran war comments, Qatar meeting impact the FIBA World Cup",
-   "url": "https://www.nytimes.com/athletic/7771507/2026/11/11/fiba-world-cup-qatar-trump-iran-war-safety-concerns/"
-  },
-  {
-   "at": "2026-11-11T16:36:31+03:00",
+   "at": "2026-11-11T17:21:42+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "as",
-   "title": "La hija de Matías Prats prepara su debut en Antena 3",
-   "url": "https://as.com/tikitakas/television/la-hija-de-matias-prats-prepara-su-debut-en-antena-3-f202611-n/"
+   "title": "Muere Stacy Keach, el inolvidable Mike Hammer de TVE, a los 85 años",
+   "url": "https://as.com/meristation/series/muere-stacy-keach-el-inolvidable-mike-hammer-de-tve-a-los-85-anos-f202611-n/"
   },
   {
-   "at": "2026-11-11T16:31:42+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Nuevo salto de Javier Alberola Rojas: pitará el Serbia-Alemania",
-   "url": "https://www.mundodeportivo.com/futbol/uefa-nations-league/20261111/1004249839/nuevo-salto-javier-alberola-rojas-pitara-serbia-alemania.html"
-  },
-  {
-   "at": "2026-11-11T16:31:42+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "\"Que no esté Lamine Yamal no es una buena noticia\"",
-   "url": "https://www.mundodeportivo.com/futbol/uefa-nations-league/20261111/1004249831/santi-denia.html"
-  },
-  {
-   "at": "2026-11-11T16:31:42+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Vinícius invita a un partido del Real Madrid a un niño de Sudán sin piernas",
-   "url": "https://www.mundodeportivo.com/futbol/real-madrid/20261111/1004249819/vinicius-invita-partido-real-madrid-nino-sudan-piernas.html"
-  },
-  {
-   "at": "2026-11-11T16:31:42+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "lequipe",
-   "title": "Sirius, un nouveau trublion aux portes du titre",
-   "url": "https://www.lequipe.fr/Football/Article/-a-l-ecole-c-est-devenu-cool-de-les-supporter-la-folle-saison-de-l-inconnu-sirius-a-la-lutte-pour-devenir-champion-de-suede-pour-la-premiere-fois/1742915#at_medium=RSS_feeds"
-  },
-  {
-   "at": "2026-11-11T16:31:42+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "Can the Hawks be more than average? Here are reasons for optimism (and worry)",
-   "url": "https://www.nytimes.com/athletic/7770146/2026/11/11/atlanta-hawks-start-dyson-daniels-aaron-wiggins-nba/"
-  },
-  {
-   "at": "2026-11-11T16:31:42+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "Michigan State's win over Duke a warning to nation: 'Just a stepping stone'",
-   "url": "https://www.nytimes.com/athletic/7772572/2026/11/11/michigan-states-win-over-duke-a-warning-to-nation-just-a-stepping-stone/"
-  },
-  {
-   "at": "2026-11-11T16:31:42+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "Why the splashy trade didn't materialize for the Giants, and why that's OK with John Harbaugh",
-   "url": "https://www.nytimes.com/athletic/7771784/2026/11/11/john-harbaugh-new-york-giants-nfl-trade-deadline/"
-  },
-  {
-   "at": "2026-11-11T16:31:42+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "The NFL’s trade deadline makeover, plus Connor Hellebuyck’s Winnipeg return",
-   "url": "https://www.nytimes.com/athletic/7772692/2026/11/11/nfl-trade-deadline-winners-the-pulse/"
-  },
-  {
-   "at": "2026-11-11T16:26:33+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Scholes se moja con el futuro de Haaland: \"Irá al Barça\"",
-   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261111/1004249822/scholes-moja-futuro-haaland-ira-barca.html"
-  },
-  {
-   "at": "2026-11-11T16:26:33+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "corrieredellosport",
-   "title": "Allarme Mbappé prima dell'Italia: salta l'allenamento, Zidane in ansia",
-   "url": "https://www.corrieredellosport.it/news/calcio/uefa-nations-league/2026/11/11-152521386/allarme_mbapp_prima_dell_italia_salta_l_allenamento_zidane_in_ansia/"
-  },
-  {
-   "at": "2026-11-11T16:26:33+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "Do these 4 NHL coaches deserve to be on the hot seat?",
-   "url": "https://www.nytimes.com/athletic/7770445/2026/11/11/nhl-coaches-hot-seat-rick-tocchet/"
-  },
-  {
-   "at": "2026-11-11T16:22:06+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "gazzetta",
-   "title": "Inter, sos al centro: Bastoni non convince, dubbi su Stones. A gennaio si va sul mercato?",
-   "url": "https://www.gazzetta.it/Calcio/Serie-A/Inter/11-11-2026/inter-problema-al-centro-dubbi-su-stones-e-bastoni.shtml"
-  },
-  {
-   "at": "2026-11-11T16:22:06+03:00",
-   "result": "skipped",
-   "reason": "same story as AS: Kroos duda del Barça",
-   "source": "mundodeportivo",
-   "title": "Kroos encumbra a Lamine y Cubarsí, pero critica el sistema defensivo del Barça",
-   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261111/1004249841/kroos.html"
-  },
-  {
-   "at": "2026-11-11T16:22:06+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "sky-it",
-   "title": "Como, Jacobo Ramon: \"Sogno una semifinale di Champions contro il Real Madrid\"",
-   "url": "https://sport.sky.it/calcio/champions-league/2026/11/11/jacobo-ramon-como-real-madrid-intervista"
-  },
-  {
-   "at": "2026-11-11T16:22:06+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "gazzetta",
-   "title": "Aquilani, dalle celebrazioni all'esonero. Ma un'altra occasione la merita",
-   "url": "https://www.gazzetta.it/Calcio/Serie-A/11-11-2026/aquilani-calo-portieri-commento-agresti-gazzetta.shtml"
-  },
-  {
-   "at": "2026-11-11T16:22:06+03:00",
+   "at": "2026-11-11T17:21:42+03:00",
    "result": "skipped",
    "reason": "older than 120 minutes",
    "source": "bbc-sport",
-   "title": "Exeter hopeful Feyi-Waboso ankle injury not serious",
-   "url": "https://www.bbc.co.uk/sport/rugby-union/articles/c6qx5jexrx89o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-11T16:22:06+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "kicker",
-   "title": "Quarterback-Ranking: Love stürmt nach oben, Stafford rutscht ab, Herbert im freien Fall",
-   "url": "https://www.kicker.de/quarterback-ranking-love-stuermt-nach-oben-stafford-rutscht-ab-herbert-im-freien-fall-1270228/artikel#omrss"
-  },
-  {
-   "at": "2026-11-11T16:22:06+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "bbc-sport",
-   "title": "Littler expected 'pub players' on Netflix show",
-   "url": "https://www.bbc.co.uk/sport/darts/articles/ckpqrjnj3y0qo?at_medium=RSS&at_campaign=rss"
+   "title": "Dupont picked at 10 amid France fly-half crisis",
+   "url": "https://www.bbc.co.uk/sport/rugby-union/articles/cq742lw1v3pvo?at_medium=RSS&at_campaign=rss"
   }
  ]
 }
