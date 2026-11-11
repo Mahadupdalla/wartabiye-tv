@@ -98,8 +98,8 @@ jobs:
             echo "$KS" | base64 -d > android/app/release.keystore
             echo "SIGNING=owner" >> "$GITHUB_ENV"
           else
-            keytool -genkeypair -v -keystore android/app/release.keystore -alias test -keyalg RSA -keysize 2048 -validity 10000 \
-              -storepass testtest -keypass testtest -dname "CN=Wartabiye TV test build" >/dev/null
+            # the same public test key every time, so a new test build installs over the old one
+            cp test-signing/test-build.keystore android/app/release.keystore
             KS_PASS=testtest; KEY_ALIAS=test; KEY_PASS=testtest
             echo "SIGNING=test" >> "$GITHUB_ENV"
           fi
@@ -108,7 +108,7 @@ jobs:
             "$KS_PASS" "$KEY_ALIAS" "$KEY_PASS" >> android/gradle.properties
           # use this key for the release build type
           python3 - <<'PY'
-          import re
+          import os, re
           p = 'android/app/build.gradle'
           s = open(p).read()
           s = s.replace("signingConfigs {", """signingConfigs {
@@ -119,6 +119,8 @@ jobs:
                       keyPassword project.property('WTV_KEY_PASSWORD')
                   }""", 1)
           s = re.sub(r"(release \{[^}]*?)signingConfig signingConfigs\.debug", r"\1signingConfig signingConfigs.wtvRelease", s, count=1, flags=re.S)
+          # every build gets a higher version number, so Android accepts it as an update
+          s = re.sub(r"versionCode \d+", "versionCode " + os.environ['GITHUB_RUN_NUMBER'], s, count=1)
           open(p, 'w').write(s)
           print('release signing:', 'wtvRelease' in s)
           PY
