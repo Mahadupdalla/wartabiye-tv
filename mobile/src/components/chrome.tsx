@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, Image, Linking, Pressable, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
+import { Animated, Easing, Image, Linking, Modal, Platform, Pressable, ScrollView, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSettings } from '../lib/settings';
 import { useContent } from '../lib/content';
@@ -55,24 +55,97 @@ export function SiteTop() {
   );
 }
 
+const NATIVE = Platform.OS !== 'web';
+
+/** The three MENU lines: they turn into an X while the menu is open (p: 0 = lines, 1 = X) and back when it closes */
+function MenuIcon({ p }: { p: Animated.Value }) {
+  const line = { position: 'absolute' as const, left: 2, width: 20, height: 2.4, borderRadius: 2, backgroundColor: '#fff' };
+  // first the outer lines slide to the middle, then they turn; closing plays the same steps backwards
+  const move = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, 6, 6] });
+  const moveUp = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0, -6, -6] });
+  const turn = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: ['0deg', '0deg', '45deg'] });
+  const turnBack = p.interpolate({ inputRange: [0, 0.5, 1], outputRange: ['0deg', '0deg', '-45deg'] });
+  const mid = p.interpolate({ inputRange: [0, 0.4, 1], outputRange: [1, 0, 0] });
+  const midW = p.interpolate({ inputRange: [0, 0.4, 1], outputRange: [1, 0.2, 0.2] });
+  return (
+    <View style={{ width: 24, height: 24 }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      <Animated.View style={[line, { top: 4.8, transform: [{ translateY: move }, { rotate: turn }] }]} />
+      <Animated.View style={[line, { top: 10.8, opacity: mid, transform: [{ scaleX: midW }] }]} />
+      <Animated.View style={[line, { top: 16.8, transform: [{ translateY: moveUp }, { rotate: turnBack }] }]} />
+    </View>
+  );
+}
+
+/** MENU button: the lines + the word MENU (the same look on the bar and on top of the open menu) */
+function MenuButtonFace({ p, label }: { p: Animated.Value; label: string }) {
+  return (
+    <Row style={{ gap: 10 }}>
+      <MenuIcon p={p} />
+      <T f="display" style={{ color: '#fff', fontSize: 14, letterSpacing: 1.4 }}>{label}</T>
+    </Row>
+  );
+}
+
+type Rect = { x: number; y: number; w: number; h: number };
+
 /** The website's blue menu bar with the red rule: MENU, search, alerts, saved and LIVE TV */
 export function MenuBar({ withBrand }: { withBrand?: boolean }) {
-  const { colors, t } = useSettings();
+  const { colors, t, rtl } = useSettings();
   const insets = useSafeAreaInsets();
+  const { height: screenH } = useWindowDimensions();
   const ico = (name: keyof typeof Ionicons.glyphMap, label: string, go: () => void) => (
     <Pressable onPress={go} hitSlop={6} style={{ padding: 8 }} accessibilityRole="button" accessibilityLabel={label}>
       <Ionicons name={name} size={21} color="#fff" />
     </Pressable>
   );
+  // MENU opens the sections under the bar with a short slide and fade, and closes the same way backwards.
+  // `open` is the one state the icon and the menu both follow, so the X is shown exactly while the menu is open.
+  const p = useRef(new Animated.Value(0)).current;
+  const [open, setOpen] = useState(false);
+  const [shown, setShown] = useState(false);
+  const [bar, setBar] = useState<Rect | null>(null);
+  const [btn, setBtn] = useState<Rect | null>(null);
+  const barRef = useRef<any>(null);
+  const btnRef = useRef<any>(null);
+  const run = (to: 0 | 1) => {
+    p.stopAnimation();
+    Animated.timing(p, { toValue: to, duration: to ? 300 : 240, easing: to ? Easing.out(Easing.cubic) : Easing.inOut(Easing.cubic), useNativeDriver: NATIVE }).start(({ finished }) => {
+      if (finished && !to) setShown(false);
+    });
+  };
+  const openMenu = () => {
+    const show = () => { setOpen(true); setShown(true); run(1); };
+    let left = 2;
+    const done = () => { if (--left === 0) show(); };
+    barRef.current?.measureInWindow((x: number, y: number, w: number, h: number) => { setBar({ x, y, w, h }); done(); });
+    btnRef.current?.measureInWindow((x: number, y: number, w: number, h: number) => { setBtn({ x, y, w, h }); done(); });
+    if (!barRef.current || !btnRef.current) show();
+  };
+  const closeMenu = () => { setOpen(false); run(0); };
+  const toggle = () => (open ? closeMenu() : openMenu());
+  const go = (to: () => void) => () => { closeMenu(); to(); };
+  const nav = (h: Href) => go(() => router.push(h));
+  const top = bar ? bar.y + bar.h : 0;
+  const slide = p.interpolate({ inputRange: [0, 1], outputRange: [-14, 0] });
+  const fade = p.interpolate({ inputRange: [0, 0.7, 1], outputRange: [0, 0.95, 1] });
+  const items: [keyof typeof Ionicons.glyphMap, string, () => void, boolean?][] = [
+    ['newspaper-outline', t('allNews'), go(() => router.navigate('/'))],
+    ['flag-outline', t('somaliaNav'), nav('/section/somalia')],
+    ['globe-outline', t('world'), nav('/section/world')],
+    ['football-outline', t('sports'), nav('/section/sports')],
+    ['radio-outline', t('liveNewsNav'), go(() => router.navigate('/live')), true],
+    ['flash-outline', t('breakingTitle'), nav('/breaking'), true],
+    ['play-circle-outline', t('videosNav'), go(() => router.navigate('/videos'))],
+    ['megaphone-outline', t('advertise'), nav('/ads')],
+    ['ellipsis-horizontal-circle-outline', t('more'), go(() => router.navigate('/more'))],
+  ];
+  const label = t('menu').toUpperCase();
   return (
-    <View style={{ backgroundColor: colors.blue, borderBottomWidth: 3, borderBottomColor: colors.red, paddingTop: withBrand ? insets.top : 0, shadowColor: '#0263b3', shadowOpacity: 0.18, shadowRadius: 9, shadowOffset: { width: 0, height: 6 }, elevation: 3, zIndex: 3 }}>
+    <View ref={barRef} collapsable={false} style={{ backgroundColor: colors.blue, borderBottomWidth: 3, borderBottomColor: colors.red, paddingTop: withBrand ? insets.top : 0, shadowColor: '#0263b3', shadowOpacity: 0.18, shadowRadius: 9, shadowOffset: { width: 0, height: 6 }, elevation: 3, zIndex: 3 }}>
       <Row style={{ height: 50, paddingHorizontal: 8, justifyContent: 'space-between' }}>
         {withBrand ? <View style={{ flexShrink: 1, paddingStart: 6 }}><Brand size="bar" /></View> : (
-          <Pressable onPress={() => router.navigate('/more')} accessibilityRole="button" accessibilityLabel={t('menu')} style={{ paddingHorizontal: 8, paddingVertical: 8 }}>
-            <Row style={{ gap: 10 }}>
-              <Ionicons name="menu" size={24} color="#fff" />
-              <T f="display" style={{ color: '#fff', fontSize: 14, letterSpacing: 1.4 }}>{t('menu').toUpperCase()}</T>
-            </Row>
+          <Pressable ref={btnRef} collapsable={false} testID="menu-button" onPress={toggle} accessibilityRole="button" accessibilityLabel={t('menu')} aria-expanded={open} style={({ pressed }) => ({ paddingHorizontal: 8, paddingVertical: 8, borderRadius: 6, backgroundColor: pressed ? 'rgba(255,255,255,0.14)' : 'transparent', transform: [{ scale: pressed ? 0.96 : 1 }] })}>
+            <MenuButtonFace p={p} label={label} />
           </Pressable>
         )}
         <Row style={{ gap: 0 }}>
@@ -86,6 +159,32 @@ export function MenuBar({ withBrand }: { withBrand?: boolean }) {
           ) : null}
         </Row>
       </Row>
+      {!withBrand ? (
+        <Modal visible={shown} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={closeMenu}>
+          {/* a tap above the menu or on the dimmed page closes it */}
+          <Pressable testID="menu-scrim" onPress={closeMenu} accessibilityElementsHidden importantForAccessibility="no" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+            <Animated.View style={{ position: 'absolute', top, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(11,28,51,0.55)', opacity: p }} />
+          </Pressable>
+          {/* the same MENU button, exactly over the one on the bar: tapping it again closes the menu */}
+          {btn ? (
+            <Pressable testID="menu-button-close" onPress={closeMenu} accessibilityRole="button" accessibilityLabel={t('menu')} aria-expanded style={({ pressed }) => ({ position: 'absolute', left: btn.x, top: btn.y, width: btn.w, height: btn.h, paddingHorizontal: 8, paddingVertical: 8, borderRadius: 6, justifyContent: 'center', backgroundColor: pressed ? 'rgba(255,255,255,0.14)' : 'transparent', transform: [{ scale: pressed ? 0.96 : 1 }] })}>
+              <MenuButtonFace p={p} label={label} />
+            </Pressable>
+          ) : null}
+          <Animated.View testID="menu-panel" style={{ position: 'absolute', top, left: 0, right: 0, maxHeight: Math.max(200, screenH - top - insets.bottom), backgroundColor: colors.blueD, opacity: fade, transform: [{ translateY: slide }], shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 15, shadowOffset: { width: 0, height: 16 }, elevation: 8 }}>
+            <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 4, paddingBottom: 12 }} bounces={false}>
+              {items.map(([icon, text, onPress, live]) => (
+                <Pressable key={text} onPress={onPress} accessibilityRole="link" style={({ pressed }) => ({ paddingVertical: 13, paddingHorizontal: 4, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.12)', backgroundColor: pressed ? 'rgba(255,255,255,0.08)' : 'transparent' })}>
+                  <Row style={{ gap: 12 }}>
+                    <View style={{ width: 18, height: 18, alignItems: 'center', justifyContent: 'center' }}>{live ? <View style={{ width: 9, height: 9, borderRadius: 5, backgroundColor: colors.red, borderWidth: 1.5, borderColor: '#fff' }} /> : <Ionicons name={icon} size={18} color="rgba(255,255,255,0.85)" />}</View>
+                    <T f="display" style={{ flex: 1, color: '#fff', fontSize: 13.5, letterSpacing: 0.6, textTransform: 'uppercase', textAlign: rtl ? 'right' : 'left' }}>{text}</T>
+                  </Row>
+                </Pressable>
+              ))}
+            </ScrollView>
+          </Animated.View>
+        </Modal>
+      ) : null}
     </View>
   );
 }

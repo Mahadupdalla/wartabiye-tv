@@ -981,15 +981,18 @@
   // ---------- menu, search, ticker, progress, back to top ----------
   // mobile menu: X button in its top corner, a link, a tap outside, Escape or a wider screen all close it; the page behind does not scroll while it is open
   var mb=$('menuBtn'),links=$('links'),navEl=document.querySelector('nav.menu');
-  var scrim=el('div','menu-scrim');scrim.hidden=true;scrim.setAttribute('aria-hidden','true');document.body.append(scrim);
+  var scrim=el('div','menu-scrim');scrim.setAttribute('aria-hidden','true');document.body.append(scrim);
+  // MENU button: three separate lines, so they can turn into an X while the menu is open (pages built before this change are upgraded here)
+  var HB='<svg viewBox="0 0 24 24" aria-hidden="true"><g class="hb-g hb-1"><path class="hb-l" d="M3 6h18"/></g><g class="hb-g hb-2"><path class="hb-l" d="M3 12h18"/></g><g class="hb-g hb-3"><path class="hb-l" d="M3 18h18"/></g></svg>';
+  var mbs=mb.querySelector('svg');if(mbs&&!mbs.querySelector('.hb-l'))mbs.outerHTML=HB;
   function menuX(){var x=links.querySelector('.menu-x');if(!x){x=el('button','menu-x');x.type='button';x.innerHTML=svg('M6 6l12 12M18 6 6 18');x.addEventListener('click',function(){closeMenu(true)});links.prepend(x)}
     x.setAttribute('aria-label',tr('menuClose'));x.title=tr('menuClose')}
   function menuOpen(){return links.classList.contains('open')}
-  function fitMenu(){var r=links.getBoundingClientRect();links.style.setProperty('--menu-max',Math.max(200,Math.floor(innerHeight-Math.max(0,r.top)))+'px')}
+  function fitMenu(){var r={top:navEl.getBoundingClientRect().bottom};links.style.setProperty('--menu-max',Math.max(200,Math.floor(innerHeight-Math.max(0,r.top)))+'px')}
   function openMenu(){menuX();var r=navEl.getBoundingClientRect();if(r.top>1){try{window.scrollTo({top:scrollY+r.top,behavior:'instant'})}catch(e){window.scrollTo(0,scrollY+r.top)}}
-    links.classList.add('open');mb.setAttribute('aria-expanded','true');scrim.hidden=false;document.documentElement.classList.add('menu-open');fitMenu();
+    links.classList.add('open');mb.setAttribute('aria-expanded','true');scrim.classList.add('on');document.documentElement.classList.add('menu-open');fitMenu();
     var x=links.querySelector('.menu-x');if(x)x.focus({preventScroll:true})}
-  function closeMenu(focusBtn){if(!menuOpen())return;links.classList.remove('open');mb.setAttribute('aria-expanded','false');scrim.hidden=true;document.documentElement.classList.remove('menu-open');if(focusBtn)mb.focus({preventScroll:true})}
+  function closeMenu(focusBtn){if(!menuOpen())return;links.classList.remove('open');mb.setAttribute('aria-expanded','false');scrim.classList.remove('on');document.documentElement.classList.remove('menu-open');if(focusBtn)mb.focus({preventScroll:true})}
   mb.addEventListener('click',function(){if(menuOpen())closeMenu(false);else openMenu()});
   links.addEventListener('click',function(e){if(e.target.closest('a'))closeMenu(false)});
   scrim.addEventListener('click',function(){closeMenu(false)});
