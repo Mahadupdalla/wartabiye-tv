@@ -68,6 +68,8 @@ jobs:
   simulator:
     runs-on: macos-26
     timeout-minutes: 150
+    permissions:
+      contents: write   # only to publish the screenshots as the "iphone-screenshots" pre-release
     defaults:
       run:
         working-directory: mobile
@@ -107,6 +109,16 @@ jobs:
           name: iphone-simulator-test
           path: mobile/test/output/ios
           retention-days: 30
+      - name: Screenshots for the owner (pre-release "iphone-screenshots", replaced on every run)
+        if: always() && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls test/output/ios/*.png >/dev/null 2>&1 || exit 0
+          gh release delete iphone-screenshots --cleanup-tag -y || true
+          gh release create iphone-screenshots test/output/ios/*.png --prerelease --target "$GITHUB_SHA" \
+            --title "iPhone app screenshots (simulator test)" \
+            --notes "Screenshots of the Wartabiye TV iPhone app taken by the simulator test of commit $GITHUB_SHA (branch ${GITHUB_REF_NAME}). Not an app download."
 
   device:
     runs-on: macos-26

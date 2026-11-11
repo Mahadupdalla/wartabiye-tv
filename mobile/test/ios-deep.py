@@ -205,11 +205,52 @@ def flow(art_id, title):
             for key, shot in (('somaliaNav', 'section-somalia'), ('world', 'section-world'), ('sports', 'section-sports'),
                               ('liveNewsNav', 'live')):
                 steps += menu('en', key) + [{'takeScreenshot': shot}]
+    # last: Arabic (right to left) and dark mode; the simulator is then switched off and on again (see after_reboot)
+    steps += menu('so', 'settings', lang_row('العربية'))
+    steps += [{'retry': {'maxRetries': 2, 'commands': [
+                  {'tapOn': {'text': lang_row('العربية'), 'index': 0}},
+                  {'waitForAnimationToEnd': {'timeout': 3000}},
+                  {'extendedWaitUntil': {'visible': txt('ar', 'settings'), 'timeout': 8000}}]}},
+              {'tapOn': {'text': txt('ar', 'dark'), 'index': 0}},
+              {'waitForAnimationToEnd': {'timeout': 3000}},
+              {'takeScreenshot': 'settings-ar-dark'}]
+    steps += restart('ar') + [{'takeScreenshot': 'home-ar-dark'}]
     steps.append({'assertVisible': 'Wartabiye TV'})
     lines = [f'appId: {BUNDLE}', '---']
     for st in steps:
         lines.append('- ' + json.dumps(st, ensure_ascii=False))
     return '\n'.join(lines) + '\n'
+
+
+def after_reboot():
+    # after the simulator was switched off and on: the app must open in Arabic, as left before the restart
+    steps = [{'launchApp': {'appId': BUNDLE}},
+             {'extendedWaitUntil': {'visible': {'id': 'menu-button'}, 'timeout': 120000}},
+             {'waitForAnimationToEnd': {'timeout': 8000}},
+             {'takeScreenshot': 'after-reboot-home'},
+             {'tapOn': {'id': 'menu-button'}},
+             {'extendedWaitUntil': {'visible': {'id': 'menu-panel'}, 'timeout': 10000}},
+             {'extendedWaitUntil': {'visible': txt('ar', 'more'), 'timeout': 10000}},
+             {'takeScreenshot': 'after-reboot-menu'}]
+    return '\n'.join([f'appId: {BUNDLE}', '---'] + ['- ' + json.dumps(st, ensure_ascii=False) for st in steps]) + '\n'
+
+
+MENV = dict(os.environ, MAESTRO_DRIVER_STARTUP_TIMEOUT='180000', MAESTRO_CLI_NO_ANALYTICS='1')
+
+
+def run_maestro(udid, fp, out, limit):
+    # Maestro's helper app on the simulator sometimes starts too slowly on a busy Mac: give it 3 minutes, try twice
+    for attempt in (1, 2):
+        try:
+            r = subprocess.run(['maestro', '--device', udid, 'test', fp, '--test-output-dir', out], cwd=out, env=MENV,
+                               capture_output=True, text=True, timeout=limit)
+        except subprocess.TimeoutExpired as e:
+            r = subprocess.CompletedProcess(e.cmd, 124, (e.stdout or b'').decode(errors='replace') if isinstance(e.stdout, bytes) else (e.stdout or ''),
+                                            f'maestro did not finish within {limit} s')
+        if r.returncode and 'DRIVER_STARTUP_TIMEOUT' in (r.stdout + r.stderr) and attempt == 1:
+            print('Maestro driver did not start; trying again', flush=True)
+            continue
+        return r
 
 
 def run_device(dev, art_id, title):
@@ -228,19 +269,7 @@ def run_device(dev, art_id, title):
     fp = os.path.join(out, 'flow.yaml')
     open(fp, 'w').write(flow(art_id, title))
     t0 = time.time()
-    # Maestro's helper app on the simulator sometimes starts too slowly on a busy Mac: give it 3 minutes, try twice
-    menv = dict(os.environ, MAESTRO_DRIVER_STARTUP_TIMEOUT='180000', MAESTRO_CLI_NO_ANALYTICS='1')
-    for attempt in (1, 2):
-        try:
-            r = subprocess.run(['maestro', '--device', udid, 'test', fp, '--test-output-dir', out], cwd=out, env=menv,
-                               capture_output=True, text=True, timeout=2700)
-        except subprocess.TimeoutExpired as e:
-            r = subprocess.CompletedProcess(e.cmd, 124, (e.stdout or b'').decode(errors='replace') if isinstance(e.stdout, bytes) else (e.stdout or ''),
-                                            'maestro did not finish within 45 minutes')
-        if r.returncode and 'DRIVER_STARTUP_TIMEOUT' in (r.stdout + r.stderr) and attempt == 1:
-            print('Maestro driver did not start; trying again', flush=True)
-            continue
-        break
+    r = run_maestro(udid, fp, out, 2700)
     open(os.path.join(out, 'maestro.txt'), 'w').write(r.stdout + '\n' + r.stderr)
     print(r.stdout[-4000:], r.stderr[-2000:])
     if r.returncode:
@@ -257,6 +286,21 @@ def run_device(dev, art_id, title):
             if 'maestro.log' in files:
                 tail = open(os.path.join(root, 'maestro.log'), errors='replace').read().splitlines()[-40:]
                 print('maestro.log (end):\n' + '\n'.join(tail))
+    reboot_ok = False
+    if r.returncode == 0:
+        # switch the simulator off and on again, like restarting the iPhone, and check the language survived
+        lp.terminate()
+        sh('xcrun', 'simctl', 'shutdown', udid, timeout=300)
+        sh('xcrun', 'simctl', 'boot', udid)
+        sh('xcrun', 'simctl', 'bootstatus', udid, '-b', check=True, timeout=900)
+        lp = subprocess.Popen(['xcrun', 'simctl', 'spawn', udid, 'log', 'stream', '--style', 'compact', '--level', 'debug',
+                               '--predicate', 'eventMessage CONTAINS "[WTV]"'], stdout=open(logf, 'a'), stderr=subprocess.STDOUT)
+        time.sleep(3)
+        fp2 = os.path.join(out, 'after-reboot.yaml')
+        open(fp2, 'w').write(after_reboot())
+        r2 = run_maestro(udid, fp2, out, 900)
+        print('after the simulator restart:', r2.stdout[-1500:], r2.stderr[-500:])
+        reboot_ok = r2.returncode == 0
     time.sleep(2)
     lp.terminate()
     log = open(logf, errors='replace').read()
@@ -268,11 +312,11 @@ def run_device(dev, art_id, title):
         if f.endswith('.png'):
             shutil.copy(os.path.join(out, f), os.path.join(OUT, f'{tag}-{f}'))
     res = {'device': name, 'maestro_passed': r.returncode == 0, 'still_running': running, 'languages_loaded': langs_ok,
-           'stories_per_language': counts, 'article_opened': article_ok, 'seconds': int(time.time() - t0)}
+           'stories_per_language': counts, 'article_opened': article_ok, 'language_kept_after_device_restart': reboot_ok, 'seconds': int(time.time() - t0)}
     results.append(res)
     print(json.dumps(res, ensure_ascii=False, indent=1))
     sh('xcrun', 'simctl', 'shutdown', udid)
-    return r.returncode == 0 and running and all(langs_ok.values()) and article_ok
+    return r.returncode == 0 and reboot_ok and running and all(langs_ok.values()) and article_ok
 
 
 art_id, title = english_story()
@@ -287,9 +331,10 @@ if summ:
     with open(summ, 'a') as f:
         f.write('\n### iPhone simulator test (taps, live website)\n\n')
         f.write(f'Story checked: `{art_id}`: {title}\n\n')
-        f.write('| Simulator | Taps passed | 9 languages loaded | Article | Still running |\n|---|---|---|---|---|\n')
+        f.write('| Simulator | Taps passed | 9 languages loaded | Article | Language kept after simulator restart | Still running |\n|---|---|---|---|---|---|\n')
         for r in results:
             f.write(f"| {r['device']} | {'yes' if r['maestro_passed'] else 'NO'} | {sum(r['languages_loaded'].values())}/9 | "
-                    f"{'yes' if r['article_opened'] else 'NO'} | {'yes' if r['still_running'] else 'NO'} |\n")
+                    f"{'yes' if r['article_opened'] else 'NO'} | {'yes' if r['language_kept_after_device_restart'] else 'NO'} | "
+                    f"{'yes' if r['still_running'] else 'NO'} |\n")
 print('\nRESULT:', 'PASS' if ok else 'FAIL')
 sys.exit(0 if ok else 1)
