@@ -321,6 +321,13 @@ def main(report_only=False):
     for d, w in seen_d.items():
         if len(w) > 1:
             warn(w[0], f'the same description on {len(w)} pages')
+    # text that only makes sense while the page is loading must never be in the HTML: crawlers and AI tools that read
+    # the raw page (and ignore `hidden`) would report it as the site's content
+    for path in [os.path.join(root, 'index.html')] + glob.glob(os.path.join(root, '*', 'index.html')) + glob.glob(os.path.join(root, 'war', '*.html'))[:50]:
+        t = open(path, encoding='utf-8').read()
+        for ph in ('Weli war lama dhigin', 'ayaa soo dhacaya'):
+            if ph in t:
+                err(os.path.relpath(path, root), f'placeholder text in the HTML: "{ph}"')
     # homepage and section pages
     other = [os.path.join(root, 'index.html')] + sorted(glob.glob(os.path.join(root, '*', 'index.html')) + glob.glob(os.path.join(root, 'qayb', '*', 'index.html')))
     other = [f for f in other if not re.search(r'/(admin|app|mobile|workers|tools|api|data|img|assets)/', f.replace(os.sep, '/'))]
