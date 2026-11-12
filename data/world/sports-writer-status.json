@@ -1,6 +1,6 @@
 {
  "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
- "mode": "paused: Anthropic API credit balance too low since 2026-11-11T18:01:41+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
+ "mode": "paused: Anthropic API credit balance too low since 2026-11-12T08:01:22+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
  "limits": {
   "articlesPerDay": 2,
   "usdPerDay": 1.0,
@@ -13,12 +13,12 @@
    "18:00"
   ],
   "windowMinutes": 55,
-  "nextRun": "2026-11-12T08:00+03:00"
+  "nextRun": "2026-11-12T18:00+03:00"
  },
- "lastCheckAt": "2026-11-12T07:31:35+03:00",
+ "lastCheckAt": "2026-11-12T08:31:31+03:00",
  "lastRun": {
-  "skipped": 1,
-  "waitingForSchedule": 6
+  "skipped": 2,
+  "waitingForSchedule": 26
  },
  "lastWrittenAt": null,
  "days": {
@@ -53,13 +53,70 @@
    "written": 0,
    "published": 0,
    "held": 0,
-   "skipped": 178,
+   "skipped": 184,
    "refused": 0,
-   "failed": 0,
+   "failed": 1,
    "usd": 0
   }
  },
  "recent": [
+  {
+   "at": "2026-11-12T08:31:31+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Scott Boras says Red Sox in 'heavy' communication; Boston to review medical staff",
+   "url": "https://www.nytimes.com/athletic/7774872/2026/11/11/scott-boras-red-sox-craig-breslow-medical-staff-review/"
+  },
+  {
+   "at": "2026-11-12T08:31:31+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Lakers' Austin Reaves leaves game with left heel injury",
+   "url": "https://www.nytimes.com/athletic/7775127/2026/11/11/austin-reaves-lakers-heel-injury/"
+  },
+  {
+   "at": "2026-11-12T08:26:22+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "as",
+   "title": "Mercado de fichajes, en directo: rumores, altas y bajas de LaLiga, Premier, Serie A...",
+   "url": "https://as.com/futbol/internacional/mercado-de-fichajes-en-directo-rumores-altas-y-bajas-de-laliga-premier-serie-a-f202611-d-3/"
+  },
+  {
+   "at": "2026-11-12T08:11:21+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "the-athletic",
+   "title": "How to watch No. 14 Houston vs. Colorado: TV channel and streaming options for November 13",
+   "url": "https://www.nytimes.com/athletic/7775329/2026/11/12/houston-vs-colorado-stream-how-to-watch-nov-13/"
+  },
+  {
+   "at": "2026-11-12T08:01:22+03:00",
+   "source": "lequipe",
+   "title": "Plus de buts que Kane avec le Bayern et capital avec les Bleus : Olise, décisif comme jamais",
+   "url": "https://www.lequipe.fr/Football/Article/Plus-de-buts-que-kane-avec-le-bayern-et-capital-avec-les-bleus-olise-decisif-comme-jamais/1743006#at_medium=RSS_feeds",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-12T08:01:22+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "New Astros GM Randy Flores says Ausmus hire was his call: 'I'm making decisions'",
+   "url": "https://www.nytimes.com/athletic/7774915/2026/11/11/astros-hierarchy-randy-flores-brad-ausmus/"
+  },
+  {
+   "at": "2026-11-12T07:51:18+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "the-athletic",
+   "title": "How to watch the men's Stockholm Open: Streaming options for the Quarterfinal",
+   "url": "https://www.nytimes.com/athletic/7775294/2026/11/11/mens-stockholm-open-stream-how-to-watch-november-12/"
+  },
   {
    "at": "2026-11-12T07:31:35+03:00",
    "result": "skipped",
@@ -483,62 +540,6 @@
    "source": "the-athletic",
    "title": "Scott Boras called Jim Crane to discuss how Astros plan to handle Tatsuya Imai",
    "url": "https://www.nytimes.com/athletic/7774342/2026/11/11/scott-boras-jim-crane-astros-tatsuya-imai/"
-  },
-  {
-   "at": "2026-11-12T03:11:21+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "as",
-   "title": "Anuncio sorpresa de Cristiano: “TV show”",
-   "url": "https://as.com/futbol/internacional/anuncio-sorpresa-de-cristiano-tv-show-f202611-n/"
-  },
-  {
-   "at": "2026-11-12T03:06:40+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "rmcsport",
-   "title": "\"Je ne veux pas que nous détournions le regard\": le cri d'alarme de Lewis Hamilton sur la situation humanitaire à Gaza",
-   "url": "https://rmcsport.bfmtv.com/auto-moto/f1/je-ne-veux-pas-que-nous-detournions-le-regard-le-cri-d-alarme-de-lewis-hamilton-sur-la-situation-humanitaire-a-gaza_AV-202611110819.html"
-  },
-  {
-   "at": "2026-11-12T03:06:40+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "rmcsport",
-   "title": "Italie-France: la compo probable des Bleus avec Doué en pointe",
-   "url": "https://rmcsport.bfmtv.com/football/equipe-de-france/italie-france-la-compo-probable-des-bleus-avec-doue-en-pointe_AV-202611110820.html"
-  },
-  {
-   "at": "2026-11-12T03:02:22+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Así ve Kane la llegada de Pochettino al United",
-   "url": "https://www.mundodeportivo.com/futbol/internacional/20261111/1004250045/asi-ve-kane-llegada-pochettino-united.html"
-  },
-  {
-   "at": "2026-11-12T03:02:22+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "the-athletic",
-   "title": "Dan Lanning turns Kyle Whittingham's 'outbid everybody' jab back on Michigan's spending",
-   "url": "https://www.nytimes.com/athletic/7774288/2026/11/11/dan-lanning-kyle-whittinghams-outbid-michigan-oregon-spending/"
-  },
-  {
-   "at": "2026-11-12T02:56:48+03:00",
-   "result": "skipped",
-   "reason": "same story as The Athletic: Steph Curry defends his wife Ayesha's role in new film during rare response to c",
-   "source": "cbssports",
-   "title": "Stephen Curry fires back at Gilbert Arenas, other podcasters for criticizing his wife Ayesha's on-screen kiss",
-   "url": "https://www.cbssports.com/nba/news/stephen-curry-wife-ayesha-curry-acting-gilbert-arenas-nick-young/"
-  },
-  {
-   "at": "2026-11-12T02:51:29+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "skysports",
-   "title": "Papers: Arsenal, Chelsea and Liverpool chase Bournemouth star Scott",
-   "url": "https://www.skysports.com/football/news/11095/13611225/arsenal-chelsea-and-liverpool-chase-bournemouth-star-alex-scott-paper-talk"
   }
  ]
 }
