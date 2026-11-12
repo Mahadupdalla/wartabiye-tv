@@ -7,7 +7,8 @@ never submits the app for App Store review.
   python3 testflight.py check                      the key works, the bundle id and the App Store Connect app exist
   python3 testflight.py bundle-id                  registers com.wartabiyetv.app (push + associated domains) if missing
   python3 testflight.py testflight <build-number>  waits until Apple has processed the uploaded build, puts it in the
-                                                   internal TestFlight group "Wartabiye TV" and invites the tester
+                                                   internal TestFlight group "Wartabiye TV" and invites the tester;
+                                                   also writes the tester texts of store/testflight.json
 
 Environment: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_PATH (the .p8 file), optional TESTFLIGHT_TESTER_EMAIL,
 TESTFLIGHT_TESTER_NAME, GITHUB_STEP_SUMMARY. Needs `pip install pyjwt cryptography`.
@@ -149,6 +150,43 @@ def ensure_tester(app_id, group_id, email, name):
                 f'Connect team (Users and Access); the Account Holder\'s Apple ID always is.')
 
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def tester_texts(app_id, build_id):
+    """What testers read in TestFlight (store/testflight.json): the app description and "What to Test" for the build.
+    Never stops the upload: on any problem it says so in the summary."""
+    try:
+        meta = json.load(open(os.path.join(HERE, '..', 'store', 'testflight.json')))
+        loc = meta['locale']
+        app_attrs = {'description': meta['description'], 'privacyPolicyUrl': meta['privacyPolicyUrl'],
+                     'marketingUrl': meta['marketingUrl']}
+        email = os.environ.get('TESTFLIGHT_TESTER_EMAIL', '').strip()
+        if email:
+            app_attrs['feedbackEmail'] = email
+        have = [x for x in call('GET', f'/v1/apps/{app_id}/betaAppLocalizations', query={'limit': 50}).get('data', [])
+                if x['attributes'].get('locale') == loc]
+        if have:
+            call('PATCH', f'/v1/betaAppLocalizations/{have[0]["id"]}',
+                 {'data': {'type': 'betaAppLocalizations', 'id': have[0]['id'], 'attributes': app_attrs}})
+        else:
+            call('POST', '/v1/betaAppLocalizations', {'data': {'type': 'betaAppLocalizations',
+                 'attributes': {'locale': loc, **app_attrs},
+                 'relationships': {'app': {'data': {'type': 'apps', 'id': app_id}}}}})
+        have = [x for x in call('GET', f'/v1/builds/{build_id}/betaBuildLocalizations', query={'limit': 50}).get('data', [])
+                if x['attributes'].get('locale') == loc]
+        if have:
+            call('PATCH', f'/v1/betaBuildLocalizations/{have[0]["id"]}',
+                 {'data': {'type': 'betaBuildLocalizations', 'id': have[0]['id'], 'attributes': {'whatsNew': meta['whatsNew']}}})
+        else:
+            call('POST', '/v1/betaBuildLocalizations', {'data': {'type': 'betaBuildLocalizations',
+                 'attributes': {'locale': loc, 'whatsNew': meta['whatsNew']},
+                 'relationships': {'build': {'data': {'type': 'builds', 'id': build_id}}}}})
+        summary('- TestFlight texts set: app description, privacy policy, feedback address and "What to Test"')
+    except (AscError, OSError, KeyError, ValueError) as e:
+        summary(f'- TestFlight texts not set ({e}); the build is still available. They can be typed in App Store Connect.')
+
+
 def cmd_testflight(build_number):
     a = find_app()
     if not a:
@@ -175,6 +213,7 @@ def cmd_testflight(build_number):
         call('PATCH', f'/v1/builds/{build["id"]}', {'data': {'type': 'builds', 'id': build['id'],
              'attributes': {'usesNonExemptEncryption': False}}})
         summary('- Export compliance: answered "no non-exempt encryption" (the app only uses standard HTTPS)')
+    tester_texts(app_id, build['id'])
     g = ensure_group(app_id)
     if not g['attributes'].get('hasAccessToAllBuilds'):
         try:

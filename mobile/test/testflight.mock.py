@@ -24,7 +24,8 @@ key = ec.generate_private_key(ec.SECP256R1())
 pem = key.private_bytes(serialization.Encoding.PEM, serialization.PrivateFormat.PKCS8, serialization.NoEncryption())
 pub = key.public_key()
 
-S = {'bundle': None, 'caps': set(), 'app': False, 'polls': 0, 'groups': [], 'testers': [], 'patched': None, 'calls': []}
+S = {'bundle': None, 'caps': set(), 'app': False, 'polls': 0, 'groups': [], 'testers': [], 'patched': None, 'calls': [],
+     'app_loc': [], 'build_loc': []}
 
 
 class H(BaseHTTPRequestHandler):
@@ -91,6 +92,25 @@ class H(BaseHTTPRequestHandler):
             a = b['data']['attributes']
             S['testers'].append({'id': 'T1', 'email': a['email'], 'relationships': {'betaGroups': b['data']['relationships']['betaGroups']}})
             return self.send(201, {'data': {}})
+        if m == 'GET' and p == '/v1/apps/A1/betaAppLocalizations':
+            return self.send(200, {'data': S['app_loc']})
+        if m == 'POST' and p == '/v1/betaAppLocalizations':
+            a = b['data']['attributes']
+            assert b['data']['relationships']['app']['data']['id'] == 'A1'
+            S['app_loc'].append({'id': 'L1', 'attributes': a})
+            return self.send(201, {'data': S['app_loc'][-1]})
+        if m == 'PATCH' and p == '/v1/betaAppLocalizations/L1':
+            S['app_loc'][0]['attributes'].update(b['data']['attributes'])
+            return self.send(200, {'data': S['app_loc'][0]})
+        if m == 'GET' and p == '/v1/builds/BLD/betaBuildLocalizations':
+            return self.send(200, {'data': S['build_loc']})
+        if m == 'POST' and p == '/v1/betaBuildLocalizations':
+            assert b['data']['relationships']['build']['data']['id'] == 'BLD'
+            S['build_loc'].append({'id': 'W1', 'attributes': b['data']['attributes']})
+            return self.send(201, {'data': S['build_loc'][-1]})
+        if m == 'PATCH' and p == '/v1/betaBuildLocalizations/W1':
+            S['build_loc'][0]['attributes'].update(b['data']['attributes'])
+            return self.send(200, {'data': S['build_loc'][0]})
         return self.send(404, {'errors': [{'detail': 'unexpected ' + m + ' ' + p}]})
 
     def do_GET(self): self.handle_any('GET')
@@ -133,7 +153,12 @@ check(S['polls'] >= 2, 'it polled until Apple finished processing')
 check(S['patched'] == {'usesNonExemptEncryption': False}, 'export compliance answered')
 check(len(S['groups']) == 1, 'internal group "Wartabiye TV" created')
 check(len(S['testers']) == 1 and S['testers'][0]['relationships']['betaGroups']['data'][0]['id'] == 'G1', 'tester invited into the group')
-check(run('testflight', '57') == 0 and len(S['groups']) == 1 and len(S['testers']) == 1, 'second run creates no duplicates')
+al = S['app_loc'][0]['attributes'] if S['app_loc'] else {}
+check(al.get('locale') == 'en-GB' and 'nine languages' in al.get('description', '') and al.get('feedbackEmail') == 'tester@example.com'
+      and al.get('privacyPolicyUrl', '').startswith('https://www.wartabiyetv.com/'), 'TestFlight app description, privacy policy and feedback address set')
+check(bool(S['build_loc']) and 'Settings' in S['build_loc'][0]['attributes'].get('whatsNew', ''), '"What to Test" set for the build')
+check(run('testflight', '57') == 0 and len(S['groups']) == 1 and len(S['testers']) == 1
+      and len(S['app_loc']) == 1 and len(S['build_loc']) == 1, 'second run creates no duplicates')
 srv.shutdown()
 print('ALL PASS' if ok else 'SOME FAILED')
 sys.exit(0 if ok else 1)

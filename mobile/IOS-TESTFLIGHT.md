@@ -73,6 +73,8 @@ automatically. The run's **Summary** says what happened:
 
 * `Uploaded build N to App Store Connect`, then `processed by Apple (VALID)`
 * `available to the internal TestFlight group "Wartabiye TV"` and `Tester ...: invited`
+* `TestFlight texts set` (the description, privacy policy, feedback address and "What to Test" from
+  `mobile/store/testflight.json`; edit that file to change them)
 * or the exact step that is still missing (for example "No App Store Connect app yet").
 
 ## 8. Install it on your iPhone
