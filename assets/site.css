@@ -135,6 +135,13 @@ nav.menu .wrap{display:flex;align-items:center;gap:2px}
 .tick:hover .tick-track,.tick-track.paused{animation-play-state:paused}
 .tick-track a::before{content:"";display:inline-block;width:6px;height:6px;background:var(--blue);transform:rotate(45deg);margin-inline-end:12px;vertical-align:2px}
 .tick-track a:hover{color:var(--link)}
+/* SOMTEL promo inside the ticker: brand yellow #FFDF3E, logo/text #231F20 (from the SOMTEL artwork) */
+.tick-track .tk-ad{flex:none;display:inline-flex;align-items:center;gap:10px;background:#FFDF3E;color:#231F20;border-radius:5px;padding:3px 14px 3px 4px;line-height:1.2;box-shadow:inset 0 0 0 1px rgba(35,31,32,.12)}
+.tk-ad-lab{background:#231F20;color:#FFDF3E;font:800 9.5px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;padding:5px 6px;border-radius:3px}
+.tk-ad-logo{display:block;height:22px;width:auto}
+.tk-ad-tx{font-weight:600;font-size:14px;color:#231F20}
+.tk-ad-tx b{font-weight:800}
+@media (max-width:600px){.tick-track .tk-ad{gap:8px;padding-inline-end:12px}.tk-ad-logo{height:20px}.tk-ad-lab{font-size:9px;padding:4px 5px}}
 .tickbtn{flex:none;background:none;border:0;border-inline-start:1px solid var(--line);color:var(--muted);width:40px;cursor:pointer;display:grid;place-items:center}
 .tickbtn svg{width:14px;height:14px;fill:currentColor}
 .tickbtn:hover{color:var(--red)}
