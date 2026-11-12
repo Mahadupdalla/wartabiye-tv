@@ -1,5 +1,11 @@
+# Wartabiye TV: every public page may be crawled. Only the private admin and the source code folders are excluded.
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /mobile/
+Disallow: /workers/
+Disallow: /tools/
+Disallow: /*.md$
 
 Sitemap: https://www.wartabiyetv.com/sitemap.xml
+Sitemap: https://www.wartabiyetv.com/news-sitemap.xml

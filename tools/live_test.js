@@ -36,7 +36,7 @@ const fs = require('fs');
         else r.blank++;
       });
       const em = document.getElementById('empty'); r.message = em.hidden ? '' : em.textContent;
-      r.cards = new Set([...document.querySelectorAll('#homeView a[href^="#war-"]')].map(a => a.getAttribute('href'))).size;
+      r.cards = new Set([...document.querySelectorAll('#homeView a[href^="war/"]')].map(a => a.getAttribute('href'))).size;
       r.overflow = document.documentElement.scrollWidth > innerWidth; return r;
     });
   }

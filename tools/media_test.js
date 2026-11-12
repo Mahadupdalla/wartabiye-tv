@@ -151,7 +151,7 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
     await p.screenshot({ path: `${out}/media-${name}-live-real.png` });
     // public results are off: the old LIVE Sports address opens Ciyaaraha (sports news), with no score or results widget
     await go(p, 'ciyaaraha-toos'); await p.waitForTimeout(2500); s = await st(p);
-    const sr = await p.evaluate(() => ({ hash: location.hash, strip: document.querySelectorAll('.scorestrip:not([hidden]), .mrow').length, nav: [...document.querySelectorAll('#links a')].some(a => a.getAttribute('href') === '#ciyaaraha-toos'),
+    const sr = await p.evaluate(() => ({ hash: location.hash, strip: document.querySelectorAll('.scorestrip:not([hidden]), .mrow').length, nav: [...document.querySelectorAll('#links a')].some(a => ['#ciyaaraha-toos', 'ciyaaraha-toos/'].includes(a.getAttribute('href'))),
       src: [...document.querySelectorAll('#pageView .card .meta')].some(m => /Ilaha|Isha:|Source/.test(m.innerText)), cards: document.querySelectorAll('#pageView .card').length }));
     console.log(name, 'real sports page:', JSON.stringify(sr), s.text.slice(0, 120).replace(/\s+/g, ' '));
     if (sr.hash !== '#ciyaaraha' || sr.strip || sr.nav) fail(`${name}: public Results section still reachable ${JSON.stringify(sr)}`);
@@ -378,7 +378,7 @@ const st = p => p.evaluate(() => ({ onair: document.querySelectorAll('#pageView 
       ctx = await b.newContext({ viewport: { width: w, height: h } }); await mock(ctx, { videos: VIDEOS }); p = await ctx.newPage();
       for (const l of ['so', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es']) {
         await p.goto(base + '?lang=' + l + '#toos', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(700);
-        const r = await p.evaluate(() => ({ dir: document.documentElement.dir, h1: document.querySelector('#pageView h1').textContent, nav: [...document.querySelectorAll('#links a')].map(a => a.getAttribute('href') + '=' + a.textContent).filter(x => /#(muuqaal|toos|ciyaaraha-toos)=/.test(x)), raw: document.getElementById('pageView').innerText.match(/\b[ms][A-Z][a-zA-Z]+\b/g) }));
+        const r = await p.evaluate(() => ({ dir: document.documentElement.dir, h1: document.querySelector('#pageView h1').textContent, nav: [...document.querySelectorAll('#links a')].map(a => a.getAttribute('href') + '=' + a.textContent).filter(x => /^#?(muuqaal|toos|ciyaaraha-toos)\/?=/.test(x)), raw: document.getElementById('pageView').innerText.match(/\b[ms][A-Z][a-zA-Z]+\b/g) }));
         console.log(l, JSON.stringify(r));
         if (r.nav.length !== 2 || r.nav.some(x => /ciyaaraha-toos/.test(x))) fail(`${l}: menu entries (Video News and LIVE TV; no LIVE Sports while public results are off)`);
         if (r.raw) fail(`${l}: untranslated text key ${r.raw}`);

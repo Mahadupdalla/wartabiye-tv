@@ -1,12 +1,12 @@
 name: Daabac bogga (publish)
 # Runs whenever the admin dashboard or the hourly news task saves content.
 # Makes small card images, rebuilds data/news.json and data/ads.json, checks them, builds the article and
-# section pages, sitemap.xml, rss.xml and the notification feed (data/notifications.json), publishes everything to
+# section pages, sitemap.xml, news-sitemap.xml (Google News), rss.xml, the SEO report (data/seo-report.json) and the notification feed (data/notifications.json), publishes everything to
 # GitHub Pages, and ONLY when the new version is really live sends browser push alerts for genuinely new stories.
 on:
   push:
     branches: [main]
-    paths: ['data/news/**', 'data/ads/**', 'data/videos/**', 'data/alerts/**', 'data/live.json', 'data/sports.json', 'data/site.json', 'data/pages.json', 'data/status.json', 'data/notify-settings.json', 'data/adsense.json', 'img/**', 'index.html', 'assets/**', 'tools/**', 'sw.js', 'manifest.webmanifest']
+    paths: ['data/news/**', 'data/ads/**', 'data/videos/**', 'data/alerts/**', 'data/live.json', 'data/sports.json', 'data/site.json', 'data/pages.json', 'data/status.json', 'data/notify-settings.json', 'data/adsense.json', 'data/seo.json', 'img/**', 'index.html', 'assets/**', 'tools/**', 'sw.js', 'manifest.webmanifest']
   workflow_dispatch:
 permissions:
   contents: write
@@ -41,11 +41,16 @@ jobs:
         run: python3 tools/build_adsense.py && python3 tools/adsense_test.py
       - name: Build article pages, section pages, sitemap and RSS
         run: python3 tools/build_pages.py
+      - name: SEO check of the built pages (what Googlebot receives; a report for /admin/, never blocks the news)
+        run: |
+          python3 tools/seo_audit.py --report
+          python3 -c "import json;r=json.load(open('data/seo-report.json'));print('errors',r['errorCount'],'warnings',r['warningCount'])"
+          python3 -c "import json,sys;r=json.load(open('data/seo-report.json'));[print('::warning::SEO '+e['where']+': '+e['problem']) for e in r['errors'][:10]]"
       - name: Build the mobile app content API (api/v1, from the same data/news.json; never blocks the website)
         run: python3 tools/build_app_api.py test && python3 tools/build_app_api.py || echo "::warning::api/v1 for the mobile app was not rebuilt"
       - name: Commit the built files
         run: |
-          git add -A $(ls -d api 2>/dev/null) index.html $(ls ads.txt 2>/dev/null || git ls-files ads.txt) data/news data/news.json data/ads.json data/videos.json data/notifications.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml rss.xml ciyaaraha caalamka soomaaliya bariga-afrika wararka-tooska xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
+          git add -A $(ls -d api 2>/dev/null) index.html $(ls ads.txt 2>/dev/null || git ls-files ads.txt) data/news data/news.json data/ads.json data/videos.json data/notifications.json data/seo-report.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml news-sitemap.xml rss.xml $(for d in en ar fr nl it de tr es qayb kaydka; do { [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1; } && echo "$d"; done) ciyaaraha caalamka soomaaliya bariga-afrika wararka-tooska xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
           if git diff --cached --quiet; then echo "built files already up to date"; exit 0; fi
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

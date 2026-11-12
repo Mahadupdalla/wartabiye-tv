@@ -77,7 +77,7 @@ async function sectionState(page, route) {
   // 2b. public match results are off: no menu entry, and the old address sends visitors to the Sports news page
   { const ctx = await b.newContext({ viewport: { width: 1366, height: 900 } }); const p = await ctx.newPage();
     await p.goto(SITE + 'ciyaaraha-toos/?' + bust(), { waitUntil: 'networkidle' }); await p.waitForTimeout(2500);
-    const r = await p.evaluate(() => ({ url: location.href, menu: [...document.querySelectorAll('#links a')].some(a => a.getAttribute('href') === '#ciyaaraha-toos'), rows: document.querySelectorAll('.mrow, .scorestrip:not([hidden])').length }));
+    const r = await p.evaluate(() => ({ url: location.href, menu: [...document.querySelectorAll('#links a')].some(a => ['#ciyaaraha-toos', 'ciyaaraha-toos/'].includes(a.getAttribute('href'))), rows: document.querySelectorAll('.mrow, .scorestrip:not([hidden])').length }));
     await p.goto(SITE + '?' + bust() + '#ciyaaraha-toos', { waitUntil: 'networkidle' }); await p.waitForTimeout(2500);
     const h = await p.evaluate(() => ({ hash: location.hash, rows: document.querySelectorAll('.mrow, .scorestrip:not([hidden])').length }));
     console.log('\nRESULTS SECTION REMOVED: ' + JSON.stringify(r) + ' ' + JSON.stringify(h));

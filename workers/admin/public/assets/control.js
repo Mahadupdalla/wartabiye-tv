@@ -602,8 +602,11 @@
   V.health = function (el) {
     el.innerHTML = ''; el.append(C().loadingBox('Checking the website…'));
     var get = function (p) { var t0 = performance.now(); return fetch(site() + p + (p.indexOf('?') < 0 ? '?' : '&') + 'cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text().then(function (t) { return { ok: r.ok, status: r.status, text: t, ms: Math.round(performance.now() - t0), bytes: t.length }; }); }).catch(function (e) { return { ok: false, status: 0, text: '', error: e.message }; }); };
-    Promise.all([C().load(), get(''), get('sitemap.xml'), get('robots.txt'), get('data/news.json'), automationData().catch(function () { return null; }), fetch('/health').then(function (r) { return r.json(); }).catch(function () { return null; })]).then(function (r) {
-      var ST = r[0], home = r[1], sm = r[2], rb = r[3], nj = r[4], A = r[5], HL = r[6];
+    Promise.all([C().load(), get(''), get('sitemap.xml'), get('robots.txt'), get('data/news.json'), automationData().catch(function () { return null; }), fetch('/health').then(function (r) { return r.json(); }).catch(function () { return null; }),
+      get('news-sitemap.xml'), get('data/seo-report.json'), fetch('/api/search-console', { cache: 'no-store' }).then(function (r) { return r.json(); }).catch(function () { return null; })]).then(function (r) {
+      var ST = r[0], home = r[1], sm = r[2], rb = r[3], nj = r[4], A = r[5], HL = r[6], nsm = r[7], SR = null, GSC = r[9];
+      try { SR = r[8].ok ? JSON.parse(r[8].text) : null; } catch (e) { SR = null; }
+      var nlocs = (nsm.text.match(/<loc>/g) || []).length, homeLinks = (home.text.match(/href="war\/[^"]+\.html"/g) || []).filter(function (x, i, a) { return a.indexOf(x) === i; }).length;
       el.innerHTML = '';
       el.append(hero('SEO & website health', 'Checked now from this browser against the real wartabiyetv.com, and from the website files.',
         [h('button', { class: 'btn', type: 'button', html: W().ic('refresh') + '<span>Check again</span>', onclick: function () { V.health(el); } })]));
@@ -613,7 +616,10 @@
       el.append(h('div', { class: 'grid kpis' },
         stat('Homepage', home.ok ? home.ms + ' ms' : 'Error', home.ok ? Math.round(home.bytes / 1024) + ' KB HTML, loaded from this browser' : 'HTTP ' + home.status, home.ok ? (home.ms < 1500 ? 'good' : '') : 'badk'),
         stat('Sitemap', sm.ok ? n(locs) + ' pages' : 'Missing', sm.ok ? (lastmod ? 'updated ' + ago(lastmod) : '') + ' · ' + n(pub.length) + ' published articles' : 'sitemap.xml not found', sm.ok ? 'good' : 'badk'),
-        stat('robots.txt', rb.ok ? 'Present' : 'Missing', rb.ok && /sitemap/i.test(rb.text) ? 'points search engines to the sitemap' : rb.ok ? 'does not mention the sitemap' : '', rb.ok ? 'good' : 'badk'),
+        stat('Google News sitemap', nsm.ok ? n(nlocs) + ' articles' : 'Missing', nsm.ok ? 'published in the last 48 hours · news-sitemap.xml' : 'news-sitemap.xml not found', nsm.ok ? 'good' : 'badk'),
+        stat('robots.txt', rb.ok ? 'Present' : 'Missing', rb.ok ? ((/news-sitemap\.xml/i.test(rb.text) ? 'lists both sitemaps' : /sitemap/i.test(rb.text) ? 'lists sitemap.xml only' : 'does not mention the sitemap') + (/^disallow:\s*\/\s*$/im.test(rb.text) ? ' · BLOCKS THE SITE' : '')) : '', rb.ok && !/^disallow:\s*\/\s*$/im.test(rb.text) ? 'good' : 'badk'),
+        stat('News in the homepage HTML', home.ok ? n(homeLinks) + ' article links' : '—', 'what Google reads without JavaScript', home.ok && homeLinks >= 10 ? 'good' : 'badk'),
+        stat('Structured data & page checks', SR ? (SR.errorCount ? SR.errorCount + ' problems' : 'No problems') : '—', SR ? n(SR.articles.pagesChecked) + ' article pages checked at the last publication' : 'data/seo-report.json not published yet', SR ? (SR.errorCount ? 'badk' : 'good') : ''),
         stat('News feed', nj.ok ? Math.round(nj.bytes / 1024) + ' KB' : 'Error', nj.ok ? nj.ms + ' ms · data/news.json' : 'HTTP ' + nj.status),
         stat('Last successful deployment', lastOk ? ago(lastOk.updated) : '—', lastOk ? fmt(lastOk.updated) : ''),
         stat('Admin service (Cloudflare)', HL && HL.ok ? 'Healthy' : 'Problem', HL ? 'database ' + (HL.db ? 'ok' : 'down') : 'no answer', HL && HL.ok ? 'good' : 'badk')));
@@ -669,8 +675,52 @@
         }).catch(function (e) { psOut.innerHTML = ''; psOut.append(W().errBox(e)); });
       }
       // search console + workflow failures
-      el.append(section('Google Search Console', 'Indexing and search clicks', h('div', null, banner('', 'Needs your authorisation', 'Google shows indexing status and search clicks only to the verified site owner. Open Search Console with your Google account; connecting it here would need Google\'s official API and your sign-in.'),
-        h('a', { class: 'btn small', href: 'https://search.google.com/search-console?resource_id=' + encodeURIComponent(site()), target: '_blank', rel: 'noopener', text: 'Open Search Console' }))));
+      // what Google receives: the check that runs at every publication (tools/seo_audit.py)
+      if (SR) {
+        var wc = {}; (SR.warnings || []).forEach(function (w) { var k = w.problem.replace(/\d+/g, 'N').replace(/\(.*\)/, '').trim(); wc[k] = (wc[k] || 0) + 1; });
+        el.append(section('What Google receives', 'Checked in the website files (HTML without JavaScript) at every publication. This is not a Google ranking or score.', h('div', null,
+          table(['Check', 'Result', ''], [
+            h('tr', null, td('sitemap.xml'), td(pill(SR.sitemap.valid && !SR.sitemap.missingFiles ? 'ok' : 'bad', SR.sitemap.valid ? n(SR.sitemap.urls) + ' URLs' : 'invalid')), td(n(SR.sitemap.articles) + ' articles · ' + n(SR.sitemap.translated) + ' translated pages')),
+            h('tr', null, td('news-sitemap.xml (Google News)'), td(pill(SR.newsSitemap.valid ? 'ok' : 'bad', SR.newsSitemap.valid ? n(SR.newsSitemap.urls) + ' articles' : 'invalid')), td(SR.newsSitemap.newest ? 'newest ' + fmt(SR.newsSitemap.newest) : 'no article in the last 48 hours')),
+            h('tr', null, td('robots.txt'), td(pill(SR.robots.present && !SR.robots.blocksSite ? 'ok' : 'bad', SR.robots.blocksSite ? 'blocks the site' : SR.robots.present ? 'ok' : 'missing')), td((SR.robots.sitemaps || []).join(' · '))),
+            h('tr', null, td('Homepage HTML'), td(pill((SR.home.articleLinks || 0) >= 10 ? 'ok' : 'bad', n(SR.home.articleLinks || 0) + ' article links')), td((SR.home.structuredData || []).join(', '))),
+            h('tr', null, td('Article pages: headline, text, date, photo, canonical, NewsArticle'), td(pill(SR.errorCount ? 'bad' : 'ok', SR.errorCount ? SR.errorCount + ' problems' : 'all valid')), td(n(SR.articles.pagesChecked) + ' pages')),
+            h('tr', null, td('Broken links between the site\'s own pages'), td(pill(SR.brokenInternalLinks ? 'bad' : 'ok', SR.brokenInternalLinks ? SR.brokenInternalLinks + ' found' : 'none')), td('')),
+            h('tr', null, td('Articles with only a summary (thin pages)'), td(pill(SR.articles.withoutBody ? 'warn' : 'ok', SR.articles.withoutBody || 'none')), td('Longer original reporting helps in Google News')),
+            h('tr', null, td('Translated pages indexed'), td(pill('', SR.translations.mode)), td(n(SR.translations.pages) + ' pages (data/seo.json "translatedPages": reviewed = only translations you corrected in /admin/)')),
+          ]),
+          SR.errorCount ? h('details', { class: 'why' }, h('summary', { text: 'Show the ' + SR.errorCount + ' problems' }), h('ul', null, SR.errors.slice(0, 80).map(function (e) { return h('li', { text: e.where + ': ' + e.problem }); }))) : null,
+          Object.keys(wc).length ? h('details', { class: 'why' }, h('summary', { text: 'Suggestions (' + SR.warningCount + ')' }), h('ul', null, Object.keys(wc).map(function (k) { return h('li', { text: wc[k] + '× ' + k }); }))) : null)));
+      }
+      // Google Search Console: setup steps, and real numbers only when connected through Google's official API
+      var SITEURL = site(), latest = pub[0], enc = encodeURIComponent;
+      var tools = h('div', { class: 'row' },
+        h('a', { class: 'btn small primary', href: 'https://search.google.com/search-console?resource_id=' + enc('sc-domain:wartabiyetv.com'), target: '_blank', rel: 'noopener', text: 'Open Search Console' }),
+        h('a', { class: 'btn small', href: 'https://search.google.com/search-console/sitemaps?resource_id=' + enc('sc-domain:wartabiyetv.com'), target: '_blank', rel: 'noopener', text: 'Sitemaps' }),
+        h('a', { class: 'btn small', href: 'https://search.google.com/test/rich-results?url=' + enc(SITEURL), target: '_blank', rel: 'noopener', text: 'Rich Results Test: homepage' }),
+        latest ? h('a', { class: 'btn small', href: 'https://search.google.com/test/rich-results?url=' + enc(SITEURL + 'war/' + latest.id + '.html'), target: '_blank', rel: 'noopener', text: 'Rich Results Test: newest article' }) : null,
+        h('a', { class: 'btn small', href: 'https://publishercenter.google.com/', target: '_blank', rel: 'noopener', text: 'Google Publisher Center' }));
+      var steps = h('ol', { class: 'sub' },
+        h('li', { text: 'Verify ownership: Search Console → Add property → Domain → wartabiyetv.com, then add the TXT record Google shows at your domain registrar (DNS). The HTML file ' + ((SR && SR.verification.htmlFiles || []).join(', ') || '—') + ' is already on the site for the URL-prefix method.' }),
+        h('li', { text: 'Submit both sitemaps: ' + SITEURL + 'sitemap.xml and ' + SITEURL + 'news-sitemap.xml' }),
+        h('li', { text: 'To see clicks, impressions, CTR and positions here: add the GSC_SERVICE_ACCOUNT secret (steps in the Search Console guide) and add that account as a Restricted user in Search Console.' }));
+      var gscBody = h('div', null);
+      if (GSC && GSC.connected) {
+        var T = GSC.totals || {};
+        gscBody.append(h('div', { class: 'grid kpis mini' },
+          stat('Clicks', n(T.clicks || 0), GSC.startDate + ' – ' + GSC.endDate), stat('Impressions', n(T.impressions || 0), 'times shown in Google Search'),
+          stat('CTR', ((T.ctr || 0) * 100).toFixed(1) + ' %', 'clicks ÷ impressions'), stat('Average position', T.position ? T.position.toFixed(1) : '—', 'average rank in results')));
+        if ((GSC.queries || []).length) gscBody.append(h('h4', { text: 'Top searches' }), table(['Search', 'Clicks', 'Impressions', 'CTR', 'Position'], GSC.queries.map(function (q) { return h('tr', null, td(q.query), td(n(q.clicks)), td(n(q.impressions)), td((q.ctr * 100).toFixed(1) + ' %'), td(q.position.toFixed(1))); })));
+        if ((GSC.pages || []).length) gscBody.append(h('h4', { text: 'Top pages' }), table(['Page', 'Clicks', 'Impressions', 'Position'], GSC.pages.map(function (q) { return h('tr', null, td(link(q.page, q.page.replace(SITEURL, '/'))), td(n(q.clicks)), td(n(q.impressions)), td(q.position.toFixed(1))); })));
+        if ((GSC.sitemaps || []).length) gscBody.append(h('h4', { text: 'Sitemaps in Search Console' }), table(['Sitemap', 'Last read by Google', 'Submitted URLs', 'Errors'], GSC.sitemaps.map(function (x) { return h('tr', null, td(x.path), td(x.lastDownloaded ? fmt(x.lastDownloaded) : 'pending'), td((x.contents || []).map(function (c) { return c.type + ' ' + c.submitted; }).join(', ') || '—'), td(String(x.errors || 0))); })));
+        gscBody.append(h('p', { class: 'sub fine', text: 'Numbers from Google Search Console (' + GSC.property + '). Google publishes them with a delay of about 2–3 days.' }));
+      } else if (GSC && GSC.reason === 'google_error') {
+        gscBody.append(banner('bad', 'Google refused the connection', (GSC.message || '') + ' — check that ' + GSC.account + ' is added as a user of ' + GSC.property + ' in Search Console, and that the Search Console API is enabled.'), steps);
+      } else {
+        gscBody.append(banner('', 'Not connected yet: no search numbers are shown', 'Google shows clicks, impressions and positions only to the verified owner. Nothing here is estimated.'), steps);
+      }
+      gscBody.append(tools);
+      el.append(section('Google Search Console', 'Indexing and search performance', gscBody));
       var fails = A ? (A.workflows || []).filter(function (w) { return w.status === 'completed' && w.conclusion === 'failure'; }) : [];
       el.append(section('GitHub workflow failures', 'Jobs whose latest run failed', fails.length ? W().autoList(fails) : banner('ok', 'No failing job', '')));
     }).catch(function (e) { C().failBox(el, e, function () { V.health(el); }); });

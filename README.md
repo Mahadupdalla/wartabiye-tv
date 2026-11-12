@@ -8,6 +8,7 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `data/news/<id>.json` | War kasta fayl gaar ah (maamulka iyo hawsha wararka (saacad kasta) ayaa qora) → `tools/build_news.py` → `data/news.json` |
 | `data/ads/`, `data/pages.json` | Xayeysiisyada iyo boggaga macluumaadka (maamulka ayaa qora) |
 | `tools/build_pages.py` | `war/<id>.html`, boggaga qaybaha (`ciyaaraha/`, `caalamka/` …), `sitemap.xml`, `rss.xml` |
+| `tools/seo_audit.py`, `data/seo.json`, `news-sitemap.xml` | Google SEO: boggaga waxay HTML-ka ku sitaan wararka dhabta ah (bogga hore, qaybaha `qayb/<qayb>/`, kaydka `kaydka/`, war kasta), `news-sitemap.xml` (48-kii saac ee u dambeysay), hubin daabacaad kasta (`data/seo-report.json`, /admin/ → SEO & health). Turjumaadaha bog gaar ah: `data/seo.json` `translatedPages` (`reviewed` = kuwa maamulku saxay oo kaliya) |
 | `tools/make_thumbs.py` | Sawirro yaryar 480px webp (`img/news/w480/`) |
 | `admin/`, `admin/codsiyada/` | Maamulka (Sveltia CMS, login GitHub) iyo maamulka gaarka ah ee codsiyada xayeysiiska (repo private) |
 | `img/news/` | Sawirrada wararka (Wikimedia Commons / VOA, liisan sharci ah) |
