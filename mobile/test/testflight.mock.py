@@ -156,7 +156,7 @@ check(len(S['testers']) == 1 and S['testers'][0]['relationships']['betaGroups'][
 al = S['app_loc'][0]['attributes'] if S['app_loc'] else {}
 check(al.get('locale') == 'en-GB' and 'nine languages' in al.get('description', '') and al.get('feedbackEmail') == 'tester@example.com'
       and al.get('privacyPolicyUrl', '').startswith('https://www.wartabiyetv.com/'), 'TestFlight app description, privacy policy and feedback address set')
-check(bool(S['build_loc']) and 'Settings' in S['build_loc'][0]['attributes'].get('whatsNew', ''), '"What to Test" set for the build')
+check(bool(S['build_loc']) and 'nine languages' in S['build_loc'][0]['attributes'].get('whatsNew', ''), '"What to Test" set for the build')
 check(run('testflight', '57') == 0 and len(S['groups']) == 1 and len(S['testers']) == 1
       and len(S['app_loc']) == 1 and len(S['build_loc']) == 1, 'second run creates no duplicates')
 srv.shutdown()
