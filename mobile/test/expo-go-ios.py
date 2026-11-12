@@ -115,7 +115,12 @@ def flow(title):
         s += [{'extendedWaitUntil': {'visible': {'id': 'menu-button'}, 'timeout': 90000}},
               {'tapOn': {'text': 'Continue', 'optional': True}},
               {'waitForAnimationToEnd': {'timeout': 8000}}]
-        return s
+        if first:
+            return s
+        # a restart: let Expo Go finish starting before the link is handed to it (the simulator's "open link" can
+        # time out on a busy Mac), and try the whole restart again if it does
+        s.insert(1, {'waitForAnimationToEnd': {'timeout': 5000}})
+        return [{'retry': {'maxRetries': 2, 'commands': s}}]
 
     def menu(code, key, expect=None):
         cmds = open_app() + [
