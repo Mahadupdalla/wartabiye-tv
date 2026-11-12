@@ -185,7 +185,16 @@
     var bk=SITE&&SITE.breaking||{};if(bk.mode==='manual')tk=[];
     if(Array.isArray(bk.items))tk=bk.items.filter(function(x){return x&&x.text}).map(function(x){var o=L!=='so'&&typeof x[L]==='string'&&x[L].trim();return {title:o||x.text,link:x.link||'#hoyga',so:L!=='so'&&!o}}).concat(tk);
     t.innerHTML='';if(!tk.length){t.append(el('a',null,tr('tickLoading')));return}
-    [0,1].forEach(function(k){tk.forEach(function(x){var a=soAttr(el('a',null,x.title),x.so);a.href=safeLink(x.link);if(k){a.setAttribute('aria-hidden','true');a.tabIndex=-1}t.append(a)})});
+    [0,1].forEach(function(k){tk.forEach(function(x){var a=soAttr(el('a',null,x.title),x.so);a.href=safeLink(x.link);if(k){a.setAttribute('aria-hidden','true');a.tabIndex=-1}t.append(a)});t.append(tickAd(k))});
+  }
+  // SOMTEL promo: shown in the ticker after each run of news headlines, then the headlines continue (Somali text on every language)
+  var TICK_AD={brand:'SOMTEL',lead:'Dooro SOMTEL!',text:'Ku raaxayso internet degdeg ah, qiimo kuu qalma iyo adeeg la isku halleyn karo.'};
+  function tickAd(copy){
+    var s=el('span','tk-ad');s.lang='so';s.dir='ltr';
+    var lab=el('span','tk-ad-lab',tr('adLabel'));
+    var logo=el('img','tk-ad-logo');logo.src='img/somtel-logo.png';logo.alt=TICK_AD.brand;logo.width=69;logo.height=22;logo.decoding='async';
+    var tx=el('span','tk-ad-tx');tx.append(el('b',null,TICK_AD.lead),document.createTextNode(' '+TICK_AD.text));
+    s.append(lab,logo,tx);if(copy)s.setAttribute('aria-hidden','true');return s;
   }
 
   // ---------- trending: editor's choice (data/site.json "trending"), else breaking + flagged "important" + newest per section ----------
