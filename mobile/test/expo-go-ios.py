@@ -102,7 +102,9 @@ def flow(title):
              {'tapOn': {'text': 'Open', 'optional': True}}]
         if first:
             # the first time, Expo Go lays its one-time tip about its own developer menu over the app: close it
-            s += [{'extendedWaitUntil': {'visible': 'Continue', 'timeout': 240000, 'optional': True}},
+            # (the app's name shows on both the tip's menu and the app itself once the update has loaded)
+            s += [{'extendedWaitUntil': {'visible': '.*Wartabiye TV.*', 'timeout': 240000}},
+                  {'waitForAnimationToEnd': {'timeout': 8000}},
                   {'takeScreenshot': 'expo-go-first-open'},
                   {'tapOn': {'text': 'Continue', 'optional': True}},
                   {'waitForAnimationToEnd': {'timeout': 4000}},
