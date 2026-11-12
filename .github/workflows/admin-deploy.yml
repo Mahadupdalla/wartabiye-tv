@@ -115,6 +115,13 @@ jobs:
         run: |
           if npx wrangler secret list 2>/dev/null | grep -q '"SESSION_SECRET"\|SESSION_SECRET'; then echo "SESSION_SECRET already set"; else
             openssl rand -base64 48 | tr -d '\n' | npx wrangler secret put SESSION_SECRET >/dev/null && echo "SESSION_SECRET created"; fi
+      - name: Google Search Console access (only when the owner added the GSC_SERVICE_ACCOUNT secret; stored only in Cloudflare)
+        if: steps.cf.outputs.ready == 'yes'
+        env: { GSC_SERVICE_ACCOUNT: '${{ secrets.GSC_SERVICE_ACCOUNT }}' }
+        run: |
+          if [ -z "$GSC_SERVICE_ACCOUNT" ]; then echo "Search Console not connected (no GSC_SERVICE_ACCOUNT secret): the admin shows the website's own SEO checks only"; exit 0; fi
+          printf '%s' "$GSC_SERVICE_ACCOUNT" | jq -e '.client_email and .private_key' >/dev/null || { echo "::error::GSC_SERVICE_ACCOUNT is not a Google service-account JSON key"; exit 1; }
+          printf '%s' "$GSC_SERVICE_ACCOUNT" | npx wrangler secret put GSC_SERVICE_ACCOUNT >/dev/null && echo "Search Console access stored in Cloudflare"
       - name: Reset the authenticator app (only when asked)
         if: steps.cf.outputs.ready == 'yes' && github.event.inputs.reset_mfa == 'RESET'
         run: |

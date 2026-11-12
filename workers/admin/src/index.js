@@ -9,6 +9,7 @@ import {
 import { loginPage, csp, page } from './pages.js';
 import { collect, summary, realtime, rollup } from './analytics.js';
 import { proxy, automation } from './github.js';
+import { searchConsole } from './gsc.js';
 
 const PUBLIC_FILES = /^\/(assets\/(login\.css|theme\.js)|brand\/[\w.-]+|favicon\.ico|robots\.txt)$/;
 
@@ -61,6 +62,7 @@ export default {
         if (p === '/api/analytics/summary') return await summary(req, env);
         if (p === '/api/analytics/realtime') return await realtime(req, env);
         if (p === '/api/automation') return await automation(req, env, s);
+        if (p === '/api/search-console') return await searchConsole(req, env);
         if (p === '/api/ping' && req.method === 'POST') return json({ ok: true, expiresAt: Math.min(s.expires, now() + idle) });
         if (p === '/api/security') {
           const [log, sessions] = await Promise.all([

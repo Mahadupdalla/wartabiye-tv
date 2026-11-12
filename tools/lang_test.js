@@ -17,7 +17,7 @@ const fs = require('fs');
     const first = await p.evaluate(() => ({ lang: document.documentElement.lang, dir: document.documentElement.dir, btn: document.getElementById('langName').textContent }));
     console.log(name, 'first visit', JSON.stringify(first));
     if (first.lang !== 'so' || first.dir !== 'ltr') fail(name + ': first visit is not Somali');
-    const soCards = await p.evaluate(() => new Set([...document.querySelectorAll('#homeView a[href^="#war-"]')].map(a => a.getAttribute('href'))).size);
+    const soCards = await p.evaluate(() => new Set([...document.querySelectorAll('#homeView a[href^="war/"]')].map(a => a.getAttribute('href'))).size);
     for (const lang of Object.keys(LANGS)) {
       // the switcher must be visible in the header (logo band), inside the screen
       const box = await p.locator('#langBtn').boundingBox();
@@ -27,7 +27,7 @@ const fs = require('fs');
       if (!mbox || mbox.x < 0 || mbox.x + mbox.width > w + 1) fail(`${name}: language menu outside the screen (${JSON.stringify(mbox)})`);
       await p.click(`#langMenu [data-lang="${lang}"]`); await p.waitForTimeout(300);
       const r = await p.evaluate(() => {
-        const cards = new Set([...document.querySelectorAll('#homeView a[href^="#war-"]')].map(a => a.getAttribute('href'))).size;
+        const cards = new Set([...document.querySelectorAll('#homeView a[href^="war/"]')].map(a => a.getAttribute('href'))).size;
         return { lang: document.documentElement.lang, dir: document.documentElement.dir, nav: [...document.querySelectorAll('#links a')].map(a => a.textContent).join(' | '),
           lead: (document.querySelector('.tile.big h2') || {}).textContent, cards, gap: (document.querySelector('.trgap') || {}).textContent || '', overflow: document.documentElement.scrollWidth > innerWidth,
           latest: document.getElementById('listTitle').textContent, footer: document.querySelector('.fbot').innerText.replace(/\s+/g, ' ') };

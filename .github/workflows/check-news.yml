@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check news.json and images
         run: python3 tools/check_site.py
+      - name: Search engines (Google) see the news in the HTML, valid sitemaps, structured data and links (no network)
+        run: python3 tools/build_pages.py && python3 tools/seo_audit.py test
       - name: Google AdSense settings, code and ads.txt (no network)
         run: python3 tools/build_adsense.py && python3 tools/adsense_test.py
       - name: Article completeness (self-test; the list of short articles is a report, it never blocks)
