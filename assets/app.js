@@ -39,7 +39,7 @@
   function soBadge(it){return isSo(it)?el('span','olang',tr('somaliOnly')):null}
   function svg(path,cls){var s='<svg viewBox="0 0 24 24" aria-hidden="true"'+(cls?' class="'+cls+'"':'')+'><path d="'+path+'"/></svg>';return s}
   function safeUrl(u){return typeof u==='string'&&/^https?:\/\//.test(u)?u:null}
-  function safeLink(u){u=String(u||'');return /^(#|https?:\/\/|mailto:|tel:)/.test(u)?u:'#hoyga'}
+  function safeLink(u){u=String(u||'');return /^(#|https?:\/\/|mailto:|tel:)/.test(u)||/^(war\/[\w-]+\.html|(qayb\/)?[\w-]+\/)$/.test(u)?u:'#hoyga'}
   function imgUrl(u){if(typeof u!=='string'||!u)return null;u=u.replace(/^\//,'');if(/^(img\/|https:\/\/)/.test(u))return u;return null}
   function slug(c){return String(c||'').toLowerCase()}
   // Every link is a real address (war/<id>.html, soomaaliya/, qayb/siyaasadda/ …) that search engines can follow; the click
@@ -317,7 +317,7 @@
       pager(LI,shown,function(part){part.forEach(function(it){LI.append(row(it));if(home&&k===3){var ad=adSlot('card');if(ad)LI.append(ad)}k++})},
         !home&&rest.length>shown.length?'#raadi'+(cat&&catSo?'?c='+encodeURIComponent(catSo):''):null)}
     var em=$('empty');em.hidden=!loaded||rest.length>0||(showMosaic&&list.length>0);
-    if(loadError){em.hidden=false;em.textContent=tr('loadError').replace('{e}',loadError)}else em.textContent=(cat||query)&&!list.length?tr('noMatch'):tr('noNews');
+    if(loadError){em.hidden=false;em.textContent=tr('loadError').replace('{e}',loadError)}else em.textContent=em.hidden?'':(cat||query)&&!list.length?tr('noMatch'):tr('noNews');
     var lu=window.WARTABIYE_LAST_OK;$('updated').textContent=lu&&ago(lu)?tr('updated')+ago(lu)+' · '+tr('updatedDaily'):tr('updatedDaily');
     // ad slots + section blocks on the homepage only
     var top=$('adTop');top.innerHTML='';var mob=$('adMob');mob.innerHTML='';var B=$('blocks');B.innerHTML='';

@@ -29,7 +29,7 @@ LANGS = ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')
 tpl = open(os.path.join(root, 'index.html'), encoding='utf-8').read()
 a, b = tpl.index('<!--seo-->'), tpl.index('<!--/seo-->') + len('<!--/seo-->')
 assert '<!--story-->' in tpl, 'story marker missing in index.html'
-REGIONS = ('mosaic', 'list', 'blocks', 'ftrend', 'fcats')
+REGIONS = ('mosaic', 'list', 'blocks', 'ftrend', 'fcats', 'tick')
 
 
 def region(page, name, content=''):
@@ -63,7 +63,8 @@ ORG_ID = SITE_URL + '#organization'
 SAME_AS = ['https://www.facebook.com/share/18bkUUeoJx/?mibextid=wwXIfr', 'https://www.youtube.com/@WarTabiye-channel',
            'https://www.tiktok.com/@wartabiyetv']
 PUBLISHER = {'@type': 'NewsMediaOrganization', '@id': ORG_ID, 'name': 'Wartabiye TV', 'url': SITE_URL,
-             'logo': {'@type': 'ImageObject', 'url': LOGO, 'width': 512, 'height': 512}}
+             'logo': {'@type': 'ImageObject', 'url': LOGO, 'width': 512, 'height': 512}, 'sameAs': SAME_AS,
+             'publishingPrinciples': SITE_URL + 'anshaxa/', 'correctionsPolicy': SITE_URL + 'saxitaannada/'}
 ROBOTS = '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">\n'
 
 
@@ -229,6 +230,7 @@ def subpage(seo, pre=None, show='storyView', kind='articles', base='../', lang='
             page = region(page, k, v)
     page = region(page, 'ftrend', FOOT_TREND)
     page = region(page, 'fcats', FOOT_CATS)
+    page = region(page, 'tick', TICK)
     return page
 
 
@@ -287,6 +289,8 @@ def tile(n, big=False):
 public = [n for n in news if not n.get('_preview')]
 by_id = {n['id']: n for n in public}
 FOOT_TREND = ''.join(f'<a href="{art_href(n)}"><span>{esc(n.get("title"))}</span><small>{esc(show_date(n.get("publishedAt"), "so", False))}</small></a>' for n in public[:3])
+# the DEGDEG ticker: the newest headlines as real links (never a "loading" placeholder in the HTML)
+TICK = ''.join(f'<a href="{art_href(n)}">{esc(n.get("title"))}</a>' for n in [x for x in public if not x.get('sponsored')][:8])
 FOOT_CATS = ''.join(f'<a href="qayb/{slug(k)}/">{esc(k)}<span>{sum(1 for n in public if n.get("category") == k)}</span></a>' for k in CATS)
 
 # ---------- translations that may have their own page ----------
@@ -559,6 +563,7 @@ if mosaic:  # the same headings the app shows, so nothing moves when it starts
 home = region(home, 'blocks', blocks)
 home = region(home, 'ftrend', FOOT_TREND)
 home = region(home, 'fcats', FOOT_CATS)
+home = region(home, 'tick', TICK)
 if home != open(os.path.join(root, 'index.html'), encoding='utf-8').read():
     open(os.path.join(root, 'index.html'), 'w', encoding='utf-8').write(home)
 
