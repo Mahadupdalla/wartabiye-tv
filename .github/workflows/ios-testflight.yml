@@ -1,0 +1,255 @@
+name: iPhone app (simulator test + TestFlight)
+# The real native Wartabiye TV iPhone app (mobile/, the same React Native code as the Android app).
+#  1. checks:     typecheck, iPhone release settings (privacy manifest, build number, push mode), and an offline test of
+#                 the App Store Connect script against a fake Apple API
+#  (Expo SDK 58 needs Xcode 27 / Swift 6.4: Xcode 26.3 fails in ExpoModulesJSI with "sending ... risks causing data races")
+#  2. simulator:  builds the app for the iOS Simulator and drives it with taps on a small iPhone (SE) and the largest
+#                 iPhone (Pro Max) against the LIVE website: 9 languages, the newest story, bookmarks, search, sections
+#  3. device:     builds the app for real iPhones (arm64, Release). With the owner's Apple secrets it is signed and uploaded
+#                 to App Store Connect, then put in the internal TestFlight group "Wartabiye TV" and the tester is invited.
+#                 Without them it is an unsigned device build (proves it compiles; it cannot be installed on a phone).
+# Owner's secrets (Settings -> Secrets and variables -> Actions), see mobile/IOS-TESTFLIGHT.md:
+#   APPLE_TEAM_ID, ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (the whole .p8 file), optional TESTFLIGHT_TESTER_EMAIL
+# Uploads happen only from main or when started by hand (Actions -> this workflow -> Run workflow).
+# It never buys anything, never submits the app for App Store review, and makes no AI calls.
+on:
+  push:
+    paths: ['mobile/**', '.github/workflows/ios-testflight.yml']
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: 'Upload to TestFlight (needs the Apple secrets)'
+        type: boolean
+        default: true
+permissions:
+  contents: read
+concurrency:
+  group: ios-testflight-${{ github.ref }}
+  cancel-in-progress: true
+env:
+  BUNDLE_ID: com.wartabiyetv.app
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: iPhone release settings
+        env:
+          WTV_IOS_RELEASE: '1'
+          WTV_IOS_BUILD_NUMBER: '999'
+          APPLE_TEAM_ID: ABCDE12345
+        run: |
+          npx expo prebuild --platform ios --no-install --clean
+          set -x
+          grep -q '<string>production</string>' ios/WartabiyeTV/WartabiyeTV.entitlements
+          grep -q 'applinks:www.wartabiyetv.com' ios/WartabiyeTV/WartabiyeTV.entitlements
+          grep -A1 CFBundleVersion ios/WartabiyeTV/Info.plist | grep -q '<string>999</string>'
+          grep -A1 ITSAppUsesNonExemptEncryption ios/WartabiyeTV/Info.plist | grep -q '<false/>'
+          grep -q 'NSPrivacyAccessedAPICategoryUserDefaults' ios/WartabiyeTV/PrivacyInfo.xcprivacy
+          grep -q 'DEVELOPMENT_TEAM = ABCDE12345' ios/WartabiyeTV.xcodeproj/project.pbxproj
+          grep -q 'PRODUCT_BUNDLE_IDENTIFIER = "com.wartabiyetv.app"' ios/WartabiyeTV.xcodeproj/project.pbxproj
+      - name: App Store Connect script against a fake Apple API
+        run: |
+          pip install --quiet pyjwt cryptography
+          python3 test/testflight.mock.py
+
+  simulator:
+    runs-on: macos-26
+    timeout-minutes: 150
+    permissions:
+      contents: write   # only to publish the screenshots as the "iphone-screenshots" pre-release
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - name: Newest Xcode on the machine
+        run: |
+          ls -d /Applications/Xcode*.app
+          X=$(ls -d /Applications/Xcode_*.app | grep -v -i beta | sort -V | tail -1)
+          sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version; xcrun simctl list runtimes | grep iOS
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+      - name: Generate the iPhone project (Expo prebuild + CocoaPods)
+        run: npx expo prebuild --platform ios --clean
+      - name: Build for the iOS Simulator (Release, the code a phone runs)
+        run: |
+          set -o pipefail
+          xcodebuild -workspace ios/WartabiyeTV.xcworkspace -scheme WartabiyeTV -configuration Release -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO ARCHS=arm64 ONLY_ACTIVE_ARCH=YES build > "$RUNNER_TEMP/xcodebuild.log" 2>&1 \
+            || { sh test/xcode-errors.sh "$RUNNER_TEMP/xcodebuild.log"; exit 1; }
+          tail -5 "$RUNNER_TEMP/xcodebuild.log"
+          ls -d build/Build/Products/Release-iphonesimulator/WartabiyeTV.app
+      - name: Maestro (taps on the simulator)
+        run: |
+          curl -fsSL https://get.maestro.mobile.dev | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+      - name: iPhone simulators, driven like a reader, against the live website
+        run: python3 test/ios-deep.py build/Build/Products/Release-iphonesimulator/WartabiyeTV.app test/output/ios
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: iphone-simulator-test
+          path: mobile/test/output/ios
+          retention-days: 30
+      - name: Screenshots for the owner (pre-release "iphone-screenshots", replaced on every run)
+        if: always() && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls test/output/ios/*.png >/dev/null 2>&1 || exit 0
+          gh release delete iphone-screenshots --cleanup-tag -y || true
+          gh release create iphone-screenshots test/output/ios/*.png --prerelease --target "$GITHUB_SHA" \
+            --title "iPhone app screenshots (simulator test)" \
+            --notes "Screenshots of the Wartabiye TV iPhone app taken by the simulator test of commit $GITHUB_SHA (branch ${GITHUB_REF_NAME}). Not an app download."
+
+  device:
+    runs-on: macos-26
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - name: Newest Xcode on the machine
+        run: |
+          X=$(ls -d /Applications/Xcode_*.app | grep -v -i beta | sort -V | tail -1)
+          sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
+      - name: Apple account secrets present?
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          KID: ${{ secrets.ASC_KEY_ID }}
+          ISS: ${{ secrets.ASC_ISSUER_ID }}
+          P8: ${{ secrets.ASC_KEY_P8 }}
+          WANT: ${{ github.event_name != 'workflow_dispatch' || inputs.upload }}
+        run: |
+          if [ -n "$TEAM" ] && [ -n "$KID" ] && [ -n "$ISS" ] && [ -n "$P8" ]; then
+            echo "SIGNED=1" >> "$GITHUB_ENV"
+            if [ "$WANT" = true ] && { [ "$GITHUB_REF" = refs/heads/main ] || [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; }; then
+              echo "UPLOAD=1" >> "$GITHUB_ENV"
+            fi
+            mkdir -p "$RUNNER_TEMP/asc" && printf '%s\n' "$P8" > "$RUNNER_TEMP/asc/AuthKey_$KID.p8"
+            echo "ASC_KEY_PATH=$RUNNER_TEMP/asc/AuthKey_$KID.p8" >> "$GITHUB_ENV"
+            echo "Apple secrets: present"
+          else
+            echo "SIGNED=0" >> "$GITHUB_ENV"
+            echo "Apple secrets: not set, building an unsigned device build (see mobile/IOS-TESTFLIGHT.md)"
+            echo '### iPhone device build: unsigned (no Apple Developer secrets yet), not uploaded to TestFlight' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "WTV_IOS_BUILD_NUMBER=$((GITHUB_RUN_NUMBER + 10))" >> "$GITHUB_ENV"
+      - name: App Store Connect checks (key, app identifier, app record)
+        if: env.SIGNED == '1'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          pip3 install --quiet --break-system-packages pyjwt cryptography || pip3 install --quiet pyjwt cryptography
+          echo '### App Store Connect' >> "$GITHUB_STEP_SUMMARY"
+          python3 scripts/testflight.py bundle-id
+          python3 scripts/testflight.py check
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+      - name: Generate the iPhone project (release settings)
+        env:
+          WTV_IOS_RELEASE: '1'
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          EAS_PROJECT_ID: ${{ vars.EAS_PROJECT_ID }}
+        run: npx expo prebuild --platform ios --clean
+      - name: Build for iPhones (unsigned, no Apple account)
+        if: env.SIGNED != '1'
+        run: |
+          set -o pipefail
+          xcodebuild -workspace ios/WartabiyeTV.xcworkspace -scheme WartabiyeTV -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/WartabiyeTV.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' archive > "$RUNNER_TEMP/xcodebuild.log" 2>&1 \
+            || { sh test/xcode-errors.sh "$RUNNER_TEMP/xcodebuild.log"; exit 1; }
+          tail -5 "$RUNNER_TEMP/xcodebuild.log"
+          APP="$RUNNER_TEMP/WartabiyeTV.xcarchive/Products/Applications/WartabiyeTV.app"
+          lipo -info "$APP/WartabiyeTV"
+          /usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' -c 'Print :CFBundleShortVersionString' -c 'Print :CFBundleVersion' -c 'Print :MinimumOSVersion' "$APP/Info.plist"
+          ls "$APP/PrivacyInfo.xcprivacy"
+          mkdir -p ../dist-ios && (cd "$RUNNER_TEMP" && zip -qry "$GITHUB_WORKSPACE/dist-ios/wartabiye-tv-ios-device-unsigned.xcarchive.zip" WartabiyeTV.xcarchive)
+          echo "- Built for iPhones (arm64, Release) without signing: $(ls -la ../dist-ios | tail -1 | awk '{print $5}') bytes. Signing and TestFlight need the owner's Apple Developer account." >> "$GITHUB_STEP_SUMMARY"
+      - name: Build and sign for iPhones (owner's Apple account, automatic signing)
+        if: env.SIGNED == '1'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          set -o pipefail
+          xcodebuild -workspace ios/WartabiyeTV.xcworkspace -scheme WartabiyeTV -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/WartabiyeTV.xcarchive" \
+            -allowProvisioningUpdates -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" archive > "$RUNNER_TEMP/xcodebuild.log" 2>&1 \
+            || { sh test/xcode-errors.sh "$RUNNER_TEMP/xcodebuild.log"; exit 1; }
+          tail -5 "$RUNNER_TEMP/xcodebuild.log"
+          codesign -d --entitlements :- "$RUNNER_TEMP/WartabiyeTV.xcarchive/Products/Applications/WartabiyeTV.app" | head -30
+      - name: Upload to App Store Connect (TestFlight)
+        if: env.SIGNED == '1'
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          # upload only from main or a manual run; on other branches export a signed .ipa without uploading
+          DEST=export; [ "$UPLOAD" = 1 ] && DEST=upload
+          cat > "$RUNNER_TEMP/ExportOptions.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>$DEST</string>
+            <key>teamID</key><string>$TEAM</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>uploadSymbols</key><true/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          PLIST
+          set -o pipefail
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/WartabiyeTV.xcarchive" -exportPath "$RUNNER_TEMP/export" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -allowProvisioningUpdates \
+            -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" | tail -30
+          ls -la "$RUNNER_TEMP/export" || true
+          if [ "$UPLOAD" = 1 ]; then
+            echo "- Uploaded build $WTV_IOS_BUILD_NUMBER to App Store Connect" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Signed build $WTV_IOS_BUILD_NUMBER exported, not uploaded (uploads run from main or a manual run)" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: TestFlight (wait for Apple's processing, internal group, tester invitation)
+        if: env.UPLOAD == '1'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          TESTFLIGHT_TESTER_EMAIL: ${{ secrets.TESTFLIGHT_TESTER_EMAIL }}
+        run: python3 scripts/testflight.py testflight "$WTV_IOS_BUILD_NUMBER"
+      - name: Remove the key file
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/asc"
+      - uses: actions/upload-artifact@v4
+        if: env.SIGNED != '1'
+        with:
+          name: wartabiye-tv-ios-device-unsigned
+          path: dist-ios
+          retention-days: 14
