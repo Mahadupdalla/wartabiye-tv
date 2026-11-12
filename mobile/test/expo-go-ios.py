@@ -99,11 +99,16 @@ def flow(title):
         # the QR code's link, as the iPhone Camera hands it to Expo Go; iOS may ask "Open in Expo Go?" first
         s = [{'launchApp': {'appId': EXPO_GO, 'stopApp': True, **({'clearState': True} if first else {})}},
              {'openLink': LINK},
-             {'tapOn': {'text': 'Open', 'optional': True}},
-             {'extendedWaitUntil': {'visible': {'id': 'menu-button'}, 'timeout': 240000 if first else 90000}},
-             # Expo Go's one-time tip about its own menu
-             {'tapOn': {'text': 'Continue', 'optional': True}},
-             {'waitForAnimationToEnd': {'timeout': 8000}}]
+             {'tapOn': {'text': 'Open', 'optional': True}}]
+        if first:
+            # the first time, Expo Go lays its one-time tip about its own developer menu over the app: close it
+            s += [{'extendedWaitUntil': {'visible': 'Continue', 'timeout': 240000, 'optional': True}},
+                  {'takeScreenshot': 'expo-go-first-open'},
+                  {'tapOn': {'text': 'Continue', 'optional': True}},
+                  {'waitForAnimationToEnd': {'timeout': 4000}}]
+        s += [{'extendedWaitUntil': {'visible': {'id': 'menu-button'}, 'timeout': 90000}},
+              {'tapOn': {'text': 'Continue', 'optional': True}},
+              {'waitForAnimationToEnd': {'timeout': 8000}}]
         return s
 
     def menu(code, key, expect=None):
