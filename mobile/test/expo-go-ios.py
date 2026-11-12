@@ -105,6 +105,10 @@ def flow(title):
             s += [{'extendedWaitUntil': {'visible': 'Continue', 'timeout': 240000, 'optional': True}},
                   {'takeScreenshot': 'expo-go-first-open'},
                   {'tapOn': {'text': 'Continue', 'optional': True}},
+                  {'waitForAnimationToEnd': {'timeout': 4000}},
+                  # then its developer menu itself stays open over the app: close it (the X at its top)
+                  {'tapOn': {'text': 'Close', 'optional': True}},
+                  {'tapOn': {'text': 'xmark', 'optional': True}},
                   {'waitForAnimationToEnd': {'timeout': 4000}}]
         s += [{'extendedWaitUntil': {'visible': {'id': 'menu-button'}, 'timeout': 90000}},
               {'tapOn': {'text': 'Continue', 'optional': True}},
