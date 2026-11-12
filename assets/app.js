@@ -191,10 +191,9 @@
   var TICK_AD={brand:'SOMTEL',lead:'Dooro SOMTEL!',text:'Ku raaxayso internet degdeg ah, qiimo kuu qalma iyo adeeg la isku halleyn karo.'};
   function tickAd(copy){
     var s=el('span','tk-ad');s.lang='so';s.dir='ltr';
-    var lab=el('span','tk-ad-lab',tr('adLabel'));
     var logo=el('img','tk-ad-logo');logo.src='img/somtel-logo.png';logo.alt=TICK_AD.brand;logo.width=69;logo.height=22;logo.decoding='async';
     var tx=el('span','tk-ad-tx');tx.append(el('b',null,TICK_AD.lead),document.createTextNode(' '+TICK_AD.text));
-    s.append(lab,logo,tx);if(copy)s.setAttribute('aria-hidden','true');return s;
+    s.append(logo,tx);if(copy)s.setAttribute('aria-hidden','true');return s;
   }
 
   // ---------- trending: editor's choice (data/site.json "trending"), else breaking + flagged "important" + newest per section ----------
