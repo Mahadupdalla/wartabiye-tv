@@ -10,9 +10,9 @@ import { catName, fullDate, ago } from '../../lib/i18n';
 import { cardOf } from '../../lib/api';
 import type { Article, Lang } from '../../lib/types';
 import { LANG_INFO, LANGS } from '../../lib/types';
-import { GridCard, isBreaking } from '../../components/cards';
+import { NewsRow, isBreaking } from '../../components/cards';
 import { AdSlot } from '../../components/ads';
-import { BlockHead, CatTag, Notice, Photo, Row, Skeleton, T } from '../../components/ui';
+import { BlockHead, CatTag, EmptyState, Group, Notice, Photo, Row, Skeleton, T } from '../../components/ui';
 import { Image } from 'expo-image';
 
 const LOGO = require('../../../assets/logo.png');
@@ -120,7 +120,7 @@ export default function ArticleScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.bg }}>
         <Stack.Screen options={{ title: '' }} />
-        <Notice tone="error" text={offline ? t('offline') : t('loadFailed')} action={t('retry')} onAction={loadIt} />
+        <EmptyState icon={offline ? 'cloud-offline-outline' : 'alert-circle-outline'} title={offline ? t('offline') : t('loadFailed')} action={t('retry')} onAction={loadIt} />
       </View>
     );
   }
@@ -128,7 +128,7 @@ export default function ArticleScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: colors.bg }}>
         <Stack.Screen options={{ title: '' }} />
-        <Notice tone="warn" text={t('removedArticle')} action={t('home')} onAction={() => router.navigate('/')} />
+        <EmptyState icon="document-text-outline" title={t('removedArticle')} action={t('home')} onAction={() => router.navigate('/')} />
       </View>
     );
   }
@@ -137,9 +137,9 @@ export default function ArticleScreen() {
   const available = LANGS.filter(l => article.tr[l]);
   const secLabel = article.section === 'sports' ? t('sports') : article.section === 'world' ? t('world') : article.country === 'so' ? t('somaliaNav') : t('eastAfrica');
   const textStyle = { fontSize: fontSize + 1, lineHeight: Math.round((fontSize + 1) * 1.7) };
-  const outline = { borderWidth: 1, borderColor: colors.line, borderRadius: 6, paddingHorizontal: 12, paddingVertical: 7, backgroundColor: colors.surface };
-  const shareBtn = { backgroundColor: colors.blue, borderRadius: 6, paddingHorizontal: 14, paddingVertical: 9 };
-  const note = { backgroundColor: colors.surface, borderLeftWidth: rtl ? 0 : 4, borderRightWidth: rtl ? 4 : 0, borderColor: colors.red, borderRadius: 6, padding: 16 };
+  const seg = { width: 40, height: 32, borderRadius: 999, alignItems: 'center' as const, justifyContent: 'center' as const };
+  const round = { width: 40, height: 40, borderRadius: 20, alignItems: 'center' as const, justifyContent: 'center' as const };
+  const note = { backgroundColor: colors.surface, borderLeftWidth: rtl ? 0 : 3, borderRightWidth: rtl ? 3 : 0, borderColor: colors.red, borderRadius: 10, padding: 14 };
 
   // no translation in the chosen language: say so plainly, offer the languages this article exists in (as the website)
   if (!tx) {
@@ -166,9 +166,9 @@ export default function ArticleScreen() {
   const textLangProps = viewLang === 'so' && lang !== 'so' ? { style: { textAlign: 'left' as const, writingDirection: 'ltr' as const } } : null;
 
   const readMin = Math.max(1, Math.round((tx.title + ' ' + tx.summary + ' ' + tx.body).split(/\s+/).length / 200));
-  const sharePill = (name: string, icon: keyof typeof Ionicons.glyphMap, how: 'whatsapp' | 'facebook' | 'x' | 'telegram' | 'linkedin' | 'any', bg = colors.blue) => (
-    <Pressable key={name} onPress={() => share(how)} style={({ pressed }) => [shareBtn, { backgroundColor: bg, transform: [{ scale: pressed ? 0.96 : 1 }] }]} accessibilityRole="button" accessibilityLabel={name}>
-      <Row style={{ gap: 7 }}><Ionicons name={icon} size={15} color="#fff" /><T f="bodyBold" style={{ color: '#fff', fontSize: 13.5 }}>{name}</T></Row>
+  const sharePill = (name: string, icon: keyof typeof Ionicons.glyphMap, how: 'whatsapp' | 'facebook' | 'x' | 'telegram' | 'linkedin' | 'any', fg = colors.blue) => (
+    <Pressable key={name} onPress={() => share(how)} style={({ pressed }) => ({ width: 46, height: 46, borderRadius: 23, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.hair, transform: [{ scale: pressed ? 0.94 : 1 }] })} accessibilityRole="button" accessibilityLabel={name}>
+      <Ionicons name={icon} size={20} color={fg} />
     </Pressable>
   );
   const progress = scrollMax > 0 ? scrollY.interpolate({ inputRange: [0, scrollMax], outputRange: [0, 1], extrapolate: 'clamp' }) : 0;
@@ -190,12 +190,12 @@ export default function ArticleScreen() {
     >
       <Animated.View style={{ opacity: fadeIn, transform: [{ translateY: fadeIn.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }] }}>
       <View style={{ padding: 16, paddingBottom: 4, gap: 12 }}>
-        <Row style={{ gap: 6, flexWrap: 'wrap' }}>
-          <T style={{ fontSize: 13.5 }} onPress={() => router.navigate('/')}>{t('home')}</T>
-          <T style={{ fontSize: 13.5 }} muted>›</T>
-          <T style={{ fontSize: 13.5, color: colors.link }} onPress={() => router.push(`/section/${article.section}`)}>{secLabel}</T>
+        <Row style={{ gap: 10, flexWrap: 'wrap' }}>
+          <CatTag label={article.sponsored ? t('sponsored') : isBreaking(article) ? t('breaking') : article.section === 'somalia' ? catName(lang, article.category) || secLabel : secLabel} red={article.sponsored || isBreaking(article)} dot={isBreaking(article)} />
+          <Pressable onPress={() => router.push(`/section/${article.section}`)} accessibilityRole="link" hitSlop={8}>
+            <T f="bodyBold" style={{ fontSize: 13, color: colors.link }}>{secLabel} {rtl ? '‹' : '›'}</T>
+          </Pressable>
         </Row>
-        <CatTag label={article.sponsored ? t('sponsored') : isBreaking(article) ? t('breaking') : article.section === 'somalia' ? catName(lang, article.category) || secLabel : secLabel} red={article.sponsored || isBreaking(article)} dot={isBreaking(article)} />
         {article.sponsored ? <Notice tone="warn" text={t('sponsored') + (article.sponsor ? ' · ' + t('sponsoredBy') + ': ' + article.sponsor : '')} /> : null}
         {lang !== 'so' && (showSo || tx.status !== 'manual') ? (
           <View style={{ backgroundColor: colors.chip, borderRadius: 8, padding: 10, gap: 6, borderWidth: 1, borderColor: colors.line }}>
@@ -205,18 +205,21 @@ export default function ArticleScreen() {
             </Pressable>
           </View>
         ) : null}
-        <T f="display" style={[{ fontSize: 30, lineHeight: 35 }, textLangProps?.style]} selectable accessibilityRole="header">{tx.title}</T>
-        {tx.body && tx.summary ? <T style={[{ fontSize: fontSize + 1, lineHeight: Math.round((fontSize + 1) * 1.55), color: colors.soft }, textLangProps?.style]} selectable>{tx.summary}</T> : null}
+        <T f="display" style={[{ fontSize: 28, lineHeight: 33.5 }, textLangProps?.style]} selectable accessibilityRole="header">{tx.title}</T>
+        {tx.body && tx.summary ? <T f="bodyMed" style={[{ fontSize: fontSize - 1, lineHeight: Math.round((fontSize - 1) * 1.55), color: colors.sub }, textLangProps?.style]} selectable>{tx.summary}</T> : null}
         <Row style={{ gap: 10, paddingTop: 4 }}>
-          <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={LOGO} style={{ width: 38, height: 38, borderRadius: 19 }} />
+          <View style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.hair, alignItems: 'center', justifyContent: 'center' }}>
+            <Image source={LOGO} style={{ width: 36, height: 36, borderRadius: 18 }} />
           </View>
-          <View style={{ flex: 1, gap: 3 }}>
+          <View style={{ flex: 1, gap: 2 }}>
             <T f="bodyBold" style={{ fontSize: 13.5 }}>Wartabiye TV</T>
-            <T f="bodyMed" muted style={{ fontSize: 12.5 }}>
-              {article.timeVerified ? fullDate(lang, article.publishedAt) + ' · ' + ago(lang, article.publishedAt) : t('timeUnverifiedLong')}
-              {' · ' + t('readTime', { n: readMin })}
+            <T f="bodyMed" style={{ fontSize: 12.5, color: colors.sub }}>
+              {article.timeVerified ? fullDate(lang, article.publishedAt) : t('timeUnverifiedLong')}
             </T>
+            <Row style={{ gap: 10 }}>
+              {article.timeVerified ? <Row style={{ gap: 4 }}><Ionicons name="time-outline" size={12} color={colors.sub} /><T style={{ fontSize: 12, color: colors.sub }}>{ago(lang, article.publishedAt)}</T></Row> : null}
+              <Row style={{ gap: 4 }}><Ionicons name="book-outline" size={12} color={colors.sub} /><T style={{ fontSize: 12, color: colors.sub }}>{t('readTime', { n: readMin })}</T></Row>
+            </Row>
           </View>
         </Row>
       </View>
@@ -241,24 +244,25 @@ export default function ArticleScreen() {
       </View>
 
       {/* reading tools: text size, save, share */}
-      <Row style={{ gap: 8, marginHorizontal: 16, marginTop: 14, paddingVertical: 10, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line }}>
-        <Pressable onPress={() => setFontSize(fontSize - 1)} style={outline} accessibilityRole="button" accessibilityLabel={t('smaller')}>
-          <T f="bodyBold" style={{ fontSize: 13 }}>A−</T>
-        </Pressable>
-        <Pressable onPress={() => setFontSize(fontSize + 1)} style={outline} accessibilityRole="button" accessibilityLabel={t('larger')}>
-          <T f="bodyBold" style={{ fontSize: 15 }}>A+</T>
-        </Pressable>
+      <Row style={{ gap: 8, marginHorizontal: 16, marginTop: 14, paddingVertical: 10, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.hair }}>
+        <Row style={{ backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.hair, borderRadius: 999, padding: 2, gap: 2 }}>
+          <Pressable testID="text-smaller" onPress={() => setFontSize(fontSize - 1)} disabled={fontSize <= 15} style={({ pressed }) => [seg, { opacity: fontSize <= 15 ? 0.35 : 1, backgroundColor: pressed ? colors.tint : 'transparent' }]} accessibilityRole="button" accessibilityLabel={t('smaller')}>
+            <T f="bodyBold" style={{ fontSize: 13, textAlign: 'center' }}>A</T>
+          </Pressable>
+          <View style={{ width: 1, height: 16, backgroundColor: colors.hair }} />
+          <Pressable testID="text-larger" onPress={() => setFontSize(fontSize + 1)} disabled={fontSize >= 24} style={({ pressed }) => [seg, { opacity: fontSize >= 24 ? 0.35 : 1, backgroundColor: pressed ? colors.tint : 'transparent' }]} accessibilityRole="button" accessibilityLabel={t('larger')}>
+            <T f="bodyBold" style={{ fontSize: 18, textAlign: 'center' }}>A</T>
+          </Pressable>
+        </Row>
+        <T style={{ fontSize: 12, color: colors.sub }}>{t('textSize')}</T>
         <View style={{ flex: 1 }} />
         {card ? (
-          <Pressable onPress={() => toggleSaved(card)} style={[outline, isSaved(id) && { backgroundColor: colors.blue, borderColor: colors.blue }]} accessibilityRole="button" accessibilityLabel={isSaved(id) ? t('unsave') : t('save')}>
-            <Row style={{ gap: 6 }}>
-              <Ionicons name={isSaved(id) ? 'bookmark' : 'bookmark-outline'} size={14} color={isSaved(id) ? '#fff' : colors.fg} />
-              <T f="bodyBold" style={{ fontSize: 13, color: isSaved(id) ? '#fff' : colors.fg }}>{isSaved(id) ? t('savedBtn') : t('save')}</T>
-            </Row>
+          <Pressable onPress={() => toggleSaved(card)} style={({ pressed }) => [round, { borderWidth: 1, borderColor: isSaved(id) ? colors.blue : colors.hair, backgroundColor: isSaved(id) ? colors.blue : pressed ? colors.tint : colors.surface }]} accessibilityRole="button" accessibilityLabel={isSaved(id) ? t('unsave') : t('save')} accessibilityState={{ selected: isSaved(id) }}>
+            <Ionicons name={isSaved(id) ? 'bookmark' : 'bookmark-outline'} size={18} color={isSaved(id) ? '#fff' : colors.fg} />
           </Pressable>
         ) : null}
-        <Pressable onPress={() => share('any')} style={[outline, { backgroundColor: colors.blue, borderColor: colors.blue }]} accessibilityRole="button" accessibilityLabel={t('share')}>
-          <Row style={{ gap: 6 }}><Ionicons name="share-social" size={14} color="#fff" /><T f="bodyBold" style={{ fontSize: 13, color: '#fff' }}>{t('share')}</T></Row>
+        <Pressable onPress={() => share('any')} style={({ pressed }) => [round, { backgroundColor: pressed ? colors.blueD : colors.blue }]} accessibilityRole="button" accessibilityLabel={t('share')}>
+          <Ionicons name={Platform.OS === 'ios' ? 'share-outline' : 'share-social-outline'} size={18} color="#fff" />
         </Pressable>
       </Row>
 
@@ -285,19 +289,21 @@ export default function ArticleScreen() {
         ) : null}
         {fromCache && offline ? <T muted style={{ fontSize: 12 }}>{t('savedOffline')}</T> : null}
 
-        <T f="display" style={{ fontSize: 15, letterSpacing: 1, textTransform: 'uppercase', marginTop: 6 }}>{t('shareStory')}</T>
-        <Row style={{ gap: 8, flexWrap: 'wrap' }}>
-          {sharePill('WhatsApp', 'logo-whatsapp', 'whatsapp', '#128C4B')}
-          {sharePill('Facebook', 'logo-facebook', 'facebook', '#0866FF')}
-          {sharePill('X', 'logo-x', 'x', '#0b1c33')}
-          {sharePill('Telegram', 'paper-plane', 'telegram', '#1c8adb')}
-          {sharePill('LinkedIn', 'logo-linkedin', 'linkedin', '#0a66c2')}
-          {sharePill(t('shareMore'), 'share-social', 'any', colors.blueD)}
-        </Row>
+        <View style={{ marginTop: 8, paddingTop: 16, borderTopWidth: 1, borderTopColor: colors.hair, gap: 12 }}>
+          <T f="display" style={{ fontSize: 13, letterSpacing: 1, textTransform: 'uppercase', color: colors.sub }}>{t('shareStory')}</T>
+          <Row style={{ gap: 10, flexWrap: 'wrap' }}>
+            {sharePill('WhatsApp', 'logo-whatsapp', 'whatsapp', '#25A85A')}
+            {sharePill('Facebook', 'logo-facebook', 'facebook', '#0866FF')}
+            {sharePill('X', 'logo-x', 'x', colors.dark ? '#fff' : '#0b1c33')}
+            {sharePill('Telegram', 'paper-plane', 'telegram', '#229ED9')}
+            {sharePill('LinkedIn', 'logo-linkedin', 'linkedin', '#0a66c2')}
+            {sharePill(t('shareMore'), 'ellipsis-horizontal', 'any', colors.sub)}
+          </Row>
+        </View>
       </View>
 
       {next ? (
-        <Pressable onPress={() => router.replace({ pathname: '/war/[id]', params: { id: next.id, rev: next.rev } })} accessibilityRole="link" accessibilityLabel={t('nextStory') + ': ' + next.title} style={({ pressed }) => ({ marginHorizontal: 16, marginTop: 6, borderRadius: 12, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, overflow: 'hidden', transform: [{ scale: pressed ? 0.985 : 1 }] })}>
+        <Pressable onPress={() => router.replace({ pathname: '/war/[id]', params: { id: next.id, rev: next.rev } })} accessibilityRole="link" accessibilityLabel={t('nextStory') + ': ' + next.title} style={({ pressed }) => ({ marginHorizontal: 16, marginTop: 6, borderRadius: 14, borderWidth: 1, borderColor: colors.hair, backgroundColor: colors.surface, overflow: 'hidden', transform: [{ scale: pressed ? 0.985 : 1 }] })}>
           <Row style={{ gap: 12, padding: 12 }}>
             <Photo uri={next.thumb || next.image} alt={next.imageAlt} style={{ width: 96, height: 64 }} rounded={8} />
             <View style={{ flex: 1, gap: 4 }}>
@@ -313,7 +319,7 @@ export default function ArticleScreen() {
       {related.length ? (
         <View>
           <BlockHead title={t('related')} />
-          {related.map(c => <GridCard key={c.id} c={c} />)}
+          <Group>{related.map((c, i) => <NewsRow key={c.id} c={c} first={i === 0} />)}</Group>
         </View>
       ) : null}
       </Animated.View>

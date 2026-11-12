@@ -89,6 +89,27 @@ try {
     }
   });
 
+  await step('compact language selector: SO button opens nine languages, Arabic switches to right-to-left and is kept after a restart', async () => {
+    const ctx = await browser.newContext({ viewport: { width: 320, height: 640 } });
+    const { p } = await open(`http://localhost:${APP_PORT}/`, null, ctx);
+    await p.getByTestId('lang-button').first().waitFor({ timeout: 30_000 });
+    const box = await p.getByTestId('lang-button').first().boundingBox();
+    assert.ok(box && box.height <= 40 && box.width <= 90, 'the language button is small: ' + JSON.stringify(box));
+    await p.getByTestId('lang-button').first().click();
+    await p.getByTestId('lang-menu').waitFor({ timeout: 10_000 });
+    for (const l of ['so', 'en', 'ar', 'fr', 'nl', 'it', 'tr', 'de', 'es']) assert.equal(await p.getByTestId('lang-' + l).count(), 1, l + ' in the selector');
+    const menu = await p.getByTestId('lang-menu').boundingBox();
+    assert.ok(menu && menu.height < 260 && menu.x >= 0 && menu.x + menu.width <= 320, 'the popover fits a small phone: ' + JSON.stringify(menu));
+    await p.screenshot({ path: path.join(shots, 'lang-selector.png') });
+    await p.getByTestId('lang-ar').click();
+    await p.waitForFunction(() => document.documentElement.dir === 'rtl', null, { timeout: 10_000 });
+    await p.close();
+    const { p: p2 } = await open(`http://localhost:${APP_PORT}/settings`, null, ctx);
+    await p2.waitForFunction(() => document.documentElement.dir === 'rtl' && document.documentElement.lang === 'ar', null, { timeout: 20_000 });
+    await p2.getByTestId('lang-row').first().waitFor({ timeout: 10_000 });
+    await ctx.close();
+  });
+
   await step('sections: Soomaaliya, Caalamka and Ciyaaraha list only their own stories, newest first', async () => {
     const secOf = n => (['somalia', 'world', 'sports'].includes(n.section) ? n.section : n.category === 'Ciyaaraha' ? 'sports' : n.category === 'Adduunka' ? 'world' : 'somalia');
     for (const sec of ['somalia', 'world', 'sports']) {

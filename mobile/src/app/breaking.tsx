@@ -3,7 +3,7 @@ import { FlatList, View } from 'react-native';
 import { useSettings } from '../lib/settings';
 import { useContent } from '../lib/content';
 import { ArticleRow, HeroCard, isBreaking } from '../components/cards';
-import { T, PageHero } from '../components/ui';
+import { EmptyState, PageHero } from '../components/ui';
 
 // Breaking News: every story the newsroom marked "breaking", newest first; the ones of the last 12 hours on top
 export default function Breaking() {
@@ -20,7 +20,7 @@ export default function Breaking() {
       ListHeaderComponent={
         <View>
           <PageHero red title={t('breakingTitle')} sub={t('breakingSub')} />
-          {active.length ? active.map(c => <HeroCard key={c.id} c={c} />) : <T muted style={{ padding: 16, fontSize: 15 }}>{t('breakingNone')}</T>}
+          {active.length ? active.map(c => <HeroCard key={c.id} c={c} />) : <EmptyState icon="flash-outline" title={t('breakingNone')} />}
           <View style={{ height: 12 }} />
         </View>
       }

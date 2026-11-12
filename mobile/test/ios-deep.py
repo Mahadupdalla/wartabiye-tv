@@ -119,12 +119,6 @@ def has(text):
     return '.*' + re.escape(text) + '.*'
 
 
-def lang_row(name):
-    # a language row is the flag, the name and maybe a check mark; nothing else may be glued to the name, so a video
-    # titled "FRANCE 24 English" or the word "Soomaaliya" on the screens behind is never tapped by mistake
-    return '[^A-Za-z0-9]*' + re.escape(name) + '[^A-Za-z0-9]*'
-
-
 def txt(code, key):
     return has(STR[code][key])
 
@@ -161,6 +155,18 @@ def flow(art_id, title):
             cmds.append({'extendedWaitUntil': {'visible': expect, 'timeout': 15000}})
         return [{'retry': {'maxRetries': 2, 'commands': cmds}}]
 
+    def pick_lang(code):
+        # Settings > Language is one row; it opens the compact popover with the nine languages (testID lang-<code>).
+        # Pick the language and see the screen switch to it (the title "Settings" in that language); a tap during the
+        # screen's slide-in can miss, so it is tried up to three times
+        return [{'retry': {'maxRetries': 2, 'commands': [
+            {'tapOn': {'id': 'lang-row'}},
+            {'extendedWaitUntil': {'visible': {'id': 'lang-menu'}, 'timeout': 8000}},
+            {'waitForAnimationToEnd': {'timeout': 2000}},
+            {'tapOn': {'id': 'lang-' + code}},
+            {'waitForAnimationToEnd': {'timeout': 3000}},
+            {'extendedWaitUntil': {'visible': txt(code, 'settings'), 'timeout': 8000}}]}}]
+
     steps = [
         {'launchApp': {'appId': BUNDLE, 'clearState': True}},
         {'extendedWaitUntil': {'visible': 'Wartabiye TV', 'timeout': 120000}},
@@ -170,13 +176,8 @@ def flow(art_id, title):
     ]
     cur = 'so'
     for code, name in LANGS:
-        steps += menu(cur, 'settings', lang_row(name))
-        steps += [  # tap the language and see the screen switch to it (the title "Settings" in that language);
-                  # a tap during the screen's slide-in can miss, so it is tried up to three times
-                  {'retry': {'maxRetries': 2, 'commands': [
-                      {'tapOn': {'text': lang_row(name), 'index': 0}},
-                      {'waitForAnimationToEnd': {'timeout': 3000}},
-                      {'extendedWaitUntil': {'visible': txt(code, 'settings'), 'timeout': 8000}}]}}]
+        steps += menu(cur, 'settings', {'id': 'lang-row'})
+        steps += pick_lang(code)
         cur = code
         steps += restart(code)
         steps.append({'takeScreenshot': f'home-{code}'})
@@ -206,11 +207,8 @@ def flow(art_id, title):
                               ('liveNewsNav', 'live')):
                 steps += menu('en', key) + [{'takeScreenshot': shot}]
     # last: Arabic (right to left) and dark mode; the simulator is then switched off and on again (see after_reboot)
-    steps += menu('so', 'settings', lang_row('العربية'))
-    steps += [{'retry': {'maxRetries': 2, 'commands': [
-                  {'tapOn': {'text': lang_row('العربية'), 'index': 0}},
-                  {'waitForAnimationToEnd': {'timeout': 3000}},
-                  {'extendedWaitUntil': {'visible': txt('ar', 'settings'), 'timeout': 8000}}]}},
+    steps += menu('so', 'settings', {'id': 'lang-row'})
+    steps += pick_lang('ar') + [
               {'tapOn': {'text': txt('ar', 'dark'), 'index': 0}},
               {'waitForAnimationToEnd': {'timeout': 3000}},
               {'takeScreenshot': 'settings-ar-dark'}]

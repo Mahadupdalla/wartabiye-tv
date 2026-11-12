@@ -33,20 +33,20 @@ export function useCat(c: Card): { label: string; red: boolean; dot: boolean } {
 }
 
 /** "Wartabiye TV • 5 saac kahor" (the website's .meta) */
-export function MetaLine({ c, light }: { c: Pick<Card, 'publishedAt' | 'timeVerified' | 'autoTranslated'>; light?: boolean }) {
+export function MetaLine({ c, light, compact }: { c: Pick<Card, 'publishedAt' | 'timeVerified' | 'autoTranslated'>; light?: boolean; compact?: boolean }) {
   const { lang, t, colors } = useSettings();
   const fg = light ? '#fff' : colors.fg;
   const when = c.timeVerified === false ? t('timeUnverified') : ago(lang, c.publishedAt);
   return (
-    <Row style={{ gap: 8, flexWrap: 'wrap' }}>
-      <T f="bodyBold" style={{ fontSize: 12.5, color: fg }}>Wartabiye TV</T>
+    <Row style={{ gap: 7, flexWrap: 'wrap' }}>
+      <T f="bodyBold" style={{ fontSize: 12, color: fg }}>Wartabiye TV</T>
       {when ? (
-        <Row style={{ gap: 8 }}>
-          <View style={{ width: 4, height: 4, borderRadius: 2, backgroundColor: colors.grey }} />
-          <T f="bodyMed" style={{ fontSize: 12.5, color: light ? '#fff' : colors.muted }}>{when}</T>
+        <Row style={{ gap: 7 }}>
+          <View style={{ width: 3, height: 3, borderRadius: 2, backgroundColor: light ? 'rgba(255,255,255,0.8)' : colors.grey }} />
+          <T f="bodyMed" style={{ fontSize: 12, color: light ? 'rgba(255,255,255,0.92)' : colors.sub }}>{when}</T>
         </Row>
       ) : null}
-      {c.autoTranslated ? <T style={{ fontSize: 11.5, fontStyle: 'italic', color: light ? '#e6f0fb' : colors.soft }}>{t('autoBadge')}</T> : null}
+      {c.autoTranslated && !compact ? <T style={{ fontSize: 11.5, fontStyle: 'italic', color: light ? '#e6f0fb' : colors.soft }}>{t('autoBadge')}</T> : null}
     </Row>
   );
 }
@@ -62,94 +62,94 @@ export function BookmarkBtn({ c }: { c: Card }) {
       accessibilityRole="button"
       accessibilityLabel={t('savedBtn')}
       accessibilityState={{ selected: on }}
-      style={{ width: 32, height: 30, borderRadius: 6, borderWidth: 1, borderColor: on ? colors.blue : colors.line, backgroundColor: on ? colors.blue : 'transparent', alignItems: 'center', justifyContent: 'center' }}
+      style={({ pressed }) => ({ width: 34, height: 34, borderRadius: 17, backgroundColor: pressed || on ? colors.tint : 'transparent', alignItems: 'center', justifyContent: 'center' })}
     >
-      <Ionicons name={on ? 'bookmark' : 'bookmark-outline'} size={15} color={on ? '#fff' : colors.muted} />
+      <Ionicons name={on ? 'bookmark' : 'bookmark-outline'} size={18} color={on ? colors.blue : colors.sub} />
     </Pressable>
   );
 }
 
-const shadow = { shadowColor: '#0b1c33', shadowOpacity: 0.06, shadowRadius: 6, shadowOffset: { width: 0, height: 2 }, elevation: 1 };
+const shadow = { shadowColor: '#0b1c33', shadowOpacity: 0.07, shadowRadius: 10, shadowOffset: { width: 0, height: 3 }, elevation: 2 };
 
-/** Homepage headline tile (.tile): the photo with the blue gradient, label and white headline on it */
+/** Small coloured label above a headline (category, or BREAKING in red) */
+export function Kicker({ c }: { c: Card }) {
+  const { colors } = useSettings();
+  const cat = useCat(c);
+  return (
+    <Row style={{ gap: 6 }}>
+      {cat.dot ? <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: colors.red }} /> : null}
+      <T f="display" numberOfLines={1} style={{ fontSize: 11, letterSpacing: 0.9, textTransform: 'uppercase', color: cat.red ? colors.red : colors.dark ? colors.link : colors.blue }}>{cat.label}</T>
+    </Row>
+  );
+}
+
+/** Featured story (.tile): the photo with the blue gradient, label and white headline on it */
 export const Tile = memo(function Tile({ c, big }: { c: Card; big?: boolean }) {
   const { colors } = useSettings();
   const cat = useCat(c);
   const { width } = useWindowDimensions();
-  const h = big ? (width >= 700 ? 380 : 340) : 220;
+  const h = big ? Math.min(420, Math.max(300, Math.round(Math.min(width, 820) * 0.95))) : 220;
   return (
-    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => [{ opacity: pressed ? 0.94 : 1, transform: [{ scale: pressed ? 0.985 : 1 }], marginHorizontal: 16, marginBottom: 8, borderRadius: 10, overflow: 'hidden', height: h, backgroundColor: colors.blueD }, shadow]}>
+    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => [{ opacity: pressed ? 0.95 : 1, transform: [{ scale: pressed ? 0.988 : 1 }], marginHorizontal: 16, marginBottom: 10, borderRadius: 16, overflow: 'hidden', height: h, backgroundColor: colors.blueD }, shadow]}>
       <Photo uri={big ? c.image || c.thumb : c.thumb || c.image} alt={c.imageAlt} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} rounded={0} priority={big ? 'high' : 'normal'} illus={c.imageKind === 'illustrative'} />
-      <LinearGradient colors={['rgba(2,99,179,0)', 'rgba(2,99,179,0.92)']} locations={[0.35, 1]} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none" />
-      <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: big ? 18 : 16, gap: 8 }}>
+      <LinearGradient colors={['rgba(4,33,63,0)', 'rgba(2,70,130,0.78)', 'rgba(2,48,92,0.96)']} locations={[0.28, 0.66, 1]} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none" />
+      <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: big ? 18 : 14, gap: 10 }}>
         <CatTag {...cat} />
-        <T f="display" style={{ color: '#fff', fontSize: big ? 25 : 17, lineHeight: big ? 29 : 21, textShadowColor: 'rgba(11,28,51,0.35)', textShadowRadius: 2, textShadowOffset: { width: 0, height: 1 } }} numberOfLines={big ? 5 : 3}>{c.title}</T>
+        <T f="display" style={{ color: '#fff', fontSize: big ? 26 : 17, lineHeight: big ? 30 : 21, textShadowColor: 'rgba(11,28,51,0.35)', textShadowRadius: 2, textShadowOffset: { width: 0, height: 1 } }} numberOfLines={big ? 4 : 3}>{c.title}</T>
         {big ? <MetaLine c={c} light /> : null}
       </View>
     </Pressable>
   );
 });
 
-/** List story (.row): bordered card, photo with the label, headline, meta, three lines of summary, "Read →" and bookmark */
-export const StoryCard = memo(function StoryCard({ c }: { c: Card }) {
-  const { colors, t, rtl } = useSettings();
-  const cat = useCat(c);
+/** Story card: full-width photo, label, headline, two lines of summary, meta and the bookmark */
+export const StoryCard = memo(function StoryCard({ c, lead }: { c: Card; lead?: boolean }) {
+  const { colors } = useSettings();
   return (
-    <View style={[{ marginHorizontal: 16, marginBottom: 20, padding: 16, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 10, gap: 10 }, shadow]}>
-      <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => ({ opacity: pressed ? 0.9 : 1, gap: 10, transform: [{ scale: pressed ? 0.99 : 1 }] })}>
-        <Photo uri={c.thumb || c.image} alt={c.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} illus={c.imageKind === 'illustrative'}>
-          <View style={[{ position: 'absolute', bottom: 10 }, rtl ? { right: 10 } : { left: 10 }]}><CatTag {...cat} /></View>
-        </Photo>
-        <T f="display" style={{ fontSize: 21, lineHeight: 25 }}>{c.title}</T>
-      </Pressable>
-      <MetaLine c={c} />
-      {c.summary ? <T style={{ fontSize: 14.5, lineHeight: 22 }} muted numberOfLines={3}>{c.summary}</T> : null}
-      <Row style={{ justifyContent: 'space-between', marginTop: 2 }}>
-        <Pressable onPress={() => open(c)} accessibilityRole="link" hitSlop={8}>
-          <T f="display" style={{ color: colors.link, fontSize: 12, letterSpacing: 1.2, textTransform: 'uppercase' }}>{t('readMore')}</T>
-        </Pressable>
-        <BookmarkBtn c={c} />
-      </Row>
-    </View>
+    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => [{ opacity: pressed ? 0.94 : 1, transform: [{ scale: pressed ? 0.99 : 1 }], marginHorizontal: 16, marginBottom: 16, backgroundColor: colors.surface, borderRadius: 16, overflow: 'hidden', borderWidth: colors.dark ? 1 : 0, borderColor: colors.hair }, shadow]}>
+      <Photo uri={c.thumb || c.image} alt={c.imageAlt} style={{ width: '100%', aspectRatio: 16 / 9 }} rounded={0} illus={c.imageKind === 'illustrative'} priority={lead ? 'high' : 'normal'} />
+      <View style={{ paddingHorizontal: 16, paddingTop: 14, paddingBottom: 14, gap: 8 }}>
+        <Kicker c={c} />
+        <T f="display" style={{ fontSize: lead ? 22 : 19, lineHeight: lead ? 27 : 23.5 }} numberOfLines={4}>{c.title}</T>
+        {c.summary ? <T style={{ fontSize: 14.5, lineHeight: 21, color: colors.sub }} numberOfLines={lead ? 3 : 2}>{c.summary}</T> : null}
+        <Row style={{ justifyContent: 'space-between', marginTop: 2, gap: 10 }}>
+          <View style={{ flex: 1 }}><MetaLine c={c} /></View>
+          <BookmarkBtn c={c} />
+        </Row>
+      </View>
+    </Pressable>
   );
 });
 
-/** Section-block card (.card): photo on top with the label, headline, two lines of summary, meta */
+/** Section-block card: the same card, without the bookmark (sections, related stories) */
 export const GridCard = memo(function GridCard({ c, lead }: { c: Card; lead?: boolean }) {
-  const { colors, rtl } = useSettings();
-  const cat = useCat(c);
+  return <StoryCard c={c} lead={lead} />;
+});
+
+/** Compact row: thumbnail, label, headline and time (Latest news, section lists, search, saved) */
+export const NewsRow = memo(function NewsRow({ c, first, inset = true, action }: { c: Card; first?: boolean; inset?: boolean; action?: React.ReactNode }) {
+  const { colors } = useSettings();
   return (
-    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => [{ opacity: pressed ? 0.92 : 1, transform: [{ scale: pressed ? 0.985 : 1 }], marginHorizontal: 16, marginBottom: 18, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 10, overflow: 'hidden' }, shadow]}>
-      <Photo uri={c.thumb || c.image} alt={c.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} rounded={0} illus={c.imageKind === 'illustrative'}>
-        <View style={[{ position: 'absolute', bottom: 10 }, rtl ? { right: 10 } : { left: 10 }]}><CatTag {...cat} /></View>
-      </Photo>
-      <View style={{ paddingHorizontal: 16, paddingTop: 14, paddingBottom: 16, gap: 8 }}>
-        <T f="display" style={{ fontSize: lead ? 22 : 17.5, lineHeight: lead ? 26.5 : 21.5 }}>{c.title}</T>
-        {c.summary ? <T style={{ fontSize: lead ? 15 : 14, lineHeight: lead ? 23 : 21 }} muted numberOfLines={lead ? 4 : 2}>{c.summary}</T> : null}
-        <MetaLine c={c} />
-      </View>
+    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => ({ backgroundColor: pressed ? colors.tint : 'transparent', paddingHorizontal: inset ? 16 : 0, paddingVertical: 12, borderTopWidth: first ? 0 : 1, borderTopColor: colors.hair })}>
+      <Row style={{ gap: 12, alignItems: 'flex-start' }}>
+        <View style={{ flex: 1, gap: 5 }}>
+          <Kicker c={c} />
+          <T f="display" style={{ fontSize: 16, lineHeight: 20.5 }} numberOfLines={3}>{c.title}</T>
+          <Row style={{ gap: 8, justifyContent: 'space-between' }}><View style={{ flex: 1 }}><MetaLine c={c} compact /></View>{action}</Row>
+        </View>
+        <Photo uri={c.thumb || c.image} alt={c.imageAlt} style={{ width: 108, height: 76 }} rounded={10} illus={false} />
+      </Row>
     </Pressable>
   );
 });
 
 /** Small row with a thumbnail (the website's sidebar "Ugu dambeeyay" list) */
 export const MiniRow = memo(function MiniRow({ c, first }: { c: Card; first?: boolean }) {
-  const { colors } = useSettings();
-  return (
-    <Pressable onPress={() => open(c)} accessibilityRole="link" accessibilityLabel={c.title} style={({ pressed }) => ({ opacity: pressed ? 0.8 : 1, transform: [{ scale: pressed ? 0.99 : 1 }], paddingVertical: 12, borderTopWidth: first ? 0 : 1, borderTopColor: colors.line })}>
-      <Row style={{ gap: 12, alignItems: 'flex-start' }}>
-        <Photo uri={c.thumb || c.image} alt={c.imageAlt} style={{ width: 104, height: 68 }} />
-        <View style={{ flex: 1, gap: 6 }}>
-          <T f="display" style={{ fontSize: 14.5, lineHeight: 18.5 }} numberOfLines={3}>{c.title}</T>
-          <MetaLine c={c} />
-        </View>
-      </Row>
-    </Pressable>
-  );
+  return <NewsRow c={c} first={first} inset={false} />;
 });
 
-// names used by the other screens (search, saved, breaking, sections): the website's list story everywhere
-export const ArticleRow = StoryCard;
+// names used by the other screens (search, saved, breaking, sections)
+export const ArticleRow = NewsRow;
 export const HeroCard = memo(function HeroCard({ c }: { c: Card }) {
   return <View style={{ marginTop: 16 }}><Tile c={c} big /></View>;
 });
