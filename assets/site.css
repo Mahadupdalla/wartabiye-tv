@@ -320,8 +320,12 @@ html[lang=ar] .body p:first-of-type::first-letter{font:inherit;float:none;margin
 .rgrid h4{font-size:16px;line-height:1.25;font-weight:800;font-stretch:92%}
 .rgrid a:hover h4{color:var(--link)}
 .back{display:inline-block;margin-top:26px;font:700 13px var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--link)}
-.trnote{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--blue);padding:10px 14px;border-radius:6px;font-size:13.5px;font-weight:600;margin:0 0 18px;max-width:68ch}
-.trnote button{background:none;border:0;color:var(--link);font:700 13.5px var(--body);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0}
+.trnote{margin:8px 0 12px;padding:0;background:none;border:0;font:500 12.5px/1.5 var(--body);letter-spacing:.01em;color:color-mix(in srgb,var(--fg) 68%,transparent);max-width:68ch}
+.trnote svg{display:inline-block;vertical-align:-3px;width:15px;height:15px;margin-inline-end:6px;fill:none;stroke:var(--blue);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.trnote button{display:inline;white-space:nowrap;background:none;border:0;padding:0;color:var(--link);font:600 12.5px/1.5 var(--body);cursor:pointer;text-decoration:none}
+.trnote span:not(:last-child)::after{content:'·';margin-inline-start:7px;color:color-mix(in srgb,var(--fg) 45%,transparent);font-weight:700}
+.trnote button:hover,.trnote button:focus-visible{text-decoration:underline;text-underline-offset:2px}
+@media (max-width:640px){.trnote,.trnote button{font-size:12px}}
 .olang{display:inline-block;font:700 10.5px var(--body);color:var(--link);background:var(--chip);border:1px solid var(--line);border-radius:4px;padding:1px 6px;letter-spacing:.02em}
 .pvbar{background:var(--red);color:#fff;font:700 13.5px var(--body);padding:10px 14px;border-radius:6px;margin-bottom:14px}
 

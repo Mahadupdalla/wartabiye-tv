@@ -369,8 +369,12 @@
       un.append(bs);A.append(un);var fg0=el('figure','figure');fg0.append(ph(it,'hero',true));A.append(fg0);
       var bk0=el('a','back',tr('back'));bk0.href='#hoyga';A.append(bk0);
       fillSide($('storySide'),[sideTrending(),sideLatest(items.filter(function(x){return x!==it})),sideFollow()]);return}
-    if(L!=='so'&&(!tx||tx.status!=='manual')){var nt=el('p','trnote');nt.append(el('span',null,tx?tr('autoTr'):tr('noTr')));
-      if(tx){var rs=el('button',null,tr('readSo'));rs.type='button';rs.lang='so';rs.addEventListener('click',function(){setLang('so')});nt.append(rs)}A.append(nt)}
+    // small inline notice: shown only when the text on screen really is a machine translation (manual translations get none)
+    if(L!=='so'&&(!tx||tx.status!=='manual')){var nt=el('p','trnote');nt.setAttribute('role','note');
+      if(tx){nt.title=tr('autoTr');nt.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9M8.5 3v2M11 5c-.6 3.6-3 6.6-6.5 8.2M6.5 8.6c1.2 2 3 3.6 5.2 4.6M13 21l4.5-10L22 21M14.6 17.5h5.8"/></svg>';
+        nt.append(el('span',null,tr('autoTrS')),' ');
+        var rs=el('button',null,tr('readSo'));rs.type='button';rs.lang='so';rs.addEventListener('click',function(){setLang('so')});nt.append(rs)}
+      else nt.append(el('span',null,tr('noTr')));A.append(nt)}
     A.append(tEl('h1',null,it,'title'));
     var body=F(it,'body').trim(),sum=F(it,'summary').trim();
     if(body&&sum)A.append(tEl('p','lede',it,'summary'));
