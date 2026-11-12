@@ -14,6 +14,9 @@ esc = lambda s: html.escape(str(s or ''), quote=True)
 tpl = open(os.path.join(root, 'index.html'), encoding='utf-8').read()
 a, b = tpl.index('<!--seo-->'), tpl.index('<!--/seo-->') + len('<!--/seo-->')
 assert '<!--story-->' in tpl, 'story marker missing in index.html'
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_adsense  # noqa: E402  Google AdSense Auto ads per kind of page (data/adsense.json; off without a publisher ID)
+ADSENSE = build_adsense.load()
 news = json.load(open(os.path.join(root, 'data', 'news.json'), encoding='utf-8'))['news']
 pages = json.load(open(os.path.join(root, 'data', 'pages.json'), encoding='utf-8'))
 LOGO = SITE_URL + 'img/logo.png'
@@ -41,8 +44,8 @@ def write(path, page, wanted):
         open(path, 'w', encoding='utf-8').write(page)
 
 
-def subpage(seo, pre=None, show='storyView'):
-    page = tpl[:a] + seo + tpl[b:]
+def subpage(seo, pre=None, show='storyView', kind='articles'):
+    page = build_adsense.apply(tpl[:a] + seo + tpl[b:], ADSENSE, kind)
     # all relative links (img/, data/, assets/, #hoyga …) resolve from the site root
     page = page.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="../">', 1)
     page = page.replace('<div id="homeView">', '<div id="homeView" hidden>', 1)
@@ -89,6 +92,8 @@ for f in glob.glob(os.path.join(out_dir, '*.html')):
         os.remove(f); removed += 1
 
 # 2. section and information pages: route -> (title, description, key in pages.json or None)
+# which AdSense setting each route follows ("sections" = news lists, "info" = advertising, contact, about, policies)
+INFO_ROUTES = {'xayeysiimaha', 'xiriir', 'nagu-saabsan', 'anshaxa', 'saxitaannada', 'asturnaanta', 'siyaasadda-xayeysiiska'}
 SECTIONS = {
     'ciyaaraha': ('Ciyaaraha', 'Wararka ciyaaraha ugu muhiimsan ee maalinta, hal meel: kubadda cagta, kubadda koleyga, teniska, Formula 1, feerka, orodka, esports iyo kuwo kale.', None),
     'soomaaliya': ('Wararka Soomaaliya', 'Wararka Soomaaliya ee la hubiyay: dowladda iyo baarlamaanka, dowlad goboleedyada, siyaasadda, dhaqaalaha, waxbarashada, gargaarka, horumarinta iyo wararka degdegga ah.', None),
@@ -130,7 +135,8 @@ for route, (title, desc, key) in SECTIONS.items():
     url = f'{SITE_URL}{route}/'
     extra = (ld({'@context': 'https://schema.org', '@type': 'WebPage', 'name': title, 'url': url, 'publisher': PUBLISHER})
              + f'<script>window.WARTABIYE_ROUTE={json.dumps(route)}</script>')
-    write(os.path.join(root, route, 'index.html'), subpage(head(f'{title} | Wartabiye TV', desc, url, LOGO, 'website', extra), pre, 'pageView'), sec_wanted)
+    write(os.path.join(root, route, 'index.html'), subpage(head(f'{title} | Wartabiye TV', desc, url, LOGO, 'website', extra), pre, 'pageView',
+                                                          'info' if route in INFO_ROUTES else 'sections'), sec_wanted)
 
 # 3. video pages: muuqaal/<id>.html with VideoObject structured data (Google video search), only for public videos
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -176,7 +182,7 @@ for v in vids:
     extra = (f'<meta property="og:video:url" content="{esc(obj.get("embedUrl") or obj.get("contentUrl") or url)}">\n' + ld(obj)
              + f'<script>window.WARTABIYE_ROUTE={json.dumps("muuqaal?v=" + v["id"])}</script>')
     pre = f'<div class="wrap"><h1>{esc(title)}</h1><p>{esc(desc)}</p></div>'
-    write(os.path.join(vdir, v['id'] + '.html'), subpage(head(f'{title} | Wartabiye TV', desc, url, thumb, 'video.other', extra), pre, 'pageView'), vwanted)
+    write(os.path.join(vdir, v['id'] + '.html'), subpage(head(f'{title} | Wartabiye TV', desc, url, thumb, 'video.other', extra), pre, 'pageView', 'sections'), vwanted)
 for f in glob.glob(os.path.join(vdir, '*.html')):
     if f not in vwanted and os.path.basename(f) != 'index.html':
         os.remove(f)
