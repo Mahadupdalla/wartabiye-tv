@@ -266,6 +266,11 @@ svg.bi{display:block;flex:none}
 .adslot .adtx span{font-size:13.5px;color:var(--muted)}
 .ad-home{margin-top:18px}
 .ad-home img{max-height:180px;object-fit:cover}
+/* Google AdSense Auto ads (assets/ads.js): Google places them; the site only labels them and keeps them inside the column */
+.adsense-label{display:flex;align-items:center;gap:10px;margin:22px 0 6px;color:var(--muted);font:700 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+.adsense-label::before,.adsense-label::after{content:"";flex:1;border-top:1px solid var(--line)}
+ins.adsbygoogle{max-width:100%}
+ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}
 .ad-mobile{display:none}
 @media (max-width:640px){.ad-mobile{display:block;margin-top:14px}}
 .advideo{aspect-ratio:16/9;background:#000;display:grid;place-items:center;color:#fff;cursor:pointer;border:0;width:100%;position:relative}
@@ -578,7 +583,7 @@ h1[lang=so],h2[lang=so],h3[lang=so],h4[lang=so],.tile [lang=so]{font-family:"Arc
 }
 @media (max-width:440px){.topbar .city{display:none}}
 @media print{
-  .topbar,.logoband .promo,.hctl,nav.menu,.degdeg,.sidebar,.share,.rtools,.related,.pager,footer,.totop,.adslot,.progress{display:none!important}
+  .topbar,.logoband .promo,.hctl,nav.menu,.degdeg,.sidebar,.share,.rtools,.related,.pager,footer,.totop,.adslot,.adsense-label,ins.adsbygoogle,.progress{display:none!important}
   .layout{grid-template-columns:1fr}
   body{background:#fff;color:#000}
 }

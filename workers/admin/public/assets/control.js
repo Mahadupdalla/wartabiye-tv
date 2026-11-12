@@ -488,21 +488,20 @@
   var POS = [['home', 'Homepage banner'], ['sidebar', 'Sidebar'], ['card', 'Card in the news list'], ['article', 'Below articles'], ['mobile', 'Phones only'], ['spotlight', 'Business spotlight (homepage)'], ['video', 'YouTube video (sidebar)']];
   V.ads = function (el) {
     el.innerHTML = ''; el.append(C().loadingBox());
-    Promise.all([files(['data/ads', 'data/site.json']), fetch(site() + 'ads.txt?cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).catch(function () { return ''; }),
+    Promise.all([files(['data/ads', 'data/site.json', 'data/adsense.json']), fetch(site() + 'ads.txt?cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : ''; }).catch(function () { return ''; }),
       fetch(site() + '?cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.text(); }).catch(function () { return ''; })]).then(function (r) {
       var F = r[0], adsTxt = r[1], home = r[2];
       var ads = ((F['data/ads'] && F['data/ads'].entries) || []).filter(function (e) { return /\.json$/.test(e.name); }).map(function (e) { var a = {}; try { a = JSON.parse(e.object.text); } catch (x) {} a._id = e.name.slice(0, -5); a._sha = e.oid; return a; });
-      var adsense = /pagead2\.googlesyndication\.com|ca-pub-\d+/.test(home), pubId = (home.match(/ca-pub-\d+/) || adsTxt.match(/pub-\d+/) || [''])[0];
       el.innerHTML = '';
-      el.append(hero('Advertising', 'Your business adverts on the website, and the state of Google AdSense. No earnings or impressions are shown unless a real, authorised source provides them.',
+      el.append(hero('Advertising', 'Google AdSense Auto ads and your own business adverts. No earnings or impressions are shown unless a real, authorised source provides them.',
         [h('button', { class: 'btn primary', type: 'button', html: W().ic('plus') + '<span>New advert</span>', onclick: function () { editAd(null); } }), h('a', { class: 'btn', href: '/cms/codsiyada/', target: '_blank', rel: 'noopener', text: 'Advertising requests (private)' })]));
       var today = dayEAT();
       var running = ads.filter(function (a) { return a.active !== false && (!a.start || a.start <= today) && (!a.end || a.end >= today); });
-      el.append(h('div', { class: 'grid kpis' }, stat('Google AdSense', adsense ? 'Code on the site' : 'Not connected', adsense ? 'publisher ' + pubId + '; approval is shown only in your AdSense account' : 'no AdSense code on wartabiyetv.com', adsense ? '' : ''),
-        stat('ads.txt', adsTxt ? 'Present' : 'Missing', adsTxt ? adsTxt.split('\n').filter(Boolean).length + ' line(s)' : 'needed once AdSense approves the site'),
+      var G = adsenseState(F['data/adsense.json'], adsTxt, home);
+      el.append(h('div', { class: 'grid kpis' }, stat('Google AdSense', G.conn[0], G.conn[1], G.conn[2]), stat('ads.txt', G.txt[0], G.txt[1], G.txt[2]),
         stat('Business adverts running', n(running.length), ads.length + ' saved in total'),
-        stat('Revenue', 'Not available', 'needs the AdSense Management API authorised by you; never estimated')));
-      el.append(banner('', 'What is measured', 'AdSense approval, impressions and earnings exist only inside your Google AdSense account. This dashboard shows them only after you connect AdSense through Google\'s official API; until then they are not shown. Business adverts are not counted separately yet.'));
+        stat('Revenue', '—', 'not connected: needs the AdSense Management API authorised by you; never estimated')));
+      el.append(adsenseSection(G, function () { V.ads(el); }));
       var rows = ads.map(function (a) {
         var st = a.active === false ? ['', 'Paused'] : a.end && a.end < today ? ['', 'Ended'] : a.start && a.start > today ? ['warn', 'Starts ' + a.start] : ['ok', 'Running'];
         return h('tr', null, td(h('div', null, h('b', { text: a.title || a._id }), h('div', { class: 'sub', text: a.advertiser || '' }))), td((a.positions || []).map(function (p) { return (POS.find(function (x) { return x[0] === p; }) || [, p])[1]; }).join(', ')),
@@ -542,6 +541,62 @@
       }
     }).catch(function (e) { C().failBox(el, e, function () { V.ads(el); }); });
   };
+
+  // ---------------------------------------------------------------- Google AdSense (website only; data/adsense.json -> tools/build_adsense.py)
+  var ADS_KINDS = [['home', 'Homepage', 'the front page and the category lists'], ['sections', 'News sections', 'Soomaaliya, Caalamka, Ciyaaraha, Bariga Afrika, LIVE news, videos'],
+    ['articles', 'Article pages', 'every individual story'], ['info', 'Information pages', 'Xayeysiimaha, About, Contact and the policies (recommended: off)']];
+  var ADSENSE_URL = 'https://adsense.google.com/';
+  function adsenseState(file, adsTxt, home) {
+    var cfg = (file && file.json) || {}, pid = /^pub-\d{16}$/.test(String(cfg.publisherId || '').trim()) ? String(cfg.publisherId).trim() : '';
+    var liveId = (home.match(/<meta name="google-adsense-account" content="ca-(pub-\d{16})">/) || [])[1] || '';
+    var liveCode = /pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-\d{16}/.test(home);
+    var line = pid ? 'google.com, ' + pid + ', DIRECT, f08c47fec0942fa0' : '';
+    var txtOk = !!pid && adsTxt.split(/\r?\n/).some(function (l) { return l.split('#')[0].replace(/\s+/g, '').toLowerCase() === line.replace(/\s+/g, '').toLowerCase(); });
+    var G = { cfg: cfg, sha: file ? file.oid : null, pid: pid, liveId: liveId, liveCode: liveCode, line: line, txtOk: txtOk };
+    G.conn = !pid ? ['Off', 'not connected: no publisher ID saved yet, nothing from Google is on the website', '']
+      : liveId === pid ? ['On', 'code on the website: publisher ' + pid + (liveCode ? ', Auto ads code live on the homepage' : ', verification tag only (Auto ads off on the homepage)'), 'good']
+      : ['Pending', 'publisher ' + pid + ' is saved; wartabiyetv.com does not show it yet (2–5 minutes)', ''];
+    G.txt = !pid ? (adsTxt ? ['Present', 'not written by this dashboard', ''] : ['Not yet', 'not needed yet: written automatically once a publisher ID is saved', ''])
+      : txtOk ? ['Correct', 'wartabiyetv.com/ads.txt lists ' + pid, 'good']
+      : adsTxt ? ['Wrong', 'ads.txt does not list ' + pid + ' yet', 'badk'] : ['Missing', 'not published yet (2–5 minutes after saving)', 'badk'];
+    return G;
+  }
+  function adsenseSection(G, reload) {
+    var cfg = G.cfg, pages = cfg.pages || {};
+    var idIn = C().inp(G.pid, { placeholder: 'pub-0000000000000000', autocomplete: 'off', spellcheck: 'false', 'aria-label': 'AdSense publisher ID' });
+    var auto = C().check(cfg.autoAds !== false, 'Show Google Auto ads (Google chooses the ads and where they go)');
+    var kinds = h('div', null, ADS_KINDS.map(function (k) { var c = C().check(pages[k[0]] !== undefined ? pages[k[0]] === true : k[0] !== 'info', k[1] + ' · ' + k[2]); c.dataset.v = k[0]; return c; }));
+    var cap = function (t) { return t.charAt(0).toUpperCase() + t.slice(1); };
+    var rowsInfo = [
+      ['Connection', cap(G.conn[1])],
+      ['Website approval', G.pid ? 'Shown only in your AdSense account (Sites). This dashboard cannot read it without the AdSense Management API, so it never says “approved”.' : 'Not requested yet.'],
+      ['ads.txt', cap(G.txt[1]) + (G.line ? '. Expected line: ' + G.line : '')],
+      ['Revenue', 'Not connected. Real earnings need the AdSense Management API authorised by you; nothing is estimated.']
+    ].map(function (x) { return h('tr', null, td(h('b', { text: x[0] })), td(x[1])); });
+    function save(clear) {
+      var v = clear ? '' : idIn.value.trim().replace(/^ca-/, '');
+      if (v && !/^pub-\d{16}$/.test(v)) return C().toast('The publisher ID is "pub-" and 16 digits, exactly as in AdSense → Account → Settings → Account information.', true);
+      if (clear && !confirm('Remove the publisher ID? The Google code and ads.txt are taken off the website.')) return;
+      var next = { publisherId: v, autoAds: auto.firstChild.checked, pages: {} };
+      [].forEach.call(kinds.children, function (c) { next.pages[c.dataset.v] = c.firstChild.checked; });
+      var field = next.publisherId !== (cfg.publisherId || '') ? 'publisherId' : next.autoAds !== (cfg.autoAds !== false) ? 'autoAds' : 'pages';
+      C().commitFiles([{ path: 'data/adsense.json', text: JSON.stringify(next, null, 2) + '\n', expect: G.sha || null }], 'Maamul: Google AdSense').then(function (c) {
+        C().track(clear ? 'Google AdSense removed' : 'Google AdSense settings saved', c, { url: site() + 'data/adsense.json', field: field, value: next[field] }, site()); reload();
+      }).catch(function (e) { C().toast(e.message, true); });
+    }
+    var ext = function (href, text) { return h('a', { class: 'btn small', href: href, target: '_blank', rel: 'noopener', html: W().ic('ext') + '<span>' + text + '</span>' }); };
+    var body = h('div', null,
+      G.pid ? null : banner('', 'Not connected yet', 'Nothing from Google is on wartabiyetv.com. Add the site in your AdSense account, then paste your publisher ID here. The verification code and ads.txt are published automatically; Google then reviews the site.'),
+      table(['', 'State'], rowsInfo),
+      h('div', { class: 'two', style: 'margin-top:16px' }, C().field('Publisher ID', idIn, 'From AdSense → Account → Settings → Account information. It is public (it appears in every page and in ads.txt); no password or key is ever needed here.'), h('div', null)),
+      C().field('Where Auto ads may appear', h('div', null, auto, kinds), 'Pages opened directly follow these switches; Google decides the exact spots, formats and number inside the page. Ad density and formats (anchor, vignette, side rail) are set in AdSense → Ads → By site.'),
+      h('div', { class: 'row' }, h('button', { class: 'btn primary', type: 'button', text: 'Save and publish', onclick: function () { save(false); } }),
+        G.pid ? h('button', { class: 'btn danger', type: 'button', text: 'Remove publisher ID', onclick: function () { save(true); } }) : null),
+      h('div', { class: 'row' }, ext(ADSENSE_URL, 'Open Google AdSense'), ext('https://support.google.com/adsense/answer/48182', 'AdSense programme policies'), ext(site() + 'ads.txt', 'ads.txt on the website')),
+      h('p', { class: 'sub fine', text: 'Approval: in AdSense open Sites. Consent message: Privacy & messaging. Ad formats and density: Ads → By site.' }),
+      h('p', { class: 'sub fine', text: 'Recommended in AdSense → Ads → By site → wartabiyetv.com: Auto ads on; in-page ads on; anchor ads at the bottom only; vignette ads off or "only when leaving the site"; ad load in the middle. In Privacy & messaging, publish the European regulations (GDPR) message, so visitors in the EEA, UK and Switzerland are asked for consent with Google\'s certified consent tool.' }));
+    return section('Google AdSense (website only)', 'Auto ads for wartabiyetv.com. The mobile apps are not affected.', body);
+  }
 
   // ---------------------------------------------------------------- SEO & website health
   V.health = function (el) {

@@ -32,6 +32,7 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `mobile/`, `app/` | **App-ka Wartabiye TV** (Android, iPhone iyo web app `/app/`), React Native + Expo. Wuxuu akhriyaa wararka isku midka ah ee bogga, ma laha database u gaar ah. Faahfaahin: `mobile/README.md` |
 | `tools/build_app_api.py`, `api/v1/` | Feed-ka app-ka (`meta.json`, `feed/<luqad>.json`, `a/<id>.json`, `ids.json`), waxaa laga dhisaa `data/news.json` mar kasta oo bogga la daabaco (publish.yml). Wax lagu beddelo /admin/ (war cusub, sixid, sawir cusub, qabyo ka dhigis) isla daabacaadda ayuu app-ka ku gaaraa. Ma jiro kharash AI |
 | `.github/workflows/mobile-app.yml` | Tijaabooyinka app-ka (isku xirka, 9 luqadood, bogga tooska ah) iyo dhismaha Android (APK + AAB) |
+| `data/adsense.json`, `tools/build_adsense.py`, `assets/ads.js` | Google AdSense Auto ads (bogga kaliya, app-ka ma aha). Inta aan publisher ID dhab ah lagu kaydin /admin/ → Advertising, waxba Google lagama daro bogga, `ads.txt`-na ma jiro. Kadib: koodka rasmiga ah ee `<head>`, `google-adsense-account` meta iyo `ads.txt` si toos ah ayaa loo daabacaa. Tijaabo: `python3 tools/adsense_test.py` |
 | `tools/notify_test.js` | Tijaabada gambaleelka (desktop + mobile, RTL, link kasta war dhab ah) |
 
 ## Cusbooneysiinta saacad kasta
