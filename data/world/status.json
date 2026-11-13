@@ -1,42 +1,45 @@
 {
- "lastRunAt": "2026-11-13T06:09:11+03:00",
- "lastSuccessAt": "2026-11-13T06:09:11+03:00",
+ "lastRunAt": "2026-11-13T09:32:54+03:00",
+ "lastSuccessAt": "2026-11-13T09:32:54+03:00",
  "lastRun": {
-  "at": "2026-11-13T06:09:11+03:00",
+  "at": "2026-11-13T09:32:54+03:00",
   "ok": true,
-  "collected": 360,
-  "duplicatesRemoved": 143,
+  "collected": 394,
+  "duplicatesRemoved": 182,
   "alreadyKnown": 0,
   "published": 6,
   "pendingImage": 0,
   "pendingIds": [],
   "imageErrors": [],
   "errors": [
-   "France 24 / Al Jazeera / BBC / Capital FM / CBS: WebFetch robots/blocked, curl CONNECT 403 -> plan excerpts + WebSearch + other outlets"
+   "WebFetch: capitalfm.africa client_error; BBC SITE_BLOCKED; curl proxy CONNECT 403"
   ],
   "somalia": {
    "sourcesWorking": 11,
    "sources": 16,
-   "candidates": 158,
-   "kept": 68,
+   "candidates": 155,
+   "kept": 66,
    "rejected": {
     "old": 10,
-    "duplicate": 79,
+    "duplicate": 78,
     "on-site": 1
    },
    "latestDiscovered": {
-    "publishedAt": "2026-11-13T06:00:04+03:00",
-    "sourceName": "Caasimada Online",
-    "title": "Sawirro: DF oo markii ugu horreysay Muqdisho ku…",
-    "url": "https://www.caasimada.net/sawirro-df-oo-markii-ugu-horreysay-muqdisho-ku/"
+    "publishedAt": "2026-11-13T08:48:07+03:00",
+    "sourceName": "BBC Somali",
+    "title": "Maxaan ka ognahay toogashada ka dhacday magaalada Washington ee Mareykanka?",
+    "url": "https://www.bbc.com/somali/articles/cmy860geex34o?at_medium=RSS&at_campaign=rss"
    },
-   "published": 0,
+   "published": 1,
    "rejectedReasons": [
-    "Sawirro: DF oo markii ugu horreysay Muqdisho ku… (Caasimada 06:00): headline-only oo go'an; plan-ka facts-only ma haystaan; WebSearch so: natiijo ma jirto -> pending",
-    "Midowga Yurub oo Soomaaliya ku taageeraya 6 oo Yuuro (Horseed): Brussels Times (WebFetch) waxay xaqiijisay in EU ay ku dhawaaqday 6 November (€13.5m, Soomaaliya €6m) - dhacdo hore 7 maalmood, ma aha war cusub",
-    "Daljir (Qaxootiga Yaman, Guddoomiyaha Mudug Roox, Marxuun Maxamed Koronto, Xawaadle, Sarkaal DFS, Qareen Cabdiweli, barnaamijyo, IMF): go'aamadii run-nadii hore way taagan yihiin (muuqaal kaliya / hal-il / ra'yi / barnaamij)",
-    "Barlamaanka Puntland dastuurka, Beledweyne Sanbaloolshe-Afrax, Finland aid, Shabelle Kenya-Laftagareen, Xamza, Madaxda Puntland eedeyn, Uganda heshiis, Aadan Madoobe Baraawe: weli headline-only / hal-il; artifact pending-ka ayay ku jiraan",
-    "Inta kale ee Soomaaliya ee 24-ka saac (golaha wasiirrada, Erdogan, COP31, Turkiga 15,000, Burundi, Ghana-Soomaaliya, tanaasulka doorashada): duplicate - horey ayay bogga ugu jiraan"
+    "QM oo ka hor-timid xil ka qaadistii guddoomiye Baashe (Caasimada 07:30): headline-only; Hiiraan/Goobjoog/Daljir plan-ka kuma jiraan; WebSearch so+en (UN/QM Baashe) natiijo cusub ma keenin -> pending",
+    "Ra'iisulwasaare Xamse: Soomaaliya waxay u baahan tahay hoggaan (Goobjoog 07:38) + Daljir 'Dalkan meel an la garanayn' (01:34): munaasabad daah-furka buug, hadal guud oo aan go'aan lahayn -> war ma aha",
+    "Sawirro: DF oo markii ugu horreysay Muqdisho ku... (Caasimada 06:00): headline-only oo go'an, dhacdada lama garan karo; plan-ka facts-only ma haystaan -> pending",
+    "Kanada barnaamij muhaajiriin (BBC Somali 06:20): war caalami ah, headline-only, xaqiijin lama helin -> lama daabicin",
+    "Toogashada Washington (BBC Somali 08:48): headline-only; WebSearch ma helin dhacdo cusub oo la xaqiijiyay -> lama daabicin",
+    "Idaacadda Subaxnimo (BBC Somali): barnaamij raadiye, war ma aha",
+    "Daljir/Caasimada/Horseed/Shabelle catch-up (Qaxootiga Yaman, Mudug Roox, Xawaadle, IMF, EU 6m, Finland, Laftagareen, Aadan Madoobe Baraawe, Beledweyne): go'aamadii run-nadii hore way taagan yihiin (ra'yi / barnaamij / dhacdo hore / weli hal-il ama headline-only)",
+    "Inta kale ee 24-ka saac (golaha wasiirrada, Erdogan, COP31, Turkiga 15,000, Burundi, Ghana-Soomaaliya): duplicate - horey ayay bogga ugu jiraan"
    ]
   }
  },
@@ -63,8 +66,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://feeds.bbci.co.uk/somali/rss.xml",
-   "collected": 20,
-   "duplicates": 6,
+   "collected": 21,
+   "duplicates": 8,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -77,9 +80,9 @@
    "state": "working",
    "working": true,
    "method": "rss https://goobjoog.com/news-sitemap.xml",
-   "collected": 19,
-   "duplicates": 9,
-   "published": 0,
+   "collected": 21,
+   "duplicates": 11,
+   "published": 1,
    "pendingImage": 0,
    "errors": ""
   },
@@ -120,7 +123,7 @@
    "working": true,
    "method": "rss https://puntlandpost.net/feed/",
    "collected": 10,
-   "duplicates": 4,
+   "duplicates": 3,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -175,8 +178,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://horseedmedia.net/feed/",
-   "collected": 20,
-   "duplicates": 16,
+   "collected": 16,
+   "duplicates": 12,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -203,8 +206,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://feeds.bbci.co.uk/news/world/africa/rss.xml",
-   "collected": 1,
-   "duplicates": 1,
+   "collected": 0,
+   "duplicates": 0,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -231,9 +234,9 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.capitalfm.co.ke/news/feed/",
-   "collected": 1,
-   "duplicates": 0,
-   "published": 0,
+   "collected": 6,
+   "duplicates": 5,
+   "published": 1,
    "pendingImage": 0,
    "errors": ""
   },
@@ -245,8 +248,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.standardmedia.co.ke/rss/headlines.php",
-   "collected": 0,
-   "duplicates": 0,
+   "collected": 1,
+   "duplicates": 1,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -259,8 +262,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.kbc.co.ke/feed/",
-   "collected": 1,
-   "duplicates": 0,
+   "collected": 3,
+   "duplicates": 3,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -329,8 +332,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://nilepost.co.ug/feed",
-   "collected": 8,
-   "duplicates": 1,
+   "collected": 9,
+   "duplicates": 2,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -441,8 +444,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.turkiyetoday.com/",
-   "collected": 6,
-   "duplicates": 4,
+   "collected": 5,
+   "duplicates": 3,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -469,8 +472,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://edition.cnn.com/sitemap/news.xml",
-   "collected": 10,
-   "duplicates": 1,
+   "collected": 12,
+   "duplicates": 3,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -483,9 +486,9 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.euronews.com/rss?level=theme&name=news",
-   "collected": 1,
-   "duplicates": 0,
-   "published": 0,
+   "collected": 2,
+   "duplicates": 1,
+   "published": 1,
    "pendingImage": 0,
    "errors": ""
   },
@@ -524,7 +527,7 @@
    "section": "world",
    "state": "working",
    "working": true,
-   "method": "rss https://news.un.org/feed/subscribe/en/news/all/rss.xml",
+   "method": "rss https://news.un.org/feed/subscribe/en/news/region/africa/feed/rss.xml",
    "collected": 0,
    "duplicates": 0,
    "published": 0,
@@ -539,8 +542,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://feeds.bbci.co.uk/news/world/rss.xml",
-   "collected": 5,
-   "duplicates": 2,
+   "collected": 4,
+   "duplicates": 1,
    "published": 1,
    "pendingImage": 0,
    "errors": ""
@@ -553,9 +556,9 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.aljazeera.com/xml/rss/all.xml",
-   "collected": 17,
+   "collected": 16,
    "duplicates": 7,
-   "published": 3,
+   "published": 1,
    "pendingImage": 0,
    "errors": ""
   },
@@ -581,9 +584,9 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.france24.com/en/rss",
-   "collected": 11,
-   "duplicates": 4,
-   "published": 1,
+   "collected": 10,
+   "duplicates": 2,
+   "published": 0,
    "pendingImage": 0,
    "errors": ""
   },
@@ -595,8 +598,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://feeds.bbci.co.uk/sport/rss.xml",
-   "collected": 4,
-   "duplicates": 0,
+   "collected": 5,
+   "duplicates": 1,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -625,7 +628,7 @@
    "method": "rss https://www.theguardian.com/sport/rss",
    "collected": 4,
    "duplicates": 1,
-   "published": 1,
+   "published": 0,
    "pendingImage": 0,
    "errors": ""
   },
@@ -735,8 +738,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://feeds.abcnews.com/abcnews/internationalheadlines",
-   "collected": 3,
-   "duplicates": 0,
+   "collected": 5,
+   "duplicates": 2,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -749,8 +752,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://swedenherald.com/rss.xml",
-   "collected": 15,
-   "duplicates": 8,
+   "collected": 20,
+   "duplicates": 12,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -791,8 +794,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://feeds.as.com/mrss-s/pages/as/site/as.com/portada/",
-   "collected": 17,
-   "duplicates": 7,
+   "collected": 14,
+   "duplicates": 4,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -805,8 +808,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.mundodeportivo.com/rss/futbol.xml",
-   "collected": 11,
-   "duplicates": 1,
+   "collected": 26,
+   "duplicates": 16,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -833,8 +836,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.corrieredellosport.it/rss/calcio",
-   "collected": 6,
-   "duplicates": 1,
+   "collected": 5,
+   "duplicates": 0,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -847,8 +850,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.tuttosport.com/rss/calcio",
-   "collected": 2,
-   "duplicates": 0,
+   "collected": 4,
+   "duplicates": 2,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -861,8 +864,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://newsfeed.kicker.de/news/aktuell",
-   "collected": 10,
-   "duplicates": 0,
+   "collected": 12,
+   "duplicates": 2,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -875,8 +878,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://dwh.lequipe.fr/api/edito/rss?path=/Football/",
-   "collected": 7,
-   "duplicates": 0,
+   "collected": 13,
+   "duplicates": 6,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -889,8 +892,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://rmcsport.bfmtv.com/rss/fil-sport/",
-   "collected": 6,
-   "duplicates": 0,
+   "collected": 7,
+   "duplicates": 2,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -903,8 +906,8 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.cbssports.com/rss/headlines/",
-   "collected": 17,
-   "duplicates": 7,
+   "collected": 10,
+   "duplicates": 0,
    "published": 0,
    "pendingImage": 0,
    "errors": ""
@@ -917,9 +920,9 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.nytimes.com/athletic/rss/news/",
-   "collected": 28,
-   "duplicates": 17,
-   "published": 0,
+   "collected": 34,
+   "duplicates": 26,
+   "published": 1,
    "pendingImage": 0,
    "errors": ""
   },
@@ -945,7 +948,7 @@
    "state": "working",
    "working": true,
    "method": "rss https://www.uefa.com/sitemap/news/latest.xml",
-   "collected": 1,
+   "collected": 0,
    "duplicates": 0,
    "published": 0,
    "pendingImage": 0,
@@ -1360,6 +1363,14 @@
  ],
  "history": [
   {
+   "at": "2026-11-13T09:32:54+03:00",
+   "ok": true,
+   "collected": 394,
+   "duplicatesRemoved": 182,
+   "published": 6,
+   "pendingImage": 0
+  },
+  {
    "at": "2026-11-13T06:09:11+03:00",
    "ok": true,
    "collected": 360,
@@ -1589,14 +1600,6 @@
    "collected": 327,
    "duplicatesRemoved": 93,
    "published": 5,
-   "pendingImage": 0
-  },
-  {
-   "at": "2026-11-10T08:09:35+03:00",
-   "ok": true,
-   "collected": 261,
-   "duplicatesRemoved": 34,
-   "published": 3,
    "pendingImage": 0
   }
  ]
