@@ -1,78 +1,102 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-13T18:51:58+03:00",
+ "updatedAt": "2026-11-13T19:46:52+03:00",
  "overall": "ok",
  "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
- "lastSuccessfulPublishAt": "2026-11-13T13:01:20Z",
- "newestArticleAt": "2026-11-13T15:55:00+03:00",
- "lastSourceCheckAt": "2026-11-13T18:50:45+03:00",
+ "lastSuccessfulPublishAt": "2026-11-13T16:34:20Z",
+ "newestArticleAt": "2026-11-13T18:36:44+03:00",
+ "lastSourceCheckAt": "2026-11-13T19:45:26+03:00",
  "sourceChecks24h": 292,
- "publishedArticles": 473,
- "liveArticles": 473,
+ "publishedArticles": 480,
+ "liveArticles": 480,
  "waitingForImage": 85,
  "liveInSync": true,
  "publishFailures24h": 0,
  "lastPublishRun": {
-  "created_at": "2026-11-13T13:01:20Z",
+  "created_at": "2026-11-13T16:34:20Z",
   "conclusion": "success",
   "event": "push",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43430050543"
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43464045411"
  },
  "retry": null,
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-13T15:12:39+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-13T19:58:00+03:00",
  "writers": {
-  "sports": {
-   "mode": "paused: Anthropic API credit balance too low since 2026-11-13T18:03:20+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
-   "lastCheckAt": "2026-11-13T18:51:54+03:00",
+  "news": {
+   "mode": "fallback",
+   "lastCheckAt": "2026-11-13T19:32:00+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 3,
-    "waitingForSchedule": 95
+    "skipped": 0,
+    "duplicates": 61,
+    "failed": 2
+   }
+  },
+  "sports": {
+   "mode": "paused: Anthropic API credit balance too low since 2026-11-13T18:03:20+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
+   "lastCheckAt": "2026-11-13T19:46:49+03:00",
+   "lastWrittenAt": null,
+   "lastRun": {
+    "skipped": 18,
+    "waitingForSchedule": 96
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-13T18:50:37+03:00",
-   "lastSuccessAt": "2026-11-13T18:50:37+03:00",
+   "lastCheckAt": "2026-11-13T19:45:19+03:00",
+   "lastSuccessAt": "2026-11-13T19:45:19+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-13T15:12:39+03:00",
+  "lastSourceCheckAt": "2026-11-13T19:58:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-13T15:03:52+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Puntland oo ciidamo geysay deegaan ka tirsan Mudug + Ujeedka",
-   "url": "https://www.caasimada.net/puntland-oo-ciidamo-geysay-deegaan-ka-tirsan-mudug-ujeedka/"
+   "publishedAt": "2026-11-13T18:36:44+03:00",
+   "sourceName": "Hiiraan Online",
+   "title": "Israa’iil oo xaqiijisay inaanay ka noqonayn aqoonsiga Somaliland, xataa haddii xukuumaddu isbeddesho",
+   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta13-195499.htm"
   },
   "latestPublished": {
-   "id": "2026-11-13-safiirka-soomaaliya-koonfur-afrika-aqoonsi",
-   "title": "Madaxweyne Ramaphosa oo warqadaha aqoonsiga ka guddoomay Safiirka cusub ee Soomaaliya, Aadam Isxaaq",
-   "publishedAt": "2026-11-13T15:55:00+03:00",
-   "source": "Wartabiye TV",
-   "url": "/war/2026-11-13-safiirka-soomaaliya-koonfur-afrika-aqoonsi.html"
+   "id": "2026-11-13-israaiil-aqoonsiga-somaliland-isbeddel-xukuumad",
+   "title": "Israa'iil oo la sheegay inay Somaliland u xaqiijisay in aqoonsigu sii jiri doono xitaa haddii xukuumaddeedu isbeddesho",
+   "publishedAt": "2026-11-13T18:36:44+03:00",
+   "source": "Hiiraan Online",
+   "url": "/war/2026-11-13-israaiil-aqoonsiga-somaliland-isbeddel-xukuumad.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 75,
+  "publishedLastRun": 4,
+  "rejectedLastRun": 71,
   "rejectedReasons": {
-   "old": 6,
+   "old": 2,
    "duplicate": 68,
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Xildhibaan Cabdiraxmaan Cabdishakuur oo ka jawaabey hadal ka soo yeeray Ra'iisul Wasaaraha Somalia (Horseed): headline-only; plan facts-only sources none -> pending",
-   "Jubbaland oo ka hortimid dhismaha Hay'adda Dakhliga (Horseed): duplicate (2026-11-13-jubaland-diiday-magacaabista-hayadda-dakhliga)",
-   "Mas'uuliyiin Soomaaliyeed oo lagu la'yahay Kosovo (Caasimada): duplicate (2026-11-13-kosovo-sagaal-xubnood-wafdiga-soomaaliya-maqan)",
-   "Guddoomiyaha gobalka Mudug / Marxuun Maxamed Koronto Roox (Daljir): same event, included as background in 2026-11-13-puntland-ciidamo-roox-mudug",
-   "Shabelle: Ramaphosa credentials / Somalia-Egypt scholarships: protocol, no news value",
-   "Shabelle: UN experts Chief Justice: duplicate (2026-11-12-khubaro-cambaareeyay-...)",
-   "Goobjoog: Jensen Huang iscasilay: duplicate (2026-11-12-jensen-huang-iscasilay-nvidia-kress)",
-   "BBC Somali: dunida dhammaan doonto / buraash cadayga: not Somalia news (feature)",
-   "Daljir: SDR digniin sharci, barnaamijyo: opinion / not news"
+   "Boobe Yuusuf Ducaale oo Hargeysa ku geeriyooday (Caasimada): headline-only; plan facts-only none, WebSearch so none -> pending",
+   "Qaar kamid ah siyaasiyiinta Puntland oo ka digey waxka-beddelka dastuurka (Horseed): headline-only; plan facts-only none -> pending (lama raadin WebSearch, waqti)",
+   "Terrorism knows no borders: Kenya must deny Al-Shabaab affiliates (Caasimada): opinion",
+   "Somali clan elder accuses Kenya of sheltering Laftagareen (Shabelle): single-source accusation",
+   "Ciidanka Danab Baay / Dagaal Leego (Shabelle): sheegasho amni oo hal il ah, xaqiijin madax-bannaan lama helin",
+   "Finland blocks aid grants for Somalia (Caasimada): headline-only; plan facts-only none -> pending",
+   "Ra'iisulwasaare Xamse: Soomaaliya waxay u baahan tahay hoggaan (Goobjoog) / Puntland halis dowladnimo (Horseed): hadal munaasabad buug-daah-furid, go'aan cusub ma laha; artifact pending hore",
+   "Ramaphosa / safiirka Soomaaliya (Goobjoog, Caasimada, Shabelle): duplicate (2026-11-13-safiirka-soomaaliya-koonfur-afrika-aqoonsi)",
+   "Turkiga 15,000 askari (Hiiraan/Caasimada): duplicate (2026-11-12-turkiga-beeniyay-15000-askari-soomaaliya)",
+   "Khubaro QM / QM Baashe (Hiiraan/Shabelle/Caasimada): duplicate (2026-11-12-khubaro-cambaareeyay-...)",
+   "Muqdisho shir colaadaha (Hiiraan): duplicate (2026-11-13-muqdisho-shirka-igad-cewarn-markii-ugu-horeysay)",
+   "Jubaland Hay'adda Dakhliga (Horseed/Caasimada): duplicate (2026-11-13-jubaland-diiday-magacaabista-hayadda-dakhliga)",
+   "Kosovo (Caasimada): duplicate (2026-11-13-kosovo-sagaal-xubnood-wafdiga-soomaaliya-maqan)",
+   "Puntland ciidamo Roox / Marxuun Koronto / Guddoomiyaha Mudug (Caasimada, Daljir): duplicate (2026-11-13-puntland-ciidamo-roox-mudug)",
+   "Ghana iyo Soomaaliya (BBC Somali): duplicate (2026-11-12-ghana-2-0-soomaaliya-isreebreebka-afcon-2027)",
+   "Microsoft / Scott Colom / Jensen Huang (Goobjoog): not Somalia news + duplicate of world stories",
+   "BBC Somali: kafeyga, Dunida iyo Maanta, Idaacadda Subaxnimo, buraash, dunida dhammaan, libaax TikTok, Kanada: feature/programme, not Somalia news",
+   "Daljir: barnaamijyo (Martisoor, Baraarug), Qareen Cabdiweli, SDR digniin: programme / opinion",
+   "Daljir: Ugaaska Xawaadle / beesha Xawaadle Jowhar: related to 2026-11-12-xawaadle-dibadbax; hadal beeleed, war cusub oo la xaqiijiyay ma jiro",
+   "Sarkaal DFS oo u hanjabay ciidanka Laftagareen (Daljir): headline-only cinwaan, xaqiijin ma jirto",
+   "Aadan Madoobe Baraawe / Sanbaloolshe-Afrax Beledweyne / Erdogan kulan (Caasimada): headline-only, plan facts-only none -> pending",
+   "Qaxootiga Soomaalida ee Yaman (Daljir): feature, taariikh/xog cusub ma leh",
+   "Israa'iil-Somaliland, OCHA Mudug, Xajka 2027, EU El Nino (Hiiraan): PUBLISHED"
   ],
   "waitingForImage": 1,
   "waitingIds": [
@@ -80,6 +104,6 @@
   ],
   "stale": false,
   "problems": [],
-  "lastSuccessfulPublishAt": "2026-11-13T13:01:20Z"
+  "lastSuccessfulPublishAt": "2026-11-13T16:34:20Z"
  }
 }
