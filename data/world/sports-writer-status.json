@@ -1,6 +1,6 @@
 {
  "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
- "mode": "paused: Anthropic API credit balance too low since 2026-11-12T18:01:45+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
+ "mode": "paused: Anthropic API credit balance too low since 2026-11-13T08:01:14+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
  "limits": {
   "articlesPerDay": 2,
   "usdPerDay": 1.0,
@@ -13,12 +13,12 @@
    "18:00"
   ],
   "windowMinutes": 55,
-  "nextRun": "2026-11-13T08:00+03:00"
+  "nextRun": "2026-11-13T18:00+03:00"
  },
- "lastCheckAt": "2026-11-13T07:46:16+03:00",
+ "lastCheckAt": "2026-11-13T08:41:19+03:00",
  "lastRun": {
   "skipped": 0,
-  "waitingForSchedule": 5
+  "waitingForSchedule": 38
  },
  "lastWrittenAt": null,
  "days": {
@@ -62,13 +62,46 @@
    "written": 0,
    "published": 0,
    "held": 0,
-   "skipped": 296,
+   "skipped": 299,
    "refused": 0,
-   "failed": 0,
+   "failed": 1,
    "usd": 0
   }
  },
  "recent": [
+  {
+   "at": "2026-11-13T08:21:20+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Cade Cunningham makes NBA history with career night in Pistons' 2OT win over Wizards",
+   "url": "https://www.nytimes.com/athletic/7777903/2026/11/12/cade-cunningham-stats-points-pistons-wizards-score-results/"
+  },
+  {
+   "at": "2026-11-13T08:06:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Nueva gira por Estados Unidos a la vista",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261113/1004250472/nueva-gira-estados-unidos-vista.html"
+  },
+  {
+   "at": "2026-11-13T08:01:14+03:00",
+   "source": "lequipe",
+   "title": "Adrien Truffert et Malo Gusto en souffrance face à l'Italie : pour Zidane, le chantier principal ce sont les latéraux",
+   "url": "https://www.lequipe.fr/Football/Article/Adrien-truffert-et-malo-gusto-en-souffrance-face-a-l-italie-pour-zidane-le-chantier-principal-c-est-les-lateraux/1743305#at_medium=RSS_feeds",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T08:01:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Dos escenas, dos temas cruciales",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261113/1004250172/dos-escenas-dos-temas-cruciales.html"
+  },
   {
    "at": "2026-11-13T06:36:24+03:00",
    "result": "skipped",
@@ -516,38 +549,6 @@
    "source": "cbssports",
    "title": "UConn forward Nik Khamenia sidelined 6-8 weeks with foot injury as Huskies prepare for tough stretch",
    "url": "https://www.cbssports.com/college-basketball/news/nik-khamenia-foot-injury-uconn-basketball/"
-  },
-  {
-   "at": "2026-11-13T04:11:15+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "sky-it",
-   "title": "Donnarumma, regalo a Olise: l'errore nella serata degli applausi di San Siro. VIDEO",
-   "url": "https://sport.sky.it/calcio/nazionale/2026/11/12/donnarumma-italia-francia-errore-parata-video"
-  },
-  {
-   "at": "2026-11-13T04:11:15+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "sky-it",
-   "title": "Italia, Frattesi: \"Pio? Se cambia come persona gli metto le mani addosso\"",
-   "url": "https://sport.sky.it/calcio/nations-league/2026/11/12/italia-francia-frattesi-intervista-video"
-  },
-  {
-   "at": "2026-11-13T04:11:15+03:00",
-   "result": "skipped",
-   "reason": "same story as CBS Sports: Cubs superstar Pete Crow-Armstrong named National League MVP, beating Shoehi Oht",
-   "source": "cbssports",
-   "title": "Now with an MVP, Pete Crow-Armstrong is on the path for an all-time great career. Where could he stack up?",
-   "url": "https://www.cbssports.com/mlb/news/pete-crow-armstrong-mvp-2026-historical-comparisons/"
-  },
-  {
-   "at": "2026-11-13T04:06:15+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "cbssports",
-   "title": "UWCL Power Rankings: Arsenal and Barcelona shake things up; Manchester City and Real Madrid rise",
-   "url": "https://www.cbssports.com/soccer/news/uwcl-power-rankings-arsenal-barcelona-manchester-city-real-madrid/"
   }
  ]
 }
