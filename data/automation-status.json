@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-13T03:26:14+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-13T03:41:13+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-12T21:31:40Z",
  "newestArticleAt": "2026-11-13T00:03:31+03:00",
- "lastSourceCheckAt": "2026-11-13T03:25:18+03:00",
+ "lastSourceCheckAt": "2026-11-13T03:40:18+03:00",
  "sourceChecks24h": 293,
- "publishedArticles": 447,
+ "publishedArticles": 452,
  "liveArticles": 447,
  "waitingForImage": 85,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-12T21:31:40Z",
@@ -18,36 +18,41 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43311114272"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-13T00:41:13+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-13T00:31:16+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-13T03:40:03+03:00",
  "writers": {
   "sports": {
    "mode": "paused: Anthropic API credit balance too low since 2026-11-12T18:01:45+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
-   "lastCheckAt": "2026-11-13T03:26:12+03:00",
+   "lastCheckAt": "2026-11-13T03:41:10+03:00",
    "lastWrittenAt": null,
    "lastRun": {
     "skipped": 4,
-    "waitingForSchedule": 51
+    "waitingForSchedule": 44
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-13T03:25:11+03:00",
-   "lastSuccessAt": "2026-11-13T03:25:11+03:00",
+   "lastCheckAt": "2026-11-13T03:40:12+03:00",
+   "lastSuccessAt": "2026-11-13T03:40:12+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-13T00:31:16+03:00",
+  "lastSourceCheckAt": "2026-11-13T03:40:03+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-12T23:38:20+03:00",
+   "publishedAt": "2026-11-13T01:34:27+03:00",
    "sourceName": "Radio Daljir",
-   "title": "Qaxootiga Soomaalida ee Yaman oo dagaalku saameeyay",
-   "url": "https://daljir.com/qaxootiga-soomaalida-ee-yaman-oo-dagaalku-saameeyay/"
+   "title": "“Dalkan meel an la garanayn ayaan u wadnaa.,”RW Xamse",
+   "url": "https://daljir.com/dalkan-meel-an-la-garanayn-ayaan-u-wadnaa-rw-xamse/"
   },
   "latestPublished": {
    "id": "2026-11-12-khubaro-cambaareeyay-xil-ka-qaadista-guddoomiyaha-maxkamadda-sare",
@@ -64,23 +69,12 @@
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Qaxootiga Soomaalida ee Yaman oo dagaalku saameeyay (Daljir): bogga waa muuqaal YouTube kaliya, qoraal la akhriyi karo ma leh -> lama xaqiijin",
-   "Guddoomiyaha gobalka Mudug: Cid kasta oo hub ku dhex sidata Roox (Daljir): muuqaal kaliya, magaca guddoomiyaha iyo faahfaahin ma jiraan -> lama xaqiijin",
-   "Marxuun Maxamed Koronto oo Roox lagu dilay (Daljir): sheegasho dhimasho hal-il ah, qoraal la akhriyi karo lama helin -> pending (xeerka hal-il)",
-   "Ugaaska Xawaadle / Beesha Xawaadle cambaareyn doorashada Jowhar (Daljir): muuqaal/waraysi; khilaafka Xawaadle waxaa horay u daboolay 2026-11-12-xawaadle-dibadbax-15-november-hiiraan-hirshabeelle; horumar cusub oo la xaqiijiyay ma jiro",
-   "Sarkaal u hadlay DFS oo u hanjabay ciidanka Laftagareen (Daljir): cinwaan xamaasad leh, muuqaal, hal-il -> lama daabicin",
-   "Qareen Cabdiweli Saciid (Daljir): ra'yi/waraysi, maaha war",
-   "Barnaamijka Baraarug / Martisoor (Daljir): barnaamij raadiye, maaha war",
-   "Digniin sharci IMF/SDR (Daljir): war-saxaafadeed urur gaar ah (BSIC Bulsho), maaha war la xaqiijiyay",
-   "Xogta wada-hadal Beledweyne Sanbaloolshe iyo Afrax (Caasimada): headline-only; Hiiraan/Goobjoog ma haystaan, il kale lama helin -> pending",
-   "Maxaa looga hadlay kulanka Xasan Sheekh iyo Erdogan (Caasimada): duplicate – 2026-11-12-xasan-sheekh-erdogan-dbeibah-antalya",
-   "Finland blocks aid grants for Somalia (Caasimada): headline-only; WebSearch en: kaliya warar hore (Nov 2024, Aug 2025), go'aan cusub lama xaqiijin -> pending",
-   "Somali clan elder accuses Kenya of sheltering Laftagareen (Shabelle/Horseed): eedeyn culus hal-il, headline-only -> pending",
-   "Midowga Yurub 6 milyan Elnino (Horseed): war duug ah (6 Nov), sidii run-kii hore",
-   "Hoggaamiye Liibaan Axmed Xasan shirka golaha wasiirrada Galmudug (Goobjoog): shir caadi ah oo go'aan cusub aan laga soo saarin, qiimo war yar",
-   "Guddoomiyaha Maxkamadda Sare oo kormeeray maxkamadaha Banaadir (Goobjoog): protocol/kormeer",
-   "13-ka Nofeembar 2026 maalinta dunidu dhammaanayso (Goobjoog): maaha war (falanqayn)",
-   "Inta kale ee Soomaaliya ee 24-ka saac: go'aamadii run-kii 21:08 (data/world/status.json) weli way taagan yihiin (duplicate / headline-only / protocol)"
+   "Dalkan meel an la garanayn ayaan u wadnaa - RW Xamse (Daljir 01:34): bogga waa muuqaal YouTube kaliya, qoraal la akhriyi karo ma leh -> lama xaqiijin",
+   "Barlamaanka Puntland oo ka shiray waxka-beddelka dastuurka (Horseed): headline-only; Puntland Post/Daljir plan-ka kuma jiraan; WebSearch so: natiijo cusub ma jirto -> pending",
+   "Xogta wada-hadal Beledweyne Sanbaloolshe iyo Afrax (Caasimada): headline-only; Hiiraan/Goobjoog ma haystaan; WebSearch so: kaliya war hore (Kaab TV, May 2025) -> pending",
+   "Daljir (Qaxootiga Yaman, Guddoomiyaha Mudug Roox, Marxuun Maxamed Koronto, Xawaadle, Sarkaal DFS, Qareen Cabdiweli, barnaamijyo, IMF/SDR): go'aamadii run-kii 00:08 weli way taagan yihiin (muuqaal kaliya / hal-il / ra'yi / barnaamij)",
+   "Finland aid grants (Caasimada), Somali clan elder vs Kenya (Shabelle), Xamza xog cusub (Caasimada), Madaxda Puntland eedeyn, Uganda heshiis (Caasimada/Horseed): headline-only ama eedeyn hal-il ah; il facts-only ah ma xaqiijin -> pending",
+   "Inta kale ee Soomaaliya ee 24-ka saac: duplicate / protocol / ra'yi sida run-nadii 21:08 iyo 00:08"
   ],
   "waitingForImage": 1,
   "waitingIds": [
