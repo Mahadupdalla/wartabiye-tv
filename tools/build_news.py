@@ -7,6 +7,28 @@ import json, os, glob, datetime, sys
 from translations import LANGS, text_hash, has
 PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
 
+# The old article disclaimer box (removed by the owner on 13 November 2026; articles now show only a small
+# "Waxaa daabacay Wartabiye TV" byline). If a writer ever pastes that notice into an article's text or a translation,
+# the paragraph is dropped here so it can never come back on the public site. The article file itself is not changed.
+OLD_DISCLAIMERS = (
+    'Warkan wuxuu ku salaysan yahay warbixino ay hore u baahiyeen warbaahin kale',
+    'This story is based on reports first published by other media',
+    'يستند هذا الخبر إلى تقارير نشرتها وسائل إعلام أخرى',
+    'Cette information s’appuie sur des reportages publiés d’abord par d’autres médias',
+    'Dit bericht is gebaseerd op berichtgeving die eerst door andere media werd gepubliceerd',
+    'Questa notizia si basa su servizi pubblicati per primi da altri media',
+    'Diese Meldung beruht auf Berichten, die zuerst von anderen Medien veröffentlicht wurden',
+    'Bu haber, ilk olarak başka medya kuruluşlarının yayımladığı haberlere dayanmaktadır',
+    'Esta noticia se basa en informaciones publicadas primero por otros medios',
+)
+
+
+def drop_disclaimer(text):
+    if not isinstance(text, str) or not any(d in text for d in OLD_DISCLAIMERS):
+        return text
+    paras = [p for p in text.split('\n') if not any(d in p for d in OLD_DISCLAIMERS)]
+    return '\n'.join(paras).strip()
+
 
 def result_card(n):
     # automatic match-result report (tools/sports_results.py): its picture is the result card (crests + score) drawn by
@@ -69,7 +91,13 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         t = dict(n[lang]); h = t.pop('hash', None)
         if t.get('status') != 'manual':
             t['status'] = 'auto' if h and h == text_hash(t) else 'manual'
+        for k in ('title', 'summary', 'body'):
+            if k in t:
+                t[k] = drop_disclaimer(t[k])
         n[lang] = t
+    for k in ('summary', 'body'):
+        if k in n:
+            n[k] = drop_disclaimer(n[k])
     # regional stories written before 8 Nov 2026 have no "country": derive it from the headline (or the outlet's home
     # country) so the Somalia page (#soomaaliya) lists them too; only data/news.json changes, never the article file
     if (n.get('section') or 'somalia') == 'somalia' and not n.get('country') and n.get('region') != 'east-africa-wide':

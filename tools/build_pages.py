@@ -81,7 +81,7 @@ def load_i18n():
 I18N = load_i18n()
 SO_WORDS = {'home': 'Hoyga', 'somaliaNav': 'Soomaaliya', 'eastAfrica': 'Bariga Afrika', 'world': 'Caalamka', 'sports': 'Ciyaaraha',
             'related': 'Wararka la xiriira', 'photo': 'Sawirka', 'back': '← Ku noqo bogga hore', 'seeAll': 'Dhammaan',
-            'basedNote': 'Warkan wuxuu ku salaysan yahay warbixino ay hore u baahiyeen warbaahin kale; Wartabiye TV ayaa xaqiijisay oo ku qortay ereyadeeda.',
+            'pubBy': 'Waxaa daabacay Wartabiye TV', 'wroteBy': 'Wartabiye TV ayaa qortay', 'srcLabel': 'Isha',
             'illus': 'Sawir muujin ah', 'latestWorld': 'Wararka Caalamka', 'latestSports': 'Wararka Ciyaaraha', 'categories': 'Qaybaha',
             'latestShort': 'Ugu dambeeyay', 'updatedWord': 'La cusbooneysiiyay'}
 
@@ -406,9 +406,18 @@ for n in public:
                 if n.get('imageLicense'):
                     cap += f' · {esc(n["imageLicense"])}'
             fig = f'<figure class="figure">{ph(n, big=True, hero=True, lang=lang)}' + (f'<figcaption>{cap}</figcaption>' if cap else '') + '</figure>'
+        # small publisher byline (no disclaimer box): "Wartabiye TV ayaa qortay" only for the newsroom's own stories,
+        # "Waxaa daabacay Wartabiye TV" for every story built on other outlets' reporting (same rule as assets/app.js)
+        src_name = str(n.get('source') or '')
+        own = n.get('by') == 'admin' and (not src_name or src_name == 'Wartabiye TV')
+        by_txt = esc(T('wroteBy' if own else 'pubBy', lang))
+        by_html = '<span class="by">' + (by_txt.replace('Wartabiye TV', '<b>Wartabiye TV</b>', 1) if 'Wartabiye TV' in by_txt else by_txt) + '</span>'
+        # a licence that requires public credit gets one small source line under the text
         based = ''
-        if n.get('by') != 'admin' and n.get('source') and n.get('source') != 'Wartabiye TV':
-            based = f'<div class="srcbox"><span>{esc(T("basedNote", lang))}</span></div>'
+        if src_name and src_name != 'Wartabiye TV' and n.get('attributionRequired') is True:
+            su = str(n.get('sourceUrl') or '')
+            based = (f'<p class="srcline">{esc(T("srcLabel", lang))}: '
+                     + (f'<a href="{esc(su)}" target="_blank" rel="noopener">{esc(src_name)} ↗</a>' if su.startswith('https://') else esc(src_name)) + '</p>')
         rel = related(n)
         rel_html = ''
         if rel:
@@ -418,7 +427,7 @@ for n in public:
         lede = f'<p class="lede">{esc(summary)}</p>' if body and summary else ''
         text = inner if body else f'<p>{esc(summary or title)}</p>'
         pre = (cr + cat_tag(n, lang) + f'<h1>{esc(title)}</h1>{lede}<div class="byline"><img src="img/logo.png" alt="" width="36" height="36">'
-               f'<div class="meta"><b>Wartabiye TV</b>{when}</div></div>{fig}<div class="body">{text}</div>{based}{rel_html}'
+               f'<div class="meta">{by_html}{when}</div></div>{fig}<div class="body">{text}</div>{based}{rel_html}'
                f'<a class="back" href="./">{esc(T("back", lang))}</a>')
         if lang == 'so':
             write(os.path.join(out_dir, nid + '.html'), subpage(seo, pre), wanted)
