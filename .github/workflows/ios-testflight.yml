@@ -58,6 +58,19 @@ jobs:
           grep -A1 CFBundleVersion ios/WartabiyeTV/Info.plist | grep -q '<string>999</string>'
           grep -A1 ITSAppUsesNonExemptEncryption ios/WartabiyeTV/Info.plist | grep -q '<false/>'
           grep -q 'NSPrivacyAccessedAPICategoryUserDefaults' ios/WartabiyeTV/PrivacyInfo.xcprivacy
+      - name: Free Apple Account settings (IPHONE-FREE-INSTALL.md)
+        env:
+          WTV_FREE_SIGNING: '1'
+        run: |
+          npx expo prebuild --platform ios --no-install --clean
+          set -x
+          grep -q 'PRODUCT_BUNDLE_IDENTIFIER = "com.wartabiyetv.app.personal"' ios/WartabiyeTV.xcodeproj/project.pbxproj
+          ! grep -q 'aps-environment' ios/WartabiyeTV/WartabiyeTV.entitlements
+          ! grep -q 'applinks:' ios/WartabiyeTV/WartabiyeTV.entitlements
+          ! grep -q 'remote-notification' ios/WartabiyeTV/Info.plist
+          grep -q 'buildConfiguration = "Release"' ios/WartabiyeTV.xcodeproj/xcshareddata/xcschemes/WartabiyeTV.xcscheme
+          grep -q 'NSPrivacyAccessedAPICategoryUserDefaults' ios/WartabiyeTV/PrivacyInfo.xcprivacy
+          bash -n scripts/iphone-free-install.sh
           grep -q 'DEVELOPMENT_TEAM = ABCDE12345' ios/WartabiyeTV.xcodeproj/project.pbxproj
           grep -q 'PRODUCT_BUNDLE_IDENTIFIER = "com.wartabiyetv.app"' ios/WartabiyeTV.xcodeproj/project.pbxproj
       - name: App Store Connect script against a fake Apple API
