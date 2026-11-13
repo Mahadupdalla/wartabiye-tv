@@ -188,6 +188,9 @@ def flow(art_id, title):
                 {'extendedWaitUntil': {'visible': {'text': has(word)}, 'timeout': 10000}},
                 'hideKeyboard',
                 {'extendedWaitUntil': {'visible': tp, **W}},
+                # hiding the keyboard makes the result list grow and move: let it settle, or the tap lands on the row
+                # that was there before (on the small iPhone it opened a similar headline one row away)
+                {'waitForAnimationToEnd': {'timeout': 5000}},
                 {'takeScreenshot': 'search'},
                 # the story the website publishes now, opened inside the app from the search result
                 {'tapOn': {'text': tp, 'index': 0}},
