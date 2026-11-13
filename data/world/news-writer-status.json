@@ -1,0 +1,60 @@
+{
+ "about": "Automatic news writer for World News and Somalia & East Africa (tools/news_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
+ "mode": "fallback",
+ "limits": {
+  "articlesPerDay": 2,
+  "usdPerDay": 1.0,
+  "perScheduledRun": 1,
+  "estimatedMaxPerStoryUsd": 0.6
+ },
+ "schedule": {
+  "times (Africa/Nairobi)": [
+   "08:00",
+   "18:00"
+  ],
+  "windowMinutes": 55,
+  "nextRun": "2026-11-14T08:00+03:00"
+ },
+ "lastCheckAt": "2026-11-13T19:17:03+03:00",
+ "lastRun": {
+  "skipped": 51,
+  "duplicates": 53,
+  "failed": 2
+ },
+ "lastWrittenAt": null,
+ "days": {
+  "2026-11-13": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 51,
+   "refused": 0,
+   "failed": 2,
+   "usd": 0
+  }
+ },
+ "recent": [
+  {
+   "at": "2026-11-13T19:17:03+03:00",
+   "section": "somalia",
+   "source": "kbc",
+   "title": "Hassan Omar Daffa appointed Kenya’s new Chief Kadhi",
+   "url": "https://www.kbc.co.ke/hassan-omar-daffa-appointed-kenyas-new-chief-kadhi/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:17:03+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Israel miyay ka laabanaysa aqoonsiga Somaliland? – Jawaabta Tel Aviv",
+   "url": "https://www.caasimada.net/israel-miyay-ka-laabanaysa-aqoonsiga-somaliland-jawaabta-tel-aviv/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "routineLastRunMinutesAgo": 244
+}
