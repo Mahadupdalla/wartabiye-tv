@@ -6,13 +6,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
-import { Brand } from '../components/chrome';
+import { Brand, FreshBreaking } from '../components/chrome';
 // only the five weights the app uses (importing the package index would ship every weight)
 import { PublicSans_400Regular } from '@expo-google-fonts/public-sans/400Regular';
 import { PublicSans_500Medium } from '@expo-google-fonts/public-sans/500Medium';
 import { PublicSans_700Bold } from '@expo-google-fonts/public-sans/700Bold';
 import { SettingsProvider, useSettings } from '../lib/settings';
 import { ContentProvider, useContent } from '../lib/content';
+import { AlertsProvider } from '../lib/alerts';
 import { trackView } from '../lib/analytics';
 import { registerPwa } from '../lib/pwa';
 import { syncPush } from '../lib/push';
@@ -104,9 +105,11 @@ function Shell() {
         <Stack.Screen name="settings" options={{ title: t('settings') }} />
         <Stack.Screen name="ads" options={{ title: t('advertise') }} />
         <Stack.Screen name="breaking" options={{ title: t('breakingTitle') }} />
+        <Stack.Screen name="latest" options={{ title: t('latestShort') }} />
         <Stack.Screen name="page/[slug]" options={{ title: '' }} />
         <Stack.Screen name="browser" options={{ title: '', animation: Platform.OS === 'android' ? 'slide_from_bottom' : 'default', presentation: 'card' }} />
       </Stack>
+      <FreshBreaking />
      </View>
     </View>
   );
@@ -120,7 +123,9 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <SettingsProvider>
         <ContentProvider>
-          <Shell />
+          <AlertsProvider>
+            <Shell />
+          </AlertsProvider>
         </ContentProvider>
       </SettingsProvider>
     </SafeAreaProvider>

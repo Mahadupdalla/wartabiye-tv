@@ -11,7 +11,36 @@
 //   WTV_EXPO_GO           "1" when the Expo Go preview is published (.github/workflows/expo-go.yml): the code is sent to
 //                         Expo's update service for the Expo Go app of the newest SDK (needs EAS_PROJECT_ID)
 // The iPhone workflow (.github/workflows/ios-testflight.yml) sets APPLE_TEAM_ID and the two WTV_IOS_ settings.
+//
+// Free mode is also switched on by the file .wtv-free-signing (written by scripts/iphone-free-install.sh on the Mac, not
+// committed), so every step that reads this config on that Mac (prebuild, and Xcode's own build steps, which do not
+// see the script's environment) builds the same app. The file holds the bundle id and team of the copy already on the
+// iPhone, so a new build installs over it with the same id: its saved articles and settings stay.
+//
+// Over-the-air updates (free mode): the app asks Expo's update service (EAS Update, channel "personal") for newer
+// JavaScript when it starts and uses it from the next start. .github/workflows/iphone-ota.yml publishes main there.
+// An update only reaches builds with the same runtime version, made from the app version and a fingerprint of the
+// native parts (packages and plugins): after a native change the old build ignores new updates until it is rebuilt.
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
 const PUSH_PLUGIN = 'expo-notifications';
+const FREE_MARKER = path.join(__dirname, '.wtv-free-signing');
+const PUBLIC_EAS_PROJECT_ID = 'ec499f36-c73d-45f2-8675-cad04e52ccd2'; // the public id of the "wartabiye-tv" project on expo.dev
+const OTA_CHANNEL = 'personal';
+
+function readMarker() {
+  try { return JSON.parse(fs.readFileSync(FREE_MARKER, 'utf8') || '{}'); } catch (e) { return fs.existsSync(FREE_MARKER) ? {} : null; }
+}
+
+/** "1.2.0-n<hash>": the app version plus a short fingerprint of everything native (packages and config plugins) */
+function nativeRuntime(config) {
+  const pkg = require('./package.json');
+  const deps = Object.entries(pkg.dependencies || {}).sort(([a], [b]) => (a < b ? -1 : 1));
+  const plugins = (config.plugins || []).map(p => (Array.isArray(p) ? p : [p]));
+  const h = crypto.createHash('sha256').update(JSON.stringify([deps, plugins, config.ios?.infoPlist || {}])).digest('hex').slice(0, 10);
+  return `${config.version}-n${h}`;
+}
 
 // Free Apple Accounts ("Personal Team") cannot sign push notifications or associated domains: remove both entitlements
 // last, after every other plugin (expo-notifications adds aps-environment on its own)
@@ -66,9 +95,12 @@ module.exports = ({ config }) => {
   if (env.WTV_IOS_BUILD_NUMBER) ios.buildNumber = String(env.WTV_IOS_BUILD_NUMBER);
   if (env.APPLE_TEAM_ID) ios.appleTeamId = env.APPLE_TEAM_ID;
   // iPhone push: Apple's production service for TestFlight / App Store builds, the development one otherwise
-  const free = env.WTV_FREE_SIGNING === '1';
+  const marker = readMarker();
+  const free = env.WTV_FREE_SIGNING === '1' || !!marker;
+  if (free && !env.APPLE_TEAM_ID && marker?.teamId) ios.appleTeamId = marker.teamId;
+  const runtimeVersion = free ? nativeRuntime(config) : undefined;
   if (free) {
-    ios.bundleIdentifier = env.WTV_IOS_BUNDLE_ID || `${ios.bundleIdentifier}.personal`;
+    ios.bundleIdentifier = env.WTV_IOS_BUNDLE_ID || marker?.bundleId || `${ios.bundleIdentifier}.personal`;
     delete ios.associatedDomains;
     const modes = ((ios.infoPlist || {}).UIBackgroundModes || []).filter(m => m !== 'remote-notification');
     ios.infoPlist = { ...(ios.infoPlist || {}), UIBackgroundModes: modes };
@@ -85,9 +117,22 @@ module.exports = ({ config }) => {
   const expoGo = env.WTV_EXPO_GO === '1' && env.EAS_PROJECT_ID
     ? { updates: { url: `https://u.expo.dev/${env.EAS_PROJECT_ID}` }, runtimeVersion: { policy: 'sdkVersion' } }
     : {};
+  const ota = free && !expoGo.updates
+    ? {
+        runtimeVersion,
+        updates: {
+          url: `https://u.expo.dev/${env.EAS_PROJECT_ID || PUBLIC_EAS_PROJECT_ID}`,
+          enabled: true,
+          checkAutomatically: 'ON_LOAD',
+          fallbackToCacheTimeout: 0, // never wait at start: the new code is used from the next start
+          requestHeaders: { 'expo-channel-name': OTA_CHANNEL },
+        },
+      }
+    : {};
   return {
     ...config,
     ...expoGo,
+    ...ota,
     ...(env.EXPO_OWNER ? { owner: env.EXPO_OWNER } : {}),
     ios,
     plugins,

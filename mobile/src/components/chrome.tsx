@@ -10,6 +10,7 @@ import type { Card } from '../lib/types';
 import { isBreaking, open } from './cards';
 import { LiveDot, Notice, ROW_RTL, Row, T } from './ui';
 import { LangButton } from './lang';
+import { useAlerts } from '../lib/alerts';
 
 const LOGO = require('../../assets/logo.png');
 
@@ -121,6 +122,7 @@ export function MenuBar(_: { withBrand?: boolean }) {
   const fade = p.interpolate({ inputRange: [0, 0.7, 1], outputRange: [0, 0.95, 1] });
   const sections: [keyof typeof Ionicons.glyphMap, string, () => void, boolean?][] = [
     ['home-outline', t('allNews'), go(() => router.navigate('/'))],
+    ['time-outline', t('latest'), nav('/latest')],
     ['flag-outline', t('somaliaNav'), nav('/section/somalia')],
     ['earth-outline', t('world'), nav('/section/world')],
     ['football-outline', t('sports'), nav('/section/sports')],
@@ -136,7 +138,6 @@ export function MenuBar(_: { withBrand?: boolean }) {
     ['megaphone-outline', t('advertise'), nav('/ads')],
     ['ellipsis-horizontal-circle-outline', t('more'), go(() => router.navigate('/more'))],
   ];
-  const wide = screenW >= 430;
   const face = <MenuIcon p={p} />;
   const btnStyle = ({ pressed }: { pressed: boolean }) => ({ width: 38, height: 38, borderRadius: 19, alignItems: 'center' as const, justifyContent: 'center' as const, backgroundColor: pressed ? 'rgba(255,255,255,0.16)' : 'transparent' });
   return (
@@ -149,7 +150,7 @@ export function MenuBar(_: { withBrand?: boolean }) {
         <Row style={{ gap: 2 }}>
           <View style={{ marginHorizontal: 2 }}><LangButton /></View>
           {ico('search', t('search'), () => router.push('/search'), 'search-button')}
-          {wide ? ico('notifications-outline', t('notifications'), () => router.push('/notifications')) : null}
+          {screenW >= 360 ? <Bell /> : null}
         </Row>
       </Row>
       <Modal visible={shown} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={closeMenu}>
@@ -187,6 +188,62 @@ export function MenuBar(_: { withBrand?: boolean }) {
         </Animated.View>
       </Modal>
     </View>
+  );
+}
+
+/** The bell in the top bar, with the number of new alerts in the reader's chosen categories */
+function Bell() {
+  const { colors, t } = useSettings();
+  const { unread } = useAlerts();
+  const n = unread > 99 ? '99+' : String(unread);
+  return (
+    <Pressable testID="bell-button" onPress={() => router.push('/notifications')} hitSlop={4} accessibilityRole="button" accessibilityLabel={t('notifications') + (unread ? ', ' + t('unreadN', { n: unread }) : '')} style={({ pressed }) => ({ width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center', backgroundColor: pressed ? 'rgba(255,255,255,0.16)' : 'transparent' })}>
+      <Ionicons name={unread ? 'notifications' : 'notifications-outline'} size={21} color="#fff" />
+      {unread ? (
+        <View style={{ position: 'absolute', top: 3, right: 2, minWidth: 17, height: 17, borderRadius: 9, paddingHorizontal: 4, backgroundColor: colors.red, borderWidth: 1.5, borderColor: colors.blue, alignItems: 'center', justifyContent: 'center' }}>
+          <T f="bodyBold" allowFontScaling={false} style={{ color: '#fff', fontSize: 10, lineHeight: 12 }}>{n}</T>
+        </View>
+      ) : null}
+    </Pressable>
+  );
+}
+
+/** In-app breaking alert: when the website publishes a breaking story while the app is open, a red card slides in
+ *  under the status bar (and the Dynamic Island). Tap opens the story; it closes by itself after 12 seconds. */
+export function FreshBreaking() {
+  const { colors, t, rtl } = useSettings();
+  const { fresh, dismissFresh } = useAlerts();
+  const insets = useSafeAreaInsets();
+  const a = useRef(new Animated.Value(0)).current;
+  const [card, setCard] = useState<Card | null>(null);
+  useEffect(() => {
+    if (!fresh) return;
+    setCard(fresh);
+    a.setValue(0);
+    Animated.timing(a, { toValue: 1, duration: 320, easing: Easing.out(Easing.cubic), useNativeDriver: NATIVE }).start();
+    const tm = setTimeout(() => hide(), 12000);
+    return () => clearTimeout(tm);
+  }, [fresh?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  const hide = (then?: () => void) => {
+    Animated.timing(a, { toValue: 0, duration: 200, easing: Easing.in(Easing.cubic), useNativeDriver: NATIVE }).start(() => { setCard(null); dismissFresh(); then?.(); });
+  };
+  if (!card) return null;
+  const drop = a.interpolate({ inputRange: [0, 1], outputRange: [-24, 0] });
+  return (
+    <Animated.View testID="fresh-breaking" pointerEvents="box-none" style={{ position: 'absolute', top: insets.top + 6, left: 10, right: 10, zIndex: 50, opacity: a, transform: [{ translateY: drop }] }}>
+      <Pressable onPress={() => hide(() => open(card))} accessibilityRole="link" accessibilityLiveRegion="polite" accessibilityLabel={t('breakingLabel') + ': ' + card.title} style={{ backgroundColor: colors.red, borderRadius: 14, padding: 12, shadowColor: '#000', shadowOpacity: 0.28, shadowRadius: 14, shadowOffset: { width: 0, height: 8 }, elevation: 12 }}>
+        <Row style={{ gap: 10, alignItems: 'flex-start' }}>
+          <Ionicons name="flash" size={18} color="#fff" style={{ marginTop: 1 }} />
+          <View style={{ flex: 1 }}>
+            <T f="display" style={{ color: '#fff', fontSize: 11, letterSpacing: 1.6, textAlign: rtl ? 'right' : 'left' }}>{t('breakingLabel')}</T>
+            <T f="displayBold" numberOfLines={3} style={{ color: '#fff', fontSize: 15.5, lineHeight: 20, marginTop: 2, textAlign: rtl ? 'right' : 'left' }}>{card.title}</T>
+          </View>
+          <Pressable onPress={() => hide()} hitSlop={10} accessibilityRole="button" accessibilityLabel={t('close')}>
+            <Ionicons name="close" size={20} color="#fff" />
+          </Pressable>
+        </Row>
+      </Pressable>
+    </Animated.View>
   );
 }
 

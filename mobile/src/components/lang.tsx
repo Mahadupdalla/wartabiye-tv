@@ -1,8 +1,8 @@
-// The compact language selector: a small "SO ▾" button that opens a 3 x 3 popover with the nine Wartabiye TV
-// languages (code + the language's own name). The same popover is used in the top bar and in Settings, so the reader
+// The compact language selector: a small "🇸🇴 SO ▾" button that opens a 3 x 3 popover with the nine Wartabiye TV
+// languages (flag + the language's own name + code). The same popover is used in the top bar and in Settings, so the reader
 // changes language where they always did, without nine full-width rows. The choice is saved at once (settings.tsx).
 import React, { useRef, useState } from 'react';
-import { Animated, Easing, Modal, Platform, Pressable, View, useWindowDimensions } from 'react-native';
+import { Animated, Easing, Modal, Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSettings } from '../lib/settings';
 import { LANG_INFO, LANGS, type Lang } from '../lib/types';
@@ -36,12 +36,17 @@ function usePopover() {
   return { ref, anchor, shown, a, open, close };
 }
 
+/** The language's flag (an emoji, so it needs no image files and looks the same as in iOS itself) */
+export function Flag({ l, size = 16 }: { l: Lang; size?: number }) {
+  return <Text allowFontScaling={false} accessibilityElementsHidden importantForAccessibility="no" style={{ fontSize: size, lineHeight: Math.round(size * 1.25) }}>{LANG_INFO[l].flag}</Text>;
+}
+
 /** The popover itself: nine compact cells, the chosen language filled blue */
 function LangPopover({ anchor, a, onClose }: { anchor: Rect | null; a: Animated.Value; onClose: (then?: () => void) => void }) {
   const { colors, lang, setLang, t, rtl } = useSettings();
   const { width: W, height: H } = useWindowDimensions();
   const w = Math.min(W - 24, 330);
-  const h = 214;
+  const h = 226;
   let left = anchor ? (rtl ? anchor.x : anchor.x + anchor.w - w) : (W - w) / 2;
   left = Math.max(12, Math.min(W - w - 12, left));
   let top = anchor ? anchor.y + anchor.h + 8 : 120;
@@ -63,7 +68,7 @@ function LangPopover({ anchor, a, onClose }: { anchor: Rect | null; a: Animated.
             <Ionicons name="language-outline" size={15} color={colors.sub} />
             <T f="bodyBold" style={{ fontSize: 11.5, letterSpacing: 1, color: colors.sub, textTransform: 'uppercase' }}>{t('language')}</T>
           </Row>
-          <Pressable onPress={() => onClose()} hitSlop={10} accessibilityRole="button" accessibilityLabel="Close" style={{ padding: 2 }}>
+          <Pressable onPress={() => onClose()} hitSlop={10} accessibilityRole="button" accessibilityLabel={t('close')} style={{ padding: 2 }}>
             <Ionicons name="close" size={18} color={colors.sub} />
           </Pressable>
         </Row>
@@ -78,10 +83,14 @@ function LangPopover({ anchor, a, onClose }: { anchor: Rect | null; a: Animated.
                 accessibilityRole="radio"
                 accessibilityState={{ checked: on }}
                 accessibilityLabel={LANG_INFO[l].name}
-                style={({ pressed }) => ({ width: (w - 20 - 12) / 3, height: 52, borderRadius: R.md, alignItems: 'center', justifyContent: 'center', gap: 1, backgroundColor: on ? colors.blue : pressed ? colors.tint : colors.dark ? colors.chip : '#f3f6fa' })}
+                style={({ pressed }) => ({ width: (w - 20 - 12) / 3, height: 56, borderRadius: R.md, alignItems: 'center', justifyContent: 'center', gap: 1, backgroundColor: on ? colors.blue : pressed ? colors.tint : colors.dark ? colors.chip : '#f3f6fa' })}
               >
-                <T f="display" style={{ fontSize: 14, letterSpacing: 0.8, textAlign: 'center', color: on ? '#fff' : colors.blue }}>{code(l)}</T>
-                <T f="bodyMed" numberOfLines={1} style={{ fontSize: 12, textAlign: 'center', writingDirection: LANG_INFO[l].rtl ? 'rtl' : 'ltr', color: on ? '#fff' : colors.fg }}>{LANG_INFO[l].name}</T>
+                <Row style={{ gap: 5 }}>
+                  <Flag l={l} size={17} />
+                  <T f="display" style={{ fontSize: 12.5, letterSpacing: 0.8, textAlign: 'center', color: on ? '#fff' : colors.blue }}>{code(l)}</T>
+                  {on ? <Ionicons name="checkmark-circle" size={13} color="#fff" /> : null}
+                </Row>
+                <T f="bodyMed" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={{ fontSize: 12.5, textAlign: 'center', writingDirection: LANG_INFO[l].rtl ? 'rtl' : 'ltr', color: on ? '#fff' : colors.fg }}>{LANG_INFO[l].name}</T>
               </Pressable>
             );
           })}
@@ -91,7 +100,7 @@ function LangPopover({ anchor, a, onClose }: { anchor: Rect | null; a: Animated.
   );
 }
 
-/** Small "🌐 SO ▾" button for the blue top bar */
+/** Small "🇸🇴 SO ▾" button for the blue top bar */
 export function LangButton() {
   const { lang, t } = useSettings();
   const { width } = useWindowDimensions();
@@ -109,7 +118,7 @@ export function LangButton() {
         style={({ pressed }) => ({ height: 30, paddingHorizontal: width >= 360 ? 9 : 7, borderRadius: R.pill, borderWidth: 1, borderColor: 'rgba(255,255,255,0.45)', backgroundColor: pressed ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)', justifyContent: 'center' })}
       >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-          {width >= 360 ? <Ionicons name="globe-outline" size={14} color="#fff" /> : null}
+          <Flag l={lang} size={14} />
           <T f="display" style={{ color: '#fff', fontSize: 12.5, letterSpacing: 0.8, textAlign: 'center' }}>{code(lang)}</T>
           <Ionicons name="chevron-down" size={12} color="rgba(255,255,255,0.85)" />
         </View>
@@ -138,7 +147,7 @@ export function LangRow() {
       >
         <Row style={{ gap: 12 }}>
           <View style={{ width: 30, height: 30, borderRadius: 8, backgroundColor: colors.tint, alignItems: 'center', justifyContent: 'center' }}>
-            <Ionicons name="language-outline" size={17} color={colors.blue} />
+            <Flag l={lang} size={17} />
           </View>
           <T f="bodyMed" style={{ flex: 1, fontSize: 15.5 }}>{t('language')}</T>
           <T f="bodyBold" style={{ fontSize: 15, writingDirection: LANG_INFO[lang].rtl ? 'rtl' : 'ltr' }}>{LANG_INFO[lang].name}</T>

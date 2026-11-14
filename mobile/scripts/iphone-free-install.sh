@@ -25,6 +25,25 @@ ok "CocoaPods $(pod --version)"
 
 echo "Installing the app's packages (a few minutes the first time)…"
 npm ci --no-audit --no-fund
+# Keep the app that is already on the iPhone: the same bundle id and the same Personal Team as the Xcode project made
+# last time (also when you changed the id in Xcode), so the new build installs OVER it and keeps its saved articles
+# and settings. They are kept in mobile/.wtv-free-signing (on this Mac only, never committed).
+PBX=ios/WartabiyeTV.xcodeproj/project.pbxproj
+OLD_ID=""; OLD_TEAM=""
+if [ -f "$PBX" ]; then
+  OLD_ID=$(grep -m1 'PRODUCT_BUNDLE_IDENTIFIER = ' "$PBX" | sed -E 's/.*= "?([^";]+)"?;.*/\1/')
+  OLD_TEAM=$(grep -m1 'DEVELOPMENT_TEAM = ' "$PBX" | sed -E 's/.*= "?([^";]+)"?;.*/\1/')
+fi
+node -e '
+  const fs = require("fs"); let m = {};
+  try { m = JSON.parse(fs.readFileSync(".wtv-free-signing", "utf8") || "{}"); } catch (e) {}
+  const [id, team, envId] = process.argv.slice(1);
+  if (envId) m.bundleId = envId; else if (id && id !== "com.wartabiyetv.app") m.bundleId = id;
+  if (team) m.teamId = team;
+  fs.writeFileSync(".wtv-free-signing", JSON.stringify(m, null, 1) + "\n");
+  console.log("  ✓ Bundle id " + (m.bundleId || "com.wartabiyetv.app.personal") + (m.teamId ? ", team " + m.teamId : ", team: choose it in Xcode (step 4)"));
+' "$OLD_ID" "$OLD_TEAM" "${WTV_IOS_BUNDLE_ID:-}"
+
 echo "Generating the Xcode project…"
 WTV_FREE_SIGNING=1 npx expo prebuild --platform ios --clean
 ok "Xcode project ready: mobile/ios/WartabiyeTV.xcworkspace"

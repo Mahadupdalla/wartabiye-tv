@@ -161,7 +161,7 @@ export async function fetchVideos(meta: Meta | null): Promise<Video[]> {
   return list.filter(v => (seen.has(v.videoId!) ? false : (seen.add(v.videoId!), true)));
 }
 
-export interface AlertItem { id: string; kind: string; title: string; summary?: string; t?: Record<string, { title: string; summary?: string }>; url: string; time: string; manual?: boolean; urgent?: boolean }
+export interface AlertItem { id: string; kind: string; title: string; summary?: string; t?: Record<string, { title: string; summary?: string }>; url: string; time: string; manual?: boolean; urgent?: boolean; article?: string }
 export async function fetchAlerts(): Promise<AlertItem[]> {
   const j = await getJSON<{ items?: AlertItem[] }>(CONTENT_BASE + 'data/notifications.json?' + bust(60_000));
   return Array.isArray(j.items) ? j.items : [];

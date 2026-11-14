@@ -1,0 +1,70 @@
+name: iPhone app update (over the air)
+# Sends the newest app code (JavaScript, texts, design; never native code) of main to the Wartabiye TV iPhone app that
+# the owner installed from Xcode with a free Apple Account (mobile/IPHONE-FREE-INSTALL.md). Expo's free update service
+# (EAS Update, channel "personal") delivers it: the app downloads it when it starts and uses it from the next start.
+# An update reaches only builds with the same runtime version (app version + fingerprint of the native parts, see
+# mobile/app.config.js): after a native change the iPhone keeps its code until the app is built again in Xcode.
+# Needs the same two settings as the Expo Go preview: secret EXPO_TOKEN, variable EAS_PROJECT_ID. Nothing is paid.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['mobile/**', '.github/workflows/iphone-ota.yml']
+permissions:
+  contents: read
+concurrency:
+  group: iphone-ota
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: mobile
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EAS_PROJECT_ID: ${{ vars.EAS_PROJECT_ID }}
+      WTV_FREE_SIGNING: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Owner's Expo settings present?
+        id: cfg
+        run: |
+          if [ -z "$EXPO_TOKEN" ] || [ -z "$EAS_PROJECT_ID" ]; then
+            echo "### iPhone update: not set up (secret EXPO_TOKEN, variable EAS_PROJECT_ID)" >> "$GITHUB_STEP_SUMMARY"
+            echo "ready=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=1" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.cfg.outputs.ready == '1'
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+        if: steps.cfg.outputs.ready == '1'
+      - name: Checks before sending (interface text in nine languages, TypeScript)
+        if: steps.cfg.outputs.ready == '1'
+        run: node test/i18n.check.mjs && npx tsc --noEmit
+      - name: Only the public app goes out (no admin feature, address, key or token in the code sent to Expo)
+        if: steps.cfg.outputs.ready == '1'
+        run: |
+          npx expo export --platform ios --output-dir /tmp/scan > /tmp/export.log 2>&1 || { tail -40 /tmp/export.log; exit 1; }
+          bad=0
+          for s in ghp_ github_pat_ gho_ ghu_ ghs_ x-access-token PUSH_ADMIN_TOKEN SESSION_SECRET VAPID_PRIVATE ANTHROPIC api.anthropic.com sk-ant- CLOUDFLARE_API_TOKEN api.cloudflare.com /api/github /api/me /api/security /api/automation /api/analytics wartabiye-admin.wartabiye.workers.dev/login /admin/ 'BEGIN PRIVATE KEY'; do
+            if grep -a -r -F -q -- "$s" /tmp/scan/_expo; then echo "FOUND in the app code: $s"; bad=1; fi
+          done
+          if grep -a -r -F -q -- "$EXPO_TOKEN" /tmp/scan/_expo; then echo "FOUND in the app code: the Expo token"; bad=1; fi
+          [ $bad = 0 ] && echo "No admin feature, address, key or token in the iPhone code"
+      - name: Publish to the iPhone app (channel personal)
+        if: steps.cfg.outputs.ready == '1'
+        run: |
+          RT=$(node -p "require('./app.config.js')({config: require('./app.json').expo}).runtimeVersion")
+          MSG="$(git log -1 --format=%s | cut -c1-80)"
+          npx eas-cli@latest update --channel personal --platform ios --environment production --message "$MSG" --non-interactive --json > /tmp/update.json \
+            || npx eas-cli@latest update --channel personal --platform ios --message "$MSG" --non-interactive --json > /tmp/update.json
+          cat /tmp/update.json
+          { echo "### iPhone app update published"; echo; echo "Channel \`personal\`, runtime version \`$RT\`, commit $GITHUB_SHA."
+            echo "It reaches iPhone builds with the same runtime version (Settings → App updates shows which code runs)."; } >> "$GITHUB_STEP_SUMMARY"

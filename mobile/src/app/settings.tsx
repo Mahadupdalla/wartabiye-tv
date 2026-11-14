@@ -5,6 +5,8 @@ import { useSettings, type ThemePref } from '../lib/settings';
 import { APP_VERSION } from '../lib/config';
 import { Group, GroupRow, Row, T } from '../components/ui';
 import { LangRow } from '../components/lang';
+import { UpdatesCard } from '../components/updates';
+import * as Updates from 'expo-updates';
 
 export default function SettingsScreen() {
   const { colors, t, themePref, setThemePref, fontSize, setFontSize, analytics, setAnalytics } = useSettings();
@@ -50,6 +52,8 @@ export default function SettingsScreen() {
           <Switch value={analytics} onValueChange={setAnalytics} accessibilityLabel={t('analytics')} trackColor={{ true: colors.blue, false: colors.hair }} thumbColor="#fff" />
         </Row>
       </Group>
+      {Updates.isEnabled ? head(t('appUpdates')) : null}
+      {Updates.isEnabled ? <Group><UpdatesCard /></Group> : null}
       <T style={{ padding: 20, fontSize: 12, color: colors.sub, textAlign: 'center' }}>Wartabiye TV · {t('version')} {APP_VERSION}</T>
     </ScrollView>
   );

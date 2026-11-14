@@ -33,7 +33,7 @@ export default function Search() {
           accessibilityLabel={t('search')}
           style={{ flex: 1, color: colors.fg, paddingVertical: 11, fontSize: 16, textAlign: rtl ? 'right' : 'left', outlineStyle: 'none' } as any}
         />
-        {typed ? <Pressable onPress={() => setQ('')} hitSlop={8} accessibilityRole="button" accessibilityLabel="Clear"><Ionicons name="close-circle" size={18} color={colors.sub} /></Pressable> : null}
+        {typed ? <Pressable onPress={() => setQ('')} hitSlop={8} accessibilityRole="button" accessibilityLabel={t('clear')}><Ionicons name="close-circle" size={18} color={colors.sub} /></Pressable> : null}
         </Row>
       </View>
       <FlatList

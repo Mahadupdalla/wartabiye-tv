@@ -73,6 +73,19 @@ jobs:
           grep -q 'buildConfiguration = "Release"' ios/WartabiyeTV.xcodeproj/xcshareddata/xcschemes/WartabiyeTV.xcscheme
           grep -q 'NSPrivacyAccessedAPICategoryUserDefaults' ios/WartabiyeTV/PrivacyInfo.xcprivacy
           bash -n scripts/iphone-free-install.sh
+          # over-the-air updates: Expo's update service, channel "personal", runtime = version + native fingerprint
+          RT=$(node -p "require('./app.config.js')({config: require('./app.json').expo}).runtimeVersion")
+          plutil -p ios/WartabiyeTV/Supporting/Expo.plist 2>/dev/null || cat ios/WartabiyeTV/Supporting/Expo.plist
+          grep -A1 EXUpdatesEnabled ios/WartabiyeTV/Supporting/Expo.plist | grep -q '<true/>'
+          grep -q "https://u.expo.dev/ec499f36-c73d-45f2-8675-cad04e52ccd2" ios/WartabiyeTV/Supporting/Expo.plist
+          grep -q "<string>personal</string>" ios/WartabiyeTV/Supporting/Expo.plist
+          grep -q "<string>$RT</string>" ios/WartabiyeTV/Supporting/Expo.plist
+          # an app already on the iPhone with another id and team: the next prepare keeps both (installs over it)
+          printf '{"bundleId":"com.wartabiyetv.app.test1","teamId":"TEAM123456"}' > .wtv-free-signing
+          npx expo prebuild --platform ios --no-install --clean
+          rm -f .wtv-free-signing
+          grep -q 'PRODUCT_BUNDLE_IDENTIFIER = "com.wartabiyetv.app.test1"' ios/WartabiyeTV.xcodeproj/project.pbxproj
+          grep -q 'DEVELOPMENT_TEAM = TEAM123456' ios/WartabiyeTV.xcodeproj/project.pbxproj
       - name: App Store Connect script against a fake Apple API
         run: |
           pip install --quiet pyjwt cryptography

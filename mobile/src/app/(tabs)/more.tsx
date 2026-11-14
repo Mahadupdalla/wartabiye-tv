@@ -22,6 +22,7 @@ export default function More() {
         {head(t('sections'))}
         <Group>
           <GroupRow first icon="home-outline" label={t('allNews')} onPress={() => router.navigate('/')} />
+          <GroupRow icon="time-outline" label={t('latest')} onPress={nav('/latest')} />
           <GroupRow icon="flag-outline" label={t('somaliaNav')} onPress={nav('/section/somalia')} />
           <GroupRow icon="earth-outline" label={t('world')} onPress={nav('/section/world')} />
           <GroupRow icon="football-outline" label={t('sports')} onPress={nav('/section/sports')} />

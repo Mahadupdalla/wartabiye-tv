@@ -12,7 +12,9 @@ time, mostly downloads.
 | The app on your Home Screen | yes, opens on its own | yes |
 | News, 9 languages, design, saved articles, search, LIVE | yes | yes |
 | How long it keeps opening | **7 days**, then connect the iPhone to the Mac and press Run again (2 minutes) | 90 days per build, new builds arrive by themselves |
-| Push notifications (breaking news alerts) | **no**: Apple allows them only for paid accounts | yes |
+| Push notifications on the lock screen | **no**: Apple gives push only to paid accounts | yes |
+| Breaking news alerts inside the app, notification center with "new" marks | yes (while the app is open) | yes |
+| New app code without the Mac (over the air) | yes: text, design and screen changes arrive by themselves; native changes need Xcode | new builds through TestFlight |
 | wartabiyetv.com links in other apps open the app | **no** (they open in Safari) | yes |
 | Install on other people's iPhones | only iPhones plugged into your Mac, at most 3 per week | up to 100 testers by email |
 
@@ -95,13 +97,35 @@ choose your iPhone and press **▶ Run**.
 
 ## Getting the newest version of the app
 
-In Terminal:
+There are two kinds of changes.
 
-```
-cd ~/Desktop/wartabiye-tv && git pull && bash mobile/scripts/iphone-free-install.sh
-```
+**Most changes arrive by themselves (over the air).** Changes to texts, translations, design and screens are sent from
+GitHub to the app through Expo's free update service. The app downloads them when it starts and uses them from the next
+start: open Wartabiye TV, close it completely (swipe it away), open it again. **Settings → App updates** shows which code
+runs ("Version built into the app" or "Update of <date>") and has a **Check for updates** button. This works only in a
+build made with this guide on or after 14 November 2026; an older build has to be built once more as below.
 
-then steps 4 and 6 again.
+**Native changes need Xcode once.** A new library, a new iPhone permission or a new app version number cannot be sent
+over the air. The app then keeps its current code (it never loads code it cannot run) until you build it again. Claude
+says in the project chat when a change needs this.
+
+### Building over the app that is already on your iPhone (your saved articles and settings stay)
+
+1. Plug in the iPhone and unlock it.
+2. In Terminal:
+
+   ```
+   cd ~/Desktop/wartabiye-tv && git pull && bash mobile/scripts/iphone-free-install.sh
+   ```
+
+   The script reads the bundle id and team of the app you built last time and keeps them (it prints
+   "✓ Bundle id com.wartabiyetv.app.personal, team …"). Same bundle id + same team = Xcode replaces the app instead of
+   adding a second one, and everything you saved stays.
+3. Xcode opens. Click the blue **WartabiyeTV** icon → **TARGETS → WartabiyeTV → Signing & Capabilities**: the Team should
+   already say **Your Name (Personal Team)**. If it is empty, choose it again (step 4.3). **Do not change the Bundle
+   Identifier.**
+4. Choose your iPhone at the top and press **▶ Run**. Do not delete the app from the iPhone first: it is not needed and it
+   would delete your saved articles.
 
 ## If something goes wrong
 
@@ -113,5 +137,7 @@ then steps 4 and 6 again.
 * **"Could not launch… Untrusted Developer"**: step 6.3.
 * **A build error mentioning Swift, ExpoModulesJSI or "data races"**: Xcode is too old; update it to 27 or newer.
 * **"pod: command not found"**: in Terminal run `sudo gem install cocoapods` (it asks for your Mac password), then step 3.
+* **Two Wartabiye TV icons on the iPhone**: the bundle id was changed. Put the old id back in step 4.4 (the one
+  from your first install, usually `com.wartabiyetv.app.personal`) and Run; the extra icon is the new copy and can go.
 * Anything else: copy the red error text from Xcode (Report navigator, the last icon in the left column) and send it
   to Claude in the project chat.

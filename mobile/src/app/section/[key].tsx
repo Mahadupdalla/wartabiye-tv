@@ -11,7 +11,8 @@ import { StatusLine } from '../../components/chrome';
 import { BlockHead, EmptyState, FeedSkeleton, T } from '../../components/ui';
 
 // Soomaaliya, Caalamka and Ciyaaraha: the same three sections as the website, newest first by the publisher's time
-const SPORT_NAMES: Record<string, string> = { football: 'Football', basketball: 'Basketball', athletics: 'Athletics', formula1: 'Formula 1', tennis: 'Tennis', boxing: 'Boxing', cricket: 'Cricket' };
+// sport names in the reader's language (sportFootball … in i18n/app.ts); an unknown sport keeps the newsroom's own name
+const SPORT_KEYS: Record<string, string> = { football: 'sportFootball', basketball: 'sportBasketball', athletics: 'sportAthletics', formula1: 'sportFormula1', tennis: 'sportTennis', boxing: 'sportBoxing', cricket: 'sportCricket' };
 
 export default function SectionScreen() {
   const { key, cat } = useLocalSearchParams<{ key: string; cat?: string }>();
@@ -28,7 +29,7 @@ export default function SectionScreen() {
     }
     if (sec === 'sports') {
       const sports = [...new Set(base.map(c => c.sport).filter(Boolean))] as string[];
-      return sports.length > 1 ? [{ k: '', label: t('all') }, ...sports.map(s => ({ k: 'sport:' + s, label: SPORT_NAMES[s] || s.charAt(0).toUpperCase() + s.slice(1) }))] : [];
+      return sports.length > 1 ? [{ k: '', label: t('all') }, ...sports.map(s => ({ k: 'sport:' + s, label: SPORT_KEYS[s] ? t(SPORT_KEYS[s]) : s.charAt(0).toUpperCase() + s.slice(1) }))] : [];
     }
     return [];
   }, [base, sec, t, lang]);

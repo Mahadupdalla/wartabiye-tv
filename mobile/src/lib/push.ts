@@ -5,13 +5,16 @@ import { EAS_PROJECT_ID } from './config';
 import { load, save } from './storage';
 import type { NotifPrefs } from './settings';
 import type { Meta } from './types';
+import { isFreeAppleBuild } from './alerts';
 
 // Real push notifications through the existing Wartabiye TV push Worker (workers/push): the app registers its Expo push
 // token and the categories the person chose; the publish workflow (tools/push_send.py) sends each new story ONCE, after
 // the website is live, with the same limits as the website's bell (quiet hours, daily caps, no repeats).
 // Delivery: Expo push service -> Firebase Cloud Messaging (Android) / Apple Push Notification service (iOS).
 
-export type PushState = 'off-by-site' | 'unsupported' | 'denied' | 'needs-setup' | 'on' | 'off' | 'error';
+// 'free-apple': the iPhone app was installed from Xcode with a free Apple account (Personal Team). Apple gives such apps
+// no push entitlement (aps-environment), so no push token can exist: the app says so instead of trying and failing.
+export type PushState = 'off-by-site' | 'unsupported' | 'denied' | 'needs-setup' | 'free-apple' | 'on' | 'off' | 'error';
 
 export function categoriesOf(p: NotifPrefs): string[] {
   return (['breaking', 'eastAfrica', 'world', 'sports'] as const).filter(k => p[k]);
@@ -48,6 +51,7 @@ export async function syncPush(meta: Meta | null, prefs: NotifPrefs, lang: strin
     await save('pushToken', null);
     return 'off';
   }
+  if (isFreeAppleBuild()) return 'free-apple';
   if (!worker) return 'off-by-site';
   if (!Device.isDevice) return 'unsupported';
   if (!EAS_PROJECT_ID) return 'needs-setup';
