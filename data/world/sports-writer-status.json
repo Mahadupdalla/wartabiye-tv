@@ -1,6 +1,6 @@
 {
  "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
- "mode": "paused: Anthropic API credit balance too low since 2026-11-13T18:03:20+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
+ "mode": "paused: Anthropic API credit balance too low since 2026-11-14T08:06:35+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
  "limits": {
   "articlesPerDay": 2,
   "usdPerDay": 1.0,
@@ -13,12 +13,12 @@
    "18:00"
   ],
   "windowMinutes": 55,
-  "nextRun": "2026-11-14T08:00+03:00"
+  "nextRun": "2026-11-14T18:00+03:00"
  },
- "lastCheckAt": "2026-11-14T07:36:27+03:00",
+ "lastCheckAt": "2026-11-14T08:31:29+03:00",
  "lastRun": {
-  "skipped": 1,
-  "waitingForSchedule": 10
+  "skipped": 0,
+  "waitingForSchedule": 16
  },
  "lastWrittenAt": null,
  "days": {
@@ -71,13 +71,46 @@
    "written": 0,
    "published": 0,
    "held": 0,
-   "skipped": 237,
+   "skipped": 240,
    "refused": 0,
-   "failed": 0,
+   "failed": 1,
    "usd": 0
   }
  },
  "recent": [
+  {
+   "at": "2026-11-14T08:17:02+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Judge orders LSU to roster RJ Luis, clearing him to play despite SEC rule",
+   "url": "https://www.nytimes.com/athletic/7780401/2026/11/13/judge-orders-lsu-roster-rj-luis-sec/"
+  },
+  {
+   "at": "2026-11-14T08:06:35+03:00",
+   "source": "dw-sports",
+   "title": "Senegal Youth Olympics in Dakar end on high note",
+   "url": "https://www.dw.com/en/senegal-youth-olympics-in-dakar-end-on-high-note/a-79944820?maca=en-rss-en-sports-1027-rdf",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-14T08:06:35+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "¿Qué pasa en Cádiz?",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261114/1004250646/pasa-cadiz.html"
+  },
+  {
+   "at": "2026-11-14T07:56:28+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "the-athletic",
+   "title": "How to watch the men's Stockholm Open: Streaming options for the Final",
+   "url": "https://www.nytimes.com/athletic/7780832/2026/11/13/mens-stockholm-open-stream-how-to-watch-november-14/"
+  },
   {
    "at": "2026-11-14T07:36:27+03:00",
    "result": "skipped",
@@ -525,38 +558,6 @@
    "source": "lequipe",
    "title": "Le résumé vidéo d’Écosse - Macédoine du Nord",
    "url": "https://www.lequipe.fr/Football/Video/Ligue-des-nations-le-resume-d-ecosse-macedoine-du-nord/20245498#at_medium=RSS_feeds"
-  },
-  {
-   "at": "2026-11-14T03:31:37+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "lequipe",
-   "title": "Le résumé vidéo de Slovénie - Suisse",
-   "url": "https://www.lequipe.fr/Football/Video/Ligue-des-nations-le-resume-de-slovenie-suisse/20245497#at_medium=RSS_feeds"
-  },
-  {
-   "at": "2026-11-14T03:31:37+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "cbssports",
-   "title": "Alabama to sit QB Keelon Russell, start Austin Mack vs. Vanderbilt, per report",
-   "url": "https://www.cbssports.com/college-football/news/alabama-sit-qb-keelon-russell-austin-mack-vanderbilt/"
-  },
-  {
-   "at": "2026-11-14T03:31:37+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "as",
-   "title": "El Castilla rompe el maleficio",
-   "url": "https://as.com/futbol/mas_futbol/el-castilla-rompe-el-maleficio-f202611-n/"
-  },
-  {
-   "at": "2026-11-14T03:31:37+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "as",
-   "title": "El Castilla rompe el maleficio",
-   "url": "https://as.com/futbol/primera-rfef/el-castilla-rompe-el-maleficio-f202611-n/"
   }
  ]
 }
