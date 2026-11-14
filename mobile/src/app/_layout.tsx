@@ -7,6 +7,7 @@ import * as Notifications from 'expo-notifications';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import { Brand, FreshBreaking } from '../components/chrome';
+import { Intro } from '../components/intro';
 // only the five weights the app uses (importing the package index would ship every weight)
 import { PublicSans_400Regular } from '@expo-google-fonts/public-sans/400Regular';
 import { PublicSans_500Medium } from '@expo-google-fonts/public-sans/500Medium';
@@ -72,7 +73,8 @@ function Shell() {
     if (ready && pushOn) syncPush(meta, notif, lang, true, false).catch(() => undefined);
   }, [ready, pushOn, lang]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (ready && status !== 'loading') SplashScreen.hideAsync().catch(() => undefined);
+    // the opening screen (components/intro.tsx, same blue and logo) takes over from the native splash at once
+    if (ready) SplashScreen.hideAsync().catch(() => undefined);
     const tm = setTimeout(() => SplashScreen.hideAsync().catch(() => undefined), 2500); // never keep the splash longer
     return () => clearTimeout(tm);
   }, [ready, status]);
@@ -112,6 +114,7 @@ function Shell() {
         <Stack.Screen name="browser" options={{ title: '', animation: Platform.OS === 'android' ? 'slide_from_bottom' : 'default', presentation: 'card' }} />
       </Stack>
       <FreshBreaking />
+      <Intro />
      </View>
     </View>
   );
