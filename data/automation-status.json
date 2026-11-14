@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-14T15:21:37+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-14T15:36:32+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-14T09:30:58Z",
  "newestArticleAt": "2026-11-14T11:25:15+03:00",
- "lastSourceCheckAt": "2026-11-14T15:20:19+03:00",
+ "lastSourceCheckAt": "2026-11-14T15:35:25+03:00",
  "sourceChecks24h": 293,
- "publishedArticles": 508,
+ "publishedArticles": 512,
  "liveArticles": 508,
- "waitingForImage": 87,
- "liveInSync": true,
+ "waitingForImage": 88,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-14T09:30:58Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43580910465"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-14T12:36:31+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-14T12:30:40+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-14T15:35:27+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -34,64 +39,58 @@
   },
   "sports": {
    "mode": "paused: Anthropic API credit balance too low since 2026-11-14T08:06:35+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
-   "lastCheckAt": "2026-11-14T15:21:34+03:00",
+   "lastCheckAt": "2026-11-14T15:36:28+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 4,
-    "waitingForSchedule": 81
+    "skipped": 5,
+    "waitingForSchedule": 84
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-14T15:20:11+03:00",
-   "lastSuccessAt": "2026-11-14T15:20:11+03:00",
+   "lastCheckAt": "2026-11-14T15:35:16+03:00",
+   "lastSuccessAt": "2026-11-14T15:35:16+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-14T12:30:40+03:00",
+  "lastSourceCheckAt": "2026-11-14T15:35:27+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-14T11:50:56+03:00",
-   "sourceName": "BBC Somali",
-   "title": "Kareena Kapoor oo lagu dheggan yahay kadib markii ay xiratay katiinad ay ku qoran tahay aayad Qur'aanka Kariimka ah",
-   "url": "https://www.bbc.com/somali/articles/cvrlgnr6ng5do?at_medium=RSS&at_campaign=rss"
+   "publishedAt": "2026-11-14T14:53:11+03:00",
+   "sourceName": "Radio Muqdisho (state broadcaster)",
+   "title": "Guddoomiyaha SoDMA oo khudbad ka jeedin doona madasha Soomaaliya ee shirka (COP3)",
+   "url": "https://radiomuqdisho.so/guddoomiyaha-sodma-oo-khudbad-ka-jeedin-doona-madasha-soomaaliya-ee-shirka-cop3/"
   },
   "latestPublished": {
-   "id": "2026-11-14-madaxtooyada-gogosha-wadatashiga-qaran-dhawaan",
-   "title": "Madaxtooyada Soomaaliya: Gogosha Wadatashiga Qaran ayaa dhawaan la furayaa",
-   "publishedAt": "2026-11-14T10:53:10+03:00",
-   "source": "Radio Muqdisho",
-   "url": "/war/2026-11-14-madaxtooyada-gogosha-wadatashiga-qaran-dhawaan.html"
+   "id": "2026-11-14-erdogan-xasan-sheekh-wada-hadal-midnimo-qaran",
+   "title": "Erdoğan oo Xasan Sheekh ugu baaqay wada-hadal siyaasadeed iyo midnimo qaran",
+   "publishedAt": "2026-11-14T13:18:18+03:00",
+   "source": "Hiiraan Online",
+   "url": "/war/2026-11-14-erdogan-xasan-sheekh-wada-hadal-midnimo-qaran.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 76,
+  "publishedLastRun": 3,
+  "rejectedLastRun": 70,
   "rejectedReasons": {
    "old": 4,
-   "duplicate": 71,
-   "on-site": 1
+   "duplicate": 66
   },
   "taskRejectedReasons": [
-   "Madaxtooyada/Gogosha Wadatashiga (Goobjoog, Shabelle, Horseed, Caasimada x2): isla dhacdada Radio Muqdisho -> alsoReportedBy (la daabacay)",
-   "UN experts brand removal of chief justice (Somali Guardian): khubarada QM horey loo daabacay 12 Nov; jawaabta dowladda (Hiiraan) ayaa la daabacay",
-   "Bixitaanka ciidamada Uganda walaac amni (Hiiraan): falanqayn, war cusub ma aha (bixitaanka horey loo daabacay)",
-   "Guddoomiyaha SoDMA iyo dhiggiisa Turkiga (Radio Muqdisho, Shabelle x2): kulan borotokool, war qiimo leh ma aha",
-   "Soomaaliya iyo Sanduuqa Nabadda AU (Radio Muqdisho, Shabelle): duplicate (2026-11-13-soomaaliya-midowga-afrika-isku-filnaansho-accra)",
-   "Sheekh Aadan Madoobe sagootin Guutada 45 (Shabelle): borotokool, headline-only",
-   "Somalia drought insurance COP31 (Shabelle): headline-only; plan none -> pending",
-   "Danab Bay-Shabeellaha Hoose (Shabelle): amni hal il, headline-only -> pending (sababtii hore)",
-   "Safiirka Turkiga iyo Sheekh Shariif (Shabelle x2): borotokool",
-   "Wafdi Jubbaland Garoowe (Horseed): headline-only, hordhac kulan; il kale lama helin -> pending",
-   "Xildhibaano Cabdifataax Afrax (Hiiraan): codsi siyaasadeed hal il, qiimo war yar",
-   "Dab isgoyska Tarabuunka (Caasimada, Daawo): muuqaal headline-only; il kale lama helin -> pending",
-   "BBC Somali (Kareena Kapoor, qabri, bidaar, kafeyn, buraash): features, ma aha war Soomaaliyeed cusub",
-   "Catch-up kale (Uganda beenin, Wasiirka Gaashaandhigga 4 milyan, Aadan Madoobe Baydhabo, Antalya, Puntland dastuur/ciidamo, Kosovo, Israa'iil-Somaliland, Microsoft): sababihii hore weli way jiraan (headline-only/hal il/duplicate)"
+   "Guddoomiyaha SoDMA khudbad COP (Radio Muqdisho 14:53): borotokool",
+   "Ciidamada AUSSOM iyo saraakiisha Carbiska (Hiiraan): kulan borotokool",
+   "Senator Cabdixakiin Macallin mucaaradka (Hiiraan): ra'yi/hadal siyaasadeed, dib u dhaca wada-hadalka horey loo daabacay",
+   "Aadan Madoobe Baraawe ciidamada (Radio Muqdisho, Horseed): booqasho borotokool",
+   "Dal 3,500 doollar muhaajiriinta (BBC Somali): ma aha war Soomaaliyeed, headline-only",
+   "Maxaa ka socda Uganda (BBC Somali): falanqayn/feature",
+   "Kareena Kapoor (BBC Somali): feature",
+   "Catch-up kale (Madaxtooyada gogosha, SoDMA Turkiga, AU, khubarada QM, Danab, Safiirka Turkiga, Jubbaland Garoowe, Tarabuunka, Xildhibaano Afrax, Wasiirka Gaashaandhigga, Baydhabo, Antalya, Puntland, Mooyaale, Ramaphosa): sababihii orodkii 12:08 weli way jiraan (duplicate/borotokool/headline-only/hal il)"
   ],
-  "waitingForImage": 1,
+  "waitingForImage": 2,
   "waitingIds": [
-   "2026-11-09-qaamuuska-luuqadda-dhegoolayaasha"
+   "2026-11-09-qaamuuska-luuqadda-dhegoolayaasha",
+   "2026-11-14-updf-beenisay-askar-uganda-lagu-dilay-shabeellaha-hoose"
   ],
   "stale": false,
   "problems": [],
