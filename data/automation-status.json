@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-14T05:51:29+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-14T06:26:37+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-14T00:27:37Z",
- "newestArticleAt": "2026-11-14T02:55:36+03:00",
- "lastSourceCheckAt": "2026-11-14T05:50:21+03:00",
+ "newestArticleAt": "2026-11-14T05:35:48+03:00",
+ "lastSourceCheckAt": "2026-11-14T06:25:23+03:00",
  "sourceChecks24h": 292,
- "publishedArticles": 494,
- "liveArticles": 494,
- "waitingForImage": 86,
- "liveInSync": true,
+ "publishedArticles": 498,
+ "liveArticles": 498,
+ "waitingForImage": 87,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-14T00:27:37Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43534325405"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-14T03:26:36+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-14T03:27:15+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-14T06:25:45+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -34,30 +39,30 @@
   },
   "sports": {
    "mode": "paused: Anthropic API credit balance too low since 2026-11-13T18:03:20+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
-   "lastCheckAt": "2026-11-14T05:51:26+03:00",
+   "lastCheckAt": "2026-11-14T06:26:33+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 2,
-    "waitingForSchedule": 9
+    "skipped": 0,
+    "waitingForSchedule": 7
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-14T05:50:12+03:00",
-   "lastSuccessAt": "2026-11-14T05:50:12+03:00",
+   "lastCheckAt": "2026-11-14T06:25:15+03:00",
+   "lastSuccessAt": "2026-11-14T06:25:15+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-14T03:27:15+03:00",
+  "lastSourceCheckAt": "2026-11-14T06:25:45+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-13T23:50:44+03:00",
-   "sourceName": "Hiiraan Online",
-   "title": "Wasiirka Gaashaandhigga Soomaaliya oo mucaaradka ku eedeeyay inay heleen 4 milyan oo dollar si ay dowladda u ridaan",
-   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta13-195500.htm"
+   "publishedAt": "2026-11-14T06:00:48+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Uganda oo beenisay warar la faafiyey xiili ay ciidamadeeda kala baxeyso Soomaaliya",
+   "url": "https://www.caasimada.net/uganda-oo-beenisay-warar-la-faafiyey-xiili-ay-ciidamadeeda-kala-baxeyso-soomaaliya/"
   },
   "latestPublished": {
    "id": "2026-11-13-soomaaliya-midowga-afrika-isku-filnaansho-accra",
@@ -74,15 +79,13 @@
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Wasiirka Gaashaandhigga Soomaaliya oo mucaaradka ku eedeeyay inay heleen 4 milyan oo dollar (Hiiraan): eedeyn siyaasadeed oo culus, hal il; WebSearch so none -> pending",
-   "Boobe Yuusuf Ducaale oo Hargeysa ku geeriyooday (Caasimada): headline-only; Hiiraan feed none, WebSearch so none -> pending",
-   "Aadan Madoobe oo Baydhabo isaga baxay (Daljir): muuqaal kaliya; WebSearch en none (natiijooyin hore oo kaliya) -> pending",
-   "DF Soomaaliya iyo Turkiga oo heshiis cusub ku saxiixday Antalya (Caasimada): headline-only; Hiiraan feed none, WebSearch en none (heshiisyo hore oo kaliya) -> pending",
-   "Qaar kamid ah siyaasiyiinta Puntland oo ka digey waxka-beddelka dastuurka (Horseed): headline-only; Hiiraan feed none -> pending",
-   "Dowladda Soomaaliya oo xaqiijisay ballanqaadkeedii (Caasimada): headline-only, cinwaan dhiman -> pending",
-   "Mooyaale gantaallo (Goobjoog): sheegasho amni hal il ah -> pending",
-   "Catch-up kale (Ramaphosa, Turkiga 15,000, QM Baashe, Jubaland, Kosovo, Puntland Roox, IGAD Muqdisho, Israa'iil-Somaliland, Microsoft, Nvidia, Scott Colom, Ghana, Danab/Leego, Masar, RW Xamse, Puntland halis dowladnimo): duplicate / sababihii hore weli way jiraan",
-   "BBC Somali features iyo barnaamijyo (bidaar, kafeyga, dunida, buraash, Kanada, Dunida iyo Maanta, Idaacadda Subaxnimo) + Caasimada opinion + Daljir kayd 2012: ma aha war cusub"
+   "Uganda oo beenisay warar la faafiyey xiili ay ciidamadeeda kala baxeyso Soomaaliya (Caasimada): headline-only; plan none, WebSearch so+en none (kaliya warar hore 2-3 Nov) -> pending",
+   "ISIS-linked ADF attacks kill at least 44 civilians in eastern Congo (Sweden Herald, world): tirada dhimashada hal il, WebSearch none -> pending",
+   "Wasiirka Gaashaandhigga 4 milyan (Hiiraan): eedeyn siyaasadeed oo culus, hal il -> pending (sababtii hore)",
+   "Boobe Yuusuf Ducaale, Antalya heshiis, Puntland dastuur, Dowladda ballanqaad (Caasimada/Horseed): headline-only; il kale lama helin -> pending (24 saac gudahood)",
+   "Aadan Madoobe Baydhabo (Daljir), Mooyaale gantaallo (Goobjoog): hal il amni -> pending",
+   "Catch-up kale (Ramaphosa, Turkiga 15,000, QM Baashe, Jubaland, Kosovo, Puntland Roox, IGAD Muqdisho, Israa'iil-Somaliland, Microsoft, Nvidia, Scott Colom, Danab/Leego, Masar, RW Xamse): duplicate (horey loo daabacay)",
+   "BBC Somali features/barnaamijyo, Caasimada opinion, Daljir kayd 2012: ma aha war cusub"
   ],
   "waitingForImage": 1,
   "waitingIds": [
