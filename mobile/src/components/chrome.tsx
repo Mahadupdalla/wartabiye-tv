@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, Image, Linking, Modal, Platform, Pressable, ScrollView, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, type Href } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettings } from '../lib/settings';
 import { useContent } from '../lib/content';
 import { clock, todayLine } from '../lib/i18n';
@@ -402,6 +402,41 @@ export function BreakingBanner() {
         </Pressable>
       ) : null}
     </Animated.View>
+  );
+}
+
+/** The section bar under the ticker, as in a newspaper's app: plain words, the page you are on underlined in blue.
+ *  It stays at the top with the ticker while Home scrolls. LIVE and Breaking carry a red dot. */
+export function SectionTabs({ active = 'home' }: { active?: string }) {
+  const { colors, t, rtl } = useSettings();
+  const flip = rtl && Platform.OS !== 'web';
+  const tabs: [string, string, () => void, boolean?][] = [
+    ['home', t('home'), () => router.navigate('/')],
+    ['somalia', t('somaliaNav'), () => router.push('/section/somalia')],
+    ['world', t('world'), () => router.push('/section/world')],
+    ['sports', t('sports'), () => router.push('/section/sports')],
+    ['live', t('liveNewsNav'), () => router.navigate('/live'), true],
+    ['breaking', t('breakingTitle'), () => router.push('/breaking'), true],
+    ['videos', t('videosNav'), () => router.navigate('/videos')],
+    ['latest', t('latestShort'), () => router.push('/latest')],
+  ];
+  return (
+    <View style={{ backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.hair }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} accessibilityLabel={t('sectionsBar')} style={{ flexGrow: 0, transform: flip ? [{ scaleX: -1 }] : undefined }} contentContainerStyle={{ paddingHorizontal: 8 }}>
+        {tabs.map(([k, label, go, red]) => {
+          const on = k === active;
+          return (
+            <Pressable key={k} onPress={on ? undefined : go} accessibilityRole="link" accessibilityState={{ selected: on }} style={({ pressed }) => ({ transform: flip ? [{ scaleX: -1 }] : undefined, height: 42, paddingHorizontal: 10, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}>
+              <Row style={{ gap: 6 }}>
+                {red ? <LiveDot size={6} /> : null}
+                <T f={on ? 'bodyBold' : 'bodyMed'} style={{ fontSize: 14, color: on ? colors.fg : colors.sub }}>{label}</T>
+              </Row>
+              <View style={{ position: 'absolute', left: 10, right: 10, bottom: 0, height: 3, borderTopLeftRadius: 2, borderTopRightRadius: 2, backgroundColor: on ? colors.blue : 'transparent' }} />
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }
 

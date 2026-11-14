@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, FlatList, Linking, Platform, Pressable, RefreshControl, ScrollView, Switch, View } from 'react-native';
 import { router } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettings, type NotifPrefs } from '../lib/settings';
 import { useContent } from '../lib/content';
 import { type AlertItem } from '../lib/api';

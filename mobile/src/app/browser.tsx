@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Linking, Pressable, Share, View } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettings } from '../lib/settings';
 import { SiteWebView } from '../components/SiteWebView';
 import { Notice, Row, T } from '../components/ui';

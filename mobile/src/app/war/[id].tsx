@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Animated, Easing, Linking, Platform, Pressable, ScrollView, Share, View } from 'react-native';
 import { Stack, router, useLocalSearchParams, useNavigation } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettings } from '../../lib/settings';
 import { useContent } from '../../lib/content';
 import { articleUrl } from '../../lib/config';
@@ -12,7 +12,7 @@ import type { Article, Lang } from '../../lib/types';
 import { LANG_INFO, LANGS } from '../../lib/types';
 import { NewsRow, isBreaking } from '../../components/cards';
 import { AdSlot } from '../../components/ads';
-import { BlockHead, CatTag, EmptyState, Group, Notice, Photo, Row, Skeleton, T } from '../../components/ui';
+import { BlockHead, CatTag, EmptyState, Notice, Photo, Row, Sheet, Skeleton, T } from '../../components/ui';
 import { Image } from 'expo-image';
 
 const LOGO = require('../../../assets/logo.png');
@@ -106,13 +106,24 @@ export default function ArticleScreen() {
 
   if (article === undefined && !failed) {
     return (
-      <View style={{ flex: 1, padding: 16, gap: 14, backgroundColor: colors.bg }}>
+      <View style={{ flex: 1, backgroundColor: colors.surface }} accessibilityLabel={t('loadingStory')}>
         <Stack.Screen options={{ title: '' }} />
-        <Skeleton style={{ height: 28, width: '90%' }} />
-        <Skeleton style={{ height: 28, width: '70%' }} />
-        <Skeleton style={{ height: 220, borderRadius: 12 }} />
-        {[0, 1, 2, 3, 4].map(i => <Skeleton key={i} style={{ height: 15, width: i % 2 ? '92%' : '100%' }} />)}
-        <ActivityIndicator color={colors.blue} accessibilityLabel={t('loadingStory')} />
+        <View style={{ padding: 16, paddingTop: 20, gap: 12 }}>
+          <Skeleton style={{ height: 12, width: 90 }} />
+          <Skeleton style={{ height: 30, width: '94%' }} />
+          <Skeleton style={{ height: 30, width: '78%' }} />
+          <Skeleton style={{ height: 17, width: '88%', marginTop: 4 }} />
+          <Skeleton style={{ height: 17, width: '60%' }} />
+          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', marginTop: 6 }}>
+            <Skeleton style={{ width: 38, height: 38, borderRadius: 19 }} />
+            <View style={{ gap: 6, flex: 1 }}><Skeleton style={{ height: 12, width: 110 }} /><Skeleton style={{ height: 11, width: 160 }} /></View>
+          </View>
+        </View>
+        <Skeleton style={{ width: '100%', aspectRatio: 16 / 10, borderRadius: 0 }} />
+        <View style={{ padding: 16, gap: 11 }}>
+          {[0, 1, 2, 3, 4, 5].map(i => <Skeleton key={i} style={{ height: 15, width: i === 5 ? '55%' : i % 2 ? '92%' : '100%' }} />)}
+        </View>
+        <ActivityIndicator color={colors.blue} style={{ display: 'none' }} />
       </View>
     );
   }
@@ -136,10 +147,10 @@ export default function ArticleScreen() {
   const somali = article.tr.so!;
   const available = LANGS.filter(l => article.tr[l]);
   const secLabel = article.section === 'sports' ? t('sports') : article.section === 'world' ? t('world') : article.country === 'so' ? t('somaliaNav') : t('eastAfrica');
-  const textStyle = { fontSize: fontSize + 1, lineHeight: Math.round((fontSize + 1) * 1.7) };
+  const textStyle = { fontSize: fontSize + 1, lineHeight: Math.round((fontSize + 1) * 1.62), color: colors.ink };
   const seg = { width: 40, height: 32, borderRadius: 999, alignItems: 'center' as const, justifyContent: 'center' as const };
   const round = { width: 40, height: 40, borderRadius: 20, alignItems: 'center' as const, justifyContent: 'center' as const };
-  const note = { backgroundColor: colors.surface, borderLeftWidth: rtl ? 0 : 3, borderRightWidth: rtl ? 3 : 0, borderColor: colors.red, borderRadius: 10, padding: 14 };
+  const note = { backgroundColor: colors.bg, borderLeftWidth: rtl ? 0 : 3, borderRightWidth: rtl ? 3 : 0, borderColor: colors.red, borderRadius: 10, padding: 14 };
 
   // no translation in the chosen language: say so plainly, offer the languages this article exists in (as the website)
   if (!tx) {
@@ -181,7 +192,7 @@ export default function ArticleScreen() {
       <Animated.View style={{ height: 3, width: '100%', backgroundColor: colors.red, transformOrigin: rtl ? 'right' : 'left', transform: [{ scaleX: progress as any }] }} />
     </View>
     <Animated.ScrollView
-      style={{ backgroundColor: colors.bg }}
+      style={{ backgroundColor: colors.surface }}
       contentContainerStyle={{ paddingBottom: 40 }}
       scrollEventThrottle={16}
       onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: Platform.OS !== 'web' })}
@@ -189,7 +200,7 @@ export default function ArticleScreen() {
       onContentSizeChange={(_, h) => { contentH.current = h; setScrollMax(Math.max(0, contentH.current - viewH.current)); }}
     >
       <Animated.View style={{ opacity: fadeIn, transform: [{ translateY: fadeIn.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }] }}>
-      <View style={{ padding: 16, paddingBottom: 4, gap: 12 }}>
+      <View style={{ padding: 16, paddingTop: 20, paddingBottom: 4, gap: 13 }}>
         <Row style={{ gap: 10, flexWrap: 'wrap' }}>
           <CatTag label={article.sponsored ? t('sponsored') : isBreaking(article) ? t('breaking') : article.section === 'somalia' ? catName(lang, article.category) || secLabel : secLabel} red={article.sponsored || isBreaking(article)} dot={isBreaking(article)} />
           <Pressable onPress={() => router.push(`/section/${article.section}`)} accessibilityRole="link" hitSlop={8}>
@@ -205,9 +216,9 @@ export default function ArticleScreen() {
             </Pressable>
           </View>
         ) : null}
-        <T f="display" style={[{ fontSize: 28, lineHeight: 33.5 }, textLangProps?.style]} selectable accessibilityRole="header">{tx.title}</T>
-        {tx.body && tx.summary ? <T f="bodyMed" style={[{ fontSize: fontSize - 1, lineHeight: Math.round((fontSize - 1) * 1.55), color: colors.sub }, textLangProps?.style]} selectable>{tx.summary}</T> : null}
-        <Row style={{ gap: 10, paddingTop: 4 }}>
+        <T f="display" style={[{ fontSize: 30, lineHeight: 35, letterSpacing: 0.1 }, textLangProps?.style]} selectable accessibilityRole="header">{tx.title}</T>
+        {tx.body && tx.summary ? <T f="serif" style={[{ fontSize: fontSize, lineHeight: Math.round(fontSize * 1.5), color: colors.sub }, textLangProps?.style]} selectable>{tx.summary}</T> : null}
+        <Row style={{ gap: 10, paddingTop: 12, marginTop: 2, borderTopWidth: 1, borderTopColor: colors.hair }}>
           <View style={{ width: 38, height: 38, borderRadius: 19, backgroundColor: '#fff', borderWidth: 1, borderColor: colors.hair, alignItems: 'center', justifyContent: 'center' }}>
             <Image source={LOGO} style={{ width: 36, height: 36, borderRadius: 18 }} />
           </View>
@@ -224,9 +235,9 @@ export default function ArticleScreen() {
         </Row>
       </View>
 
-      <View style={{ paddingHorizontal: 16, paddingTop: 12 }}>
-        <Photo uri={article.image || article.thumb} alt={tx.imageAlt || somali.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} rounded={12} priority="high" illus={article.imageKind === 'illustrative'} />
-        <View style={{ paddingTop: 8 }}>
+      <View style={{ paddingTop: 16 }}>
+        <Photo uri={article.image || article.thumb} alt={tx.imageAlt || somali.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} rounded={0} priority="high" illus={article.imageKind === 'illustrative'} />
+        <View style={{ paddingTop: 8, paddingHorizontal: 16 }}>
           {article.image ? (
             <T style={{ fontSize: 12.5, lineHeight: 18 }} muted>
               {article.imageKind === 'illustrative' ? <T f="bodyBold" style={{ color: colors.red, fontSize: 12.5 }}>{t('illus')}</T> : null}
@@ -266,15 +277,15 @@ export default function ArticleScreen() {
         </Pressable>
       </Row>
 
-      <View style={{ padding: 16, gap: 16 }}>
+      <View style={{ padding: 16, paddingTop: 20, gap: 18 }}>
         {paragraphs.map((para, i) => (/^##\s+/.test(para) ? (
           <T key={i} f="display" style={[{ fontSize: textStyle.fontSize + 3, lineHeight: Math.round((textStyle.fontSize + 3) * 1.3), marginTop: 6 }, textLangProps?.style]} selectable accessibilityRole="header">{para.replace(/^##\s+/, '')}</T>
         ) : i === paragraphs.findIndex(x => !/^##\s+/.test(x)) && !rtl && /^\p{L}/u.test(para) ? (
-          <T key={i} style={[textStyle, textLangProps?.style]} selectable>
+          <T key={i} f="serif" style={[textStyle, textLangProps?.style]} selectable>
             <T f="brand" style={{ color: colors.blue, fontSize: Math.round(textStyle.fontSize * 2.4), lineHeight: Math.round(textStyle.fontSize * 2.4) }}>{para.charAt(0)}</T>
             {para.slice(1)}
           </T>
-        ) : <T key={i} style={[textStyle, textLangProps?.style]} selectable>{para}</T>))}
+        ) : <T key={i} f="serif" style={[textStyle, textLangProps?.style]} selectable>{para}</T>))}
         {article.source ? (
           <View style={[note, { gap: 6 }]}>
             <T style={{ fontSize: 14.5, lineHeight: 22 }}>{t('srcNote', { src: article.source })}</T>
@@ -303,14 +314,14 @@ export default function ArticleScreen() {
       </View>
 
       {next ? (
-        <Pressable onPress={() => router.replace({ pathname: '/war/[id]', params: { id: next.id, rev: next.rev } })} accessibilityRole="link" accessibilityLabel={t('nextStory') + ': ' + next.title} style={({ pressed }) => ({ marginHorizontal: 16, marginTop: 6, borderRadius: 14, borderWidth: 1, borderColor: colors.hair, backgroundColor: colors.surface, overflow: 'hidden', transform: [{ scale: pressed ? 0.985 : 1 }] })}>
+        <Pressable onPress={() => router.replace({ pathname: '/war/[id]', params: { id: next.id, rev: next.rev } })} accessibilityRole="link" accessibilityLabel={t('nextStory') + ': ' + next.title} style={({ pressed }) => ({ marginHorizontal: 16, marginTop: 6, borderRadius: 12, backgroundColor: colors.band, overflow: 'hidden', transform: [{ scale: pressed ? 0.985 : 1 }] })}>
           <Row style={{ gap: 12, padding: 12 }}>
             <Photo uri={next.thumb || next.image} alt={next.imageAlt} style={{ width: 96, height: 64 }} rounded={8} />
             <View style={{ flex: 1, gap: 4 }}>
-              <T f="display" style={{ color: colors.red, fontSize: 11.5, letterSpacing: 1.2, textTransform: 'uppercase' }}>{t('nextStory')}</T>
-              <T f="display" style={{ fontSize: 15, lineHeight: 19 }} numberOfLines={3}>{next.title}</T>
+              <T f="display" style={{ color: '#ff6b6e', fontSize: 11.5, letterSpacing: 1.2, textTransform: 'uppercase' }}>{t('nextStory')}</T>
+              <T f="display" style={{ fontSize: 15.5, lineHeight: 19.5, color: '#fff' }} numberOfLines={3}>{next.title}</T>
             </View>
-            <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={20} color={colors.muted} />
+            <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={20} color="#fff" />
           </Row>
         </Pressable>
       ) : null}
@@ -319,7 +330,7 @@ export default function ArticleScreen() {
       {related.length ? (
         <View>
           <BlockHead title={t('related')} />
-          <Group>{related.map((c, i) => <NewsRow key={c.id} c={c} first={i === 0} />)}</Group>
+          <Sheet>{related.map((c, i) => <NewsRow key={c.id} c={c} first={i === 0} />)}</Sheet>
         </View>
       ) : null}
       </Animated.View>

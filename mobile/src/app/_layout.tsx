@@ -121,7 +121,7 @@ function Shell() {
 }
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({ 'ArchivoCond-700': require('../../assets/fonts/ArchivoCond-700.ttf'), 'ArchivoCond-800': require('../../assets/fonts/ArchivoCond-800.ttf'), 'ArchivoCond-900': require('../../assets/fonts/ArchivoCond-900.ttf'), PublicSans_400Regular, PublicSans_500Medium, PublicSans_700Bold });
+  const [fontsLoaded] = useFonts({ 'ArchivoCond-700': require('../../assets/fonts/ArchivoCond-700.ttf'), 'ArchivoCond-800': require('../../assets/fonts/ArchivoCond-800.ttf'), 'ArchivoCond-900': require('../../assets/fonts/ArchivoCond-900.ttf'), 'SourceSerif4-400': require('../../assets/fonts/SourceSerif4-400.ttf'), 'SourceSerif4-400i': require('../../assets/fonts/SourceSerif4-400i.ttf'), 'SourceSerif4-600': require('../../assets/fonts/SourceSerif4-600.ttf'), PublicSans_400Regular, PublicSans_500Medium, PublicSans_700Bold });
   useEffect(() => { registerPwa(); }, []);
   if (!fontsLoaded && Platform.OS !== 'web') return null;
   return (

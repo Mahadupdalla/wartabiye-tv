@@ -13,6 +13,7 @@ import { load, save } from './storage';
 //    Settings → App updates, with expo-updates' own error log; each check also writes one "[WTV] ota" log line.
 // Only JavaScript and images travel this way. Native code, the icon, permissions and signing need a new Xcode build.
 const CHECK_EVERY_MS = 15 * 60_000;
+const RETRY_MS = [45_000, 3 * 60_000, 10 * 60_000];
 const APPLY_AFTER_AWAY_MS = 10 * 60_000;
 
 export interface OtaStatus {
@@ -66,10 +67,22 @@ export function useOtaUpdates() {
         set({ result: 'error', lastError: 'Emergency launch: ' + (Updates.emergencyLaunchReason || 'the newest update could not start'), lastErrorAt: new Date().toISOString() });
       } else listeners.forEach(f => f(status));
     });
+    // a download cut off by a weak connection is tried again soon (after 45 s, 3 and 10 minutes) instead of waiting
+    // for the next 15-minute check; files that already arrived are kept, so each try only fetches what is missing
+    let retry: ReturnType<typeof setTimeout> | undefined;
+    let tries = 0;
+    const run = () => {
+      lastCheck.current = Date.now();
+      checkOta().then(st => {
+        if (st.result !== 'error') { tries = 0; return; }
+        if (tries >= RETRY_MS.length) return;
+        clearTimeout(retry);
+        retry = setTimeout(() => { if (AppState.currentState === 'active') run(); }, RETRY_MS[tries++]);
+      });
+    };
     const check = () => {
       if (Date.now() - lastCheck.current < CHECK_EVERY_MS) return;
-      lastCheck.current = Date.now();
-      checkOta();
+      run();
     };
     const sub = AppState.addEventListener('change', s => {
       if (s === 'active') {
@@ -80,6 +93,6 @@ export function useOtaUpdates() {
     });
     // the native launch check runs first; this one follows a little later and records the result
     const tm = setTimeout(check, 15_000);
-    return () => { sub.remove(); clearTimeout(tm); };
+    return () => { sub.remove(); clearTimeout(tm); clearTimeout(retry); };
   }, []);
 }

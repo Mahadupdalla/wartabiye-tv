@@ -2,21 +2,21 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Platform, Pressable, StyleSheet, Text, View, type TextProps, type TextStyle, type ViewStyle, type StyleProp } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettings } from '../lib/settings';
 import { FONT } from '../lib/theme';
 import { abs } from '../lib/config';
 
-type Font = 'brand' | 'display' | 'displayBold' | 'body' | 'bodyMed' | 'bodyBold';
+type Font = 'brand' | 'display' | 'displayBold' | 'body' | 'bodyMed' | 'bodyBold' | 'serif' | 'serifItalic' | 'serifBold';
 
 /** Text in the app's type; Arabic uses the phone's own font (Archivo and Public Sans have no Arabic letters) */
 export function T({ f = 'body', style, children, muted, ...rest }: TextProps & { f?: Font; muted?: boolean; style?: StyleProp<TextStyle> }) {
   const { colors, rtl } = useSettings();
-  const weight: TextStyle['fontWeight'] = f === 'brand' ? '900' : f === 'display' ? '800' : f === 'displayBold' || f === 'bodyBold' ? '700' : f === 'bodyMed' ? '500' : '400';
+  const weight: TextStyle['fontWeight'] = f === 'brand' ? '900' : f === 'display' ? '800' : f === 'displayBold' || f === 'bodyBold' ? '700' : f === 'serifBold' ? '600' : f === 'bodyMed' ? '500' : '400';
   return (
     <Text
       {...rest}
-      style={[{ color: muted ? colors.muted : colors.fg, fontFamily: rtl ? undefined : FONT[f], fontWeight: rtl ? weight : undefined, textAlign: rtl ? 'right' : 'left', writingDirection: rtl ? 'rtl' : 'ltr' }, style]}
+      style={[{ color: muted ? colors.muted : colors.fg, fontFamily: rtl ? undefined : FONT[f], fontWeight: rtl ? weight : undefined, fontStyle: rtl && f === 'serifItalic' ? 'italic' : undefined, textAlign: rtl ? 'right' : 'left', writingDirection: rtl ? 'rtl' : 'ltr' }, style]}
     >
       {children}
     </Text>
@@ -104,53 +104,108 @@ export function CatTag({ label, red, dot, style }: { label: string; red?: boolea
   );
 }
 
-/** Section heading: a short brand-coloured bar, the title, and "See all ›" on the other side */
-export function BlockHead({ title, red, onMore, moreLabel, style }: { title: string; red?: boolean; onMore?: () => void; moreLabel?: string; style?: StyleProp<ViewStyle> }) {
+/** Section heading, the app's editorial rule: a thin line across the page with a short brand-coloured bar at its start,
+ *  the title in condensed capitals underneath, an optional line under it, and "See all ›" on the other side */
+export function BlockHead({ title, red, onMore, moreLabel, sub, style }: { title: string; red?: boolean; onMore?: () => void; moreLabel?: string; sub?: string; style?: StyleProp<ViewStyle> }) {
   const { colors, rtl } = useSettings();
   const c = red ? colors.red : colors.blue;
   return (
-    <Row style={[{ marginHorizontal: 16, marginTop: 30, marginBottom: 14, justifyContent: 'space-between', gap: 12 }, style]}>
-      <Row style={{ gap: 9, flexShrink: 1 }}>
-        <View style={{ width: 4, height: 18, borderRadius: 2, backgroundColor: c }} />
-        <T f="display" numberOfLines={2} style={{ fontSize: 17, lineHeight: 21, letterSpacing: 0.6, textTransform: 'uppercase', flexShrink: 1 }} accessibilityRole="header">{title}</T>
+    <View style={[{ marginHorizontal: 16, marginTop: 30, marginBottom: 12 }, style]}>
+      <View style={{ flexDirection: rtl ? ROW_RTL : 'row', alignItems: 'flex-start' }}>
+        <View style={{ width: 34, height: 3, backgroundColor: c }} />
+        <View style={{ flex: 1, height: 1, backgroundColor: colors.dark ? colors.hair : '#cfd8e3' }} />
+      </View>
+      <Row style={{ justifyContent: 'space-between', gap: 12, paddingTop: 9 }}>
+        <View style={{ flexShrink: 1 }}>
+          <T f="display" numberOfLines={2} style={{ fontSize: 19, lineHeight: 23, letterSpacing: 0.5, textTransform: 'uppercase', color: red ? colors.red : colors.fg }} accessibilityRole="header">{title}</T>
+          {sub ? <T f="bodyMed" style={{ fontSize: 12.5, color: colors.sub, marginTop: 2 }}>{sub}</T> : null}
+        </View>
+        {onMore ? (
+          <Pressable onPress={onMore} hitSlop={10} accessibilityRole="link" accessibilityLabel={moreLabel ? moreLabel.replace(/[→←›]/g, '').trim() + ': ' + title : title} style={({ pressed }) => ({ flexDirection: rtl && Platform.OS !== 'web' ? 'row-reverse' : 'row', alignItems: 'center', gap: 2, opacity: pressed ? 0.6 : 1 })}>
+            <T f="bodyBold" style={{ color: colors.link, fontSize: 13 }}>{(moreLabel || '').replace(/\s*[→←›]\s*$/, '')}</T>
+            <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={14} color={colors.link} />
+          </Pressable>
+        ) : null}
       </Row>
-      {onMore ? (
-        <Pressable onPress={onMore} hitSlop={10} accessibilityRole="link" accessibilityLabel={moreLabel ? moreLabel.replace(/[→←›]/g, '').trim() + ': ' + title : title} style={({ pressed }) => ({ flexDirection: rtl && Platform.OS !== 'web' ? 'row-reverse' : 'row', alignItems: 'center', gap: 2, opacity: pressed ? 0.6 : 1 })}>
-          <T f="bodyBold" style={{ color: colors.link, fontSize: 13 }}>{(moreLabel || '').replace(/\s*[→←›]\s*$/, '')}</T>
-          <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={14} color={colors.link} />
-        </Pressable>
-      ) : null}
-    </Row>
+    </View>
   );
 }
 
-/** Shimmering placeholder while the news loads */
-export function Skeleton({ style }: { style?: StyleProp<ViewStyle> }) {
+/** A full-width white sheet for lists of stories (edge to edge, hairlines above and below, as in a printed page) */
+export function Sheet({ children, style }: { children: React.ReactNode; style?: StyleProp<ViewStyle> }) {
   const { colors } = useSettings();
+  return <View style={[{ backgroundColor: colors.surface, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.hair }, style]}>{children}</View>;
+}
+
+/** Blocks come in softly: fade and a short rise, one after another (index × 70 ms, at most half a second) */
+export function FadeIn({ index = 0, children, style }: { index?: number; children: React.ReactNode; style?: StyleProp<ViewStyle> }) {
   const a = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    const loop = Animated.loop(Animated.timing(a, { toValue: 1, duration: 1100, easing: Easing.inOut(Easing.ease), useNativeDriver: true }));
+    Animated.timing(a, { toValue: 1, duration: 420, delay: Math.min(index, 7) * 70, easing: Easing.out(Easing.cubic), useNativeDriver: Platform.OS !== 'web' }).start();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return <Animated.View style={[style, { opacity: a, transform: [{ translateY: a.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }] }]}>{children}</Animated.View>;
+}
+
+/** Placeholder while the news loads: a soft light sweeps across the grey shape, left to right (right to left in Arabic) */
+export function Skeleton({ style }: { style?: StyleProp<ViewStyle> }) {
+  const { colors, rtl } = useSettings();
+  const a = useRef(new Animated.Value(0)).current;
+  const [w, setW] = React.useState(0);
+  useEffect(() => {
+    const loop = Animated.loop(Animated.timing(a, { toValue: 1, duration: 1300, easing: Easing.inOut(Easing.quad), useNativeDriver: Platform.OS !== 'web' }));
     loop.start();
     return () => loop.stop();
   }, [a]);
-  const opacity = a.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.55, 1, 0.55] });
-  return <Animated.View style={[{ backgroundColor: colors.skeleton, borderRadius: 6, opacity }, style]} />;
+  const band = Math.max(80, w * 0.6);
+  const x = a.interpolate({ inputRange: [0, 1], outputRange: rtl ? [w, -band] : [-band, w] });
+  return (
+    <View onLayout={e => setW(e.nativeEvent.layout.width)} style={[{ backgroundColor: colors.skeleton, borderRadius: 6, overflow: 'hidden' }, style]}>
+      {w ? (
+        <Animated.View style={{ position: 'absolute', top: 0, bottom: 0, width: band, transform: [{ translateX: x }] }}>
+          <LinearGradient colors={[colors.skeleton, colors.skeletonHi, colors.skeleton]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} />
+        </Animated.View>
+      ) : null}
+    </View>
+  );
 }
 
+/** Home while the first news loads: the same shapes as the page that follows (lead photo, headline, grid, rows) */
 export function FeedSkeleton() {
+  const { colors } = useSettings();
+  const line = (w: string | number, h = 14) => <Skeleton style={{ height: h, width: w as any }} />;
   return (
-    <View style={{ padding: 16, gap: 18 }}>
-      <Skeleton style={{ height: 210, borderRadius: 12 }} />
-      <Skeleton style={{ height: 22, width: '85%' }} />
-      <Skeleton style={{ height: 16, width: '60%' }} />
-      {[0, 1, 2, 3].map(i => (
-        <View key={i} style={{ flexDirection: 'row', gap: 12 }}>
-          <Skeleton style={{ width: 112, height: 76, borderRadius: 8 }} />
+    <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      <View style={{ marginHorizontal: 16, marginTop: 22, marginBottom: 12, gap: 10 }}>
+        {line(34, 3)}
+        {line('58%', 18)}
+      </View>
+      <View style={{ backgroundColor: colors.surface, paddingBottom: 18 }}>
+        <Skeleton style={{ width: '100%', aspectRatio: 16 / 10, borderRadius: 0 }} />
+        <View style={{ padding: 16, gap: 10 }}>
+          {line(70, 11)}
+          {line('94%', 24)}
+          {line('72%', 24)}
+          {line('88%')}
+          {line('40%', 11)}
+        </View>
+        <View style={{ flexDirection: 'row', gap: 12, paddingHorizontal: 16 }}>
+          {[0, 1].map(i => (
+            <View key={i} style={{ flex: 1, gap: 8 }}>
+              <Skeleton style={{ width: '100%', aspectRatio: 16 / 10, borderRadius: 8 }} />
+              {line('92%')}
+              {line('70%')}
+            </View>
+          ))}
+        </View>
+      </View>
+      {[0, 1, 2].map(i => (
+        <View key={i} style={{ flexDirection: 'row', gap: 12, paddingHorizontal: 16, paddingVertical: 14, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.hair }}>
           <View style={{ flex: 1, gap: 8 }}>
-            <Skeleton style={{ height: 14, width: '95%' }} />
-            <Skeleton style={{ height: 14, width: '80%' }} />
-            <Skeleton style={{ height: 11, width: '40%' }} />
+            {line(60, 10)}
+            {line('95%', 15)}
+            {line('75%', 15)}
           </View>
+          <Skeleton style={{ width: 104, height: 70, borderRadius: 8 }} />
         </View>
       ))}
     </View>
