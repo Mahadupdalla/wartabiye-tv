@@ -9,6 +9,8 @@ name: iPhone app update (over the air)
 # tested; or by hand (Actions → "iPhone app update" → Run workflow), e.g. for a harmless test update of the same code.
 # Optional approval: create the environment "iphone-updates" (Settings → Environments) with yourself as required
 # reviewer, and every update waits for your click before it goes out.
+# Monitoring: the run turns red (and GitHub emails the owner) when publishing fails or when Expo does not serve the new
+# update to iPhone apps of this runtime version. On the phone: Settings → App updates shows the last check and problem.
 on:
   workflow_dispatch:
     inputs:
@@ -74,6 +76,7 @@ jobs:
           if grep -a -r -F -q -- "$EXPO_TOKEN" /tmp/scan/_expo; then echo "FOUND in the app code: the Expo token"; bad=1; fi
           [ $bad = 0 ] && echo "No admin feature, address, key or token in the iPhone code"
       - name: Publish to the iPhone app (channel personal)
+        id: pub
         if: steps.cfg.outputs.ready == '1'
         env:
           NOTE: ${{ github.event.inputs.note }}
@@ -89,3 +92,23 @@ jobs:
             echo "Update \`${ID:0:8}\` (full id \`$ID\`), channel \`personal\`, runtime version \`$RT\`, commit $(git rev-parse HEAD)."
             echo; echo "On the iPhone: open the app, close it completely, open it again. Settings → App updates then shows \`${ID:0:8}\`."
             echo "Only iPhone builds with runtime version \`$RT\` take it (built with mobile/IPHONE-FREE-INSTALL.md)."; } >> "$GITHUB_STEP_SUMMARY"
+          echo "id=$ID" >> "$GITHUB_OUTPUT"; echo "rt=$RT" >> "$GITHUB_OUTPUT"
+      - name: Monitoring - the iPhone app now gets this update from Expo (as the phone asks for it)
+        if: steps.cfg.outputs.ready == '1'
+        run: |
+          ID='${{ steps.pub.outputs.id }}'; RT='${{ steps.pub.outputs.rt }}'
+          [ -n "$ID" ] || { echo "::error::No update id in the publish result"; exit 1; }
+          for i in 1 2 3 4 5 6; do
+            curl -sS -H 'expo-platform: ios' -H "expo-runtime-version: $RT" -H 'expo-channel-name: personal' \
+              -H 'expo-protocol-version: 1' -H 'accept: multipart/mixed,application/expo+json,application/json' \
+              "https://u.expo.dev/$EAS_PROJECT_ID" -o /tmp/manifest.txt -w '%{http_code}\n' > /tmp/code.txt || true
+            if grep -q "$ID" /tmp/manifest.txt; then
+              echo "Expo serves update $ID to iPhone apps with runtime $RT on channel personal"
+              echo "Served to the iPhone app: yes (checked $(date -u +%H:%M) UTC)." >> "$GITHUB_STEP_SUMMARY"; exit 0
+            fi
+            sleep 20
+          done
+          echo "HTTP $(cat /tmp/code.txt)"; head -c 1500 /tmp/manifest.txt
+          echo "::error::Expo does not serve update $ID for runtime $RT (channel personal). The iPhone app will not receive it."
+          exit 1
+

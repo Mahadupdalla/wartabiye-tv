@@ -43,7 +43,7 @@ each:
 
 ```
 cd ~/Desktop
-git clone https://github.com/Mahadupdalla/wartabiye-tv.git
+git clone https://github.com/Mahadupdalla/wartabiye-tv.git wartabiye-tv-ios
 ```
 
 (If the Mac offers to install "command line developer tools", click **Install**, wait, and paste the second line again.)
@@ -53,7 +53,7 @@ git clone https://github.com/Mahadupdalla/wartabiye-tv.git
 Still in Terminal:
 
 ```
-bash ~/Desktop/wartabiye-tv/mobile/scripts/iphone-free-install.sh
+bash ~/Desktop/wartabiye-tv-ios/mobile/scripts/iphone-free-install.sh
 ```
 
 It checks Xcode, Node.js and CocoaPods (the iPhone package tool, it tells you how to install it if missing), downloads
@@ -91,9 +91,15 @@ the Mac to run.)
 
 ## Every 7 days
 
-When the free signature expires the app stops opening (it says it is "no longer available"). Your saved articles and
-settings stay. Plug the iPhone into the Mac, open `~/Desktop/wartabiye-tv/mobile/ios/WartabiyeTV.xcworkspace` in Xcode,
-choose your iPhone and press **▶ Run**.
+Apple signs apps from a free Apple Account for 7 days only. When the signature expires the app stops opening (iOS says
+it is "no longer available"). **Over-the-air updates cannot fix this**: an expired app does not start, so it cannot
+download anything; only a new signature from Xcode helps. Your saved articles, settings and the last downloaded
+update stay on the iPhone.
+
+To renew: plug the iPhone into the Mac, open `~/Desktop/wartabiye-tv-ios/mobile/ios/WartabiyeTV.xcworkspace` in Xcode,
+choose your iPhone and press **▶ Run** (2 minutes; no need to run the script or `git pull` first). Between renewals,
+updates arrive over the air without the cable. Only the paid Apple Developer Program (TestFlight / App Store) removes the
+7-day limit.
 
 ## Getting the newest version of the app
 
@@ -118,7 +124,7 @@ says in the project chat when a change needs this.
 2. In Terminal:
 
    ```
-   cd ~/Desktop/wartabiye-tv && git pull && bash mobile/scripts/iphone-free-install.sh
+   cd ~/Desktop/wartabiye-tv-ios && git pull && bash mobile/scripts/iphone-free-install.sh
    ```
 
    The script reads the bundle id and team of the app you built last time and keeps them (it prints
