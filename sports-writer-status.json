@@ -1,0 +1,562 @@
+{
+ "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
+ "mode": "paused: Anthropic API credit balance too low since 2026-11-14T18:01:38+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
+ "limits": {
+  "articlesPerDay": 2,
+  "usdPerDay": 1.0,
+  "perScheduledRun": 1,
+  "estimatedMaxPerStoryUsd": 0.6
+ },
+ "schedule": {
+  "times (Africa/Nairobi)": [
+   "08:00",
+   "18:00"
+  ],
+  "windowMinutes": 55,
+  "nextRun": "2026-11-15T08:00+03:00"
+ },
+ "lastCheckAt": "2026-11-14T23:31:31+03:00",
+ "lastRun": {
+  "skipped": 5,
+  "waitingForSchedule": 78
+ },
+ "lastWrittenAt": null,
+ "days": {
+  "2026-11-09": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 571,
+   "refused": 0,
+   "failed": 19,
+   "usd": 0
+  },
+  "2026-11-10": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 1104,
+   "refused": 0,
+   "failed": 22,
+   "usd": 0
+  },
+  "2026-11-11": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 1071,
+   "refused": 0,
+   "failed": 2,
+   "usd": 0
+  },
+  "2026-11-12": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 1092,
+   "refused": 0,
+   "failed": 2,
+   "usd": 0
+  },
+  "2026-11-13": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 1211,
+   "refused": 0,
+   "failed": 2,
+   "usd": 0
+  },
+  "2026-11-14": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 941,
+   "refused": 0,
+   "failed": 2,
+   "usd": 0
+  }
+ },
+ "recent": [
+  {
+   "at": "2026-11-14T23:31:31+03:00",
+   "result": "skipped",
+   "reason": "same story as Mundo Deportivo: Barça Atlètic - Girona B: el partido, en imágenes",
+   "source": "mundodeportivo",
+   "title": "0-1: El Barça Atlètic, con 23 bajas, sucumbe ante el Girona B",
+   "url": "https://www.mundodeportivo.com/futbol/fc-barcelona/20261114/1004251012/barca-atletic.html"
+  },
+  {
+   "at": "2026-11-14T23:31:31+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "Wales believed they could create history - Lake",
+   "url": "https://www.bbc.co.uk/sport/rugby-union/articles/c820q64ezyn7o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-14T23:31:31+03:00",
+   "result": "skipped",
+   "reason": "same story as L'Équipe: Désiré Doué bien présent lors du dernier entraînement avant France-Turquie",
+   "source": "rmcsport",
+   "title": "France-Turquie: Désiré Doué bien présent à l'entraînement... avec un protège-dents",
+   "url": "https://rmcsport.bfmtv.com/football/ligue-des-nations/france-turquie-desire-doue-bien-present-a-l-entrainement-avec-un-protege-dents_AV-202611140369.html"
+  },
+  {
+   "at": "2026-11-14T23:31:31+03:00",
+   "result": "skipped",
+   "reason": "same story as BBC Sport: Spain test will reveal if Tuchel and England have learned World Cup lessons",
+   "source": "the-athletic",
+   "title": "James Trafford to start for England vs. Spain, Thomas Tuchel confirms",
+   "url": "https://www.nytimes.com/athletic/7781917/2026/11/14/england-team-news-james-trafford-starts/"
+  },
+  {
+   "at": "2026-11-14T23:31:31+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "Joseph scores record-equalling five tries as England rout Japan",
+   "url": "https://www.bbc.co.uk/sport/rugby-union/articles/cmvg208nlw04o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-14T23:26:10+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "El Atlético, a defender la Champions y corregir sus males a domicilio",
+   "url": "https://www.mundodeportivo.com/futbol/atletico-madrid/20261114/1004251039/atletico-defender-champions-corregir-males-domicilio.html"
+  },
+  {
+   "at": "2026-11-14T23:26:10+03:00",
+   "result": "skipped",
+   "reason": "same story as BBC Sport: Spain test will reveal if Tuchel and England have learned World Cup lessons",
+   "source": "guardian-football",
+   "title": "De la Fuente adamant there is no racism in Spain despite England reminder to players",
+   "url": "https://www.theguardian.com/football/2026/nov/14/luis-de-la-fuente-spain-england-racism-thomas-tuchel-natiions-league"
+  },
+  {
+   "at": "2026-11-14T23:21:32+03:00",
+   "result": "skipped",
+   "reason": "same story as Sky Sport Italia: Belgio-Italia, Mancini: \"Loro non sono diversi dalla Francia, ma vogliamo vincer",
+   "source": "sky-it",
+   "title": "Belgio-Italia, Scalvini: \"Ci teniamo molto ad andare avanti\". Video",
+   "url": "https://sport.sky.it/calcio/nations-league/2026/11/14/belgio-italia-scalvini-intervista"
+  },
+  {
+   "at": "2026-11-14T23:21:32+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "bbc-sport",
+   "title": "All Blacks ran into a Welsh brick wall - Barrett",
+   "url": "https://www.bbc.co.uk/sport/rugby-union/articles/cmly5dwnpvdzo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-14T23:21:32+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "\"La presión para mí era el padre de Endrick, que guardaba el almuerzo para que lo cenara\"",
+   "url": "https://www.mundodeportivo.com/futbol/internacional/20261114/1004251037/presion-mi-padre-endrick-guardaba-almuerzo-cenara.html"
+  },
+  {
+   "at": "2026-11-14T23:21:32+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "lequipe",
+   "title": "Da Cunha : «On a manqué d'agressivité en défense»",
+   "url": "https://www.lequipe.fr/Football/Video/Ligue-des-nations-lucas-da-cunha-avant-la-turquie-on-a-manque-par-moments-d-agressivite-en-defense-face-a-l-italie/20245558#at_medium=RSS_feeds"
+  },
+  {
+   "at": "2026-11-14T23:21:32+03:00",
+   "result": "skipped",
+   "reason": "same story as kicker: LIVE! Schweden dank Svensson und Gyökeres auf Kurs - Portugal ehrt CR7",
+   "source": "kicker",
+   "title": "LIVE! Schweden dank Svensson und Gyökeres auf Kurs - Portugal erhöht den Druck",
+   "url": "https://www.kicker.de/live-schweden-dank-svensson-und-gyoekeres-auf-kurs-portugal-erhoeht-den-druck-1270813/artikel#omrss"
+  },
+  {
+   "at": "2026-11-14T23:21:32+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "rmcsport",
+   "title": "\"S'il vous plaît, libérez ces gars\": la classe de Dvalishvili, qui demande la libération de l’équipe d'Usman Nurmagomedov après la bagarre générale dans un hôtel d’Abu Dhabi",
+   "url": "https://rmcsport.bfmtv.com/sports-de-combat/mma/ufc/s-il-vous-plait-liberez-ces-gars-la-classe-de-dvalishvili-qui-demande-la-liberation-de-l-equipe-d-usman-nurmagomedov-apres-la-bagarre-generale-dans-un-hotel-d-abu-dhabi_AN-202611140327.html"
+  },
+  {
+   "at": "2026-11-14T23:16:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Endrick sigue mandando mensajes a Mourinho",
+   "url": "https://www.mundodeportivo.com/futbol/real-madrid/20261114/1004251017/endrick-sigue-mandando-mensajes-mourinho.html"
+  },
+  {
+   "at": "2026-11-14T23:16:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "cbssports",
+   "title": "Another record for Jeremiah Smith: Ohio State star WR breaks Big Ten all-time receiving yards mark",
+   "url": "https://www.cbssports.com/college-football/news/jeremiah-smith-ohio-state-big-ten-receiving-yards-record/"
+  },
+  {
+   "at": "2026-11-14T23:16:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "sky-it",
+   "title": "Sinner scherza con Maldini: \"Abbiamo le stesse ginocchia\". VIDEO",
+   "url": "https://sport.sky.it/tennis/2026/11/14/sinner-maldini-torino-video"
+  },
+  {
+   "at": "2026-11-14T23:16:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Jaboba Arrasate alinea de inicio a tres jugadores del Athletic ante Venezuela",
+   "url": "https://www.mundodeportivo.com/futbol/athletic-bilbao/20261114/1004250952/once.html"
+  },
+  {
+   "at": "2026-11-14T23:16:21+03:00",
+   "result": "skipped",
+   "reason": "same story as AS: Tuchel, sobre lo dicho por De la Fuente: “Se ha tergiversado mi mensaje”",
+   "source": "rmcsport",
+   "title": "\"Il n'y a pas de racisme en Espagne\": De La Fuente répond à l'avertissement de Tuchel avant Espagne-Angleterre",
+   "url": "https://rmcsport.bfmtv.com/football/ligue-des-nations/il-n-y-a-pas-de-racisme-en-espagne-de-la-fuente-repond-a-l-avertissement-de-tuchel-avant-espagne-angleterre_AN-202611140335.html"
+  },
+  {
+   "at": "2026-11-14T23:06:26+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Lions vs. Patriots prediction: Detroit seeks fifth straight victory, while New England looks to bounce back",
+   "url": "https://www.cbssports.com/nfl/news/lions-vs-patriots-prediction-odds-where-to-watch-munich/"
+  },
+  {
+   "at": "2026-11-14T23:06:26+03:00",
+   "result": "skipped",
+   "reason": "same story as Mundo Deportivo: Zidane confirma a Mbappé y habla de cómo se lleva con él",
+   "source": "lequipe",
+   "title": "Zinédine Zidane sur sa relation avec Kylian Mbappé : « Les choses qui me reviennent, c'est agaçant »",
+   "url": "https://www.lequipe.fr/Football/Actualites/Zinedine-zidane-sur-sa-relation-avec-kylian-mbappe-les-choses-qui-me-reviennent-c-est-agacant/1743688#at_medium=RSS_feeds"
+  },
+  {
+   "at": "2026-11-14T23:06:26+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "“Mbappé lo cambia todo”",
+   "url": "https://as.com/futbol/mbappe-lo-cambia-todo-f202611-n/"
+  },
+  {
+   "at": "2026-11-14T23:06:26+03:00",
+   "result": "skipped",
+   "reason": "same story as Mundo Deportivo: Zidane confirma a Mbappé y habla de cómo se lleva con él",
+   "source": "rmcsport",
+   "title": "\"C'est dommage et assez agaçant\": la mise au point de Zidane sur sa relation avec Mbappé avant France-Turquie",
+   "url": "https://rmcsport.bfmtv.com/football/equipe-de-france/c-est-dommage-et-assez-agacant-la-mise-au-point-de-zidane-sur-sa-relation-avec-mbappe-avant-france-turquie_AV-202611140326.html"
+  },
+  {
+   "at": "2026-11-14T23:06:26+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Wild's Brock Faber to make season debut 7 weeks after fracturing skull: 'He's ready'",
+   "url": "https://www.nytimes.com/athletic/7781757/2026/11/14/wild-brock-faber-fractured-skull-return-nhl/"
+  },
+  {
+   "at": "2026-11-14T23:01:25+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "sky-it",
+   "title": "Belgio-Italia, Van Bommel: \"Azzurri cambiati dopo Roma per gioco, qualità e giovani\"",
+   "url": "https://sport.sky.it/calcio/nations-league/2026/11/14/belgio-italia-van-bommel-intervista-video"
+  },
+  {
+   "at": "2026-11-14T23:01:25+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Punto y final al stage del Espanyol en La Garrotxa",
+   "url": "https://www.mundodeportivo.com/futbol/rcd-espanyol/20261114/1004251013/punto-final-stage-espanyol-garrotxa.html"
+  },
+  {
+   "at": "2026-11-14T23:01:25+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "Neuer Rekord: Smith mit Big10-Meilenstein",
+   "url": "https://www.kicker.de/neuer-rekord-smith-mit-big10-meilenstein-1271593/artikel#omrss"
+  },
+  {
+   "at": "2026-11-14T22:56:41+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "lequipe",
+   "title": "Ses enfants joueurs, le FC Nantes, Karim Benzema... Les confidences de Sergio Conceiçao : « Le président Kita a été génial avec moi »",
+   "url": "https://www.lequipe.fr/Football/Article/Sergio-conceicao-nantes-a-ete-un-club-important-pour-moi/1743616#at_medium=RSS_feeds"
+  },
+  {
+   "at": "2026-11-14T22:51:19+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "Wolff spielte zu wenig, Ludwig herausragend: Füchse gegen THW in der Einzelkritik",
+   "url": "https://www.kicker.de/wolff-spielte-zu-wenig-ludwig-herausragend-fuechse-gegen-thw-in-der-einzelkritik-1271555/artikel#omrss"
+  },
+  {
+   "at": "2026-11-14T22:51:19+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "2-2: Diluvio de goles y empate en Zubieta",
+   "url": "https://www.mundodeportivo.com/futbol/liga-segunda-division/20261114/1004251022/diluvio-goles-empate-zubieta.html"
+  },
+  {
+   "at": "2026-11-14T22:51:19+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "sky-it",
+   "title": "Alcaraz e Ferrero, primo abbraccio a Torino dopo l'addio: il VIDEO dalle ATP Finals",
+   "url": "https://sport.sky.it/tennis/2026/11/14/alcaraz-ferrero-atp-finals-video"
+  },
+  {
+   "at": "2026-11-14T22:46:26+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "UFC 334 odds, predictions, time: Ciryl Gane vs. Josh Hokit picks by elite MMA expert",
+   "url": "https://www.cbssports.com/betting/news/ufc-334-odds-fight-card-predictions-time-ciryl-gane-josh-hokit-picks-best-bets/"
+  },
+  {
+   "at": "2026-11-14T22:46:26+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "Füchse-Keeper Ludwig: \"Ohne die Fans hätten wir es nicht geschafft.\"",
+   "url": "https://www.kicker.de/fuechse-keeper-ludwig-ohne-die-fans-haetten-wir-es-nicht-geschafft-1271588/artikel#omrss"
+  },
+  {
+   "at": "2026-11-14T22:46:26+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "kicker",
+   "title": "Rauhe exklusiv: \"Olympische Bewerbung hat unglaublich viel Potenzial\"",
+   "url": "https://www.kicker.de/rauhe-exklusiv-olympische-bewerbung-hat-unglaublich-viel-potenzial-1270604/video#omrss"
+  },
+  {
+   "at": "2026-11-14T22:46:26+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "rmcsport",
+   "title": "ATP Finals: une qualification vraiment miraculeuse pour Arthur Fils?",
+   "url": "https://rmcsport.bfmtv.com/tennis/atp/atp-finals-une-qualification-vraiment-miraculeuse-pour-arthur-fils_AV-202611140316.html"
+  },
+  {
+   "at": "2026-11-14T22:41:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "El colista, la mejor medicina para un Atlético Madrileño al borde del precipicio",
+   "url": "https://www.mundodeportivo.com/futbol/atletico-madrid/20261114/1004251018/colista-mejor-medicina-atletico-madrileno-borde-precipicio.html"
+  },
+  {
+   "at": "2026-11-14T22:41:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Baena: “Si hubiera trato de favor con Lamine, lo entenderíamos”",
+   "url": "https://as.com/futbol/seleccion/baena-si-hubiera-trato-de-favor-con-lamine-lo-entenderiamos-f202611-n/"
+  },
+  {
+   "at": "2026-11-14T22:41:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Tiembla, Animal Crossing: hemos jugado a Petit Planet y Nintendo tiene motivos para preocuparse",
+   "url": "https://as.com/meristation/reportajes/tiembla-animal-crossing-hemos-jugado-a-petit-planet-y-nintendo-tiene-motivos-para-preocuparse-f202611-n/"
+  },
+  {
+   "at": "2026-11-14T22:41:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "rmcsport",
+   "title": "France-Afrique du Sud: \"C'est un régal de jouer avec lui\", pourquoi Dupont a impressionné le monde du rugby face aux Springboks",
+   "url": "https://rmcsport.bfmtv.com/rugby/xv-de-france/france-afrique-du-sud-c-est-un-regal-de-jouer-avec-lui-pourquoi-dupont-a-impressionne-le-monde-du-rugby-face-aux-springboks_AV-202611140320.html"
+  },
+  {
+   "at": "2026-11-14T22:41:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "lequipe",
+   "title": "Consultant devenu sélectionneur, Yalçin dérange... ses propres joueurs",
+   "url": "https://www.lequipe.fr/Football/Article/De-consultant-pyromane-a-selectionneur-pompier-en-turquie-sergen-yalcin-doit-assumer-le-feu-de-critiques-qu-il-avait-lui-meme-attise-lors-de-la-coupe-du-monde/1743642#at_medium=RSS_feeds"
+  },
+  {
+   "at": "2026-11-14T22:41:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "sky-it",
+   "title": "Ronaldinho mania a Ravenna: firma autografi e scatta foto in centro, ma è un sosia. VIDEO",
+   "url": "https://sport.sky.it/calcio/serie-c/2026/11/14/ronaldinho-mania-ravenna-sosia-video"
+  },
+  {
+   "at": "2026-11-14T22:36:26+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "mundodeportivo",
+   "title": "Real Oviedo - Girona, en directo | LaLiga Hypermotion: Segunda división",
+   "url": "https://www.mundodeportivo.com/futbol/liga-segunda-division/20261114/1004249267/real-oviedo-girona-directo-laliga-hypermotion-segunda-division.html"
+  },
+  {
+   "at": "2026-11-14T22:36:26+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Tensión Brasil - Barcelona: Raphinha no es liberado",
+   "url": "https://as.com/futbol/internacional/tension-brasil-barcelona-raphinha-no-es-liberado-f202611-n/"
+  },
+  {
+   "at": "2026-11-14T22:36:26+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Notre Dame vs. Boston College odds, picks, predictions, line, spread: Saturday college football preview",
+   "url": "https://www.cbssports.com/betting/news/notre-dame-vs-boston-college-odds-picks-predictions-line-spread-saturday-college-football-preview/"
+  },
+  {
+   "at": "2026-11-14T22:36:26+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Zuffa Boxing 13 results, highlights: Carlos Adames picks up win over Gerome Warburton in promotional debut",
+   "url": "https://www.cbssports.com/boxing/news/zuffa-boxing-13-results-highlights-carlos-adames-winner/"
+  },
+  {
+   "at": "2026-11-14T22:36:26+03:00",
+   "result": "skipped",
+   "reason": "quiz, live blog, gallery or betting item (not a news story)",
+   "source": "cbssports",
+   "title": "Georgia vs. Missouri prediction, odds, time: Week 11 college football picks from proven model",
+   "url": "https://www.cbssports.com/betting/news/georgia-missouri-prediction-odds-time-2026-week-11-college-football-picks-best-bets/"
+  },
+  {
+   "at": "2026-11-14T22:36:26+03:00",
+   "result": "skipped",
+   "reason": "same story as CBS Sports: FAA ground stop forces NFL to reshuffle officiating crews for Week 10",
+   "source": "cbssports",
+   "title": "NFL Week 10 last-minute picks, best bets: Chiefs, Steelers take advantage of schedule quirk",
+   "url": "https://www.cbssports.com/nfl/news/nfl-week-10-picks-best-bets-chiefs-steelers/"
+  },
+  {
+   "at": "2026-11-14T22:36:26+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "mundodeportivo",
+   "title": "Sonia Bermúdez dará la lista para medirse a Chile y Venezuela el viernes 20 de noviembre",
+   "url": "https://www.mundodeportivo.com/futbol/femenino/seleccion-espanola/20261114/1004251015/sonia-bermudez-dara-lista-medirse-chile-venezuela-viernes-20-noviembre.html"
+  },
+  {
+   "at": "2026-11-14T22:36:26+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "rmcsport",
+   "title": "RESUME VIDEO. Zuffa Boxing 13: le retour gagnant de Bruno Surace, qui s'impose aux points contre Kamil Bednarek",
+   "url": "https://rmcsport.bfmtv.com/sports-de-combat/boxe/resume-video-zuffa-boxing-13-le-retour-gagnant-de-bruno-surace-qui-s-impose-aux-points-contre-kamil-bednarek_AN-202611140318.html"
+  },
+  {
+   "at": "2026-11-14T22:31:17+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "gazzetta",
+   "title": "Ramos e quegli 11,3 km percorsi a partita che dicono molto dello scarso feeling col gol al Milan",
+   "url": "https://www.gazzetta.it/Calcio/Serie-A/Milan/14-11-2026/goncalo-ramos-l-avvio-difficile-al-milan-stipendio-gol-e-chilometri-corsi.shtml"
+  },
+  {
+   "at": "2026-11-14T22:31:17+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "lequipe",
+   "title": "Geoffroy-Guichard et le Groupama Stadium ou le Bernabeu ? Vers un match France-Espagne pour l'organisation du Final 4 de la Ligue des nations",
+   "url": "https://www.lequipe.fr/Football/Actualites/Geoffroy-guichard-et-le-groupama-stadium-ou-le-bernabeu-vers-un-match-france-espagne-pour-l-organisation-du-final-4-de-la-ligue-des-nations/1743673#at_medium=RSS_feeds"
+  },
+  {
+   "at": "2026-11-14T22:26:14+03:00",
+   "result": "skipped",
+   "reason": "same story as The Guardian – Football: Clinical Norway dent Wales’ Nations League top-tier hopes with victory in Oslo",
+   "source": "skysports",
+   "title": "Wales beaten in Norway as threat of Nations League relegation grows",
+   "url": "https://www.skysports.com/football/norway-vs-wales/report/554107"
+  },
+  {
+   "at": "2026-11-14T22:26:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "gazzetta",
+   "title": "Gila a cuore aperto: \"Ero debole, avevo toccato il fondo. Poi con l'aiuto di uno psicologo... \"",
+   "url": "https://www.gazzetta.it/Calcio/Serie-A/Milan/14-11-2026/milan-gila-salute-mentale-psicologo.shtml"
+  },
+  {
+   "at": "2026-11-14T22:26:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "Dani Díaz pide paso a Matarazzo",
+   "url": "https://as.com/futbol/segunda/dani-diaz-pide-paso-a-matarazzo-f202611-n/"
+  },
+  {
+   "at": "2026-11-14T22:26:14+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "as",
+   "title": "De la Fuente: “Decidle a Tuchel que en España no hay racismo”",
+   "url": "https://as.com/futbol/seleccion/de-la-fuente-espana-no-hay-racismo-asi-de-contundente-f202611-n/"
+  },
+  {
+   "at": "2026-11-14T22:21:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "corrieredellosport",
+   "title": "Le parole della moglie di De Bruyne fanno discutere: le reazioni social dei tifosi del Napoli",
+   "url": "https://www.corrieredellosport.it/news/calcio/serie-a/napoli/2026/11/14-152591489/le_parole_della_moglie_di_de_bruyne_fanno_discutere_le_reazioni_social_dei_tifosi_del_napoli/"
+  },
+  {
+   "at": "2026-11-14T22:21:21+03:00",
+   "result": "skipped",
+   "reason": "same story as Tuttosport: Mancini sicuro: \"Italia, ci credevo anche prima. Col Belgio come con la Francia,",
+   "source": "gazzetta",
+   "title": "Mancini: \"Che orgoglio giocarci i quarti col Belgio, ma io ci credevo anche dopo il ko dell'andata\"",
+   "url": "https://www.gazzetta.it/Calcio/Nazionale/14-11-2026/roberto-mancini-conferenza-belgio-italia-orgoglio-giocarsi-i-quarti-di-nations-league.shtml"
+  },
+  {
+   "at": "2026-11-14T22:21:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "cbssports",
+   "title": "Deion Sanders leads Colorado to first top-15 win since 2007: Coach Prime cools hot seat talk ... for now",
+   "url": "https://www.cbssports.com/college-football/news/colorado-upsets-houston-deion-sanders-hot-seat-coaching-carousel/"
+  },
+  {
+   "at": "2026-11-14T22:21:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "lequipe",
+   "title": "Lloris, premier Français à intégrer le club des millénaires",
+   "url": "https://www.lequipe.fr/Football/Article/De-nice-a-los-angeles-en-passant-par-lyon-tottenham-et-les-bleus-hugo-lloris-premier-joueur-francais-a-avoir-depasse-les-1-000-matches-chez-les-pros/1743477#at_medium=RSS_feeds"
+  },
+  {
+   "at": "2026-11-14T22:21:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "gazzetta",
+   "title": "Juve, il nuovo sogno è un mini Stadium alla Continassa: l'idea c'è e qualcosa si muove",
+   "url": "https://www.gazzetta.it/Calcio/Serie-A/Juventus/14-11-2026/juventus-il-progetto-del-mini-stadium-alla-continassa.shtml"
+  },
+  {
+   "at": "2026-11-14T22:21:21+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "gazzetta",
+   "title": "Più leader, più sicuro: così Bastoni sta crescendo come centrale puro",
+   "url": "https://www.gazzetta.it/Calcio/Serie-A/Inter/14-11-2026/inter-bastoni-bene-anche-da-centrale-puro.shtml"
+  }
+ ]
+}
