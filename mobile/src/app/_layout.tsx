@@ -18,6 +18,7 @@ import { trackView } from '../lib/analytics';
 import { registerPwa } from '../lib/pwa';
 import { syncPush } from '../lib/push';
 import { appPathFor } from '../lib/links';
+import { useOtaUpdates } from '../lib/ota';
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
 
@@ -64,6 +65,7 @@ function Shell() {
   const { status, meta } = useContent();
   useNotificationTaps();
   useWebRedirect();
+  useOtaUpdates();
   // keep the push registration current (new token, language or category choice); never asks for permission by itself
   const pushOn = notif.enabled && !!meta?.push?.enabled;
   useEffect(() => {

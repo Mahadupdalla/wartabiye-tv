@@ -101,8 +101,11 @@ There are two kinds of changes.
 
 **Most changes arrive by themselves (over the air).** Changes to texts, translations, design and screens are sent from
 GitHub to the app through Expo's free update service. The app downloads them when it starts and uses them from the next
-start: open Wartabiye TV, close it completely (swipe it away), open it again. **Settings → App updates** shows which code
-runs ("Version built into the app" or "Update of <date>") and has a **Check for updates** button. This works only in a
+start: open Wartabiye TV, close it completely (swipe it away), open it again. The app also checks when you come back to
+it (at most every 15 minutes) and switches to new code when you return after 10 minutes or more away, never in the
+middle of reading. **Settings → App updates** shows which code runs ("Version built into the app" or "Update of <date> ·
+<8-character id>") and has a **Check for updates** button. Updates are sent only after the app's tests passed on
+GitHub (workflow "iPhone app update"); the id in Settings is the same as in that workflow's summary. This works only in a
 build made with this guide on or after 14 November 2026; an older build has to be built once more as below.
 
 **Native changes need Xcode once.** A new library, a new iPhone permission or a new app version number cannot be sent

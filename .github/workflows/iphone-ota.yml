@@ -5,11 +5,21 @@ name: iPhone app update (over the air)
 # An update reaches only builds with the same runtime version (app version + fingerprint of the native parts, see
 # mobile/app.config.js): after a native change the iPhone keeps its code until the app is built again in Xcode.
 # Needs the same two settings as the Expo Go preview: secret EXPO_TOKEN, variable EAS_PROJECT_ID. Nothing is paid.
+# When: after the app's tests ("Mobile app (Android build + tests)") passed on main, i.e. after a change was merged and
+# tested; or by hand (Actions → "iPhone app update" → Run workflow), e.g. for a harmless test update of the same code.
+# Optional approval: create the environment "iphone-updates" (Settings → Environments) with yourself as required
+# reviewer, and every update waits for your click before it goes out.
 on:
   workflow_dispatch:
-  push:
+    inputs:
+      note:
+        description: 'Short note shown with the update (e.g. "test update")'
+        required: false
+        default: 'manual update'
+  workflow_run:
+    workflows: ['Mobile app (Android build + tests)']
+    types: [completed]
     branches: [main]
-    paths: ['mobile/**', '.github/workflows/iphone-ota.yml']
 permissions:
   contents: read
 concurrency:
@@ -17,7 +27,9 @@ concurrency:
   cancel-in-progress: false
 jobs:
   publish:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
     runs-on: ubuntu-latest
+    environment: iphone-updates
     timeout-minutes: 30
     defaults:
       run:
@@ -28,6 +40,9 @@ jobs:
       WTV_FREE_SIGNING: '1'
     steps:
       - uses: actions/checkout@v4
+        with:
+          # exactly the commit whose tests passed (a hand-started run: the newest main)
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
       - name: Owner's Expo settings present?
         id: cfg
         run: |
@@ -60,11 +75,17 @@ jobs:
           [ $bad = 0 ] && echo "No admin feature, address, key or token in the iPhone code"
       - name: Publish to the iPhone app (channel personal)
         if: steps.cfg.outputs.ready == '1'
+        env:
+          NOTE: ${{ github.event.inputs.note }}
         run: |
           RT=$(node -p "require('./app.config.js')({config: require('./app.json').expo}).runtimeVersion")
-          MSG="$(git log -1 --format=%s | cut -c1-80)"
+          MSG="$(git log -1 --format=%s | cut -c1-70)"
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then MSG="${NOTE:0:40}: $MSG"; fi
           npx eas-cli@latest update --channel personal --platform ios --environment production --message "$MSG" --non-interactive --json > /tmp/update.json \
             || npx eas-cli@latest update --channel personal --platform ios --message "$MSG" --non-interactive --json > /tmp/update.json
           cat /tmp/update.json
-          { echo "### iPhone app update published"; echo; echo "Channel \`personal\`, runtime version \`$RT\`, commit $GITHUB_SHA."
-            echo "It reaches iPhone builds with the same runtime version (Settings → App updates shows which code runs)."; } >> "$GITHUB_STEP_SUMMARY"
+          ID=$(node -p "const u=require('/tmp/update.json'); const x=(Array.isArray(u)?u:[u]).find(x=>x.platform==='ios')||(Array.isArray(u)?u[0]:u); x.id||''")
+          { echo "### iPhone app update published"; echo
+            echo "Update \`${ID:0:8}\` (full id \`$ID\`), channel \`personal\`, runtime version \`$RT\`, commit $(git rev-parse HEAD)."
+            echo; echo "On the iPhone: open the app, close it completely, open it again. Settings → App updates then shows \`${ID:0:8}\`."
+            echo "Only iPhone builds with runtime version \`$RT\` take it (built with mobile/IPHONE-FREE-INSTALL.md)."; } >> "$GITHUB_STEP_SUMMARY"

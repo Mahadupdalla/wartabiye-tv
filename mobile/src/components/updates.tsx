@@ -13,7 +13,9 @@ export function UpdatesCard() {
   const { colors, t, lang } = useSettings();
   const [st, setSt] = useState<St>('idle');
   if (!Updates.isEnabled) return null;
-  const running = Updates.isEmbeddedLaunch || !Updates.createdAt ? t('updBuiltIn') : t('updFrom', { t: fullDate(lang, Updates.createdAt.toISOString()) });
+  const running = (Updates.isEmbeddedLaunch || !Updates.createdAt ? t('updBuiltIn') : t('updFrom', { t: fullDate(lang, Updates.createdAt.toISOString()) }))
+    // the first characters of the update id: the same as in the GitHub "iPhone app update" summary
+    + (Updates.updateId && !Updates.isEmbeddedLaunch ? ' · ' + Updates.updateId.slice(0, 8) : '');
   const check = async () => {
     setSt('busy');
     try {
@@ -32,6 +34,7 @@ export function UpdatesCard() {
         <T style={{ flex: 1, fontSize: 14, color: colors.sub }} testID="update-running">{running}</T>
         {st === 'busy' ? <ActivityIndicator color={colors.blue} /> : null}
       </Row>
+      {Updates.runtimeVersion ? <T muted selectable style={{ fontSize: 11.5 }}>{Updates.channel || 'personal'} · {Updates.runtimeVersion}</T> : null}
       {note ? <T style={{ fontSize: 13.5, color: st === 'failed' ? colors.red : colors.fg }}>{note}</T> : null}
       <Pressable
         testID="update-check"
