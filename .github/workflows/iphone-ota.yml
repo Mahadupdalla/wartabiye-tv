@@ -1,0 +1,114 @@
+name: iPhone app update (over the air)
+# Sends the newest app code (JavaScript, texts, design; never native code) of main to the Wartabiye TV iPhone app that
+# the owner installed from Xcode with a free Apple Account (mobile/IPHONE-FREE-INSTALL.md). Expo's free update service
+# (EAS Update, channel "personal") delivers it: the app downloads it when it starts and uses it from the next start.
+# An update reaches only builds with the same runtime version (app version + fingerprint of the native parts, see
+# mobile/app.config.js): after a native change the iPhone keeps its code until the app is built again in Xcode.
+# Needs the same two settings as the Expo Go preview: secret EXPO_TOKEN, variable EAS_PROJECT_ID. Nothing is paid.
+# When: after the app's tests ("Mobile app (Android build + tests)") passed on main, i.e. after a change was merged and
+# tested; or by hand (Actions → "iPhone app update" → Run workflow), e.g. for a harmless test update of the same code.
+# Optional approval: create the environment "iphone-updates" (Settings → Environments) with yourself as required
+# reviewer, and every update waits for your click before it goes out.
+# Monitoring: the run turns red (and GitHub emails the owner) when publishing fails or when Expo does not serve the new
+# update to iPhone apps of this runtime version. On the phone: Settings → App updates shows the last check and problem.
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Short note shown with the update (e.g. "test update")'
+        required: false
+        default: 'manual update'
+  workflow_run:
+    workflows: ['Mobile app (Android build + tests)']
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: iphone-ota
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    environment: iphone-updates
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: mobile
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EAS_PROJECT_ID: ${{ vars.EAS_PROJECT_ID }}
+      WTV_FREE_SIGNING: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # exactly the commit whose tests passed (a hand-started run: the newest main)
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - name: Owner's Expo settings present?
+        id: cfg
+        run: |
+          if [ -z "$EXPO_TOKEN" ] || [ -z "$EAS_PROJECT_ID" ]; then
+            echo "### iPhone update: not set up (secret EXPO_TOKEN, variable EAS_PROJECT_ID)" >> "$GITHUB_STEP_SUMMARY"
+            echo "ready=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=1" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.cfg.outputs.ready == '1'
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - run: npm ci
+        if: steps.cfg.outputs.ready == '1'
+      - name: Checks before sending (interface text in nine languages, TypeScript)
+        if: steps.cfg.outputs.ready == '1'
+        run: node test/i18n.check.mjs && npx tsc --noEmit
+      - name: Only the public app goes out (no admin feature, address, key or token in the code sent to Expo)
+        if: steps.cfg.outputs.ready == '1'
+        run: |
+          npx expo export --platform ios --output-dir /tmp/scan > /tmp/export.log 2>&1 || { tail -40 /tmp/export.log; exit 1; }
+          bad=0
+          for s in ghp_ github_pat_ gho_ ghu_ ghs_ x-access-token PUSH_ADMIN_TOKEN SESSION_SECRET VAPID_PRIVATE ANTHROPIC api.anthropic.com sk-ant- CLOUDFLARE_API_TOKEN api.cloudflare.com /api/github /api/me /api/security /api/automation /api/analytics wartabiye-admin.wartabiye.workers.dev/login /admin/ 'BEGIN PRIVATE KEY'; do
+            if grep -a -r -F -q -- "$s" /tmp/scan/_expo; then echo "FOUND in the app code: $s"; bad=1; fi
+          done
+          if grep -a -r -F -q -- "$EXPO_TOKEN" /tmp/scan/_expo; then echo "FOUND in the app code: the Expo token"; bad=1; fi
+          [ $bad = 0 ] && echo "No admin feature, address, key or token in the iPhone code"
+      - name: Publish to the iPhone app (channel personal)
+        id: pub
+        if: steps.cfg.outputs.ready == '1'
+        env:
+          NOTE: ${{ github.event.inputs.note }}
+        run: |
+          RT=$(node -p "require('./app.config.js')({config: require('./app.json').expo}).runtimeVersion")
+          MSG="$(git log -1 --format=%s | cut -c1-70)"
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then MSG="${NOTE:0:40}: $MSG"; fi
+          npx eas-cli@latest update --channel personal --platform ios --environment production --message "$MSG" --non-interactive --json > /tmp/update.json \
+            || npx eas-cli@latest update --channel personal --platform ios --message "$MSG" --non-interactive --json > /tmp/update.json
+          cat /tmp/update.json
+          ID=$(node -p "const u=require('/tmp/update.json'); const x=(Array.isArray(u)?u:[u]).find(x=>x.platform==='ios')||(Array.isArray(u)?u[0]:u); x.id||''")
+          { echo "### iPhone app update published"; echo
+            echo "Update \`${ID:0:8}\` (full id \`$ID\`), channel \`personal\`, runtime version \`$RT\`, commit $(git rev-parse HEAD)."
+            echo; echo "On the iPhone: open the app, close it completely, open it again. Settings → App updates then shows \`${ID:0:8}\`."
+            echo "Only iPhone builds with runtime version \`$RT\` take it (built with mobile/IPHONE-FREE-INSTALL.md)."; } >> "$GITHUB_STEP_SUMMARY"
+          echo "id=$ID" >> "$GITHUB_OUTPUT"; echo "rt=$RT" >> "$GITHUB_OUTPUT"
+      - name: Monitoring - the iPhone app now gets this update from Expo (as the phone asks for it)
+        if: steps.cfg.outputs.ready == '1'
+        run: |
+          ID='${{ steps.pub.outputs.id }}'; RT='${{ steps.pub.outputs.rt }}'
+          [ -n "$ID" ] || { echo "::error::No update id in the publish result"; exit 1; }
+          for i in 1 2 3 4 5 6; do
+            curl -sS -H 'expo-platform: ios' -H "expo-runtime-version: $RT" -H 'expo-channel-name: personal' \
+              -H 'expo-protocol-version: 1' -H 'accept: multipart/mixed,application/expo+json,application/json' \
+              "https://u.expo.dev/$EAS_PROJECT_ID" -o /tmp/manifest.txt -w '%{http_code}\n' > /tmp/code.txt || true
+            if grep -q "$ID" /tmp/manifest.txt; then
+              echo "Expo serves update $ID to iPhone apps with runtime $RT on channel personal"
+              echo "Served to the iPhone app: yes (checked $(date -u +%H:%M) UTC)." >> "$GITHUB_STEP_SUMMARY"; exit 0
+            fi
+            sleep 20
+          done
+          echo "HTTP $(cat /tmp/code.txt)"; head -c 1500 /tmp/manifest.txt
+          echo "::error::Expo does not serve update $ID for runtime $RT (channel personal). The iPhone app will not receive it."
+          exit 1
+

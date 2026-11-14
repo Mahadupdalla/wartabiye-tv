@@ -7,7 +7,8 @@ import type { Lang } from './types';
 import { LANG_INFO, LANGS } from './types';
 
 export type ThemePref = 'light' | 'dark' | 'system';
-export interface NotifPrefs { enabled: boolean; breaking: boolean; eastAfrica: boolean; world: boolean; sports: boolean }
+/** enabled: push notifications; inApp: the breaking-news banner while the app is open; the four categories apply to both */
+export interface NotifPrefs { enabled: boolean; inApp: boolean; breaking: boolean; eastAfrica: boolean; world: boolean; sports: boolean }
 
 interface Settings {
   ready: boolean;
@@ -28,7 +29,7 @@ interface Settings {
 
 const Ctx = createContext<Settings | null>(null);
 // Default: Somali, light mode (owner's request), Breaking + Somalia alerts once notifications are switched on
-const DEFAULT_NOTIF: NotifPrefs = { enabled: false, breaking: true, eastAfrica: true, world: false, sports: false };
+const DEFAULT_NOTIF: NotifPrefs = { enabled: false, inApp: true, breaking: true, eastAfrica: true, world: false, sports: false };
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const scheme = useColorScheme();

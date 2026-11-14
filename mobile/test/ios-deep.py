@@ -86,8 +86,9 @@ def english_story():
 
 
 def search_word(title):
-    words = sorted(re.findall(r'[A-Za-z]{5,}', title), key=len, reverse=True)
-    return words[0] if words else title.split()[0]
+    # the two longest words of the headline: the app's search needs every word, so other stories rarely match both
+    words = sorted(dict.fromkeys(re.findall(r'[A-Za-z]{5,}', title)), key=len, reverse=True)
+    return ' '.join(words[:2]) if words else title.split()[0]
 
 
 def regex_prefix(title):
@@ -186,8 +187,13 @@ def flow(art_id, title):
             steps += [
                 {'inputText': word},
                 {'extendedWaitUntil': {'visible': {'text': has(word)}, 'timeout': 10000}},
-                'hideKeyboard',
+                # the keyboard's Search key closes it; Maestro's hideKeyboard taps the screen on iOS and opened the
+                # first result (a newer story that also had the word) instead of the one the test looks for
+                {'pressKey': 'Enter'},
                 {'extendedWaitUntil': {'visible': tp, **W}},
+                # hiding the keyboard makes the result list grow and move: let it settle, or the tap lands on the row
+                # that was there before (on the small iPhone it opened a similar headline one row away)
+                {'waitForAnimationToEnd': {'timeout': 5000}},
                 {'takeScreenshot': 'search'},
                 # the story the website publishes now, opened inside the app from the search result
                 {'tapOn': {'text': tp, 'index': 0}},

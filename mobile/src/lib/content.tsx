@@ -74,8 +74,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const check = useCallback(async (force = false) => {
-    if (busy.current) return;
+  const again = useRef<null | boolean>(null);   // a check asked for while another was running (e.g. a language change)
+  const check = useCallback(async (force = false): Promise<void> => {
+    if (busy.current) { again.current = (again.current || false) || force; return; }
     busy.current = true;
     const l = langRef.current;
     try {
@@ -118,8 +119,16 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
       setOffline(true);
     } finally {
       busy.current = false;
+      // the language changed (or a refresh was asked for) while this check ran: run it again for the current state
+      if (again.current !== null || langRef.current !== l) {
+        const f = !!again.current || langRef.current !== l;
+        again.current = null;
+        checkRef.current(f);
+      }
     }
   }, [pruneOffline, published]);
+  const checkRef = useRef(check);
+  checkRef.current = check;
 
   // first load and every language change: show the stored feed at once, then check the website
   useEffect(() => {

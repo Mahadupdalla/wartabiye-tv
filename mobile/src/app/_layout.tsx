@@ -6,17 +6,20 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
-import { Brand } from '../components/chrome';
+import { Brand, FreshBreaking } from '../components/chrome';
+import { Intro } from '../components/intro';
 // only the five weights the app uses (importing the package index would ship every weight)
 import { PublicSans_400Regular } from '@expo-google-fonts/public-sans/400Regular';
 import { PublicSans_500Medium } from '@expo-google-fonts/public-sans/500Medium';
 import { PublicSans_700Bold } from '@expo-google-fonts/public-sans/700Bold';
 import { SettingsProvider, useSettings } from '../lib/settings';
 import { ContentProvider, useContent } from '../lib/content';
+import { AlertsProvider } from '../lib/alerts';
 import { trackView } from '../lib/analytics';
 import { registerPwa } from '../lib/pwa';
 import { syncPush } from '../lib/push';
 import { appPathFor } from '../lib/links';
+import { useOtaUpdates } from '../lib/ota';
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
 
@@ -63,13 +66,15 @@ function Shell() {
   const { status, meta } = useContent();
   useNotificationTaps();
   useWebRedirect();
+  useOtaUpdates();
   // keep the push registration current (new token, language or category choice); never asks for permission by itself
   const pushOn = notif.enabled && !!meta?.push?.enabled;
   useEffect(() => {
     if (ready && pushOn) syncPush(meta, notif, lang, true, false).catch(() => undefined);
   }, [ready, pushOn, lang]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (ready && status !== 'loading') SplashScreen.hideAsync().catch(() => undefined);
+    // the opening screen (components/intro.tsx, same blue and logo) takes over from the native splash at once
+    if (ready) SplashScreen.hideAsync().catch(() => undefined);
     const tm = setTimeout(() => SplashScreen.hideAsync().catch(() => undefined), 2500); // never keep the splash longer
     return () => clearTimeout(tm);
   }, [ready, status]);
@@ -104,9 +109,12 @@ function Shell() {
         <Stack.Screen name="settings" options={{ title: t('settings') }} />
         <Stack.Screen name="ads" options={{ title: t('advertise') }} />
         <Stack.Screen name="breaking" options={{ title: t('breakingTitle') }} />
+        <Stack.Screen name="latest" options={{ title: t('latestShort') }} />
         <Stack.Screen name="page/[slug]" options={{ title: '' }} />
         <Stack.Screen name="browser" options={{ title: '', animation: Platform.OS === 'android' ? 'slide_from_bottom' : 'default', presentation: 'card' }} />
       </Stack>
+      <FreshBreaking />
+      <Intro />
      </View>
     </View>
   );
@@ -120,7 +128,9 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <SettingsProvider>
         <ContentProvider>
-          <Shell />
+          <AlertsProvider>
+            <Shell />
+          </AlertsProvider>
         </ContentProvider>
       </SettingsProvider>
     </SafeAreaProvider>

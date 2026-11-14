@@ -110,6 +110,43 @@ try {
     await ctx.close();
   });
 
+  await step('flags beside the nine languages; the interface has no English left in another language', async () => {
+    const { c, p } = await open(`http://localhost:${APP_PORT}/settings`);
+    await p.getByTestId('lang-row').first().click();
+    await p.getByTestId('lang-menu').waitFor({ timeout: 10_000 });
+    const flags = { so: '🇸🇴', en: '🇬🇧', ar: '🇸🇦', fr: '🇫🇷', nl: '🇳🇱', it: '🇮🇹', tr: '🇹🇷', de: '🇩🇪', es: '🇪🇸' };
+    for (const [l, f] of Object.entries(flags)) assert.ok((await p.getByTestId('lang-' + l).innerText()).includes(f), l + ' shows ' + f);
+    await p.getByTestId('lang-de').click();
+    await p.waitForFunction(() => document.documentElement.lang === 'de', null, { timeout: 10_000 });
+    const txt = await p.evaluate(() => document.body.innerText);
+    for (const en of ['Appearance', 'Text size', 'Anonymous statistics', 'Notifications', 'Same as phone']) assert.ok(!txt.includes(en), 'German settings without "' + en + '"');
+    await c.close();
+  });
+
+  await step('notification center: the website\'s alerts, each once, newest first; a tap opens the article in the app', async () => {
+    const al = (await getJSON(base + 'data/notifications.json')).items || [];
+    const { c, p } = await open(`http://localhost:${APP_PORT}/notifications`);
+    if (!al.length) { await p.getByText('Weli ogeysiis ma jiro.').waitFor({ timeout: 30_000 }); await c.close(); return; }
+    const newest = [...al].sort((a, b) => (a.time < b.time ? 1 : -1))[0];
+    await p.getByTestId('alert-0').waitFor({ timeout: 30_000 });
+    assert.ok((await p.getByTestId('alert-0').innerText()).includes(newest.title.slice(0, 30)), 'newest alert first');
+    const n = await p.locator('[data-testid^="alert-"]').count();
+    const ids = new Set(al.map(a => a.id));
+    assert.ok(n >= Math.min(ids.size, 8) && n <= ids.size, `each alert once (${n} shown of ${ids.size})`);
+    await p.screenshot({ path: path.join(shots, 'notifications.png') });
+    await p.getByTestId('alert-0').click();
+    await p.waitForURL(/\/war\//, { timeout: 20_000 });
+    await c.close();
+  });
+
+  await step('Latest news: every story newest first, the same newest headline as the website', async () => {
+    const { c, p } = await open(`http://localhost:${APP_PORT}/latest`);
+    const first = news.find(n => !n.sponsored);
+    await p.getByText(first.title.slice(0, 35), { exact: false }).first().waitFor({ timeout: 30_000 });
+    await p.screenshot({ path: path.join(shots, 'latest.png') });
+    await c.close();
+  });
+
   await step('sections: Soomaaliya, Caalamka and Ciyaaraha list only their own stories, newest first', async () => {
     const secOf = n => (['somalia', 'world', 'sports'].includes(n.section) ? n.section : n.category === 'Ciyaaraha' ? 'sports' : n.category === 'Adduunka' ? 'world' : 'somalia');
     for (const sec of ['somalia', 'world', 'sports']) {
