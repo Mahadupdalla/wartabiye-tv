@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Constants from 'expo-constants';
+import * as Updates from 'expo-updates';
 import { Image } from 'expo-image';
 import { load, save } from '../lib/storage';
 import { useSettings } from '../lib/settings';
@@ -19,7 +20,10 @@ const ADMIN = 'https://wartabiye-admin.wartabiye.workers.dev';
 const ALLOWED = [ADMIN, 'https://github.com'];
 const LOGO = require('../../assets/logo-hd.png');
 const EAS = 'https://u.expo.dev/ec499f36-c73d-45f2-8675-cad04e52ccd2';
-const extra = (Constants.expoConfig?.extra || {}) as { publicRuntime?: string };
+const cfgExtra = (Constants.expoConfig?.extra || {}) as { publicRuntime?: string };
+// the public app's runtime is this app's own runtime without "-admin" (app.config.js derives one from the other)
+const ownRuntime = String(Updates.runtimeVersion || (Constants.expoConfig as any)?.runtimeVersion || '');
+const extra = { publicRuntime: cfgExtra.publicRuntime || (ownRuntime.includes('-admin-') ? ownRuntime.replace('-admin-', '-') : undefined) };
 
 // after every page load: ask the dashboard who is signed in (same origin, its own cookie) and tell the app
 const WHO = `fetch('/api/me',{credentials:'same-origin',headers:{Accept:'application/json'}}).then(function(r){return r.ok?r.json():null}).then(function(j){window.ReactNativeWebView.postMessage(JSON.stringify({me:j&&j.login||null}))}).catch(function(){window.ReactNativeWebView.postMessage(JSON.stringify({me:null}))});true;`;
