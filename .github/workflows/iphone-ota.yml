@@ -167,7 +167,7 @@ jobs:
             }
             const line = `${files.length} files, ${(bytes / 1e6).toFixed(1)} MB from ${[...hosts].join(', ')} in ${((Date.now() - t0) / 1000).toFixed(1)} s` + (bad ? `, ${bad} failed` : ', all downloaded');
             console.log(line);
-            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `\nFiles of the update: ${line}.\n\nTest on the iPhone in Safari (should start downloading at once): ${m.launchAsset.url}\n`);
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `\nFiles of the update (with the access headers Expo gives the app; a browser without them gets 403): ${line}.\n`);
             if (bad) { console.log('::error::Some files of the update do not download from Expo'); process.exit(1); }
           })();
           JS
