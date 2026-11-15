@@ -111,4 +111,34 @@ jobs:
           echo "HTTP $(cat /tmp/code.txt)"; head -c 1500 /tmp/manifest.txt
           echo "::error::Expo does not serve update $ID for runtime $RT (channel personal). The iPhone app will not receive it."
           exit 1
+      - name: Monitoring - every file of the update downloads from Expo (what the iPhone fetches after the check)
+        if: steps.cfg.outputs.ready == '1'
+        run: |
+          node - <<'JS'
+          const fs = require('fs');
+          const t = fs.readFileSync('/tmp/manifest.txt', 'utf8');
+          // the manifest is the first JSON object of the multipart answer: find its end by matching braces
+          const i = t.indexOf('{"id"'); let d = 0, q = false, e = -1;
+          for (let k = i; k < t.length; k++) { const c = t[k];
+            if (q) { if (c === '\\') k++; else if (c === '"') q = false; continue; }
+            if (c === '"') q = true; else if (c === '{') d++; else if (c === '}' && --d === 0) { e = k; break; } }
+          const m = JSON.parse(t.slice(i, e + 1));
+          const files = [m.launchAsset, ...(m.assets || [])];
+          (async () => {
+            let bad = 0, bytes = 0; const hosts = new Set(); const t0 = Date.now();
+            for (const a of files) {
+              const s = Date.now(); hosts.add(new URL(a.url).host);
+              try {
+                const r = await fetch(a.url, { signal: AbortSignal.timeout(60000) });
+                const b = Buffer.from(await r.arrayBuffer()); bytes += b.length;
+                if (!r.ok) { bad++; console.log('HTTP', r.status, a.url); }
+                else if (Date.now() - s > 5000) console.log('slow', Date.now() - s, 'ms', a.url);
+              } catch (e) { bad++; console.log('FAILED', a.url, e.message); }
+            }
+            const line = `${files.length} files, ${(bytes / 1e6).toFixed(1)} MB from ${[...hosts].join(', ')} in ${((Date.now() - t0) / 1000).toFixed(1)} s` + (bad ? `, ${bad} failed` : ', all downloaded');
+            console.log(line);
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `\nFiles of the update: ${line}.\n\nTest on the iPhone in Safari (should start downloading at once): ${m.launchAsset.url}\n`);
+            if (bad) { console.log('::error::Some files of the update do not download from Expo'); process.exit(1); }
+          })();
+          JS
 
