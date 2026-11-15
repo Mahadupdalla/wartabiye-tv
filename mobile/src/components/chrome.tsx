@@ -12,7 +12,7 @@ import { LiveDot, Notice, ROW_RTL, Row, T } from './ui';
 import { LangButton } from './lang';
 import { useAlerts } from '../lib/alerts';
 
-// Colour menu icons (Wartabiye blue tiles, red for live and breaking). Drawn in design/menu-icons/*.svg, shipped as PNG.
+// Duotone menu icons (Wartabiye blue, red for live and breaking). Drawn in design/menu-icons/*.svg, shipped as PNG.
 const MENU_ICONS = {
   'all-news': require('../../assets/menu/all-news.png'),
   'latest': require('../../assets/menu/latest.png'),
@@ -183,10 +183,12 @@ export function MenuBar(_: { withBrand?: boolean }) {
         ) : null}
         <Animated.View testID="menu-panel" style={{ position: 'absolute', top, left: 0, right: 0, maxHeight: Math.max(200, screenH - top - insets.bottom), backgroundColor: colors.surface, borderBottomLeftRadius: 18, borderBottomRightRadius: 18, opacity: fade, transform: [{ translateY: slide }], shadowColor: '#000', shadowOpacity: 0.22, shadowRadius: 18, shadowOffset: { width: 0, height: 14 }, elevation: 10, overflow: 'hidden' }}>
           <ScrollView contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 8, paddingBottom: 14 }} bounces={false}>
-            {sections.map(([icon, text, onPress]) => (
+            {sections.map(([icon, text, onPress, live]) => (
               <Pressable key={text} onPress={onPress} accessibilityRole="link" style={({ pressed }) => ({ paddingVertical: 8, paddingHorizontal: 10, borderRadius: 10, backgroundColor: pressed ? colors.tint : 'transparent' })}>
                 <Row style={{ gap: 12 }}>
-                  <Image source={MENU_ICONS[icon]} style={{ width: 40, height: 40, marginVertical: -2 }} resizeMode="contain" accessibilityIgnoresInvertColors />
+                  <View style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: live ? colors.red : colors.blue, alignItems: 'center', justifyContent: 'center' }}>
+                    <Image source={MENU_ICONS[icon]} style={{ width: 22, height: 22 }} resizeMode="contain" accessibilityIgnoresInvertColors />
+                  </View>
                   <T f="display" style={{ flex: 1, fontSize: 15, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: rtl ? 'right' : 'left' }}>{text}</T>
                   <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={16} color={colors.sub} />
                 </Row>
@@ -196,7 +198,7 @@ export function MenuBar(_: { withBrand?: boolean }) {
             <View style={{ flexDirection: rtl && NATIVE ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: 4, justifyContent: 'space-between' }}>
               {tools.map(([icon, text, onPress]) => (
                 <Pressable key={text} onPress={onPress} accessibilityRole="link" style={({ pressed }) => ({ width: '31.6%', paddingVertical: 10, paddingHorizontal: 8, borderRadius: 10, borderWidth: 1, borderColor: colors.hair, alignItems: 'center', gap: 4, backgroundColor: pressed ? colors.tint : 'transparent' })}>
-                  <Image source={MENU_ICONS[icon]} style={{ width: 38, height: 38 }} resizeMode="contain" accessibilityIgnoresInvertColors />
+                  <View style={{ width: 32, height: 32, borderRadius: 9, backgroundColor: colors.blue, alignItems: 'center', justifyContent: 'center' }}><Image source={MENU_ICONS[icon]} style={{ width: 20, height: 20 }} resizeMode="contain" accessibilityIgnoresInvertColors /></View>
                   <T f="bodyBold" numberOfLines={1} style={{ fontSize: 12, textAlign: 'center' }}>{text}</T>
                 </Pressable>
               ))}
