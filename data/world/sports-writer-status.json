@@ -1,6 +1,6 @@
 {
  "about": "Automatic sports news writer (tools/sports_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
- "mode": "paused: Anthropic API credit balance too low since 2026-11-14T18:01:38+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
+ "mode": "paused: Anthropic API credit balance too low since 2026-11-15T08:01:22+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
  "limits": {
   "articlesPerDay": 2,
   "usdPerDay": 1.0,
@@ -13,12 +13,12 @@
    "18:00"
   ],
   "windowMinutes": 55,
-  "nextRun": "2026-11-15T08:00+03:00"
+  "nextRun": "2026-11-15T18:00+03:00"
  },
- "lastCheckAt": "2026-11-15T07:46:13+03:00",
+ "lastCheckAt": "2026-11-15T08:46:17+03:00",
  "lastRun": {
-  "skipped": 0,
-  "waitingForSchedule": 10
+  "skipped": 1,
+  "waitingForSchedule": 28
  },
  "lastWrittenAt": null,
  "days": {
@@ -80,13 +80,78 @@
    "written": 0,
    "published": 0,
    "held": 0,
-   "skipped": 217,
+   "skipped": 224,
    "refused": 0,
-   "failed": 0,
+   "failed": 1,
    "usd": 0
   }
  },
  "recent": [
+  {
+   "at": "2026-11-15T08:46:17+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "After flight delay, Donovan Mitchell wanted game postponed. The Cavs bench stepped up instead",
+   "url": "https://www.nytimes.com/athletic/7782495/2026/11/14/cavaliers-mavericks-faa-flight-delay-donovan-mitchell/"
+  },
+  {
+   "at": "2026-11-15T08:41:08+03:00",
+   "result": "skipped",
+   "reason": "same story as The Guardian – Football: US Olympic hero Kayla Harrison chokes out Amanda Nunes in fourth round to retain",
+   "source": "cbssports",
+   "title": "UFC 334 results: Kayla Harrison survives early surge, snatches late sub to retain title vs. Amanda Nunes",
+   "url": "https://www.cbssports.com/ufc/news/ufc-334-results-kayla-harrison-vs-amanda-nunes/"
+  },
+  {
+   "at": "2026-11-15T08:41:08+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "cbssports",
+   "title": "Yair Rodriguez vs. Steve Garcia, Joe Pyfer vs. Bo Nickal among new main events booked for 2027",
+   "url": "https://www.cbssports.com/ufc/news/ufc-news-main-events-2027-yair-rodriguez-vs-steve-garcia-joe-pyfer-vs-bo-nickal/"
+  },
+  {
+   "at": "2026-11-15T08:31:35+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Lincoln Riley's message at USC hasn't changed. But neither have the results",
+   "url": "https://www.nytimes.com/athletic/7782496/2026/11/14/usc-indiana-lincoln-riley-same-results/"
+  },
+  {
+   "at": "2026-11-15T08:26:06+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "cbssports",
+   "title": "College football winners, losers: Georgia, Wake Forest on cruise control; Kentucky cratering",
+   "url": "https://www.cbssports.com/college-football/news/college-football-winners-losers-georgia-wake-forest-kentucky/"
+  },
+  {
+   "at": "2026-11-15T08:16:09+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "USMNT faces major change, but Christian Pulisic's value remains a constant",
+   "url": "https://www.nytimes.com/athletic/7782433/2026/11/14/christian-pulisic-usmnt-haiti-nations-league-pochettino/"
+  },
+  {
+   "at": "2026-11-15T08:01:22+03:00",
+   "source": "the-athletic",
+   "title": "Mexico still winless under Márquez after falling to Jamaica in Concacaf Nations League",
+   "url": "https://www.nytimes.com/athletic/7782420/2026/11/14/mexico-jamaica-concacaf-result-score/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-15T08:01:22+03:00",
+   "result": "skipped",
+   "reason": "older than 120 minutes",
+   "source": "the-athletic",
+   "title": "Curt Cignetti lets Grant Wilson rip, and suddenly, the Indiana coach has more answers",
+   "url": "https://www.nytimes.com/athletic/7782478/2026/11/14/indiana-football-usc-curt-cignetti-grant-wilson/"
+  },
   {
    "at": "2026-11-15T07:01:31+03:00",
    "result": "skipped",
@@ -502,70 +567,6 @@
    "source": "as",
    "title": "Futbolistas que jugaron con dos o más selecciones",
    "url": "https://as.com/futbol/fotorrelato/futbolistas-que-jugaron-con-dos-o-mas-selecciones-f202611-f/"
-  },
-  {
-   "at": "2026-11-15T03:26:23+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "bbc-sport",
-   "title": "Ireland shake off sluggish start to brush aside Fiji",
-   "url": "https://www.bbc.co.uk/sport/rugby-union/articles/ckzd95n6e4g3o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-15T03:26:23+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "cbssports",
-   "title": "'Ain't nobody coming to save us': Clemson's spiral hits new low in loss to Georgia Tech",
-   "url": "https://www.cbssports.com/college-football/news/clemson-dabo-swinney-georgia-tech-loss/"
-  },
-  {
-   "at": "2026-11-15T03:21:19+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Grimaldo, perseguido por la mala suerte con la selección española",
-   "url": "https://www.mundodeportivo.com/futbol/atletico-madrid/20261114/1004251125/grimaldo-perseguido-mala-suerte-seleccion-espanola.html"
-  },
-  {
-   "at": "2026-11-15T03:21:19+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "cbssports",
-   "title": "After splattering SMU, Wake Forest looks ready to kick down the door to the College Football Playoff",
-   "url": "https://www.cbssports.com/college-football/news/smu-wake-forest-college-football-playoff/"
-  },
-  {
-   "at": "2026-11-15T03:21:19+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "lequipe",
-   "title": "Le résumé de Roumanie - Pologne",
-   "url": "https://www.lequipe.fr/Football/Video/Ligue-des-nations-le-resume-de-roumanie-pologne/20245579#at_medium=RSS_feeds"
-  },
-  {
-   "at": "2026-11-15T03:16:21+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "as",
-   "title": "El once de España: ¿Fabián o Pedri…, o Fabián y Pedri?",
-   "url": "https://as.com/futbol/seleccion/el-once-de-espana-fabian-o-pedri-o-fabian-y-pedri-f202611-n/"
-  },
-  {
-   "at": "2026-11-15T03:11:23+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "kicker",
-   "title": "Svensson und Gyökeres überragen: Schweden steigt in Liga A auf",
-   "url": "https://www.kicker.de/schweden-gegen-bosnien-h-2026-uefa-nations-league-5193349/spielbericht#omrss"
-  },
-  {
-   "at": "2026-11-15T03:11:23+03:00",
-   "result": "skipped",
-   "reason": "older than 120 minutes",
-   "source": "mundodeportivo",
-   "title": "Crónicas de los seis partidos del sábado del grupo 3 de Primera Catalana",
-   "url": "https://www.mundodeportivo.com/futbol/futbol-catala/20261114/1004251122/cronicas-seis-partidos-sabado-grupo-3-primera-catalana.html"
   }
  ]
 }
