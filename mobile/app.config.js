@@ -28,6 +28,13 @@ const PUSH_PLUGIN = 'expo-notifications';
 const FREE_MARKER = path.join(__dirname, '.wtv-free-signing');
 const PUBLIC_EAS_PROJECT_ID = 'ec499f36-c73d-45f2-8675-cad04e52ccd2'; // the public id of the "wartabiye-tv" project on expo.dev
 const OTA_CHANNEL = 'personal';
+// The owner's separate admin app (WTV_APP=admin, or the file .wtv-admin written by scripts/iphone-admin-install.sh on
+// the Mac): its own name, icon and bundle id, its own routes (src/admin: the public app's code has no admin feature),
+// and its own update channel "admin". It always uses free signing (installed from Xcode with the Personal Team).
+const ADMIN_MARKER = path.join(__dirname, '.wtv-admin');
+function readAdmin() {
+  try { return JSON.parse(fs.readFileSync(ADMIN_MARKER, 'utf8') || '{}'); } catch (e) { return fs.existsSync(ADMIN_MARKER) ? {} : null; }
+}
 
 function readMarker() {
   try { return JSON.parse(fs.readFileSync(FREE_MARKER, 'utf8') || '{}'); } catch (e) { return fs.existsSync(FREE_MARKER) ? {} : null; }
@@ -95,12 +102,18 @@ module.exports = ({ config }) => {
   if (env.WTV_IOS_BUILD_NUMBER) ios.buildNumber = String(env.WTV_IOS_BUILD_NUMBER);
   if (env.APPLE_TEAM_ID) ios.appleTeamId = env.APPLE_TEAM_ID;
   // iPhone push: Apple's production service for TestFlight / App Store builds, the development one otherwise
-  const marker = readMarker();
-  const free = env.WTV_FREE_SIGNING === '1' || !!marker;
+  const adminMarker = readAdmin();
+  const admin = env.WTV_APP === 'admin' || !!adminMarker;
+  const marker = admin ? adminMarker : readMarker();
+  const free = admin || env.WTV_FREE_SIGNING === '1' || !!marker;
   if (free && !env.APPLE_TEAM_ID && marker?.teamId) ios.appleTeamId = marker.teamId;
-  const runtimeVersion = free ? nativeRuntime(config) : undefined;
+  // the public app's runtime version: the admin app asks Expo which update readers' iPhones get
+  const publicRuntime = nativeRuntime(config);
+  const runtimeVersion = free ? (admin ? publicRuntime.replace('-n', '-admin-n') : publicRuntime) : undefined;
   if (free) {
-    ios.bundleIdentifier = env.WTV_IOS_BUNDLE_ID || marker?.bundleId || `${ios.bundleIdentifier}.personal`;
+    ios.bundleIdentifier = admin
+      ? (env.WTV_IOS_BUNDLE_ID || marker?.bundleId || 'com.wartabiyetv.admin.personal')
+      : (env.WTV_IOS_BUNDLE_ID || marker?.bundleId || `${ios.bundleIdentifier}.personal`);
     delete ios.associatedDomains;
     const modes = ((ios.infoPlist || {}).UIBackgroundModes || []).filter(m => m !== 'remote-notification');
     ios.infoPlist = { ...(ios.infoPlist || {}), UIBackgroundModes: modes };
@@ -125,12 +138,16 @@ module.exports = ({ config }) => {
           enabled: true,
           checkAutomatically: 'ON_LOAD',
           fallbackToCacheTimeout: 0, // never wait at start: the new code is used from the next start
-          requestHeaders: { 'expo-channel-name': OTA_CHANNEL },
+          requestHeaders: { 'expo-channel-name': admin ? 'admin' : OTA_CHANNEL },
         },
       }
     : {};
+  const adminApp = admin
+    ? { name: 'Wartabiye Admin', scheme: 'wartabiyeadmin', icon: './assets/admin-icon.png' }
+    : {};
   return {
     ...config,
+    ...adminApp,
     ...expoGo,
     ...ota,
     ...(env.EXPO_OWNER ? { owner: env.EXPO_OWNER } : {}),
@@ -140,6 +157,7 @@ module.exports = ({ config }) => {
     extra: {
       ...(config.extra || {}),
       eas: { ...((config.extra || {}).eas || {}), ...(env.EAS_PROJECT_ID ? { projectId: env.EAS_PROJECT_ID } : {}) },
+      ...(admin ? { router: { ...((config.extra || {}).router || {}), root: 'src/admin' }, publicRuntime } : {}),
     },
   };
 };
