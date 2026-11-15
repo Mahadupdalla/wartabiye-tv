@@ -133,11 +133,15 @@ jobs:
           const fs = require('fs');
           const t = fs.readFileSync('/tmp/manifest.txt', 'utf8');
           // the manifest is the first JSON object of the multipart answer: find its end by matching braces
-          const i = t.indexOf('{"id"'); let d = 0, q = false, e = -1;
-          for (let k = i; k < t.length; k++) { const c = t[k];
-            if (q) { if (c === '\\') k++; else if (c === '"') q = false; continue; }
-            if (c === '"') q = true; else if (c === '{') d++; else if (c === '}' && --d === 0) { e = k; break; } }
-          const m = JSON.parse(t.slice(i, e + 1));
+          const obj = start => { const i = t.indexOf(start); if (i < 0) return null; let d = 0, q = false, e = -1;
+            for (let k = i; k < t.length; k++) { const c = t[k];
+              if (q) { if (c === '\\') k++; else if (c === '"') q = false; continue; }
+              if (c === '"') q = true; else if (c === '{') d++; else if (c === '}' && --d === 0) { e = k; break; } }
+            return JSON.parse(t.slice(i, e + 1)); };
+          const m = obj('{"id"');
+          // Expo protects the files: each one needs the headers the answer's "extensions" part gives for it
+          const ah = (obj('{"assetRequestHeaders"') || {}).assetRequestHeaders || {};
+          console.log('files with their own request headers from Expo:', Object.keys(ah).length);
           const files = [m.launchAsset, ...(m.assets || [])];
           // the same headers as expo-updates on the iPhone (FileDownloader.swift)
           const H = { 'expo-platform': 'ios', 'expo-protocol-version': '1', 'expo-api-version': '1', 'expo-updates-environment': 'BARE',
@@ -146,16 +150,16 @@ jobs:
           (async () => {
             // first file twice: plain, and with the iPhone's headers, with the start of the answer (to see why it is refused)
             for (const [name, h] of [['plain', {}], ['as the iPhone', H]]) {
-              try { const r = await fetch(m.launchAsset.url, { headers: h, signal: AbortSignal.timeout(60000) });
+              try { const r = await fetch(m.launchAsset.url, { headers: name === 'plain' ? h : { ...h, ...(ah[m.launchAsset.key] || {}) }, signal: AbortSignal.timeout(60000) });
                 const b = Buffer.from(await r.arrayBuffer());
-                console.log(`launch asset, ${name}: HTTP ${r.status}, ${b.length} bytes, content-type ${r.headers.get('content-type')}, server ${r.headers.get('server')}, x-cache ${r.headers.get('x-cache')}` + (r.ok ? '' : ': ' + b.toString('utf8', 0, 400).replace(/\s+/g, ' ')));
+                console.log(`launch asset, ${name}: HTTP ${r.status}, ${b.length} bytes, content-type ${r.headers.get('content-type')}, server ${r.headers.get('server')}, x-cache ${r.headers.get('x-cache')}` + (r.ok ? '' : ': ' + b.toString('utf8').replace(/<style[\s\S]*?<\/style>/, '').replace(/<[^>]+>/g, ' ').slice(0, 500).replace(/\s+/g, ' ')));
               } catch (e) { console.log(`launch asset, ${name}: FAILED ${e.message}`); }
             }
             let bad = 0, bytes = 0; const hosts = new Set(); const t0 = Date.now();
             for (const a of files) {
               const s = Date.now(); hosts.add(new URL(a.url).host);
               try {
-                const r = await fetch(a.url, { headers: H, signal: AbortSignal.timeout(60000) });
+                const r = await fetch(a.url, { headers: { ...H, ...(ah[a.key] || {}) }, signal: AbortSignal.timeout(60000) });
                 const b = Buffer.from(await r.arrayBuffer()); bytes += b.length;
                 if (!r.ok) { bad++; console.log('HTTP', r.status, a.url); }
                 else if (Date.now() - s > 5000) console.log('slow', Date.now() - s, 'ms', a.url);
