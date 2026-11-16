@@ -189,8 +189,22 @@ cycle() {
     echo "nothing fresh to hand over"
   fi
 
-  # sports news articles from the fresh sports stories (Claude API, only with the secret ANTHROPIC_API_KEY)
-  sports_writer_cycle || echo "sports writer failed this time (the next check retries)"
+  # sports news articles from the fresh sports stories (Claude API): SWITCHED OFF by the owner's decision of 16 November
+  # 2026 ("Leave the separate sports writer off. The main news runs cover sports now."). The 3-hourly news task writes up
+  # to 15 sports stories per run. To switch it back on, restore the line below.
+  # sports_writer_cycle || echo "sports writer failed this time (the next check retries)"
+  echo "sports writer: off (owner's decision of 16 Nov 2026; the 3-hourly news runs cover sports)"
+  python3 - <<'PY' || true
+import json, os
+p = '/tmp/fast/sports-writer-status.json'
+try:
+    d = json.load(open(p, encoding='utf-8'))
+except Exception:
+    d = {}
+d['mode'] = "off: switched off by the owner on 16 Nov 2026 (the 3-hourly news runs write up to 15 sports stories each)"
+os.makedirs('/tmp/fast', exist_ok=True)
+json.dump(d, open(p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+PY
   # world and East Africa articles (Claude API, only with the secret; by default only while the hourly routine is down)
   news_writer_cycle || echo "news writer failed this time (the next check retries)"
   # publishing watchdog: re-start a failed publish, re-build a stuck GitHub Pages, alert the owner when retries do not help
