@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-16T06:16:17+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-16T06:30:56+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-16T00:32:56Z",
  "newestArticleAt": "2026-11-16T01:15:43+03:00",
- "lastSourceCheckAt": "2026-11-16T06:15:18+03:00",
+ "lastSourceCheckAt": "2026-11-16T06:30:16+03:00",
  "sourceChecks24h": 293,
- "publishedArticles": 563,
+ "publishedArticles": 566,
  "liveArticles": 563,
- "waitingForImage": 97,
- "liveInSync": true,
+ "waitingForImage": 98,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-16T00:32:56Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43781023237"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-16T03:30:55+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-16T03:32:38+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-16T06:30:02+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -34,30 +39,30 @@
   },
   "sports": {
    "mode": "paused: Anthropic API credit balance too low since 2026-11-15T18:01:29+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
-   "lastCheckAt": "2026-11-16T06:16:15+03:00",
+   "lastCheckAt": "2026-11-16T06:30:53+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 1,
-    "waitingForSchedule": 8
+    "skipped": 2,
+    "waitingForSchedule": 6
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-16T06:15:12+03:00",
-   "lastSuccessAt": "2026-11-16T06:15:12+03:00",
+   "lastCheckAt": "2026-11-16T06:30:10+03:00",
+   "lastSuccessAt": "2026-11-16T06:30:10+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-16T03:32:38+03:00",
+  "lastSourceCheckAt": "2026-11-16T06:30:02+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-15T22:47:18+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Guddoomiyaha cusub ee gobolka Hiiraan oo ballan-qaaday 5 qodob",
-   "url": "https://www.caasimada.net/guddoomiyaha-cusub-ee-gobolka-hiiraan-oo-ballan-qaaday-5-qodob/"
+   "publishedAt": "2026-11-16T05:32:34+03:00",
+   "sourceName": "Goobjoog News",
+   "title": "Madaxweyne Xasan Shiikh: Israa’iil iyo Taiwan waxay Khatar ku Yihiin Jiritaanka Dowladnimada Soomaaliya",
+   "url": "https://goobjoog.com/2026/11/16/madaxweyne-xasan-shiikh-israaiil-iyo-taiwan-waxay-khatar-ku-yihiin-jiritaanka-dowladnimada-soomaaliya"
   },
   "latestPublished": {
    "id": "2026-11-15-xasan-sheekh-israaiil-taiwan-khatar-jiritaanka",
@@ -74,17 +79,13 @@
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Dowladda Federaalka oo billaabeysa dhismaha Golaha Sare ee Garsoorka Dalka (Goobjoog): duplicate (2026-11-14-dowladda-ka-jawaabtay-khubarada-qm-garsoorka, isla warqaddii Wasaaradda Caddaaladda)",
-   "Cali Guudlaawe oo Sarkaal Ciidan u Magacaabay Guddoomiyaha Gobolka Hiiraan / Guddoomiyaha cusub ee gobolka Hiiraan oo ballan-qaaday 5 qodob: duplicate (2026-11-15-hirshabeelle-guddoomiye-cusub-hiiraan-barre-cilmi); 5-ta qodob: headline-only (Caasimada), il kale lama helin -> pending",
-   "Somalia prepares for El Nino-related droughts and floods (Shabelle): headline-only; WebSearch en: kaliya warar hore (August-September), xaqiijin 15 November lama helin -> pending",
-   "Somalia's president seeks second Uganda visit in two weeks (Somali Guardian): headline-only; WebSearch en: kaliya booqashooyin hore -> pending",
-   "Al-Shabaab fighters capture village near Mataban / Ciidanka Lafta-gareen Golweyn / Dagaal culus Hiiraan: headline-only, amni/dhimasho; il madax-bannaan lama helin -> pending",
-   "Horseed (Puntland Electricity Bill, IGAD early warning, Sanaag dawooyin, Garacad, Sool & Cayn, qisaas, QM): headline-only; il kale lama helin (run-kii hore WebSearch) -> pending",
-   "Shabelle (India defence, China minerals, Supreme Court chief, Hajj, Sheekh Aadan Madoobe ogsijiin): duplicate ama headline-only, il kale lama helin -> pending",
-   "Akhriso Xeraarka Barlamaanka Puntland (Daljir): bogga 403, kaliya magacyada faylasha -> run-ka xiga",
-   "Golaha Wakiillada Galmudug tababar (Radio Muqdisho, Goobjoog): protocol, war qiimo leh ma aha",
-   "Muqdisho oo dib u hananaysa nabadda (Goobjoog) / BBC Somali features: feature, war cusub ma aha",
-   "Ra'iisul Wasaaraha oo kormeeray Wasaaradda Isgaarsiinta / Soomaaliya iyo Hindiya (Hiiraan) / Jaamacadda Difaaca: duplicate (horay loo daabacay)"
+   "Madaxweyne Xasan Shiikh: Israa'iil iyo Taiwan (Goobjoog 05:32): duplicate (2026-11-15-xasan-sheekh-israaiil-taiwan-khatar-jiritaanka)",
+   "Al-Shabaab Mataban / Ciidanka Lafta-gareen Golweyn / Dagaal culus Hiiraan: headline-only, amni/dhimasho; Hiiraan/Goobjoog none, WebSearch en none -> pending",
+   "Guddoomiyaha cusub ee Hiiraan 5 qodob (Caasimada): headline-only; duplicate qayb ahaan (2026-11-15-hirshabeelle-guddoomiye-cusub-hiiraan-barre-cilmi), il kale lama helin -> pending",
+   "Somalia prepares for El Nino / president Uganda visit / Horseed (Puntland Electricity Bill, IGAD, Sanaag, Garacad, Sool & Cayn, qisaas, QM) / Shabelle (India, China, Supreme Court, Hajj, ogsijiin): headline-only, il kale lama helin (run-kan iyo kii hore) -> pending",
+   "Akhriso Xeraarka Barlamaanka Puntland (Daljir): bogga lama akhrin karo -> run-ka xiga",
+   "Golaha Wakiillada Galmudug tababar / Ra'iisul Wasaare Xamsa kormeer / Muqdisho nabadda / BBC Somali features: protocol ama feature, ama duplicate",
+   "SONNA: WebSearch site:sonna.so ma keenin war taariikh la hubin karo; bogga proxy 403"
   ],
   "waitingForImage": 4,
   "waitingIds": [
