@@ -316,6 +316,10 @@ html[lang=ar] .body p:first-of-type::first-letter{font:inherit;float:none;margin
 .byline .by{color:var(--muted)}
 .byline .by b{color:var(--fg);font-weight:700}
 .srcline{margin:-.2em 0 0;max-width:68ch;font-size:13px;color:var(--muted)}
+.docproof{margin:8px 0 24px;max-width:68ch;display:grid;gap:12px}
+.docproof .docpage{display:block;border:1px solid var(--line);background:#fff}
+.docproof .docpage img{display:block;width:100%;height:auto}
+.docproof .docpdf{justify-self:start;padding:8px 14px;border:1px solid var(--line);border-radius:6px;font-weight:700;color:var(--link);text-decoration:none}
 .srcline a{color:var(--link);font-weight:600;text-decoration:underline;text-underline-offset:3px;word-break:break-word}
 .spon-note{background:var(--surface);color:var(--fg);border:1px solid var(--red);border-radius:var(--r-sm);padding:10px 14px;font-weight:600;font-size:14px;margin-bottom:14px}
 :root[data-theme="dark"] .spon-note{background:#3a2a0b;color:#ffd58a;border-color:#5f4512}

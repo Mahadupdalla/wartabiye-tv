@@ -424,10 +424,24 @@ for n in public:
             rel_html = ('<section class="related"><div class="blockhead"><h2>' + esc(T('related', lang)) + '</h2></div><div class="rgrid">'
                         + ''.join(f'<a href="{art_href(r)}">{ph(r)}{cat_tag(r)}<h4>{esc(r.get("title"))}</h4>{meta_line(r)}</a>' for r in rel)
                         + '</div></section>')
+        doc_html = ''
+        dcm = n.get('document')
+        if isinstance(dcm, dict):
+            tr_ = n.get(lang) if lang != 'so' and isinstance(n.get(lang), dict) else {}
+            dt = str(tr_.get('docTitle') or n.get('docTitle') or '')
+            parts = [f'<h2 class="sub">{esc(dt)}</h2>'] if dt else []
+            for i, pg in enumerate(dcm.get('pages') or []):
+                if isinstance(pg, str) and pg.startswith('img/'):
+                    parts.append(f'<a class="docpage" href="{esc(pg)}" target="_blank" rel="noopener"><img src="{esc(pg)}" loading="lazy" alt="{esc((dt + " · " if dt else "") + str(i + 1))}"></a>')
+            pdf = dcm.get('pdf')
+            if isinstance(pdf, str) and pdf.startswith('img/'):
+                parts.append(f'<a class="docpdf" href="{esc(pdf)}" target="_blank" rel="noopener" download>PDF ↓</a>')
+            if parts:
+                doc_html = '<section class="docproof">' + ''.join(parts) + '</section>'
         lede = f'<p class="lede">{esc(summary)}</p>' if body and summary else ''
         text = inner if body else f'<p>{esc(summary or title)}</p>'
         pre = (cr + cat_tag(n, lang) + f'<h1>{esc(title)}</h1>{lede}<div class="byline"><img src="img/logo.png" alt="" width="36" height="36">'
-               f'<div class="meta">{by_html}{when}</div></div>{fig}<div class="body">{text}</div>{based}{rel_html}'
+               f'<div class="meta">{by_html}{when}</div></div>{fig}<div class="body">{text}</div>{doc_html}{based}{rel_html}'
                f'<a class="back" href="./">{esc(T("back", lang))}</a>')
         if lang == 'so':
             write(os.path.join(out_dir, nid + '.html'), subpage(seo, pre), wanted)

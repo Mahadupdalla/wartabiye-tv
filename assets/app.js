@@ -429,6 +429,11 @@
     A.append(fig);
     var bd=soAttr(el('div','body'),isSo(it));var txt2=(body||sum||F(it,'title'));
     txt2.split(/\n+/).forEach(function(p){p=p.trim();if(!p)return;if(/^##\s+/.test(p))bd.append(el('h2','sub',p.replace(/^##\s+/,'')));else bd.append(el('p',null,p))});A.append(bd);
+    // an official document attached as proof: page images (click for full size) and the original PDF
+    var dcm=it.document;if(dcm&&typeof dcm==='object'){var dsec=el('section','docproof');var dt=F(it,'docTitle')||it.docTitle||'';if(dt)dsec.append(el('h2','sub',dt));
+      (Array.isArray(dcm.pages)?dcm.pages:[]).forEach(function(pg,pi){var pu=imgUrl(pg);if(!pu)return;var pa=el('a','docpage');pa.href=pu;pa.target='_blank';pa.rel='noopener';var pim=el('img');pim.src=pu;pim.loading='lazy';pim.alt=(dt?dt+' · ':'')+(pi+1);pa.append(pim);dsec.append(pa)});
+      var pdf=imgUrl(dcm.pdf);if(pdf){var pl=el('a','docpdf','PDF ↓');pl.href=pdf;pl.target='_blank';pl.rel='noopener';pl.setAttribute('download','');dsec.append(pl)}
+      if(dsec.childNodes.length)A.append(dsec)}
     var su=safeUrl(it.sourceUrl);
     // a licence that requires public credit gets one small source line under the text (no box)
     if(showSrc(it)){var sb=el('p','srcline');sb.append(tr('srcLabel')+': ');
