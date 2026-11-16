@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-16T20:30:12Z",
+ "lastCheckAt": "2026-11-16T21:25:11Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-09": {
@@ -76,7 +76,16 @@
   "2026-11-16": {
    "written": 0,
    "merged": 0,
-   "skipped": 218,
+   "skipped": 228,
+   "declined": 0,
+   "failed": 0,
+   "calls": 0,
+   "usd": 0
+  },
+  "2026-11-17": {
+   "written": 0,
+   "merged": 0,
+   "skipped": 6,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -84,15 +93,6 @@
   }
  },
  "done": {
-  "e08220ef19456412": "2026-11-13T20:35:13Z",
-  "a2fbabaab63235f3": "2026-11-13T20:55:10Z",
-  "4b9b27cc2307b62a": "2026-11-13T21:00:10Z",
-  "00376a232e9b6bfe": "2026-11-13T21:00:10Z",
-  "5cdc3fc4246a1943": "2026-11-13T21:00:10Z",
-  "3446f253b8be783b": "2026-11-13T21:00:10Z",
-  "87b616dc442c9f67": "2026-11-13T21:00:10Z",
-  "5859bbdf100a8489": "2026-11-13T21:10:11Z",
-  "1fab42d305dfff6d": "2026-11-13T21:20:11Z",
   "fe5a1dee854c6e8d": "2026-11-13T21:40:12Z",
   "3f12e1ee36e53912": "2026-11-13T21:45:10Z",
   "63ee72c52a46c129": "2026-11-13T21:50:11Z",
@@ -646,19 +646,99 @@
   "80ee697716198ae7": "2026-11-16T19:45:11Z",
   "c7c97534a839252b": "2026-11-16T19:45:11Z",
   "e883c012f34294f8": "2026-11-16T20:05:11Z",
-  "b620fa8af71bfd2c": "2026-11-16T20:20:10Z"
+  "b620fa8af71bfd2c": "2026-11-16T20:20:10Z",
+  "35ae23b3dc7f40e6": "2026-11-16T20:40:10Z",
+  "5a889cd03bbefefa": "2026-11-16T20:45:11Z",
+  "05424fcdb0d06afc": "2026-11-16T20:45:11Z",
+  "82ba2d6551bf6efc": "2026-11-16T20:45:11Z",
+  "013085a4bacdc6f3": "2026-11-16T20:50:11Z",
+  "08ed79d7ae2704e6": "2026-11-16T20:50:11Z",
+  "f7b7a835333b17f5": "2026-11-16T20:50:11Z",
+  "559235d572ac4f5c": "2026-11-16T20:50:11Z",
+  "0b11e9ef4c51437c": "2026-11-16T20:50:11Z",
+  "371c585450b00a12": "2026-11-16T20:55:11Z",
+  "1189df4137cb4e25": "2026-11-16T21:00:12Z",
+  "789464eb263fd646": "2026-11-16T21:05:10Z",
+  "59281ecca3f63538": "2026-11-16T21:15:11Z",
+  "b07d43722bd57f9b": "2026-11-16T21:15:11Z",
+  "19a10f5524f73b93": "2026-11-16T21:25:11Z",
+  "ed1c3696be3125ca": "2026-11-16T21:25:11Z"
  },
  "recent": [
   {
-   "at": "2026-11-16T20:30:12Z",
+   "at": "2026-11-16T21:25:11Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Mamdani to disband NYPD unit deployed at Columbia protests",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/16/mamdani-to-disband-nypd-unit-deployed-at-columbia-protests?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-16T21:25:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "DW News",
+   "title": "A preliminary agreement at the COP31 climate talks calls for an 'immediate' shift away from fossil fuels and money for climate change adaption",
+   "url": "https://www.dw.com/en/a-preliminary-agreement-at-the-cop31-climate-talks-calls-for-an-immediate-shift-away-from-fossil-fuels-and-money-for-climate-change-adaption/a-79960705?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-16T21:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24 Africa",
+   "title": "Rwanda to host hub for rejected EU migrants",
+   "url": "https://www.france24.com/en/rwanda-to-host-hub-for-rejected-eu-migrants"
+  },
+  {
+   "at": "2026-11-16T21:25:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Five EU countries announce plan to send rejected asylum seekers to Rwanda",
-   "url": "https://www.aljazeera.com/news/2026/11/16/five-eu-countries-announce-plan-to-send-rejected-asylum-seekers-to-rwanda?traffic_source=rss"
+   "title": "Sudanese army air attack kills 13 in western Sudan: Rights group",
+   "url": "https://www.aljazeera.com/news/2026/11/16/sudanese-army-air-attack-kills-13-in-western-sudan-rights-group?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:30:12Z",
+   "at": "2026-11-16T21:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "EU nations unveil Rwanda deal for migrant return hub",
+   "url": "https://www.france24.com/en/eu-nations-unveil-rwanda-deal-for-migrant-return-hub"
+  },
+  {
+   "at": "2026-11-16T21:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "November 17 blackout hoax: How a conspiracy theory went viral around the world",
+   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261116-november-17-blackout-hoax-how-a-conspiracy-theory-went-viral-around-the-world"
+  },
+  {
+   "at": "2026-11-16T21:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Pope concludes South America homecoming, reassures faithful after cancer scare",
+   "url": "https://www.france24.com/en/americas/20261116-pope-concludes-south-america-homecoming-reassures-faithful-after-cancer-scare"
+  },
+  {
+   "at": "2026-11-16T21:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "The new faces of the US Congress",
+   "url": "https://www.france24.com/en/the-new-faces-of-the-us-congress"
+  },
+  {
+   "at": "2026-11-16T21:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Should Ukraine trade Donbas for NATO membership?",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261116-should-ukraine-trade-donbas-for-nato-membership"
+  },
+  {
+   "at": "2026-11-16T21:25:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -666,7 +746,7 @@
    "url": "https://www.dw.com/en/france-s-philippe-diallo-to-challenge-infantino-for-fifa-presidency/a-79962843?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-16T20:30:12Z",
+   "at": "2026-11-16T21:25:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -674,7 +754,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/16/nationwide-ground-stop-could-cost-us-airlines-hundreds-of-millions?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:30:12Z",
+   "at": "2026-11-16T21:25:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -682,71 +762,63 @@
    "url": "https://www.aljazeera.com/news/2026/11/16/israeli-opposition-accuses-netanyahu-of-attempted-coup?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:30:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Lindsay Clancy to face retrial next year for deaths of her three children",
-   "url": "https://www.bbc.co.uk/news/articles/cw5y1v8de35go?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-16T20:30:12Z",
+   "at": "2026-11-16T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Saudi Arabia dismisses commander of coalition forces fighting Houthis",
-   "url": "https://www.aljazeera.com/news/2026/11/16/saudi-arabia-dismisses-commander-of-coalition-forces-fighting-houthis?traffic_source=rss"
+   "title": "Sudanese army air attack kills 13 in western Sudan: Rights group",
+   "url": "https://www.aljazeera.com/news/2026/11/16/sudanese-army-air-attack-kills-13-in-western-sudan-rights-group?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:30:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Thousands report difficulties accessing accounts online at major US banks",
-   "url": "https://www.aljazeera.com/news/2026/11/16/thousands-report-difficulties-accessing-accounts-online-at-major-us-banks?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:30:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "EU sanctions Wildberries CEO Tatyana Kim, Russia's richest woman",
-   "url": "https://www.dw.com/en/eu-sanctions-wildberries-ceo-tatyana-kim-russia-s-richest-woman/a-79962532?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:30:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Pakistan: Former leader Khan pleads for medical care",
-   "url": "https://www.dw.com/en/pakistan-former-leader-khan-pleads-for-medical-care/a-79961718?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:30:12Z",
+   "at": "2026-11-16T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "'A futuristic debate now very real': Why the world is struggling to regulate killer robots",
-   "url": "https://www.france24.com/en/technology/20261116-a-futuristic-debate-now-very-real-why-the-world-is-struggling-to-regulate-killer-robots"
+   "title": "EU nations unveil Rwanda deal for migrant return hub",
+   "url": "https://www.france24.com/en/eu-nations-unveil-rwanda-deal-for-migrant-return-hub"
   },
   {
-   "at": "2026-11-16T20:30:12Z",
+   "at": "2026-11-16T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Is Israel’s Eisenkot bloc less right wing than Netanyahu?",
-   "url": "https://www.aljazeera.com/news/2026/11/16/is-israels-opposition-less-right-wing-than-netanyahu?traffic_source=rss"
+   "source": "France 24",
+   "title": "November 17 blackout hoax: How a conspiracy theory went viral around the world",
+   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261116-november-17-blackout-hoax-how-a-conspiracy-theory-went-viral-around-the-world"
   },
   {
-   "at": "2026-11-16T20:25:10Z",
+   "at": "2026-11-16T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Five EU countries announce plan to send rejected asylum seekers to Rwanda",
-   "url": "https://www.aljazeera.com/news/2026/11/16/five-eu-countries-announce-plan-to-send-rejected-asylum-seekers-to-rwanda?traffic_source=rss"
+   "source": "France 24",
+   "title": "Pope concludes South America homecoming, reassures faithful after cancer scare",
+   "url": "https://www.france24.com/en/americas/20261116-pope-concludes-south-america-homecoming-reassures-faithful-after-cancer-scare"
   },
   {
-   "at": "2026-11-16T20:25:10Z",
+   "at": "2026-11-16T21:20:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "The new faces of the US Congress",
+   "url": "https://www.france24.com/en/the-new-faces-of-the-us-congress"
+  },
+  {
+   "at": "2026-11-16T21:20:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Should Ukraine trade Donbas for NATO membership?",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261116-should-ukraine-trade-donbas-for-nato-membership"
+  },
+  {
+   "at": "2026-11-16T21:20:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "France's Philippe Diallo to challenge Infantino for FIFA presidency",
+   "url": "https://www.dw.com/en/france-s-philippe-diallo-to-challenge-infantino-for-fifa-presidency/a-79962843?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-16T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -754,7 +826,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/16/nationwide-ground-stop-could-cost-us-airlines-hundreds-of-millions?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:25:10Z",
+   "at": "2026-11-16T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -762,79 +834,79 @@
    "url": "https://www.aljazeera.com/news/2026/11/16/israeli-opposition-accuses-netanyahu-of-attempted-coup?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Lindsay Clancy to face retrial next year for deaths of her three children",
-   "url": "https://www.bbc.co.uk/news/articles/cw5y1v8de35go?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-16T20:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Saudi Arabia dismisses commander of coalition forces fighting Houthis",
-   "url": "https://www.aljazeera.com/news/2026/11/16/saudi-arabia-dismisses-commander-of-coalition-forces-fighting-houthis?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Thousands report difficulties accessing accounts online at major US banks",
-   "url": "https://www.aljazeera.com/news/2026/11/16/thousands-report-difficulties-accessing-accounts-online-at-major-us-banks?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "EU sanctions Wildberries CEO Tatyana Kim, Russia's richest woman",
-   "url": "https://www.dw.com/en/eu-sanctions-wildberries-ceo-tatyana-kim-russia-s-richest-woman/a-79962532?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Pakistan: Former leader Khan pleads for medical care",
-   "url": "https://www.dw.com/en/pakistan-former-leader-khan-pleads-for-medical-care/a-79961718?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "'A futuristic debate now very real': Why the world is struggling to regulate killer robots",
-   "url": "https://www.france24.com/en/technology/20261116-a-futuristic-debate-now-very-real-why-the-world-is-struggling-to-regulate-killer-robots"
-  },
-  {
-   "at": "2026-11-16T20:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Is Israel’s Eisenkot bloc less right wing than Netanyahu?",
-   "url": "https://www.aljazeera.com/news/2026/11/16/is-israels-opposition-less-right-wing-than-netanyahu?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:20:10Z",
+   "at": "2026-11-16T21:15:11Z",
    "result": "skipped",
    "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "What will Europe do next in Ukraine?",
-   "url": "https://www.aljazeera.com/video/inside-story/2026/11/16/what-will-europe-do-next-in-ukraine?traffic_source=rss"
+   "title": "Manchester United’s Endless Loop",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/16/manchester-uniteds-endless-loop?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:20:10Z",
+   "at": "2026-11-16T21:15:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "UEFA backs France's Diallo to stand against Infantino in FIFA election",
+   "url": "https://www.france24.com/en/uefa-backs-france-s-diallo-to-stand-against-infantino-in-fifa-election"
+  },
+  {
+   "at": "2026-11-16T21:15:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Five EU countries announce plan to send rejected asylum seekers to Rwanda",
-   "url": "https://www.aljazeera.com/news/2026/11/16/five-eu-countries-announce-plan-to-send-rejected-asylum-seekers-to-rwanda?traffic_source=rss"
+   "title": "Sudanese army air attack kills 13 in western Sudan: Rights group",
+   "url": "https://www.aljazeera.com/news/2026/11/16/sudanese-army-air-attack-kills-13-in-western-sudan-rights-group?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:20:10Z",
+   "at": "2026-11-16T21:15:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "EU nations unveil Rwanda deal for migrant return hub",
+   "url": "https://www.france24.com/en/eu-nations-unveil-rwanda-deal-for-migrant-return-hub"
+  },
+  {
+   "at": "2026-11-16T21:15:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "November 17 blackout hoax: How a conspiracy theory went viral around the world",
+   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261116-november-17-blackout-hoax-how-a-conspiracy-theory-went-viral-around-the-world"
+  },
+  {
+   "at": "2026-11-16T21:15:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Pope concludes South America homecoming, reassures faithful after cancer scare",
+   "url": "https://www.france24.com/en/americas/20261116-pope-concludes-south-america-homecoming-reassures-faithful-after-cancer-scare"
+  },
+  {
+   "at": "2026-11-16T21:15:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "The new faces of the US Congress",
+   "url": "https://www.france24.com/en/the-new-faces-of-the-us-congress"
+  },
+  {
+   "at": "2026-11-16T21:15:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Should Ukraine trade Donbas for NATO membership?",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261116-should-ukraine-trade-donbas-for-nato-membership"
+  },
+  {
+   "at": "2026-11-16T21:15:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "France's Philippe Diallo to challenge Infantino for FIFA presidency",
+   "url": "https://www.dw.com/en/france-s-philippe-diallo-to-challenge-infantino-for-fifa-presidency/a-79962843?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-16T21:15:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -842,7 +914,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/16/nationwide-ground-stop-could-cost-us-airlines-hundreds-of-millions?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:20:10Z",
+   "at": "2026-11-16T21:15:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -850,207 +922,215 @@
    "url": "https://www.aljazeera.com/news/2026/11/16/israeli-opposition-accuses-netanyahu-of-attempted-coup?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Lindsay Clancy to face retrial next year for deaths of her three children",
-   "url": "https://www.bbc.co.uk/news/articles/cw5y1v8de35go?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-16T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Saudi Arabia dismisses commander of coalition forces fighting Houthis",
-   "url": "https://www.aljazeera.com/news/2026/11/16/saudi-arabia-dismisses-commander-of-coalition-forces-fighting-houthis?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Thousands report difficulties accessing accounts online at major US banks",
-   "url": "https://www.aljazeera.com/news/2026/11/16/thousands-report-difficulties-accessing-accounts-online-at-major-us-banks?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "EU sanctions Wildberries CEO Tatyana Kim, Russia's richest woman",
-   "url": "https://www.dw.com/en/eu-sanctions-wildberries-ceo-tatyana-kim-russia-s-richest-woman/a-79962532?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Pakistan: Former leader Khan pleads for medical care",
-   "url": "https://www.dw.com/en/pakistan-former-leader-khan-pleads-for-medical-care/a-79961718?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:20:10Z",
+   "at": "2026-11-16T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "'A futuristic debate now very real': Why the world is struggling to regulate killer robots",
-   "url": "https://www.france24.com/en/technology/20261116-a-futuristic-debate-now-very-real-why-the-world-is-struggling-to-regulate-killer-robots"
+   "title": "EU nations unveil Rwanda deal for migrant return hub",
+   "url": "https://www.france24.com/en/eu-nations-unveil-rwanda-deal-for-migrant-return-hub"
   },
   {
-   "at": "2026-11-16T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Is Israel’s Eisenkot bloc less right wing than Netanyahu?",
-   "url": "https://www.aljazeera.com/news/2026/11/16/is-israels-opposition-less-right-wing-than-netanyahu?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Five EU countries announce plan to send rejected asylum seekers to Rwanda",
-   "url": "https://www.aljazeera.com/news/2026/11/16/five-eu-countries-announce-plan-to-send-rejected-asylum-seekers-to-rwanda?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Lindsay Clancy to face retrial next year for deaths of her three children",
-   "url": "https://www.bbc.co.uk/news/articles/cw5y1v8de35go?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-16T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Saudi Arabia dismisses commander of coalition forces fighting Houthis",
-   "url": "https://www.aljazeera.com/news/2026/11/16/saudi-arabia-dismisses-commander-of-coalition-forces-fighting-houthis?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Thousands report difficulties accessing accounts online at major US banks",
-   "url": "https://www.aljazeera.com/news/2026/11/16/thousands-report-difficulties-accessing-accounts-online-at-major-us-banks?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "EU sanctions Wildberries CEO Tatyana Kim, Russia's richest woman",
-   "url": "https://www.dw.com/en/eu-sanctions-wildberries-ceo-tatyana-kim-russia-s-richest-woman/a-79962532?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Pakistan: Former leader Khan pleads for medical care",
-   "url": "https://www.dw.com/en/pakistan-former-leader-khan-pleads-for-medical-care/a-79961718?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:15:11Z",
+   "at": "2026-11-16T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "'A futuristic debate now very real': Why the world is struggling to regulate killer robots",
-   "url": "https://www.france24.com/en/technology/20261116-a-futuristic-debate-now-very-real-why-the-world-is-struggling-to-regulate-killer-robots"
+   "title": "November 17 blackout hoax: How a conspiracy theory went viral around the world",
+   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261116-november-17-blackout-hoax-how-a-conspiracy-theory-went-viral-around-the-world"
   },
   {
-   "at": "2026-11-16T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Is Israel’s Eisenkot bloc less right wing than Netanyahu?",
-   "url": "https://www.aljazeera.com/news/2026/11/16/is-israels-opposition-less-right-wing-than-netanyahu?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Five EU countries announce plan to send rejected asylum seekers to Rwanda",
-   "url": "https://www.aljazeera.com/news/2026/11/16/five-eu-countries-announce-plan-to-send-rejected-asylum-seekers-to-rwanda?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Lindsay Clancy to face retrial next year for deaths of her three children",
-   "url": "https://www.bbc.co.uk/news/articles/cw5y1v8de35go?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-16T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Saudi Arabia dismisses commander of coalition forces fighting Houthis",
-   "url": "https://www.aljazeera.com/news/2026/11/16/saudi-arabia-dismisses-commander-of-coalition-forces-fighting-houthis?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Thousands report difficulties accessing accounts online at major US banks",
-   "url": "https://www.aljazeera.com/news/2026/11/16/thousands-report-difficulties-accessing-accounts-online-at-major-us-banks?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "EU sanctions Wildberries CEO Tatyana Kim, Russia's richest woman",
-   "url": "https://www.dw.com/en/eu-sanctions-wildberries-ceo-tatyana-kim-russia-s-richest-woman/a-79962532?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Pakistan: Former leader Khan pleads for medical care",
-   "url": "https://www.dw.com/en/pakistan-former-leader-khan-pleads-for-medical-care/a-79961718?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:10:12Z",
+   "at": "2026-11-16T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "'A futuristic debate now very real': Why the world is struggling to regulate killer robots",
-   "url": "https://www.france24.com/en/technology/20261116-a-futuristic-debate-now-very-real-why-the-world-is-struggling-to-regulate-killer-robots"
+   "title": "Pope concludes South America homecoming, reassures faithful after cancer scare",
+   "url": "https://www.france24.com/en/americas/20261116-pope-concludes-south-america-homecoming-reassures-faithful-after-cancer-scare"
   },
   {
-   "at": "2026-11-16T20:10:12Z",
+   "at": "2026-11-16T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "The new faces of the US Congress",
+   "url": "https://www.france24.com/en/the-new-faces-of-the-us-congress"
+  },
+  {
+   "at": "2026-11-16T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Should Ukraine trade Donbas for NATO membership?",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261116-should-ukraine-trade-donbas-for-nato-membership"
+  },
+  {
+   "at": "2026-11-16T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "UEFA backs France's Diallo to stand against Infantino in FIFA election",
+   "url": "https://www.france24.com/en/uefa-backs-france-s-diallo-to-stand-against-infantino-in-fifa-election"
+  },
+  {
+   "at": "2026-11-16T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Is Israel’s Eisenkot bloc less right wing than Netanyahu?",
-   "url": "https://www.aljazeera.com/news/2026/11/16/is-israels-opposition-less-right-wing-than-netanyahu?traffic_source=rss"
+   "title": "Nationwide ground stop could cost US airlines hundreds of millions",
+   "url": "https://www.aljazeera.com/news/2026/11/16/nationwide-ground-stop-could-cost-us-airlines-hundreds-of-millions?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:05:11Z",
+   "at": "2026-11-16T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli opposition accuses Netanyahu of attempted ‘coup’",
+   "url": "https://www.aljazeera.com/news/2026/11/16/israeli-opposition-accuses-netanyahu-of-attempted-coup?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-16T21:05:10Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Czech mass protests: Media is the first casualty 'when you want to attack democracy'",
-   "url": "https://www.france24.com/en/czech-mass-protests-media-is-the-first-casualty-when-you-want-to-attack-democracy"
+   "source": "BBC News",
+   "title": "Lindsay Clancy to face retrial next year for deaths of her three children",
+   "url": "https://www.bbc.co.uk/news/articles/cw5y1v8de35go?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-16T20:05:11Z",
+   "at": "2026-11-16T21:05:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "EU nations unveil Rwanda deal for migrant return hub",
+   "url": "https://www.france24.com/en/eu-nations-unveil-rwanda-deal-for-migrant-return-hub"
+  },
+  {
+   "at": "2026-11-16T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "November 17 blackout hoax: How a conspiracy theory went viral around the world",
+   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261116-november-17-blackout-hoax-how-a-conspiracy-theory-went-viral-around-the-world"
+  },
+  {
+   "at": "2026-11-16T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Pope concludes South America homecoming, reassures faithful after cancer scare",
+   "url": "https://www.france24.com/en/americas/20261116-pope-concludes-south-america-homecoming-reassures-faithful-after-cancer-scare"
+  },
+  {
+   "at": "2026-11-16T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "The new faces of the US Congress",
+   "url": "https://www.france24.com/en/the-new-faces-of-the-us-congress"
+  },
+  {
+   "at": "2026-11-16T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Should Ukraine trade Donbas for NATO membership?",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261116-should-ukraine-trade-donbas-for-nato-membership"
+  },
+  {
+   "at": "2026-11-16T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "UEFA backs France's Diallo to stand against Infantino in FIFA election",
+   "url": "https://www.france24.com/en/uefa-backs-france-s-diallo-to-stand-against-infantino-in-fifa-election"
+  },
+  {
+   "at": "2026-11-16T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Nationwide ground stop could cost US airlines hundreds of millions",
+   "url": "https://www.aljazeera.com/news/2026/11/16/nationwide-ground-stop-could-cost-us-airlines-hundreds-of-millions?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-16T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli opposition accuses Netanyahu of attempted ‘coup’",
+   "url": "https://www.aljazeera.com/news/2026/11/16/israeli-opposition-accuses-netanyahu-of-attempted-coup?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "Al Jazeera",
    "title": "Five EU countries announce plan to send rejected asylum seekers to Rwanda",
    "url": "https://www.aljazeera.com/news/2026/11/16/five-eu-countries-announce-plan-to-send-rejected-asylum-seekers-to-rwanda?traffic_source=rss"
   },
   {
-   "at": "2026-11-16T20:05:11Z",
+   "at": "2026-11-16T21:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "EU nations unveil Rwanda deal for migrant return hub",
+   "url": "https://www.france24.com/en/eu-nations-unveil-rwanda-deal-for-migrant-return-hub"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "November 17 blackout hoax: How a conspiracy theory went viral around the world",
+   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261116-november-17-blackout-hoax-how-a-conspiracy-theory-went-viral-around-the-world"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Pope concludes South America homecoming, reassures faithful after cancer scare",
+   "url": "https://www.france24.com/en/americas/20261116-pope-concludes-south-america-homecoming-reassures-faithful-after-cancer-scare"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "The new faces of the US Congress",
+   "url": "https://www.france24.com/en/the-new-faces-of-the-us-congress"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Should Ukraine trade Donbas for NATO membership?",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261116-should-ukraine-trade-donbas-for-nato-membership"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "UEFA backs France's Diallo to stand against Infantino in FIFA election",
+   "url": "https://www.france24.com/en/uefa-backs-france-s-diallo-to-stand-against-infantino-in-fifa-election"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Nationwide ground stop could cost US airlines hundreds of millions",
+   "url": "https://www.aljazeera.com/news/2026/11/16/nationwide-ground-stop-could-cost-us-airlines-hundreds-of-millions?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli opposition accuses Netanyahu of attempted ‘coup’",
+   "url": "https://www.aljazeera.com/news/2026/11/16/israeli-opposition-accuses-netanyahu-of-attempted-coup?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-16T21:00:12Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -1058,76 +1138,12 @@
    "url": "https://www.bbc.co.uk/news/articles/cw5y1v8de35go?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-16T20:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "at": "2026-11-16T20:55:11Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "Saudi Arabia dismisses commander of coalition forces fighting Houthis",
-   "url": "https://www.aljazeera.com/news/2026/11/16/saudi-arabia-dismisses-commander-of-coalition-forces-fighting-houthis?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Thousands report difficulties accessing accounts online at major US banks",
-   "url": "https://www.aljazeera.com/news/2026/11/16/thousands-report-difficulties-accessing-accounts-online-at-major-us-banks?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "EU sanctions Wildberries CEO Tatyana Kim, Russia's richest woman",
-   "url": "https://www.dw.com/en/eu-sanctions-wildberries-ceo-tatyana-kim-russia-s-richest-woman/a-79962532?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Pakistan: Former leader Khan pleads for medical care",
-   "url": "https://www.dw.com/en/pakistan-former-leader-khan-pleads-for-medical-care/a-79961718?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-16T20:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "'A futuristic debate now very real': Why the world is struggling to regulate killer robots",
-   "url": "https://www.france24.com/en/technology/20261116-a-futuristic-debate-now-very-real-why-the-world-is-struggling-to-regulate-killer-robots"
-  },
-  {
-   "at": "2026-11-16T20:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Is Israel’s Eisenkot bloc less right wing than Netanyahu?",
-   "url": "https://www.aljazeera.com/news/2026/11/16/is-israels-opposition-less-right-wing-than-netanyahu?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Five EU countries announce plan to send rejected asylum seekers to Rwanda",
-   "url": "https://www.aljazeera.com/news/2026/11/16/five-eu-countries-announce-plan-to-send-rejected-asylum-seekers-to-rwanda?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-16T20:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Lindsay Clancy to face retrial next year for deaths of her three children",
-   "url": "https://www.bbc.co.uk/news/articles/cw5y1v8de35go?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-16T20:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Saudi Arabia dismisses commander of coalition forces fighting Houthis",
-   "url": "https://www.aljazeera.com/news/2026/11/16/saudi-arabia-dismisses-commander-of-coalition-forces-fighting-houthis?traffic_source=rss"
+   "title": "Photos: California residents gather to watch massive El Nino-fuelled waves",
+   "url": "https://www.aljazeera.com/gallery/2026/11/16/photos-california-residents-gather-to-watch-massive-el-nino-fuelled-waves?traffic_source=rss"
   }
  ]
 }
