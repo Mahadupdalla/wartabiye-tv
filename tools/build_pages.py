@@ -512,7 +512,7 @@ for route, (title, desc, key) in SECTIONS.items():
         if items:
             newest_of[route] = max(x.get('updatedAt') or x.get('publishedAt') or '' for x in items)
         cls = HUB_CLASS.get(route, 'somalia')
-        pre = (f'<section class="hubhead {cls}"><div class="wrap"><h1>{esc(title)}</h1><p>{esc(desc)}</p></div></section>'
+        pre = (f'<section class="hubhead {cls}"><div class="wrap"><h1>{esc(title)}</h1></div></section>'
                '<div class="wrap layout"><div>'
                + (f'<div class="cards one">{card(items[0], True)}</div><section class="secblock"><div class="cards">'
                   + ''.join(card(x) for x in items[1:]) + '</div></section>' if items else '')

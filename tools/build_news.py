@@ -165,6 +165,28 @@ if os.path.exists(p):
     status = json.load(open(p, encoding='utf-8'))
 out = {'lastRunAt': status.get('lastRunAt'), 'lastSuccessAt': status.get('lastSuccessAt') or status.get('lastRunAt'), 'lastRunNote': status.get('lastRunNote'), 'news': news}
 dst = os.path.join(root, 'data', 'news.json')
+
+
+# only the article page uses these (it loads the full data/news.json)
+LITE_DROP = ('body', 'alsoReportedBy', 'originalTitle', 'verification', 'imageSourceUrl')
+
+
+def lite_item(o):
+    """The same article without its full text (in every language): enough for every list, card and the ticker."""
+    o = {k: v for k, v in o.items() if k not in LITE_DROP}
+    for lang in LANGS:
+        if isinstance(o.get(lang), dict):
+            o[lang] = {k: v for k, v in o[lang].items() if k != 'body'}
+    return o
+
+
+# data/news-lite.json: what the pages load first (a small fraction of news.json), so the lists show at once even on a
+# slow phone connection; the full texts come from data/news.json only when an article is opened in the page
+lite_path = os.path.join(root, 'data', 'news-lite.json')
+lite_txt = json.dumps({**out, 'news': [lite_item(o) for o in news]}, ensure_ascii=False, separators=(',', ':'))
+if not os.path.exists(lite_path) or open(lite_path, encoding='utf-8').read() != lite_txt:
+    open(lite_path, 'w', encoding='utf-8').write(lite_txt)
+    print(f'{len(news)} published articles -> data/news-lite.json')
 # keep the file untouched when nothing changed, so rebuilding never makes an empty commit
 old = json.load(open(dst, encoding='utf-8')) if os.path.exists(dst) else {}
 if {k: old.get(k) for k in out} == out:

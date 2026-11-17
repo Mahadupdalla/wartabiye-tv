@@ -44,7 +44,7 @@ sports_cycle() {
     if python3 tools/build_news.py >/dev/null && python3 tools/check_site.py >/dev/null; then
       git add data/news/*-natiijo-*.json
     else
-      echo "result reports did not pass the site check: not published"; git checkout -q -- data/news.json; git clean -qf data/news; new=0
+      echo "result reports did not pass the site check: not published"; git checkout -q -- data/news.json $(git ls-files data/news-lite.json); git clean -qf data/news; new=0
     fi
   fi
   # the result-check status for /admin/: with every new report, otherwise about once an hour
