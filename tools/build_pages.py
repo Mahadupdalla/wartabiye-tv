@@ -81,7 +81,7 @@ def load_i18n():
 I18N = load_i18n()
 SO_WORDS = {'home': 'Hoyga', 'somaliaNav': 'Soomaaliya', 'eastAfrica': 'Bariga Afrika', 'world': 'Caalamka', 'sports': 'Ciyaaraha',
             'related': 'Wararka la xiriira', 'photo': 'Sawirka', 'back': '← Ku noqo bogga hore', 'seeAll': 'Dhammaan',
-            'pubBy': 'Waxaa daabacay Wartabiye TV', 'wroteBy': 'Wartabiye TV ayaa qortay', 'srcLabel': 'Isha',
+            'pubBy': 'Waxaa daabacay Wartabiye TV', 'wroteBy': 'Warkaan waxaa daabacay Wartabiye TV', 'srcLabel': 'Isha',
             'illus': 'Sawir muujin ah', 'latestWorld': 'Wararka Caalamka', 'latestSports': 'Wararka Ciyaaraha', 'categories': 'Qaybaha',
             'latestShort': 'Ugu dambeeyay', 'updatedWord': 'La cusbooneysiiyay'}
 
@@ -406,7 +406,7 @@ for n in public:
                 if n.get('imageLicense'):
                     cap += f' · {esc(n["imageLicense"])}'
             fig = f'<figure class="figure">{ph(n, big=True, hero=True, lang=lang)}' + (f'<figcaption>{cap}</figcaption>' if cap else '') + '</figure>'
-        # small publisher byline (no disclaimer box): "Wartabiye TV ayaa qortay" only for the newsroom's own stories,
+        # small publisher byline (no disclaimer box): "Warkaan waxaa daabacay Wartabiye TV" only for the newsroom's own stories,
         # "Waxaa daabacay Wartabiye TV" for every story built on other outlets' reporting (same rule as assets/app.js)
         src_name = str(n.get('source') or '')
         own = n.get('by') == 'admin' and (not src_name or src_name == 'Wartabiye TV')
