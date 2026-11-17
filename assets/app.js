@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV public site. Reads data/news.json (articles), data/site.json (settings), data/pages.json (About, policies)
    and data/ads.json (approved adverts) from this GitHub Pages site. No accounts and no tracking of its own; Google AdSense (assets/ads.js) loads only after a publisher ID is saved in /admin/.
    Visitor preferences (language, theme, text size, saved articles) stay in the visitor's own browser (localStorage). */
@@ -44,7 +45,7 @@
   function slug(c){return String(c||'').toLowerCase()}
   // Every link is a real address (war/<id>.html, soomaaliya/, qayb/siyaasadda/ …) that search engines can follow; the click
   // handler below (realNav) keeps the fast in-page navigation for visitors by turning a click into the matching #route.
-  var ROUTES=['soomaaliya','bariga-afrika','caalamka','ciyaaraha','wararka-tooska','muuqaal','toos','ciyaaraha-toos','xayeysiimaha','xiriir','nagu-saabsan','anshaxa','saxitaannada','asturnaanta','siyaasadda-xayeysiiska'];
+  var ROUTES=['soomaaliya','bariga-afrika','caalamka','ciyaaraha','wararka-tooska','muuqaal','toos','ciyaaraha-toos','xayeysiimaha','xiriir','nagu-saabsan','anshaxa','saxitaannada','asturnaanta','siyaasadda-xayeysiiska','shuruudaha'];
   function R(h){h=String(h||'');if(h==='#hoyga')return './';var m=/^#war-([\w-]+)$/.exec(h);if(m)return 'war/'+m[1]+'.html';m=/^#qayb-([\w-]+)$/.exec(h);if(m)return 'qayb/'+m[1]+'/';if(h.charAt(0)==='#'&&ROUTES.indexOf(h.slice(1))>=0)return h.slice(1)+'/';return h}
   function href(it){return 'war/'+encodeURIComponent(it._id)+'.html'}
   function articleUrl(it){try{return new URL('war/'+encodeURIComponent(it._id)+'.html',document.baseURI).href}catch(e){return location.href}}
@@ -617,7 +618,7 @@
   }
 
   // ---------- STATIC PAGES (data/pages.json, editable in /admin/) ----------
-  var PAGE_ROUTES={'nagu-saabsan':'about',asturnaanta:'privacy',anshaxa:'editorial','siyaasadda-xayeysiiska':'adpolicy',saxitaannada:'corrections'};
+  var PAGE_ROUTES={'nagu-saabsan':'about',asturnaanta:'privacy',anshaxa:'editorial','siyaasadda-xayeysiiska':'adpolicy',saxitaannada:'corrections',shuruudaha:'terms'};
   function pageText(p){if(!p)return null;var t=p[L]&&p[L].title?p[L]:p.so;return t?{t:t,so:t===p.so&&L!=='so'}:null}
   function renderStatic(key){
     var V=$('pageView');V.innerHTML='';var w=el('div','wrap page');var d=el('article','doc');w.append(d);V.append(w);

@@ -47,7 +47,10 @@ _sp = _j.load(open('data/sports.json'))
 for _l in (_sp.get('openData') or {}).get('leagues') or []:
     check(_re.fullmatch(r'[A-Za-z0-9_-]{1,20}', str(_l.get('id', ''))) and _re.fullmatch(r'\d{4}', str(_l.get('season', ''))), f"open-data league {_l}")
 _ix = open('index.html').read()
-check(0 < _ix.find('assets/sports-src.js') < _ix.find('assets/media.js'), 'sports-src.js loads before media.js')
+def _pos(n):  # readable or minified file (tools/build_min.py)
+    _m = _re.search(r'assets/(?:min/)?' + n + r'(?:\.min)?\.js', _ix)
+    return _m.start() if _m else -1
+check(0 < _pos('sports-src') < _pos('media'), 'sports-src.js loads before media.js')
 _feed = 'data/sports-feed'
 import os as _os
 for _f in (_os.listdir(_feed) if _os.path.isdir(_feed) else []):

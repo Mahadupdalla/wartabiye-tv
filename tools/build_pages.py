@@ -26,7 +26,10 @@ esc = lambda s: html.escape(str(s or ''), quote=True)
 EAT = datetime.timezone(datetime.timedelta(hours=3))
 LANGS = ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')
 
-tpl = open(os.path.join(root, 'index.html'), encoding='utf-8').read()
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_min  # noqa: E402  minified JS/CSS for visitors (assets/min/, made by tools/build_min.py at every publish)
+# the template always starts from the readable assets; write() points each page at the up-to-date minified copies
+tpl = build_min.unrewrite(open(os.path.join(root, 'index.html'), encoding='utf-8').read())
 a, b = tpl.index('<!--seo-->'), tpl.index('<!--/seo-->') + len('<!--/seo-->')
 assert '<!--story-->' in tpl, 'story marker missing in index.html'
 REGIONS = ('mosaic', 'list', 'blocks', 'ftrend', 'fcats', 'tick')
@@ -206,6 +209,7 @@ def head(title, desc, url, img, kind='website', extra='', img_alt='', size=None,
 
 def write(path, page, wanted):
     wanted.add(path)
+    page = build_min.rewrite(page)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     if not os.path.exists(path) or open(path, encoding='utf-8').read() != page:
         open(path, 'w', encoding='utf-8').write(page)
@@ -357,7 +361,9 @@ for n in public:
                'url': url, 'articleSection': cat_name(n.get('category'), lang) if n.get('category') else None,
                'isAccessibleForFree': True,
                'author': {'@type': 'Organization', '@id': ORG_ID, 'name': 'Wartabiye TV', 'url': SITE_URL + 'nagu-saabsan/'},
-               'publisher': PUBLISHER}
+               'publisher': PUBLISHER, 'copyrightHolder': {'@id': ORG_ID}}
+        if str(pub or '')[:4].isdigit():
+            art['copyrightYear'] = int(str(pub)[:4])  # the article text; photo rights stay with the photo's credit/licence
         if n.get('image'):
             io = {'@type': 'ImageObject', 'url': img, 'caption': alt}
             if size:
@@ -458,7 +464,7 @@ for lang in LANGS:
 
 # ---------- 2. section and information pages: route -> (title, description, key in pages.json or None) ----------
 # which AdSense setting each route follows ("sections" = news lists, "info" = advertising, contact, about, policies)
-INFO_ROUTES = {'xayeysiimaha', 'xiriir', 'nagu-saabsan', 'anshaxa', 'saxitaannada', 'asturnaanta', 'siyaasadda-xayeysiiska'}
+INFO_ROUTES = {'xayeysiimaha', 'xiriir', 'nagu-saabsan', 'anshaxa', 'saxitaannada', 'asturnaanta', 'siyaasadda-xayeysiiska', 'shuruudaha'}
 SECTIONS = {
     'ciyaaraha': ('Wararka Ciyaaraha', 'Wararka ciyaaraha ugu muhiimsan ee maalinta, hal meel: kubadda cagta, kubadda koleyga, teniska, Formula 1, feerka, orodka, esports iyo kuwo kale.', None),
     'soomaaliya': ('Wararka Soomaaliya', 'Wararka Soomaaliya ee la hubiyay: dowladda iyo baarlamaanka, dowlad goboleedyada, siyaasadda, dhaqaalaha, waxbarashada, gargaarka, horumarinta iyo wararka degdegga ah.', None),
@@ -475,6 +481,7 @@ SECTIONS = {
     'saxitaannada': (None, None, 'corrections'),
     'asturnaanta': (None, None, 'privacy'),
     'siyaasadda-xayeysiiska': (None, None, 'adpolicy'),
+    'shuruudaha': (None, None, 'terms'),
 }
 # which stories each news route lists (the same rules as assets/app.js inHub)
 HUBS = {'ciyaaraha': lambda x: section(x) == 'sports', 'caalamka': lambda x: section(x) == 'world',
@@ -569,7 +576,7 @@ org = {'@context': 'https://schema.org', '@type': 'NewsMediaOrganization', '@id'
        'contactPoint': {'@type': 'ContactPoint', 'contactType': 'Newsroom', 'url': SITE_URL + 'xiriir/', 'availableLanguage': ['so', 'en', 'ar']},
        'areaServed': 'SO', 'knowsLanguage': ['so', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es']}
 website = {'@context': 'https://schema.org', '@type': 'WebSite', '@id': SITE_URL + '#website', 'name': 'Wartabiye TV', 'alternateName': 'Wartabiye TV News',
-           'url': SITE_URL, 'inLanguage': 'so', 'publisher': {'@id': ORG_ID}}
+           'url': SITE_URL, 'inLanguage': 'so', 'publisher': {'@id': ORG_ID}, 'copyrightHolder': {'@id': ORG_ID}}
 verif = ''.join(f'<meta name="google-site-verification" content="{esc(t)}">\n' for t in ((SEO.get('verification') or {}).get('google') or [])
                 if re.fullmatch(r'[A-Za-z0-9_-]{20,100}', str(t)))
 bing = (SEO.get('verification') or {}).get('bing')
@@ -587,6 +594,7 @@ home = region(home, 'blocks', blocks)
 home = region(home, 'ftrend', FOOT_TREND)
 home = region(home, 'fcats', FOOT_CATS)
 home = region(home, 'tick', TICK)
+home = build_min.rewrite(home)
 if home != open(os.path.join(root, 'index.html'), encoding='utf-8').read():
     open(os.path.join(root, 'index.html'), 'w', encoding='utf-8').write(home)
 

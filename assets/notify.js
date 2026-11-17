@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV notification bell, update banner and optional browser push (Web Push).
    Reads data/notifications.json (built by tools/build_notifications.py from PUBLISHED articles and the owner's alerts)
    and the verified LIVE TV status (assets/media.js). Never shows anything that is not a real page of the site.
