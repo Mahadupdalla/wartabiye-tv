@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-17T05:51:08+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-17T06:31:13+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-17T00:48:29Z",
  "newestArticleAt": "2026-11-17T02:32:23+03:00",
- "lastSourceCheckAt": "2026-11-17T05:50:17+03:00",
- "sourceChecks24h": 291,
- "publishedArticles": 621,
+ "lastSourceCheckAt": "2026-11-17T06:30:19+03:00",
+ "sourceChecks24h": 290,
+ "publishedArticles": 629,
  "liveArticles": 621,
  "waitingForImage": 105,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-17T00:48:29Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43990603533"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-17T03:31:12+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-17T03:50:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-17T06:09:30+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,22 +47,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-17T05:50:10+03:00",
-   "lastSuccessAt": "2026-11-17T05:50:10+03:00",
+   "lastCheckAt": "2026-11-17T06:30:12+03:00",
+   "lastSuccessAt": "2026-11-17T06:30:12+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-17T03:50:00+03:00",
+  "lastSourceCheckAt": "2026-11-17T06:09:30+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-17T02:35:26+03:00",
-   "sourceName": "Radio Daljir",
-   "title": "Full: KHUDBADA GARAAD JAAMAC GARAAD CALI OO DHAMAYSTIRAN & LAASCANOOD.",
-   "url": "https://daljir.com/full-khudbada-garaad-jaamac-garaad-cali-oo-dhamaystiran-laascanood/"
+   "publishedAt": "2026-11-17T06:00:24+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Dagaalkii Bab al-Mandab oo u muuqda in lagu kala adkaaday",
+   "url": "https://www.caasimada.net/dagaalkii-bab-al-mandab-oo-u-muuqda-in-lagu-kala-adkaaday/"
   },
   "latestPublished": {
    "id": "2026-11-16-deni-safiirka-ingiriiska-charles-king-garoowe",
@@ -66,39 +71,30 @@
    "source": "Puntland Post",
    "url": "/war/2026-11-16-deni-safiirka-ingiriiska-charles-king-garoowe.html"
   },
-  "publishedLastRun": 3,
-  "rejectedLastRun": 82,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 80,
   "rejectedReasons": {
    "old": 10,
-   "duplicate": 72
+   "duplicate": 69,
+   "on-site": 1
   },
   "taskRejectedReasons": [
-   "Soomaaliya oo soo dhaweysy go'aanka Mareykanku ... (UNSOS): hore loo daabacay (2026-11-16-mareykanka-dib-u-taageeraya-unsos-aussom-soomaaliya)",
-   "In reversal, US to fund UN military support in Somalia for another year: isla dhacdada UNSOS, hore loo daabacay",
-   "Madaxweyne Xasan Shiikh: Israa'iil iyo Taiwan ...: hore loo daabacay (2026-11-15-xasan-sheekh-israaiil-taiwan-khatar-jiritaanka)",
-   "Somaliland oo sheegtay inay xidhay Shan Muwaadin oo Maraykan ah: hore loo daabacay",
-   "UPDF Hands Over Five Bases to Somalia Army: hore loo daabacay",
-   "Ciidanka Asluubta ... daroogo Xabsiga Dhexe: hore loo daabacay",
-   "Ra'iisul Wasaare Xamse ... Shirweynaha Kormeerka: hore loo daabacay",
-   "Shiinaha iyo Jabuuti oo ku heshiiyay in Somaliland: hore loo daabacay",
-   "SoDMA climate/COP31: hore loo daabacay",
-   "Sheekh Umal & Khudbadi Laascaanood / Garaad Jaamac culimada: dhacdo maxalli ah, faahfaahin war ah oo cad ma lahan (khudbad)",
-   "Nimankaa Ictisaam ... xildhibaan Xuseen: aragti/eedeyn hal il ah",
-   "Qardho maxkamad / Bajaajleyda Qardho / Wasiirka Maaliyadda Puntland: maxalli; wasiirka hore loo daabacay",
-   "Col Cali Cagey digniin: hal il, faahfaahin yar",
-   "Darawal Soomaali-Maraykan ah oo la weeraray: hal il, eedeyn dambi; xaqiijin kale lama helin",
-   "Airstrikes Leego / Duqeyn Leego (Shabelle): headline-only; Hiiraan/Goobjoog none -> pending xiga",
-   "Ramla Cali xukun (Caasimada): headline-only; il kale lama helin",
-   "Cali Jeyte la dalacsiiyay (Caasimada): headline-only; il kale lama helin",
-   "Petroleum Ministry review / Agaasimaha Batroolka / Wasaaradda Beeraha 10 beerood: borotokool, qiime war yar",
-   "SoDMA gargaar Baydhabo (Radio Muqdisho): hal il (warbaahinta dowladda), qiime war yar",
-   "Who stands in the way of a strong Somali State? / Yaa hor-taagan...: aragti",
-   "BBC Somali barnaamijyo (Dunida Iyo Maanta, Idaacadda Subaxnimo, AI, Dhacdo, Dayax, lacag caddaan, Dabin Jacayl, Maxamed Cusmaan): maaha war cusub / barnaamij",
-   "Xogta muwaadiniin Mareykan ah Hargeysa / Xogta qorshihii NFD (Caasimada): headline-only; xog aan la xaqiijin",
-   "Gaadiid & ciidan ka goostay Waqooyi Bari (Horseed): headline-only; il kale lama helin",
-   "Guddoomiye ku-xigeenkii Bangiga Puntland geeriyooday (Horseed): headline-only; il kale lama helin",
-   "Turkiga IGAD / Nairobi shirka argagixisada (headline-only): il kale lama helin",
-   "War cusub dagaalka Golweyn (Caasimada): headline-only; il kale lama helin"
+   "Col Cali Cagey oo digniin u diray dad u sheegay inay furfurayaan ciidamada qaranka (Hiiraan): xiisad siyaasadeed/amni oo lagu muransan yahay, hal il; Daljir/Caasimada (Cali Jeyte) ma xaqiijin -> lama daabicin",
+   "Cali Jeyte oo la dalacsiiyay xilli xiisadda Hiiraan kasii dareyso (Caasimada): headline-only; Hiiraan/Goobjoog/Daljir xaqiijin ma bixin -> pending",
+   "Cali Jeyte: Maṣ labo carable ah... (Daljir): hadal ra'yi ah, war ma aha",
+   "Ramla Cali oo war cusub kasoo saartay xukunka (Caasimada): headline-only; xukunka maxkamadda wuxuu dhacay March 2026 (WebSearch so/en), falcelin cusub lama xaqiijin",
+   "War cusub dagaalka Golweyn (Caasimada): headline-only; il kale lama helin -> pending",
+   "Duqeyn cirka ah Leego / Shabeellaha Hoose (Shabelle x2): headline-only; il kale lama helin -> pending",
+   "Guddoomiye ku-xigeenkii Bangiga Dowladda Puntland oo geeriyooday (Horseed): headline-only; il kale lama helin -> pending",
+   "Gaadiid & ciidan ka goostay Waqooyi Bari oo u galay Somaliland (Horseed): headline-only, sheegasho muran leh -> pending",
+   "DF oo shaacisay magaca horjooge Shabaab ah (Caasimada): isla howlgalka Bakool/Xudur ee hore loo daabacay (duplicate)",
+   "US/UNSOS, Asluubta maandooriye, Xamsa shirweyne, Somaliland 5 Mareykan, Shiinaha-Jabuuti, Turkiga-IGAD, UPDF saldhigyo, SoDMA COP31, Puntland wasiirka maaliyadda, Deni-safiirka UK, Xasan Sheekh Taiwan/Israel: hore ayaa loo daabacay (duplicate)",
+   "Qardho maxkamad / Bajaajleyda Qardho / Garaad Jaamac culimada / Sheekh Umal Laascanood / Ictisaam Gaalkacyo (Daljir): war maxalli ah oo qiimo yar leh, salaan ama ra'yi",
+   "Wasaaradda Beeraha 10 beerood / Batroolka (Shabelle): headline-only; il kale lama helin -> pending",
+   "Nairobi shirka UNCAC (Shabelle): headline-only; il kale lama helin -> pending",
+   "NFD qorshe Mareykan / Who stands in the way (Caasimada): ra'yi/xog aan la xaqiijin",
+   "BBC Somali (AI, dayax, lacag caddaan, Dabin jacayl, barnaamijyo): muuqaal/barnaamij ama war caalami ah oo aan maanta ahayn",
+   "Dagaalkii Bab al-Mandab (Caasimada): headline-only, war caalami; Al Jazeera Yemen (661 weerar) waa sheegasho tiro dhimasho oo hal il ah"
   ],
   "waitingForImage": 6,
   "waitingIds": [
