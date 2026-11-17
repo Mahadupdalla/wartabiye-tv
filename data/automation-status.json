@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-17T11:06:37+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-17T11:21:07+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-17T07:26:30Z",
  "newestArticleAt": "2026-11-17T09:04:17+03:00",
- "lastSourceCheckAt": "2026-11-17T11:05:17+03:00",
+ "lastSourceCheckAt": "2026-11-17T11:20:16+03:00",
  "sourceChecks24h": 291,
- "publishedArticles": 644,
+ "publishedArticles": 661,
  "liveArticles": 644,
  "waitingForImage": 105,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-17T07:26:30Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44038726269"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-17T08:21:06+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-17T09:57:50+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-17T11:23:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,22 +47,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-17T11:05:10+03:00",
-   "lastSuccessAt": "2026-11-17T11:05:10+03:00",
+   "lastCheckAt": "2026-11-17T11:20:10+03:00",
+   "lastSuccessAt": "2026-11-17T11:20:10+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-17T10:00:00+03:00",
+  "lastSourceCheckAt": "2026-11-17T11:22:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-17T08:58:45+03:00",
-   "sourceName": "Shabelle Media Network",
-   "title": "Golaha Wakiillada Galmudug oo soo xiray tababar laba maalmood socday oo loo qabtay Xildhibaannada iyo hawlwadeennada",
-   "url": "https://shabellemedia.com/golaha-wakiillada-galmudug-oo-soo-xiray-tababar-laba-maalmood-socday-oo-loo-qabtay-xildhibaannada-iyo-hawlwadeennada/"
+   "publishedAt": "2026-11-17T10:13:35+03:00",
+   "sourceName": "Goobjoog News",
+   "title": "Suudaan oo ciidamo Xooggan Geysay Xuduudka ay la Wadaagto Itoobiya",
+   "url": "https://goobjoog.com/2026/11/17/suudaan-oo-ciidamo-xooggan-geysay-xuduudka-ay-la-wadaagto-itoobiya"
   },
   "latestPublished": {
    "id": "2026-11-17-golaha-ammaanka-shir-gaar-ah-aussom-soomaaliya",
@@ -67,22 +72,18 @@
    "url": "/war/2026-11-17-golaha-ammaanka-shir-gaar-ah-aussom-soomaaliya.html"
   },
   "publishedLastRun": 1,
-  "rejectedLastRun": 82,
+  "rejectedLastRun": 78,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 73,
+   "old": 6,
+   "duplicate": 71,
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Hawlgal ciidan oo Xudur ka dhacay: wuxuu nuqul ka yahay warka Bakool ee 16 Nov (duplicate)",
-   "Mareykan oo la xiriira Somaliland: hore ayuu bogga ugu jiray (duplicate)",
-   "Maalgelinta UNSOS: hore ayuu bogga ugu jiray (duplicate)",
-   "SoDMA iyo COP31: hore ayuu bogga ugu jiray (duplicate)",
-   "Tababarka ciidamada Galmudug: borotokool, war ma aha (not newsworthy)",
-   "Sheegashada Itoobiya ee Saylac: sheegasho xasaasi ah oo hal il keliya leh (unconfirmed, single source)",
-   "Xiisadda Hiiraan / Cali Jeyte: cinwaan keliya, lama xaqiijin (unconfirmed headline-only)",
-   "Duqeymaha Shabeellaha Hoose: cinwaan keliya, il kale lama helin (unconfirmed headline-only)",
-   "HSM, Israa'iil iyo Taiwan: cinwaan keliya, lama xaqiijin (unconfirmed headline-only)"
+   "Deni oo booqday xarunta Wasaaradda Gaashaandhigga Puntland (Horseed): headline-only; Hiiraan/Goobjoog none, WebSearch so+en none -> pending",
+   "Wasaaradda Warfaafinta iyo Hayaan Heritage heshiis (Shabelle): headline-only; Hiiraan/Goobjoog none, WebSearch so+en none -> pending",
+   "Shirka dib-u-eegista UNCAC ee Nairobi (Shabelle): headline-only; Hiiraan/Goobjoog none, WebSearch so+en none -> pending",
+   "Tababarka Galmudug: protocol, not news",
+   "Hawlgalka Xudur, maalgelinta UNSOS, SoDMA COP31, Mareykanka Somaliland, Shiinaha/Jabuuti, daroogada Asluubta, shirka RW Xamsa: duplicate (already on the site)"
   ],
   "waitingForImage": 6,
   "waitingIds": [
