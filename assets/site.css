@@ -1410,3 +1410,10 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 /* photo protection (with assets/protect.js): photos cannot be dragged out and iPhone/iPad long-press shows no
    "Save image" menu. Text stays selectable and copyable. Light deterrent only. */
 img,picture,video{-webkit-user-drag:none;-webkit-touch-callout:none}
+/* after a refresh in another language than the page's own HTML: the stories stay hidden (a small spinner shows) until
+   they are shown in the reader's language, a second or two (assets/app.js, "wt-wait") */
+html.wt-wait #main>*,html.wt-wait .tick-track{visibility:hidden}
+html.wt-wait #main{position:relative}
+html.wt-wait #main::before{content:"";position:absolute;left:50%;top:40px;width:30px;height:30px;margin-left:-15px;border-radius:50%;border:3px solid rgba(0,0,0,.12);border-top-color:var(--red,#e30613);animation:wtspin .8s linear infinite;z-index:1}
+@keyframes wtspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){html.wt-wait #main::before{animation:none}}

@@ -26,7 +26,13 @@
   function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
   function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
   var PARAMS=new URLSearchParams(location.search);
-  var L=(function(){var u=PARAMS.get('lang');if(LANGS[u])return u;if(LANGS[window.WARTABIYE_LANG])return window.WARTABIYE_LANG;var s=lsGet(LS.lang);return LANGS[s]?s:'so'})();
+  // The reader's own choice (saved when they pick a language) always wins, on every page and after every refresh (owner's
+  // report of 17 Nov 2026: on a translated page such as en/war/<id>.html the page's language used to override it, so a
+  // refresh "changed the language by itself"). Order: ?lang= in the link, the saved choice, the page's language, Somali.
+  var L=(function(){var u=PARAMS.get('lang');if(LANGS[u])return u;var s=lsGet(LS.lang);if(LANGS[s])return s;if(LANGS[window.WARTABIYE_LANG])return window.WARTABIYE_LANG;return 'so'})();
+  // a link with ?lang= (and a first visit that lands on a translated page) also becomes the saved choice, so the next page
+  // and every refresh stay in that language instead of falling back to Somali
+  if(LANGS[PARAMS.get('lang')]||(!LANGS[lsGet(LS.lang)]&&L!=='so'))lsSet(LS.lang,L);
   function tr(k){var D=I18N[L]||I18N.so;return D[k]!=null&&D[k]!==''?D[k]:I18N.so[k]}
   function trf(k,o){return String(tr(k)).replace(/\{(\w+)\}/g,function(_,x){return o[x]!=null?o[x]:''})}
   function taxName(kind,key){var t=TAX[kind]&&TAX[kind][key];return t?(t[LANGS[L].i]||t[0]):key}
@@ -81,6 +87,16 @@
   // data/lite/<lang>.json (one language's titles and summaries, only for a reader of that language, cached by the
   // browser per publication "ver"). An article's full text comes from data/story/<id>.json (a few KB), not data/news.json.
   var SPLIT=false,VER='',LT={},ltP={},storyP={},pendL=null;
+  // A reader in another language than the page's own HTML (a refresh after choosing Arabic, for example): the page's
+  // Somali stories are hidden (html.wt-wait, set before the first paint by the small script in <head>) until the same
+  // stories are shown in the reader's language, so a refresh never shows another language first. The files for that
+  // language (and the article) are asked for at once, with the publication "ver" of the reader's last visit (browser cache).
+  var PAGE_L=window.WARTABIYE_LANG||'so',EV=lsGet('wartabiye-ver')||'',EARLY={};
+  function early(u){return fetch(u+(EV?'?v='+encodeURIComponent(EV):'')).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).catch(function(){return null})}
+  if(L!=='so')EARLY[L]=early('data/lite/'+L+'.json');
+  if(window.WARTABIYE_STORY&&L!==PAGE_L&&EV)EARLY.story=early('data/story/'+encodeURIComponent(window.WARTABIYE_STORY)+'.json');
+  function unwait(){document.documentElement.classList.remove('wt-wait')}
+  if(L===PAGE_L)unwait();else setTimeout(unwait,15000);
   // which hub an article belongs to: explicit "section" or derived from the category (old articles have no section)
   // In a language other than Somali, only articles that have a real translation in that language are listed.
   // Untranslated articles are never mixed into the lists in Somali; a notice says how many are waiting and offers to switch.
@@ -1085,13 +1101,14 @@
   function getJSON(u){return fetch(u+(u.indexOf('?')<0?'?':'&')+'v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' '+u);return r.json()})}
   function newsList(j){var lite=!!(j&&j._lite);return addLangs((Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;if(lite)o._lite=true;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1}))}
   // the small list first; the full file only if the small one is missing (an older publication)
-  function getNews(){return getJSON('data/lite/so.json').then(function(j){if(!j||!j.ver||!Array.isArray(j.news))throw new Error('no data/lite');j._lite=true;SPLIT=true;if(VER!==j.ver){VER=j.ver;LT={};ltP={}}return j})
+  function getNews(){return getJSON('data/lite/so.json').then(function(j){if(!j||!j.ver||!Array.isArray(j.news))throw new Error('no data/lite');j._lite=true;SPLIT=true;if(VER!==j.ver){VER=j.ver;LT={};ltP={}}lsSet('wartabiye-ver',j.ver);return j})
     .catch(function(){SPLIT=false;return getJSON('data/news-lite.json').then(function(j){if(j&&!Array.isArray(j))j._lite=true;return j},function(){return getJSON('data/news.json')})})}
   // one language's titles and summaries for the lists (data/lite/<lang>.json), joined to the Somali list
   function langReady(l){return l==='so'||!SPLIT||!!LT[l]}
   function addLang(list,l){var t=LT[l];if(!t)return list;list.forEach(function(x){if(x._lite&&t[x._id]&&!x[l])x[l]=t[x._id]});return list}
   function addLangs(list){Object.keys(LT).forEach(function(l){addLang(list,l)});return list}
   function needLang(l){if(langReady(l))return Promise.resolve();if(ltP[l])return ltP[l];var v=VER;
+    var e0=EARLY[l];if(e0){delete EARLY[l];ltP[l]=e0.then(function(j){if(j&&j.ver===VER&&j.t){LT[l]=j.t;addLang(ALL,l);return}ltP[l]=null;return needLang(l)});return ltP[l]}
     ltP[l]=fetch('data/lite/'+l+'.json?v='+encodeURIComponent(v)).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' data/lite/'+l+'.json');return r.json()})
       .then(function(j){if(v!==VER)return needLang(l);LT[l]=j&&j.t||{};addLang(ALL,l)},
         // the small file is missing (an older publication): every language at once from data/news-lite.json
@@ -1100,7 +1117,9 @@
     return ltP[l]}
   // one article with its full text in every language (data/story/<id>.json); the whole data/news.json only if it is missing
   function needStory(id){if(FULL)return Promise.resolve();if(!SPLIT)return needFull();if(storyP[id])return storyP[id];
-    storyP[id]=fetch('data/story/'+encodeURIComponent(id)+'.json?v='+encodeURIComponent(VER)).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' data/story/'+id+'.json');return r.json()})
+    var e0=id===window.WARTABIYE_STORY&&EV===VER&&EARLY.story;delete EARLY.story;
+    storyP[id]=(e0?e0.then(function(o){return o||Promise.reject(new Error('early story'))}):Promise.reject()).catch(function(){
+      return fetch('data/story/'+encodeURIComponent(id)+'.json?v='+encodeURIComponent(VER)).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' data/story/'+id+'.json');return r.json()})})
       .then(function(o){if(!o||typeof o.title!=='string')throw new Error('bad story '+id);o=Object.assign({},o);o._id=o._id||o.id;var found=false;
         ALL=ALL.map(function(x){if(x._id===id){found=true;return o}return x});if(!found)ALL=ALL.concat([o]).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});syncItems();
         var h=location.hash.slice(1);if(h==='war-'+id||(!h&&window.WARTABIYE_STORY===id))route()},function(e){storyP[id]=null;console.error('Wartabiye: story file failed',e);return needFull()});
@@ -1126,5 +1145,8 @@
     for(var lw=0;lw<3;lw++){var l0=pendL||L;try{await needLang(l0)}catch(e){}if((pendL||L)===l0)break}
     if(pendL){L=pendL;pendL=null;langBtnShow(L,false);applyLang()}
     loaded=true;syncItems();applySite();renderAll();
+    // an article page waits for its own small file before it shows in the reader's language
+    var sid=window.WARTABIYE_STORY,sit=sid&&!location.hash&&ALL.find(function(x){return x._id===sid});
+    if(sit&&sit._lite&&L!==PAGE_L)needStory(sid).then(unwait,unwait);else unwait();
   })();
 })();
