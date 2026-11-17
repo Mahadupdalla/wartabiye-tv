@@ -31,7 +31,7 @@ def main(argv):
     pool = argv[argv.index('--pool') + 1] if '--pool' in argv else None
     out = argv[argv.index('--out') + 1] if '--out' in argv else ('/tmp/sports-pool-cand.json' if pool else '/tmp/sports24-cand.json')
     hours = argv[argv.index('--hours') + 1] if '--hours' in argv else '24'
-    cap = int(argv[argv.index('--max') + 1]) if '--max' in argv else 200
+    cap = int(argv[argv.index('--max') + 1]) if '--max' in argv else 400
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     try:
         import known_sources
@@ -54,6 +54,9 @@ def main(argv):
     onsite = [i for i in allc if norm(i.get('canonicalUrl') or i['url']) in known or norm(i['url']) in known]
     noise = [i for i in allc if i not in onsite and NOISE.search(i.get('title') or '')]
     keep = sorted((i for i in allc if i not in onsite and i not in noise), key=lambda i: i.get('publishedAt') or '', reverse=True)
+    # big leagues, clubs, transfers and injuries from the WHOLE 24 hours first, then the newest of the rest (the 15:08 run
+    # of 17 Nov 2026 got only the newest 200, all from the last 3 hours, so the 24-hour catch-up added nothing)
+    keep.sort(key=lambda i: 0 if BIG.search(i.get('title') or '') else 1)
     json.dump({'items': keep[:cap]}, open(out, 'w', encoding='utf-8'), ensure_ascii=False)
     print(f'{len(allc)} sports stories from {len(revs)} world-feed lists in the last {hours} h: {len(onsite)} already on the site, '
           f'{len(noise)} live/TV/betting/quiz/gallery, {len(keep)} left, newest {min(cap, len(keep))} -> {out}')
