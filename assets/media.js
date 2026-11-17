@@ -437,7 +437,7 @@
   // source health (admin): #ilaha-xaaladda — every feed's last check, last success, newest item and last error
   function sourceHealth(V){V.innerHTML='';C.setTitle(tr('healthTitle'));V.append(hub('videos',tr('healthTitle'),tr('healthSub')));var w=el('div','wrap page');V.append(w);w.append(el('p','empty',tr('loadingStory')));
     Promise.all([liveFeed('feeds-status.json',30000).catch(function(){return null}),json('data/live-status.json',30000).catch(function(){return null}),json('data/sports.json',60000).catch(function(){return null}),
-      C.getJSON('data/sports-feed/index.json').catch(function(){return null}),C.getJSON('data/news-lite.json').catch(function(){return C.getJSON('data/news.json')}).catch(function(){return null})]).then(function(r){w.innerHTML='';
+      C.getJSON('data/sports-feed/index.json').catch(function(){return null}),C.getJSON('data/lite/so.json').catch(function(){return C.getJSON('data/news-lite.json')}).catch(function(){return C.getJSON('data/news.json')}).catch(function(){return null})]).then(function(r){w.innerHTML='';
       function row(tb,name,ok,a,b,c,e){var x=el('tr',ok===false?'bad':ok?'ok':'');x.append(el('td',null,name),el('td',null,ok===false?'✗':ok?'✓':'–'),el('td',null,a||''),el('td',null,b||''),el('td',null,c||''),el('td',null,e||''));tb.append(x)}
       function tm(s){var d=new Date(s);return isNaN(d)?'':C.dayMonth(d)+' '+eatHM(d)}
       function table(title,rows){w.append(C.head(title));var t=el('table','htable');var th=el('tr');[tr('healthSource'),'',tr('healthChecked'),tr('healthOk'),tr('healthNewest'),tr('healthError')].forEach(function(h){th.append(el('th',null,h))});var tb=el('tbody');t.append(el('thead'),tb);t.firstChild.append(th);rows(tb);var sc=el('div','tscroll');sc.append(t);w.append(sc)}

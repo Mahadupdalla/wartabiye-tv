@@ -491,6 +491,10 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
 .lang img{width:20px;height:14px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(11,28,51,.18);flex:none;display:block}
 .lang-btn svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .lang-btn .lc{display:none}
+/* while a language's titles are loading (a second or less): the flag pulses gently */
+.lang-btn.busy{cursor:progress}.lang-btn.busy img{animation:langbusy .7s ease-in-out infinite alternate}
+@keyframes langbusy{to{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.lang-btn.busy img{animation:none;opacity:.5}}
 .lang-menu{position:absolute;inset-inline-end:0;top:calc(100% + 6px);z-index:30;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:8px;box-shadow:var(--shadow-2);min-width:190px;padding:6px;display:grid;gap:2px}
 .lang-menu[hidden]{display:none}
 .lang-menu button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:9px 10px;border-radius:5px;font:600 14px var(--body);color:var(--fg);cursor:pointer;text-align:start}

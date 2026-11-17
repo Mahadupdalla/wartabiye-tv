@@ -77,6 +77,10 @@
   // data/news-lite.json (lists, cards, ticker: no article texts) loads first so the pages show the news at once;
   // the full data/news.json (every text in every language) loads only when an article is opened in the page
   var FULL=false,fullP=null;
+  // Since 17 Nov 2026 the lists come in two small parts (tools/build_news.py): data/lite/so.json (Somali, every page) and
+  // data/lite/<lang>.json (one language's titles and summaries, only for a reader of that language, cached by the
+  // browser per publication "ver"). An article's full text comes from data/story/<id>.json (a few KB), not data/news.json.
+  var SPLIT=false,VER='',LT={},ltP={},storyP={},pendL=null;
   // which hub an article belongs to: explicit "section" or derived from the category (old articles have no section)
   // In a language other than Somali, only articles that have a real translation in that language are listed.
   // Untranslated articles are never mixed into the lists in Somali; a notice says how many are waiting and offers to switch.
@@ -367,9 +371,9 @@
   function fsApply(){var v=fsGet();document.documentElement.style.setProperty('--fs-article',v?v+'px':'')}
   function renderStory(id){
     // the article is already in the page's HTML (war/<id>.html): keep it on screen until the news has loaded, so nothing jumps
-    if((!loaded||!FULL)&&id===window.WARTABIYE_STORY&&$('story').querySelector('h1')){if(loaded)needFull();return}
-    var it=ALL.find(function(x){return x._id===id});
-    var wait=!!(it&&it._lite)||(!it&&loaded&&!FULL);if(wait){needFull();it=null}
+    var it=loaded?ALL.find(function(x){return x._id===id}):null;
+    if((!it||it._lite)&&id===window.WARTABIYE_STORY&&$('story').querySelector('h1')&&(!loaded||!FULL)){if(loaded)needStory(id);return}
+    var wait=!!(it&&it._lite)||(!it&&loaded&&!FULL);if(wait){needStory(id);it=null}
     var A=$('story');A.innerHTML='';fillSide($('storySide'),[]);
     if(!it){A.append(el('p','empty',loaded&&!wait?tr('notFound'):tr('loadingStory')));var b0=el('a','back',tr('back'));b0.href='./';A.append(b0);return}
     setTitle(F(it,'title'));
@@ -1014,9 +1018,17 @@
     $('langName').lang=L;$('langMenu').querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-checked',String(b.dataset.lang===L))});
     themeBtn();tickBtn();if(typeof menuX==='function'&&$('links'))try{menuX()}catch(e){}
   }
-  function setLang(l){if(!LANGS[l])return;L=l;lsSet(LS.lang,l);
+  // Switching language: the menu closes at once and the button shows the chosen language; if that language's titles are
+  // not loaded yet (a small file, see SPLIT) the button pulses until they arrive, then the whole page changes in one go
+  // (never a half-translated page and never an empty list while waiting). The last choice wins.
+  function langBtnShow(l,busy){var lb=$('langBtn');$('langFlag').src=LANGS[l].flag;$('langName').textContent=LANGS[l].name;$('langCode').textContent=LANGS[l].code;$('langName').lang=l;
+    lb.classList.toggle('busy',!!busy);if(busy)lb.setAttribute('aria-busy','true');else lb.removeAttribute('aria-busy')}
+  function setLang(l){if(!LANGS[l])return;lsSet(LS.lang,l);
     if(PARAMS.has('lang')){PARAMS.delete('lang');var qs=PARAMS.toString();try{history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash)}catch(e){}}
-    syncItems();applyLang();applySite();renderAll()}
+    pendL=l;
+    function go(){if(pendL!==l)return;pendL=null;langBtnShow(l,false);if(l===L&&loaded)return;L=l;syncItems();applyLang();applySite();renderAll()}
+    if(!loaded||langReady(l)){langBtnShow(l,false);setTimeout(go,0);return}
+    langBtnShow(l,true);needLang(l).then(go,go)}
   var lb=$('langBtn'),lm=$('langMenu');
   function langMenu(open){lm.hidden=!open;lb.setAttribute('aria-expanded',String(open));if(open){var c=lm.querySelector('[aria-checked=true]');if(c)c.focus()}}
   lb.addEventListener('click',function(e){e.stopPropagation();langMenu(lm.hidden)});
@@ -1071,11 +1083,30 @@
 
   // ---------- load data ----------
   function getJSON(u){return fetch(u+(u.indexOf('?')<0?'?':'&')+'v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' '+u);return r.json()})}
-  function newsList(j){var lite=!!(j&&j._lite);return (Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;if(lite)o._lite=true;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1})}
+  function newsList(j){var lite=!!(j&&j._lite);return addLangs((Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;if(lite)o._lite=true;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1}))}
   // the small list first; the full file only if the small one is missing (an older publication)
-  function getNews(){return getJSON('data/news-lite.json').then(function(j){if(j&&!Array.isArray(j))j._lite=true;return j},function(){return getJSON('data/news.json')})}
+  function getNews(){return getJSON('data/lite/so.json').then(function(j){if(!j||!j.ver||!Array.isArray(j.news))throw new Error('no data/lite');j._lite=true;SPLIT=true;if(VER!==j.ver){VER=j.ver;LT={};ltP={}}return j})
+    .catch(function(){SPLIT=false;return getJSON('data/news-lite.json').then(function(j){if(j&&!Array.isArray(j))j._lite=true;return j},function(){return getJSON('data/news.json')})})}
+  // one language's titles and summaries for the lists (data/lite/<lang>.json), joined to the Somali list
+  function langReady(l){return l==='so'||!SPLIT||!!LT[l]}
+  function addLang(list,l){var t=LT[l];if(!t)return list;list.forEach(function(x){if(x._lite&&t[x._id]&&!x[l])x[l]=t[x._id]});return list}
+  function addLangs(list){Object.keys(LT).forEach(function(l){addLang(list,l)});return list}
+  function needLang(l){if(langReady(l))return Promise.resolve();if(ltP[l])return ltP[l];var v=VER;
+    ltP[l]=fetch('data/lite/'+l+'.json?v='+encodeURIComponent(v)).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' data/lite/'+l+'.json');return r.json()})
+      .then(function(j){if(v!==VER)return needLang(l);LT[l]=j&&j.t||{};addLang(ALL,l)},
+        // the small file is missing (an older publication): every language at once from data/news-lite.json
+        function(e){ltP[l]=null;console.error('Wartabiye: language file failed',e);return getJSON('data/news-lite.json').then(function(j){var by={};(j.news||[]).forEach(function(o){by[o.id]=o});
+          Object.keys(LANGS).forEach(function(k){if(k==='so')return;var t={};(j.news||[]).forEach(function(o){if(o[k]&&typeof o[k]==='object')t[o.id]=o[k]});LT[k]=t;addLang(ALL,k)})})});
+    return ltP[l]}
+  // one article with its full text in every language (data/story/<id>.json); the whole data/news.json only if it is missing
+  function needStory(id){if(FULL)return Promise.resolve();if(!SPLIT)return needFull();if(storyP[id])return storyP[id];
+    storyP[id]=fetch('data/story/'+encodeURIComponent(id)+'.json?v='+encodeURIComponent(VER)).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' data/story/'+id+'.json');return r.json()})
+      .then(function(o){if(!o||typeof o.title!=='string')throw new Error('bad story '+id);o=Object.assign({},o);o._id=o._id||o.id;var found=false;
+        ALL=ALL.map(function(x){if(x._id===id){found=true;return o}return x});if(!found)ALL=ALL.concat([o]).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});syncItems();
+        var h=location.hash.slice(1);if(h==='war-'+id||(!h&&window.WARTABIYE_STORY===id))route()},function(e){storyP[id]=null;console.error('Wartabiye: story file failed',e);return needFull()});
+    return storyP[id]}
   // a refreshed small list keeps the article texts already loaded
-  function keepTexts(l){if(!FULL)return l;var old={};ALL.forEach(function(x){if(!x._lite)old[x._id]=x});return l.map(function(o){var x=old[o._id];return x&&x.publishedAt===o.publishedAt?x:o})}
+  function keepTexts(l){var old={};ALL.forEach(function(x){if(!x._lite)old[x._id]=x});return l.map(function(o){var x=old[o._id];return x&&x.publishedAt===o.publishedAt?x:o})}
   function needFull(){if(fullP)return fullP;fullP=getJSON('data/news.json').then(function(j){var full=newsList(j),seen={};full.forEach(function(x){seen[x._id]=1});
     ALL=full.concat(ALL.filter(function(x){return !seen[x._id]&&!x._lite})).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});FULL=true;syncItems();
     var h=location.hash.slice(1);if(/^war-/.test(h)||(!h&&window.WARTABIYE_STORY))route()},function(e){fullP=null;console.error('Wartabiye: news.json load failed',e)});return fullP}
@@ -1091,6 +1122,9 @@
     if(/^[a-z0-9-]+$/i.test(pv)){try{var po=await getJSON('data/news/'+pv+'.json');po._id=po.id=pv;po._preview=true;
       ALL=ALL.filter(function(x){return x._id!==pv}).concat([po]).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(location.hash.indexOf('#war-')!==0)history.replaceState(null,'',location.pathname+location.search+'#war-'+encodeURIComponent(pv))}catch(e){console.error('Wartabiye: preview load failed',e)}}
     if(!ALL.some(function(x){return x._lite}))FULL=true;
+    // a reader in another language gets that language's small file before the first render (the last choice wins)
+    for(var lw=0;lw<3;lw++){var l0=pendL||L;try{await needLang(l0)}catch(e){}if((pendL||L)===l0)break}
+    if(pendL){L=pendL;pendL=null;langBtnShow(L,false);applyLang()}
     loaded=true;syncItems();applySite();renderAll();
   })();
 })();

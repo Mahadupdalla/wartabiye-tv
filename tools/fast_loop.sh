@@ -44,7 +44,7 @@ sports_cycle() {
     if python3 tools/build_news.py >/dev/null && python3 tools/check_site.py >/dev/null; then
       git add data/news/*-natiijo-*.json
     else
-      echo "result reports did not pass the site check: not published"; git checkout -q -- data/news.json $(git ls-files data/news-lite.json); git clean -qf data/news; new=0
+      echo "result reports did not pass the site check: not published"; git checkout -q -- data/news.json $(git ls-files data/news-lite.json data/lite data/story); git clean -qf data/news data/lite data/story; new=0
     fi
   fi
   # the result-check status for /admin/: with every new report, otherwise about once an hour
@@ -58,7 +58,7 @@ sports_cycle() {
   git "${BOT[@]}" commit -q -m "$msg" || return 1
   # the rebuilt data/news.json etc. are not committed (the publish workflow builds them): drop them, or the rebase
   # refuses to start ("cannot pull with rebase: You have unstaged changes", seen 9 Nov 09:35 UTC: 3 reports lost)
-  git reset -q --hard HEAD
+  git reset -q --hard HEAD; git clean -qf data/lite data/story 2>/dev/null || true
   push_main || return 1
   if [ "$new" -gt 0 ]; then
     # a push made with the job's token starts no workflow: start the publish workflow (pages, bell, push alerts)
@@ -101,7 +101,7 @@ sports_writer_cycle() {
   git "${BOT[@]}" commit -q -m "$msg" || return 1
   # the rebuilt data/news.json etc. are not committed (the publish workflow builds them): drop them, or the rebase
   # refuses to start ("cannot pull with rebase: You have unstaged changes", seen 9 Nov 09:35 UTC: 3 reports lost)
-  git reset -q --hard HEAD
+  git reset -q --hard HEAD; git clean -qf data/lite data/story 2>/dev/null || true
   push_main || return 1
   if [ "$pub" -gt 0 ]; then
     gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
