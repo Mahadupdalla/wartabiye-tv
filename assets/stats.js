@@ -19,7 +19,7 @@
   var ST = /^[a-f0-9]{32}$/.test(P.get('wtvselftest') || '') ? P.get('wtvselftest') : '';
   if (P.has('preview') || get('wtv-notrack') === '1' || (navigator.webdriver && !ST)) return;
 
-  var PAGES = /^(ciyaaraha|caalamka|bariga-afrika|wararka-tooska|muuqaal|toos|ciyaaraha-toos|raadi|kaydsan|xiriir|xayeysiimaha|ilaha-xaaladda|nagu-saabsan|anshaxa|saxitaannada|asturnaanta|siyaasadda-xayeysiiska)$/;
+  var PAGES = /^(ciyaaraha|caalamka|bariga-afrika|wararka-tooska|muuqaal|toos|ciyaaraha-toos|raadi|kaydsan|xiriir|xayeysiimaha|ilaha-xaaladda|nagu-saabsan|anshaxa|saxitaannada|asturnaanta|siyaasadda-xayeysiiska|shuruudaha)$/;
   function pathNow() {
     var h = '';
     try { h = decodeURIComponent((location.hash || '').slice(1)); } catch (e) { h = (location.hash || '').slice(1); }

@@ -1403,8 +1403,6 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .archive li{border-bottom:1px solid var(--line);padding:10px 2px}
 .archive a{color:var(--fg);font-weight:600;line-height:1.35}
 .archive a:hover{color:var(--blue)}
-/* content protection (with assets/protect.js): page text and photos cannot be selected or dragged; form fields,
-   the search box and anything marked data-allow-copy stay fully selectable. Light deterrent only. */
-body{-webkit-user-select:none;user-select:none}
-input,textarea,select,[contenteditable]:not([contenteditable="false"]),[data-allow-copy],[data-allow-copy] *{-webkit-user-select:text;user-select:text}
+/* photo protection (with assets/protect.js): photos cannot be dragged out and iPhone/iPad long-press shows no
+   "Save image" menu. Text stays selectable and copyable. Light deterrent only. */
 img,picture,video{-webkit-user-drag:none;-webkit-touch-callout:none}

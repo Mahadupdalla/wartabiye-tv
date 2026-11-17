@@ -69,7 +69,7 @@ const fs = require('fs');
   }
   // Sports and World hubs, the pages, and their own addresses (/ciyaaraha/ …) open without errors or sideways scrolling
   for (const [w, h, name] of [[1280, 900, 'desktop'], [390, 844, 'mobile']]) {
-    for (const path of ['#ciyaaraha', '#caalamka', '#muuqaal', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
+    for (const path of ['#ciyaaraha', '#caalamka', '#muuqaal', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#shuruudaha', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
       const { p: q, errs } = await open(w, h, path);
       const r = await q.evaluate(() => { const v = document.getElementById('pageView'); return { shown: !v.hidden && v.innerText.trim().length > 20, overflow: document.documentElement.scrollWidth > innerWidth, h: (v.querySelector('h1') || {}).textContent } });
       console.log(name, 'page', path, JSON.stringify(r), errs);

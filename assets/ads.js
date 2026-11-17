@@ -13,7 +13,7 @@
   var CFG = window.WARTABIYE_ADS;
   if (!CFG || !/^ca-pub-\d{16}$/.test(CFG.client || '')) return;
   var SRC = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + CFG.client;
-  var INFO = /^(xayeysiimaha|xiriir|nagu-saabsan|anshaxa|saxitaannada|asturnaanta|siyaasadda-xayeysiiska|raadi|kaydsan|ilaha-xaaladda)$/;
+  var INFO = /^(xayeysiimaha|xiriir|nagu-saabsan|anshaxa|saxitaannada|asturnaanta|siyaasadda-xayeysiiska|shuruudaha|raadi|kaydsan|ilaha-xaaladda)$/;
   var SECTIONS = /^(soomaaliya|caalamka|ciyaaraha|bariga-afrika|wararka-tooska|muuqaal|toos|ciyaaraha-toos|qayb-.+)$/;
   var TXT = {
     so: ['Xayeysiis', 'Asturnaanta iyo cookies-ka'], en: ['Advertisement', 'Privacy and cookie settings'],

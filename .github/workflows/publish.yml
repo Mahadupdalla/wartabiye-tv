@@ -39,6 +39,8 @@ jobs:
         run: python3 tools/build_notifications.py test && python3 tools/push_send.py test && python3 tools/build_notifications.py
       - name: Google AdSense code and ads.txt (website only; nothing is added until a real publisher ID is saved)
         run: python3 tools/build_adsense.py && python3 tools/adsense_test.py
+      - name: Minified JS and CSS for visitors (assets/min, no source maps; the readable files are served if this fails)
+        run: python3 tools/build_min.py || echo "::warning::assets/min was not rebuilt; the pages use the readable assets"
       - name: Build article pages, section pages, sitemap and RSS
         run: python3 tools/build_pages.py
       - name: SEO check of the built pages (what Googlebot receives; a report for /admin/, never blocks the news)
@@ -50,7 +52,7 @@ jobs:
         run: python3 tools/build_app_api.py test && python3 tools/build_app_api.py || echo "::warning::api/v1 for the mobile app was not rebuilt"
       - name: Commit the built files
         run: |
-          git add -A $(ls -d api 2>/dev/null) index.html $(ls ads.txt 2>/dev/null || git ls-files ads.txt) data/news data/news.json data/ads.json data/videos.json data/notifications.json data/seo-report.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml news-sitemap.xml rss.xml $(for d in en ar fr nl it de tr es qayb kaydka; do { [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1; } && echo "$d"; done) ciyaaraha caalamka soomaaliya bariga-afrika wararka-tooska xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska
+          git add -A $(ls -d api 2>/dev/null) $(ls -d assets/min 2>/dev/null) index.html $(ls ads.txt 2>/dev/null || git ls-files ads.txt) data/news data/news.json data/ads.json data/videos.json data/notifications.json data/seo-report.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml news-sitemap.xml rss.xml $(for d in en ar fr nl it de tr es qayb kaydka; do { [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1; } && echo "$d"; done) ciyaaraha caalamka soomaaliya bariga-afrika wararka-tooska xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska shuruudaha
           if git diff --cached --quiet; then echo "built files already up to date"; exit 0; fi
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

@@ -26,7 +26,10 @@ esc = lambda s: html.escape(str(s or ''), quote=True)
 EAT = datetime.timezone(datetime.timedelta(hours=3))
 LANGS = ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')
 
-tpl = open(os.path.join(root, 'index.html'), encoding='utf-8').read()
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_min  # noqa: E402  minified JS/CSS for visitors (assets/min/, made by tools/build_min.py at every publish)
+# the template always starts from the readable assets; write() points each page at the up-to-date minified copies
+tpl = build_min.unrewrite(open(os.path.join(root, 'index.html'), encoding='utf-8').read())
 a, b = tpl.index('<!--seo-->'), tpl.index('<!--/seo-->') + len('<!--/seo-->')
 assert '<!--story-->' in tpl, 'story marker missing in index.html'
 REGIONS = ('mosaic', 'list', 'blocks', 'ftrend', 'fcats', 'tick')
@@ -206,6 +209,7 @@ def head(title, desc, url, img, kind='website', extra='', img_alt='', size=None,
 
 def write(path, page, wanted):
     wanted.add(path)
+    page = build_min.rewrite(page)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     if not os.path.exists(path) or open(path, encoding='utf-8').read() != page:
         open(path, 'w', encoding='utf-8').write(page)
@@ -460,7 +464,7 @@ for lang in LANGS:
 
 # ---------- 2. section and information pages: route -> (title, description, key in pages.json or None) ----------
 # which AdSense setting each route follows ("sections" = news lists, "info" = advertising, contact, about, policies)
-INFO_ROUTES = {'xayeysiimaha', 'xiriir', 'nagu-saabsan', 'anshaxa', 'saxitaannada', 'asturnaanta', 'siyaasadda-xayeysiiska'}
+INFO_ROUTES = {'xayeysiimaha', 'xiriir', 'nagu-saabsan', 'anshaxa', 'saxitaannada', 'asturnaanta', 'siyaasadda-xayeysiiska', 'shuruudaha'}
 SECTIONS = {
     'ciyaaraha': ('Wararka Ciyaaraha', 'Wararka ciyaaraha ugu muhiimsan ee maalinta, hal meel: kubadda cagta, kubadda koleyga, teniska, Formula 1, feerka, orodka, esports iyo kuwo kale.', None),
     'soomaaliya': ('Wararka Soomaaliya', 'Wararka Soomaaliya ee la hubiyay: dowladda iyo baarlamaanka, dowlad goboleedyada, siyaasadda, dhaqaalaha, waxbarashada, gargaarka, horumarinta iyo wararka degdegga ah.', None),
@@ -477,6 +481,7 @@ SECTIONS = {
     'saxitaannada': (None, None, 'corrections'),
     'asturnaanta': (None, None, 'privacy'),
     'siyaasadda-xayeysiiska': (None, None, 'adpolicy'),
+    'shuruudaha': (None, None, 'terms'),
 }
 # which stories each news route lists (the same rules as assets/app.js inHub)
 HUBS = {'ciyaaraha': lambda x: section(x) == 'sports', 'caalamka': lambda x: section(x) == 'world',
@@ -589,6 +594,7 @@ home = region(home, 'blocks', blocks)
 home = region(home, 'ftrend', FOOT_TREND)
 home = region(home, 'fcats', FOOT_CATS)
 home = region(home, 'tick', TICK)
+home = build_min.rewrite(home)
 if home != open(os.path.join(root, 'index.html'), encoding='utf-8').read():
     open(os.path.join(root, 'index.html'), 'w', encoding='utf-8').write(home)
 
