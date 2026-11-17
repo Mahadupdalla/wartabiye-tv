@@ -187,6 +187,45 @@ lite_txt = json.dumps({**out, 'news': [lite_item(o) for o in news]}, ensure_asci
 if not os.path.exists(lite_path) or open(lite_path, encoding='utf-8').read() != lite_txt:
     open(lite_path, 'w', encoding='utf-8').write(lite_txt)
     print(f'{len(news)} published articles -> data/news-lite.json')
+
+# Language switching on phones (17 Nov 2026): the page no longer downloads every language at once.
+#   data/lite/so.json      the lists in Somali (no translations), loaded first on every page, with "ver"
+#   data/lite/<lang>.json  {"ver", "t": {id: translated title/summary}}: one language, loaded only when a visitor
+#                          reads in that language (and cached by the browser until the next publication changes "ver")
+#   data/story/<id>.json   one article with its full text in every language: an article page loads only this file
+#                          (instead of the whole data/news.json) when the reader switches language or opens a story
+# data/news-lite.json and data/news.json stay as they are (older pages, the app, the checks).
+import hashlib
+
+
+def put(path, txt):
+    if os.path.exists(path) and open(path, encoding='utf-8').read() == txt:
+        return False
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    open(path, 'w', encoding='utf-8').write(txt)
+    return True
+
+
+def compact(o):
+    return json.dumps(o, ensure_ascii=False, separators=(',', ':'))
+
+
+lite_news = [lite_item(o) for o in news]
+ver = hashlib.sha1(compact(lite_news).encode('utf-8')).hexdigest()[:10]
+put(os.path.join(root, 'data', 'lite', 'so.json'), compact({**{k: out[k] for k in out if k != 'news'}, 'ver': ver, 'news': [{k: v for k, v in o.items() if k not in LANGS} for o in lite_news]}))
+for lang in LANGS:
+    put(os.path.join(root, 'data', 'lite', lang + '.json'), compact({'ver': ver, 't': {o['id']: o[lang] for o in lite_news if o.get('id') and isinstance(o.get(lang), dict)}}))
+story_dir = os.path.join(root, 'data', 'story')
+ids = set()
+for o in news:
+    if o.get('id'):
+        ids.add(o['id'] + '.json')
+        put(os.path.join(story_dir, o['id'] + '.json'), compact(o))
+for f in os.listdir(story_dir) if os.path.isdir(story_dir) else []:
+    if f.endswith('.json') and f not in ids:
+        os.remove(os.path.join(story_dir, f))
+print(f'data/lite (ver {ver}) and data/story ({len(ids)} articles) up to date')
+
 # keep the file untouched when nothing changed, so rebuilding never makes an empty commit
 old = json.load(open(dst, encoding='utf-8')) if os.path.exists(dst) else {}
 if {k: old.get(k) for k in out} == out:
