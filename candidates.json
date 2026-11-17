@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-11-17T09:10:16+03:00",
+ "fetchedAt": "2026-11-17T09:15:16+03:00",
  "since": "2026-11-09T21:01:32+03:00",
  "sources": [
   {
@@ -1213,9 +1213,64 @@
    "errors": [
     "no public feed: checked by the 08:00/18:00 news task with WebSearch / WebFetch"
    ]
+  },
+  {
+   "id": "pbs-newshour",
+   "name": "PBS NewsHour",
+   "section": "world",
+   "enabled": true,
+   "method": "rss https://www.pbs.org/newshour/feeds/rss/world",
+   "collected": 0,
+   "found": 20,
+   "errors": []
+  },
+  {
+   "id": "cbs-news",
+   "name": "CBS News",
+   "section": "world",
+   "enabled": true,
+   "method": "rss https://www.cbsnews.com/latest/rss/world",
+   "collected": 0,
+   "found": 16,
+   "errors": []
+  },
+  {
+   "id": "anadolu",
+   "name": "Anadolu Agency (AA)",
+   "section": "world",
+   "enabled": true,
+   "method": "rss https://www.aa.com.tr/en/rss/default?cat=world",
+   "collected": 0,
+   "found": 30,
+   "errors": []
   }
  ],
  "items": [
+  {
+   "source": "capitalfm-ke",
+   "sourceName": "Capital FM Kenya",
+   "section": "somalia",
+   "url": "https://capitalfm.africa/muhoozi-returns-to-x-with-10-year-jail-threat-for-media-critical-of-museveni/?utm_source=rss&utm_medium=feed&utm_campaign=feed-news",
+   "title": "Muhoozi returns to X with 10-year jail threat for media critical of Museveni",
+   "description": "Muhoozi also threatened to subject foreign media personnel he considers foreign agents to trial by court martial.",
+   "publishedAt": "2026-11-17T09:11:06+03:00",
+   "image": "https://capitalfm.africa/wp-content/uploads/2026/11/MUHOOZI-UNIFORM-1200x630.png",
+   "timeVerified": true,
+   "discoveredAt": "2026-11-17T09:15:16+03:00",
+   "dateSource": "publisher RSS feed",
+   "firstSeenBy": "5-minute monitor",
+   "canonicalUrl": "https://capitalfm.africa/muhoozi-returns-to-x-with-10-year-jail-threat-for-media-critical-of-museveni/",
+   "imageCaption": "Muhoozi increasingly positions himself at the centre of Uganda's succession debate, with his Patriotic League of Uganda (PLU) movement mobilising support for a possible presidential bid in 2031/Uganda Media Centre",
+   "author": "JEREMIAH WAKAYA",
+   "pagePublishedAt": "2026-11-17T09:11:06+03:00",
+   "excerpt": "NAIROBI, Kenya, Nov 17 – Uganda’s Chief of Defence Forces Gen Muhoozi Kainerugaba has returned to X with a fresh warning that media organisations and journalists who criticise or “belittle” his father, President Yoweri Museveni, could face 10 years in prison. In a series of posts on Tuesday, Muhoozi also threatened to subject foreign media personnel he considers agents of foreign interests to trial by court martial, while announcing plans to introduce a new policy governing foreign media operations in Uganda. “Any media from wherever insulting or belittling Mzee, Maama, Afande Saleh, or me wil",
+   "region": "east-africa",
+   "country": "ug",
+   "sourceAgeMin": 4.2,
+   "intake": "fresh",
+   "priority": 1,
+   "freshAtDiscovery": true
+  },
   {
    "source": "turkiyetoday",
    "sourceName": "Türkiye Today",
@@ -3365,26 +3420,6 @@
    "freshAtDiscovery": true
   },
   {
-   "source": "bbc-somali",
-   "sourceName": "BBC Somali",
-   "section": "somalia",
-   "url": "https://www.bbc.com/somali/articles/c9y7rd2d4n34o?at_medium=RSS&at_campaign=rss",
-   "title": "Dalkii ugu horreeyey dunida ee ku dhawaaqay in aan caasimadiisa laga isticmaali doonin lacag caddaan ah",
-   "publishedAt": "2026-11-16T09:13:48+03:00",
-   "timeVerified": true,
-   "discoveredAt": "2026-11-16T09:16:53+03:00",
-   "dateSource": "publisher RSS feed",
-   "firstSeenBy": "5-minute monitor",
-   "headlineOnly": true,
-   "articleError": "PermissionError: article page not opened: headline and link only (publisher terms)",
-   "region": "east-africa",
-   "country": "so",
-   "sourceAgeMin": 3.1,
-   "intake": "fresh",
-   "priority": 1,
-   "freshAtDiscovery": true
-  },
-  {
    "source": "guardian-football",
    "sourceName": "The Guardian – Football",
    "section": "sports",
@@ -3931,6 +3966,25 @@
    "pagePublishedAt": "2026-11-17T09:00:00+03:00",
    "excerpt": "La remontada tinerfeña se generó con su control en el centro del campo. Aunque el Espanyol perdió, completó un gran duelo ante su ex equipo. La referente del Logroño. Otra vez fundamental con dos asistencias. La capitana rojiblanca brilló en Anoeta con doblete y asistencia. Puso al Madrid contra las cuerdas con un gol y una asistencia.",
    "sourceAgeMin": 5.3,
+   "intake": "recent",
+   "priority": 2,
+   "freshAtDiscovery": false
+  },
+  {
+   "source": "as",
+   "sourceName": "AS",
+   "section": "sports",
+   "url": "https://as.com/meristation/cine/los-javis-necesitaron-mas-de-112-kilometros-de-pelicula-para-rodar-la-bola-negra-casi-el-doble-de-lo-previsto-f202611-n/",
+   "title": "Los Javis necesitaron más de 112 kilómetros de película para rodar ‘La bola negra’: casi el doble de lo previsto",
+   "description": "Se revela la monumental cantidad de celuloide utilizado en la laureada película de Javier Calvo y Javier Ambrossi: todo un desafío técnico en pos de preservar su visión artística.",
+   "publishedAt": "2026-11-17T09:00:00+03:00",
+   "image": "https://img.asmedia.epimg.net/resizer/v2/T5TWMZ7U6REONP2N2MLNMXS6YM.jpg?auth=db275a65a08e64ec817bc271f0e44e70262b6f6f3852cc6d9372cb899969b499",
+   "timeVerified": true,
+   "discoveredAt": "2026-11-17T09:15:16+03:00",
+   "dateSource": "publisher RSS feed",
+   "firstSeenBy": "5-minute monitor",
+   "articleError": "HTTPError: HTTP Error 403: Forbidden",
+   "sourceAgeMin": 15.3,
    "intake": "recent",
    "priority": 2,
    "freshAtDiscovery": false
@@ -5480,31 +5534,11 @@
    "intake": "recent",
    "priority": 2,
    "freshAtDiscovery": false
-  },
-  {
-   "source": "shabellemedia",
-   "sourceName": "Shabelle Media Network",
-   "section": "somalia",
-   "url": "https://shabellemedia.com/soomaalida-oo-ka-qeyb-gashay-dibadbax-ka-dhan-ah-raiisul-wasaaraha-itoobiya-abiy-axmed-oo-ka-dhacay-geneva/",
-   "title": "Soomaalida oo ka qeyb gashay dibadbax ka dhan ah Ra’iisul Wasaaraha Itoobiya Abiy Axmed oo ka dhacay Geneva",
-   "publishedAt": "2026-11-16T09:12:09+03:00",
-   "timeVerified": true,
-   "discoveredAt": "2026-11-16T09:55:20+03:00",
-   "dateSource": "publisher RSS feed",
-   "firstSeenBy": "5-minute monitor",
-   "headlineOnly": true,
-   "articleError": "PermissionError: article page not opened: headline and link only (publisher terms)",
-   "region": "east-africa",
-   "country": "et",
-   "sourceAgeMin": 43.2,
-   "intake": "recent",
-   "priority": 2,
-   "freshAtDiscovery": false
   }
  ],
  "collectorFetchedAt": "2026-11-10T00:05:49+03:00",
  "fastMonitor": {
-  "at": "2026-11-17T09:10:16+03:00",
+  "at": "2026-11-17T09:15:16+03:00",
   "added": 198
  }
 }
