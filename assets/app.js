@@ -74,6 +74,9 @@
 
   // ---------- state ----------
   var ALL=[],items=[],HIDDEN=0,SITE=null,PAGES=null,ADS=[],loaded=false,loadError='',query='';
+  // data/news-lite.json (lists, cards, ticker: no article texts) loads first so the pages show the news at once;
+  // the full data/news.json (every text in every language) loads only when an article is opened in the page
+  var FULL=false,fullP=null;
   // which hub an article belongs to: explicit "section" or derived from the category (old articles have no section)
   // In a language other than Somali, only articles that have a real translation in that language are listed.
   // Untranslated articles are never mixed into the lists in Somali; a notice says how many are waiting and offers to switch.
@@ -322,7 +325,7 @@
         !home&&rest.length>shown.length?'#raadi'+(cat&&catSo?'?c='+encodeURIComponent(catSo):''):null)}
     var em=$('empty');em.hidden=!loaded||rest.length>0||(showMosaic&&list.length>0);
     if(loadError){em.hidden=false;em.textContent=tr('loadError').replace('{e}',loadError)}else em.textContent=em.hidden?'':(cat||query)&&!list.length?tr('noMatch'):tr('noNews');
-    var lu=window.WARTABIYE_LAST_OK;$('updated').textContent=lu&&ago(lu)?tr('updated')+ago(lu)+' · '+tr('updatedDaily'):tr('updatedDaily');
+    var lu=window.WARTABIYE_LAST_OK;$('updated').textContent=lu&&ago(lu)?tr('updated')+ago(lu):'';
     // ad slots + section blocks on the homepage only
     var top=$('adTop');top.innerHTML='';var mob=$('adMob');mob.innerHTML='';var B=$('blocks');B.innerHTML='';
     if(home&&loaded){
@@ -364,10 +367,11 @@
   function fsApply(){var v=fsGet();document.documentElement.style.setProperty('--fs-article',v?v+'px':'')}
   function renderStory(id){
     // the article is already in the page's HTML (war/<id>.html): keep it on screen until the news has loaded, so nothing jumps
-    if(!loaded&&id===window.WARTABIYE_STORY&&$('story').querySelector('h1'))return;
+    if((!loaded||!FULL)&&id===window.WARTABIYE_STORY&&$('story').querySelector('h1')){if(loaded)needFull();return}
     var it=ALL.find(function(x){return x._id===id});
+    var wait=!!(it&&it._lite)||(!it&&loaded&&!FULL);if(wait){needFull();it=null}
     var A=$('story');A.innerHTML='';fillSide($('storySide'),[]);
-    if(!it){A.append(el('p','empty',loaded?tr('notFound'):tr('loadingStory')));var b0=el('a','back',tr('back'));b0.href='./';A.append(b0);return}
+    if(!it){A.append(el('p','empty',loaded&&!wait?tr('notFound'):tr('loadingStory')));var b0=el('a','back',tr('back'));b0.href='./';A.append(b0);return}
     setTitle(F(it,'title'));
     // tells assets/stats.js which article (and category) is shown, for the visitor statistics; previews are not counted
     try{window.dispatchEvent(new CustomEvent('wt:view',{detail:{id:id,category:it.category||'',section:it.section||'',preview:!!it._preview}}))}catch(e){}
@@ -465,7 +469,7 @@
   // the Somalia page (#soomaaliya, owner's decision of 9 Nov 2026): the Somalia stories of the regional feed ("country": "so")
   function inHub(x,kind){return kind==='soomaaliya'?section(x)==='somalia'&&x.country==='so':section(x)===kind}
   function hubHead(kind){var h=el('section','hubhead '+kind);var w=el('div','wrap');var t=el('h1');t.append(tr(HUBK[kind].t));
-    w.append(t,el('p',null,tr(HUBK[kind].s)));h.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="'+DECO[kind]+'"/></svg>';h.append(w);return h}
+    w.append(t);h.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="'+DECO[kind]+'"/></svg>';h.append(w);return h}
   // One unified feed per hub (owner's decision, 2026-11-01): no leagues, sports, regions or topic filters. Newest first.
   function renderHub(kind,h){
     if(!loaded&&h===window.WARTABIYE_ROUTE&&$('pageView').querySelector('.hubhead'))return;
@@ -518,7 +522,7 @@
     li.append(t,tx);return li}
   function renderLiveNews(){
     var V=$('pageView');V.innerHTML='';setTitle(tr('liveNewsNav'));
-    var hh=el('section','hubhead livenews');var w=el('div','wrap');var h1=el('h1');h1.append(tr('lnTitle'));w.append(h1,el('p',null,tr('lnSub')));
+    var hh=el('section','hubhead livenews');var w=el('div','wrap');var h1=el('h1');h1.append(tr('lnTitle'));w.append(h1);
     hh.innerHTML='<svg class="deco" viewBox="0 0 200 200" aria-hidden="true"><path d="M100 30a70 70 0 1 0 0 140 70 70 0 0 0 0-140zM100 60v40l28 18M30 100H10M190 100h-20"/></svg>';hh.append(w);
     var lay=el('div','wrap layout');var main=el('div');var side=el('aside','sidebar');lay.append(main,side);V.append(hh,lay);
     // no public source-monitoring status here (owner's decision, 8 Nov 2026): check times, delays and errors are shown only
@@ -532,7 +536,6 @@
     LU_REG.forEach(function(r){var b=el('button','chip',tr(r[1]));b.type='button';b.setAttribute('aria-pressed',String(r[0]===reg));b.addEventListener('click',function(){reg=r[0];story='';[].forEach.call(chips.children,function(c){c.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');draw([])});chips.append(b)});
     var sbar=el('div','lnback');sbar.hidden=true;main.append(bar,tick,head(tr('luTitle'),'red'),el('p','vnote',tr('luNote')),chips,sbar,tl);
     tl.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.lnstory');if(!b)return;story=b.getAttribute('data-story');draw([]);sbar.scrollIntoView({block:'start'})});
-    main.append(el('p','vnote',tr('lnRule')));
     fillSide(side,[sideTrending(),adSlot('sidebar'),sideFollow()]);
     var LU=null;
     function regOf(it){var s=section(it);if(s==='world')return 'world';if(s==='somalia')return it.region==='somalia'||!it.region?'somalia':'eastafrica';return 'sports'}
@@ -543,8 +546,7 @@
     function drawBar(){bar.innerHTML='';var now=Date.now();var on=active&&now-active<60*60e3&&now-lastOk<3*60e3;
       var ob=h1.querySelector('.onair');if(ob)ob.remove();
       if(on){var b=el('span','onair lnon');b.append(el('i'),document.createTextNode(tr('lnLiveOn')));bar.append(b)}
-      if(newest)bar.append(el('span','lnupd',trf('lnUpdated',{t:eat(new Date(newest))})));
-      if(lastOk)bar.append(el('span','lnchk',trf('lnChecked',{t:eat(new Date(lastOk))})))}
+      if(newest)bar.append(el('span','lnupd',trf('lnUpdated',{t:eat(new Date(newest))})));}
     function drawTick(l){tick.innerHTML='';l=l.slice(0,8);if(!l.length){tick.hidden=true;return}tick.hidden=false;var tr0=el('div','wttrack');var inner=el('div','wtinner');
       l.concat(l).forEach(function(x,i){var a=el('a');var t=x.u?luT(x.u,'title').t:F(x.a,'title');a.href=x.u?'#wararka-tooska?u='+x.u.id:href(x.a);
         if(x.u)a.addEventListener('click',function(e){var g=document.getElementById(x.u.id);if(g){e.preventDefault();g.scrollIntoView({block:'center',behavior:'smooth'})}});
@@ -575,8 +577,8 @@
       var ok=true;Promise.all([reloadNews().catch(function(){ok=false;return []}),loadLU()]).then(function(r){if(ok)lastOk=Date.now();draw(r[0].concat(r[1]))})},30000);
   }
   // reload data/news.json (LIVE News page): returns the ids of stories that were not there before; refreshes the ticker
-  function reloadNews(){return getJSON('data/news.json').then(function(j){var before={};ALL.forEach(function(x){before[x._id]=1});
-    ALL=(Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});
+  function reloadNews(){return getNews().then(function(j){var before={};ALL.forEach(function(x){before[x._id]=1});
+    ALL=keepTexts(newsList(j));
     if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt;window.WARTABIYE_LAST_OK=j.lastSuccessAt||j.lastRunAt||null;syncItems();renderTicker();
     return items.filter(function(x){return !before[x._id]}).map(function(x){return x._id})})}
 
@@ -948,6 +950,7 @@
   // archive keep the normal link
   function realNav(e){
     if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    if(!loaded)return;  // news not loaded yet: the real address already has the stories in its HTML
     var a=e.target&&e.target.closest?e.target.closest('a[href]'):null;if(!a||a.target||a.hasAttribute('download'))return;
     var raw=a.getAttribute('href')||'';if(!raw||/^(#|\/|[a-z][\w+.-]*:)/i.test(raw))return;  // only the site's own relative links (absolute ones, e.g. notifications, open the page)
     var u;try{u=new URL(a.href)}catch(x){return}if(u.origin!==location.origin||u.search)return;
@@ -1068,9 +1071,17 @@
 
   // ---------- load data ----------
   function getJSON(u){return fetch(u+(u.indexOf('?')<0?'?':'&')+'v='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status+' '+u);return r.json()})}
+  function newsList(j){var lite=!!(j&&j._lite);return (Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;if(lite)o._lite=true;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1})}
+  // the small list first; the full file only if the small one is missing (an older publication)
+  function getNews(){return getJSON('data/news-lite.json').then(function(j){if(j&&!Array.isArray(j))j._lite=true;return j},function(){return getJSON('data/news.json')})}
+  // a refreshed small list keeps the article texts already loaded
+  function keepTexts(l){if(!FULL)return l;var old={};ALL.forEach(function(x){if(!x._lite)old[x._id]=x});return l.map(function(o){var x=old[o._id];return x&&x.publishedAt===o.publishedAt?x:o})}
+  function needFull(){if(fullP)return fullP;fullP=getJSON('data/news.json').then(function(j){var full=newsList(j),seen={};full.forEach(function(x){seen[x._id]=1});
+    ALL=full.concat(ALL.filter(function(x){return !seen[x._id]&&!x._lite})).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});FULL=true;syncItems();
+    var h=location.hash.slice(1);if(/^war-/.test(h)||(!h&&window.WARTABIYE_STORY))route()},function(e){fullP=null;console.error('Wartabiye: news.json load failed',e)});return fullP}
   (async function(){
-    var res=await Promise.allSettled([getJSON('data/news.json'),getJSON('data/site.json'),getJSON('data/pages.json'),getJSON('data/ads.json')]);
-    if(res[0].status==='fulfilled'){var j=res[0].value;ALL=(Array.isArray(j)?j:j.news||[]).map(function(o){o=Object.assign({},o);o._id=o._id||o.id;return o}).filter(function(o){return typeof o.title==='string'&&o.title}).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt;window.WARTABIYE_LAST_OK=j.lastSuccessAt||j.lastRunAt||null}
+    var res=await Promise.allSettled([getNews(),getJSON('data/site.json'),getJSON('data/pages.json'),getJSON('data/ads.json')]);
+    if(res[0].status==='fulfilled'){var j=res[0].value;ALL=newsList(j);if(j.lastRunAt)window.WARTABIYE_LAST_RUN=j.lastRunAt;window.WARTABIYE_LAST_OK=j.lastSuccessAt||j.lastRunAt||null}
     else{console.error('Wartabiye: news.json load failed',res[0].reason);loadError=String(res[0].reason&&res[0].reason.message||res[0].reason)}
     if(res[1].status==='fulfilled'){SITE=res[1].value}else console.error('Wartabiye: site.json load failed',res[1].reason);
     if(res[2].status==='fulfilled')PAGES=res[2].value;
@@ -1079,6 +1090,7 @@
     var pv=(PARAMS.get('preview')||'').replace(/\.json$/,'');
     if(/^[a-z0-9-]+$/i.test(pv)){try{var po=await getJSON('data/news/'+pv+'.json');po._id=po.id=pv;po._preview=true;
       ALL=ALL.filter(function(x){return x._id!==pv}).concat([po]).sort(function(a,b){return a.publishedAt<b.publishedAt?1:-1});if(location.hash.indexOf('#war-')!==0)history.replaceState(null,'',location.pathname+location.search+'#war-'+encodeURIComponent(pv))}catch(e){console.error('Wartabiye: preview load failed',e)}}
+    if(!ALL.some(function(x){return x._lite}))FULL=true;
     loaded=true;syncItems();applySite();renderAll();
   })();
 })();
