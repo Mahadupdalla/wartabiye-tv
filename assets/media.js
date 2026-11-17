@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV: Video News (#muuqaal), LIVE TV (#toos) and LIVE Sports (#ciyaaraha-toos).
    GitHub Pages only serves files: every player here is an embed from an authorised provider (YouTube, Vimeo,
    Dailymotion, Facebook, Cloudflare Stream, an HLS stream) or a video file Wartabiye TV owns.

@@ -357,7 +357,9 @@ for n in public:
                'url': url, 'articleSection': cat_name(n.get('category'), lang) if n.get('category') else None,
                'isAccessibleForFree': True,
                'author': {'@type': 'Organization', '@id': ORG_ID, 'name': 'Wartabiye TV', 'url': SITE_URL + 'nagu-saabsan/'},
-               'publisher': PUBLISHER}
+               'publisher': PUBLISHER, 'copyrightHolder': {'@id': ORG_ID}}
+        if str(pub or '')[:4].isdigit():
+            art['copyrightYear'] = int(str(pub)[:4])  # the article text; photo rights stay with the photo's credit/licence
         if n.get('image'):
             io = {'@type': 'ImageObject', 'url': img, 'caption': alt}
             if size:
@@ -569,7 +571,7 @@ org = {'@context': 'https://schema.org', '@type': 'NewsMediaOrganization', '@id'
        'contactPoint': {'@type': 'ContactPoint', 'contactType': 'Newsroom', 'url': SITE_URL + 'xiriir/', 'availableLanguage': ['so', 'en', 'ar']},
        'areaServed': 'SO', 'knowsLanguage': ['so', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es']}
 website = {'@context': 'https://schema.org', '@type': 'WebSite', '@id': SITE_URL + '#website', 'name': 'Wartabiye TV', 'alternateName': 'Wartabiye TV News',
-           'url': SITE_URL, 'inLanguage': 'so', 'publisher': {'@id': ORG_ID}}
+           'url': SITE_URL, 'inLanguage': 'so', 'publisher': {'@id': ORG_ID}, 'copyrightHolder': {'@id': ORG_ID}}
 verif = ''.join(f'<meta name="google-site-verification" content="{esc(t)}">\n' for t in ((SEO.get('verification') or {}).get('google') or [])
                 if re.fullmatch(r'[A-Za-z0-9_-]{20,100}', str(t)))
 bing = (SEO.get('verification') or {}).get('bing')

@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV public site. Reads data/news.json (articles), data/site.json (settings), data/pages.json (About, policies)
    and data/ads.json (approved adverts) from this GitHub Pages site. No accounts and no tracking of its own; Google AdSense (assets/ads.js) loads only after a publisher ID is saved in /admin/.
    Visitor preferences (language, theme, text size, saved articles) stay in the visitor's own browser (localStorage). */

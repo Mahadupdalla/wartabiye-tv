@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV interface text in nine languages: Somali (default), English, Arabic (right-to-left), French, Dutch, Italian, German, Turkish, Spanish.
    Article text is NOT here: each article keeps its own translations in data/news/<id>.json ("en", "ar", "fr", "nl", "it", "de", "tr", "es").
    Long page texts (About, Privacy, Editorial standards, Advertising policy, Corrections) live in data/pages.json,

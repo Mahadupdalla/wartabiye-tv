@@ -23,7 +23,7 @@ PUB_RE = re.compile(r'^pub-\d{16}$')
 # Google's own certification authority id for ads.txt (https://support.google.com/adsense/answer/12171612)
 GOOGLE_TAG_ID = 'f08c47fec0942fa0'
 START, END = '<!--adsense-->', '<!--/adsense-->'
-ASSET_VERSION = '20261112as'
+ASSET_VERSION = '20261117cp'
 
 
 def load(path=CFG_PATH):

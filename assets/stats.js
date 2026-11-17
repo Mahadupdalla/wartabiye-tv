@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV visitor statistics (privacy-friendly, no cookies).
    Sends one small anonymous message per page opened to our own counter (Cloudflare Worker): the page address,
    the site language, and where the visit came from (e.g. "google.com"). Nothing else: no name, no IP stored,

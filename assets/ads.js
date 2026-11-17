@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV: Google AdSense Auto ads helper (website only). Loaded only when a real publisher ID is saved in
    /admin/ (data/adsense.json -> tools/build_adsense.py writes window.WARTABIYE_ADS). Google chooses the ads and where
    they go; this file never creates, moves, hides or clicks an ad. It only:
