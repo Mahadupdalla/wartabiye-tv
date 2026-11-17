@@ -158,6 +158,33 @@ push_main() {
   echo "could not push to main after 4 tries (kept for the next check)"; git reset -q --hard origin/main; return 1
 }
 
+sports_pool_cycle() {
+  # the checked 24-hour sports list for the 3-hourly news task (owner's decision of 17 November 2026: 15 sports stories
+  # every run). The runs start at :08 Africa/Nairobi every 3 hours (UTC hours 0, 3, 6 ... at :08); the list is built
+  # from :35 of the hour before (UTC hour 2, 5, 8 ...), once per run, in the background so the 5-minute checks keep their
+  # clock. The news task then reads sports-pool.json from branch world-feed in seconds (tools/news_task_prompt.md).
+  [ $(( 10#$(date -u +%H) % 3 )) -eq 2 ] && [ $(( 10#$(date -u +%M) )) -ge 35 ] || return 0
+  [ -f /tmp/fast/sports-pool.lock ] && return 0
+  built=$(git show FETCH_HEAD:sports-pool.json 2>/dev/null | python3 -c "import json,sys;print(json.load(sys.stdin).get('builtAt',''))" 2>/dev/null || true)
+  bage=$(python3 -c "import datetime;o='$built';print(9999 if not o else int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(o)).total_seconds()//60))")
+  [ "$bage" -ge 90 ] || return 0
+  touch /tmp/fast/sports-pool.lock
+  ( cd "$GITHUB_WORKSPACE"
+    rm -rf /tmp/sp && git worktree add -q -f /tmp/sp HEAD 2>/dev/null || { rm -f /tmp/fast/sports-pool.lock; exit 1; }
+    cd /tmp/sp && git fetch -q origin world-feed 2>/dev/null
+    if python3 tools/sports_catchup.py --pool /tmp/sports-pool.json > /tmp/sports-pool.log 2>&1; then
+      for i in 1 2 3; do
+        ( rm -rf /tmp/wfp && mkdir /tmp/wfp && cd /tmp/wfp && git init -q
+          { git fetch -q "$REMOTE" world-feed && git checkout -q -b world-feed FETCH_HEAD; } || exit 1
+          cp /tmp/sports-pool.json sports-pool.json && git add sports-pool.json
+          git "${BOT[@]}" commit -q -m "Sports pool for the next news run $(date -u +%FT%TZ)" && git push -q "$REMOTE" world-feed ) && break
+        sleep 7
+      done
+    fi
+    tail -1 /tmp/sports-pool.log
+    cd "$GITHUB_WORKSPACE" && git worktree remove -f /tmp/sp 2>/dev/null; rm -f /tmp/fast/sports-pool.lock ) &
+}
+
 cycle() {
   cd "$GITHUB_WORKSPACE"
   # the newest main: new articles (for "published / held" tracking), source list changes, monitor fixes
@@ -188,6 +215,8 @@ cycle() {
   else
     echo "nothing fresh to hand over"
   fi
+  git fetch -q origin world-feed 2>/dev/null || true
+  sports_pool_cycle || echo "sports pool failed this time (the next check retries)"
 
   # sports news articles from the fresh sports stories (Claude API): SWITCHED OFF by the owner's decision of 16 November
   # 2026 ("Leave the separate sports writer off. The main news runs cover sports now."). The 3-hourly news task writes up
