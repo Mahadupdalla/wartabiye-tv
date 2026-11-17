@@ -6,6 +6,13 @@ world-feed commit) and writes them as one candidate file, so the news task can r
 `python3 tools/world_news.py dedup <out> --max-age-hours 24` on it. Only headlines, links and times are read.
 
   python3 tools/sports_catchup.py --out /tmp/sports24-cand.json [--hours 24] [--max 200]
+  python3 tools/sports_catchup.py --pool /tmp/sports-pool.json [--max 250]
+
+--pool (run by the 5-minute monitor, tools/fast_loop.sh, about 25 minutes before every 3-hourly run, on GitHub's free
+runners): also runs the dedup step and writes the finished, checked list with "builtAt", most useful first: stories that
+two or more outlets report ("alsoReportedBy", the TWO-SOURCE RULE is then already met) before single-outlet ones,
+newest first inside each group. The news task reads it from branch world-feed (sports-pool.json) in seconds instead of
+spending up to 10 minutes of its own TIME BUDGET on the dedup.
 
 To keep the dedup step fast (it compares every story with every article on the site), this list already drops
 stories whose link the site has ever had, obvious non-news (live blogs, TV guides, betting, fantasy, quizzes,
@@ -13,13 +20,16 @@ galleries) and keeps the newest --max stories (default 200).
 """
 import json, os, re, subprocess, sys
 
-NOISE = re.compile(r'(?i)\b(live|en directo|en vivo|in diretta|en direct|liveticker|how to watch|where to watch|d[oó]nde ver|dove vedere|o[uù] regarder|tv channel|horario|prono|pronostic|cuotas|quote|odds|betting|bet\b|tips|fantasy|quiz|gallery|galer[ií]a|fotogallery|in pictures|player ratings|pagelle|notes|ratings|podcast|video)\b')
+NOISE = re.compile(r'(?i)\b(live|en directo|en vivo|in diretta|en direct|liveticker|how to watch|where to watch|d[oó]nde ver|dove vedere|o[uù] regarder|tv channel|horario|prono|pronostic|cuotas|quote|odds|betting|bet\b|tips|fantasy|quiz|gallery|galer[ií]a|fotogallery|in pictures|player ratings|pagelle|notes|ratings|podcast|video|quelle cha[iî]ne|[àa] quelle heure|netflix|serie del momento)\b')
+# big leagues and clubs (FOOTBALL PRIORITY in tools/news_task_prompt.md): these go first inside each group of the pool
+BIG = re.compile(r'(?i)(premier league|la ?liga|serie a|bundesliga|ligue 1|champions league|europa league|saudi pro|afcon|world cup|mundial|coupe du monde|weltmeister|real madrid|barcelona|bar[cç]a|atl[eé]tico|manchester|man (city|utd|united)|liverpool|arsenal|chelsea|tottenham|spurs|bayern|dortmund|juventus|juve|inter\b|milan|napoli|psg|paris saint|al[- ]nassr|al[- ]hilal|al[- ]ittihad|ronaldo|messi|mbapp|haaland|salah|yamal|kane|bellingham|vin[ií]cius|guardiola|ancelotti|xabi|flick|slot\b|arteta|maresca|amorim|transfer|fichaj|wechsel|mercato|injur|lesi[oó]n|verletz|blessure|infortun)')
 
 def norm(u):
     return (u or '').split('?')[0].split('#')[0].rstrip('/').lower()
 
 def main(argv):
-    out = argv[argv.index('--out') + 1] if '--out' in argv else '/tmp/sports24-cand.json'
+    pool = argv[argv.index('--pool') + 1] if '--pool' in argv else None
+    out = argv[argv.index('--out') + 1] if '--out' in argv else ('/tmp/sports-pool-cand.json' if pool else '/tmp/sports24-cand.json')
     hours = argv[argv.index('--hours') + 1] if '--hours' in argv else '24'
     cap = int(argv[argv.index('--max') + 1]) if '--max' in argv else 200
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -47,6 +57,26 @@ def main(argv):
     json.dump({'items': keep[:cap]}, open(out, 'w', encoding='utf-8'), ensure_ascii=False)
     print(f'{len(allc)} sports stories from {len(revs)} world-feed lists in the last {hours} h: {len(onsite)} already on the site, '
           f'{len(noise)} live/TV/betting/quiz/gallery, {len(keep)} left, newest {min(cap, len(keep))} -> {out}')
+    return build_pool(out, pool, hours) if pool else 0
+
+
+def build_pool(cand, pool, hours):
+    import datetime, time
+    t0 = time.time()
+    plan = pool + '.plan'
+    r = subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'world_news.py'), 'dedup', cand,
+                        '--max-age-hours', str(hours), '--out', plan], timeout=1500)
+    if r.returncode != 0: print('dedup failed: no pool written'); return 1
+    d = json.load(open(plan, encoding='utf-8'))
+    items = [i for i in (d.get('stories') or []) if (i.get('section') or 'sports') == 'sports']
+    items.sort(key=lambda i: i.get('publishedAt') or '', reverse=True)
+    items.sort(key=lambda i: 0 if BIG.search(i.get('title') or '') else 1)
+    items.sort(key=lambda i: 0 if i.get('alsoReportedBy') else 1)
+    two = sum(1 for i in items if i.get('alsoReportedBy'))
+    json.dump({'builtAt': datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'), 'hours': float(hours),
+               'dedupSeconds': round(time.time() - t0), 'twoSource': two, 'items': items},
+              open(pool, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    print(f'sports pool: {len(items)} checked stories ({two} already reported by two or more outlets) in {time.time() - t0:.0f} s -> {pool}')
     return 0
 
 if __name__ == '__main__':

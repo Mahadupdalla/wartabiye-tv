@@ -502,12 +502,25 @@ def numbers(s):
     return set(re.findall(r'\b\d+(?:[.,]\d+)?\b', s or '')) - {str(y) for y in range(2020, 2031)}
 
 
+_SIM = {}
+
+
+def _close(x, y):
+    # word-pair similarity, cached: the same words come back in every comparison (dedup of 200 sports stories against
+    # the site took more than 10 minutes without the cache, 17 Nov 2026); same result as before
+    k = (x, y)
+    v = _SIM.get(k)
+    if v is None:
+        v = _SIM[k] = abs(len(x) - len(y)) * 2 <= 0.32 * (len(x) + len(y)) and difflib.SequenceMatcher(None, x, y).ratio() >= 0.84
+    return v
+
+
 def fuzzy_jaccard(a, b):
     a, b = set(a), set(b)
     if not a or not b: return 0.0
     hit = 0
     for x in a:
-        if x in b or (len(x) > 4 and any(len(y) > 4 and difflib.SequenceMatcher(None, x, y).ratio() >= 0.84 for y in b)): hit += 1
+        if x in b or (len(x) > 4 and any(len(y) > 4 and _close(x, y) for y in b)): hit += 1
     return hit / (len(a) + len(b) - hit)
 
 
