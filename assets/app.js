@@ -104,7 +104,7 @@
   // words; the source, its link, original headline, time and verification stay in data/news/<id>.json and /admin/.
   // An article whose licence or agreement requires public credit sets "attributionRequired": true and keeps it.
   function showSrc(it){return !!(it&&it.source&&it.source!=='Wartabiye TV'&&it.attributionRequired===true)}
-  // article byline: "Wartabiye TV ayaa qortay" only for the newsroom's own stories (written in /admin/ with no outside
+  // article byline: "Warkaan waxaa daabacay Wartabiye TV" only for the newsroom's own stories (written in /admin/ with no outside
   // source); every story built on other outlets' reporting says "Waxaa daabacay Wartabiye TV" (published by), so it is
   // never presented as Wartabiye TV's own first-hand reporting. The brand name is shown in bold.
   function ownStory(it){return !!(it&&it.by==='admin'&&(!it.source||it.source==='Wartabiye TV'))}
