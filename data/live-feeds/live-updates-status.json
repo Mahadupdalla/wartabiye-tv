@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-18T19:20:11Z",
+ "lastCheckAt": "2026-11-18T20:15:11Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-09": {
@@ -94,7 +94,7 @@
   "2026-11-18": {
    "written": 0,
    "merged": 0,
-   "skipped": 234,
+   "skipped": 244,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -102,13 +102,6 @@
   }
  },
  "done": {
-  "b51e7d4c47d1400f": "2026-11-15T19:26:57Z",
-  "2a2cc2900ebf36f4": "2026-11-15T19:40:11Z",
-  "a72a4a3aaa869a6b": "2026-11-15T20:00:11Z",
-  "1c03b24b949527db": "2026-11-15T20:00:11Z",
-  "0056800c952cc0c9": "2026-11-15T20:00:11Z",
-  "4457075b0adede96": "2026-11-15T20:05:10Z",
-  "7b78ef33dea0d474": "2026-11-15T20:15:11Z",
   "1a19a30f84243a44": "2026-11-15T20:20:14Z",
   "64178a3da0a58963": "2026-11-15T20:20:14Z",
   "5f695e82cc55a648": "2026-11-15T20:35:11Z",
@@ -827,10 +820,340 @@
   "547315d305b20aa1": "2026-11-18T18:50:14Z",
   "77109af97ebadba0": "2026-11-18T19:05:11Z",
   "0ee878b982ebce30": "2026-11-18T19:15:11Z",
-  "a10eeb33de0f957f": "2026-11-18T19:20:11Z"
+  "a10eeb33de0f957f": "2026-11-18T19:20:11Z",
+  "96fcc4bb3a25780f": "2026-11-18T19:25:11Z",
+  "a7dc8cc4ab0068a9": "2026-11-18T19:40:12Z",
+  "1b18023527bf707b": "2026-11-18T19:40:12Z",
+  "fc6e6a6230eb7900": "2026-11-18T19:50:11Z",
+  "7512ebe45fae1d9e": "2026-11-18T19:55:12Z",
+  "bccb191ac8784beb": "2026-11-18T20:00:12Z",
+  "834d0a321b5fb792": "2026-11-18T20:00:12Z",
+  "557fba1a3c22f61a": "2026-11-18T20:00:12Z",
+  "0a91246198454a98": "2026-11-18T20:10:12Z",
+  "3eec483e0999f3e5": "2026-11-18T20:15:11Z"
  },
  "recent": [
   {
+   "at": "2026-11-18T20:15:11Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Heated debate escalates into on-air fight on Armenian TV",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/18/heated-debate-escalates-into-on-air-fight-on-armenian-tv?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T20:10:12Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T20:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T20:00:12Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Four killed as Russian strikes hit Ukraine’s Odesa",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/18/four-killed-as-russian-strikes-hit-ukraines-odesa?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T20:00:12Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Voyager 1 reaches one light-day from Earth after 49 years in space",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/18/voyager-1-reaches-one-light-day-from-earth-after-49-years-in-space?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T20:00:12Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "DW News",
+   "title": "Israel launches new ground operation in Gaza",
+   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T20:00:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:55:12Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "Al Jazeera",
+   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
+   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:55:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:55:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Israel launches new ground operation in Gaza",
+   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:50:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
+   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
+  },
+  {
+   "at": "2026-11-18T19:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Israel launches new ground operation in Gaza",
+   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
+   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:45:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:45:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Israel launches new ground operation in Gaza",
+   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:45:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
+   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:45:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
+   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
+  },
+  {
+   "at": "2026-11-18T19:40:12Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Israeli settler kills Palestinian grandmother in occupied West Bank",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/18/israeli-settler-kills-palestinian-grandmother-in-occupied-west-bank?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:40:12Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "Al Jazeera",
+   "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
+   "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:40:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:40:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Israel launches new ground operation in Gaza",
+   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:40:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
+   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:40:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
+   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
+  },
+  {
+   "at": "2026-11-18T19:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Israel launches new ground operation in Gaza",
+   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
+   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
+   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
+  },
+  {
+   "at": "2026-11-18T19:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
+   "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:30:13Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:30:13Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Israel launches new ground operation in Gaza",
+   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:30:13Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
+   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:30:13Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
+   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
+  },
+  {
+   "at": "2026-11-18T19:30:13Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
+   "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:25:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "DW News",
+   "title": "Muslims to outnumber Christians by 2035, research shows",
+   "url": "https://www.dw.com/en/muslims-to-outnumber-christians-by-2035-research-shows/a-79984307?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Would Ukraine trade land for NATO membership or protection?",
+   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Israel launches new ground operation in Gaza",
+   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-18T19:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
+   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-18T19:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
+   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
+  },
+  {
+   "at": "2026-11-18T19:25:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
+   "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
+  },
+  {
    "at": "2026-11-18T19:20:11Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
@@ -989,326 +1312,6 @@
    "source": "Al Jazeera",
    "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
    "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T19:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Muslims to outnumber Christians by 2035, research shows",
-   "url": "https://www.dw.com/en/muslims-to-outnumber-christians-by-2035-research-shows/a-79984307?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T19:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Beijing has supported Moscow but 'China understands that America is way more important than Russia'",
-   "url": "https://www.france24.com/en/beijing-has-supported-moscow-but-china-understands-that-america-is-way-more-important-than-russia"
-  },
-  {
-   "at": "2026-11-18T19:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "What has happened to the $18bn pledged to Trump’s Board of Peace for Gaza?",
-   "url": "https://www.aljazeera.com/news/2026/11/18/what-has-happened-to-the-18bn-pledged-to-trumps-board-of-peace-for-gaza?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "BBC News",
-   "title": "Democrats nominate Hakeem Jeffries to be US Speaker of the House",
-   "url": "https://www.bbc.co.uk/news/articles/cmy49873dn95o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Would Ukraine trade land for NATO membership or protection?",
-   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Israel launches new ground operation in Gaza",
-   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
-   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
-   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
-   "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Muslims to outnumber Christians by 2035, research shows",
-   "url": "https://www.dw.com/en/muslims-to-outnumber-christians-by-2035-research-shows/a-79984307?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Beijing has supported Moscow but 'China understands that America is way more important than Russia'",
-   "url": "https://www.france24.com/en/beijing-has-supported-moscow-but-china-understands-that-america-is-way-more-important-than-russia"
-  },
-  {
-   "at": "2026-11-18T19:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "What has happened to the $18bn pledged to Trump’s Board of Peace for Gaza?",
-   "url": "https://www.aljazeera.com/news/2026/11/18/what-has-happened-to-the-18bn-pledged-to-trumps-board-of-peace-for-gaza?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Would Ukraine trade land for NATO membership or protection?",
-   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Israel launches new ground operation in Gaza",
-   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
-   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
-   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
-   "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Muslims to outnumber Christians by 2035, research shows",
-   "url": "https://www.dw.com/en/muslims-to-outnumber-christians-by-2035-research-shows/a-79984307?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Beijing has supported Moscow but 'China understands that America is way more important than Russia'",
-   "url": "https://www.france24.com/en/beijing-has-supported-moscow-but-china-understands-that-america-is-way-more-important-than-russia"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "What has happened to the $18bn pledged to Trump’s Board of Peace for Gaza?",
-   "url": "https://www.aljazeera.com/news/2026/11/18/what-has-happened-to-the-18bn-pledged-to-trumps-board-of-peace-for-gaza?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Democrats nominate Hakeem Jeffries to be US Speaker of the House",
-   "url": "https://www.bbc.co.uk/news/articles/cmy49873dn95o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Would Ukraine trade land for NATO membership or protection?",
-   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Israel launches new ground operation in Gaza",
-   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
-   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
-   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
-   "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Muslims to outnumber Christians by 2035, research shows",
-   "url": "https://www.dw.com/en/muslims-to-outnumber-christians-by-2035-research-shows/a-79984307?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Beijing has supported Moscow but 'China understands that America is way more important than Russia'",
-   "url": "https://www.france24.com/en/beijing-has-supported-moscow-but-china-understands-that-america-is-way-more-important-than-russia"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "What has happened to the $18bn pledged to Trump’s Board of Peace for Gaza?",
-   "url": "https://www.aljazeera.com/news/2026/11/18/what-has-happened-to-the-18bn-pledged-to-trumps-board-of-peace-for-gaza?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T18:55:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Democrats nominate Hakeem Jeffries to be US Speaker of the House",
-   "url": "https://www.bbc.co.uk/news/articles/cmy49873dn95o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "French ex-PM Philippe pledges to slash spending, hike retirement age as Elysée bid falters",
-   "url": "https://www.france24.com/en/france/20261118-french-ex-pm-philippe-pledges-to-slash-spending-hike-retirement-age-as-elys%C3%A9e-bid-falters"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Would Ukraine trade land for NATO membership or protection?",
-   "url": "https://www.dw.com/en/would-ukraine-trade-land-for-nato-membership-or-protection/a-79984492?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Israel launches new ground operation in Gaza",
-   "url": "https://www.dw.com/en/israel-launches-new-ground-operation-in-gaza/a-79984958?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Israeli court extends Gaza doctor Abu Safia’s detention without charge",
-   "url": "https://www.aljazeera.com/news/2026/11/18/israeli-court-extends-gaza-doctor-abu-safias-detention-without-charge?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Why Ukraine keeps trying to bring down Russia's bridge to Crimea",
-   "url": "https://www.france24.com/en/europe/20261118-why-ukraine-keeps-trying-to-bring-down-russia-s-bridge-to-crimea"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Donald Trump meets ‘longtime friend’ Imelda Marcos during Philippines visit",
-   "url": "https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Muslims to outnumber Christians by 2035, research shows",
-   "url": "https://www.dw.com/en/muslims-to-outnumber-christians-by-2035-research-shows/a-79984307?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Beijing has supported Moscow but 'China understands that America is way more important than Russia'",
-   "url": "https://www.france24.com/en/beijing-has-supported-moscow-but-china-understands-that-america-is-way-more-important-than-russia"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "What has happened to the $18bn pledged to Trump’s Board of Peace for Gaza?",
-   "url": "https://www.aljazeera.com/news/2026/11/18/what-has-happened-to-the-18bn-pledged-to-trumps-board-of-peace-for-gaza?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-18T18:50:14Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Democrats nominate Hakeem Jeffries to be US Speaker of the House",
-   "url": "https://www.bbc.co.uk/news/articles/cmy49873dn95o?at_medium=RSS&at_campaign=rss"
   }
  ]
 }
