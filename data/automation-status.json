@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-18T09:11:48+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-18T09:52:12+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-18T05:12:09Z",
  "newestArticleAt": "2026-11-18T06:14:37+03:00",
- "lastSourceCheckAt": "2026-11-18T09:10:20+03:00",
+ "lastSourceCheckAt": "2026-11-18T09:50:24+03:00",
  "sourceChecks24h": 290,
- "publishedArticles": 771,
+ "publishedArticles": 781,
  "liveArticles": 771,
- "waitingForImage": 109,
- "liveInSync": true,
+ "waitingForImage": 110,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-18T05:12:09Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44242569140"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-18T06:52:11+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-18T06:58:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-18T09:49:30+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,47 +47,59 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-18T09:10:13+03:00",
-   "lastSuccessAt": "2026-11-18T09:10:13+03:00",
+   "lastCheckAt": "2026-11-18T09:50:16+03:00",
+   "lastSuccessAt": "2026-11-18T09:50:16+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-18T06:52:00+03:00",
+  "lastSourceCheckAt": "2026-11-18T09:52:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-18T06:00:59+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "NISA oo howl-gal ku dishay xubno Al-Shabaab oo muhiim ah, dhaawacday qaar kale",
-   "url": "https://www.caasimada.net/nisa-oo-howl-gal-ku-dishay-xubno-al-shabaab-oo-muhiim-ah-dhaawacday-qaar-kale/"
+   "publishedAt": "2026-11-18T08:59:46+03:00",
+   "sourceName": "BBC Somali",
+   "title": "Nin lagu soo oogay isku day dil kaddib weerar lagu qaaday Tagsiile Soomaali-Mareykan ah gobolka Minnesota",
+   "url": "https://www.bbc.com/somali/articles/cklyen1vp6pwo?at_medium=RSS&at_campaign=rss"
   },
   "latestPublished": {
-   "id": "2026-11-18-minnesota-samit-patel-dacwad-darawalka-uber-maxamed-yuusuf",
-   "title": "Nin 25 jir ah oo lagu soo oogay isku day dil kadib weerarkii darawalka Soomaaliga ah ee Minnesota",
-   "publishedAt": "2026-11-18T04:31:53+03:00",
-   "source": "Al Jazeera English",
-   "url": "/war/2026-11-18-minnesota-samit-patel-dacwad-darawalka-uber-maxamed-yuusuf.html"
+   "id": "2026-11-18-soomaaliya-sacuudiga-mataanaynta-muqdisho-riyaad",
+   "title": "Soomaaliya iyo Sacuudiga oo ka wada hadlay mataanaynta caasimadaha Muqdisho iyo Riyaad",
+   "publishedAt": "2026-11-18T08:40:13+03:00",
+   "source": "Goobjoog News",
+   "url": "/war/2026-11-18-soomaaliya-sacuudiga-mataanaynta-muqdisho-riyaad.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 77,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 74,
   "rejectedReasons": {
-   "old": 10,
-   "duplicate": 67
+   "old": 8,
+   "duplicate": 66
   },
   "taskRejectedReasons": [
-   "Caasimada: NISA oo howl-gal ...: headline-only, lama xaqiijin (pending)",
-   "Caasimada: xiisadda Matabaan: headline-only, lama xaqiijin (pending)",
-   "Goobjoog: Madaxweynaha oo ka digay ciidamada Imaaraadka: duplicate (khudbadda 17 Nov, horay loo daabacay)",
-   "Daljir: Laascaanood: unconfirmed (pending)"
+   "NISA: Laba horjooge oo Al-Shabaab ka tirsanaa oo lagu dilay howlgal ka dhacay Hiiraan (Horseed/Caasimada): headline-only; Hiiraan Online bogga hore none, Goobjoog none -> pending (il kale lama helin)",
+   "Wararkii ugu dambeeyay ee xiisadda magaalada Matabaan (Caasimada): headline-only; Hiiraan none -> pending",
+   "Climate shocks, insecurity drive displacement in Somalia: UN (Shabelle): headline-only; il akhrin karo lama helin -> pending",
+   "Ciidanka Xoogga Dalka oo dilay horjooge sare ... Bakool (Hiiraan): duplicate (2026-11-16-xoogga-dalka-howlgal-bakool-xudur-horjooge-shabaab)",
+   "Madaxweynaha Soomaaliya oo ka Digay Ciidamada uu Imaaraadka Taageero (Goobjoog) + catch-up khudbadda Imaaraadka (Daljir, Puntland Post, BBC, Somali Guardian, Turkiye Today): duplicate (khudbadda 17 Nov horay loo daabacay)",
+   "Nin lagu soo oogay isku day dil ... Minnesota (BBC Somali): duplicate (2026-11-18-minnesota-samit-patel-...)",
+   "Xirashada xijaabka ... timo daadasho (BBC Somali): ma aha war (caafimaad/feature)",
+   "Idaacadda Subaxnimo / Dunida Iyo Maanta (BBC Somali): barnaamij raadiye, ma aha war",
+   "Daljir catch-up (Laascaanood xuus, Ugaas Xasan, kulan duco Garoowe, Galmudug shaqo, Mudug, Cali Jeyte, odayaal Majeerteen, Baladweyne): xuus/khudbad/ra'yi, qiimo war oo cusub ma leh",
+   "Puntland ciidamo Calmiskaad / Fallaydhyaale / Todobaadka Dalxiiska (Horseed): headline-only; il kale lama helin -> pending",
+   "Turkiga iyo Masar oo Muqdisho kaga wada hadlay (Goobjoog, 17 Nov): waqti la'aan (100 daqiiqo), xiga orodka soo socda",
+   "Galmudug oo dhagax-dhigtay xarunta Guddiga Shaqaalaha Rayidka (Goobjoog, 17 Nov): protocol/xaflad",
+   "Op ed: Beyond the Battlefield (Addis Standard): ra'yi",
+   "US backs one-year renewal of UN, AU missions / Somalia welcomes US decision: duplicate (horay loo daabacay 16-17 Nov)",
+   "South West leader meets UN humanitarian official (Shabelle): headline-only, protocol"
   ],
-  "waitingForImage": 7,
+  "waitingForImage": 8,
   "waitingIds": [
    "2026-11-14-beesha-makane-ciidamo-beledweyne-hirshabeelle",
    "2026-11-14-maxkamadda-ciidamada-dil-toogasho-tahliil-guure",
    "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
+   "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera",
    "2026-11-09-qaamuuska-luuqadda-dhegoolayaasha",
    "2026-11-17-sodma-arc-kulan-cop31-caymiska-musiibooyinka",
    "2026-11-14-updf-beenisay-askar-uganda-lagu-dilay-shabeellaha-hoose",
