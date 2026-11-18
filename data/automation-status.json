@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-18T12:21:38+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-18T12:51:42+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-18T09:15:24Z",
  "newestArticleAt": "2026-11-18T11:47:45+03:00",
- "lastSourceCheckAt": "2026-11-18T12:20:23+03:00",
- "sourceChecks24h": 292,
- "publishedArticles": 782,
+ "lastSourceCheckAt": "2026-11-18T12:50:21+03:00",
+ "sourceChecks24h": 290,
+ "publishedArticles": 801,
  "liveArticles": 782,
  "waitingForImage": 110,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-18T09:15:24Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44274207197"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-18T09:51:41+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-18T09:49:30+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-18T12:50:25+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,52 +47,40 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-18T12:20:12+03:00",
-   "lastSuccessAt": "2026-11-18T12:20:12+03:00",
+   "lastCheckAt": "2026-11-18T12:50:13+03:00",
+   "lastSuccessAt": "2026-11-18T12:50:13+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-18T09:52:00+03:00",
+  "lastSourceCheckAt": "2026-11-18T12:50:16+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-18T08:59:46+03:00",
-   "sourceName": "BBC Somali",
-   "title": "Nin lagu soo oogay isku day dil kaddib weerar lagu qaaday Tagsiile Soomaali-Mareykan ah gobolka Minnesota",
-   "url": "https://www.bbc.com/somali/articles/cklyen1vp6pwo?at_medium=RSS&at_campaign=rss"
+   "publishedAt": "2026-11-18T12:02:02+03:00",
+   "sourceName": "Hiiraan Online",
+   "title": "Booliska Jubaland oo Kismaayo ku xiray afar dhallinyaro ah oo lagu tuhmay tahriibin",
+   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta18-195546.htm"
   },
   "latestPublished": {
-   "id": "2026-11-18-soomaaliya-keligeed-diiday-qaraarka-qm-difaaca-haweenka-gabdhaha",
-   "title": "Soomaaliya oo keligeed ka hor timid qaraar Qaramada Midoobay ka ansixisay difaaca haweenka iyo gabdhaha – Codka haweenka oo mar kale dunida xusuusiyay muhiimaddooda!",
-   "publishedAt": "2026-11-18T11:47:45+03:00",
-   "source": "Wartabiye TV",
-   "url": "/war/2026-11-18-soomaaliya-keligeed-diiday-qaraarka-qm-difaaca-haweenka-gabdhaha.html"
+   "id": "2026-11-18-jubaland-kismaayo-afar-qof-tahriib-liibiya",
+   "title": "Booliska Jubaland oo Kismaayo ku qabtay afar qof oo lagu tuhmay tahriib loo wado Liibiya",
+   "publishedAt": "2026-11-18T12:02:02+03:00",
+   "source": "Hiiraan Online",
+   "url": "/war/2026-11-18-jubaland-kismaayo-afar-qof-tahriib-liibiya.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 74,
+  "publishedLastRun": 3,
+  "rejectedLastRun": 75,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 66
+   "old": 4,
+   "duplicate": 71
   },
   "taskRejectedReasons": [
-   "NISA: Laba horjooge oo Al-Shabaab ka tirsanaa oo lagu dilay howlgal ka dhacay Hiiraan (Horseed/Caasimada): headline-only; Hiiraan Online bogga hore none, Goobjoog none -> pending (il kale lama helin)",
-   "Wararkii ugu dambeeyay ee xiisadda magaalada Matabaan (Caasimada): headline-only; Hiiraan none -> pending",
-   "Climate shocks, insecurity drive displacement in Somalia: UN (Shabelle): headline-only; il akhrin karo lama helin -> pending",
-   "Ciidanka Xoogga Dalka oo dilay horjooge sare ... Bakool (Hiiraan): duplicate (2026-11-16-xoogga-dalka-howlgal-bakool-xudur-horjooge-shabaab)",
-   "Madaxweynaha Soomaaliya oo ka Digay Ciidamada uu Imaaraadka Taageero (Goobjoog) + catch-up khudbadda Imaaraadka (Daljir, Puntland Post, BBC, Somali Guardian, Turkiye Today): duplicate (khudbadda 17 Nov horay loo daabacay)",
-   "Nin lagu soo oogay isku day dil ... Minnesota (BBC Somali): duplicate (2026-11-18-minnesota-samit-patel-...)",
-   "Xirashada xijaabka ... timo daadasho (BBC Somali): ma aha war (caafimaad/feature)",
-   "Idaacadda Subaxnimo / Dunida Iyo Maanta (BBC Somali): barnaamij raadiye, ma aha war",
-   "Daljir catch-up (Laascaanood xuus, Ugaas Xasan, kulan duco Garoowe, Galmudug shaqo, Mudug, Cali Jeyte, odayaal Majeerteen, Baladweyne): xuus/khudbad/ra'yi, qiimo war oo cusub ma leh",
-   "Puntland ciidamo Calmiskaad / Fallaydhyaale / Todobaadka Dalxiiska (Horseed): headline-only; il kale lama helin -> pending",
-   "Turkiga iyo Masar oo Muqdisho kaga wada hadlay (Goobjoog, 17 Nov): waqti la'aan (100 daqiiqo), xiga orodka soo socda",
-   "Galmudug oo dhagax-dhigtay xarunta Guddiga Shaqaalaha Rayidka (Goobjoog, 17 Nov): protocol/xaflad",
-   "Op ed: Beyond the Battlefield (Addis Standard): ra'yi",
-   "US backs one-year renewal of UN, AU missions / Somalia welcomes US decision: duplicate (horay loo daabacay 16-17 Nov)",
-   "South West leader meets UN humanitarian official (Shabelle): headline-only, protocol"
+   "Garowe: kulan la mamnuucay (Horseed, cinwaan kaliya): lama xaqiijin – il labaad lama helin, sugaya",
+   "Safiirrada Turkiga iyo Masar oo kulmay: protocol, go'aan ma jiro",
+   "Warar BBC Somali / Radio Daljir kale: horay loo daabacay ama nuqul (dedup)"
   ],
   "waitingForImage": 8,
   "waitingIds": [
