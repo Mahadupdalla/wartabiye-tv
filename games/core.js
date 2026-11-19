@@ -436,9 +436,9 @@
     };
     state.hooks = hooks;
 
-    // load the game's file, then show the instructions
+    // load the game's file, then show the instructions (a game with its own menus, "direct", opens straight away)
     var p = panel(); p.append(h('div', { class: 'wtg-spin', 'aria-hidden': 'true' }), h('p', { text: s('loading') }));
-    WTG.load(engine).then(function () { if (cur === state) intro(); }).catch(function () {
+    WTG.load(engine).then(function () { if (cur !== state) return; if (game.direct && engine === game.engine) begin(); else intro(); }).catch(function () {
       if (cur !== state) return;
       var p2 = panel(); p2.append(h('div', { class: 'wtg-pi', text: '📶' }), h('p', { text: s('fail') }), h('button', { type: 'button', class: 'wtg-go', text: s('retry'), onclick: function () { WTG.open(game, hooks); } }), h('button', { type: 'button', class: 'wtg-sec', text: s('exit'), onclick: function () { WTG.close(); } }));
     });
