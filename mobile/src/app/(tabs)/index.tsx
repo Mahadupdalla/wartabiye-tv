@@ -28,8 +28,9 @@ function mixFeed(list: Card[], now: number): Card[] {
   const score = (c: Card) => {
     const t = Date.parse(c.publishedAt);
     let h = isNaN(t) ? 1e4 : Math.max(0, (now - t) / H);
-    if (isBreaking(c, now)) h -= 6;
-    if (c.important) h -= 3;
+    const fade = Math.max(0, 1 - h / 12); // the bonus fades over 12 hours, as on the website
+    if (isBreaking(c, now)) h -= 6 * fade;
+    if (c.important) h -= 3 * fade;
     if (c.timeVerified === false) h += 2;
     return h;
   };
