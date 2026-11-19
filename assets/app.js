@@ -108,15 +108,21 @@
   // ---------- one mixed homepage feed (owner's decision, 8 November 2026) ----------
   // Somalia, East Africa, Africa, Europe, Asia, the Americas, the Middle East, business, technology and sport in ONE feed,
   // ranked by importance and freshness and never grouped by continent or section. Rank = hours since publication, minus a
-  // bonus for a breaking (last 12 hours) or important story; a story without a verified time ranks a little lower.
+  // bonus for a breaking or important story; a story without a verified time ranks a little lower.
   // A light mixing pass then avoids more than two stories in a row from the same section (regional / world / sports),
   // looking at most 3 places ahead, so freshness stays the main order.
+  // The bonus fades over the first 12 hours (full when new, none at 12 h), so a morning breaking story no longer outranks
+  // the evening's fresh news for the rest of the day (owner's report, 19 Nov 2026: "all is old news").
   function rankScore(it,now){var t=new Date(it.publishedAt).getTime();var h=isNaN(t)?1e4:Math.max(0,(now-t)/36e5);
-    if(isBreaking(it))h-=6;if(it.important)h-=3;if(it.timeVerified===false)h+=2;return h}
+    var fade=Math.max(0,1-h/12);if(isBreaking(it))h-=6*fade;if(it.important)h-=3*fade;if(it.timeVerified===false)h+=2;return h}
   function mixFeed(list){var now=Date.now();var q=list.map(function(x,i){return {x:x,s:rankScore(x,now),i:i}}).sort(function(a,b){return a.s-b.s||a.i-b.i}).map(function(o){return o.x});
     var out=[];while(q.length){var k=0,n=out.length;if(n>=2&&section(out[n-1])===section(out[n-2])){var s0=section(out[n-1]);for(var i=1;i<q.length&&i<4;i++){if(section(q[i])!==s0){k=section(q[0])===s0?i:0;break}}}
       out.push(q.splice(k,1)[0])}return out}
   var BREAK_MS=12*3600e3;
+  // an editor's homepage pick (data/site.json "featured", "war ugu sarreeya") stays on top for 6 hours after the story was published,
+  // then the story returns to the normal ranking so newer news can reach the top tiles (picks never expired before: 19 Nov 2026)
+  var PICK_MS=6*3600e3;
+  function pickLive(it){if(!it)return false;var t=new Date(it.publishedAt).getTime();return !isNaN(t)&&Date.now()-t<PICK_MS}
   function isBreaking(it){if(!it.breaking)return false;var d=new Date(it.publishedAt);return !isNaN(d)&&Date.now()-d.getTime()<BREAK_MS}
   function catTag(it){if(it.sponsored)return el('span','cat spon',tr('sponsored'));if(isBreaking(it))return el('span','cat red',tr('breaking'));
     var s=section(it);if(s==='sports'||s==='world')return el('span','cat',tr(s));
@@ -323,7 +329,7 @@
     M.hidden=!showMosaic&&loaded;
     var rest=list;
     if(showMosaic){
-      M.innerHTML='';var fe=(SITE&&Array.isArray(SITE.featured)?SITE.featured:[]).map(function(f){var id=typeof f==='string'?f:f&&f.article;return list.find(function(x){return x._id===id})}).filter(Boolean);
+      M.innerHTML='';var fe=(SITE&&Array.isArray(SITE.featured)?SITE.featured:[]).map(function(f){var id=typeof f==='string'?f:f&&f.article;return list.find(function(x){return x._id===id})}).filter(pickLive);
       // the featured tiles: editor's picks (data/site.json "featured") first, then the top of the mixed feed from the last 72 hours
       // (all sections and regions together); older stories only top them up when there are fewer than five fresh ones.
       var now=Date.now();function fresh(x){var t=new Date(x.publishedAt).getTime();return !isNaN(t)&&now-t<72*3600e3}

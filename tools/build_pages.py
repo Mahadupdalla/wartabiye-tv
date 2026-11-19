@@ -587,7 +587,10 @@ for f in glob.glob(os.path.join(root, 'qayb', '*', 'index.html')):
 
 # ---------- 3. the homepage itself: real headlines and links in the HTML ----------
 feat_ids = [f if isinstance(f, str) else (f or {}).get('article') for f in (SITE.get('featured') or [])]
-featured = [by_id[i] for i in feat_ids if i in by_id]
+# an editor's pick stays on top for 6 hours after publication, then returns to the normal order (as assets/app.js PICK_MS)
+_pick_now = datetime.datetime.now(datetime.timezone.utc)
+featured = [by_id[i] for i in feat_ids if i in by_id and parse(by_id[i].get('publishedAt'))
+            and (_pick_now - parse(by_id[i].get('publishedAt'))).total_seconds() < 6 * 3600]
 pool = [x for x in public if not x.get('sponsored') and x not in featured]
 mosaic = (featured + pool)[:5]
 rest = [x for x in public if x not in mosaic and section(x) == 'somalia'][:20]
