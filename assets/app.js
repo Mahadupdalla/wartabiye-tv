@@ -14,14 +14,14 @@
     nl:{name:'Nederlands',code:'NL',flag:'img/flags/nl.svg',dir:'ltr',loc:'nl-NL',i:4},it:{name:'Italiano',code:'IT',flag:'img/flags/it.svg',dir:'ltr',loc:'it-IT',i:5},
     de:{name:'Deutsch',code:'DE',flag:'img/flags/de.svg',dir:'ltr',loc:'de-DE',i:6},tr:{name:'Türkçe',code:'TR',flag:'img/flags/tr.svg',dir:'ltr',loc:'tr-TR',i:7},
     es:{name:'Español',code:'ES',flag:'img/flags/es.png',dir:'ltr',loc:'es-ES',i:8}};
-  var CATN={en:{Siyaasadda:'Politics',Amniga:'Security',Bulshada:'Society',Dhaqaalaha:'Economy',Adduunka:'World',Ciyaaraha:'Sport',Aragtida:'Opinion',Wararka:'News'},
-    ar:{Siyaasadda:'السياسة',Amniga:'الأمن',Bulshada:'المجتمع',Dhaqaalaha:'الاقتصاد',Adduunka:'العالم',Ciyaaraha:'الرياضة',Aragtida:'رأي',Wararka:'الأخبار'},
-    fr:{Siyaasadda:'Politique',Amniga:'Sécurité',Bulshada:'Société',Dhaqaalaha:'Économie',Adduunka:'Monde',Ciyaaraha:'Sport',Aragtida:'Opinion',Wararka:'Actualités'},
-    nl:{Siyaasadda:'Politiek',Amniga:'Veiligheid',Bulshada:'Samenleving',Dhaqaalaha:'Economie',Adduunka:'Wereld',Ciyaaraha:'Sport',Aragtida:'Opinie',Wararka:'Nieuws'},
-    it:{Siyaasadda:'Politica',Amniga:'Sicurezza',Bulshada:'Società',Dhaqaalaha:'Economia',Adduunka:'Mondo',Ciyaaraha:'Sport',Aragtida:'Opinione',Wararka:'Notizie'},
-    de:{Siyaasadda:'Politik',Amniga:'Sicherheit',Bulshada:'Gesellschaft',Dhaqaalaha:'Wirtschaft',Adduunka:'Welt',Ciyaaraha:'Sport',Aragtida:'Meinung',Wararka:'Nachrichten'},
-    tr:{Siyaasadda:'Siyaset',Amniga:'Güvenlik',Bulshada:'Toplum',Dhaqaalaha:'Ekonomi',Adduunka:'Dünya',Ciyaaraha:'Spor',Aragtida:'Görüş',Wararka:'Haberler'},
-    es:{Siyaasadda:'Política',Amniga:'Seguridad',Bulshada:'Sociedad',Dhaqaalaha:'Economía',Adduunka:'Mundo',Ciyaaraha:'Deportes',Aragtida:'Opinión',Wararka:'Noticias'}};
+  var CATN={en:{Siyaasadda:'Politics',Amniga:'Security',Bulshada:'Society',Dhaqaalaha:'Economy',Adduunka:'World',Ciyaaraha:'Sport',Aragtida:'Opinion',Wararka:'News',Teknolojiyadda:'Technology'},
+    ar:{Siyaasadda:'السياسة',Amniga:'الأمن',Bulshada:'المجتمع',Dhaqaalaha:'الاقتصاد',Adduunka:'العالم',Ciyaaraha:'الرياضة',Aragtida:'رأي',Wararka:'الأخبار',Teknolojiyadda:'التكنولوجيا'},
+    fr:{Siyaasadda:'Politique',Amniga:'Sécurité',Bulshada:'Société',Dhaqaalaha:'Économie',Adduunka:'Monde',Ciyaaraha:'Sport',Aragtida:'Opinion',Wararka:'Actualités',Teknolojiyadda:'Technologie'},
+    nl:{Siyaasadda:'Politiek',Amniga:'Veiligheid',Bulshada:'Samenleving',Dhaqaalaha:'Economie',Adduunka:'Wereld',Ciyaaraha:'Sport',Aragtida:'Opinie',Wararka:'Nieuws',Teknolojiyadda:'Technologie'},
+    it:{Siyaasadda:'Politica',Amniga:'Sicurezza',Bulshada:'Società',Dhaqaalaha:'Economia',Adduunka:'Mondo',Ciyaaraha:'Sport',Aragtida:'Opinione',Wararka:'Notizie',Teknolojiyadda:'Tecnologia'},
+    de:{Siyaasadda:'Politik',Amniga:'Sicherheit',Bulshada:'Gesellschaft',Dhaqaalaha:'Wirtschaft',Adduunka:'Welt',Ciyaaraha:'Sport',Aragtida:'Meinung',Wararka:'Nachrichten',Teknolojiyadda:'Technologie'},
+    tr:{Siyaasadda:'Siyaset',Amniga:'Güvenlik',Bulshada:'Toplum',Dhaqaalaha:'Ekonomi',Adduunka:'Dünya',Ciyaaraha:'Spor',Aragtida:'Görüş',Wararka:'Haberler',Teknolojiyadda:'Teknoloji'},
+    es:{Siyaasadda:'Política',Amniga:'Seguridad',Bulshada:'Sociedad',Dhaqaalaha:'Economía',Adduunka:'Mundo',Ciyaaraha:'Deportes',Aragtida:'Opinión',Wararka:'Noticias',Teknolojiyadda:'Tecnología'}};
   var LS={lang:'wartabiye-lang',theme:'wartabiye-theme',fs:'wartabiye-fs',saved:'wartabiye-saved',sent:'wartabiye-sent'};
   function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
   function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
@@ -122,20 +122,31 @@
     var s=section(it);if(s==='sports'||s==='world')return el('span','cat',tr(s));
     return it.category?el('span','cat',catName(it.category)):null}
   function whenText(it){var d=new Date(it.publishedAt);if(isNaN(d))return tr('timeUnknown');if(it.timeVerified===false)return dayMonth(d)+' · '+tr('timeUnverified');return ago(it.publishedAt)}
-  // No section shows publisher names or "read on another website" links on cards and articles (owner's decisions of
-  // 9 Nov 2026: Sports first, then Somalia, East Africa and World News): the stories are written in Wartabiye TV's own
-  // words; the source, its link, original headline, time and verification stay in data/news/<id>.json and /admin/.
-  // An article whose licence or agreement requires public credit sets "attributionRequired": true and keeps it.
-  function showSrc(it){return !!(it&&it.source&&it.source!=='Wartabiye TV'&&it.attributionRequired===true)}
+  // Cards and lists never show publisher names or "read on another website" links (owner's decisions of 9 Nov 2026).
+  // The source of a story built on other outlets' reporting is credited once, in the article's editorial footer
+  // (edFooter, owner's spec of 19 Nov 2026), from "credit" (built by tools/attribution.py into data/news.json).
   // article byline: "Warkaan waxaa daabacay Wartabiye TV" only for the newsroom's own stories (written in /admin/ with no outside
   // source); every story built on other outlets' reporting says "Waxaa daabacay Wartabiye TV" (published by), so it is
   // never presented as Wartabiye TV's own first-hand reporting. The brand name is shown in bold.
   function ownStory(it){return !!(it&&it.by==='admin'&&(!it.source||it.source==='Wartabiye TV'))}
   function byLine(it){var t=tr(ownStory(it)?'wroteBy':'pubBy'),k=t.indexOf('Wartabiye TV'),b=el('span','by');
     if(k<0)b.append(t);else{if(k)b.append(t.slice(0,k));b.append(el('b',null,'Wartabiye TV'));if(k+12<t.length)b.append(t.slice(k+12))}return b}
+  // editorial footer of every article (same as tools/build_pages.py ed_footer): WARBIXINTA / TAARIIKHDA / QAYBTA and, for a
+  // story built on other outlets' reporting, ONE discreet source note "WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay X."
+  function edFooter(it){
+    var c=it.credit&&typeof it.credit==='object'?it.credit:{type:ownStory(it)?'original':'rewritten',sources:[]};
+    var srcs=(Array.isArray(c.sources)?c.sources:[]).filter(function(x){return x&&typeof x.name==='string'&&x.name});
+    var f=el('aside','edfoot');f.append(el('p','edbrand',tr('edBrand')));var dl=el('dl');
+    function row(k,v){var d=el('div');d.append(el('dt',null,k));var dd=el('dd');dd.append(v);d.append(dd);dl.append(d)}
+    row(tr('edReport'),'WARTABIYE TV');var d=new Date(it.publishedAt);if(!isNaN(d)){var t=el('time',null,fullDate(d));t.dateTime=it.publishedAt;row(tr('edDate'),t)}
+    var s=section(it);row(tr('edSection'),s==='world'&&(!it.category||it.category==='Adduunka')?tr('secWorld'):it.category?catName(it.category):tr('secSomalia'));f.append(dl);
+    function names(p){srcs.forEach(function(x,i){if(i)p.append(i===srcs.length-1?' '+tr('andWord')+' ':', ');var u=c.link?safeUrl(x.url):'';if(u){var a=el('a',null,x.name);a.href=u;a.target='_blank';a.rel='noopener';p.append(a)}else p.append(x.name)})}
+    function put(p,tpl){var k=tpl.indexOf('{src}');if(k<0){p.append(tpl);return}p.append(tpl.slice(0,k));names(p);p.append(tpl.slice(k+5))}
+    var key=c.type==='verified'?'noteVerified':!srcs.length?'':c.type==='official'?'noteOfficial':c.type==='multi'||srcs.length>1?'noteMulti':c.type==='rewritten'?'noteBased':'';
+    if(key){var p=el('p','srcnote');p.append(el('b',null,'WARTABIYE TV'),' — ');put(p,tr(key));if(c.type==='verified'&&srcs.length){p.append(' ');put(p,tr('noteFirst'))}f.append(p)}
+    return f}
   function meta(it,withSrc){
     var m=el('div','meta');m.append(el('b',null,'Wartabiye TV'));var w=whenText(it);if(w){var ws=el('span','dot',w);if(it.timeVerified!==false&&tms(it))ws.setAttribute('data-ago',it.publishedAt);m.append(ws)}
-    if(withSrc&&showSrc(it)){var s=el('span','dot',tr('sources')+': ');var su=safeUrl(it.sourceUrl);if(su){var a=el('a',null,it.source);a.href=su;a.target='_blank';a.rel='noopener';s.append(a)}else s.append(it.source);m.append(s)}
     return m;
   }
 
@@ -264,12 +275,12 @@
   function sideLatest(list){if(!list.length||!sec('sidebarLatest'))return null;var l=box(tr('latestShort'));var mi=el('div','mini');
     list.slice(0,5).forEach(function(it){var a=el('a');a.href=href(it);var tx=el('span');tx.append(tEl('h4',null,it,'title'),meta(it));a.append(ph(it,null,false,'120px'),tx);mi.append(a)});l.append(mi);return l}
   function sideCats(){var c=box(tr('categories'));var cl=el('div','cats');
-    CATS.forEach(function(k){var n=items.filter(function(x){return x.category===k}).length;var a=el('a');a.href=R('#qayb-'+slug(k));a.append(catName(k),el('span',null,String(n)));cl.append(a)});c.append(cl);return c}
+    CATS.forEach(function(k){var n=items.filter(function(x){return x.category===k}).length;if(!n)return;var a=el('a');a.href=R('#qayb-'+slug(k));a.append(catName(k),el('span',null,String(n)));cl.append(a)});c.append(cl);return c}
   function fillSide(S,parts){S.innerHTML='';parts.forEach(function(p){if(p)S.append(p)})}
   function renderSidebars(){
     document.querySelectorAll('[data-side]').forEach(function(S){fillSide(S,[sideFollow(),sideTrending(),adSlot('sidebar'),sideLatest(items),adSlot('video'),sideCats()])});
     var ft=$('ftrend');ft.innerHTML='';items.slice(0,3).forEach(function(it){var a=el('a');a.href=href(it);a.append(tEl('span',null,it,'title'),el('small',null,ago(it.publishedAt)));ft.append(a)});
-    var fc=$('fcats');fc.innerHTML='';CATS.forEach(function(k){var a=el('a');a.href=R('#qayb-'+slug(k));a.append(catName(k),el('span',null,String(items.filter(function(x){return x.category===k}).length)));fc.append(a)});
+    var fc=$('fcats');fc.innerHTML='';CATS.forEach(function(k){var n=items.filter(function(x){return x.category===k}).length;if(!n)return;var a=el('a');a.href=R('#qayb-'+slug(k));a.append(catName(k),el('span',null,String(n)));fc.append(a)});
     updSavedBadge();
   }
 
@@ -280,7 +291,6 @@
     var tx=el('div','tx');var h=el('h3');var a=tEl('a',null,it,'title');a.href=href(it);h.append(a);var mt=meta(it,true);var sb=soBadge(it);if(sb)mt.append(sb);tx.append(h,mt);
     if(F(it,'summary'))tx.append(tEl('p',null,it,'summary'));
     var mo=el('div','more');var rd=el('a',null,tr('readMore'));rd.href=href(it);mo.append(rd);
-    var ou=safeUrl(it.sourceUrl);if(ou&&showSrc(it)){var oa=el('a','orig',tr('original')+': '+(it.source||tr('sourceWord'))+' ↗');oa.href=ou;oa.target='_blank';oa.rel='noopener';mo.append(oa)}
     mo.append(bmBtn(it));tx.append(mo);r.append(pa,tx);return r;
   }
   function card(it,lead){
@@ -459,10 +469,7 @@
       (Array.isArray(dcm.pages)?dcm.pages:[]).forEach(function(pg,pi){var pu=imgUrl(pg);if(!pu)return;var pa=el('a','docpage');pa.href=pu;pa.target='_blank';pa.rel='noopener';var pim=el('img');pim.src=pu;pim.loading='lazy';pim.alt=(dt?dt+' · ':'')+(pi+1);pa.append(pim);dsec.append(pa)});
       var pdf=imgUrl(dcm.pdf);if(pdf){var pl=el('a','docpdf','PDF ↓');pl.href=pdf;pl.target='_blank';pl.rel='noopener';pl.setAttribute('download','');dsec.append(pl)}
       if(dsec.childNodes.length)A.append(dsec)}
-    var su=safeUrl(it.sourceUrl);
-    // a licence that requires public credit gets one small source line under the text (no box)
-    if(showSrc(it)){var sb=el('p','srcline');sb.append(tr('srcLabel')+': ');
-      if(su){var a2=el('a',null,it.source+' ↗');a2.href=su;a2.target='_blank';a2.rel='noopener';a2.title=tr('readOriginal');sb.append(a2)}else sb.append(it.source);A.append(sb)}
+    A.append(edFooter(it));
     var ad=adSlot('article');if(ad){ad.style.marginTop='24px';A.append(ad)}
     // previous / next in the same section
     var sl=items.filter(function(x){return section(x)===s});var i=sl.indexOf(it);

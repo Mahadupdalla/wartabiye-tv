@@ -317,6 +317,17 @@ html[lang=ar] .body p:first-of-type::first-letter{font:inherit;float:none;margin
 .byline .by{color:var(--muted)}
 .byline .by b{color:var(--fg);font-weight:700}
 .srcline{margin:-.2em 0 0;max-width:68ch;font-size:13px;color:var(--muted)}
+/* editorial footer: WARBIXINTA / TAARIIKHDA / QAYBTA and one discreet source note */
+.edfoot{max-width:68ch;margin:6px 0 22px;padding:12px 0 2px;border-top:3px solid var(--blue);font-size:13px;color:var(--muted)}
+.edfoot .edbrand{margin:0 0 8px;font:800 12px var(--display);letter-spacing:.12em;color:var(--blue)}
+.edfoot dl{display:flex;flex-wrap:wrap;gap:6px 22px;margin:0}
+.edfoot dl div{display:flex;gap:6px;align-items:baseline}
+.edfoot dt{font:700 11.5px var(--display);letter-spacing:.08em;color:var(--fg)}
+.edfoot dd{margin:0}
+.edfoot .srcnote{margin:10px 0 0;line-height:1.5}
+.edfoot .srcnote b{color:var(--fg);font-weight:700}
+.edfoot .srcnote a{color:var(--link);text-decoration:underline;text-underline-offset:2px}
+:root[data-theme="dark"] .edfoot .edbrand{color:#6fb6ff}
 .docproof{margin:8px 0 24px;max-width:68ch;display:grid;gap:12px}
 .docproof .docpage{display:block;border:1px solid var(--line);background:#fff}
 .docproof .docpage img{display:block;width:100%;height:auto}

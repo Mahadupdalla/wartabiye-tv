@@ -86,6 +86,16 @@ def show_source(it):
     return bool(it.get('source') and it.get('source') != 'Wartabiye TV' and it.get('attributionRequired') is True)
 
 
+def credit_names(it):
+    """the outlets credited in the article's source note (tools/attribution.py "credit"), e.g. "Hiiraan Online, Puntland Post"."""
+    c = it.get('credit') if isinstance(it.get('credit'), dict) else None
+    if c is None:
+        return s(it.get('source')) if show_source(it) else ''
+    if c.get('type') == 'original':
+        return ''
+    return ', '.join(s(x.get('name')) for x in c.get('sources') or [] if isinstance(x, dict) and s(x.get('name')))
+
+
 def article(it):
     a = {
         'id': it['id'], 'url': SITE + 'war/' + it['id'] + '.html',
@@ -99,10 +109,13 @@ def article(it):
         'imageCredit': s(it.get('imageCredit')) or ('Wartabiye TV' if it.get('by') == 'admin' and img(it.get('image')) else ''),
         'imageLicense': s(it.get('imageLicense')), 'imageSourceUrl': s(it.get('imageSourceUrl')) if s(it.get('imageSourceUrl')).startswith('https://') else '',
         'imageKind': s(it.get('imageKind')), 'imageNote': s(it.get('imageNote')),
-        # the website shows a publisher only when it must be credited; otherwise "based on reports from other media"
-        'source': s(it.get('source')) if show_source(it) else '',
+        # the editorial source note (owner's spec, 19 Nov 2026): the outlets the story is based on, credited once under the
+        # text; the link only when a licence requires it. "credit" = the same record the website uses.
+        'source': credit_names(it),
         'sourceUrl': s(it.get('sourceUrl')) if show_source(it) and s(it.get('sourceUrl')).startswith('http') else '',
-        'basedOnOthers': bool(it.get('by') != 'admin' and it.get('source') and it.get('source') != 'Wartabiye TV' and not show_source(it)),
+        'basedOnOthers': bool(it.get('by') != 'admin' and not credit_names(it) and (it.get('credit') or {}).get('type', 'rewritten') != 'original'),
+        'credit': {'type': s((it.get('credit') or {}).get('type')) or ('original' if it.get('by') == 'admin' else 'rewritten'),
+                   'sources': [{'name': s(x.get('name'))} for x in (it.get('credit') or {}).get('sources') or [] if isinstance(x, dict) and s(x.get('name'))]},
         'tr': {},
     }
     for lang in LANGS:
@@ -231,6 +244,10 @@ def test():
     assert a1['section'] == 'somalia' and arts[0]['section'] == 'sports'
     assert a1['source'] == '' and a1['basedOnOthers'] is True, 'publisher shown only when it must be credited'
     assert arts[0]['source'] == 'X' and arts[0]['sourceUrl'] == 'https://x'
+    cr = article({'id': 'd-4', 'title': 'T', 'source': 'Hiiraan Online', 'credit': {'type': 'multi', 'sources': [{'name': 'Hiiraan Online', 'url': 'https://h'}, {'name': 'Puntland Post'}]}})
+    assert cr['source'] == 'Hiiraan Online, Puntland Post' and cr['basedOnOthers'] is False and cr['credit']['type'] == 'multi', 'the source note credits every outlet'
+    own = article({'id': 'e-5', 'title': 'T', 'by': 'admin', 'source': 'Wartabiye TV', 'credit': {'type': 'original', 'sources': []}})
+    assert own['source'] == '' and own['basedOnOthers'] is False, "the newsroom's own story names no outlet"
     assert arts[0]['image'] == '', 'unsafe image dropped'
     assert feeds['en'][1]['autoTranslated'] is True and 'autoTranslated' not in feeds['en'][0]
     assert len(feeds['so'][0]['summary']) <= CARD_TEXT + 1 and feeds['so'][0]['breaking'] is True
