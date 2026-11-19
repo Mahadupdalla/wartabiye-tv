@@ -55,7 +55,7 @@
     kidsquiz: [{ k: 'n', l: L.questions, v: [[5, '5'], [10, '10'], [15, '15'], [20, '20']], d: 10 }],
     spell: [{ k: 'n', l: { so: 'Tirada ereyada', en: 'Words', ar: 'عدد الكلمات' }, v: [[5, '5'], [8, '8'], [12, '12']], d: 8 }, { k: 'len', l: { so: 'Dhererka ereyada', en: 'Word length', ar: 'طول الكلمات' }, v: [A, [4, L.small], [6, L.medium], [8, L.large]], d: 'auto' }],
     draw: [{ k: 'paper', l: { so: 'Midabka warqadda', en: 'Paper colour', ar: 'لون الورق' }, v: [['#ffffff', L.white, '#ffffff'], ['#fef3c7', { so: 'Jaalle khafiif ah', en: 'Cream', ar: 'كريمي' }, '#fef3c7'], ['#dbeafe', L.blue, '#dbeafe'], ['#0f172a', L.black, '#0f172a']], d: '#ffffff' }],
-    ludo3d: [{ k: 'pace', l: L.speed, v: [[1.6, L.slow], [1, L.normal], [0.55, L.fast]], d: 1 }, { k: 'cam', l: L.camera, v: [['tilt', { so: 'Dhinac', en: 'Tilted', ar: 'مائلة' }], ['top', { so: 'Kor ka', en: 'From above', ar: 'من الأعلى' }]], d: 'tilt' }],
+    ludo3d: [{ k: 'pace', l: L.speed, v: [[1.6, L.slow], [1, L.normal], [0.55, L.fast]], d: 1 }, { k: 'cam', l: L.camera, v: [['tilt', { so: 'Dhinac', en: 'Tilted', ar: 'مائلة' }], ['top', { so: 'Kor ka', en: 'From above', ar: 'من الأعلى' }]], d: 'top' }],
     ludo: [{ k: 'pace', l: L.speed, v: [[1.6, L.slow], [1, L.normal], [0.5, L.fast]], d: 1 }],
     coloring: []
   };

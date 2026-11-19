@@ -104,12 +104,67 @@ WTG.register3d('ludo3d', function (M, api) {
   var tableTex = M.canvasTex(512, 512, function (x, w, hh) { var g = x.createRadialGradient(w / 2, hh / 2, 20, w / 2, hh / 2, w * 0.7); g.addColorStop(0, '#5b3a22'); g.addColorStop(1, '#24140a'); x.fillStyle = g; x.fillRect(0, 0, w, hh); for (var i = 0; i < 120; i++) { x.strokeStyle = 'rgba(0,0,0,' + (0.05 + Math.random() * 0.08) + ')'; x.lineWidth = 1 + Math.random() * 2; x.beginPath(); var y = Math.random() * hh; x.moveTo(0, y); x.bezierCurveTo(w * 0.3, y + 8, w * 0.7, y - 8, w, y + Math.random() * 6); x.stroke(); } }, [3, 3]);
   var table = new T.Mesh(new T.PlaneGeometry(80, 80), new T.MeshStandardMaterial({ map: tableTex, roughness: 0.55, metalness: 0.05 })); table.rotation.x = -Math.PI / 2; table.position.y = -0.62; table.receiveShadow = true; scene.add(table);
 
+  function flat() { return api.cfg('cam', 'top') === 'top'; }   // the straight-down, flat board style (default)
   var world = new T.Group(); scene.add(world);
   var TOP = 0.02;
   function wpos(r, c, y) { return new T.Vector3(c - 7, y == null ? TOP : y, r - 7); }
   var boardTop, frame;
   var logoYaw = 0; // the centre logo is drawn turned so it reads upright from every seat
+  function flatTexture() {
+    // a clean, flat board seen from above: solid homes, white squares with grid lines, star and globe squares
+    var N = 15, R = M.mobile ? 1536 : 2048, s = R / N;
+    return M.canvasTex(R, R, function (x) {
+      function shade(c, k) { var n = parseInt(CSS[c].slice(1), 16), f = function (v) { return Math.round(k < 0 ? v * (1 + k) : v + (255 - v) * k); }; return 'rgb(' + f(n >> 16) + ',' + f((n >> 8) & 255) + ',' + f(n & 255) + ')'; }
+      function rr(x0, y0, w, hh, r) { x.beginPath(); x.moveTo(x0 + r, y0); x.arcTo(x0 + w, y0, x0 + w, y0 + hh, r); x.arcTo(x0 + w, y0 + hh, x0, y0 + hh, r); x.arcTo(x0, y0 + hh, x0, y0, r); x.arcTo(x0, y0, x0 + w, y0, r); x.closePath(); }
+      function star(cx, cy, r, fill) { x.beginPath(); for (var i = 0; i < 10; i++) { var a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? r * 0.45 : r; x.lineTo(cx + Math.cos(a) * q, cy + Math.sin(a) * q); } x.closePath(); x.fillStyle = fill; x.fill(); }
+      function globe(cx, cy, r) {
+        x.save(); x.lineWidth = s * 0.055; x.strokeStyle = '#ffffff'; x.fillStyle = 'rgba(255,255,255,.18)';
+        x.beginPath(); x.arc(cx, cy, r, 0, 7); x.fill(); x.stroke();
+        x.beginPath(); x.ellipse(cx, cy, r * 0.45, r, 0, 0, 7); x.stroke();
+        x.beginPath(); x.moveTo(cx - r, cy); x.lineTo(cx + r, cy); x.stroke();
+        x.beginPath(); x.moveTo(cx - r * 0.86, cy - r * 0.5); x.lineTo(cx + r * 0.86, cy - r * 0.5); x.moveTo(cx - r * 0.86, cy + r * 0.5); x.lineTo(cx + r * 0.86, cy + r * 0.5); x.stroke();
+        x.restore();
+      }
+      var line = '#1f2937', lw = Math.max(2, s * 0.03);
+      x.fillStyle = '#ffffff'; x.fillRect(0, 0, R, R);
+      // the four homes: solid colour, a darker square inside, four round spots
+      YARD.forEach(function (y, c) {
+        var x0 = y[1] * s, y0 = y[0] * s;
+        x.fillStyle = CSS[c]; x.fillRect(x0, y0, 6 * s, 6 * s);
+        x.fillStyle = 'rgba(255,255,255,.14)'; x.fillRect(x0, y0, 6 * s, s * 0.5);
+        x.fillStyle = shade(c, -0.32); rr(x0 + s * 0.8, y0 + s * 0.8, s * 4.4, s * 4.4, s * 0.45); x.fill();
+        x.strokeStyle = 'rgba(255,255,255,.55)'; x.lineWidth = s * 0.06; x.stroke();
+        [[1.5, 1.5], [1.5, 3.5], [3.5, 1.5], [3.5, 3.5]].forEach(function (p) {
+          var cx = x0 + (p[1] + 0.5) * s, cy = y0 + (p[0] + 0.5) * s;
+          x.fillStyle = shade(c, -0.5); x.beginPath(); x.arc(cx, cy + s * 0.05, s * 0.6, 0, 7); x.fill();
+          x.fillStyle = shade(c, 0.25); x.beginPath(); x.arc(cx, cy, s * 0.58, 0, 7); x.fill();
+          x.strokeStyle = '#ffffff'; x.lineWidth = s * 0.07; x.stroke();
+        });
+        x.strokeStyle = line; x.lineWidth = lw; x.strokeRect(x0, y0, 6 * s, 6 * s);
+      });
+      // the track: white squares, the start square in colour with a globe, grey star squares
+      PATH.forEach(function (p, i) {
+        var cc = OFF.indexOf(i), X0 = p[1] * s, Y0 = p[0] * s;
+        x.fillStyle = cc >= 0 ? CSS[cc] : SAFE.indexOf(i) >= 0 ? '#d1d5db' : '#ffffff'; x.fillRect(X0, Y0, s, s);
+        if (cc >= 0) globe(X0 + s / 2, Y0 + s / 2, s * 0.32);
+        else if (SAFE.indexOf(i) >= 0) star(X0 + s / 2, Y0 + s / 2, s * 0.36, '#475569');
+        x.strokeStyle = line; x.lineWidth = lw; x.strokeRect(X0, Y0, s, s);
+      });
+      // the home columns in each colour, with an arrow into them
+      HOME.forEach(function (hc, c) { hc.forEach(function (p, k) { if (k > 4) return; x.fillStyle = CSS[c]; x.fillRect(p[1] * s, p[0] * s, s, s); x.strokeStyle = line; x.lineWidth = lw; x.strokeRect(p[1] * s, p[0] * s, s, s); }); });
+      // centre: four solid triangles and the logo
+      var m = 7.5 * s;
+      [[0, [6, 6], [9, 6]], [1, [6, 6], [6, 9]], [2, [6, 9], [9, 9]], [3, [9, 6], [9, 9]]].forEach(function (t) {
+        x.fillStyle = CSS[t[0]]; x.beginPath(); x.moveTo(m, m); x.lineTo(t[1][1] * s, t[1][0] * s); x.lineTo(t[2][1] * s, t[2][0] * s); x.closePath(); x.fill();
+        x.strokeStyle = line; x.lineWidth = lw; x.stroke();
+      });
+      x.fillStyle = '#ffffff'; x.beginPath(); x.arc(m, m, s * 0.8, 0, 7); x.fill(); x.strokeStyle = '#04213f'; x.lineWidth = s * 0.08; x.stroke();
+      x.fillStyle = '#04213f'; x.font = '900 ' + (s * 0.44) + 'px Archivo,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.save(); x.translate(m, m + 2); x.rotate(logoYaw); x.fillText('WTV', 0, 0); x.restore();
+      x.strokeStyle = line; x.lineWidth = lw * 2; x.strokeRect(lw, lw, R - 2 * lw, R - 2 * lw);
+    });
+  }
   function boardTexture(theme) {
+    if (theme === 'classic' && flat()) return flatTexture();
     var N = 15, R = M.mobile ? 1536 : 2048, s = R / N;
     return M.canvasTex(R, R, function (x) {
       var night = theme === 'night', royal = theme === 'royal';
@@ -154,7 +209,14 @@ WTG.register3d('ludo3d', function (M, api) {
     if (boardMat.map) boardMat.map.dispose(); boardMat.map = boardTexture(theme); boardMat.needsUpdate = true;
     frameMat.color.setHex(theme === 'royal' ? 0xb8860b : theme === 'night' ? 0x0f172a : 0x5a3416); frameMat.metalness = theme === 'royal' ? 0.85 : 0.1; frameMat.roughness = theme === 'royal' ? 0.25 : 0.35;
     boardMat.emissiveMap = theme === 'night' ? boardMat.map : null; boardMat.emissive = new T.Color(theme === 'night' ? 0x333333 : 0x000000); boardMat.emissiveIntensity = theme === 'night' ? 0.9 : 0;
-    scene.background = M.gradientTex(theme === 'night' ? ['#020617', '#0b1220', '#1e1b4b'] : theme === 'royal' ? ['#1c1208', '#3b2a12', '#5b3a22'] : ['#0b1220', '#13233d', '#1e3557']);
+    var F = flat();
+    // flat style: the board shows its own true colours (no tone mapping wash), with a little light for the token shadows
+    var FC = F && theme === 'classic';
+    boardMat.toneMapped = !FC; boardMat.color.setHex(FC ? 0x3a3a3a : 0xffffff);
+    if (FC) { boardMat.emissiveMap = boardMat.map; boardMat.emissive = new T.Color(0xffffff); boardMat.emissiveIntensity = 0.8; }
+    boardMat.clearcoat = F ? 0.35 : 1; boardMat.roughness = F ? 0.55 : 0.32; table.visible = !F;
+    if (F && theme === 'classic') { frameMat.color.setHex(0x04213f); frameMat.metalness = 0.2; }
+    scene.background = M.gradientTex(F ? ['#04213f', '#0a3a6b', '#04213f'] : theme === 'night' ? ['#020617', '#0b1220', '#1e1b4b'] : theme === 'royal' ? ['#1c1208', '#3b2a12', '#5b3a22'] : ['#0b1220', '#13233d', '#1e3557']);
   }
 
   // tokens: a turned pawn (lathe), glossy
@@ -166,12 +228,32 @@ WTG.register3d('ludo3d', function (M, api) {
     if (style === 'gem') { o.roughness = 0.05; o.metalness = 0.2; o.iridescence = 1; o.iridescenceIOR = 1.5; o.emissive = new T.Color(HEX[c]); o.emissiveIntensity = 0.25; o.sheen = 1; o.sheenColor = new T.Color(0xffffff); }
     return new T.MeshPhysicalMaterial(o);
   }
-  var tokens = {}, ringGeo = new T.TorusGeometry(0.42, 0.05, 10, 40), ringMat = new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 });
+  // flat style: a round glossy disc with a gold rim and an emblem on top
+  var discGeo = new T.CylinderGeometry(0.4, 0.43, 0.22, 44), rimGeo = new T.TorusGeometry(0.375, 0.045, 10, 44), capGeo = new T.CircleGeometry(0.335, 44);
+  var rimMat = new T.MeshPhysicalMaterial({ color: 0xffd166, metalness: 0.6, roughness: 0.25, clearcoat: 1, emissive: new T.Color(0x6b4a00), emissiveIntensity: 0.35 }), capMats = {};
+  function capMat(c) {
+    if (capMats[c]) return capMats[c];
+    var tex = M.canvasTex(256, 256, function (x, w) {
+      var g = x.createRadialGradient(w * 0.5, w * 0.5, w * 0.2, w / 2, w / 2, w * 0.5); g.addColorStop(0, CSS[c]); g.addColorStop(1, 'rgba(0,0,0,.35)');
+      x.fillStyle = CSS[c]; x.fillRect(0, 0, w, w); x.fillStyle = g; x.beginPath(); x.arc(w / 2, w / 2, w / 2, 0, 7); x.fill();
+      var hl = x.createLinearGradient(0, 0, 0, w * 0.55); hl.addColorStop(0, 'rgba(255,255,255,.75)'); hl.addColorStop(1, 'rgba(255,255,255,0)');
+      x.fillStyle = hl; x.beginPath(); x.ellipse(w / 2, w * 0.3, w * 0.36, w * 0.22, 0, 0, 7); x.fill();
+      x.beginPath(); for (var i = 0; i < 10; i++) { var a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? w * 0.15 : w * 0.34; x.lineTo(w / 2 + Math.cos(a) * q, w / 2 + Math.sin(a) * q); } x.closePath();
+      x.fillStyle = '#ffffff'; x.shadowColor = 'rgba(0,0,0,.5)'; x.shadowBlur = 12; x.fill(); x.shadowBlur = 0; x.strokeStyle = 'rgba(0,0,0,.35)'; x.lineWidth = 5; x.stroke();
+    });
+    return (capMats[c] = new T.MeshBasicMaterial({ map: tex, toneMapped: false }));
+  }
+  var tokens = {}, ringGeo = new T.TorusGeometry(0.42, 0.05, 10, 40), ringGeoF = new T.TorusGeometry(0.5, 0.06, 10, 44), ringMat = new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 });
   function buildTokens(S) {
     Object.keys(tokens).forEach(function (k) { world.remove(tokens[k].g); }); tokens = {};
     S.seats.forEach(function (s) { for (var i = 0; i < 4; i++) {
-      var g = new T.Group(), m = new T.Mesh(pawnGeo, tokenMat(s.c, looks.tokens)); m.castShadow = true; g.add(m);
-      var ring = new T.Mesh(ringGeo, ringMat.clone()); ring.rotation.x = Math.PI / 2; ring.position.y = 0.03; ring.visible = false; g.add(ring);
+      var g = new T.Group(), m;
+      if (flat()) {
+        m = new T.Mesh(discGeo, tokenMat(s.c, looks.tokens)); m.position.y = 0.11; m.castShadow = true; g.add(m);
+        var rim = new T.Mesh(rimGeo, rimMat); rim.rotation.x = Math.PI / 2; rim.position.y = 0.22; g.add(rim);
+        var cap = new T.Mesh(capGeo, capMat(s.c)); cap.rotation.x = -Math.PI / 2; cap.position.y = 0.225; g.add(cap);
+      } else { m = new T.Mesh(pawnGeo, tokenMat(s.c, looks.tokens)); m.castShadow = true; g.add(m); }
+      var ring = new T.Mesh(flat() ? ringGeoF : ringGeo, ringMat.clone()); ring.rotation.x = Math.PI / 2; ring.position.y = 0.03; ring.visible = false; g.add(ring);
       g.userData = { c: s.c, i: i, ring: ring }; m.userData = g.userData;
       var k = s.c + ':' + i; tokens[k] = { g: g, m: m, pr: -1, anim: null }; g.position.copy(spotOf(s.c, i, -1, 0)); world.add(g);
     } });
@@ -208,11 +290,17 @@ WTG.register3d('ludo3d', function (M, api) {
     // keep the dice off the centre triangles: it lands just in front of the thrower's side of the centre
     var dir = [[-1, -1], [-1, 1], [1, 1], [1, -1]][c]; to.x = dir[1] * 1.9 + (Math.random() - 0.5) * 0.5; to.z = dir[0] * 1.9 + (Math.random() - 0.5) * 0.5;
     DA = { t: 0, dur: 1.05, from: from, to: to, q0: new T.Quaternion().setFromEuler(new T.Euler(Math.random() * 6, Math.random() * 6, Math.random() * 6)), q1: faceQuat(n, Math.random() * Math.PI * 2), axis: new T.Vector3(Math.random() - 0.5, 1, Math.random() - 0.5).normalize(), spin: 16 + Math.random() * 8 };
-    dice.visible = true; api.sfx('tick');
+    DA.n = n; dice.visible = !flat(); api.sfx('tick');
+    if (flat()) { DA.dur = 0.8; DA.ft = 0; dieEl.classList.add('roll'); dieEl.classList.remove('go'); }
   }
   function stepDice(dt) {
     if (!DA) { dice.position.y = 0.45 + Math.sin(tt * 2) * 0.03; return; }
     DA.t += dt; var k = Math.min(1, DA.t / DA.dur), e = 1 - Math.pow(1 - k, 2.2);
+    if (flat()) {
+      DA.ft += dt; if (DA.ft > 0.07) { DA.ft = 0; var r; do { r = 1 + (Math.random() * 6 | 0); } while (r === dieFace); setDieFace(r); }
+      if (k >= 1) { setDieFace(DA.n); dieEl.classList.remove('roll'); DA = null; api.sfx('tap'); onDiceLanded(); }
+      return;
+    }
     dice.position.lerpVectors(DA.from, DA.to, e);
     var bounce = Math.abs(Math.sin(k * Math.PI * 3)) * (1 - k) * 1.4; dice.position.y = 0.45 + bounce;
     if (k < 0.62) { dice.quaternion.copy(DA.q0); dice.rotateOnWorldAxis(DA.axis, DA.spin * DA.t * (1 - k)); }
@@ -222,8 +310,8 @@ WTG.register3d('ludo3d', function (M, api) {
 
   // ------------------------------------------------------------------ more words for the app screens
   var TX2 = {
-    so: { p2: '2 Ciyaaryahan', p4: '4 Ciyaaryahan', privateT: 'Miis gaar ah', onlineT: 'Saaxiibo online', teamT: 'Koox', offline: 'Ciyaar offline', classic: 'Caadi', quick: 'Degdeg', teamMode: 'Koox ahaan u ciyaar', go: 'BILOW', daily: 'Abaalmarinta maalinlaha', today: 'Maanta', tomorrow: 'Berri', day: 'Maalin {c}', collect: 'Qaado', congrats: 'Hambalyo!', gotIt: 'Waa hagaag', nHome: 'Guriga', nLooks: 'Muuqaal', nFriends: 'Saaxiibo', nRewards: 'Hadiyad', nProfile: 'Aniga', level: 'Heer', games: 'Ciyaarood', wins: 'Guul', caps: 'Cunis', homeN: 'Guri gaaray', ach: 'Guulaha', invite: 'Saaxiibadaa la ciyaar', inviteBtn: '🔗 Samee qol oo la wadaag', joinCode: 'Ku gal koodh', recent: 'Saaxiibadii', teamWin: 'Kooxda {c} ayaa guuleystay!', playerN: 'Ciyaaryahan {c}', save: 'Kaydi' },
-    en: { p2: '2 Players', p4: '4 Players', privateT: 'Private Table', onlineT: 'Friends Online', teamT: 'Team Up', offline: 'Play offline', classic: 'Classic', quick: 'Quick', teamMode: 'Play as teams', go: 'START', daily: 'Daily Rewards', today: 'Today', tomorrow: 'Tomorrow', day: 'Day {c}', collect: 'Collect', congrats: 'Congratulations!', gotIt: 'Got it!', nHome: 'Home', nLooks: 'Looks', nFriends: 'Friends', nRewards: 'Rewards', nProfile: 'Profile', level: 'Level', games: 'Games', wins: 'Wins', caps: 'Captures', homeN: 'Tokens home', ach: 'Achievements', invite: 'Play with your friends', inviteBtn: '🔗 Create a room and share', joinCode: 'Join with code', recent: 'Friends', teamWin: 'Team {c} wins!', playerN: 'Player {c}', save: 'Save' }
+    so: { p2: '2 Ciyaaryahan', p4: '4 Ciyaaryahan', privateT: 'Miis gaar ah', onlineT: 'Saaxiibo online', teamT: 'Koox', offline: 'Ciyaar offline', classic: 'Caadi', quick: 'Degdeg', teamMode: 'Koox ahaan u ciyaar', go: 'BILOW', daily: 'Abaalmarinta maalinlaha', today: 'Maanta', tomorrow: 'Berri', day: 'Maalin {c}', collect: 'Qaado', congrats: 'Hambalyo!', gotIt: 'Waa hagaag', nHome: 'Guriga', nLooks: 'Muuqaal', nFriends: 'Saaxiibo', nRewards: 'Hadiyad', nProfile: 'Aniga', level: 'Heer', games: 'Ciyaarood', wins: 'Guul', caps: 'Cunis', homeN: 'Guri gaaray', ach: 'Guulaha', invite: 'Saaxiibadaa la ciyaar', inviteBtn: '🔗 Samee qol oo la wadaag', joinCode: 'Ku gal koodh', recent: 'Saaxiibadii', teamWin: 'Kooxda {c} ayaa guuleystay!', playerN: 'Ciyaaryahan {c}', save: 'Kaydi', settings: 'Habaynta' },
+    en: { p2: '2 Players', p4: '4 Players', privateT: 'Private Table', onlineT: 'Friends Online', teamT: 'Team Up', offline: 'Play offline', classic: 'Classic', quick: 'Quick', teamMode: 'Play as teams', go: 'START', daily: 'Daily Rewards', today: 'Today', tomorrow: 'Tomorrow', day: 'Day {c}', collect: 'Collect', congrats: 'Congratulations!', gotIt: 'Got it!', nHome: 'Home', nLooks: 'Looks', nFriends: 'Friends', nRewards: 'Rewards', nProfile: 'Profile', level: 'Level', games: 'Games', wins: 'Wins', caps: 'Captures', homeN: 'Tokens home', ach: 'Achievements', invite: 'Play with your friends', inviteBtn: '🔗 Create a room and share', joinCode: 'Join with code', recent: 'Friends', teamWin: 'Team {c} wins!', playerN: 'Player {c}', save: 'Save', settings: 'Settings' }
   };
   Object.keys(TX2).forEach(function (l) { Object.keys(TX2[l]).forEach(function (k) { TX[l][k] = TX2[l][k]; }); });
   var AV = (WTG.AVATARS || ['🦁', '🐯', '🐼', '🦊']), SEATAV = ['🦊', '🐼', '🐯', '🐨'];
@@ -369,6 +457,15 @@ WTG.register3d('ludo3d', function (M, api) {
     '.l3-gift h2{background:linear-gradient(#ff6b6b,#c1121f);color:#fff;margin:4px -8px 0;padding:8px;border-radius:12px;border:3px solid #ffd166;text-shadow:0 2px 0 rgba(0,0,0,.3)}',
     '.l3-gift .row div{display:flex;flex-direction:column;align-items:center;gap:2px}.l3-gift .ri{width:58px;height:58px;object-fit:contain;animation:l3bob .9s infinite alternate}',
     '.l3-flycoin .fc{width:34px;height:34px;display:block}',
+    '.l3-die{position:absolute;left:0;top:0;width:60px;height:60px;border:0;border-radius:15px;padding:8px;background:linear-gradient(160deg,#ffffff,#dbe4ef);box-shadow:0 0 0 4px var(--c,#ef4444),0 0 0 6px #fff,0 6px 0 5px rgba(0,0,0,.3),0 12px 22px rgba(0,0,0,.45);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:2px;pointer-events:auto;cursor:pointer;transition:left .3s,top .3s;z-index:3}',
+    '.l3-die i{border-radius:50%;background:radial-gradient(circle at 35% 30%,#64748b,#020617 70%);visibility:hidden}.l3-die i.on{visibility:visible}.l3-die.one i.on{background:radial-gradient(circle at 35% 30%,#ff8a8a,#b91c1c 70%)}',
+    '.l3-die.go{animation:l3pulse .6s infinite alternate}.l3-die.roll{animation:l3shake .14s infinite}.l3-die[disabled]{cursor:default}',
+    '@keyframes l3pulse{to{transform:scale(1.13)}}@keyframes l3shake{0%{transform:rotate(-14deg) scale(1.05)}50%{transform:rotate(14deg) scale(.95)}100%{transform:rotate(-14deg) scale(1.05)}}',
+    '.l3-flat .l3-pl.on::before{content:"";position:absolute;top:-28px;left:50%;margin-left:-12px;border-left:12px solid transparent;border-right:12px solid transparent;border-top:18px solid #ffd166;filter:drop-shadow(0 2px 2px rgba(0,0,0,.55));animation:l3arr .45s infinite alternate}@keyframes l3arr{to{transform:translateY(8px)}}',
+    '.l3-flat .l3-bot{bottom:6px}.l3-flat .l3-msg{font-size:13px;padding:6px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 200px)}.l3-flat .l3-coin{left:auto;right:8px;transform:none}',
+    '.l3-flat .l3-pl .a{border-radius:16px;background:linear-gradient(160deg,#ffffff,#cfe0f5)}.l3-flat .l3-pl.on .a{border-radius:16px}',
+    '.l3-tl{position:absolute;left:6px;top:8px;display:flex;flex-direction:column;gap:8px;pointer-events:auto;z-index:2}.l3-tl button{width:38px;height:38px;border-radius:13px;border:2px solid rgba(255,255,255,.75);background:linear-gradient(#2b9bff,#0353a4);color:#fff;font:900 20px Archivo,sans-serif;box-shadow:0 4px 0 #02386f,0 8px 14px rgba(0,0,0,.4);cursor:pointer;display:grid;place-items:center;padding:0}',
+    '@media (prefers-reduced-motion:reduce){.l3-die.go,.l3-die.roll,.l3-flat .l3-pl.on::before{animation:none}}',
     '@media (prefers-reduced-motion:reduce){.l3-rays,.l3-tile::after,.l3-cube,.l3-spk i,.l3-burst{animation:none}}'
   ].join('') });
   var root = h('div', { class: 'l3', style: { position: 'absolute', inset: 0 } }); hud.append(css, root);
@@ -377,7 +474,16 @@ WTG.register3d('ludo3d', function (M, api) {
   var emoBar = h('div', { class: 'l3-emo', hidden: true });
   ['👍', '😂', '😮', '🔥', '👏', '😢'].forEach(function (e) { emoBar.append(h('button', { type: 'button', 'aria-label': e, text: e, onclick: function () { if (net) net.send({ t: 'emote', e: e }); } })); });
   var bot = h('div', { class: 'l3-bot' }, msgEl, rollBtn, emoBar);
-  root.append(panelsEl, coinEl, bot);
+  // flat style: a dice box beside the player whose turn it is, and exit / settings buttons at the top left
+  var dieEl = h('button', { type: 'button', class: 'l3-die', 'aria-label': tx('roll'), hidden: true, onclick: function () { localRoll(); } });
+  for (var di = 0; di < 9; di++) dieEl.append(h('i'));
+  var DPIPS = { 1: [4], 2: [2, 6], 3: [2, 4, 6], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] }, dieFace = 6;
+  function setDieFace(n) { dieFace = n; [].forEach.call(dieEl.children, function (p, k) { p.classList.toggle('on', DPIPS[n].indexOf(k) >= 0); }); dieEl.classList.toggle('one', n === 1); }
+  setDieFace(6);
+  var tlEl = h('div', { class: 'l3-tl' },
+    h('button', { type: 'button', 'aria-label': tx('back'), title: tx('back'), text: '✕', onclick: function () { api.sfx('tap'); exitGame(); } }),
+    api.settings ? h('button', { type: 'button', 'aria-label': tx('settings'), title: tx('settings'), text: '⚙', onclick: function () { api.sfx('tap'); api.settings(); } }) : null);
+  root.append(panelsEl, coinEl, bot, dieEl, tlEl);
   function flashCoin(t) { var f = h('div', { class: 'l3-fly', text: t, style: { transform: 'translateX(-50%)' } }); root.append(f); requestAnimationFrame(function () { f.style.transform = 'translate(-50%,-30px)'; f.style.opacity = '0'; }); setTimeout(function () { f.remove(); }, 1300); }
   function popEmote(e) { var p = h('div', { class: 'l3-pop', text: e, style: { left: (20 + Math.random() * 60) + '%', top: '55%' } }); root.append(p); requestAnimationFrame(function () { p.style.transform = 'translateY(-120px) scale(1.4)'; p.style.opacity = '0'; }); setTimeout(function () { p.remove(); }, 1500); api.sfx('pop'); }
 
@@ -426,13 +532,46 @@ WTG.register3d('ludo3d', function (M, api) {
   }
   function placePanels() {
     if (!S) return;
-    var portrait = X.H > X.W * 1.05;
+    var portrait = X.H > X.W * 1.05, F = flat();
+    root.classList.toggle('l3-flat', F);
+    if (F && portrait) {
+      // just outside the top and bottom edges of the board
+      var yT = X.toScreen(new T.Vector3(0, 0, -8.1)).y, yB = X.toScreen(new T.Vector3(0, 0, 8.1)).y;
+      S.seats.forEach(function (s) {
+        var el = panels[s.c]; if (!el) return;
+        var y = YARD[s.c], px = y[1] + 3 - 7.5, pz = y[0] + 3 - 7.5, rx = px * Math.cos(yaw) + pz * Math.sin(yaw), rz = -px * Math.sin(yaw) + pz * Math.cos(yaw);
+        el.style.left = rx < 0 ? (rz < 0 ? '50px' : '6px') : ''; el.style.right = rx < 0 ? '' : '6px'; el.style.bottom = '';
+        el.style.top = (rz < 0 ? Math.max(30, yT - 84) : Math.min(X.H - 96, yB + 6)) + 'px';
+      });
+      placeDie(); return;
+    }
     S.seats.forEach(function (s) {
       var el = panels[s.c]; if (!el) return;
       var y = YARD[s.c], px = y[1] + 3 - 7.5, pz = y[0] + 3 - 7.5, rx = px * Math.cos(yaw) + pz * Math.sin(yaw), rz = -px * Math.sin(yaw) + pz * Math.cos(yaw);
       el.style.left = rx < 0 ? '6px' : ''; el.style.right = rx < 0 ? '' : '6px';
-      el.style.top = rz < 0 ? (portrait ? '44px' : '10px') : ''; el.style.bottom = rz < 0 ? '' : (portrait ? '12px' : '10px');
+      el.style.top = rz < 0 ? (portrait ? '44px' : F ? '58px' : '10px') : ''; el.style.bottom = rz < 0 ? '' : (portrait ? '12px' : '10px');
     });
+    placeDie();
+  }
+  function placeDie() {
+    var F = flat() && S && !S.over;
+    dieEl.hidden = !F; rollBtn.hidden = flat();
+    dice.visible = !flat();
+    if (!F) return;
+    var cs = curSeat(S), el = panels[cs.c]; if (!el) return;
+    var left = el.style.left !== '';
+    dieEl.style.left = (left ? el.offsetLeft + el.offsetWidth + 2 : el.offsetLeft - 62) + 'px';
+    dieEl.style.top = (el.offsetTop - 2) + 'px';
+    dieEl.style.setProperty('--c', CSS[cs.c]);
+    var can = isMine(cs) && !S.rolled && !busy();
+    dieEl.disabled = !can; dieEl.classList.toggle('go', can && !DA);
+  }
+  function exitGame() {
+    if (net) { net.close(); net = null; } if (timer) { timer.cancel(); timer = null; }
+    hops = []; DA = null; S = null; highlight = []; finished = true;
+    Object.keys(tokens).forEach(function (k) { world.remove(tokens[k].g); }); tokens = {};
+    panelsEl.innerHTML = ''; panels = {}; dieEl.hidden = true; msgEl.textContent = '';
+    homeScreen();
   }
   function renderHud() {
     if (!S) return;
@@ -447,6 +586,7 @@ WTG.register3d('ludo3d', function (M, api) {
     msgEl.textContent = t; msgEl.style.color = CSS[S.over ? S.win : cs.c];
     rollBtn.disabled = !(mine && !S.rolled && !S.over && !busy());
     rollBtn.style.display = S.over ? 'none' : '';
+    placeDie();
     coinEl.textContent = '🪙 ' + coins() + '   💎 ' + gems();
   }
   function winText() { if (S.team) return tx('teamWin', cname(S.win % 2) + ' & ' + cname(S.win % 2 + 2)); return tx('win', seatName(seatOf(S, S.win))); }
@@ -896,8 +1036,14 @@ WTG.register3d('ludo3d', function (M, api) {
 
   // ------------------------------------------------------------------ camera and frame loop
   function placeCam() {
-    var portrait = X.H > X.W * 1.05, top = api.cfg('cam', 'tilt') === 'top';
-    if (top) { cam.position.set(0, portrait ? 34 : 25, portrait ? 3 : 2.2); cam.lookAt(0, 0, portrait ? 0.6 : 0.3); }
+    var portrait = X.H > X.W * 1.05, top = flat();
+    if (top) {
+      // straight down; the board fills the width on a phone and leaves room above and below for the players
+      var vf = cam.fov * Math.PI / 360, W = X.W, H = X.H;
+      var P = portrait ? Math.min(W * 0.98, H - 214) : Math.min(H * 0.95, W - 260), topPx = portrait ? 114 + (H - 214 - P) / 2 : (H - P) / 2;
+      var upp = 16.2 / P, dist = H * upp / (2 * Math.tan(vf)), tz = -((topPx + P / 2) - H / 2) * upp;
+      cam.position.set(0, dist, tz + dist * 0.035); cam.lookAt(0, 0, tz);
+    }
     else {
       // fit the whole board (with its frame) in the view, whatever the screen shape; leave room for the players around it
       var a = X.W / Math.max(1, X.H), vf = cam.fov * Math.PI / 360, hf = Math.atan(Math.tan(vf) * a);

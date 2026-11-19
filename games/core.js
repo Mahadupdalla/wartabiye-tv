@@ -206,6 +206,7 @@
         h('div', { class: 'wtg-scores' }, h('span', null, h('small', { text: s('score') }), scoreEl), h('span', null, h('small', { text: s('best') }), bestEl), extraEl),
         h('div', { class: 'wtg-btns' }, pauseBtn, restartBtn, gearBtn, soundBtn, helpBtn, fullBtn)),
       h('div', { class: 'wtg-main' }, stage, overlay), toastEl);
+    if (game.direct) root.classList.add('wtg-slim');   // games with their own app screens get a one-row bar
     function applyLook() {
       var G = WTG.gprefs(); root.style.setProperty('--tx', G.text); root.classList.toggle('wtg-calm', !!G.calm); root.classList.toggle('wtg-big', G.text > 1);
       prefList().forEach(function (P) { if (P.css) stage.setAttribute('data-' + P.k, String(prefVal(P))); });
@@ -256,6 +257,7 @@
       load: function (k, d) { var D = WTG.data(); var v = D.saves[game.id]; return v && k in v ? v[k] : d; },
       save: function (k, v) { WTG.update(function (D) { var x = D.saves[game.id] || (D.saves[game.id] = {}); if (v === undefined) delete x[k]; else x[k] = v; }); },
       achieve: function (key, label) { award(game.id + ':' + key, label); },
+      settings: function () { settings(); },
       win: function (score, msg) { end(true, score, msg); }, lose: function (score, msg) { end(false, score, msg); },
       end: function (o) { o = o || {}; end(!!o.won, o.score, o.msg); },
       isOver: function () { return state.over; }
