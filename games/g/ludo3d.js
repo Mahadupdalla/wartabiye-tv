@@ -548,8 +548,8 @@ WTG.register3d('ludo3d', function (M, api) {
     S.seats.forEach(function (s) {
       var el = panels[s.c]; if (!el) return;
       var y = YARD[s.c], px = y[1] + 3 - 7.5, pz = y[0] + 3 - 7.5, rx = px * Math.cos(yaw) + pz * Math.sin(yaw), rz = -px * Math.sin(yaw) + pz * Math.cos(yaw);
-      el.style.left = rx < 0 ? '6px' : ''; el.style.right = rx < 0 ? '' : '6px';
-      el.style.top = rz < 0 ? (portrait ? '44px' : F ? '58px' : '10px') : ''; el.style.bottom = rz < 0 ? '' : (portrait ? '12px' : '10px');
+      el.style.left = rx < 0 ? (F && rz < 0 ? '52px' : '6px') : ''; el.style.right = rx < 0 ? '' : '6px';
+      el.style.top = rz < 0 ? (portrait ? '44px' : F ? '74px' : '10px') : ''; el.style.bottom = rz < 0 ? '' : (portrait ? '12px' : '10px');
     });
     placeDie();
   }
