@@ -164,8 +164,8 @@ footer.gf a{color:#fff;font-weight:700}
 .field small{color:var(--muted)}
 .tbl{width:100%;border-collapse:collapse;font-size:14px}.tbl td,.tbl th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:start}.tbl th{color:var(--muted);font-size:12px;text-transform:uppercase}
 .tbl td.n{text-align:end;font-variant-numeric:tabular-nums;font-weight:800}
-.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
-.ach{border:1px solid var(--line);border-radius:12px;padding:8px;font-size:13px;display:flex;gap:6px;align-items:center}
+.achs{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px}
+.ach{border:1px solid var(--line);border-radius:14px;aspect-ratio:1;font-size:28px;display:flex;align-items:center;justify-content:center;background:var(--surface)}
 .ach.lock{opacity:.45;filter:grayscale(1)}
 .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stats3 div{background:var(--chip);border-radius:12px;padding:10px;text-align:center}.stats3 b{display:block;font-size:20px;font-family:var(--display)}.stats3 small{color:var(--muted);font-size:12px}
 
