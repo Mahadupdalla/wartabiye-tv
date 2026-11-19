@@ -9,7 +9,7 @@
   var WTG = window.WTG = window.WTG || {};
   var engines = {}, waiting = {};
   // every game file in games/g/ (a game in data/games.json with any other engine is not shown)
-  WTG.ENGINES = ['blocks', 'brain', 'builder', 'checkers', 'chess', 'coloring', 'crossword', 'dominoes', 'draw', 'four', 'hoops', 'kidsquiz', 'ludo', 'maze', 'memory', 'merge', 'pairs', 'parking', 'penalty', 'racer', 'reaction', 'runner', 'shapes', 'slide', 'snake', 'solitaire', 'spell', 'sudoku', 'tiles', 'trivia', 'wordsearch'];
+  WTG.ENGINES = ['blocks', 'brain', 'builder', 'checkers', 'chess', 'coloring', 'crossword', 'dominoes', 'draw', 'four', 'hoops', 'hoops3d', 'kidsquiz', 'ludo', 'maze', 'memory', 'merge', 'pairs', 'parking', 'penalty', 'penalty3d', 'racer', 'racer3d', 'reaction', 'runner', 'runner3d', 'shapes', 'slide', 'snake', 'solitaire', 'spell', 'sudoku', 'tiles', 'trivia', 'wordsearch'];
   WTG.register = function (id, factory) { engines[id] = factory; (waiting[id] || []).forEach(function (f) { f(); }); delete waiting[id]; };
 
   // ------------------------------------------------------------------ language
@@ -122,11 +122,19 @@
 
   // ------------------------------------------------------------------ loading a game file
   var VER = (document.currentScript && (document.currentScript.src.split('?v=')[1] || '')) || '';
+  // 3D games: the shared toolkit (three.js subset) is loaded once, only when a 3D game is opened
+  var w3d = null;
+  WTG.w3d = function () { return w3d || (w3d = import('./vendor/w3d.js' + (VER ? '?v=' + VER : '')).catch(function (e) { w3d = null; throw e; })); };
+  WTG.webgl = function () { try { var c = document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl'))); } catch (e) { return false; } };
+  // a 3D game file calls WTG.register3d(id, factory(M, api)); if the toolkit cannot load, the player shows the retry screen
+  WTG.register3d = function (id, factory) {
+    WTG.w3d().then(function (M) { WTG.register(id, function (api) { return factory(M, api); }); }, function () { (waiting[id] || []).forEach(function (f) { f(true); }); delete waiting[id]; delete engines[id]; var sc = document.querySelector('script[data-engine="' + id + '"]'); if (sc) sc.remove(); });
+  };
   WTG.load = function (engine) {
     return new Promise(function (ok, bad) {
       if (engines[engine]) return ok(engines[engine]);
       if (!/^[a-z0-9-]{1,40}$/.test(engine)) return bad(new Error('bad engine'));
-      (waiting[engine] = waiting[engine] || []).push(function () { ok(engines[engine]); });
+      (waiting[engine] = waiting[engine] || []).push(function (failed) { if (failed) bad(new Error('3d')); else ok(engines[engine]); });
       if (document.querySelector('script[data-engine="' + engine + '"]')) return;
       var s = document.createElement('script');
       s.src = 'g/' + engine + '.js' + (VER ? '?v=' + VER : '');
@@ -154,6 +162,8 @@
     if (cur) WTG.close(true);
     hooks = hooks || {};
     var s = WTG.s, t = WTG.t;
+    // a 3D game names a 2D engine in "fallback" for devices without WebGL
+    var engine = game.fallback && WTG.ENGINES.indexOf(game.fallback) >= 0 && !WTG.webgl() ? game.fallback : game.engine;
     var levels = game.levels === false ? null : ['easy', 'medium', 'hard'];
     var lvKey = 'wtg-level-' + game.id;
     var level = lsGet(lvKey, game.defaultLevel || (game.cats && game.cats.indexOf('kids') >= 0 && game.cats.length === 1 ? 'easy' : 'medium'));
@@ -265,7 +275,7 @@
       bestEl.classList.remove('up'); state.best = WTG.data().best[game.id] || 0; bestEl.textContent = String(state.best);
       pauseBtn.innerHTML = ic('pause'); pauseBtn.setAttribute('aria-label', s('pause')); pauseBtn.title = s('pause');
       try {
-        state.inst = engines[game.engine](api) || {};
+        state.inst = engines[engine](api) || {};
         sizeStage();
         if (state.inst.start) state.inst.start();
       } catch (e) { console.warn('[games]', game.id, e); fail(); return; }
@@ -356,7 +366,7 @@
 
     // load the game's file, then show the instructions
     var p = panel(); p.append(h('div', { class: 'wtg-spin', 'aria-hidden': 'true' }), h('p', { text: s('loading') }));
-    WTG.load(game.engine).then(function () { if (cur === state) intro(); }).catch(function () {
+    WTG.load(engine).then(function () { if (cur === state) intro(); }).catch(function () {
       if (cur !== state) return;
       var p2 = panel(); p2.append(h('div', { class: 'wtg-pi', text: '📶' }), h('p', { text: s('fail') }), h('button', { type: 'button', class: 'wtg-go', text: s('retry'), onclick: function () { WTG.open(game, hooks); } }), h('button', { type: 'button', class: 'wtg-sec', text: s('exit'), onclick: function () { WTG.close(); } }));
     });

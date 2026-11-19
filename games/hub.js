@@ -40,7 +40,7 @@
   function catLabel(c) { return u(c); }
   function thumb(g) {
     var b = h('button', { type: 'button', class: 'thumb', 'aria-label': u('play') + ': ' + t(g.title), onclick: function () { play(g); } });
-    if (g.thumb && /^(img\/|https:\/\/)/.test(g.thumb)) b.append(h('img', { src: (/^img\//.test(g.thumb) ? '../' : '') + g.thumb, alt: '', loading: 'lazy', decoding: 'async', onerror: function () { this.remove(); } }));
+    if (g.thumb && /^(img\/|https:\/\/)/.test(g.thumb)) b.append(h('img', { src: (/^img\//.test(g.thumb) ? '../' : '') + g.thumb, alt: '', loading: 'lazy', decoding: 'async', onload: function () { b.classList.add('has'); }, onerror: function () { this.remove(); } }));
     b.append(h('span', { class: 'em', 'aria-hidden': 'true', text: g.icon || '🎮' }), h('span', { class: 'play', 'aria-hidden': 'true', text: '▶ ' + u('play') }));
     return b;
   }
@@ -128,7 +128,7 @@
     var dots = h('div', { class: 'feat-dots' }), i = 0;
     var slides = list.map(function (g, k) {
       var art = h('div', { class: 'feat-art', 'aria-hidden': 'true' });
-      if (g.thumb && /^(img\/|https:\/\/)/.test(g.thumb)) art.append(h('img', { src: (/^img\//.test(g.thumb) ? '../' : '') + g.thumb, alt: '' })); else art.textContent = g.icon || '🎮';
+      if (g.thumb && /^(img\/|https:\/\/)/.test(g.thumb)) { art.classList.add('pic'); art.append(h('img', { src: (/^img\//.test(g.thumb) ? '../' : '') + g.thumb, alt: '' })); } else art.textContent = g.icon || '🎮';
       var sl = h('div', { class: 'feat-slide' + (k ? '' : ' on'), style: { background: 'linear-gradient(120deg,' + (g.color || '#037BDC') + ',#04213f 85%)' }, 'aria-hidden': String(!!k) },
         h('div', { class: 'fx' }, h('small', { text: '★ ' + u('featured') }), h('h2', { text: t(g.title) }), h('p', { text: t(g.desc) }), h('button', { type: 'button', class: 'btn', tabindex: k ? '-1' : null, html: '▶ <span>' + u('play') + '</span>', onclick: function () { play(g); } })), art);
       dots.append(h('button', { type: 'button', 'aria-label': t(g.title), 'aria-current': String(!k), onclick: function () { show(k); restartTimer(); } }));
