@@ -32,7 +32,7 @@ jobs:
         with: { node-version: '22' }
       - run: npm ci --no-audit --no-fund
       - run: node scripts/prepare.mjs
-      - run: npm i --no-save --no-audit --no-fund playwright@1.55.0 >/dev/null && npx playwright install --with-deps chromium >/dev/null
+      - run: npm i --no-save --no-audit --no-fund playwright@1.63.0 >/dev/null && npx playwright install --with-deps chromium >/dev/null
       - name: Publishing tool with the real content
         env:
           GH_TOKEN: ${{ github.token }}

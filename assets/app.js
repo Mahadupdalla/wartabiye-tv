@@ -995,7 +995,7 @@
 
   // ---------- site settings (data/site.json) ----------
   function sec(k){return !(SITE&&SITE.sections&&SITE.sections[k]===false)}
-  var NAVMAP={'#hoyga':'home','#soomaaliya':'somaliaNav','#bariga-afrika':'eastAfrica','#wararka-tooska':'liveNewsNav','#ciyaaraha':'sports','#caalamka':'world','#muuqaal':'videoNewsNav','#toos':'liveTvNav','#ciyaaraha-toos':'navLiveSports','#xayeysiimaha':'advertise','#nagu-saabsan':'aboutUs','#xiriir':'contact','#kaydsan':'saved','#raadi':'advSearch'};
+  var NAVMAP={'#hoyga':'home','#soomaaliya':'somaliaNav','#bariga-afrika':'eastAfrica','#wararka-tooska':'liveNewsNav','#ciyaaraha':'sports','#caalamka':'world','#muuqaal':'videoNewsNav','#toos':'liveTvNav','#ciyaaraha-toos':'navLiveSports','#xayeysiimaha':'advertise','#nagu-saabsan':'aboutUs','#xiriir':'contact','#kaydsan':'saved','#raadi':'advSearch','games/':'gamesNav'};
   var NAVSEC={'#muuqaal':'videos','#wararka-tooska':'liveNews','#toos':'live','#ciyaaraha-toos':'liveSports'};
   var NAVLIVE={'#wararka-tooska':1,'#toos':1,'#ciyaaraha-toos':1};
   function applySite(){

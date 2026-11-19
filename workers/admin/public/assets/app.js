@@ -181,6 +181,7 @@
     media: { title: 'Media Library', native: 'media' },
     homepage: { title: 'Homepage', native: 'homepage' },
     ads: { title: 'Advertising', native: 'ads' },
+    games: { title: 'Games', native: 'games' },
     notifications: { title: 'Notifications', cms: '#/collections/alerts', links: [['Alerts', '#/collections/alerts'], ['Notification settings & delivery log', '#/collections/notify']] },
     settings: { title: 'Website settings', native: 'settings' },
   };

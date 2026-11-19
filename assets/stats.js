@@ -23,6 +23,7 @@
   function pathNow() {
     var h = '';
     try { h = decodeURIComponent((location.hash || '').slice(1)); } catch (e) { h = (location.hash || '').slice(1); }
+    if (window.WARTABIYE_ROUTE === 'games') { var g = /^play-([a-z0-9-]{1,35})$/.exec(h.toLowerCase()); return { p: g ? '/games-' + g[1] : '/games' }; }
     if (!h && window.WARTABIYE_STORY) h = 'war-' + window.WARTABIYE_STORY;
     if (!h && window.WARTABIYE_ROUTE) h = window.WARTABIYE_ROUTE;
     var base = h.split('?')[0].toLowerCase();
