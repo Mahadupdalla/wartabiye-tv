@@ -465,12 +465,12 @@ WTG.register3d('ludo3d', function (M, api) {
     '.l3-flycoin .fc{width:34px;height:34px;display:block}',
     '.l3-die{position:absolute;left:0;top:0;width:60px;height:60px;border:0;border-radius:15px;padding:8px;background:linear-gradient(160deg,#ffffff,#dbe4ef);box-shadow:0 0 0 4px var(--c,#ef4444),0 0 0 6px #fff,0 6px 0 5px rgba(0,0,0,.3),0 12px 22px rgba(0,0,0,.45);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:2px;pointer-events:auto;cursor:pointer;transition:left .3s,top .3s;z-index:3}',
     '.l3-die i{border-radius:50%;background:radial-gradient(circle at 35% 30%,#64748b,#020617 70%);visibility:hidden}.l3-die i.on{visibility:visible}.l3-die.one i.on{background:radial-gradient(circle at 35% 30%,#ff8a8a,#b91c1c 70%)}',
-    '.l3-die.go{animation:l3pulse .6s infinite alternate}.l3-die.roll{animation:l3shake .14s infinite}.l3-die[disabled]{cursor:default}',
-    '@keyframes l3pulse{to{transform:scale(1.13)}}@keyframes l3shake{0%{transform:rotate(-14deg) scale(1.05)}50%{transform:rotate(14deg) scale(.95)}100%{transform:rotate(-14deg) scale(1.05)}}',
+    '.l3-die.go{animation:l3pulse .7s infinite alternate}.l3-die.roll{animation:none}.l3-die[disabled]{cursor:default}',
+    '@keyframes l3pulse{to{box-shadow:0 0 0 3px var(--c,#ef4444),0 0 0 5px #fff,0 0 18px 6px #ffd166,0 4px 0 3px rgba(0,0,0,.3)}}@keyframes l3shake{0%{transform:rotate(-14deg) scale(1.05)}50%{transform:rotate(14deg) scale(.95)}100%{transform:rotate(-14deg) scale(1.05)}}',
     '.l3-flat .l3-pl.on::before{content:"";position:absolute;top:-28px;left:50%;margin-left:-12px;border-left:12px solid transparent;border-right:12px solid transparent;border-top:18px solid #ffd166;filter:drop-shadow(0 2px 2px rgba(0,0,0,.55));animation:l3arr .45s infinite alternate}@keyframes l3arr{to{transform:translateY(8px)}}',
     '.l3-flat .l3-bot{bottom:6px}.l3-flat .l3-msg{font-size:13px;padding:6px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 200px)}.l3-flat .l3-coin{left:auto;right:8px;transform:none}',
     '.l3-flat .l3-pl{width:78px}.l3-flat .l3-pl .a{width:46px;height:46px;font-size:26px}.l3-flat .l3-pl span{max-width:78px;font-size:11px}.l3-flat .l3-pl.on{transform:scale(1.08)}',
-    '.l3-flat .l3-die{width:50px;height:50px;padding:7px;border-radius:13px}',
+    '.l3-flat .l3-die{width:40px;height:40px;padding:5px;border-radius:10px;gap:1px;box-shadow:0 0 0 3px var(--c,#ef4444),0 0 0 5px #fff,0 4px 0 3px rgba(0,0,0,.3),0 8px 14px rgba(0,0,0,.4);-webkit-tap-highlight-color:transparent;touch-action:manipulation}',
     '.l3-flat .l3-pl .a{border-radius:14px;background:linear-gradient(160deg,#ffffff,#cfe0f5)}.l3-flat .l3-pl.on .a{border-radius:16px}',
     '.l3-tl{position:absolute;left:6px;top:8px;display:flex;flex-direction:column;gap:8px;pointer-events:auto;z-index:2}.l3-tl button{width:38px;height:38px;border-radius:13px;border:2px solid rgba(255,255,255,.75);background:linear-gradient(#2b9bff,#0353a4);color:#fff;font:900 20px Archivo,sans-serif;box-shadow:0 4px 0 #02386f,0 8px 14px rgba(0,0,0,.4);cursor:pointer;display:grid;place-items:center;padding:0}',
     '@media (prefers-reduced-motion:reduce){.l3-die.go,.l3-die.roll,.l3-flat .l3-pl.on::before{animation:none}}',
@@ -568,8 +568,8 @@ WTG.register3d('ludo3d', function (M, api) {
     if (!F) return;
     var cs = curSeat(S), el = panels[cs.c]; if (!el) return;
     var left = el.style.left !== '';
-    dieEl.style.left = (left ? el.offsetLeft + el.offsetWidth + 2 : el.offsetLeft - 54) + 'px';
-    dieEl.style.top = (el.offsetTop - 2) + 'px';
+    dieEl.style.left = (left ? el.offsetLeft + el.offsetWidth + 4 : el.offsetLeft - 46) + 'px';
+    dieEl.style.top = (el.offsetTop + 3) + 'px';
     dieEl.style.setProperty('--c', CSS[cs.c]);
     var can = isMine(cs) && !S.rolled && !busy();
     dieEl.disabled = !can; dieEl.classList.toggle('go', can && !DA);
@@ -1043,12 +1043,16 @@ WTG.register3d('ludo3d', function (M, api) {
   }
 
   // ------------------------------------------------------------------ camera and frame loop
+  var fit = { W: 0, H: 0 };
+  X.cv.style.touchAction = 'none';   // no page zoom or scroll when you tap the board
   function placeCam() {
     var portrait = X.H > X.W * 1.05, top = flat();
     if (top) {
       // straight down; the board fills the width on a phone and leaves room above and below for the players
       var vf = cam.fov * Math.PI / 360, W = X.W, H = X.H;
-      var P = portrait ? Math.min(W * 0.92, H - 200) : Math.min(H * 0.95, W - 260), topPx = portrait ? 104 + (H - 200 - P) / 2 : (H - P) / 2;
+      // phones show and hide their address bar on a tap, which changes the height a little: keep the board's size and place steady
+      if (fit.W !== W || Math.abs(fit.H - H) > 160) { fit.W = W; fit.H = H; } else fit.H = Math.min(fit.H, H);
+      var H0 = fit.H, P = portrait ? Math.min(W * 0.92, H0 - 200) : Math.min(H0 * 0.95, W - 260), topPx = portrait ? 104 + (H0 - 200 - P) / 2 : (H0 - P) / 2;
       var upp = 16.2 / P, dist = H * upp / (2 * Math.tan(vf)), tz = -((topPx + P / 2) - H / 2) * upp;
       cam.position.set(0, dist, tz + dist * 0.035); cam.lookAt(0, 0, tz);
     }
