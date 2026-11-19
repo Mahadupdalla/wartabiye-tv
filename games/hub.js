@@ -24,12 +24,10 @@
   // ------------------------------------------------------------------ chrome
   function chrome() {
     document.documentElement.lang = L; document.documentElement.dir = L === 'ar' ? 'rtl' : 'ltr';
-    $('heroLead').textContent = u('lead'); $('newsTxt').textContent = u('news'); $('q').placeholder = u('search'); $('qLab').textContent = u('search');
+    $('newsTxt').textContent = u('news'); $('q').placeholder = u('search'); $('qLab').textContent = u('search');
     $('profTxt').textContent = u('profile'); $('profBtn').setAttribute('aria-label', u('profile')); $('themeBtn').setAttribute('aria-label', u('theme'));
     $('langSel').value = L; $('langSel').setAttribute('aria-label', u('lang'));
     $('yr').textContent = new Date().getFullYear();
-    var sf = $('safety'); sf.innerHTML = '';
-    sf.append(h('div', { class: 'si', text: '🛡️' }), h('div', null, h('h3', { text: u('safetyT') }), h('ul', null, u('safety').map(function (x) { return h('li', { text: x }); }))));
   }
   $('langSel').addEventListener('change', function () { try { localStorage.setItem('wartabiye-lang', this.value); } catch (e) {} var q = new URLSearchParams(location.search); q.delete('lang'); location.search = q.toString(); if (!q.toString()) location.reload(); });
   $('themeBtn').addEventListener('click', function () { var d = document.documentElement, n = d.dataset.theme === 'dark' ? 'light' : 'dark'; d.dataset.theme = n; try { localStorage.setItem('wartabiye-theme', n); } catch (e) {} });
@@ -55,8 +53,6 @@
       thumb(g), fb, badges,
       h('div', { class: 'cbody' },
         h('h3', { text: t(g.title) }),
-        h('p', { text: t(g.desc) }),
-        h('div', { class: 'meta' }, (g.cats || []).slice(0, 2).map(function (c) { return h('span', { text: CAT_ICON[c] + ' ' + catLabel(c) }); }), h('span', { class: 'd-' + diffOf(g), text: s(diffOf(g)) })),
         h('div', { class: 'cfoot' }, h('small', { text: best ? u('best') + ': ' + best : '' }), h('button', { type: 'button', class: 'playbtn', html: '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></svg><span>' + u('play') + '</span>', onclick: function () { play(g); } }))));
   }
   function isNew(g) { if (g.isNew) return true; var a = Date.parse(g.added || ''); return a && Date.now() - a < 21 * 864e5; }
@@ -72,7 +68,7 @@
     var nav2 = opts.grid ? null : h('div', { class: 'nav2' },
       h('button', { type: 'button', 'aria-label': '←', html: '<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>', onclick: function () { sc.scrollBy({ left: (L === 'ar' ? 1 : -1) * sc.clientWidth * 0.8, behavior: 'smooth' }); } }),
       h('button', { type: 'button', 'aria-label': '→', html: '<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>', onclick: function () { sc.scrollBy({ left: (L === 'ar' ? -1 : 1) * sc.clientWidth * 0.8, behavior: 'smooth' }); } }));
-    return h('section', { class: 'row', id: opts.id || null, 'aria-label': title }, h('div', { class: 'rowh' }, h('div', null, h('h2', { text: title }), sub ? h('p', { text: sub }) : null), nav2), sc);
+    return h('section', { class: 'row', id: opts.id || null, 'aria-label': title }, h('div', { class: 'rowh' }, h('div', null, h('h2', { text: title })), nav2), sc);
   }
 
   // ------------------------------------------------------------------ filters
@@ -130,7 +126,7 @@
       var art = h('div', { class: 'feat-art', 'aria-hidden': 'true' });
       if (g.thumb && /^(img\/|https:\/\/)/.test(g.thumb)) { art.classList.add('pic'); art.append(h('img', { src: (/^img\//.test(g.thumb) ? '../' : '') + g.thumb, alt: '' })); } else art.textContent = g.icon || '🎮';
       var sl = h('div', { class: 'feat-slide' + (k ? '' : ' on'), style: { background: 'linear-gradient(120deg,' + (g.color || '#037BDC') + ',#04213f 85%)' }, 'aria-hidden': String(!!k) },
-        h('div', { class: 'fx' }, h('small', { text: '★ ' + u('featured') }), h('h2', { text: t(g.title) }), h('p', { text: t(g.desc) }), h('button', { type: 'button', class: 'btn', tabindex: k ? '-1' : null, html: '▶ <span>' + u('play') + '</span>', onclick: function () { play(g); } })), art);
+        h('div', { class: 'fx' }, h('small', { text: '★ ' + u('featured') }), h('h2', { text: t(g.title) }), h('button', { type: 'button', class: 'btn', tabindex: k ? '-1' : null, html: '▶ <span>' + u('play') + '</span>', onclick: function () { play(g); } })), art);
       dots.append(h('button', { type: 'button', 'aria-label': t(g.title), 'aria-current': String(!k), onclick: function () { show(k); restartTimer(); } }));
       F.append(sl); return sl;
     });
@@ -162,7 +158,7 @@
   function meCard() {
     var me = WTG.me(), D = WTG.data(), plays = 0; for (var k in D.plays) plays += D.plays[k];
     var box = $('meCard'); box.innerHTML = '';
-    box.append(h('div', { class: 'av', text: me.avatar }), h('div', { class: 'mi' }, h('b', { text: me.name }), h('span', { text: u('played') + ': ' + plays + ' · 🏆 ' + Object.keys(D.ach).length + ' · ' + u('total') + ': ' + (D.total || 0) })),
+    box.append(h('div', { class: 'av', text: me.avatar }), h('div', { class: 'mi' }, h('b', { text: me.name }), h('span', { text: u('played') + ': ' + plays + ' · 🏆 ' + Object.keys(D.ach).length + ' · ' + u('total') + ': ' + (D.total || 0) + ' · 🪙 ' + (D.coins || 0) })),
       h('button', { type: 'button', class: 'btn ghost small', text: u('profile'), onclick: function () { profile(); } }));
     $('profAv').textContent = me.avatar;
   }
@@ -196,7 +192,7 @@
     var nm = h('input', { id: 'pname', maxlength: '16', value: me.name, autocomplete: 'off' });
     var av = me.avatar, avs = h('div', { class: 'avs', role: 'radiogroup', 'aria-label': u('avatar') });
     WTG.AVATARS.forEach(function (a) { avs.append(h('button', { type: 'button', role: 'radio', 'aria-pressed': String(a === av), 'aria-checked': String(a === av), text: a, onclick: function () { av = a; [].forEach.call(avs.children, function (b) { b.setAttribute('aria-pressed', String(b.textContent === a)); b.setAttribute('aria-checked', String(b.textContent === a)); }); } })); });
-    sec.append(h('div', { class: 'field' }, h('label', { for: 'pname', text: u('name') }), nm, h('small', { text: u('nameHint') })), h('div', { class: 'field' }, h('span', { text: u('avatar') }), avs),
+    sec.append(h('div', { class: 'field' }, h('label', { for: 'pname', text: u('name') }), nm), h('div', { class: 'field' }, h('span', { text: u('avatar') }), avs),
       h('button', { type: 'button', class: 'btn blue small', text: u('save'), onclick: function () { var P2 = WTG.profiles(); P2.list.forEach(function (p) { if (p.id === P2.current) { p.name = clean(nm.value) || p.name; p.avatar = av; } }); WTG.saveProfiles(P2); refreshTop(); profile(); } }));
     var plays = played(D);
     sec.append(h('div', { class: 'stats3', style: { marginTop: '14px' } }, h('div', null, h('b', { text: String(plays) }), h('small', { text: u('played') })), h('div', null, h('b', { text: String(Object.keys(D.ach).length) }), h('small', { text: u('ach') })), h('div', null, h('b', { text: String(D.total || 0) }), h('small', { text: u('total') }))));
@@ -211,7 +207,7 @@
     sec.append(pl);
     if (P.list.length < 8) sec.append(h('button', { type: 'button', class: 'btn line small', style: { marginTop: '8px' }, text: u('newPlayer'), onclick: function () { var P2 = WTG.profiles(); var id = 'p' + Date.now().toString(36); P2.list.push({ id: id, name: u('player') + ' ' + (P2.list.length + 1), avatar: WTG.AVATARS[P2.list.length % WTG.AVATARS.length], created: Date.now() }); P2.current = id; WTG.saveProfiles(P2); refreshTop(); profile(); setTimeout(function () { var i = $('pname'); if (i) { i.focus(); i.select(); } }, 50); } }));
     // leaderboard across players on this device
-    sec.append(h('h3', { text: u('board') }), h('p', { class: 'g-note', style: { color: 'var(--muted)', textAlign: 'start', margin: '0 0 6px' }, text: u('boardSub') }));
+    sec.append(h('h3', { text: u('board') }));
     var lb = P.list.map(function (p) { var d = WTG.data(p.id); return { p: p, total: d.total || 0, plays: played(d), ach: Object.keys(d.ach).length }; }).sort(function (a, b) { return b.total - a.total; });
     sec.append(h('table', { class: 'tbl' }, h('thead', null, h('tr', null, h('th', { text: '#' }), h('th', { text: u('player') }), h('th', { text: '🏆' }), h('th', { text: u('total') }))),
       h('tbody', null, lb.map(function (r, i) { return h('tr', null, h('td', { text: ['🥇', '🥈', '🥉'][i] || String(i + 1) }), h('td', { text: r.p.avatar + ' ' + r.p.name }), h('td', { class: 'n', text: String(r.ach) }), h('td', { class: 'n', text: String(r.total) })); }))));
@@ -223,8 +219,8 @@
     // achievements
     sec.append(h('h3', { text: u('ach') + ' (' + Object.keys(D.ach).length + ')' }));
     var ag = h('div', { class: 'achs' });
-    GLOBAL_ACH.forEach(function (a) { var got = D.ach['g:' + a[0]]; ag.append(h('div', { class: 'ach' + (got ? '' : ' lock'), title: t(a[2]) }, h('span', { text: a[1] }), h('span', { text: t(a[2]) }))); });
-    Object.keys(D.ach).filter(function (k) { return k.indexOf('g:') !== 0; }).sort(function (a, b) { return D.ach[b].at - D.ach[a].at; }).forEach(function (k) { var A = D.ach[k], g = BY[A.game]; ag.append(h('div', { class: 'ach' }, h('span', { text: g ? g.icon : '🏆' }), h('span', { text: A.label ? t(A.label) : k }))); });
+    GLOBAL_ACH.forEach(function (a) { var got = D.ach['g:' + a[0]]; ag.append(h('div', { class: 'ach' + (got ? '' : ' lock'), title: t(a[2]), role: 'img', 'aria-label': t(a[2]) }, h('span', { text: a[1] }))); });
+    Object.keys(D.ach).filter(function (k) { return k.indexOf('g:') !== 0; }).sort(function (a, b) { return D.ach[b].at - D.ach[a].at; }).forEach(function (k) { var A = D.ach[k], g = BY[A.game]; ag.append(h('div', { class: 'ach', title: A.label ? t(A.label) : k, role: 'img', 'aria-label': A.label ? t(A.label) : k }, h('span', { text: g ? g.icon : '🏆' }))); });
     sec.append(ag);
     document.body.append(dr);
     sec.querySelector('.x').focus();

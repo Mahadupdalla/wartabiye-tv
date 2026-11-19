@@ -1,6 +1,6 @@
 /* Merge 2048-style: slide the tiles, equal numbers merge. Original implementation. */
 WTG.register('merge', function (api) {
-  var N = api.level === 'easy' ? 5 : api.level === 'hard' ? 4 : 4, target = api.level === 'hard' ? 4096 : 2048;
+  var N = api.cfg('grid', api.level === 'easy' ? 5 : 4), target = api.level === 'hard' ? 4096 : 2048;
   var g, won, busy = false, undo = null;
   var COL = { 2: '#eef4fb', 4: '#dbe9f8', 8: '#7cc3ff', 16: '#3aa0f0', 32: '#037BDC', 64: '#0263b3', 128: '#ffd166', 256: '#ffb703', 512: '#fb8500', 1024: '#F2060A', 2048: '#b5179e', 4096: '#7209b7' };
   var board = api.h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(' + N + ',1fr)', gridTemplateRows: 'repeat(' + N + ',1fr)', gap: '10px', background: '#0b2545', padding: '10px', borderRadius: '18px', width: 'min(92vw, calc(var(--h) - 90px), 520px)', aspectRatio: '1', touchAction: 'none', boxShadow: '0 16px 40px rgba(0,0,0,.4)' } });

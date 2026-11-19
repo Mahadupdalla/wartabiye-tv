@@ -29,7 +29,7 @@ WTG.register('reaction', function (api) {
   });
   function next() { round++; if (round < ROUNDS) nextRound(); else targets(); }
   function spawn() {
-    var s = { easy: 70, medium: 56, hard: 42 }[api.level], b = h('span', { 'data-t': '1', style: { position: 'absolute', width: s + 'px', height: s + 'px', borderRadius: '50%', background: 'radial-gradient(circle,#fff 0 20%,#F2060A 21% 45%,#fff 46% 62%,#F2060A 63%)', left: Math.random() * 85 + '%', top: Math.random() * 80 + '%', boxShadow: '0 4px 10px rgba(0,0,0,.35)', animation: 'pop .2s' } });
+    var s = api.cfg('size', { easy: 70, medium: 56, hard: 42 }[api.level]), b = h('span', { 'data-t': '1', style: { position: 'absolute', width: s + 'px', height: s + 'px', borderRadius: '50%', background: 'radial-gradient(circle,#fff 0 20%,#F2060A 21% 45%,#fff 46% 62%,#F2060A 63%)', left: Math.random() * 85 + '%', top: Math.random() * 80 + '%', boxShadow: '0 4px 10px rgba(0,0,0,.35)', animation: 'pop .2s' } });
     pad.append(b);
     if (api.level !== 'easy') { var bb = b; api.after(api.level === 'hard' ? 900 : 1400, function () { if (bb.isConnected) { bb.remove(); spawn(); } }); }
   }

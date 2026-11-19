@@ -6,7 +6,7 @@ WTG.register3d('runner3d', function (M, api) {
   var scene = X.scene, cam = X.camera;
   scene.fog = new T.Fog(0x9fb4d8, 40, 95);
   var S = M.sun(scene, { color: 0xffd8a8, intensity: 2.4, hemi: 0.9, sky: 0xbcd4ff, ground: 0x3d3229, offset: new T.Vector3(-8, 16, 6), size: 16 });
-  var LANE = 2.4, sp0 = { easy: 11, medium: 14, hard: 18 }[api.level];
+  var LANE = 2.4, sp0 = api.cfg('speed', { easy: 11, medium: 14, hard: 18 }[api.level]);
 
   // ---------------------------------------------------------------- world
   var roadTex = M.canvasTex(512, 512, function (x, w, h) {
@@ -46,7 +46,7 @@ WTG.register3d('runner3d', function (M, api) {
   }
 
   // ---------------------------------------------------------------- runner
-  var P3 = M.person({ shirt: 0x037bdc, pants: 0x0f172a, shoe: 0xf2060a, skin: 0x8d5524, number: 7, cap: 0xf2060a });
+  var P3 = M.person({ shirt: api.cfg('shirt', 0x037bdc), pants: 0x0f172a, shoe: 0xf2060a, skin: 0x8d5524, number: 7, cap: 0xf2060a });
   P3.g.rotation.y = Math.PI; scene.add(P3.g);
   var pShadow = M.blob(0.55, 0.5); scene.add(pShadow);
 
@@ -81,7 +81,7 @@ WTG.register3d('runner3d', function (M, api) {
   function clear() { objs.forEach(function (o) { scene.remove(o.m); }); objs = []; }
   function reset() {
     clear(); P = { lane: 1, lx: 1, jump: 0, vy: 0, slide: 0, z: 0 }; speed = sp0; dist = 0; coins = 0; spawnZ = -24; t = 0; dead = false; hitT = 0; shake = 0;
-    lives = api.level === 'easy' ? 3 : 1; info(); hint.style.opacity = '1';
+    lives = api.cfg('lives', api.level === 'easy' ? 3 : 1); info(); hint.style.opacity = '1';
     blds.forEach(function (g, i) { g.position.z = -Math.floor(i / 2) * 8; }); lamps.forEach(function (l, i) { l.position.z = -i * 16; });
   }
   function spawn(z) {
@@ -138,7 +138,7 @@ WTG.register3d('runner3d', function (M, api) {
     pShadow.position.set(px, 0.27, P.z); pShadow.scale.setScalar(Math.max(0.4, 1 - P.jump * 0.25));
     road.position.z = P.z - 50; roadTex.offset.y = (-P.z / (160 / 12)) % 1; walks.forEach(function (w) { w.position.z = P.z - 50; w.material.map.offset.y = (-P.z / 4) % 1; });
     var sx = shake > 0 ? (Math.random() - 0.5) * shake : 0;
-    cam.position.set(px * 0.6 + sx, 2.75 + P.jump * 0.35, P.z + 5.6); cam.lookAt(px * 0.75, 1.25 + P.jump * 0.4, P.z - 6);
+    var far = api.cfg('cam') === 'far'; cam.position.set(px * 0.6 + sx, (far ? 3.6 : 2.75) + P.jump * 0.35, P.z + (far ? 8 : 5.6)); cam.lookAt(px * 0.75, 1.25 + P.jump * 0.4, P.z - 6);
     S.follow(new T.Vector3(px, 0, P.z - 6));
     X.render();
   }

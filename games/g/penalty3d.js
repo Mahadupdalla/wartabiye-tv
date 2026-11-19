@@ -8,7 +8,7 @@ WTG.register3d('penalty3d', function (M, api) {
     en: { aimX: 'Tap to lock the direction', aimY: 'Tap again to lock the height', swipe: 'or swipe at the goal', save: 'Tap where to dive', goal: 'GOAL!', saved: 'SAVED!', miss: 'MISSED', you: 'You', cpu: 'CPU' } };
   function tx(k) { return (TX[api.lang] || TX.en)[k] || TX.en[k]; }
   var GW = 7.32, GH = 2.44, SPOT = 11;
-  var skill = { easy: 0.25, medium: 0.4, hard: 0.55 }[api.level], cpuAcc = { easy: 0.6, medium: 0.72, hard: 0.85 }[api.level];
+  var R = api.cfg('rounds', 5), skill = { easy: 0.25, medium: 0.4, hard: 0.55 }[api.level], cpuAcc = { easy: 0.6, medium: 0.72, hard: 0.85 }[api.level];
 
   // ---------------------------------------------------------------- stadium
   scene.add(new T.AmbientLight(0x6b7da8, 0.5));
@@ -56,7 +56,7 @@ WTG.register3d('penalty3d', function (M, api) {
   // ---------------------------------------------------------------- players and ball
   var keeperY = M.person({ shirt: 0xf59e0b, pants: 0x111827, shoe: 0x111827, skin: 0x8d5524 }), keeperB = M.person({ shirt: 0x22c55e, pants: 0x111827, shoe: 0x111827, skin: 0x6b4423, hair: 0x1f1f1f });
   [keeperY, keeperB].forEach(function (k) { k.parts.armL.children[0].material = k.parts.armL.children[0].material.clone(); var gl = M.mat(0xffffff); k.parts.armL.userData.knee.children[1].material = gl; k.parts.armR.userData.knee.children[1].material = gl; k.g.position.set(0, 0, -0.3); scene.add(k.g); });
-  var shooterMe = M.person({ shirt: 0x037bdc, pants: 0xffffff, shoe: 0xf2060a, number: 10, bareLegs: true }), shooterCpu = M.person({ shirt: 0xdc2626, pants: 0x111827, shoe: 0xffffff, number: 9, bareLegs: true, skin: 0x5c3a21 });
+  var shooterMe = M.person({ shirt: api.cfg('kit', 0x037bdc), pants: 0xffffff, shoe: 0xf2060a, number: 10, bareLegs: true }), shooterCpu = M.person({ shirt: 0xdc2626, pants: 0x111827, shoe: 0xffffff, number: 9, bareLegs: true, skin: 0x5c3a21 });
   [shooterMe, shooterCpu].forEach(function (p) { p.g.rotation.y = Math.PI; scene.add(p.g); });
   var ball = M.ball('football', 0.11); scene.add(ball);
   var ballShadow = M.blob(0.16, 0.5); scene.add(ballShadow);
@@ -69,7 +69,7 @@ WTG.register3d('penalty3d', function (M, api) {
   var big = api.h('div', { style: { position: 'absolute', left: 0, right: 0, top: '38%', textAlign: 'center', fontSize: 'clamp(34px,9vw,64px)', fontWeight: 900, letterSpacing: '.04em', textShadow: '0 4px 18px rgba(0,0,0,.7)', opacity: 0, transition: 'opacity .25s, transform .25s' } });
   var tip = api.h('div', { style: { position: 'absolute', left: 0, right: 0, bottom: '12px', textAlign: 'center', fontWeight: 800, fontSize: '15px', textShadow: '0 2px 6px rgba(0,0,0,.8)', padding: '0 10px' } });
   X.hud.append(hudT, big, tip);
-  function dots(arr) { var s = ''; for (var i = 0; i < Math.max(5, arr.length); i++) s += arr[i] === undefined ? '⚪' : arr[i] ? '🟢' : '🔴'; return s; }
+  function dots(arr) { var s = ''; for (var i = 0; i < Math.max(R, arr.length); i++) s += arr[i] === undefined ? '⚪' : arr[i] ? '🟢' : '🔴'; return s; }
   function drawHud() { hudT.innerHTML = ''; hudT.append(api.h('span', { text: tx('you') + ' ' + myGoals }), api.h('span', { style: { fontSize: '11px' }, text: dots(mine) }), api.h('span', { text: '–' }), api.h('span', { style: { fontSize: '11px' }, text: dots(theirs) }), api.h('span', { text: cpuGoals + ' ' + tx('cpu') })); }
   function flash(s, col) { big.textContent = s; big.style.color = col || '#fff'; big.style.opacity = '1'; big.style.transform = 'scale(1.1)'; api.after(1100, function () { big.style.opacity = '0'; big.style.transform = 'scale(1)'; }); }
 
@@ -86,8 +86,8 @@ WTG.register3d('penalty3d', function (M, api) {
   }
   function done() {
     var n = Math.max(mine.length, theirs.length), sc = myGoals + ' – ' + cpuGoals;
-    if (mine.length === theirs.length && n >= 5 && (myGoals !== cpuGoals || n >= 10)) { if (myGoals > cpuGoals) api.win(api.score, { so: sc, en: sc }); else api.lose(api.score, { so: sc, en: sc }); return true; }
-    if (mine.length === theirs.length && mine.length < 5) { var left = 5 - mine.length; if (myGoals + left < cpuGoals || cpuGoals + left < myGoals) { if (myGoals > cpuGoals) api.win(api.score, { so: sc, en: sc }); else api.lose(api.score, { so: sc, en: sc }); return true; } }
+    if (mine.length === theirs.length && n >= R && (myGoals !== cpuGoals || n >= R * 2)) { if (myGoals > cpuGoals) api.win(api.score, { so: sc, en: sc }); else api.lose(api.score, { so: sc, en: sc }); return true; }
+    if (mine.length === theirs.length && mine.length < R) { var left = R - mine.length; if (myGoals + left < cpuGoals || cpuGoals + left < myGoals) { if (myGoals > cpuGoals) api.win(api.score, { so: sc, en: sc }); else api.lose(api.score, { so: sc, en: sc }); return true; } }
     return false;
   }
   function launch(target, keeperX, keeperHigh) {

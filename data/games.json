@@ -37,7 +37,7 @@
   },
   {
    "id": "four-homes",
-   "engine": "ludo",
+   "engine": "ludo3d",
    "icon": "🎲",
    "color": "#16a34a",
    "cats": [
@@ -46,8 +46,8 @@
     "adults"
    ],
    "tags": [
-    "popular",
-    "multi"
+    "multi",
+    "popular"
    ],
    "popular": true,
    "featured": true,
@@ -59,16 +59,18 @@
     "en": "Four Homes"
    },
    "desc": {
-    "so": "Ciyaar shax-laadhuu ah: geli afartaada gabal gurigooda ka hor inta kuwa kale.",
-    "en": "A dice race board game: bring all four of your tokens home first. Play the computer or friends."
+    "so": "Ciyaarta guryaha 3D ah: 2 ilaa 4 qof ama robot isla qalabka, ama online la ciyaar saaxiibadaa adoo isticmaalaya koodh gaar ah.",
+    "en": "The race board game in 3D: 2 to 4 people or robots on one device, or online with your friends using a private room code."
    },
    "how": {
-    "so": "Riix laadhuuga, kadibna taabo gabal. 6 ayaa gabal ka saara saldhigga. Meelaha xiddigta leh waa ammaan.",
-    "en": "Roll the dice, then tap a token to move. A 6 brings a token out. Star squares are safe."
+    "so": "Dooro ciyaartoyda (qof ama robot) ama samee qol online oo koodhka u dir saaxiibadaa.\nTaabo laadhuuga si aad u tuurto. 6 ayaa gabal guriga ka saara.\nTaabo gabalka iftiimaya si aad u dhaqaajiso. Gabal kale ku dul fadhiiso si aad gurigiisa ugu celiso (★ waa meel ammaan ah).\nAfarta gabal oo dhan geli xarunta si aad u guuleysato. Lacag-ciyaareed ku kasbo oo ku iibso laadhuug, gabalo iyo shax qurux badan.",
+    "en": "Choose the players (person or robot), or create an online room and send the code to your friends.\nTap the dice to roll. A 6 brings a token out of its home.\nTap a glowing token to move it. Land on another token to send it home (★ squares are safe).\nBring all four tokens to the centre to win. Earn play-coins and spend them on new dice, tokens and boards."
    },
    "thumb": "img/games/four-homes.webp",
    "dailyWin": true,
-   "isNew": true
+   "isNew": true,
+   "fallback": "ludo",
+   "ownCoins": true
   },
   {
    "id": "dominoes",

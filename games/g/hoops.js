@@ -2,7 +2,7 @@
    before the clock runs out. Original implementation. */
 WTG.register('hoops', function (api) {
   var W = 360, H = 600, C = api.canvas(W, H, 20), x = C.ctx;
-  var TIME = { easy: 75, medium: 60, hard: 45 }[api.level], G = 900;
+  var TIME = api.cfg('time', { easy: 75, medium: 60, hard: 45 }[api.level]), G = 900;
   var ball, hoop, dragging, start, cur, left, streak, made, shots, moving, scored, tries;
   function newHoop() { var m = api.level === 'easy' ? 0 : made; hoop = { x: 90 + Math.random() * 180, y: 170 + Math.random() * 60, vx: m >= 6 ? (api.level === 'hard' ? 70 : 40) * (Math.random() < 0.5 ? -1 : 1) : 0 }; }
   function newBall() { ball = { x: 90 + Math.random() * 180, y: H - 90, vx: 0, vy: 0, r: 18, live: false, rot: 0 }; scored = false; tries = 0; }

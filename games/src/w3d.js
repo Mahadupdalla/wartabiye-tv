@@ -38,8 +38,11 @@ export function setup(api, o) {
   o = o || {};
   const wrap = api.h('div', { class: 'w3d', style: { position: 'relative', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px' } });
   const box = api.h('div', { class: 'w3d-box', style: { position: 'relative', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 18px 40px rgba(0,0,0,.45)', touchAction: 'none', flex: '0 0 auto' } });
-  const renderer = new WebGLRenderer({ antialias: !mobile || devicePixelRatio < 2, powerPreference: 'high-performance', preserveDrawingBuffer: !!o.keep });
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.75 : 2));
+  // graphics quality from the player's settings: low = sharp enough and fast, high = full resolution
+  const gfx = api.gfx || 'auto';
+  if (gfx === 'low') o.shadows = false;
+  const renderer = new WebGLRenderer({ antialias: gfx !== 'low' && (!mobile || devicePixelRatio < 2 || gfx === 'high'), powerPreference: 'high-performance', preserveDrawingBuffer: !!o.keep });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, gfx === 'low' ? 1 : gfx === 'high' ? 2.5 : mobile ? 1.75 : 2));
   renderer.outputColorSpace = SRGBColorSpace; renderer.toneMapping = ACESFilmicToneMapping; renderer.toneMappingExposure = o.exposure || 1.05;
   if (o.shadows !== false) { renderer.shadowMap.enabled = true; renderer.shadowMap.type = PCFShadowMap; }
   const cv = renderer.domElement; cv.style.display = 'block'; cv.style.width = '100%'; cv.style.height = '100%'; cv.setAttribute('aria-label', o.label || '3D game');

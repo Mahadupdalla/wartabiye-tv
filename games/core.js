@@ -9,7 +9,7 @@
   var WTG = window.WTG = window.WTG || {};
   var engines = {}, waiting = {};
   // every game file in games/g/ (a game in data/games.json with any other engine is not shown)
-  WTG.ENGINES = ['blocks', 'brain', 'builder', 'checkers', 'chess', 'coloring', 'crossword', 'dominoes', 'draw', 'four', 'hoops', 'hoops3d', 'kidsquiz', 'ludo', 'maze', 'memory', 'merge', 'pairs', 'parking', 'penalty', 'penalty3d', 'racer', 'racer3d', 'reaction', 'runner', 'runner3d', 'shapes', 'slide', 'snake', 'solitaire', 'spell', 'sudoku', 'tiles', 'trivia', 'wordsearch'];
+  WTG.ENGINES = ['blocks', 'brain', 'builder', 'checkers', 'chess', 'coloring', 'crossword', 'dominoes', 'draw', 'four', 'hoops', 'hoops3d', 'kidsquiz', 'ludo', 'ludo3d', 'maze', 'memory', 'merge', 'pairs', 'parking', 'penalty', 'penalty3d', 'racer', 'racer3d', 'reaction', 'runner', 'runner3d', 'shapes', 'slide', 'snake', 'solitaire', 'spell', 'sudoku', 'tiles', 'trivia', 'wordsearch'];
   WTG.register = function (id, factory) { engines[id] = factory; (waiting[id] || []).forEach(function (f) { f(); }); delete waiting[id]; };
 
   // ------------------------------------------------------------------ language
@@ -22,15 +22,15 @@
   WTG.lang = pickLang();
   // shell words in every site language
   var S = {
-    so: { start: 'Bilow', pause: 'Jooji', resume: 'Sii wad', restart: 'Dib u bilow', sound: 'Codka', help: 'Sida loo ciyaaro', level: 'Heerka', easy: 'Fudud', medium: 'Dhexdhexaad', hard: 'Adag', score: 'Dhibcaha', best: 'Ugu fiican', paused: 'Waa la joojiyay', over: 'Ciyaartu way dhammaatay', win: 'Waad guuleysatay!', again: 'Mar kale ciyaar', exit: 'Ka bax', newBest: 'Dhibco cusub oo ugu fiican!', ach: 'Abaalmarin cusub', loading: 'Waa la soo rarayaa…', fail: 'Ciyaarta lama soo rarin. Hubi internetka oo isku day mar kale.', retry: 'Isku day mar kale', saved: 'Horumarkaaga waa la kaydiyay', controls: 'Kontaroolada', twoPlayer: '2 qof (isla qalab)', vsCpu: 'Kombiyuutar', mode: 'Qaabka' },
-    en: { start: 'Start', pause: 'Pause', resume: 'Resume', restart: 'Restart', sound: 'Sound', help: 'How to play', level: 'Difficulty', easy: 'Easy', medium: 'Medium', hard: 'Hard', score: 'Score', best: 'Best', paused: 'Paused', over: 'Game over', win: 'You win!', again: 'Play again', exit: 'Exit', newBest: 'New best score!', ach: 'Achievement unlocked', loading: 'Loading…', fail: 'The game could not load. Check your connection and try again.', retry: 'Try again', saved: 'Progress saved', controls: 'Controls', twoPlayer: '2 players (same device)', vsCpu: 'vs computer', mode: 'Mode' },
-    ar: { start: 'ابدأ', pause: 'إيقاف مؤقت', resume: 'متابعة', restart: 'إعادة', sound: 'الصوت', help: 'طريقة اللعب', level: 'الصعوبة', easy: 'سهل', medium: 'متوسط', hard: 'صعب', score: 'النقاط', best: 'الأفضل', paused: 'متوقفة مؤقتًا', over: 'انتهت اللعبة', win: 'لقد فزت!', again: 'العب مجددًا', exit: 'خروج', newBest: 'أفضل نتيجة جديدة!', ach: 'إنجاز جديد', loading: 'جارٍ التحميل…', fail: 'تعذّر تحميل اللعبة. تحقق من الاتصال وحاول مجددًا.', retry: 'حاول مجددًا', saved: 'تم حفظ التقدم', controls: 'التحكم', twoPlayer: 'لاعبان (نفس الجهاز)', vsCpu: 'ضد الكمبيوتر', mode: 'الوضع' },
-    fr: { start: 'Jouer', pause: 'Pause', resume: 'Reprendre', restart: 'Recommencer', sound: 'Son', help: 'Comment jouer', level: 'Difficulté', easy: 'Facile', medium: 'Moyen', hard: 'Difficile', score: 'Score', best: 'Record', paused: 'En pause', over: 'Partie terminée', win: 'Gagné !', again: 'Rejouer', exit: 'Quitter', newBest: 'Nouveau record !', ach: 'Succès débloqué', loading: 'Chargement…', fail: 'Le jeu n’a pas pu se charger. Vérifiez la connexion et réessayez.', retry: 'Réessayer', saved: 'Progression enregistrée', controls: 'Commandes', twoPlayer: '2 joueurs (même appareil)', vsCpu: 'contre l’ordinateur', mode: 'Mode' },
-    nl: { start: 'Start', pause: 'Pauze', resume: 'Verder', restart: 'Opnieuw', sound: 'Geluid', help: 'Speluitleg', level: 'Niveau', easy: 'Makkelijk', medium: 'Gemiddeld', hard: 'Moeilijk', score: 'Score', best: 'Beste', paused: 'Gepauzeerd', over: 'Spel voorbij', win: 'Gewonnen!', again: 'Nog een keer', exit: 'Stoppen', newBest: 'Nieuwe topscore!', ach: 'Prestatie behaald', loading: 'Laden…', fail: 'Het spel kon niet laden. Controleer de verbinding en probeer opnieuw.', retry: 'Opnieuw proberen', saved: 'Voortgang opgeslagen', controls: 'Besturing', twoPlayer: '2 spelers (zelfde apparaat)', vsCpu: 'tegen de computer', mode: 'Modus' },
-    it: { start: 'Gioca', pause: 'Pausa', resume: 'Riprendi', restart: 'Ricomincia', sound: 'Audio', help: 'Come si gioca', level: 'Difficoltà', easy: 'Facile', medium: 'Media', hard: 'Difficile', score: 'Punti', best: 'Record', paused: 'In pausa', over: 'Partita finita', win: 'Hai vinto!', again: 'Gioca ancora', exit: 'Esci', newBest: 'Nuovo record!', ach: 'Obiettivo sbloccato', loading: 'Caricamento…', fail: 'Il gioco non si è caricato. Controlla la connessione e riprova.', retry: 'Riprova', saved: 'Progressi salvati', controls: 'Comandi', twoPlayer: '2 giocatori (stesso dispositivo)', vsCpu: 'contro il computer', mode: 'Modalità' },
-    de: { start: 'Start', pause: 'Pause', resume: 'Weiter', restart: 'Neu starten', sound: 'Ton', help: 'Spielanleitung', level: 'Schwierigkeit', easy: 'Leicht', medium: 'Mittel', hard: 'Schwer', score: 'Punkte', best: 'Rekord', paused: 'Pausiert', over: 'Spiel vorbei', win: 'Gewonnen!', again: 'Nochmal spielen', exit: 'Beenden', newBest: 'Neuer Rekord!', ach: 'Erfolg freigeschaltet', loading: 'Lädt…', fail: 'Das Spiel konnte nicht geladen werden. Verbindung prüfen und erneut versuchen.', retry: 'Erneut versuchen', saved: 'Fortschritt gespeichert', controls: 'Steuerung', twoPlayer: '2 Spieler (gleiches Gerät)', vsCpu: 'gegen den Computer', mode: 'Modus' },
-    tr: { start: 'Başla', pause: 'Duraklat', resume: 'Devam', restart: 'Yeniden başla', sound: 'Ses', help: 'Nasıl oynanır', level: 'Zorluk', easy: 'Kolay', medium: 'Orta', hard: 'Zor', score: 'Puan', best: 'En iyi', paused: 'Duraklatıldı', over: 'Oyun bitti', win: 'Kazandın!', again: 'Tekrar oyna', exit: 'Çık', newBest: 'Yeni rekor!', ach: 'Başarı kazanıldı', loading: 'Yükleniyor…', fail: 'Oyun yüklenemedi. Bağlantını kontrol edip tekrar dene.', retry: 'Tekrar dene', saved: 'İlerleme kaydedildi', controls: 'Kontroller', twoPlayer: '2 oyuncu (aynı cihaz)', vsCpu: 'bilgisayara karşı', mode: 'Mod' },
-    es: { start: 'Jugar', pause: 'Pausa', resume: 'Continuar', restart: 'Reiniciar', sound: 'Sonido', help: 'Cómo jugar', level: 'Dificultad', easy: 'Fácil', medium: 'Media', hard: 'Difícil', score: 'Puntos', best: 'Récord', paused: 'En pausa', over: 'Fin del juego', win: '¡Has ganado!', again: 'Jugar otra vez', exit: 'Salir', newBest: '¡Nuevo récord!', ach: 'Logro desbloqueado', loading: 'Cargando…', fail: 'No se pudo cargar el juego. Revisa la conexión e inténtalo de nuevo.', retry: 'Reintentar', saved: 'Progreso guardado', controls: 'Controles', twoPlayer: '2 jugadores (mismo dispositivo)', vsCpu: 'contra el ordenador', mode: 'Modo' }
+    so: { start: 'Bilow', pause: 'Jooji', resume: 'Sii wad', restart: 'Dib u bilow', sound: 'Codka', help: 'Sida loo ciyaaro', level: 'Heerka', easy: 'Fudud', medium: 'Dhexdhexaad', hard: 'Adag', score: 'Dhibcaha', best: 'Ugu fiican', paused: 'Waa la joojiyay', over: 'Ciyaartu way dhammaatay', win: 'Waad guuleysatay!', again: 'Mar kale ciyaar', exit: 'Ka bax', newBest: 'Dhibco cusub oo ugu fiican!', ach: 'Abaalmarin cusub', loading: 'Waa la soo rarayaa…', fail: 'Ciyaarta lama soo rarin. Hubi internetka oo isku day mar kale.', retry: 'Isku day mar kale', saved: 'Horumarkaaga waa la kaydiyay', controls: 'Kontaroolada', twoPlayer: '2 qof (isla qalab)', vsCpu: 'Kombiyuutar', mode: 'Qaabka', settings: 'Habaynta', thisGame: 'Ciyaartan', allGames: 'Dhammaan ciyaaraha', volume: 'Heerka codka', voice: 'Akhris cod ah', vibration: 'Gariir', textSize: 'Cabbirka qoraalka', calm: 'Dhaqdhaqaaq yar', graphics: 'Tayada sawirka (3D)', auto: 'Iskiis', low: 'Hoose', high: 'Sare', on: 'Shid', off: 'Dami', apply: 'Kaydi oo ciyaar', reset: 'Dib u celi', cancel: 'Ka noqo', appliedNext: 'Habayntu waxay shaqaynaysaa ciyaarta xigta' },
+    en: { start: 'Start', pause: 'Pause', resume: 'Resume', restart: 'Restart', sound: 'Sound', help: 'How to play', level: 'Difficulty', easy: 'Easy', medium: 'Medium', hard: 'Hard', score: 'Score', best: 'Best', paused: 'Paused', over: 'Game over', win: 'You win!', again: 'Play again', exit: 'Exit', newBest: 'New best score!', ach: 'Achievement unlocked', loading: 'Loading…', fail: 'The game could not load. Check your connection and try again.', retry: 'Try again', saved: 'Progress saved', controls: 'Controls', twoPlayer: '2 players (same device)', vsCpu: 'vs computer', mode: 'Mode', settings: 'Settings', thisGame: 'This game', allGames: 'All games', volume: 'Volume', voice: 'Read aloud', vibration: 'Vibration', textSize: 'Text size', calm: 'Less motion', graphics: 'Graphics (3D)', auto: 'Auto', low: 'Low', high: 'High', on: 'On', off: 'Off', apply: 'Save and play', reset: 'Reset', cancel: 'Cancel', appliedNext: 'Settings apply from the next game' },
+    ar: { start: 'ابدأ', pause: 'إيقاف مؤقت', resume: 'متابعة', restart: 'إعادة', sound: 'الصوت', help: 'طريقة اللعب', level: 'الصعوبة', easy: 'سهل', medium: 'متوسط', hard: 'صعب', score: 'النقاط', best: 'الأفضل', paused: 'متوقفة مؤقتًا', over: 'انتهت اللعبة', win: 'لقد فزت!', again: 'العب مجددًا', exit: 'خروج', newBest: 'أفضل نتيجة جديدة!', ach: 'إنجاز جديد', loading: 'جارٍ التحميل…', fail: 'تعذّر تحميل اللعبة. تحقق من الاتصال وحاول مجددًا.', retry: 'حاول مجددًا', saved: 'تم حفظ التقدم', controls: 'التحكم', twoPlayer: 'لاعبان (نفس الجهاز)', vsCpu: 'ضد الكمبيوتر', mode: 'الوضع', settings: 'الإعدادات', thisGame: 'هذه اللعبة', allGames: 'كل الألعاب', volume: 'مستوى الصوت', voice: 'القراءة بصوت', vibration: 'الاهتزاز', textSize: 'حجم النص', calm: 'حركة أقل', graphics: 'الرسومات (3D)', auto: 'تلقائي', low: 'منخفضة', high: 'عالية', on: 'تشغيل', off: 'إيقاف', apply: 'حفظ واللعب', reset: 'إعادة الضبط', cancel: 'إلغاء', appliedNext: 'تُطبَّق الإعدادات من اللعبة التالية' },
+    fr: { start: 'Jouer', pause: 'Pause', resume: 'Reprendre', restart: 'Recommencer', sound: 'Son', help: 'Comment jouer', level: 'Difficulté', easy: 'Facile', medium: 'Moyen', hard: 'Difficile', score: 'Score', best: 'Record', paused: 'En pause', over: 'Partie terminée', win: 'Gagné !', again: 'Rejouer', exit: 'Quitter', newBest: 'Nouveau record !', ach: 'Succès débloqué', loading: 'Chargement…', fail: 'Le jeu n’a pas pu se charger. Vérifiez la connexion et réessayez.', retry: 'Réessayer', saved: 'Progression enregistrée', controls: 'Commandes', twoPlayer: '2 joueurs (même appareil)', vsCpu: 'contre l’ordinateur', mode: 'Mode', settings: 'Réglages', thisGame: 'Ce jeu', allGames: 'Tous les jeux', volume: 'Volume', voice: 'Lecture à voix haute', vibration: 'Vibration', textSize: 'Taille du texte', calm: 'Moins d’animations', graphics: 'Graphismes (3D)', auto: 'Auto', low: 'Bas', high: 'Élevé', on: 'Oui', off: 'Non', apply: 'Enregistrer et jouer', reset: 'Réinitialiser', cancel: 'Annuler', appliedNext: 'Les réglages s’appliquent à la prochaine partie' },
+    nl: { start: 'Start', pause: 'Pauze', resume: 'Verder', restart: 'Opnieuw', sound: 'Geluid', help: 'Speluitleg', level: 'Niveau', easy: 'Makkelijk', medium: 'Gemiddeld', hard: 'Moeilijk', score: 'Score', best: 'Beste', paused: 'Gepauzeerd', over: 'Spel voorbij', win: 'Gewonnen!', again: 'Nog een keer', exit: 'Stoppen', newBest: 'Nieuwe topscore!', ach: 'Prestatie behaald', loading: 'Laden…', fail: 'Het spel kon niet laden. Controleer de verbinding en probeer opnieuw.', retry: 'Opnieuw proberen', saved: 'Voortgang opgeslagen', controls: 'Besturing', twoPlayer: '2 spelers (zelfde apparaat)', vsCpu: 'tegen de computer', mode: 'Modus', settings: 'Instellingen', thisGame: 'Dit spel', allGames: 'Alle spellen', volume: 'Volume', voice: 'Voorlezen', vibration: 'Trillen', textSize: 'Tekstgrootte', calm: 'Minder beweging', graphics: 'Graphics (3D)', auto: 'Auto', low: 'Laag', high: 'Hoog', on: 'Aan', off: 'Uit', apply: 'Opslaan en spelen', reset: 'Herstellen', cancel: 'Annuleren', appliedNext: 'Instellingen gelden vanaf het volgende spel' },
+    it: { start: 'Gioca', pause: 'Pausa', resume: 'Riprendi', restart: 'Ricomincia', sound: 'Audio', help: 'Come si gioca', level: 'Difficoltà', easy: 'Facile', medium: 'Media', hard: 'Difficile', score: 'Punti', best: 'Record', paused: 'In pausa', over: 'Partita finita', win: 'Hai vinto!', again: 'Gioca ancora', exit: 'Esci', newBest: 'Nuovo record!', ach: 'Obiettivo sbloccato', loading: 'Caricamento…', fail: 'Il gioco non si è caricato. Controlla la connessione e riprova.', retry: 'Riprova', saved: 'Progressi salvati', controls: 'Comandi', twoPlayer: '2 giocatori (stesso dispositivo)', vsCpu: 'contro il computer', mode: 'Modalità', settings: 'Impostazioni', thisGame: 'Questo gioco', allGames: 'Tutti i giochi', volume: 'Volume', voice: 'Lettura ad alta voce', vibration: 'Vibrazione', textSize: 'Dimensione testo', calm: 'Meno animazioni', graphics: 'Grafica (3D)', auto: 'Auto', low: 'Bassa', high: 'Alta', on: 'Sì', off: 'No', apply: 'Salva e gioca', reset: 'Ripristina', cancel: 'Annulla', appliedNext: 'Le impostazioni valgono dalla prossima partita' },
+    de: { start: 'Start', pause: 'Pause', resume: 'Weiter', restart: 'Neu starten', sound: 'Ton', help: 'Spielanleitung', level: 'Schwierigkeit', easy: 'Leicht', medium: 'Mittel', hard: 'Schwer', score: 'Punkte', best: 'Rekord', paused: 'Pausiert', over: 'Spiel vorbei', win: 'Gewonnen!', again: 'Nochmal spielen', exit: 'Beenden', newBest: 'Neuer Rekord!', ach: 'Erfolg freigeschaltet', loading: 'Lädt…', fail: 'Das Spiel konnte nicht geladen werden. Verbindung prüfen und erneut versuchen.', retry: 'Erneut versuchen', saved: 'Fortschritt gespeichert', controls: 'Steuerung', twoPlayer: '2 Spieler (gleiches Gerät)', vsCpu: 'gegen den Computer', mode: 'Modus', settings: 'Einstellungen', thisGame: 'Dieses Spiel', allGames: 'Alle Spiele', volume: 'Lautstärke', voice: 'Vorlesen', vibration: 'Vibration', textSize: 'Textgröße', calm: 'Weniger Bewegung', graphics: 'Grafik (3D)', auto: 'Auto', low: 'Niedrig', high: 'Hoch', on: 'An', off: 'Aus', apply: 'Speichern und spielen', reset: 'Zurücksetzen', cancel: 'Abbrechen', appliedNext: 'Einstellungen gelten ab dem nächsten Spiel' },
+    tr: { start: 'Başla', pause: 'Duraklat', resume: 'Devam', restart: 'Yeniden başla', sound: 'Ses', help: 'Nasıl oynanır', level: 'Zorluk', easy: 'Kolay', medium: 'Orta', hard: 'Zor', score: 'Puan', best: 'En iyi', paused: 'Duraklatıldı', over: 'Oyun bitti', win: 'Kazandın!', again: 'Tekrar oyna', exit: 'Çık', newBest: 'Yeni rekor!', ach: 'Başarı kazanıldı', loading: 'Yükleniyor…', fail: 'Oyun yüklenemedi. Bağlantını kontrol edip tekrar dene.', retry: 'Tekrar dene', saved: 'İlerleme kaydedildi', controls: 'Kontroller', twoPlayer: '2 oyuncu (aynı cihaz)', vsCpu: 'bilgisayara karşı', mode: 'Mod', settings: 'Ayarlar', thisGame: 'Bu oyun', allGames: 'Tüm oyunlar', volume: 'Ses düzeyi', voice: 'Sesli okuma', vibration: 'Titreşim', textSize: 'Yazı boyutu', calm: 'Daha az hareket', graphics: 'Grafik (3D)', auto: 'Otomatik', low: 'Düşük', high: 'Yüksek', on: 'Açık', off: 'Kapalı', apply: 'Kaydet ve oyna', reset: 'Sıfırla', cancel: 'Vazgeç', appliedNext: 'Ayarlar bir sonraki oyunda geçerli olur' },
+    es: { start: 'Jugar', pause: 'Pausa', resume: 'Continuar', restart: 'Reiniciar', sound: 'Sonido', help: 'Cómo jugar', level: 'Dificultad', easy: 'Fácil', medium: 'Media', hard: 'Difícil', score: 'Puntos', best: 'Récord', paused: 'En pausa', over: 'Fin del juego', win: '¡Has ganado!', again: 'Jugar otra vez', exit: 'Salir', newBest: '¡Nuevo récord!', ach: 'Logro desbloqueado', loading: 'Cargando…', fail: 'No se pudo cargar el juego. Revisa la conexión e inténtalo de nuevo.', retry: 'Reintentar', saved: 'Progreso guardado', controls: 'Controles', twoPlayer: '2 jugadores (mismo dispositivo)', vsCpu: 'contra el ordenador', mode: 'Modo', settings: 'Ajustes', thisGame: 'Este juego', allGames: 'Todos los juegos', volume: 'Volumen', voice: 'Lectura en voz alta', vibration: 'Vibración', textSize: 'Tamaño del texto', calm: 'Menos movimiento', graphics: 'Gráficos (3D)', auto: 'Auto', low: 'Baja', high: 'Alta', on: 'Sí', off: 'No', apply: 'Guardar y jugar', reset: 'Restablecer', cancel: 'Cancelar', appliedNext: 'Los ajustes se aplican desde la próxima partida' }
   };
   WTG.S = S;
   WTG.s = function (k) { return (S[WTG.lang] && S[WTG.lang][k]) || S.en[k] || k; };
@@ -61,8 +61,19 @@
   WTG.data = function (pid) { var d = lsGet('wtg-p-' + (pid || profiles().current), null) || blank(); var b = blank(); for (var k in b) if (d[k] == null) d[k] = b[k]; return d; };
   WTG.saveData = function (d, pid) { lsSet('wtg-p-' + (pid || profiles().current), d); };
   WTG.update = function (fn) { var d = WTG.data(); fn(d); WTG.saveData(d); return d; };
+  // play-coins: earned by playing, spent only on looks inside games. Not money: they cannot be bought or cashed out.
+  WTG.coins = function () { return Math.max(0, WTG.data().coins || 0); };
+  WTG.addCoins = function (n) { var d = WTG.update(function (D) { D.coins = Math.max(0, Math.min(999999, (D.coins || 0) + Math.round(n || 0))); }); return d.coins; };
 
   // ------------------------------------------------------------------ sound (synthesised: no files to download)
+  // player preferences for all games (this device only)
+  var GP0 = { vol: 100, voice: true, vib: true, text: 1, calm: false, gfx: 'auto' };
+  WTG.gprefs = function () { var g = lsGet('wtg-prefs', {}) || {}, o = {}; for (var k in GP0) o[k] = k in g ? g[k] : GP0[k]; return o; };
+  WTG.setGprefs = function (o) { lsSet('wtg-prefs', o); };
+  WTG.GP0 = GP0;
+  function vibe(ms) { try { if (WTG.gprefs().vib && navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+  WTG.vibe = vibe;
+  var VIB = { bad: 60, hit: 90, lose: [80, 60, 120], win: [30, 40, 30] };
   var actx = null, muted = lsGet('wtg-muted', false);
   WTG.muted = function () { return muted; };
   WTG.setMuted = function (m) { muted = !!m; lsSet('wtg-muted', muted); };
@@ -74,7 +85,9 @@
     hit: [[150, 0.12, 'square', 0.1, 60]], pop: [[800, 0.04, 'sine', 0.1, 1200]], tick: [[1200, 0.02, 'square', 0.03]]
   };
   WTG.sfx = function (name) {
-    if (muted) return;
+    if (VIB[name]) vibe(VIB[name]);
+    var vol = WTG.gprefs().vol / 100;
+    if (muted || !vol) return;
     try {
       if (!actx) { var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return; actx = new AC(); }
       if (actx.state === 'suspended') actx.resume();
@@ -83,7 +96,7 @@
         var o = actx.createOscillator(), g = actx.createGain();
         o.type = n[2]; o.frequency.setValueAtTime(n[0], t);
         if (n[4]) o.frequency.exponentialRampToValueAtTime(n[4], t + n[1]);
-        g.gain.setValueAtTime(n[3], t); g.gain.exponentialRampToValueAtTime(0.0001, t + n[1]);
+        g.gain.setValueAtTime(Math.max(0.0002, n[3] * vol), t); g.gain.exponentialRampToValueAtTime(0.0001, t + n[1]);
         o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + n[1] + 0.02);
         t += n[1] * 0.9;
       });
@@ -91,7 +104,7 @@
   };
   // children's games can read a word aloud (the device's own voice; nothing is downloaded)
   WTG.say = function (text, lang) {
-    if (muted || !window.speechSynthesis || !text) return;
+    if (muted || !WTG.gprefs().voice || !window.speechSynthesis || !text) return;
     try { speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(text); u.lang = lang || (WTG.lang === 'so' ? 'so-SO' : WTG.lang); u.rate = 0.85; speechSynthesis.speak(u); } catch (e) {}
   };
 
@@ -149,7 +162,7 @@
     pause: '<path d="M8 5v14M16 5v14"/>', play: '<path d="M7 4.5v15l12-7.5z"/>', restart: '<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/>',
     sound: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>', mute: '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/>',
     help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/>', back: '<path d="M15 5l-7 7 7 7"/>',
-    full: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'
+    full: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>', gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'
   };
   function ic(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[n] + '</svg>'; }
   WTG.ic = ic;
@@ -168,6 +181,10 @@
     var lvKey = 'wtg-level-' + game.id;
     var level = lsGet(lvKey, game.defaultLevel || (game.cats && game.cats.indexOf('kids') >= 0 && game.cats.length === 1 ? 'easy' : 'medium'));
     if (levels && levels.indexOf(level) < 0) level = 'medium';
+    // game settings: WTG.PREFS[engine] lists them (games/prefs.js); values are saved per game on this device
+    var cfgKey = 'wtg-cfg-' + game.id, cfg = lsGet(cfgKey, {}) || {};
+    function prefList() { var L = (WTG.PREFS && (WTG.PREFS[engine] || WTG.PREFS[game.engine])) || []; return typeof L === 'function' ? L(game) : L; }
+    function prefVal(P) { var v = P.k in cfg ? cfg[P.k] : P.d; return P.v.some(function (o) { return o[0] === v; }) ? v : P.d; }
     var D0 = WTG.data();
     var state = { game: game, score: 0, best: D0.best[game.id] || 0, running: false, paused: false, over: false, inst: null, loops: [], timers: [], canvases: [] };
 
@@ -176,6 +193,7 @@
     var pauseBtn = h('button', { type: 'button', class: 'wtg-ib', 'aria-label': s('pause'), title: s('pause'), html: ic('pause'), onclick: function () { state.paused ? resume() : pause(); } });
     var soundBtn = h('button', { type: 'button', class: 'wtg-ib', 'aria-pressed': String(!muted), 'aria-label': s('sound'), title: s('sound'), html: ic(muted ? 'mute' : 'sound'), onclick: function () { WTG.setMuted(!muted); soundBtn.innerHTML = ic(muted ? 'mute' : 'sound'); soundBtn.setAttribute('aria-pressed', String(!muted)); if (state.inst && state.inst.sound) state.inst.sound(!muted); } });
     var restartBtn = h('button', { type: 'button', class: 'wtg-ib', 'aria-label': s('restart'), title: s('restart'), html: ic('restart'), onclick: function () { restart(); } });
+    var gearBtn = h('button', { type: 'button', class: 'wtg-ib', 'aria-label': s('settings'), title: s('settings'), html: ic('gear'), onclick: function () { settings(); } });
     var helpBtn = h('button', { type: 'button', class: 'wtg-ib', 'aria-label': s('help'), title: s('help'), html: ic('help'), onclick: function () { if (state.running && !state.over && !state.paused) pause(true); intro(true); } });
     var fullBtn = (document.fullscreenEnabled || document.webkitFullscreenEnabled) ? h('button', { type: 'button', class: 'wtg-ib wtg-hide-s', 'aria-label': 'Fullscreen', title: 'Fullscreen', html: ic('full'), onclick: function () { var r = root; try { if (document.fullscreenElement) document.exitFullscreen(); else (r.requestFullscreen || r.webkitRequestFullscreen).call(r); } catch (e) {} } }) : null;
     var stage = h('div', { class: 'wtg-stage', tabindex: '-1' });
@@ -186,8 +204,12 @@
         h('button', { type: 'button', class: 'wtg-ib wtg-back', 'aria-label': s('exit'), title: s('exit'), html: ic('back'), onclick: function () { WTG.close(); } }),
         h('div', { class: 'wtg-title' }, h('span', { class: 'wtg-gi', 'aria-hidden': 'true', text: game.icon || '🎮' }), h('b', { text: t(game.title) })),
         h('div', { class: 'wtg-scores' }, h('span', null, h('small', { text: s('score') }), scoreEl), h('span', null, h('small', { text: s('best') }), bestEl), extraEl),
-        h('div', { class: 'wtg-btns' }, pauseBtn, restartBtn, soundBtn, helpBtn, fullBtn)),
+        h('div', { class: 'wtg-btns' }, pauseBtn, restartBtn, gearBtn, soundBtn, helpBtn, fullBtn)),
       h('div', { class: 'wtg-main' }, stage, overlay), toastEl);
+    function applyLook() {
+      var G = WTG.gprefs(); root.style.setProperty('--tx', G.text); root.classList.toggle('wtg-calm', !!G.calm); root.classList.toggle('wtg-big', G.text > 1);
+      prefList().forEach(function (P) { if (P.css) stage.setAttribute('data-' + P.k, String(prefVal(P))); });
+    }
     document.body.append(root);
     document.documentElement.classList.add('wtg-open');
     state.root = root;
@@ -206,6 +228,9 @@
 
     var api = {
       el: stage, game: game, opts: game.options || {}, lang: WTG.lang, t: t, s: s, h: h, sfx: WTG.sfx, say: WTG.say, rand: WTG.rand, shuffle: WTG.shuffle, pick: WTG.pick, toast: toast,
+      // a game setting: the saved choice, or d when it is 'auto' (follows the difficulty)
+      cfg: function (k, d) { var P = prefList().filter(function (x) { return x.k === k; })[0]; var v = P ? prefVal(P) : cfg[k]; return v === undefined || v === 'auto' ? d : v; },
+      get gfx() { return WTG.gprefs().gfx; }, get calm() { return WTG.gprefs().calm; },
       get level() { return level; }, get first() { return state.first; }, get paused() { return state.paused || !state.running; }, get score() { return state.score; },
       setScore: setScore, add: function (n) { setScore(state.score + n); },
       // a free-form counter beside the score (time, moves, lives …)
@@ -262,14 +287,54 @@
       var go = h('button', { type: 'button', class: 'wtg-go', html: ic('play') + '<span>' + (fromHelp && state.running && !state.over ? s('resume') : s('start')) + '</span>', onclick: function () {
         if (fromHelp && state.running && !state.over) { clearOv(); resume(); } else begin();
       } });
-      p.append(go);
+      p.append(go, h('button', { type: 'button', class: 'wtg-sec', html: ic('gear') + '<span>' + s('settings') + '</span>', onclick: function () { settings(); } }));
       setTimeout(function () { try { go.focus({ preventScroll: true }); } catch (e) {} }, 30);
+    }
+
+    function settings(keep) {
+      var wasRunning = keep === true || (state.running && !state.over && !state.paused);
+      if (wasRunning) pause(true);
+      var G = WTG.gprefs(), C = {}, lv = level, list = prefList();
+      list.forEach(function (P) { C[P.k] = prefVal(P); });
+      var p = panel(); p.classList.add('wtg-set');
+      p.append(h('h2', null, h('span', { 'aria-hidden': 'true', html: ic('gear') }), document.createTextNode(' ' + s('settings'))));
+      function seg(label, opts, val, set, cls) {
+        var row = h('div', { class: 'wtg-row' + (cls ? ' ' + cls : '') }), g = h('div', { class: 'wtg-seg', role: 'radiogroup', 'aria-label': label });
+        opts.forEach(function (o) { g.append(h('button', { type: 'button', role: 'radio', 'aria-checked': String(o[0] === val), style: o[2] ? { '--sw': o[2] } : null, class: o[2] ? 'sw' : null, text: o[1], onclick: function () { set(o[0]); [].forEach.call(g.children, function (b) { b.setAttribute('aria-checked', String(b === this)); }, this); } })); });
+        row.append(h('label', { text: label }), g); return row;
+      }
+      var box = h('div', { class: 'wtg-sets' });
+      box.append(h('h3', { text: s('thisGame') + ' · ' + t(game.title) }));
+      if (levels) box.append(seg(s('level'), levels.map(function (x) { return [x, s(x)]; }), lv, function (v) { lv = v; }));
+      list.forEach(function (P) {
+        box.append(seg(t(P.l), P.v.map(function (o) { return [o[0], o[0] === 'auto' ? s('auto') : o[1] === true ? s('on') : o[1] === false ? s('off') : t(o[1]), o[2]]; }), C[P.k], function (v) { C[P.k] = v; }));
+      });
+      box.append(h('h3', { text: s('allGames') }));
+      box.append(seg(s('volume'), [[0, '🔇'], [25, '25%'], [50, '50%'], [75, '75%'], [100, '100%']], G.vol, function (v) { G.vol = v; }));
+      box.append(seg(s('voice'), [[true, s('on')], [false, s('off')]], G.voice, function (v) { G.voice = v; }));
+      if (navigator.vibrate) box.append(seg(s('vibration'), [[true, s('on')], [false, s('off')]], G.vib, function (v) { G.vib = v; }));
+      box.append(seg(s('textSize'), [[1, 'A'], [1.15, 'A+'], [1.3, 'A++']], G.text, function (v) { G.text = v; }));
+      box.append(seg(s('calm'), [[false, s('off')], [true, s('on')]], G.calm, function (v) { G.calm = v; }));
+      if (/3d$/.test(game.engine)) box.append(seg(s('graphics'), [['auto', s('auto')], ['low', s('low')], ['high', s('high')]], G.gfx, function (v) { G.gfx = v; }));
+      p.append(box);
+      function close() { if (wasRunning) { clearOv(); resume(); } else if (state.running && state.paused && !state.over) pause(); else if (state.over) { clearOv(); begin(); } else intro(); }
+      p.append(h('div', { class: 'wtg-acts' },
+        h('button', { type: 'button', class: 'wtg-go', html: ic('play') + '<span>' + s('apply') + '</span>', onclick: function () {
+          WTG.setGprefs(G); var changed = lv !== level || list.some(function (P) { return C[P.k] !== prefVal(P); });
+          if (levels) { level = lv; lsSet(lvKey, lv); }
+          cfg = {}; list.forEach(function (P) { if (C[P.k] !== P.d) cfg[P.k] = C[P.k]; }); lsSet(cfgKey, cfg);
+          applyLook();
+          if (changed && state.running) begin(); else if (!state.running) begin(); else close();
+        } }),
+        h('button', { type: 'button', class: 'wtg-sec', html: '<span>' + s('reset') + '</span>', onclick: function () { cfg = {}; lsSet(cfgKey, cfg); WTG.setGprefs({}); applyLook(); settings(wasRunning); } }),
+        h('button', { type: 'button', class: 'wtg-sec', html: '<span>' + s('cancel') + '</span>', onclick: function () { close(); } })));
+      setTimeout(function () { try { p.querySelector('[aria-checked="true"]').focus({ preventScroll: true }); } catch (e) {} }, 30);
     }
 
     function begin() {
       clearOv();
       teardownInst();
-      stage.innerHTML = ''; stage.className = 'wtg-stage'; state.canvases = [];
+      stage.innerHTML = ''; stage.className = 'wtg-stage'; state.canvases = []; applyLook();
       state.first = !state.begun; state.begun = true;
       state.over = false; state.paused = false; state.running = true; setScore(0); api.info(null);
       bestEl.classList.remove('up'); state.best = WTG.data().best[game.id] || 0; bestEl.textContent = String(state.best);
@@ -321,6 +386,9 @@
       if (better) D.best[game.id] = sc;
       if (won) D.wins[game.id] = (D.wins[game.id] || 0) + 1;
       D.total = (D.total || 0) + (game.lowWins ? (won ? 100 : 0) : sc);
+      // every finished game gives a few play-coins (games with their own coins skip this)
+      var gotCoins = game.ownCoins ? 0 : (won ? 5 : 1) + Math.min(10, Math.floor((game.lowWins ? 0 : sc) / 300));
+      D.coins = Math.min(999999, (D.coins || 0) + gotCoins);
       WTG.saveData(D);
       // standard achievements of every game
       if (won) award(game.id + ':win', { so: 'Guushii ugu horreysay: ' + t(game.title), en: 'First win: ' + t(game.title) });
@@ -334,6 +402,7 @@
         if (msg) p.append(h('p', { class: 'wtg-msg', text: t(msg) }));
         p.append(h('div', { class: 'wtg-final' }, h('span', null, h('small', { text: s('score') }), h('b', { text: String(sc) })), h('span', null, h('small', { text: s('best') }), h('b', { text: String(WTG.data().best[game.id] || sc) }))));
         if (better && sc > 0) p.append(h('p', { class: 'wtg-new', text: '⭐ ' + s('newBest') }));
+        if (gotCoins) p.append(h('p', { class: 'wtg-new', text: '+' + gotCoins + ' 🪙 · ' + WTG.coins() }));
         p.append(h('button', { type: 'button', class: 'wtg-go', html: ic('restart') + '<span>' + s('again') + '</span>', onclick: function () { begin(); } }),
           h('button', { type: 'button', class: 'wtg-sec', html: ic('back') + '<span>' + s('exit') + '</span>', onclick: function () { WTG.close(); } }));
         p.querySelector('.wtg-go').focus({ preventScroll: true });
@@ -343,7 +412,10 @@
     // timers that respect pause
     var tick = setInterval(function () {
       if (!state.running || state.paused || state.over) return;
-      state.timers = state.timers.filter(function (T) { if (!T.on) return false; T.left -= 100; if (T.left <= 0) { T.on = false; try { T.fn(); } catch (e) { console.warn(e); } return false; } return true; });
+      // run the due timers after the list is updated, so a timer started inside a timer is kept
+      var due = [];
+      state.timers = state.timers.filter(function (T) { if (!T.on) return false; T.left -= 100; if (T.left <= 0) { T.on = false; due.push(T); return false; } return true; });
+      due.forEach(function (T) { try { T.fn(); } catch (e) { console.warn(e); } });
     }, 100);
     function onVis() { if (document.hidden) pause(); }
     function onKey(e) {

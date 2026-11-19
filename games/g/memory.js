@@ -9,7 +9,7 @@ WTG.register('memory', function (api) {
     mixed: ['🚗', '🚀', '⛵', '🚲', '🏠', '🌙', '⭐', '⚽', '🏀', '🎈', '📚', '🎵', '🔑', '💡', '⏰', '🌍']
   };
   var big = !!api.opts.big, set = SETS[api.opts.set] || SETS.mixed;
-  var pairs = (api.opts.pairs && api.opts.pairs[api.level]) || { easy: big ? 4 : 6, medium: big ? 6 : 8, hard: big ? 8 : 12 }[api.level];
+  var pairs = api.cfg('pairs', 0) || (api.opts.pairs && api.opts.pairs[api.level]) || { easy: big ? 4 : 6, medium: big ? 6 : 8, hard: big ? 8 : 12 }[api.level];
   var cols = pairs <= 4 ? 4 : pairs <= 6 ? 4 : pairs <= 8 ? 4 : 6;
   var css = h('style', { text: '.mm{display:grid;gap:10px;perspective:800px;width:min(calc(var(--w) - 24px), calc((var(--h) - 40px) * var(--ar)), 760px)}.mm button{aspect-ratio:3/4;border:0;padding:0;background:transparent;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform .35s}.mm button.up,.mm button.done{transform:rotateY(180deg)}.mm .f,.mm .b{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;display:grid;place-items:center}.mm .b{background:linear-gradient(135deg,#037BDC,#04213f);border:3px solid #fff;box-shadow:0 6px 14px rgba(0,0,0,.35)}.mm .b::after{content:"WTV";font:900 14px Archivo,sans-serif;color:rgba(255,255,255,.5)}.mm .f{background:#fff;transform:rotateY(180deg);font-size:calc(min(calc(var(--w) - 24px), calc((var(--h) - 40px) * var(--ar)), 760px) / var(--c) * .5);color:#0b1c33;box-shadow:0 6px 14px rgba(0,0,0,.35)}.mm button.done .f{background:#dcfce7;box-shadow:0 0 0 4px #22c55e}' });
   var deck, open, lock, found, moves, t0;

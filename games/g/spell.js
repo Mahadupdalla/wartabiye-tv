@@ -4,7 +4,7 @@ WTG.register('spell', function (api) {
   var h = api.h, SO = api.lang === 'so';
   var W = SO ? [['🐱', 'BISAD'], ['🐪', 'GEEL'], ['🦁', 'LIBAAX'], ['🍌', 'MOOS'], ['🐟', 'KALLUUN'], ['🐦', 'SHIMBIR'], ['🌧️', 'ROOB'], ['⭐', 'XIDDIG'], ['✏️', 'QALIN'], ['📖', 'BUUG'], ['🏠', 'GURI'], ['🐴', 'FARAS'], ['🥚', 'UKUN'], ['🐕', 'EEY'], ['🌙', 'DAYAX'], ['☀️', 'QORRAX'], ['🍇', 'CANAB'], ['🐐', 'ARI'], ['💡', 'NAL'], ['🦷', 'ILIG']]
     : [['🐱', 'CAT'], ['🐶', 'DOG'], ['☀️', 'SUN'], ['🐟', 'FISH'], ['🍎', 'APPLE'], ['🦁', 'LION'], ['🌙', 'MOON'], ['⭐', 'STAR'], ['🏠', 'HOUSE'], ['📖', 'BOOK'], ['🐪', 'CAMEL'], ['🚗', 'CAR'], ['🥚', 'EGG'], ['🐄', 'COW'], ['🌳', 'TREE'], ['🍌', 'BANANA'], ['⚽', 'BALL'], ['🐦', 'BIRD'], ['🐸', 'FROG'], ['🎈', 'BALLOON']];
-  var maxLen = { easy: 4, medium: 6, hard: 8 }[api.level], N = 8, list, i, typed, mistakes, slots, tiles;
+  var maxLen = api.cfg('len', { easy: 4, medium: 6, hard: 8 }[api.level]), N = api.cfg('n', 8), list, i, typed, mistakes, slots, tiles;
   function show() {
     api.el.innerHTML = ''; typed = '';
     var w = list[i], word = w[1];

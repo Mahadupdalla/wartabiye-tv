@@ -2,7 +2,7 @@
    options.mode "numbers": the classic 15-puzzle (number puzzle). Tap a tile next to the gap to slide it. */
 WTG.register('slide', function (api) {
   var h = api.h, pic = api.opts.mode === 'picture';
-  var N = pic ? { easy: 2, medium: 3, hard: 4 }[api.level] : { easy: 3, medium: 4, hard: 5 }[api.level];
+  var N = api.cfg('grid', pic ? { easy: 2, medium: 3, hard: 4 }[api.level] : { easy: 3, medium: 4, hard: 5 }[api.level]);
   var board, gap, moves, t0, img, scene = 0;
   function paint() {
     // an original picture: sun, hills, a house and a tree (no outside image needed)

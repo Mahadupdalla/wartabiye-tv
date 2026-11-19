@@ -18,7 +18,7 @@ WTG.register('ludo', function (api) {
   })();
   var HOME = [[[7, 1], [7, 2], [7, 3], [7, 4], [7, 5]], [[1, 7], [2, 7], [3, 7], [4, 7], [5, 7]], [[7, 13], [7, 12], [7, 11], [7, 10], [7, 9]], [[13, 7], [12, 7], [11, 7], [10, 7], [9, 7]]];
   var BASE = [[1.5, 1.5], [1.5, 10.5], [10.5, 10.5], [10.5, 1.5]], OFF = [0, 13, 26, 39], SAFE = [0, 8, 13, 21, 26, 34, 39, 47];
-  var mode = api.load('mode', 'm1'), players, tok, cur, die, rolled, busy, over, sixes, anim;
+  var PACE = api.cfg('pace', 1), mode = api.load('mode', 'm1'), players, tok, cur, die, rolled, busy, over, sixes, anim;
   function setup() {
     players = mode === 'm1' ? [0, 2] : mode === 'm2' ? [0, 2] : [0, 1, 2, 3];
     var cpu = mode === 'm1' || mode === 'm3';
@@ -43,9 +43,9 @@ WTG.register('ludo', function (api) {
     dieEl.textContent = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'][die - 1];
     var p = players[cur], mv = movable(p, die);
     if (die === 6) sixes++; else sixes = 0;
-    if (sixes === 3) { sixes = 0; turnMsg(tx('none')); setTimeout(nextTurn, 700); return; }
-    if (!mv.length) { turnMsg(tx('none')); setTimeout(nextTurn, 800); return; }
-    if (players.cpu(p)) { setTimeout(function () { move(p, cpuPick(p, mv)); }, 450); return; }
+    if (sixes === 3) { sixes = 0; turnMsg(tx('none')); setTimeout(nextTurn, 700 * PACE); return; }
+    if (!mv.length) { turnMsg(tx('none')); setTimeout(nextTurn, 800 * PACE); return; }
+    if (players.cpu(p)) { setTimeout(function () { move(p, cpuPick(p, mv)); }, 450 * PACE); return; }
     if (mv.length === 1 && tok[p][mv[0]] >= 0) { setTimeout(function () { move(p, mv[0]); }, 250); return; }
     turnMsg(tx('pick')); draw();
   }
@@ -68,7 +68,7 @@ WTG.register('ludo', function (api) {
     var k = 0;
     (function step() {
       tok[p][i] = steps[k++]; api.sfx('move'); draw();
-      if (k < steps.length) { setTimeout(step, 120); return; }
+      if (k < steps.length) { setTimeout(step, 120 * PACE); return; }
       // capture
       var a = abs(p, to), extra = die === 6;
       if (a >= 0 && SAFE.indexOf(a) < 0) players.forEach(function (q) { if (q === p) return; tok[q].forEach(function (qp, j) { if (abs(q, qp) === a) { tok[q][j] = -1; extra = true; api.sfx('hit'); if (!players.cpu(p)) { api.add(50); api.achieve('cap', { so: 'Gabal cunay', en: 'Sent a token home' }); } } }); });
@@ -85,7 +85,7 @@ WTG.register('ludo', function (api) {
     })();
   }
   function nextTurn() { if (over || api.isOver()) return; rolled = false; sixes = 0; cur = (cur + 1) % players.length; turnMsg(); draw(); if (players.cpu(players[cur])) cpuTurn(); }
-  function cpuTurn() { setTimeout(function () { if (over || api.isOver()) return; if (api.paused) return cpuTurn(); roll(); }, 650); }
+  function cpuTurn() { setTimeout(function () { if (over || api.isOver()) return; if (api.paused) return cpuTurn(); roll(); }, 650 * PACE); }
   function draw() {
     x.fillStyle = '#fff'; x.fillRect(0, 0, W, W);
     [[0, 0, 0], [1, 0, 9], [2, 9, 9], [3, 9, 0]].forEach(function (b) { x.fillStyle = COL[b[0]]; x.fillRect(b[2] * CS, b[1] * CS, 6 * CS, 6 * CS); x.fillStyle = '#fff'; x.fillRect(b[2] * CS + CS, b[1] * CS + CS, 4 * CS, 4 * CS); });

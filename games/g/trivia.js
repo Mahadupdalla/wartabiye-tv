@@ -80,7 +80,7 @@ WTG.register('trivia', function (api) {
     show();
   }
   return {
-    start: function () { list = pool().slice(0, 10); idx = 0; right = 0; used5050 = false; perQ = { easy: 25, medium: 18, hard: 12 }[api.level]; show(); },
+    start: function () { list = pool().slice(0, api.cfg('n', 10)); idx = 0; right = 0; used5050 = false; perQ = api.cfg('time', { easy: 25, medium: 18, hard: 12 }[api.level]); show(); },
     destroy: function () { clearInterval(tId); },
     key: function (e, down) { if (!down) return; var n = parseInt(e.key, 10); if (n >= 1 && n <= 4) { var b = api.el.querySelectorAll('.ans button')[n - 1]; if (b && !b.disabled) { e.preventDefault(); b.click(); } } }
   };

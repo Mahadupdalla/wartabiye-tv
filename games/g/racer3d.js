@@ -7,7 +7,7 @@ WTG.register3d('racer3d', function (M, api) {
   scene.fog = new T.Fog(0xf3c597, 60, 200);
   var S = M.sun(scene, { color: 0xffc58a, intensity: 2.6, hemi: 0.85, sky: 0xffe2c2, ground: 0x4d5b2a, offset: new T.Vector3(-14, 18, -10), size: 22 });
   var LW = 3.4, LANES = 4, HALF = LW * LANES / 2;
-  var base = { easy: 22, medium: 28, hard: 35 }[api.level];
+  var base = api.cfg('speed', { easy: 22, medium: 28, hard: 35 }[api.level]), TRAF = { light: 1.6, normal: 1, heavy: 0.65 }[api.cfg('traffic', 'normal')] || 1, NOFUEL = api.cfg('fuel') === 'off';
 
   // ---------------------------------------------------------------- scenery
   var roadTex = M.canvasTex(512, 512, function (x, w, h) {
@@ -34,7 +34,7 @@ WTG.register3d('racer3d', function (M, api) {
   var trees = []; for (i = 0; i < 26; i++) { var tg = acacia(); tg.position.set((i % 2 ? 1 : -1) * (HALF + 5 + Math.random() * 18), 0, -i * 9); scene.add(tg); trees.push(tg); }
 
   // ---------------------------------------------------------------- the player and traffic
-  var me = M.car({ color: 0x037bdc }); scene.add(me);
+  var me = M.car({ color: api.cfg('car', 0x037bdc) }); scene.add(me);
   var stripe = new T.Mesh(new T.BoxGeometry(0.35, 0.02, 4.0), M.mat(0xffffff)); stripe.position.set(0, 0.94, 0); me.add(stripe);
   var COLS = [0xef4444, 0xf59e0b, 0x22c55e, 0xa855f7, 0xe2e8f0, 0x14b8a6, 0x111827, 0xfde047];
   var canM = M.mat(0xdc2626, { metalness: 0.3, roughness: 0.4 });
@@ -70,8 +70,8 @@ WTG.register3d('racer3d', function (M, api) {
     speed = base + Math.min(26, t * 0.45) + (keyUp ? 6 : 0) - (keyDown ? 8 : 0);
     var s = keyL ? -1 : keyR ? 1 : drag != null ? drag : 0; steer += (s - steer) * Math.min(1, dt * 8);
     P.x = Math.max(-HALF + 1, Math.min(HALF - 1, P.x + steer * 11 * dt)); P.yaw = -steer * 0.12;
-    var dz = speed * dt; P.z -= dz; dist += dz; fuel -= dt * (api.level === 'easy' ? 2 : 3.2);
-    if (P.z - 150 < spawnZ) { spawn(spawnZ); spawnZ -= Math.max(16, 30 - t * 0.12); }
+    var dz = speed * dt; P.z -= dz; dist += dz; if (!NOFUEL) fuel -= dt * (api.level === 'easy' ? 2 : 3.2);
+    if (P.z - 150 < spawnZ) { spawn(spawnZ); spawnZ -= Math.max(16, 30 - t * 0.12) * TRAF; }
     cars.forEach(function (c) { c.z -= c.v * dt; c.m.position.z = c.z; c.m.userData.wheels && c.m.userData.wheels.forEach(function (w) { w.rotation.x -= c.v * dt / 0.36; }); });
     items.forEach(function (i) { if (i.k === 'coin') i.m.rotation.y += dt * 4; else i.m.rotation.y += dt; });
     for (var k = 0; k < cars.length; k++) { var c = cars[k]; if (Math.abs(c.x - P.x) < (c.w + 1.8) / 2 - 0.15 && Math.abs(c.z - P.z) < (c.len + 4.2) / 2 - 0.3) { crash(); return; } }
@@ -97,7 +97,7 @@ WTG.register3d('racer3d', function (M, api) {
     me.userData.wheels.forEach(function (w) { w.rotation.x -= speed * (dt || 0) / 0.36; });
     road.position.z = P.z - 90; roadTex.offset.y = (-P.z / 24) % 1; ground.position.z = P.z - 90; grassTex.offset.y = (-P.z / 4) % 1;
     rails.forEach(function (r) { r.position.z = P.z - (P.z % 6) - 80; });
-    cam.position.set(P.x * 0.7, 3.6, P.z + 8.6); cam.lookAt(P.x * 0.85, 1.2, P.z - 10);
+    var cv = api.cfg('cam', 'close'); if (cv === 'high') { cam.position.set(P.x * 0.6, 9, P.z + 9); cam.lookAt(P.x * 0.8, 0, P.z - 12); } else if (cv === 'far') { cam.position.set(P.x * 0.7, 5, P.z + 13); cam.lookAt(P.x * 0.85, 1.2, P.z - 12); } else { cam.position.set(P.x * 0.7, 3.6, P.z + 8.6); cam.lookAt(P.x * 0.85, 1.2, P.z - 10); }
     S.follow(new T.Vector3(P.x, 0, P.z - 8));
     fuelBar.firstChild.style.width = Math.max(0, fuel) + '%'; fuelBar.firstChild.style.background = fuel > 30 ? 'linear-gradient(90deg,#22c55e,#a3e635)' : '#ef4444';
     spd.textContent = Math.round(speed * 3.6) + ' km/h';

@@ -35,7 +35,7 @@ WTG.register('sudoku', function (api) {
       b.classList.toggle('gv', given[i]); b.classList.toggle('sel', i === selI);
       b.classList.toggle('hl', selI >= 0 && i !== selI && (r === sr || c === sc || (Math.floor(r / 3) === Math.floor(sr / 3) && Math.floor(c / 3) === Math.floor(sc / 3))));
       b.classList.toggle('same', !!sv && v === sv && i !== selI);
-      b.classList.toggle('bad', !!v && !given[i] && v !== sol[i] && api.level !== 'hard');
+      b.classList.toggle('bad', !!v && !given[i] && v !== sol[i] && (api.cfg('errors', 'auto') === 'auto' ? api.level !== 'hard' : api.cfg('errors') === 'on'));
       b.innerHTML = '';
       if (v) b.textContent = v; else if (notes[i].length) { var nt = h('span', { class: 'nt' }); for (var q = 1; q <= 9; q++) nt.append(h('span', { text: notes[i].indexOf(q) >= 0 ? String(q) : '' })); b.append(nt); }
       b.setAttribute('aria-label', 'row ' + (r + 1) + ' column ' + (c + 1) + (v ? ': ' + v : ': empty'));
