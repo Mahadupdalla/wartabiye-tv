@@ -32,6 +32,7 @@
     "so": "Taabo gabal, kadibna taabo meesha aad u dhaqaajineyso. Boqorka kan kale ku xir (checkmate) si aad u guuleysato.",
     "en": "Tap a piece, then tap where it should go. Checkmate the other king to win. Undo is allowed."
    },
+   "thumb": "img/games/chess.webp",
    "dailyWin": true
   },
   {
@@ -65,6 +66,7 @@
     "so": "Riix laadhuuga, kadibna taabo gabal. 6 ayaa gabal ka saara saldhigga. Meelaha xiddigta leh waa ammaan.",
     "en": "Roll the dice, then tap a token to move. A 6 brings a token out. Star squares are safe."
    },
+   "thumb": "img/games/four-homes.webp",
    "dailyWin": true,
    "isNew": true
   },
@@ -98,11 +100,12 @@
     "so": "Taabo dhagax ku habboon cidhif ka mid ah silsiladda. Haddii aadan haysan, mid soo qaado.",
     "en": "Tap a tile that matches an end of the chain. If you can’t play, draw a tile."
    },
+   "thumb": "img/games/dominoes.webp",
    "dailyWin": true
   },
   {
    "id": "city-dash",
-   "engine": "runner",
+   "engine": "runner3d",
    "icon": "🏃",
    "color": "#f97316",
    "cats": [
@@ -136,11 +139,13 @@
    "goals": [
     300,
     1000
-   ]
+   ],
+   "fallback": "runner",
+   "thumb": "img/games/city-dash.webp"
   },
   {
    "id": "highway-racer",
-   "engine": "racer",
+   "engine": "racer3d",
    "icon": "🏎️",
    "color": "#ef4444",
    "cats": [
@@ -173,11 +178,13 @@
    "goals": [
     500,
     1500
-   ]
+   ],
+   "fallback": "racer",
+   "thumb": "img/games/highway-racer.webp"
   },
   {
    "id": "penalty",
-   "engine": "penalty",
+   "engine": "penalty3d",
    "icon": "⚽",
    "color": "#16a34a",
    "cats": [
@@ -208,11 +215,13 @@
    "goals": [
     30
    ],
+   "fallback": "penalty",
+   "thumb": "img/games/penalty.webp",
    "dailyWin": true
   },
   {
    "id": "hoops",
-   "engine": "hoops",
+   "engine": "hoops3d",
    "icon": "🏀",
    "color": "#ea580c",
    "cats": [
@@ -242,7 +251,9 @@
    "goals": [
     10,
     25
-   ]
+   ],
+   "fallback": "hoops",
+   "thumb": "img/games/hoops.webp"
   },
   {
    "id": "snake",
@@ -281,7 +292,8 @@
    "goals": [
     50,
     150
-   ]
+   ],
+   "thumb": "img/games/snake.webp"
   },
   {
    "id": "falling-blocks",
@@ -320,7 +332,8 @@
    "goals": [
     1000,
     5000
-   ]
+   ],
+   "thumb": "img/games/falling-blocks.webp"
   },
   {
    "id": "merge-2048",
@@ -359,7 +372,8 @@
    "goals": [
     1000,
     5000
-   ]
+   ],
+   "thumb": "img/games/merge-2048.webp"
   },
   {
    "id": "solitaire",
@@ -389,6 +403,7 @@
     "so": "Taabo kaar, kadibna taabo meesha aad dhigayso. Laba jeer taabo si toos ah ugu dirto saldhigga.",
     "en": "Tap a card, then tap where to put it. Double-tap to send it to the foundations."
    },
+   "thumb": "img/games/solitaire.webp",
    "dailyWin": true
   },
   {
@@ -425,6 +440,7 @@
     "so": "Fallaadhaha iyo tirooyinka 1-9.",
     "en": "Arrow keys and the numbers 1–9."
    },
+   "thumb": "img/games/sudoku.webp",
    "dailyWin": true
   },
   {
@@ -457,6 +473,7 @@
     "en": "Choose a block and tap the grid to place it. Use the eraser to remove."
    },
    "levels": false,
+   "thumb": "img/games/block-builder.webp",
    "isNew": true
   },
   {
@@ -489,6 +506,7 @@
     "so": "Taabo gabal, kadibna meesha uu u socdo. Haddii aad qaadi karto, waa qasab.",
     "en": "Tap a piece, then where it goes. If you can capture, you must."
    },
+   "thumb": "img/games/checkers.webp",
    "dailyWin": true
   },
   {
@@ -526,6 +544,7 @@
     "so": "Bidix/midig iyo Enter.",
     "en": "Left/right and Enter."
    },
+   "thumb": "img/games/four-in-a-row.webp",
    "dailyWin": true
   },
   {
@@ -564,7 +583,8 @@
    "goals": [
     500,
     1000
-   ]
+   ],
+   "thumb": "img/games/trivia.webp"
   },
   {
    "id": "brain-gym",
@@ -598,7 +618,8 @@
    "goals": [
     200,
     500
-   ]
+   ],
+   "thumb": "img/games/brain-gym.webp"
   },
   {
    "id": "reaction",
@@ -635,7 +656,8 @@
    "goals": [
     300,
     600
-   ]
+   ],
+   "thumb": "img/games/reaction.webp"
   },
   {
    "id": "car-parking",
@@ -671,6 +693,7 @@
     300,
     800
    ],
+   "thumb": "img/games/car-parking.webp",
    "isNew": true
   },
   {
@@ -706,7 +729,8 @@
    },
    "goals": [
     300
-   ]
+   ],
+   "thumb": "img/games/maze.webp"
   },
   {
    "id": "word-search",
@@ -737,6 +761,7 @@
     "so": "Taabo xarafka hore, kadibna xarafka ugu dambeeya ee erayga.",
     "en": "Tap the first letter, then the last letter of the word."
    },
+   "thumb": "img/games/word-search.webp",
    "dailyWin": true
   },
   {
@@ -771,6 +796,7 @@
     "so": "Xarfaha, fallaadhaha iyo Backspace.",
     "en": "Letters, arrows and Backspace."
    },
+   "thumb": "img/games/crossword.webp",
    "dailyWin": true,
    "isNew": true
   },
@@ -802,6 +828,7 @@
     "so": "Taabo laba dhagax oo isku mid ah oo aan la xirin. Talo iyo isku-qas waa la heli karaa.",
     "en": "Tap two matching tiles that are free. Hints and shuffles are available."
    },
+   "thumb": "img/games/tile-match.webp",
    "dailyWin": true,
    "isNew": true
   },
@@ -840,7 +867,8 @@
    ],
    "options": {
     "set": "symbols"
-   }
+   },
+   "thumb": "img/games/memory.webp"
   },
   {
    "id": "number-puzzle",
@@ -878,6 +906,7 @@
    "options": {
     "mode": "numbers"
    },
+   "thumb": "img/games/number-puzzle.webp",
    "dailyWin": true
   },
   {
@@ -909,7 +938,8 @@
    "options": {
     "set": "animals",
     "big": true
-   }
+   },
+   "thumb": "img/games/kids-memory.webp"
   },
   {
    "id": "abc",
@@ -939,7 +969,8 @@
    },
    "options": {
     "mode": "letters"
-   }
+   },
+   "thumb": "img/games/abc.webp"
   },
   {
    "id": "counting",
@@ -969,7 +1000,8 @@
    },
    "options": {
     "mode": "counting"
-   }
+   },
+   "thumb": "img/games/counting.webp"
   },
   {
    "id": "kids-math",
@@ -999,7 +1031,8 @@
    },
    "options": {
     "mode": "kidsmath"
-   }
+   },
+   "thumb": "img/games/kids-math.webp"
   },
   {
    "id": "first-words",
@@ -1029,7 +1062,8 @@
    },
    "options": {
     "mode": "words"
-   }
+   },
+   "thumb": "img/games/first-words.webp"
   },
   {
    "id": "word-builder",
@@ -1061,6 +1095,7 @@
     "so": "Qor xarfaha.",
     "en": "Type the letters."
    },
+   "thumb": "img/games/word-builder.webp",
    "isNew": true
   },
   {
@@ -1089,7 +1124,8 @@
     "so": "Dooro midab, kadibna taabo qayb ka mid ah sawirka.",
     "en": "Pick a colour, then tap a part of the picture."
    },
-   "levels": false
+   "levels": false,
+   "thumb": "img/games/coloring.webp"
   },
   {
    "id": "draw",
@@ -1117,7 +1153,8 @@
     "so": "Farta ama jiirka ku sawir. Dooro midab, cabbir ama stikar. 💾 ayaa kaydisa sawirka.",
     "en": "Draw with your finger or mouse. Choose a colour, size or sticker. 💾 saves your drawing."
    },
-   "levels": false
+   "levels": false,
+   "thumb": "img/games/draw.webp"
   },
   {
    "id": "picture-puzzle",
@@ -1151,7 +1188,8 @@
    },
    "options": {
     "mode": "picture"
-   }
+   },
+   "thumb": "img/games/picture-puzzle.webp"
   },
   {
    "id": "animal-match",
@@ -1181,7 +1219,8 @@
    },
    "options": {
     "set": "animals"
-   }
+   },
+   "thumb": "img/games/animal-match.webp"
   },
   {
    "id": "animal-homes",
@@ -1212,6 +1251,7 @@
    "options": {
     "set": "homes"
    },
+   "thumb": "img/games/animal-homes.webp",
    "isNew": true
   },
   {
@@ -1239,7 +1279,8 @@
    "how": {
     "so": "Jiid qaabka ilaa meeshiisa, ama taabo qaabka kadibna meesha.",
     "en": "Drag a shape to its outline, or tap the shape and then the outline."
-   }
+   },
+   "thumb": "img/games/shapes.webp"
   },
   {
    "id": "kids-snake",
@@ -1275,6 +1316,7 @@
     30
    ],
    "levels": false,
+   "thumb": "img/games/kids-snake.webp",
    "defaultLevel": "easy"
   }
  ]
