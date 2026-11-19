@@ -5,6 +5,7 @@ Translations ("en", "ar", "fr", "nl", "it", "de", "tr", "es") are kept; a machin
 afterwards in /admin/ is published as "manual", so the page no longer labels it as machine-translated."""
 import json, os, glob, datetime, sys
 from translations import LANGS, text_hash, has
+import attribution
 PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
 
 # The old article disclaimer box (removed by the owner on 13 November 2026; articles now show only a small
@@ -98,6 +99,10 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     for k in ('summary', 'body'):
         if k in n:
             n[k] = drop_disclaimer(n[k])
+    # editorial attribution (owner's spec, 19 Nov 2026; tools/attribution.py): citation phrases that only name another
+    # outlet ("Sida ay werisay Hiiraan Online, …") leave the public text, and the outlets are credited once in the
+    # article's editorial footer ("credit"). Only data/news.json changes: the article file keeps its original text.
+    attribution.apply(n, LANGS)
     # regional stories written before 8 Nov 2026 have no "country": derive it from the headline (or the outlet's home
     # country) so the Somalia page (#soomaaliya) lists them too; only data/news.json changes, never the article file
     if (n.get('section') or 'somalia') == 'somalia' and not n.get('country') and n.get('region') != 'east-africa-wide':
@@ -225,6 +230,12 @@ for f in os.listdir(story_dir) if os.path.isdir(story_dir) else []:
     if f.endswith('.json') and f not in ids:
         os.remove(os.path.join(story_dir, f))
 print(f'data/lite (ver {ver}) and data/story ({len(ids)} articles) up to date')
+
+try:
+    r = attribution.report(news)
+    print(f"attribution: {r['counts']} ({r['needsReview']} to review in /admin/)")
+except Exception as e:  # the report is for /admin/ only: never block a publication
+    print('attribution report skipped:', e)
 
 # keep the file untouched when nothing changed, so rebuilding never makes an empty commit
 old = json.load(open(dst, encoding='utf-8')) if os.path.exists(dst) else {}

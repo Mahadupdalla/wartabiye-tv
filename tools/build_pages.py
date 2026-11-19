@@ -86,7 +86,11 @@ SO_WORDS = {'home': 'Hoyga', 'somaliaNav': 'Soomaaliya', 'eastAfrica': 'Bariga A
             'related': 'Wararka la xiriira', 'photo': 'Sawirka', 'back': '← Ku noqo bogga hore', 'seeAll': 'Dhammaan',
             'pubBy': 'Waxaa daabacay Wartabiye TV', 'wroteBy': 'Warkaan waxaa daabacay Wartabiye TV', 'srcLabel': 'Isha',
             'illus': 'Sawir muujin ah', 'latestWorld': 'Wararka Caalamka', 'latestSports': 'Wararka Ciyaaraha', 'categories': 'Qaybaha',
-            'latestShort': 'Ugu dambeeyay', 'updatedWord': 'La cusbooneysiiyay'}
+            'latestShort': 'Ugu dambeeyay', 'updatedWord': 'La cusbooneysiiyay',
+            'edBrand': 'WARTABIYE TV NEWS', 'edReport': 'WARBIXINTA', 'edDate': 'TAARIIKHDA', 'edSection': 'QAYBTA', 'edSource': 'ISHA',
+            'noteBased': 'Iyadoo lagu salaynayo warbixin ay baahisay {src}.', 'noteMulti': 'Iyadoo lagu salaynayo warbixinno ay baahiyeen {src}.',
+            'noteOfficial': 'Iyadoo lagu salaynayo war rasmi ah oo ay soo saartay {src}.', 'noteVerified': 'Xogtan waxaa xaqiijiyay tifaftirka Wartabiye TV.',
+            'noteFirst': 'Warbixinta ugu horreysay waxaa baahisay {src}.', 'andWord': 'iyo', 'secWorld': 'Wararka Caalamka', 'secSomalia': 'Wararka Soomaaliya'}
 
 
 def T(key, lang='so'):
@@ -98,14 +102,14 @@ def T(key, lang='so'):
     return v if isinstance(v, str) and v.strip() else SO_WORDS.get(key, key)
 
 
-CATN = {'en': {'Siyaasadda': 'Politics', 'Amniga': 'Security', 'Bulshada': 'Society', 'Dhaqaalaha': 'Economy', 'Adduunka': 'World', 'Ciyaaraha': 'Sports'},
-        'ar': {'Siyaasadda': 'سياسة', 'Amniga': 'أمن', 'Bulshada': 'مجتمع', 'Dhaqaalaha': 'اقتصاد', 'Adduunka': 'العالم', 'Ciyaaraha': 'رياضة'},
-        'fr': {'Siyaasadda': 'Politique', 'Amniga': 'Sécurité', 'Bulshada': 'Société', 'Dhaqaalaha': 'Économie', 'Adduunka': 'Monde', 'Ciyaaraha': 'Sport'},
-        'nl': {'Siyaasadda': 'Politiek', 'Amniga': 'Veiligheid', 'Bulshada': 'Samenleving', 'Dhaqaalaha': 'Economie', 'Adduunka': 'Wereld', 'Ciyaaraha': 'Sport'},
-        'it': {'Siyaasadda': 'Politica', 'Amniga': 'Sicurezza', 'Bulshada': 'Società', 'Dhaqaalaha': 'Economia', 'Adduunka': 'Mondo', 'Ciyaaraha': 'Sport'},
-        'de': {'Siyaasadda': 'Politik', 'Amniga': 'Sicherheit', 'Bulshada': 'Gesellschaft', 'Dhaqaalaha': 'Wirtschaft', 'Adduunka': 'Welt', 'Ciyaaraha': 'Sport'},
-        'tr': {'Siyaasadda': 'Siyaset', 'Amniga': 'Güvenlik', 'Bulshada': 'Toplum', 'Dhaqaalaha': 'Ekonomi', 'Adduunka': 'Dünya', 'Ciyaaraha': 'Spor'},
-        'es': {'Siyaasadda': 'Política', 'Amniga': 'Seguridad', 'Bulshada': 'Sociedad', 'Dhaqaalaha': 'Economía', 'Adduunka': 'Mundo', 'Ciyaaraha': 'Deportes'}}
+CATN = {'en': {'Siyaasadda': 'Politics', 'Amniga': 'Security', 'Bulshada': 'Society', 'Dhaqaalaha': 'Economy', 'Adduunka': 'World', 'Ciyaaraha': 'Sports', 'Teknolojiyadda': 'Technology'},
+        'ar': {'Siyaasadda': 'سياسة', 'Amniga': 'أمن', 'Bulshada': 'مجتمع', 'Dhaqaalaha': 'اقتصاد', 'Adduunka': 'العالم', 'Ciyaaraha': 'رياضة', 'Teknolojiyadda': 'تكنولوجيا'},
+        'fr': {'Siyaasadda': 'Politique', 'Amniga': 'Sécurité', 'Bulshada': 'Société', 'Dhaqaalaha': 'Économie', 'Adduunka': 'Monde', 'Ciyaaraha': 'Sport', 'Teknolojiyadda': 'Technologie'},
+        'nl': {'Siyaasadda': 'Politiek', 'Amniga': 'Veiligheid', 'Bulshada': 'Samenleving', 'Dhaqaalaha': 'Economie', 'Adduunka': 'Wereld', 'Ciyaaraha': 'Sport', 'Teknolojiyadda': 'Technologie'},
+        'it': {'Siyaasadda': 'Politica', 'Amniga': 'Sicurezza', 'Bulshada': 'Società', 'Dhaqaalaha': 'Economia', 'Adduunka': 'Mondo', 'Ciyaaraha': 'Sport', 'Teknolojiyadda': 'Tecnologia'},
+        'de': {'Siyaasadda': 'Politik', 'Amniga': 'Sicherheit', 'Bulshada': 'Gesellschaft', 'Dhaqaalaha': 'Wirtschaft', 'Adduunka': 'Welt', 'Ciyaaraha': 'Sport', 'Teknolojiyadda': 'Technologie'},
+        'tr': {'Siyaasadda': 'Siyaset', 'Amniga': 'Güvenlik', 'Bulshada': 'Toplum', 'Dhaqaalaha': 'Ekonomi', 'Adduunka': 'Dünya', 'Ciyaaraha': 'Spor', 'Teknolojiyadda': 'Teknoloji'},
+        'es': {'Siyaasadda': 'Política', 'Amniga': 'Seguridad', 'Bulshada': 'Sociedad', 'Dhaqaalaha': 'Economía', 'Adduunka': 'Mundo', 'Ciyaaraha': 'Deportes', 'Teknolojiyadda': 'Tecnología'}}
 CATS = [c for c in (SITE.get('categories') or []) if isinstance(c, str)] or ['Siyaasadda', 'Amniga', 'Bulshada', 'Dhaqaalaha', 'Adduunka', 'Ciyaaraha']
 cat_name = lambda k, lang='so': (CATN.get(lang) or {}).get(k, k) if lang != 'so' else k
 slug = lambda c: str(c or '').lower()
@@ -295,7 +299,7 @@ by_id = {n['id']: n for n in public}
 FOOT_TREND = ''.join(f'<a href="{art_href(n)}"><span>{esc(n.get("title"))}</span><small>{esc(show_date(n.get("publishedAt"), "so", False))}</small></a>' for n in public[:3])
 # the DEGDEG ticker: the newest headlines as real links (never a "loading" placeholder in the HTML)
 TICK = ''.join(f'<a href="{art_href(n)}">{esc(n.get("title"))}</a>' for n in [x for x in public if not x.get('sponsored')][:8])
-FOOT_CATS = ''.join(f'<a href="qayb/{slug(k)}/">{esc(k)}<span>{sum(1 for n in public if n.get("category") == k)}</span></a>' for k in CATS)
+FOOT_CATS = ''.join(f'<a href="qayb/{slug(k)}/">{esc(k)}<span>{c}</span></a>' for k in CATS for c in [sum(1 for n in public if n.get("category") == k)] if c)
 
 # ---------- translations that may have their own page ----------
 
@@ -322,6 +326,36 @@ def related(n, k=6):
     pool = [x for x in public if x is not n and not x.get('sponsored') and section(x) == s]
     first = [x for x in pool if x.get('category') == c]
     return (first + [x for x in pool if x not in first])[:k]
+
+
+def ed_footer(n, lang='so'):
+    """The editorial footer of every article (owner's spec, 19 Nov 2026; same as assets/app.js edFooter):
+    WARBIXINTA / TAARIIKHDA / QAYBTA and, for a story built on other outlets' reporting, ONE discreet source note
+    ("WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay X."). The credit comes from tools/attribution.py."""
+    c = n.get('credit') or {}
+    t, srcs = c.get('type') or 'original', c.get('sources') or []
+
+    def nm(x):
+        u = str(x.get('url') or '')
+        return f'<a href="{esc(u)}" target="_blank" rel="noopener">{esc(x["name"])}</a>' if c.get('link') and u.startswith('https://') else esc(x['name'])
+    names = [nm(x) for x in srcs]
+    joined = (', '.join(names[:-1]) + f' {esc(T("andWord", lang))} ' + names[-1]) if len(names) > 1 else (names[0] if names else '')
+    note = ''
+    if t == 'verified':
+        note = esc(T('noteVerified', lang)) + (' ' + esc(T('noteFirst', lang)).replace('{src}', joined) if joined else '')
+    elif joined and t in ('rewritten', 'multi', 'official'):
+        key = 'noteOfficial' if t == 'official' else 'noteMulti' if len(names) > 1 else 'noteBased'
+        note = esc(T(key, lang)).replace('{src}', joined)
+    pub = n.get('publishedAt')
+    s_ = section(n)
+    cat = T('secWorld', lang) if s_ == 'world' and n.get('category') in (None, 'Adduunka') else cat_name(n.get('category'), lang) if n.get('category') else T('secSomalia', lang)
+    rows = [(T('edReport', lang), 'WARTABIYE TV')]  # values are HTML
+    if parse(pub):
+        rows.append((T('edDate', lang), f'<time datetime="{esc(pub)}">{esc(show_date(pub, lang, False))}</time>'))
+    rows.append((T('edSection', lang), esc(cat)))
+    return ('<aside class="edfoot"><p class="edbrand">' + esc(T('edBrand', lang)) + '</p><dl>'
+            + ''.join(f'<div><dt>{esc(k)}</dt><dd>{v}</dd></div>' for k, v in rows)
+            + '</dl>' + (f'<p class="srcnote"><b>WARTABIYE TV</b> — {note}</p>' if note else '') + '</aside>')
 
 
 # ---------- 1. article pages ----------
@@ -377,8 +411,10 @@ for n in public:
             art['image'] = [LOGO]
         if body:
             art['wordCount'] = len(re.findall(r'\w+', summary + ' ' + body))
-        if n.get('sourceUrl'):
-            art['isBasedOn'] = n['sourceUrl']
+        cr_ = n.get('credit') or {}
+        based_on = [x['url'] for x in cr_.get('sources') or [] if str(x.get('url') or '').startswith('https://')]
+        if cr_.get('type') not in (None, 'original') and (based_on or n.get('sourceUrl')):
+            art['isBasedOn'] = based_on if len(based_on) > 1 else (based_on or [n['sourceUrl']])[0]
         if lang != 'so':
             art['translationOfWork'] = {'@id': page_url(n)}
         if n.get('sponsored'):
@@ -418,12 +454,7 @@ for n in public:
         own = n.get('by') == 'admin' and (not src_name or src_name == 'Wartabiye TV')
         by_txt = esc(T('wroteBy' if own else 'pubBy', lang))
         by_html = '<span class="by">' + (by_txt.replace('Wartabiye TV', '<b>Wartabiye TV</b>', 1) if 'Wartabiye TV' in by_txt else by_txt) + '</span>'
-        # a licence that requires public credit gets one small source line under the text
-        based = ''
-        if src_name and src_name != 'Wartabiye TV' and n.get('attributionRequired') is True:
-            su = str(n.get('sourceUrl') or '')
-            based = (f'<p class="srcline">{esc(T("srcLabel", lang))}: '
-                     + (f'<a href="{esc(su)}" target="_blank" rel="noopener">{esc(src_name)} ↗</a>' if su.startswith('https://') else esc(src_name)) + '</p>')
+        based = ed_footer(n, lang)
         rel = related(n)
         rel_html = ''
         if rel:
