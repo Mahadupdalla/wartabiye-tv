@@ -5,7 +5,7 @@ WTG.register('penalty', function (api) {
   var T = { so: { shoot: 'Laad: taabo si aad u doorato jihada, mar kale si aad u doorato dhererka', save: 'Ilaali: taabo meesha aad u boodayso (bidix, dhex, midig)', goal: 'GOOL!', saved: 'Waa la qabtay!', miss: 'Waa ka baxay', you: 'Adiga', cpu: 'Kombiyuutar' },
     en: { shoot: 'Shoot: tap to lock direction, tap again to lock height', save: 'Save: tap where to dive (left, centre, right)', goal: 'GOAL!', saved: 'Saved!', miss: 'Missed', you: 'You', cpu: 'CPU' } };
   function tx(k) { return (T[api.lang] || T.en)[k] || T.en[k]; }
-  var skill = { easy: 0.25, medium: 0.4, hard: 0.55 }[api.level];   // keeper skill
+  var R = api.cfg('rounds', 5), skill = { easy: 0.25, medium: 0.4, hard: 0.55 }[api.level];   // keeper skill
   var cpuAcc = { easy: 0.6, medium: 0.72, hard: 0.85 }[api.level];
   var phase, ax, ay, tAim, ball, keeper, msg, msgT, round, mine, theirs, myGoals, cpuGoals, turn, saves;
   function reset() { round = 0; mine = []; theirs = []; myGoals = 0; cpuGoals = 0; saves = 0; turn = 'shoot'; next(); }
@@ -15,15 +15,15 @@ WTG.register('penalty', function (api) {
   }
   function done() {
     var n = Math.max(mine.length, theirs.length);
-    if (mine.length === theirs.length && n >= 5) {
-      if (myGoals !== cpuGoals || n >= 10) {
+    if (mine.length === theirs.length && n >= R) {
+      if (myGoals !== cpuGoals || n >= R * 2) {
         if (myGoals > cpuGoals) api.win(api.score, { so: myGoals + ' – ' + cpuGoals, en: myGoals + ' – ' + cpuGoals }); else api.lose(api.score, { so: myGoals + ' – ' + cpuGoals, en: myGoals + ' – ' + cpuGoals });
         return true;
       }
     }
-    if (mine.length === theirs.length && mine.length < 5) {
+    if (mine.length === theirs.length && mine.length < R) {
       // early finish when one side cannot catch up
-      var left = 5 - mine.length; if (myGoals + left < cpuGoals || cpuGoals + left < myGoals) { if (myGoals > cpuGoals) api.win(api.score, { en: myGoals + ' – ' + cpuGoals }); else api.lose(api.score, { en: myGoals + ' – ' + cpuGoals }); return true; }
+      var left = R - mine.length; if (myGoals + left < cpuGoals || cpuGoals + left < myGoals) { if (myGoals > cpuGoals) api.win(api.score, { en: myGoals + ' – ' + cpuGoals }); else api.lose(api.score, { en: myGoals + ' – ' + cpuGoals }); return true; }
     }
     return false;
   }
@@ -82,7 +82,7 @@ WTG.register('penalty', function (api) {
     x.fillStyle = '#0b2545'; x.fillRect(0, 0, W, GY - 20);
     x.font = 'bold 14px sans-serif'; x.textAlign = 'left'; x.fillStyle = '#fff'; x.textBaseline = 'middle';
     x.fillText(tx('you') + ' ' + myGoals, 12, 18); x.textAlign = 'right'; x.fillText(cpuGoals + ' ' + tx('cpu'), W - 12, 18);
-    function dots(arr, y, right) { for (var k = 0; k < Math.max(5, arr.length); k++) { x.beginPath(); x.arc(right ? W - 18 - k * 16 : 18 + k * 16, y, 5, 0, 7); x.fillStyle = arr[k] === undefined ? 'rgba(255,255,255,.25)' : arr[k] ? '#22c55e' : '#ef4444'; x.fill(); } }
+    function dots(arr, y, right) { for (var k = 0; k < Math.max(R, arr.length); k++) { x.beginPath(); x.arc(right ? W - 18 - k * (Math.max(R, arr.length) > 6 ? 10 : 16) : 18 + k * (Math.max(R, arr.length) > 6 ? 10 : 16), y, 5, 0, 7); x.fillStyle = arr[k] === undefined ? 'rgba(255,255,255,.25)' : arr[k] ? '#22c55e' : '#ef4444'; x.fill(); } }
     dots(mine, 42, false); dots(theirs, 42, true);
     // goal
     x.strokeStyle = 'rgba(255,255,255,.35)'; x.lineWidth = 1;

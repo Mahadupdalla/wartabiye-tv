@@ -9,7 +9,7 @@ WTG.register('shapes', function (api) {
     diamond: ['<path d="M50 4l42 46-42 46L8 50z"/>', SO ? 'Dheeman' : 'Diamond'], moon: ['<path d="M64 8a42 42 0 1 0 28 64A34 34 0 0 1 64 8z"/>', SO ? 'Bil' : 'Moon']
   };
   var COL = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#f97316', '#ec4899', '#14b8a6'];
-  var n = { easy: 3, medium: 4, hard: 6 }[api.level], ROUNDS = 3, round, placed, mistakes, picked = null;
+  var n = api.cfg('n', { easy: 3, medium: 4, hard: 6 }[api.level]), ROUNDS = api.cfg('rounds', 3), round, placed, mistakes, picked = null;
   var css = h('style', { text: '.ss{display:flex;flex-direction:column;align-items:center;gap:18px;width:min(100%,760px)}.ss .row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;min-height:clamp(70px,14vmin,110px)}.ss .sh{width:clamp(64px,13vmin,104px);height:clamp(64px,13vmin,104px);touch-action:none;cursor:grab;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35));transition:transform .15s}.ss .sh.sel{transform:scale(1.15)}.ss .sh svg,.ss .ho svg{width:100%;height:100%}.ss .ho{width:clamp(70px,14vmin,112px);height:clamp(70px,14vmin,112px);border-radius:18px;background:rgba(255,255,255,.08);padding:4px}.ss .ho svg *{fill:rgba(255,255,255,.12);stroke:rgba(255,255,255,.7);stroke-width:4;stroke-dasharray:8 6}.ss .ho.done svg *{stroke:none;stroke-dasharray:none}' });
   function svg(k, fill) { return '<svg viewBox="0 0 100 100" aria-hidden="true">' + SH[k][0].replace('/>', ' fill="' + fill + '"/>') + '</svg>'; }
   function show() {

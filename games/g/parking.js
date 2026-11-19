@@ -65,7 +65,7 @@ WTG.register('parking', function (api) {
     api.h('div', { class: 'g-row' }, holdBtn('▼', function () { input.t = -1; }, function () { if (input.t < 0) input.t = 0; }), holdBtn('▲', function () { input.t = 1; }, function () { if (input.t > 0) input.t = 0; })));
   var wrap = api.h('div', { class: 'g-col' }); api.el.append(wrap); wrap.append(C.cv, pad);
   return {
-    start: function () { lv = 0; lives = api.level === 'easy' ? 5 : 3; load(); draw(); api.loop(function (dt) { update(dt); draw(); }); },
+    start: function () { lv = 0; lives = api.cfg('lives', api.level === 'easy' ? 5 : 3); load(); draw(); api.loop(function (dt) { update(dt); draw(); }); },
     key: function (e, down) { var k = e.key; if (k === 'ArrowUp' || k === 'w') input.t = down ? 1 : (input.t > 0 ? 0 : input.t); else if (k === 'ArrowDown' || k === 's') input.t = down ? -1 : (input.t < 0 ? 0 : input.t); else if (k === 'ArrowLeft' || k === 'a') input.s = down ? -1 : (input.s < 0 ? 0 : input.s); else if (k === 'ArrowRight' || k === 'd') input.s = down ? 1 : (input.s > 0 ? 0 : input.s); else return; e.preventDefault(); }
   };
 });

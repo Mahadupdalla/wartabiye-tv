@@ -7,7 +7,7 @@ WTG.register('blocks', function (api) {
   ];
   var COL = ['#38bdf8', '#facc15', '#a78bfa', '#3b82f6', '#fb923c', '#ef4444', '#22c55e'];
   var grid, cur, nxt, acc, lines, lvl, dead, lockT, soft;
-  var base = { easy: 0.9, medium: 0.65, hard: 0.42 }[api.level];
+  var base = api.cfg('speed', { easy: 0.9, medium: 0.65, hard: 0.42 }[api.level]), GHOST = api.cfg('ghost', 'on') !== 'off';
   function rot(m) { var r = []; for (var i = 0; i < m[0].length; i++) { r.push([]); for (var j = m.length - 1; j >= 0; j--) r[i].push(m[j][i]); } return r; }
   function piece() { var k = api.rand(0, 6); return { m: SH[k], c: k, x: 3 + (k === 1 ? 1 : 0), y: 0 }; }
   function fits(p, dx, dy, m) { m = m || p.m; for (var i = 0; i < m.length; i++) for (var j = 0; j < m[i].length; j++) if (m[i][j]) { var X = p.x + j + dx, Y = p.y + i + dy; if (X < 0 || X >= COLS || Y >= ROWS || (Y >= 0 && grid[Y][X] >= 0)) return false; } return true; }
@@ -30,7 +30,7 @@ WTG.register('blocks', function (api) {
     x.strokeStyle = 'rgba(255,255,255,.05)'; for (var c = 0; c <= COLS; c++) { x.beginPath(); x.moveTo(c * S, 0); x.lineTo(c * S, C.H); x.stroke(); }
     for (var r = 0; r < ROWS; r++) for (c = 0; c < COLS; c++) if (grid[r][c] >= 0) cell(c, r, grid[r][c]);
     var gy = 0; while (fits(cur, 0, gy + 1)) gy++;
-    cur.m.forEach(function (row, i) { row.forEach(function (v, j) { if (v) { cell(cur.x + j, cur.y + i + gy, cur.c, 0.22); cell(cur.x + j, cur.y + i, cur.c); } }); });
+    cur.m.forEach(function (row, i) { row.forEach(function (v, j) { if (v) { if (GHOST) cell(cur.x + j, cur.y + i + gy, cur.c, 0.22); cell(cur.x + j, cur.y + i, cur.c); } }); });
     x.fillStyle = '#04213f'; x.fillRect(COLS * S, 0, SIDE, C.H); x.fillStyle = '#F2060A'; x.fillRect(COLS * S, 0, 3, C.H);
     x.fillStyle = '#bcd3ee'; x.font = 'bold 13px sans-serif'; x.textAlign = 'center';
     x.fillText('NEXT', COLS * S + SIDE / 2, 26);

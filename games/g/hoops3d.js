@@ -5,7 +5,8 @@ WTG.register3d('hoops3d', function (M, api) {
   var T = M.T, SO = api.lang === 'so';
   var X = M.setup(api, { fov: 55, far: 120, bg: ['#020617', '#0f172a', '#1e293b'], reserve: 10, label: 'Hoop Shot 3D', exposure: 1.1, envIntensity: 0.6 });
   var scene = X.scene, cam = X.camera;
-  var TIME = { easy: 75, medium: 60, hard: 45 }[api.level], G = 9.8, RIM = 3.05, RR = 0.23, BR = 0.12, BOARD_Z = -0.38;
+  var COURT = { blue: 'rgba(3,123,220,.85)', red: 'rgba(220,38,38,.85)', green: 'rgba(22,163,74,.85)', purple: 'rgba(124,58,237,.85)' }[api.cfg('court', 'blue')] || 'rgba(3,123,220,.85)', GUIDE = api.cfg('guide', 'auto'), MOVE = api.cfg('move', 'auto');
+  var TIME = api.cfg('time', { easy: 75, medium: 60, hard: 45 }[api.level]), G = 9.8, RIM = 3.05, RR = 0.23, BR = 0.12, BOARD_Z = -0.38;
   scene.add(new T.AmbientLight(0x8090b0, 0.45));
   var S = M.sun(scene, { color: 0xfff4e0, intensity: 2.0, hemi: 0.55, sky: 0xd6e4ff, ground: 0x4a2f16, offset: new T.Vector3(3, 12, 8), size: 10 });
   S.follow(new T.Vector3(0, 0, 3));
@@ -17,7 +18,7 @@ WTG.register3d('hoops3d', function (M, api) {
     M.noise(x, w, h, 20000, 0.05);
     x.strokeStyle = 'rgba(255,255,255,.95)'; x.lineWidth = 8;
     var cx = w / 2, by = 60, s = 1024 / 15;                     // 15 m texture, basket at y = 60 px + 1.2 m
-    x.fillStyle = 'rgba(3,123,220,.85)'; x.fillRect(cx - 2.45 * s, by, 4.9 * s, 5.8 * s);
+    x.fillStyle = COURT; x.fillRect(cx - 2.45 * s, by, 4.9 * s, 5.8 * s);
     x.strokeRect(cx - 2.45 * s, by, 4.9 * s, 5.8 * s); x.beginPath(); x.arc(cx, by + 5.8 * s, 1.8 * s, 0, Math.PI); x.stroke();
     x.beginPath(); x.arc(cx, by + 1.2 * s, 6.75 * s, 0.03 * Math.PI, 0.97 * Math.PI); x.stroke();
     x.strokeStyle = '#f2060a'; x.beginPath(); x.moveTo(0, by); x.lineTo(w, by); x.stroke();
@@ -99,7 +100,7 @@ WTG.register3d('hoops3d', function (M, api) {
       var pts = (tries === 0 ? 3 : 2) + (streak >= 3 ? 1 : 0); api.add(pts * 10); api.sfx('win'); flash((tries === 0 ? 'SWISH! ' : '') + '+' + pts * 10);
       fx.push(M.burst(scene, c.clone(), 0xffd166, 30));
       if (streak === 5) api.achieve('hot', { so: '5 isku xigta', en: '5 in a row' }); if (made === 20) api.achieve('20', { so: '20 kubadood', en: '20 baskets' });
-      if (made >= 6 && api.level !== 'easy' && !hoopV) hoopV = api.level === 'hard' ? 1.1 : 0.6;
+      if (made >= 6 && (MOVE === 'on' || (MOVE === 'auto' && api.level !== 'easy')) && !hoopV) hoopV = api.level === 'hard' ? 1.1 : 0.6;
     }
   }
   function update(dt) {
@@ -130,7 +131,7 @@ WTG.register3d('hoops3d', function (M, api) {
   // swipe to shoot
   var sx = 0, sy = 0, on = false;
   function preview(dx, dy) {
-    if (api.level === 'hard') return; var v = shotVel(dx, dy), p = B.p.clone(), n = api.level === 'easy' ? 16 : 7; guide.visible = true;
+    if (GUIDE === 'off' || (GUIDE === 'auto' && api.level === 'hard')) return; var v = shotVel(dx, dy), p = B.p.clone(), n = GUIDE === 'on' || api.level === 'easy' ? 16 : 7; guide.visible = true;
     guide.children.forEach(function (m, i) { m.visible = i < n; for (var k = 0; k < 4; k++) { v.y -= G * 0.02; p.addScaledVector(v, 0.02); } m.position.copy(p); });
   }
   X.cv.addEventListener('pointerdown', function (e) { if (api.paused || B.live) return; e.preventDefault(); on = true; sx = e.clientX; sy = e.clientY; try { X.cv.setPointerCapture(e.pointerId); } catch (x) {} });

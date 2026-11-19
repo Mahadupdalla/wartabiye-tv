@@ -1,7 +1,8 @@
 /* Snake: eat the fruit, grow longer, don't hit the walls or yourself. Original implementation. */
 WTG.register('snake', function (api) {
   var N = 20, SZ = 20, C = api.canvas(N * SZ, N * SZ, 130), x = C.ctx;
-  var speed = { easy: 6, medium: 8, hard: 12 }[api.level], walls = api.level !== 'easy';
+  var speed = api.cfg('speed', { easy: 6, medium: 8, hard: 12 }[api.level]), wl = api.cfg('walls', 'auto'), walls = wl === 'auto' ? api.level !== 'easy' : wl === 'on';
+  var SK = { green: ['#4ade80', '#22c55e', '#16a34a'], blue: ['#93c5fd', '#3b82f6', '#2563eb'], orange: ['#fdba74', '#f97316', '#ea580c'], pink: ['#f9a8d4', '#ec4899', '#db2777'], gold: ['#fde68a', '#facc15', '#ca8a04'] }[api.cfg('skin', 'green')] || ['#4ade80', '#22c55e', '#16a34a'];
   var snake, dir, next, food, acc, eaten, dead, bonus;
   function reset() { snake = [{ x: 8, y: 10 }, { x: 7, y: 10 }, { x: 6, y: 10 }]; dir = { x: 1, y: 0 }; next = dir; acc = 0; eaten = 0; dead = false; place(); bonus = null; }
   function free(p) { return !snake.some(function (s) { return s.x === p.x && s.y === p.y; }); }
@@ -28,7 +29,7 @@ WTG.register('snake', function (api) {
     x.fillText('🍎', food.x * SZ + SZ / 2, food.y * SZ + SZ / 2 + 1);
     if (bonus) x.fillText('⭐', bonus.x * SZ + SZ / 2, bonus.y * SZ + SZ / 2 + 1);
     snake.forEach(function (s, i) {
-      x.fillStyle = i ? (i % 2 ? '#22c55e' : '#16a34a') : '#4ade80';
+      x.fillStyle = i ? (i % 2 ? SK[1] : SK[2]) : SK[0];
       x.beginPath(); x.roundRect ? x.roundRect(s.x * SZ + 1, s.y * SZ + 1, SZ - 2, SZ - 2, 6) : x.rect(s.x * SZ + 1, s.y * SZ + 1, SZ - 2, SZ - 2); x.fill();
     });
     var hd = snake[0]; x.fillStyle = '#052e16';

@@ -7,7 +7,7 @@ WTG.register('pairs', function (api) {
       : [['🦁', 'Lion'], ['🐪', 'Camel'], ['🐘', 'Elephant'], ['🐱', 'Cat'], ['🐕', 'Dog'], ['🐴', 'Horse'], ['🐟', 'Fish'], ['🐦', 'Bird'], ['🐊', 'Crocodile'], ['🦒', 'Giraffe'], ['🐐', 'Goat'], ['🐄', 'Cow'], ['🐭', 'Mouse'], ['🐵', 'Monkey'], ['🦓', 'Zebra'], ['🐢', 'Turtle']],
     homes: [['🐟', '🌊'], ['🐦', '🪺'], ['🐝', '🍯'], ['🐄', '🌾'], ['🐪', '🏜️'], ['🐧', '🧊'], ['🐒', '🌳'], ['🐸', '🪷']]
   };
-  var set = SETS[api.opts.set] || SETS.animals, n = { easy: 3, medium: 4, hard: 6 }[api.level], ROUNDS = 3;
+  var set = SETS[api.opts.set] || SETS.animals, n = api.cfg('n', { easy: 3, medium: 4, hard: 6 }[api.level]), ROUNDS = api.cfg('rounds', 3);
   var round, selL, done, mistakes, colors = ['#fde68a', '#bfdbfe', '#fbcfe8', '#bbf7d0', '#fed7aa', '#ddd6fe'];
   var css = h('style', { text: '.pm{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,8vw,90px);width:min(100%,640px)}.pm .c{display:flex;flex-direction:column;gap:10px}.pm button{min-height:clamp(56px,11vmin,84px);font:800 clamp(20px,4.5vmin,30px)/1.1 Archivo,sans-serif;border-radius:18px}.pm .l button{font-size:clamp(36px,8vmin,58px)}.pm button.sel{outline:4px solid #ffb703}.pm button.m{opacity:.9;color:#04213f}' });
   function show() {

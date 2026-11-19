@@ -12,7 +12,7 @@ WTG.register('kidsquiz', function (api) {
   var OBJ = ['🍎', '⭐', '🐟', '🎈', '🐥', '🌸', '🚗', '🍌', '⚽', '🦋'];
   var PRAISE = SO ? ['Fiican!', 'Waa sax!', 'Mahadsanid, waa sax!', 'Aad u wanaagsan!'] : ['Great!', 'Well done!', 'Super!', 'Correct!'];
   var TRY = SO ? 'Isku day mar kale' : 'Try again';
-  var N = 10, round, right, firstTry, prog, root;
+  var N = api.cfg('n', 10), round, right, firstTry, prog, root;
   function lv(e, m, hd) { return api.level === 'easy' ? e : api.level === 'medium' ? m : hd; }
   function build() {
     var q = {}, nC = lv(3, 4, 6);
@@ -68,7 +68,7 @@ WTG.register('kidsquiz', function (api) {
   var hist = [];
   function next() {
     round++;
-    if (round >= N) { var stars = right >= 9 ? 3 : right >= 6 ? 2 : 1; if (right === N) api.achieve('all-' + mode, { so: 'Dhammaan waa sax!', en: 'All correct!' }); api.win(api.score + stars * 10, { so: new Array(stars + 1).join('⭐') + ' ' + right + ' / ' + N, en: new Array(stars + 1).join('⭐') + ' ' + right + ' / ' + N }); return; }
+    if (round >= N) { var stars = right >= N * 0.9 ? 3 : right >= N * 0.6 ? 2 : 1; if (right === N) api.achieve('all-' + mode, { so: 'Dhammaan waa sax!', en: 'All correct!' }); api.win(api.score + stars * 10, { so: new Array(stars + 1).join('⭐') + ' ' + right + ' / ' + N, en: new Array(stars + 1).join('⭐') + ' ' + right + ' / ' + N }); return; }
     show();
   }
   return { start: function () { round = 0; right = 0; hist = []; show(); } };

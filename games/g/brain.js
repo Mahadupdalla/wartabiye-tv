@@ -3,7 +3,7 @@
 WTG.register('brain', function (api) {
   var h = api.h;
   var COLS = [['#ef4444', { so: 'CAS', en: 'RED' }], ['#3b82f6', { so: 'BULUUG', en: 'BLUE' }], ['#22c55e', { so: 'CAGAAR', en: 'GREEN' }], ['#eab308', { so: 'JAALLE', en: 'YELLOW' }]];
-  var TIME = { easy: 75, medium: 60, hard: 45 }[api.level], left, streak, right, wrong, tId, qStart;
+  var TIME = api.cfg('time', { easy: 75, medium: 60, hard: 45 }[api.level]), left, streak, right, wrong, tId, qStart;
   var types = api.opts.types || ['math', 'color', 'bigger', 'odd'];
   var css = h('style', { text: '.bg{width:min(100%,560px);display:flex;flex-direction:column;align-items:center;gap:14px}.bg .k{font-weight:800;color:#bcd3ee;text-transform:uppercase;letter-spacing:.06em;font-size:13px}.bg .q{font:900 clamp(34px,9vmin,64px)/1.1 Archivo,sans-serif;text-align:center;min-height:1.2em}.bg .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}.bg .opts button{font-size:clamp(20px,5vmin,30px);padding:18px 8px}.bg .bar{width:100%;height:8px;border-radius:5px;background:rgba(255,255,255,.15);overflow:hidden}.bg .bar i{display:block;height:100%;background:#22c55e}' });
   var bar = h('i'), kind = h('div', { class: 'k' }), q = h('div', { class: 'q' }), opts = h('div', { class: 'opts' });

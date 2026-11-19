@@ -3,9 +3,9 @@
 WTG.register('runner', function (api) {
   var W = 360, H = 600, C = api.canvas(W, H, 80), x = C.ctx;
   var HOR = 170, GROUND = 540, FAR = 40;
-  var sp0 = { easy: 11, medium: 14, hard: 18 }[api.level];
+  var sp0 = api.cfg('speed', { easy: 11, medium: 14, hard: 18 }[api.level]);
   var P, objs, speed, dist, coins, spawnZ, t, dead, lives;
-  function reset() { P = { lane: 1, lx: 1, jump: 0, vy: 0, slide: 0 }; objs = []; speed = sp0; dist = 0; coins = 0; spawnZ = 12; t = 0; dead = false; lives = api.level === 'easy' ? 3 : 1; info(); }
+  function reset() { P = { lane: 1, lx: 1, jump: 0, vy: 0, slide: 0 }; objs = []; speed = sp0; dist = 0; coins = 0; spawnZ = 12; t = 0; dead = false; lives = api.cfg('lives', api.level === 'easy' ? 3 : 1); info(); }
   function info() { api.info('❤️', lives); }
   function proj(lane, z) { var k = 1 / (1 + z * 0.12); return { x: W / 2 + (lane - 1) * 110 * k, y: HOR + (GROUND - HOR) * k, k: k }; }
   function spawn(z) {

@@ -1,8 +1,8 @@
 /* Maze Quest: an adventure through 5 maze levels. Collect the stars, find the key, open the door before time runs out.
    Each maze is generated fresh. On Hard you only see the area around you. Original implementation. */
 WTG.register('maze', function (api) {
-  var LEVELS = 5, lvl, M, N, P, stars, key, door, hasKey, tLeft, CS, C, x, dark = api.level === 'hard';
-  var base = { easy: 7, medium: 9, hard: 11 }[api.level];
+  var LEVELS = 5, lvl, M, N, P, stars, key, door, hasKey, tLeft, CS, C, x, dark = api.cfg('dark', 'auto') === 'auto' ? api.level === 'hard' : api.cfg('dark') === 'on';
+  var base = api.cfg('size', { easy: 7, medium: 9, hard: 11 }[api.level]);
   var wrap = api.h('div', { class: 'g-col' }); api.el.append(wrap);
   function gen(n) {
     var cells = []; for (var i = 0; i < n * n; i++) cells.push({ w: [1, 1, 1, 1], v: 0 }); // top right bottom left

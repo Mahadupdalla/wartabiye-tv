@@ -5,7 +5,7 @@ WTG.register('four', function (api) {
   var TX = { so: { turn: '{c} ayaa ciyaaraya', win: '{c} ayaa guuleystay!', draw: 'Barbarro', red: 'Casaan', yel: 'Jaalle', cpu: '🤖 Kombiyuutar', two: '👥 2 qof' }, en: { turn: '{c} to play', win: '{c} wins!', draw: 'Draw', red: 'Red', yel: 'Yellow', cpu: '🤖 vs computer', two: '👥 2 players' } };
   function tx(k, c) { var s = (TX[api.lang] || TX.en)[k] || TX.en[k]; return c ? s.replace('{c}', c) : s; }
   var g, turn, over, busy, mode = api.load('mode', 'cpu'), moves;
-  var boardEl = h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: '6px', background: '#037BDC', padding: '10px', borderRadius: '18px', width: 'min(calc(var(--w) - 20px), calc((var(--h) - 120px) * 7 / 6), 620px)', boxShadow: '0 16px 40px rgba(0,0,0,.45)', touchAction: 'manipulation' } });
+  var boardEl = h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: '6px', background: ({ blue: '#037BDC', red: '#b91c1c', green: '#15803d', black: '#1f2937' })[api.cfg('board', 'blue')] || '#037BDC', padding: '10px', borderRadius: '18px', width: 'min(calc(var(--w) - 20px), calc((var(--h) - 120px) * 7 / 6), 620px)', boxShadow: '0 16px 40px rgba(0,0,0,.45)', touchAction: 'manipulation' } });
   var cells = [];
   for (var r = 0; r < ROWS; r++) for (var c = 0; c < COLS; c++) (function (c) { var el = h('button', { type: 'button', 'aria-label': 'column ' + (c + 1), style: { aspectRatio: '1', borderRadius: '50%', border: '0', background: '#04213f', cursor: 'pointer', boxShadow: 'inset 0 4px 8px rgba(0,0,0,.5)', transition: 'background .15s' }, onclick: function () { drop(c); } }); cells.push(el); boardEl.append(el); })(c);
   var st = h('div', { class: 'bd-st', 'aria-live': 'polite' });

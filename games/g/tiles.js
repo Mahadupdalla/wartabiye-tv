@@ -3,7 +3,7 @@
 WTG.register('tiles', function (api) {
   var h = api.h;
   var SYM = ['🍎', '🍌', '🍇', '🍉', '🥕', '🌽', '🌙', '⭐', '☀️', '⚽', '🏀', '🐪', '🦁', '🐘', '🦒', '🐢', '🐟', '🦋', '🌵', '🌴', '🚗', '✈️', '⛵', '🔔', '🎈', '📚', '🎵', '💎', '🔑', '🧭'];
-  var LAYERS = { easy: [[6, 6], [4, 4]], medium: [[8, 6], [6, 4], [4, 2]], hard: [[10, 6], [8, 4], [6, 2], [2, 2]] }[api.level];
+  var LAYERS = { easy: [[6, 6], [4, 4]], medium: [[8, 6], [6, 4], [4, 2]], hard: [[10, 6], [8, 4], [6, 2], [2, 2]] }[api.cfg('layout', api.level)];
   var tiles, sel, shuffles, hintT, el, root, pairsLeft, t0;
   var css = h('style', { text: '.tm{position:relative}.tm .t{position:absolute;width:var(--tw);height:var(--th);border-radius:10px;background:linear-gradient(160deg,#fffdf7,#efe7d1);box-shadow:3px 4px 0 #b59f6b,4px 6px 8px rgba(0,0,0,.35);display:grid;place-items:center;font-size:calc(var(--tw) * .62);cursor:pointer;border:2px solid #d9cba3;transition:transform .12s,opacity .2s;padding:0}.tm .t.free{border-color:#22c55e}.tm .t.lock{filter:brightness(.78)}.tm .t.sel{transform:translateY(-5px);background:#ffe8a3;border-color:#f59e0b}.tm .t.hint{animation:hb .6s 3}@keyframes hb{50%{transform:scale(1.12)}}' });
   function build() {

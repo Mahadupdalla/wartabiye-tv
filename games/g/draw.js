@@ -5,19 +5,20 @@ WTG.register('draw', function (api) {
   var PAL = ['#111827', '#ef4444', '#f97316', '#facc15', '#22c55e', '#037BDC', '#a855f7', '#ec4899', '#a16207', '#ffffff'];
   var STK = ['⭐', '❤️', '🌸', '🐱', '🌈', '☀️', '🚗', '🎈'];
   var color = PAL[1], size = 10, tool = 'pen', sticker = STK[0], strokes = 0, hist = [], drawing = false, last = null;
-  function clear() { x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); }
+  var PAPER = api.cfg('paper', '#ffffff');
+  function clear() { x.fillStyle = PAPER; x.fillRect(0, 0, W, H); }
   function snap() { try { hist.push(x.getImageData(0, 0, C.cv.width, C.cv.height)); if (hist.length > 20) hist.shift(); } catch (e) {} }
   function undo() { var d = hist.pop(); if (d) x.putImageData(d, 0, 0); }
-  C.cv.style.background = '#fff'; C.cv.style.cursor = 'crosshair';
+  C.cv.style.background = PAPER; C.cv.style.cursor = 'crosshair';
   C.cv.addEventListener('pointerdown', function (e) {
     if (api.paused) return; e.preventDefault(); C.cv.setPointerCapture(e.pointerId); snap();
     var p = C.pt(e);
     if (tool === 'sticker') { x.font = size * 6 + 'px serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(sticker, p.x, p.y); api.sfx('pop'); strokes++; api.add(1); return; }
     drawing = true; last = p; dot(p);
   });
-  C.cv.addEventListener('pointermove', function (e) { if (!drawing) return; var p = C.pt(e); x.strokeStyle = tool === 'eraser' ? '#fff' : color; x.lineWidth = tool === 'eraser' ? size * 3 : size; x.lineCap = 'round'; x.lineJoin = 'round'; x.beginPath(); x.moveTo(last.x, last.y); x.lineTo(p.x, p.y); x.stroke(); last = p; });
+  C.cv.addEventListener('pointermove', function (e) { if (!drawing) return; var p = C.pt(e); x.strokeStyle = tool === 'eraser' ? PAPER : color; x.lineWidth = tool === 'eraser' ? size * 3 : size; x.lineCap = 'round'; x.lineJoin = 'round'; x.beginPath(); x.moveTo(last.x, last.y); x.lineTo(p.x, p.y); x.stroke(); last = p; });
   C.cv.addEventListener('pointerup', function () { if (drawing) { drawing = false; strokes++; api.add(1); if (strokes === 50) api.achieve('50', { so: '50 xarriiq', en: '50 strokes' }); } });
-  function dot(p) { x.fillStyle = tool === 'eraser' ? '#fff' : color; x.beginPath(); x.arc(p.x, p.y, (tool === 'eraser' ? size * 3 : size) / 2, 0, 7); x.fill(); }
+  function dot(p) { x.fillStyle = tool === 'eraser' ? PAPER : color; x.beginPath(); x.arc(p.x, p.y, (tool === 'eraser' ? size * 3 : size) / 2, 0, 7); x.fill(); }
   var bar = h('div', { class: 'g-row', style: { maxWidth: '820px' } });
   function ui() {
     bar.innerHTML = '';

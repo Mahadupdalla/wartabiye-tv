@@ -2,7 +2,7 @@
 WTG.register('racer', function (api) {
   var W = 360, H = 600, C = api.canvas(W, H, 80), x = C.ctx;
   var ROAD = 260, L0 = (W - ROAD) / 2, LANES = 4, LW = ROAD / LANES;
-  var base = { easy: 220, medium: 280, hard: 350 }[api.level];
+  var base = api.cfg('speed', { easy: 220, medium: 280, hard: 350 }[api.level]), NOFUEL = api.cfg('fuel') === 'off';
   var car, cars, items, speed, dist, steer, spawnT, fuel, dead, t;
   var COLORS = ['#ef4444', '#f59e0b', '#22c55e', '#a855f7', '#e2e8f0', '#14b8a6'];
   function reset() { car = { x: W / 2, y: H - 110, w: 36, h: 62 }; cars = []; items = []; speed = base; dist = 0; steer = 0; spawnT = 0.5; fuel = 100; dead = false; t = 0; }
@@ -24,7 +24,7 @@ WTG.register('racer', function (api) {
   function update(dt) {
     t += dt; speed = base + Math.min(260, t * 6);
     car.x += steer * 260 * dt; car.x = Math.max(L0 + car.w / 2, Math.min(L0 + ROAD - car.w / 2, car.x));
-    dist += speed * dt / 50; fuel -= dt * (api.level === 'easy' ? 2 : 3.2);
+    dist += speed * dt / 50; if (!NOFUEL) fuel -= dt * (api.level === 'easy' ? 2 : 3.2);
     spawnT -= dt; if (spawnT <= 0) { spawn(); spawnT = Math.max(0.28, 0.9 - t * 0.008) * (300 / speed) * 1.4; }
     cars.forEach(function (c) { c.y += (speed - c.v) * dt; });
     items.forEach(function (i) { i.y += speed * dt; });
