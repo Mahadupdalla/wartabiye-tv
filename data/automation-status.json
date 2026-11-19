@@ -1,14 +1,14 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-20T00:41:35+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-20T00:46:54+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-19T20:26:23Z",
- "newestArticleAt": "2026-11-19T21:01:17+03:00",
- "lastSourceCheckAt": "2026-11-20T00:40:18+03:00",
+ "newestArticleAt": "2026-11-19T23:37:21+03:00",
+ "lastSourceCheckAt": "2026-11-20T00:45:20+03:00",
  "sourceChecks24h": 294,
- "publishedArticles": 950,
- "liveArticles": 950,
+ "publishedArticles": 968,
+ "liveArticles": 968,
  "waitingForImage": 120,
  "liveInSync": true,
  "publishFailures24h": 0,
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44608686836"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-19T21:46:53+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-19T22:25:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-20T00:45:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,42 +47,44 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-20T00:40:12+03:00",
-   "lastSuccessAt": "2026-11-20T00:40:12+03:00",
+   "lastCheckAt": "2026-11-20T00:45:13+03:00",
+   "lastSuccessAt": "2026-11-20T00:45:13+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-19T22:17:00+03:00",
+  "lastSourceCheckAt": "2026-11-20T00:09:47+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-19T21:08:49+03:00",
-   "sourceName": "Somali Guardian",
-   "title": "Somalia: Djibouti peacekeepers killed in clash with Hawadle militias at Beledweyne airport",
-   "url": "https://www.somaliguardian.com/news/somalia-news/somalia-djibouti-peacekeepers-killed-hawadle-militias-beledweyne-airport/"
+   "publishedAt": "2026-11-19T23:50:10+03:00",
+   "sourceName": "Hiiraan Online",
+   "title": "Maamulka Hirshabeelle oo mamnuucay in hub lala galo garoonka diyaaradaha Ugaas Khaliif ee Baladweyne",
+   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta19-195566.htm"
   },
   "latestPublished": {
-   "id": "2026-11-19-hantidhowrka-guud-hufnaanta-khayraadka-dabiiciga",
-   "title": "HANTIDHOWRKA GUUD EE SOOMAALIYA OO XOOJINAYA HUFNAANTA IYO LA XISAABTANKA MAAMULKA KHAYRAADKA DABIICIGA AH EE DALKA",
-   "publishedAt": "2026-11-19T17:40:00+03:00",
-   "source": "Wartabiye TV",
-   "url": "/war/2026-11-19-hantidhowrka-guud-hufnaanta-khayraadka-dabiiciga.html"
+   "id": "2026-11-19-imaaraadka-jawaab-rasmi-safaaradda-muqdisho-janaayo",
+   "title": "Imaaraadka oo sheegay inuu horay u xiray safaaraddiisa Muqdisho bishii January",
+   "publishedAt": "2026-11-19T23:32:24+03:00",
+   "source": "Goobjoog News",
+   "url": "/war/2026-11-19-imaaraadka-jawaab-rasmi-safaaradda-muqdisho-janaayo.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 80,
+  "publishedLastRun": 5,
+  "rejectedLastRun": 85,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 71,
+   "old": 10,
+   "duplicate": 74,
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Somalia: Djibouti peacekeepers killed in clash with Hawadle militias at Beledweyne airport: headline-only (Somali Guardian); Hiiraan/Goobjoog none, WebSearch so+en none -> pending (lama xaqiijin)",
-   "Moyale (Addis Standard): URL-ka ayaa ku dhacay maqaal hore (2026-11-05-suudaan-xirtay-qunsuliyadda-itoobiya), lama daabicin",
-   "Safiirka Imaaraadka, dagaalka Beledweyne, dhaliisha Madoobe, iscasilaadda taliye ku-xigeenka booliska: hore ayaa loo daabacay (duplicate)",
-   "Kulamada wasiirada (Shabelle), SoDMA, kulamada Aljeeriya/Norway, falcelinta Daljir ee Madoobe: protocol / duplicate"
+   "Somalia: Djibouti peacekeepers killed in clash with Hawadle militias at Beledweyne airport (Somali Guardian): headline-only; tirada dhimashada iyo cidda ay ka tirsanaayeen way ku kala duwan yihiin Hiiraan iyo Somali Guardian -> lagu daray warka Hirshabeelle iyadoon tiro la qorin",
+   "Ra'iisul Wasaaraha oo ka qeybgalay bandhig-faneed (Goobjoog): protocol, war ma aha",
+   "Baraarug: barnaamij raadiye (Daljir): war ma aha",
+   "Wararkii ugu dambeeyay kulamada siyaasadeed ee Turkiga (Caasimada): headline-only; Hiiraan/Goobjoog none, WebSearch lama samayn -> pending",
+   "Somalia, Saudi Arabia outrank UK in night-time safety rankings (Horseed): headline-only, warbixin aan muhiim ahayn",
+   "Catch-up (Imaaraadka cayrinta, Axmed Madoobe, Cabdalla Cabdalla, Minnesota, Pew, Beledweyne, Kismaayo, QM): horay ayay bogga ugu jireen (duplicate)"
   ],
   "waitingForImage": 11,
   "waitingIds": [
