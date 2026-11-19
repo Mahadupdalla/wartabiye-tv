@@ -292,3 +292,7 @@ html.wtg-open,html.wtg-open body{overflow:hidden}
 .wtg-stage[data-back="red"] .sol .cd.down{background:repeating-linear-gradient(45deg,#c1121f 0 6px,#9b0f19 6px 12px)}
 .wtg-stage[data-back="green"] .sol .cd.down{background:repeating-linear-gradient(45deg,#15803d 0 6px,#116632 6px 12px)}
 .wtg-stage[data-back="black"] .sol .cd.down{background:repeating-linear-gradient(45deg,#1f2937 0 6px,#111827 6px 12px)}
+
+/* games with their own app screens (direct): a one-row bar, no score boxes */
+.wtg-slim .wtg-scores{display:none}
+@media (max-width:640px){.wtg-slim .wtg-bar{flex-wrap:nowrap}.wtg-slim .wtg-title{flex:1 1 auto}.wtg-slim .wtg-title b{display:none}}

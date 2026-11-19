@@ -104,12 +104,66 @@ WTG.register3d('ludo3d', function (M, api) {
   var tableTex = M.canvasTex(512, 512, function (x, w, hh) { var g = x.createRadialGradient(w / 2, hh / 2, 20, w / 2, hh / 2, w * 0.7); g.addColorStop(0, '#5b3a22'); g.addColorStop(1, '#24140a'); x.fillStyle = g; x.fillRect(0, 0, w, hh); for (var i = 0; i < 120; i++) { x.strokeStyle = 'rgba(0,0,0,' + (0.05 + Math.random() * 0.08) + ')'; x.lineWidth = 1 + Math.random() * 2; x.beginPath(); var y = Math.random() * hh; x.moveTo(0, y); x.bezierCurveTo(w * 0.3, y + 8, w * 0.7, y - 8, w, y + Math.random() * 6); x.stroke(); } }, [3, 3]);
   var table = new T.Mesh(new T.PlaneGeometry(80, 80), new T.MeshStandardMaterial({ map: tableTex, roughness: 0.55, metalness: 0.05 })); table.rotation.x = -Math.PI / 2; table.position.y = -0.62; table.receiveShadow = true; scene.add(table);
 
+  function flat() { return api.cfg('cam', 'top') === 'top'; }   // the straight-down, flat board style (default)
   var world = new T.Group(); scene.add(world);
   var TOP = 0.02;
   function wpos(r, c, y) { return new T.Vector3(c - 7, y == null ? TOP : y, r - 7); }
   var boardTop, frame;
   var logoYaw = 0; // the centre logo is drawn turned so it reads upright from every seat
+  function shadeHex(v, k) { var n = parseInt(v.slice(1), 16), f = function (q) { return Math.round(k < 0 ? q * (1 + k) : q + (255 - q) * k); }; return 'rgb(' + f(n >> 16) + ',' + f((n >> 8) & 255) + ',' + f(n & 255) + ')'; }
+  var BOLD = ['#e8392b', '#12b048', '#f9c300', '#1878e0'];   // solid, bold colours for the flat board
+  function flatTexture() {
+    // a clean, flat board seen from above: solid homes, white squares with grid lines, star and globe squares
+    var N = 15, R = M.mobile ? 1536 : 2048, s = R / N;
+    return M.canvasTex(R, R, function (x) {
+      function shade(c, k) { var n = parseInt(BOLD[c].slice(1), 16), f = function (v) { return Math.round(k < 0 ? v * (1 + k) : v + (255 - v) * k); }; return 'rgb(' + f(n >> 16) + ',' + f((n >> 8) & 255) + ',' + f(n & 255) + ')'; }
+      function rr(x0, y0, w, hh, r) { x.beginPath(); x.moveTo(x0 + r, y0); x.arcTo(x0 + w, y0, x0 + w, y0 + hh, r); x.arcTo(x0 + w, y0 + hh, x0, y0 + hh, r); x.arcTo(x0, y0 + hh, x0, y0, r); x.arcTo(x0, y0, x0 + w, y0, r); x.closePath(); }
+      function star(cx, cy, r, fill) { x.beginPath(); for (var i = 0; i < 10; i++) { var a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? r * 0.45 : r; x.lineTo(cx + Math.cos(a) * q, cy + Math.sin(a) * q); } x.closePath(); x.fillStyle = fill; x.fill(); }
+      function globe(cx, cy, r) {
+        x.save(); x.lineWidth = s * 0.055; x.strokeStyle = '#ffffff'; x.fillStyle = 'rgba(255,255,255,.18)';
+        x.beginPath(); x.arc(cx, cy, r, 0, 7); x.fill(); x.stroke();
+        x.beginPath(); x.ellipse(cx, cy, r * 0.45, r, 0, 0, 7); x.stroke();
+        x.beginPath(); x.moveTo(cx - r, cy); x.lineTo(cx + r, cy); x.stroke();
+        x.beginPath(); x.moveTo(cx - r * 0.86, cy - r * 0.5); x.lineTo(cx + r * 0.86, cy - r * 0.5); x.moveTo(cx - r * 0.86, cy + r * 0.5); x.lineTo(cx + r * 0.86, cy + r * 0.5); x.stroke();
+        x.restore();
+      }
+      var line = '#1f2937', lw = Math.max(2, s * 0.03);
+      x.fillStyle = '#ffffff'; x.fillRect(0, 0, R, R);
+      // the four homes: solid colour, a darker square inside, four round spots
+      YARD.forEach(function (y, c) {
+        var x0 = y[1] * s, y0 = y[0] * s;
+        x.fillStyle = BOLD[c]; x.fillRect(x0, y0, 6 * s, 6 * s);
+        x.fillStyle = shade(c, -0.22); rr(x0 + s * 0.8, y0 + s * 0.8, s * 4.4, s * 4.4, s * 0.45); x.fill();
+        [[1.5, 1.5], [1.5, 3.5], [3.5, 1.5], [3.5, 3.5]].forEach(function (p) {
+          var cx = x0 + (p[1] + 0.5) * s, cy = y0 + (p[0] + 0.5) * s;
+          x.fillStyle = shade(c, -0.45); x.beginPath(); x.arc(cx, cy, s * 0.5, 0, 7); x.fill();
+          x.fillStyle = 'rgba(0,0,0,.18)'; x.beginPath(); x.arc(cx, cy - s * 0.04, s * 0.46, Math.PI, 0); x.fill();
+        });
+        x.strokeStyle = line; x.lineWidth = lw; x.strokeRect(x0, y0, 6 * s, 6 * s);
+      });
+      // the track: white squares, the start square in colour with a globe, grey star squares
+      PATH.forEach(function (p, i) {
+        var cc = OFF.indexOf(i), X0 = p[1] * s, Y0 = p[0] * s;
+        x.fillStyle = cc >= 0 ? BOLD[cc] : SAFE.indexOf(i) >= 0 ? '#d1d5db' : '#ffffff'; x.fillRect(X0, Y0, s, s);
+        if (cc >= 0) globe(X0 + s / 2, Y0 + s / 2, s * 0.32);
+        else if (SAFE.indexOf(i) >= 0) star(X0 + s / 2, Y0 + s / 2, s * 0.36, '#475569');
+        x.strokeStyle = line; x.lineWidth = lw; x.strokeRect(X0, Y0, s, s);
+      });
+      // the home columns in each colour, with an arrow into them
+      HOME.forEach(function (hc, c) { hc.forEach(function (p, k) { if (k > 4) return; x.fillStyle = BOLD[c]; x.fillRect(p[1] * s, p[0] * s, s, s); x.strokeStyle = line; x.lineWidth = lw; x.strokeRect(p[1] * s, p[0] * s, s, s); }); });
+      // centre: four solid triangles and the logo
+      var m = 7.5 * s;
+      [[0, [6, 6], [9, 6]], [1, [6, 6], [6, 9]], [2, [6, 9], [9, 9]], [3, [9, 6], [9, 9]]].forEach(function (t) {
+        x.fillStyle = BOLD[t[0]]; x.beginPath(); x.moveTo(m, m); x.lineTo(t[1][1] * s, t[1][0] * s); x.lineTo(t[2][1] * s, t[2][0] * s); x.closePath(); x.fill();
+        x.strokeStyle = line; x.lineWidth = lw; x.stroke();
+      });
+      x.fillStyle = '#ffffff'; x.beginPath(); x.arc(m, m, s * 0.8, 0, 7); x.fill(); x.strokeStyle = '#04213f'; x.lineWidth = s * 0.08; x.stroke();
+      x.fillStyle = '#04213f'; x.font = '900 ' + (s * 0.44) + 'px Archivo,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.save(); x.translate(m, m + 2); x.rotate(logoYaw); x.fillText('WTV', 0, 0); x.restore();
+      x.strokeStyle = line; x.lineWidth = lw * 2; x.strokeRect(lw, lw, R - 2 * lw, R - 2 * lw);
+    });
+  }
   function boardTexture(theme) {
+    if (theme === 'classic' && flat()) return flatTexture();
     var N = 15, R = M.mobile ? 1536 : 2048, s = R / N;
     return M.canvasTex(R, R, function (x) {
       var night = theme === 'night', royal = theme === 'royal';
@@ -150,11 +204,19 @@ WTG.register3d('ludo3d', function (M, api) {
   boardTop = new T.Mesh(new T.PlaneGeometry(15, 15), boardMat); boardTop.rotation.x = -Math.PI / 2; boardTop.receiveShadow = true; world.add(boardTop);
   var frameMat = new T.MeshPhysicalMaterial({ color: 0x5a3416, roughness: 0.35, metalness: 0.1, clearcoat: 0.8, clearcoatRoughness: 0.2 });
   frame = new T.Mesh(new T.RoundedBoxGeometry(16.2, 0.6, 16.2, 4, 0.25), frameMat); frame.position.y = -0.31; frame.castShadow = true; frame.receiveShadow = true; world.add(frame);
+  var flatMat = new T.MeshBasicMaterial({ toneMapped: false });   // flat board: its colours exactly as drawn, bold and solid
   function setBoard(theme) {
     if (boardMat.map) boardMat.map.dispose(); boardMat.map = boardTexture(theme); boardMat.needsUpdate = true;
     frameMat.color.setHex(theme === 'royal' ? 0xb8860b : theme === 'night' ? 0x0f172a : 0x5a3416); frameMat.metalness = theme === 'royal' ? 0.85 : 0.1; frameMat.roughness = theme === 'royal' ? 0.25 : 0.35;
     boardMat.emissiveMap = theme === 'night' ? boardMat.map : null; boardMat.emissive = new T.Color(theme === 'night' ? 0x333333 : 0x000000); boardMat.emissiveIntensity = theme === 'night' ? 0.9 : 0;
-    scene.background = M.gradientTex(theme === 'night' ? ['#020617', '#0b1220', '#1e1b4b'] : theme === 'royal' ? ['#1c1208', '#3b2a12', '#5b3a22'] : ['#0b1220', '#13233d', '#1e3557']);
+    var F = flat();
+    // flat style: the board shows its own true colours (no tone mapping wash), with a little light for the token shadows
+    var FC = F && theme === 'classic';
+    if (FC) { flatMat.map = boardMat.map; flatMat.needsUpdate = true; }
+    boardTop.material = FC ? flatMat : boardMat;
+    boardMat.clearcoat = F ? 0.35 : 1; boardMat.roughness = F ? 0.55 : 0.32; table.visible = !F;
+    if (F && theme === 'classic') { frameMat.color.setHex(0x04213f); frameMat.metalness = 0.2; }
+    scene.background = M.gradientTex(F ? ['#04213f', '#0a3a6b', '#04213f'] : theme === 'night' ? ['#020617', '#0b1220', '#1e1b4b'] : theme === 'royal' ? ['#1c1208', '#3b2a12', '#5b3a22'] : ['#0b1220', '#13233d', '#1e3557']);
   }
 
   // tokens: a turned pawn (lathe), glossy
@@ -166,12 +228,38 @@ WTG.register3d('ludo3d', function (M, api) {
     if (style === 'gem') { o.roughness = 0.05; o.metalness = 0.2; o.iridescence = 1; o.iridescenceIOR = 1.5; o.emissive = new T.Color(HEX[c]); o.emissiveIntensity = 0.25; o.sheen = 1; o.sheenColor = new T.Color(0xffffff); }
     return new T.MeshPhysicalMaterial(o);
   }
-  var tokens = {}, ringGeo = new T.TorusGeometry(0.42, 0.05, 10, 40), ringMat = new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 });
+  // flat style: a round glossy disc with a gold rim and an emblem on top
+  var discGeo = new T.CylinderGeometry(0.44, 0.46, 0.2, 48), rimGeo = new T.TorusGeometry(0.43, 0.03, 10, 48), capGeo = new T.CircleGeometry(0.435, 48), caps = [];
+  var rimMat = new T.MeshPhysicalMaterial({ color: 0xffd166, metalness: 0.6, roughness: 0.25, clearcoat: 1, emissive: new T.Color(0x6b4a00), emissiveIntensity: 0.35 }), capMats = {};
+  function capMat(c) {
+    if (capMats[c]) return capMats[c];
+    var tex = M.canvasTex(256, 256, function (x, w) {
+      // a gold coin face: a thick bevelled gold ring, a deep coloured centre and a white crown
+      var o = w / 2, gr = x.createLinearGradient(0, 0, 0, w); gr.addColorStop(0, '#fff1a8'); gr.addColorStop(0.45, '#f5b800'); gr.addColorStop(1, '#a86b00');
+      x.fillStyle = '#7a4d00'; x.fillRect(0, 0, w, w); x.fillStyle = gr; x.beginPath(); x.arc(o, o, o, 0, 7); x.fill();
+      x.fillStyle = '#8a5a00'; x.beginPath(); x.arc(o, o, o * 0.7, 0, 7); x.fill();
+      var cg = x.createRadialGradient(o * 0.8, o * 0.7, 4, o, o, o * 0.66); cg.addColorStop(0, shadeHex(BOLD[c], 0.3)); cg.addColorStop(1, shadeHex(BOLD[c], -0.3));
+      x.fillStyle = cg; x.beginPath(); x.arc(o, o, o * 0.64, 0, 7); x.fill();
+      x.fillStyle = '#ffffff'; x.shadowColor = 'rgba(0,0,0,.45)'; x.shadowBlur = 6; x.beginPath();
+      x.moveTo(o - 0.36 * o, o + 0.22 * o); x.lineTo(o - 0.42 * o, o - 0.2 * o); x.lineTo(o - 0.18 * o, o); x.lineTo(o, o - 0.3 * o); x.lineTo(o + 0.18 * o, o); x.lineTo(o + 0.42 * o, o - 0.2 * o); x.lineTo(o + 0.36 * o, o + 0.22 * o); x.closePath(); x.fill();
+      [[-0.42, -0.2], [0, -0.3], [0.42, -0.2]].forEach(function (b) { x.beginPath(); x.arc(o + b[0] * o, o + b[1] * o - 0.06 * o, 0.07 * o, 0, 7); x.fill(); });
+      x.fillRect(o - 0.36 * o, o + 0.28 * o, 0.72 * o, 0.1 * o); x.shadowBlur = 0;
+      var hl = x.createLinearGradient(0, 0, 0, o); hl.addColorStop(0, 'rgba(255,255,255,.45)'); hl.addColorStop(1, 'rgba(255,255,255,0)');
+      x.fillStyle = hl; x.beginPath(); x.ellipse(o, o * 0.55, o * 0.62, o * 0.38, 0, Math.PI, 0); x.fill();
+    });
+    return (capMats[c] = new T.MeshBasicMaterial({ map: tex, toneMapped: false }));
+  }
+  var tokens = {}, ringGeo = new T.TorusGeometry(0.42, 0.05, 10, 40), ringGeoF = new T.TorusGeometry(0.5, 0.06, 10, 44), ringMat = new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 });
   function buildTokens(S) {
-    Object.keys(tokens).forEach(function (k) { world.remove(tokens[k].g); }); tokens = {};
+    Object.keys(tokens).forEach(function (k) { world.remove(tokens[k].g); }); tokens = {}; caps = [];
     S.seats.forEach(function (s) { for (var i = 0; i < 4; i++) {
-      var g = new T.Group(), m = new T.Mesh(pawnGeo, tokenMat(s.c, looks.tokens)); m.castShadow = true; g.add(m);
-      var ring = new T.Mesh(ringGeo, ringMat.clone()); ring.rotation.x = Math.PI / 2; ring.position.y = 0.03; ring.visible = false; g.add(ring);
+      var g = new T.Group(), m;
+      if (flat()) {
+        m = new T.Mesh(discGeo, rimMat); m.position.y = 0.1; m.castShadow = true; g.add(m);
+        var rim = new T.Mesh(rimGeo, rimMat); rim.rotation.x = Math.PI / 2; rim.position.y = 0.2; g.add(rim);
+        var cap = new T.Mesh(capGeo, capMat(s.c)); cap.rotation.x = -Math.PI / 2; cap.position.y = 0.205; g.add(cap); caps.push(cap);
+      } else { m = new T.Mesh(pawnGeo, tokenMat(s.c, looks.tokens)); m.castShadow = true; g.add(m); }
+      var ring = new T.Mesh(flat() ? ringGeoF : ringGeo, ringMat.clone()); ring.rotation.x = Math.PI / 2; ring.position.y = 0.03; ring.visible = false; g.add(ring);
       g.userData = { c: s.c, i: i, ring: ring }; m.userData = g.userData;
       var k = s.c + ':' + i; tokens[k] = { g: g, m: m, pr: -1, anim: null }; g.position.copy(spotOf(s.c, i, -1, 0)); world.add(g);
     } });
@@ -208,11 +296,17 @@ WTG.register3d('ludo3d', function (M, api) {
     // keep the dice off the centre triangles: it lands just in front of the thrower's side of the centre
     var dir = [[-1, -1], [-1, 1], [1, 1], [1, -1]][c]; to.x = dir[1] * 1.9 + (Math.random() - 0.5) * 0.5; to.z = dir[0] * 1.9 + (Math.random() - 0.5) * 0.5;
     DA = { t: 0, dur: 1.05, from: from, to: to, q0: new T.Quaternion().setFromEuler(new T.Euler(Math.random() * 6, Math.random() * 6, Math.random() * 6)), q1: faceQuat(n, Math.random() * Math.PI * 2), axis: new T.Vector3(Math.random() - 0.5, 1, Math.random() - 0.5).normalize(), spin: 16 + Math.random() * 8 };
-    dice.visible = true; api.sfx('tick');
+    DA.n = n; dice.visible = !flat(); api.sfx('tick');
+    if (flat()) { DA.dur = 0.8; DA.ft = 0; dieEl.classList.add('roll'); dieEl.classList.remove('go'); }
   }
   function stepDice(dt) {
     if (!DA) { dice.position.y = 0.45 + Math.sin(tt * 2) * 0.03; return; }
     DA.t += dt; var k = Math.min(1, DA.t / DA.dur), e = 1 - Math.pow(1 - k, 2.2);
+    if (flat()) {
+      DA.ft += dt; if (DA.ft > 0.07) { DA.ft = 0; var r; do { r = 1 + (Math.random() * 6 | 0); } while (r === dieFace); setDieFace(r); }
+      if (k >= 1) { setDieFace(DA.n); dieEl.classList.remove('roll'); DA = null; api.sfx('tap'); onDiceLanded(); }
+      return;
+    }
     dice.position.lerpVectors(DA.from, DA.to, e);
     var bounce = Math.abs(Math.sin(k * Math.PI * 3)) * (1 - k) * 1.4; dice.position.y = 0.45 + bounce;
     if (k < 0.62) { dice.quaternion.copy(DA.q0); dice.rotateOnWorldAxis(DA.axis, DA.spin * DA.t * (1 - k)); }
@@ -222,8 +316,8 @@ WTG.register3d('ludo3d', function (M, api) {
 
   // ------------------------------------------------------------------ more words for the app screens
   var TX2 = {
-    so: { p2: '2 Ciyaaryahan', p4: '4 Ciyaaryahan', privateT: 'Miis gaar ah', onlineT: 'Saaxiibo online', teamT: 'Koox', offline: 'Ciyaar offline', classic: 'Caadi', quick: 'Degdeg', teamMode: 'Koox ahaan u ciyaar', go: 'BILOW', daily: 'Abaalmarinta maalinlaha', today: 'Maanta', tomorrow: 'Berri', day: 'Maalin {c}', collect: 'Qaado', congrats: 'Hambalyo!', gotIt: 'Waa hagaag', nHome: 'Guriga', nLooks: 'Muuqaal', nFriends: 'Saaxiibo', nRewards: 'Hadiyad', nProfile: 'Aniga', level: 'Heer', games: 'Ciyaarood', wins: 'Guul', caps: 'Cunis', homeN: 'Guri gaaray', ach: 'Guulaha', invite: 'Saaxiibadaa la ciyaar', inviteBtn: '🔗 Samee qol oo la wadaag', joinCode: 'Ku gal koodh', recent: 'Saaxiibadii', teamWin: 'Kooxda {c} ayaa guuleystay!', playerN: 'Ciyaaryahan {c}', save: 'Kaydi' },
-    en: { p2: '2 Players', p4: '4 Players', privateT: 'Private Table', onlineT: 'Friends Online', teamT: 'Team Up', offline: 'Play offline', classic: 'Classic', quick: 'Quick', teamMode: 'Play as teams', go: 'START', daily: 'Daily Rewards', today: 'Today', tomorrow: 'Tomorrow', day: 'Day {c}', collect: 'Collect', congrats: 'Congratulations!', gotIt: 'Got it!', nHome: 'Home', nLooks: 'Looks', nFriends: 'Friends', nRewards: 'Rewards', nProfile: 'Profile', level: 'Level', games: 'Games', wins: 'Wins', caps: 'Captures', homeN: 'Tokens home', ach: 'Achievements', invite: 'Play with your friends', inviteBtn: '🔗 Create a room and share', joinCode: 'Join with code', recent: 'Friends', teamWin: 'Team {c} wins!', playerN: 'Player {c}', save: 'Save' }
+    so: { p2: '2 Ciyaaryahan', p4: '4 Ciyaaryahan', privateT: 'Miis gaar ah', onlineT: 'Saaxiibo online', teamT: 'Koox', offline: 'Ciyaar offline', classic: 'Caadi', quick: 'Degdeg', teamMode: 'Koox ahaan u ciyaar', go: 'BILOW', daily: 'Abaalmarinta maalinlaha', today: 'Maanta', tomorrow: 'Berri', day: 'Maalin {c}', collect: 'Qaado', congrats: 'Hambalyo!', gotIt: 'Waa hagaag', nHome: 'Guriga', nLooks: 'Muuqaal', nFriends: 'Saaxiibo', nRewards: 'Hadiyad', nProfile: 'Aniga', level: 'Heer', games: 'Ciyaarood', wins: 'Guul', caps: 'Cunis', homeN: 'Guri gaaray', ach: 'Guulaha', invite: 'Saaxiibadaa la ciyaar', inviteBtn: '🔗 Samee qol oo la wadaag', joinCode: 'Ku gal koodh', recent: 'Saaxiibadii', teamWin: 'Kooxda {c} ayaa guuleystay!', playerN: 'Ciyaaryahan {c}', save: 'Kaydi', settings: 'Habaynta' },
+    en: { p2: '2 Players', p4: '4 Players', privateT: 'Private Table', onlineT: 'Friends Online', teamT: 'Team Up', offline: 'Play offline', classic: 'Classic', quick: 'Quick', teamMode: 'Play as teams', go: 'START', daily: 'Daily Rewards', today: 'Today', tomorrow: 'Tomorrow', day: 'Day {c}', collect: 'Collect', congrats: 'Congratulations!', gotIt: 'Got it!', nHome: 'Home', nLooks: 'Looks', nFriends: 'Friends', nRewards: 'Rewards', nProfile: 'Profile', level: 'Level', games: 'Games', wins: 'Wins', caps: 'Captures', homeN: 'Tokens home', ach: 'Achievements', invite: 'Play with your friends', inviteBtn: '🔗 Create a room and share', joinCode: 'Join with code', recent: 'Friends', teamWin: 'Team {c} wins!', playerN: 'Player {c}', save: 'Save', settings: 'Settings' }
   };
   Object.keys(TX2).forEach(function (l) { Object.keys(TX2[l]).forEach(function (k) { TX[l][k] = TX2[l][k]; }); });
   var AV = (WTG.AVATARS || ['🦁', '🐯', '🐼', '🦊']), SEATAV = ['🦊', '🐼', '🐯', '🐨'];
@@ -333,7 +427,54 @@ WTG.register3d('ludo3d', function (M, api) {
     '.l3-shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}.l3-item{border-radius:16px;padding:10px 6px;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);text-align:center;font:800 13px Archivo;color:inherit;cursor:pointer}',
     '.l3-item b{display:block;width:40px;height:40px;border-radius:12px;margin:0 auto 6px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25),0 0 0 2px rgba(255,255,255,.45)}.l3-item.use{border-color:#4ade80;background:rgba(74,222,128,.14)}.l3-item small{display:block;margin-top:3px;color:#ffd166}',
     '@media (max-width:380px){.l3-tile.sm{font-size:11px}.l3-tile.sm .ic{font-size:32px}}',
-    '@media (prefers-reduced-motion:reduce){.l3-rays,.l3-tile::after,.l3-cube{animation:none}}'
+    // richer lobby look (Wartabiye navy, blue, red and gold)
+    '.l3-app{background:radial-gradient(70% 40% at 50% 14%,rgba(120,190,255,.55),transparent 70%),radial-gradient(140% 100% at 50% 0%,#1c8cf0 0%,#0b5bb0 34%,#073a78 62%,#04213f 100%)}',
+    '.l3-spot{position:absolute;left:50%;top:-20%;width:120%;height:90%;transform:translateX(-50%);background:conic-gradient(from 160deg at 50% 0%,transparent 0deg,rgba(255,255,255,.16) 12deg,transparent 24deg,transparent 40deg,rgba(255,255,255,.12) 50deg,transparent 60deg);pointer-events:none;filter:blur(2px)}',
+    '.l3-cur{position:absolute;top:0;width:30%;height:42%;pointer-events:none;background:repeating-linear-gradient(90deg,#e0303c 0 10px,#a10f1c 10px 22px,#c71f2d 22px 30px);filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}',
+    '.l3-cur.l{left:0;clip-path:polygon(0 0,100% 0,62% 18%,30% 55%,0 100%)}.l3-cur.r{right:0;clip-path:polygon(0 0,100% 0,100% 100%,70% 55%,38% 18%)}',
+    '.l3-cur::after{content:"";position:absolute;left:0;right:0;top:0;height:14px;background:radial-gradient(circle at 10px -2px,#ffd166 9px,transparent 10px) 0 0/20px 14px repeat-x,linear-gradient(#ffe08a,#e09f00) 0 0/100% 6px no-repeat}',
+    '.l3-spk{position:absolute;inset:0;pointer-events:none}.l3-spk i{position:absolute;font-style:normal;opacity:.2;animation:l3tw 2.6s infinite;text-shadow:0 0 8px #fff}@keyframes l3tw{50%{opacity:1;transform:scale(1.4) rotate(20deg)}}',
+    '.l3-top{padding:12px 12px 8px}',
+    '.l3-av{width:54px;height:54px;background:conic-gradient(#ffd166 var(--p,0%),rgba(0,0,0,.35) 0);box-shadow:0 5px 12px rgba(0,0,0,.45);padding:4px}.l3-av .f{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#cfe0f5);font-size:28px;box-shadow:0 0 0 2px #04213f}',
+    '.l3-lv{background:linear-gradient(#ff6b6b,#c1121f);font-size:11px;bottom:-8px;padding:1px 8px}',
+    '.l3-pill{position:relative;height:34px;padding:0 6px 0 34px;margin-left:16px;border-radius:12px;background:linear-gradient(#04213f,#0a3266);box-shadow:inset 0 0 0 2px rgba(255,255,255,.18),0 3px 0 rgba(0,0,0,.35);font-size:15px}',
+    '.l3-pill .pi{position:absolute;left:-14px;top:50%;transform:translateY(-50%);width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.45))}.l3-pill span.pi{font-size:26px;width:auto;height:auto}',
+    '.l3-pill .plus{border:0;margin-left:6px;width:24px;height:24px;border-radius:8px;background:linear-gradient(#5ee28e,#16a34a);color:#fff;font:900 18px/1 Archivo;box-shadow:0 2px 0 #166534;cursor:pointer;padding:0}',
+    '.l3-tile{border:3px solid rgba(255,255,255,.6);box-shadow:0 0 0 3px #04213f,0 8px 0 3px #031a36,0 18px 30px rgba(0,0,0,.45)}',
+    '.l3-tile::before{content:"";position:absolute;left:5px;right:5px;top:4px;height:44%;border-radius:18px 18px 60% 60%/18px 18px 26% 26%;background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.05));pointer-events:none;z-index:1}',
+    '.t-red{background:radial-gradient(circle at 50% 30%,#ff8a8f,#e11d2e 55%,#9b0f1b)}.t-blue{background:radial-gradient(circle at 50% 30%,#8fd0ff,#1c8cf0 55%,#0353a4)}.t-gold{background:radial-gradient(circle at 50% 30%,#fff1b3,#f5b301 60%,#b45309);color:#3b2600}.t-green{background:radial-gradient(circle at 50% 30%,#a7f3c0,#22c55e 55%,#047857)}.t-navy{background:radial-gradient(circle at 50% 30%,#7aa7e6,#1d4f99 60%,#0b2a52)}.t-purple{background:linear-gradient(90deg,#1d4f99,#5b3fd1 60%,#7c3aed)}',
+    '.l3-tile .num{z-index:0;top:-2%;font-size:min(112px,27vw);color:#fff;-webkit-text-stroke:5px #04213f;paint-order:stroke fill;text-shadow:0 7px 0 #04213f,0 0 26px rgba(255,255,255,.55);filter:none}',
+    '.l3-tile .art{position:absolute;left:50%;bottom:32px;transform:translateX(-50%);width:88%;height:auto;max-height:54%;object-fit:contain;z-index:2;filter:drop-shadow(0 8px 6px rgba(0,0,0,.4))}.l3-tile span.art{font-size:34px;width:auto}',
+    '.l3-tile .lab{z-index:3;background:linear-gradient(#04213f,#0a3266);border:2px solid rgba(255,255,255,.35);font-size:15px;text-shadow:0 2px 0 rgba(0,0,0,.4)}',
+    '.l3-tile.sm{justify-content:flex-end;padding:4px 4px 8px}.l3-tile.sm .ic{width:100%;height:auto;max-height:72%;object-fit:contain;position:relative;z-index:2;font-size:38px;filter:drop-shadow(0 6px 5px rgba(0,0,0,.4))}.l3-tile.sm span.ic{width:auto}',
+    '.l3-tile.sm .lb{position:relative;z-index:3;text-shadow:0 2px 0 rgba(0,0,0,.35);line-height:1.1}.t-gold .lb{text-shadow:0 1px 0 rgba(255,255,255,.5)}',
+    '.l3-wide{padding:6px 14px;min-height:64px}.l3-wide .ic{width:66px;height:58px;object-fit:contain;position:relative;z-index:2;font-size:30px}.l3-wide>span{position:relative;z-index:2}',
+    '.l3-badge{margin-inline-start:auto;background:linear-gradient(#ff6b6b,#c1121f);border:2px solid #fff;border-radius:999px;padding:3px 12px;font-size:14px;animation:l3pulse 1.1s infinite}',
+    '.l3-nav{background:linear-gradient(#0d3a75,#04213f);border-top:3px solid #ffd166;box-shadow:0 -6px 16px rgba(0,0,0,.35)}.l3-nav button i{font-size:25px;filter:drop-shadow(0 3px 2px rgba(0,0,0,.4))}',
+    '.l3-nav button.on{background:radial-gradient(circle at 50% 30%,#8fd0ff,#1c8cf0 55%,#0353a4);border:2px solid #ffd166;transform:translateY(-12px) scale(1.08)}',
+    '.l3-ribbon{background:linear-gradient(#ff6b6b,#c1121f);border:3px solid #ffd166;font-size:21px;padding:8px 30px;border-radius:14px}',
+    '.l3-ribbon::before,.l3-ribbon::after{content:"";position:absolute;top:12px;width:22px;height:30px;background:#9b0f1b;z-index:-1}.l3-ribbon::before{left:-16px;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,40% 50%)}.l3-ribbon::after{right:-16px;clip-path:polygon(0 0,100% 0,60% 50%,100% 100%,0 100%)}',
+    '.l3-day{background:linear-gradient(#fffaf0,#ffe6a8);border:3px solid #fff;box-shadow:0 0 0 2px #c98d00,0 5px 0 2px #a16207;padding:0 4px 6px;overflow:hidden}',
+    '.l3-day .tag{display:block;margin:0 -4px 2px;padding:3px 0;background:linear-gradient(#f59e0b,#c2410c);color:#fff;font-size:12px;text-shadow:0 1px 0 rgba(0,0,0,.3)}.l3-day.now .tag{background:linear-gradient(#4ade80,#15803d)}',
+    '.l3-day .dimg{display:block;width:100%;height:64px;object-fit:contain;margin:2px 0}.l3-day.d7 .dimg{height:84px}.l3-day small{font-size:13px;color:#7c2d12}',
+    '.l3-day.now{background:linear-gradient(#f0fff4,#bbf7d0);box-shadow:0 0 0 2px #15803d,0 5px 0 2px #166534,0 0 22px rgba(74,222,128,.8)}',
+    '.l3-burst{position:absolute;left:50%;top:44%;width:900px;height:900px;margin:-450px 0 0 -450px;background:repeating-conic-gradient(rgba(255,209,102,.28) 0 10deg,transparent 10deg 20deg);border-radius:50%;-webkit-mask:radial-gradient(circle,#000 20%,transparent 65%);mask:radial-gradient(circle,#000 20%,transparent 65%);animation:l3spin 14s linear infinite;pointer-events:none}',
+    '.l3-gift{border:4px solid #ffd166;background:linear-gradient(#1c8cf0,#073a78 60%,#04213f);padding-top:8px}.l3-gift .top{display:block;width:78%;margin:-60px auto 0;filter:drop-shadow(0 10px 10px rgba(0,0,0,.5));animation:l3bob 1s infinite alternate}',
+    '.l3-gift h2{background:linear-gradient(#ff6b6b,#c1121f);color:#fff;margin:4px -8px 0;padding:8px;border-radius:12px;border:3px solid #ffd166;text-shadow:0 2px 0 rgba(0,0,0,.3)}',
+    '.l3-gift .row div{display:flex;flex-direction:column;align-items:center;gap:2px}.l3-gift .ri{width:58px;height:58px;object-fit:contain;animation:l3bob .9s infinite alternate}',
+    '.l3-flycoin .fc{width:34px;height:34px;display:block}',
+    '.l3-die{position:absolute;left:0;top:0;width:60px;height:60px;border:0;border-radius:15px;padding:8px;background:linear-gradient(160deg,#ffffff,#dbe4ef);box-shadow:0 0 0 4px var(--c,#ef4444),0 0 0 6px #fff,0 6px 0 5px rgba(0,0,0,.3),0 12px 22px rgba(0,0,0,.45);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:2px;pointer-events:auto;cursor:pointer;transition:left .3s,top .3s;z-index:3}',
+    '.l3-die i{border-radius:50%;background:radial-gradient(circle at 35% 30%,#64748b,#020617 70%);visibility:hidden}.l3-die i.on{visibility:visible}.l3-die.one i.on{background:radial-gradient(circle at 35% 30%,#ff8a8a,#b91c1c 70%)}',
+    '.l3-die.go{animation:l3pulse .7s infinite alternate}.l3-die.roll{animation:none}.l3-die[disabled]{cursor:default}',
+    '@keyframes l3pulse{to{box-shadow:0 0 0 3px var(--c,#ef4444),0 0 0 5px #fff,0 0 18px 6px #ffd166,0 4px 0 3px rgba(0,0,0,.3)}}@keyframes l3shake{0%{transform:rotate(-14deg) scale(1.05)}50%{transform:rotate(14deg) scale(.95)}100%{transform:rotate(-14deg) scale(1.05)}}',
+    '.l3-flat .l3-pl.on::before{content:"";position:absolute;top:-28px;left:50%;margin-left:-12px;border-left:12px solid transparent;border-right:12px solid transparent;border-top:18px solid #ffd166;filter:drop-shadow(0 2px 2px rgba(0,0,0,.55));animation:l3arr .45s infinite alternate}@keyframes l3arr{to{transform:translateY(8px)}}',
+    '.l3-flat .l3-bot{bottom:6px}.l3-flat .l3-msg{font-size:13px;padding:6px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 200px)}.l3-flat .l3-coin{left:auto;right:8px;transform:none}',
+    '.l3-flat .l3-pl{width:78px}.l3-flat .l3-pl .a{width:46px;height:46px;font-size:26px}.l3-flat .l3-pl span{max-width:78px;font-size:11px}.l3-flat .l3-pl.on{transform:scale(1.08)}',
+    '.l3-flat .l3-die{width:40px;height:40px;padding:5px;border-radius:10px;gap:1px;box-shadow:0 0 0 3px var(--c,#ef4444),0 0 0 5px #fff,0 4px 0 3px rgba(0,0,0,.3),0 8px 14px rgba(0,0,0,.4);-webkit-tap-highlight-color:transparent;touch-action:manipulation}',
+    '.l3-flat .l3-pl .a{border-radius:14px;background:linear-gradient(160deg,#ffffff,#cfe0f5)}.l3-flat .l3-pl.on .a{border-radius:16px}',
+    '.l3-tl{position:absolute;left:6px;top:8px;display:flex;flex-direction:column;gap:8px;pointer-events:auto;z-index:2}.l3-tl button{width:38px;height:38px;border-radius:13px;border:2px solid rgba(255,255,255,.75);background:linear-gradient(#2b9bff,#0353a4);color:#fff;font:900 20px Archivo,sans-serif;box-shadow:0 4px 0 #02386f,0 8px 14px rgba(0,0,0,.4);cursor:pointer;display:grid;place-items:center;padding:0}',
+    '@media (prefers-reduced-motion:reduce){.l3-die.go,.l3-die.roll,.l3-flat .l3-pl.on::before{animation:none}}',
+    '@media (prefers-reduced-motion:reduce){.l3-rays,.l3-tile::after,.l3-cube,.l3-spk i,.l3-burst{animation:none}}'
   ].join('') });
   var root = h('div', { class: 'l3', style: { position: 'absolute', inset: 0 } }); hud.append(css, root);
   var panelsEl = h('div'), coinEl = h('div', { class: 'l3-coin', text: '🪙 ' + coins() });
@@ -341,7 +482,16 @@ WTG.register3d('ludo3d', function (M, api) {
   var emoBar = h('div', { class: 'l3-emo', hidden: true });
   ['👍', '😂', '😮', '🔥', '👏', '😢'].forEach(function (e) { emoBar.append(h('button', { type: 'button', 'aria-label': e, text: e, onclick: function () { if (net) net.send({ t: 'emote', e: e }); } })); });
   var bot = h('div', { class: 'l3-bot' }, msgEl, rollBtn, emoBar);
-  root.append(panelsEl, coinEl, bot);
+  // flat style: a dice box beside the player whose turn it is, and exit / settings buttons at the top left
+  var dieEl = h('button', { type: 'button', class: 'l3-die', 'aria-label': tx('roll'), hidden: true, onclick: function () { localRoll(); } });
+  for (var di = 0; di < 9; di++) dieEl.append(h('i'));
+  var DPIPS = { 1: [4], 2: [2, 6], 3: [2, 4, 6], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] }, dieFace = 6;
+  function setDieFace(n) { dieFace = n; [].forEach.call(dieEl.children, function (p, k) { p.classList.toggle('on', DPIPS[n].indexOf(k) >= 0); }); dieEl.classList.toggle('one', n === 1); }
+  setDieFace(6);
+  var tlEl = h('div', { class: 'l3-tl' },
+    h('button', { type: 'button', 'aria-label': tx('back'), title: tx('back'), text: '✕', onclick: function () { api.sfx('tap'); exitGame(); } }),
+    api.settings ? h('button', { type: 'button', 'aria-label': tx('settings'), title: tx('settings'), text: '⚙', onclick: function () { api.sfx('tap'); api.settings(); } }) : null);
+  root.append(panelsEl, coinEl, bot, dieEl, tlEl);
   function flashCoin(t) { var f = h('div', { class: 'l3-fly', text: t, style: { transform: 'translateX(-50%)' } }); root.append(f); requestAnimationFrame(function () { f.style.transform = 'translate(-50%,-30px)'; f.style.opacity = '0'; }); setTimeout(function () { f.remove(); }, 1300); }
   function popEmote(e) { var p = h('div', { class: 'l3-pop', text: e, style: { left: (20 + Math.random() * 60) + '%', top: '55%' } }); root.append(p); requestAnimationFrame(function () { p.style.transform = 'translateY(-120px) scale(1.4)'; p.style.opacity = '0'; }); setTimeout(function () { p.remove(); }, 1500); api.sfx('pop'); }
 
@@ -390,13 +540,46 @@ WTG.register3d('ludo3d', function (M, api) {
   }
   function placePanels() {
     if (!S) return;
-    var portrait = X.H > X.W * 1.05;
+    var portrait = X.H > X.W * 1.05, F = flat();
+    root.classList.toggle('l3-flat', F);
+    if (F && portrait) {
+      // just outside the top and bottom edges of the board
+      var yT = X.toScreen(new T.Vector3(0, 0, -8.1)).y, yB = X.toScreen(new T.Vector3(0, 0, 8.1)).y;
+      S.seats.forEach(function (s) {
+        var el = panels[s.c]; if (!el) return;
+        var y = YARD[s.c], px = y[1] + 3 - 7.5, pz = y[0] + 3 - 7.5, rx = px * Math.cos(yaw) + pz * Math.sin(yaw), rz = -px * Math.sin(yaw) + pz * Math.cos(yaw);
+        el.style.left = rx < 0 ? (rz < 0 ? '50px' : '6px') : ''; el.style.right = rx < 0 ? '' : '6px'; el.style.bottom = '';
+        el.style.top = (rz < 0 ? Math.max(30, yT - 72) : Math.min(X.H - 84, yB + 6)) + 'px';
+      });
+      placeDie(); return;
+    }
     S.seats.forEach(function (s) {
       var el = panels[s.c]; if (!el) return;
       var y = YARD[s.c], px = y[1] + 3 - 7.5, pz = y[0] + 3 - 7.5, rx = px * Math.cos(yaw) + pz * Math.sin(yaw), rz = -px * Math.sin(yaw) + pz * Math.cos(yaw);
-      el.style.left = rx < 0 ? '6px' : ''; el.style.right = rx < 0 ? '' : '6px';
-      el.style.top = rz < 0 ? (portrait ? '44px' : '10px') : ''; el.style.bottom = rz < 0 ? '' : (portrait ? '12px' : '10px');
+      el.style.left = rx < 0 ? (F && rz < 0 ? '52px' : '6px') : ''; el.style.right = rx < 0 ? '' : '6px';
+      el.style.top = rz < 0 ? (portrait ? '44px' : F ? '74px' : '10px') : ''; el.style.bottom = rz < 0 ? '' : (portrait ? '12px' : '10px');
     });
+    placeDie();
+  }
+  function placeDie() {
+    var F = flat() && S && !S.over;
+    dieEl.hidden = !F; rollBtn.hidden = flat();
+    dice.visible = !flat();
+    if (!F) return;
+    var cs = curSeat(S), el = panels[cs.c]; if (!el) return;
+    var left = el.style.left !== '';
+    dieEl.style.left = (left ? el.offsetLeft + el.offsetWidth + 4 : el.offsetLeft - 46) + 'px';
+    dieEl.style.top = (el.offsetTop + 3) + 'px';
+    dieEl.style.setProperty('--c', CSS[cs.c]);
+    var can = isMine(cs) && !S.rolled && !busy();
+    dieEl.disabled = !can; dieEl.classList.toggle('go', can && !DA);
+  }
+  function exitGame() {
+    if (net) { net.close(); net = null; } if (timer) { timer.cancel(); timer = null; }
+    hops = []; DA = null; S = null; highlight = []; finished = true;
+    Object.keys(tokens).forEach(function (k) { world.remove(tokens[k].g); }); tokens = {};
+    panelsEl.innerHTML = ''; panels = {}; dieEl.hidden = true; msgEl.textContent = '';
+    homeScreen();
   }
   function renderHud() {
     if (!S) return;
@@ -411,6 +594,7 @@ WTG.register3d('ludo3d', function (M, api) {
     msgEl.textContent = t; msgEl.style.color = CSS[S.over ? S.win : cs.c];
     rollBtn.disabled = !(mine && !S.rolled && !S.over && !busy());
     rollBtn.style.display = S.over ? 'none' : '';
+    placeDie();
     coinEl.textContent = '🪙 ' + coins() + '   💎 ' + gems();
   }
   function winText() { if (S.team) return tx('teamWin', cname(S.win % 2) + ' & ' + cname(S.win % 2 + 2)); return tx('win', seatName(seatOf(S, S.win))); }
@@ -569,10 +753,11 @@ WTG.register3d('ludo3d', function (M, api) {
   // ------------------------------------------------------------------ app screens: splash, home, setup, rewards, profile, friends, looks
   var lobby = null, coinPill = null, autoDaily = false;
   function closeLobby() { if (lobby) { lobby.remove(); lobby = null; } }
-  function pill(ic, v) { return h('div', { class: 'l3-pill' }, h('i', { text: ic }), h('span', { text: String(v) })); }
+  function pill(kind, v) { return h('div', { class: 'l3-pill' }, art(kind, 'pi', kind === 'coin' ? '🪙' : '💎'), h('span', { text: String(v) }), h('button', { type: 'button', class: 'plus', 'aria-label': tx('nRewards'), text: '+', onclick: function () { rewardsScreen(); } })); }
   function topBar() {
-    coinPill = pill('🪙', coins());
-    return h('div', { class: 'l3-top' }, h('button', { type: 'button', class: 'l3-av', 'aria-label': tx('nProfile'), onclick: function () { profileScreen(); } }, document.createTextNode(myAv), h('span', { class: 'l3-lv', text: tx('level') + ' ' + level() })), h('div', { class: 'sp' }), coinPill, pill('💎', gems()));
+    coinPill = pill('coin', coins());
+    var pct = Math.round((xp() % 150) / 150 * 100);
+    return h('div', { class: 'l3-top' }, h('button', { type: 'button', class: 'l3-av', 'aria-label': tx('nProfile'), style: { '--p': pct + '%' }, onclick: function () { profileScreen(); } }, h('span', { class: 'f', text: myAv }), h('span', { class: 'l3-lv', text: '⭐ ' + level() })), h('div', { class: 'sp' }), coinPill, pill('gem', gems()));
   }
   function navBar(tab) {
     var ds = dailyState();
@@ -582,9 +767,10 @@ WTG.register3d('ludo3d', function (M, api) {
   function screen(kids, o) {
     o = o || {}; closeLobby(); role = o.keepRole ? role : 'local';
     if (!o.keepRole && net) { net.close(); net = null; } emoBar.hidden = !net;
-    lobby = h('div', { class: 'l3-app' }, h('div', { class: 'l3-rays' }), o.head || topBar(), h('div', { class: 'l3-main' }, h('div', { class: 'l3-wrap' }, kids)), o.nav === false ? null : navBar(o.tab));
+    lobby = h('div', { class: 'l3-app' }, h('div', { class: 'l3-rays' }), h('div', { class: 'l3-spot' }), h('div', { class: 'l3-cur l' }), h('div', { class: 'l3-cur r' }), sparkles(), o.head || topBar(), h('div', { class: 'l3-main' }, h('div', { class: 'l3-wrap' }, kids)), o.nav === false ? null : navBar(o.tab));
     root.append(lobby); return lobby;
   }
+  function sparkles() { var b = h('div', { class: 'l3-spk', 'aria-hidden': 'true' }); for (var i = 0; i < 18; i++) b.append(h('i', { text: i % 3 ? '✦' : '★', style: { left: (Math.random() * 96) + '%', top: (Math.random() * 90) + '%', fontSize: (8 + Math.random() * 12) + 'px', animationDelay: (Math.random() * 3) + 's', color: i % 4 ? '#ffe08a' : '#ffffff' } })); return b; }
   function head(title, back) { return h('div', { class: 'l3-head' }, h('button', { type: 'button', class: 'l3-back', 'aria-label': tx('back'), text: '←', onclick: function () { (back || homeScreen)(); } }), h('h2', { text: title })); }
   function splash(then) {
     var bar = h('i'), cube = h('div', { class: 'l3-cube', 'aria-hidden': 'true' });
@@ -603,13 +789,13 @@ WTG.register3d('ludo3d', function (M, api) {
     var ds = dailyState();
     screen([
       h('div', { class: 'l3-big' },
-        h('button', { type: 'button', class: 'l3-tile big t-red', onclick: function () { setupScreen(2, false); } }, h('span', { class: 'num', text: '2' }), h('span', { class: 'art', text: '🔴🔵' }), h('span', { class: 'lab', text: tx('p2') })),
-        h('button', { type: 'button', class: 'l3-tile big t-blue', onclick: function () { setupScreen(4, false); } }, h('span', { class: 'num', text: '4' }), h('span', { class: 'art', text: '🔴🟢🟡🔵' }), h('span', { class: 'lab', text: tx('p4') }))),
+        h('button', { type: 'button', class: 'l3-tile big t-red', onclick: function () { setupScreen(2, false); } }, h('span', { class: 'num', 'data-n': '2', text: '2' }), art('p2', 'art', '🎲'), h('span', { class: 'lab', text: tx('p2') })),
+        h('button', { type: 'button', class: 'l3-tile big t-blue', onclick: function () { setupScreen(4, false); } }, h('span', { class: 'num', 'data-n': '4', text: '4' }), art('p4', 'art', '🎲'), h('span', { class: 'lab', text: tx('p4') }))),
       h('div', { class: 'l3-small' },
-        h('button', { type: 'button', class: 'l3-tile sm t-gold', onclick: function () { createRoom(); } }, h('span', { class: 'ic', text: '🎲' }), h('span', { text: tx('privateT') })),
-        h('button', { type: 'button', class: 'l3-tile sm t-green', onclick: function () { friendsScreen(); } }, h('span', { class: 'ic', text: '🌍' }), h('span', { text: tx('onlineT') })),
-        h('button', { type: 'button', class: 'l3-tile sm t-navy', onclick: function () { setupScreen(4, true); } }, h('span', { class: 'ic', text: '🤝' }), h('span', { text: tx('teamT') }))),
-      h('button', { type: 'button', class: 'l3-tile l3-wide t-navy', onclick: function () { rewardsScreen(); } }, h('span', { class: 'ic', text: '🎁' }), h('span', { text: tx('daily') }), ds.can ? h('span', { style: { marginInlineStart: 'auto', background: '#e11d2e', borderRadius: '999px', padding: '2px 10px', fontSize: '13px' }, text: '+' + DAILY[ds.cur - 1][0] + ' 🪙' }) : null)
+        h('button', { type: 'button', class: 'l3-tile sm t-gold', onclick: function () { createRoom(); } }, art('priv', 'ic', '🎲'), h('span', { class: 'lb', text: tx('privateT') })),
+        h('button', { type: 'button', class: 'l3-tile sm t-green', onclick: function () { friendsScreen(); } }, art('online', 'ic', '🌍'), h('span', { class: 'lb', text: tx('onlineT') })),
+        h('button', { type: 'button', class: 'l3-tile sm t-navy', onclick: function () { setupScreen(4, true); } }, art('team', 'ic', '🤝'), h('span', { class: 'lb', text: tx('teamT') }))),
+      h('button', { type: 'button', class: 'l3-tile l3-wide t-purple', onclick: function () { rewardsScreen(); } }, art('gift', 'ic', '🎁'), h('span', { text: tx('daily') }), ds.can ? h('span', { class: 'l3-badge', text: '+' + DAILY[ds.cur - 1][0] }) : null)
     ], { tab: 'home' });
     if (ds.can && !autoDaily) { autoDaily = true; api.after(500, function () { if (lobby && !S) rewardsScreen(); }); }
   }
@@ -655,7 +841,7 @@ WTG.register3d('ludo3d', function (M, api) {
     DAILY.forEach(function (r, i) {
       var d = i + 1, got = ds.can ? d < ds.cur : d <= ds.cur, now = ds.can && d === ds.cur;
       var lab = now ? tx('today') : (!ds.can && d === ds.cur + 1) || (ds.can && d === ds.cur + 1) ? tx('tomorrow') : tx('day', d);
-      cal.append(h('div', { class: 'l3-day' + (now ? ' now' : '') + (got ? ' got' : '') + (d === 7 ? ' d7' : '') }, h('span', { text: lab }), h('b', { text: d === 7 ? '💰🎁' : r[1] ? '🪙💎' : '🪙' }), h('small', { text: r[0] + (r[1] ? ' · ' + r[1] + '💎' : '') })));
+      cal.append(h('div', { class: 'l3-day' + (now ? ' now' : '') + (got ? ' got' : '') + (d === 7 ? ' d7' : '') }, h('span', { class: 'tag', text: lab }), art(d === 7 ? 'chest' : r[1] ? 'stackgem' : 'stack', 'dimg', '🪙'), h('small', { text: r[0] + (r[1] ? '  +' + r[1] + ' 💎' : '') })));
     });
     var btn = h('button', { type: 'button', class: 'l3-go', text: ds.can ? tx('collect') : '✓', disabled: !ds.can, onclick: function () { collectDaily(); } });
     screen([h('div', { class: 'l3-ribbon', text: '🎁 ' + tx('daily') }), h('div', { class: 'l3-panel' }, cal), btn], { tab: 'rewards' });
@@ -667,14 +853,15 @@ WTG.register3d('ludo3d', function (M, api) {
     D.last = dayKey(0); D.day = ds.cur; D.best = Math.max(D.best || 0, ds.cur === 7 ? 7 : 0, D.streak7 || 0); api.save('daily', D);
     WTG.addCoins && WTG.addCoins(r[0]); if (r[1]) addGems(r[1]); checkAch(); api.sfx('coin');
     var ok = h('button', { type: 'button', class: 'l3-go', text: tx('gotIt') });
-    var m = h('div', { class: 'l3-modal' }, h('div', { class: 'l3-gift' }, h('div', { style: { fontSize: '56px' }, text: '🎉' }), h('h2', { text: tx('congrats') }), h('div', { class: 'row' }, h('div', null, h('b', { text: '🪙' }), document.createTextNode('+' + r[0])), r[1] ? h('div', null, h('b', { text: '💎' }), document.createTextNode('+' + r[1])) : null), ok));
+    var m = h('div', { class: 'l3-modal' }, h('div', { class: 'l3-burst' }), h('div', { class: 'l3-gift' }, art(ds.cur === 7 ? 'chest' : 'stack', 'top', '🎉'), h('h2', { text: tx('congrats') }), h('div', { class: 'row' }, h('div', null, art('coin', 'ri', '🪙'), document.createTextNode('+' + r[0])), r[1] ? h('div', null, art('gem', 'ri', '💎'), document.createTextNode('+' + r[1])) : null), ok));
     confetti(m, 60); lobby.append(m);
     ok.onclick = function () { flyCoins(m, function () { rewardsScreen(); }); };
   }
   function flyCoins(m, done) {
     var R = root.getBoundingClientRect(), t = coinPill ? coinPill.getBoundingClientRect() : { left: R.right - 80, top: R.top + 10, width: 40, height: 30 };
     for (var i = 0; i < 12; i++) (function (i) {
-      var c = h('div', { class: 'l3-flycoin', text: '🪙', style: { left: (R.width / 2 - 13 + (Math.random() - 0.5) * 120) + 'px', top: (R.height / 2 + (Math.random() - 0.5) * 80) + 'px' } }); root.append(c);
+      var c = h('div', { class: 'l3-flycoin', style: { left: (R.width / 2 - 13 + (Math.random() - 0.5) * 120) + 'px', top: (R.height / 2 + (Math.random() - 0.5) * 80) + 'px' } }); root.append(c);
+      c.append(art('coin', 'fc', '🪙'));
       setTimeout(function () { var cr = c.getBoundingClientRect(); c.style.transform = 'translate(' + (t.left + t.width / 2 - cr.left - 13) + 'px,' + (t.top - cr.top) + 'px) scale(.6)'; c.style.opacity = '0.2'; }, 30 + i * 45);
       setTimeout(function () { c.remove(); if (i === 0) api.sfx('coin'); }, 950 + i * 45);
     })(i);
@@ -710,6 +897,60 @@ WTG.register3d('ludo3d', function (M, api) {
     });
     screen([h('div', { class: 'l3-ribbon', text: '🎨 ' + tx('nLooks') }), box], { tab: 'looks' });
   }
+  // ------------------------------------------------------------------ 3D art for the menus: rendered once from the game's own dice, tokens, coins and gems
+  function makeArt() {
+    if (WTG._l3art) return WTG._l3art;
+    var out = {};
+    try {
+      var r = new T.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+      r.setPixelRatio(1); r.outputColorSpace = X.renderer.outputColorSpace; r.toneMapping = X.renderer.toneMapping; r.toneMappingExposure = 1.08; r.setClearColor(0x000000, 0);
+      var sc = new T.Scene(); sc.environment = scene.environment;
+      var key = new T.DirectionalLight(0xffffff, 2.4); key.position.set(3, 7, 5); sc.add(key);
+      var rim = new T.DirectionalLight(0x9fd0ff, 1.2); rim.position.set(-5, 3, -4); sc.add(rim); sc.add(new T.HemisphereLight(0xeaf3ff, 0x1e293b, 0.9));
+      var cm = new T.PerspectiveCamera(30, 1, 0.1, 100);
+      var diceGeo = new T.RoundedBoxGeometry(0.9, 0.9, 0.9, 5, 0.16);
+      function mkDice(skin, e) { var m = new T.Mesh(diceGeo, FACE.map(function (n) { return new T.MeshPhysicalMaterial({ map: pipTex(n, skin), roughness: skin === 'gold' ? 0.25 : 0.18, metalness: skin === 'gold' ? 0.75 : 0, clearcoat: 1, clearcoatRoughness: 0.06 }); })); m.rotation.set(e[0], e[1], e[2]); return m; }
+      function mkPawn(c, style, x, z, s) { var m = new T.Mesh(pawnGeo, tokenMat(c, style || 'gloss')); m.position.set(x || 0, 0, z || 0); m.scale.setScalar(s || 1); return m; }
+      var coinFace = M.canvasTex(256, 256, function (x, w) {
+        var g = x.createRadialGradient(100, 90, 10, 128, 128, 140); g.addColorStop(0, '#fff3b0'); g.addColorStop(0.55, '#f5b301'); g.addColorStop(1, '#b45309'); x.fillStyle = g; x.fillRect(0, 0, w, w);
+        x.strokeStyle = 'rgba(120,53,15,.55)'; x.lineWidth = 12; x.beginPath(); x.arc(128, 128, 104, 0, 7); x.stroke();
+        x.fillStyle = '#92400e'; x.font = '900 120px Archivo,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('W', 128, 136); x.fillStyle = '#fff7d6'; x.fillText('W', 124, 130);
+      });
+      var goldSide = new T.MeshPhysicalMaterial({ color: 0xffbf1f, metalness: 0.45, roughness: 0.28, clearcoat: 1, emissive: 0x8a5a00, emissiveIntensity: 0.35 }), goldFace = new T.MeshPhysicalMaterial({ map: coinFace, metalness: 0.3, roughness: 0.3, clearcoat: 1, emissive: 0xffffff, emissiveMap: coinFace, emissiveIntensity: 0.28 });
+      var coinGeo = new T.CylinderGeometry(0.5, 0.5, 0.12, 48);
+      function mkCoin(x, y, z, rx, rz) { var m = new T.Mesh(coinGeo, [goldSide, goldFace, goldFace]); m.position.set(x || 0, y || 0, z || 0); m.rotation.set(rx || 0, 0, rz || 0); return m; }
+      var gemMat = new T.MeshPhysicalMaterial({ color: 0x22b8ff, metalness: 0.15, roughness: 0.04, clearcoat: 1, iridescence: 0.6, emissive: 0x0b4f8a, emissiveIntensity: 0.35, flatShading: true });
+      function mkGem(x, y, z, s) { var g = new T.Group(), top = new T.Mesh(new T.CylinderGeometry(0.3, 0.5, 0.22, 8), gemMat), bot = new T.Mesh(new T.ConeGeometry(0.5, 0.55, 8), gemMat); top.position.y = 0.11; bot.rotation.x = Math.PI; bot.position.y = -0.275; g.add(top, bot); g.position.set(x || 0, y || 0, z || 0); g.scale.setScalar(s || 1); g.rotation.set(0.35, 0.4, 0); return g; }
+      function mkGift(col, x, z, s) {
+        var g = new T.Group(), box = new T.Mesh(new T.RoundedBoxGeometry(1, 0.8, 1, 4, 0.08), new T.MeshPhysicalMaterial({ color: col, roughness: 0.3, clearcoat: 1 })), lid = new T.Mesh(new T.RoundedBoxGeometry(1.1, 0.24, 1.1, 4, 0.08), box.material);
+        var rib = new T.MeshPhysicalMaterial({ color: 0xffd166, metalness: 0.8, roughness: 0.25, clearcoat: 1 });
+        box.position.y = 0.4; lid.position.y = 0.88; g.add(box, lid);
+        [[1.12, 0.18], [0.18, 1.12]].forEach(function (d) { var b = new T.Mesh(new T.BoxGeometry(d[0], 1.06, d[1]), rib); b.position.y = 0.5; g.add(b); });
+        [-1, 1].forEach(function (k) { var t = new T.Mesh(new T.TorusGeometry(0.2, 0.07, 10, 24), rib); t.position.set(k * 0.18, 1.12, 0); t.rotation.set(0, 0, k * 0.7); g.add(t); });
+        g.position.set(x || 0, 0, z || 0); g.scale.setScalar(s || 1); g.rotation.y = 0.5; return g;
+      }
+      function shot(name, w, hh, objs, cp, look) {
+        objs.forEach(function (o) { sc.add(o); }); r.setSize(w, hh, false); cm.aspect = w / hh; cm.updateProjectionMatrix();
+        cm.position.set(cp[0], cp[1], cp[2]); cm.lookAt(look ? new T.Vector3(look[0], look[1], look[2]) : new T.Vector3(0, 0.35, 0)); r.render(sc, cm);
+        out[name] = r.domElement.toDataURL('image/png'); objs.forEach(function (o) { sc.remove(o); });
+      }
+      var CAM = [0, 2.3, 3.4];
+      shot('p2', 320, 240, [mkDice('ivory', [0.5, 0.6, 0.2]), mkPawn(0, 'gloss', -0.95, 0.2), mkPawn(3, 'gloss', 0.95, 0.25)].map(function (o, i) { if (!i) { o.position.set(0, 0.45, -0.15); } return o; }), CAM);
+      shot('p4', 320, 240, [mkPawn(0, 'gloss', -1.05, 0.35), mkPawn(1, 'gloss', -0.4, -0.45), mkPawn(2, 'gloss', 0.45, -0.45), mkPawn(3, 'gloss', 1.1, 0.35), (function () { var d = mkDice('ruby', [0.3, 0.8, 0.5]); d.position.set(0, 0.45, 0.45); d.scale.setScalar(0.8); return d; })()], CAM);
+      shot('priv', 240, 200, [(function () { var d = mkDice('gold', [0.4, 0.7, 0.1]); d.position.set(-0.35, 0.45, 0); return d; })(), (function () { var d = mkDice('onyx', [1.2, 0.2, 0.6]); d.position.set(0.55, 0.4, 0.35); d.scale.setScalar(0.85); return d; })()], [0, 2, 3]);
+      shot('online', 240, 200, [mkPawn(1, 'gem', -0.45, 0), mkPawn(3, 'gem', 0.5, 0.1), mkGem(0, 1.0, -0.3, 0.5)], [0, 2.1, 3.5], [0, 0.5, 0]);
+      shot('team', 240, 200, [mkPawn(0, 'metal', -0.55, 0.2), mkPawn(2, 'metal', -0.15, -0.25), mkPawn(1, 'metal', 0.35, -0.25), mkPawn(3, 'metal', 0.75, 0.2)], [0, 2, 3.2], [0.1, 0.4, 0]);
+      shot('coin', 96, 96, [mkCoin(0, 0, 0, 1.15, 0.25)], [0, 0.3, 2.1], [0, 0, 0]);
+      shot('gem', 96, 96, [mkGem(0, 0.05, 0, 1)], [0, 0.4, 2.1], [0, 0, 0]);
+      shot('stack', 200, 160, [mkCoin(-0.3, 0, 0.1), mkCoin(-0.3, 0.13, 0.1), mkCoin(-0.28, 0.26, 0.12), mkCoin(-0.3, 0.39, 0.1), mkCoin(0.45, 0, -0.1), mkCoin(0.45, 0.13, -0.12), mkCoin(0.15, 0.5, 0.45, 1.1, 0.2)], [0, 1.7, 2.6], [0.05, 0.25, 0]);
+      shot('stackgem', 200, 160, [mkCoin(-0.45, 0, 0.1), mkCoin(-0.45, 0.13, 0.1), mkCoin(-0.43, 0.26, 0.12), mkGem(0.45, 0.42, 0, 0.8)], [0, 1.7, 2.6], [0, 0.3, 0]);
+      shot('gift', 200, 180, [mkGift(0xe11d2e, 0, 0, 0.9)], [0, 2, 3], [0, 0.55, 0]);
+      shot('chest', 320, 180, [mkGift(0x037bdc, -0.55, 0, 0.85), mkCoin(0.55, 0, 0.3), mkCoin(0.55, 0.13, 0.3), mkCoin(0.58, 0.26, 0.32), mkGem(0.75, 0.25, -0.35, 0.65)], [0, 2.1, 3.4], [0, 0.5, 0]);
+      r.dispose(); if (r.forceContextLoss) r.forceContextLoss();
+    } catch (e) { out = {}; }
+    WTG._l3art = out; return out;
+  }
+  function art(name, cls, fb) { var a = makeArt()[name]; return a ? h('img', { class: cls || '', src: a, alt: '', draggable: 'false' }) : h('span', { class: cls || '', text: fb || '' }); }
   function applyLooks() { setBoard(looks.board); setDice(looks.dice); if (S) Object.keys(tokens).forEach(function (k) { var c = +k.split(':')[0]; tokens[k].m.material.dispose(); tokens[k].m.material = tokenMat(c, looks.tokens); }); }
 
   // ------------------------------------------------------------------ online rooms (friends only: a private code)
@@ -802,9 +1043,19 @@ WTG.register3d('ludo3d', function (M, api) {
   }
 
   // ------------------------------------------------------------------ camera and frame loop
+  var fit = { W: 0, H: 0 };
+  X.cv.style.touchAction = 'none';   // no page zoom or scroll when you tap the board
   function placeCam() {
-    var portrait = X.H > X.W * 1.05, top = api.cfg('cam', 'tilt') === 'top';
-    if (top) { cam.position.set(0, portrait ? 34 : 25, portrait ? 3 : 2.2); cam.lookAt(0, 0, portrait ? 0.6 : 0.3); }
+    var portrait = X.H > X.W * 1.05, top = flat();
+    if (top) {
+      // straight down; the board fills the width on a phone and leaves room above and below for the players
+      var vf = cam.fov * Math.PI / 360, W = X.W, H = X.H;
+      // phones show and hide their address bar on a tap, which changes the height a little: keep the board's size and place steady
+      if (fit.W !== W || Math.abs(fit.H - H) > 160) { fit.W = W; fit.H = H; } else fit.H = Math.min(fit.H, H);
+      var H0 = fit.H, P = portrait ? Math.min(W * 0.92, H0 - 200) : Math.min(H0 * 0.95, W - 260), topPx = portrait ? 104 + (H0 - 200 - P) / 2 : (H0 - P) / 2;
+      var upp = 16.2 / P, dist = H * upp / (2 * Math.tan(vf)), tz = -((topPx + P / 2) - H / 2) * upp;
+      cam.position.set(0, dist, tz + dist * 0.035); cam.lookAt(0, 0, tz);
+    }
     else {
       // fit the whole board (with its frame) in the view, whatever the screen shape; leave room for the players around it
       var a = X.W / Math.max(1, X.H), vf = cam.fov * Math.PI / 360, hf = Math.atan(Math.tan(vf) * a);
@@ -826,6 +1077,7 @@ WTG.register3d('ludo3d', function (M, api) {
         highlight.forEach(function (k) { var r = tokens[k].g.userData.ring; r.scale.setScalar(1 + Math.sin(tt * 6) * 0.12); r.material.opacity = 0.6 + Math.sin(tt * 6) * 0.3; tokens[k].g.position.y = TOP + Math.abs(Math.sin(tt * 4)) * 0.12; });
         fxs = fxs.filter(function (f) { return f(dt); });
         world.rotation.y += (yaw - world.rotation.y) * Math.min(1, dt * 4);
+        for (var ci = 0; ci < caps.length; ci++) caps[ci].rotation.z = -world.rotation.y;   // the crown stays upright for you
         if (!lobby) X.render(); else if ((tt * 10 | 0) % 6 === 0) X.render();
       });
     },
