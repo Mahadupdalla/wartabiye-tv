@@ -1,26 +1,26 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-19T06:46:13+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
- "lastSuccessfulPublishAt": "2026-11-19T01:02:27Z",
- "newestArticleAt": "2026-11-19T02:22:16+03:00",
- "lastSourceCheckAt": "2026-11-19T06:45:17+03:00",
+ "updatedAt": "2026-11-19T06:56:13+03:00",
+ "overall": "retrying",
+ "overallText": "Cillad ku meel gaar ah: si otomaatig ah ayaa dib loogu celinayaa",
+ "lastSuccessfulPublishAt": "2026-11-19T03:54:46Z",
+ "newestArticleAt": "2026-11-19T04:56:28+03:00",
+ "lastSourceCheckAt": "2026-11-19T06:55:17+03:00",
  "sourceChecks24h": 293,
- "publishedArticles": 878,
- "liveArticles": 878,
+ "publishedArticles": 886,
+ "liveArticles": 886,
  "waitingForImage": 115,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
-  "created_at": "2026-11-19T01:02:27Z",
+  "created_at": "2026-11-19T03:54:46Z",
   "conclusion": "success",
   "event": "push",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44433796357"
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44454684665"
  },
  "retry": null,
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-19T04:07:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-19T06:56:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,22 +42,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-19T06:45:10+03:00",
-   "lastSuccessAt": "2026-11-19T06:45:10+03:00",
+   "lastCheckAt": "2026-11-19T06:55:11+03:00",
+   "lastSuccessAt": "2026-11-19T06:55:11+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-19T04:05:00+03:00",
+  "lastSourceCheckAt": "2026-11-19T06:54:10+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-18T23:06:30+03:00",
-   "sourceName": "Radio Muqdisho (state broadcaster)",
-   "title": "Guddoomiyaha SoDMA oo Antalya kula kulmay Agaasimaha Xarunta Carabta ee Siyaasadda Isbeddelka Cimilada",
-   "url": "https://radiomuqdisho.so/guddoomiyaha-sodma-oo-antalya-kula-kulmay-agaasimaha-xarunta-carabta-ee-siyaasadda-isbeddelka-cimilada/"
+   "publishedAt": "2026-11-19T06:00:33+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Itoobiya iyo Eritrea iyo ciidamo soo dhoobay xuduudda iyo madaafiic la isku garaacay",
+   "url": "https://www.caasimada.net/itoobiya-iyo-eritrea-iyo-ciidamo-soo-dhoobay-xuduudda-iyo-madaafiic-la-isku-garaacay/"
   },
   "latestPublished": {
    "id": "2026-11-18-muungaab-nairobi-imaaraadka-suaalo-culus",
@@ -67,13 +67,21 @@
    "url": "/war/2026-11-18-muungaab-nairobi-imaaraadka-suaalo-culus.html"
   },
   "publishedLastRun": 0,
-  "rejectedLastRun": 81,
+  "rejectedLastRun": 82,
   "rejectedReasons": {
    "old": 8,
-   "duplicate": 73
+   "duplicate": 74
   },
   "taskRejectedReasons": [
-   "Burundi/AUSSOM (Caasimada Online): headline-only; Hiiraan/Goobjoog none, WebSearch en none -> pending"
+   "Imaaradka oo sheegay in kirada guriga Xasan Sheekh ay bixinayeen (Daljir): sheegasho qof (bare jaamacadeed) ku sameeyay X, ma aha bayaan dowladda Imaaraadka; hal il, lama xaqiijin",
+   "Maraykanka oo Sii Wadi Doona Taageeradiisa Hawlgallada Soomaaliya (Goobjoog): duplicate - goobta waxay leedahay 2026-11-16-mareykanka-dib-u-taageeraya-unsos-aussom-soomaaliya",
+   "Hoggaamiyaha Koonfur Galbeed Sheekh Aadan Madoobe oo dib ugu soo laabtay Baydhabo (Goobjoog/Shabelle): safar caadi ah, war qiimo yar (protocol)",
+   "Mucaaradka Puntland oo ka horyimid go'aanka Foodcadde (Puntland Post): falcelin hal siyaasi; go'aanka asalka ah waa la daabacay (2026-11-18-garoowe-nugaal-mamnuucay-shirarka-siyaasadeed)",
+   "Itoobiya iyo Eritrea ciidamo soo dhoobay xuduudda (Caasimada, headline-only): Caasimada lama furi karo; WebSearch en: AA (robots-blocked), lama helin xaqiijin taariikh cusub -> pending",
+   "Somalia's constitutional overhaul tests its fragile federal bargain (Al Jazeera): falanqeyn; bogga waa laga diiday (robots), xaqiijin faahfaahsan lama helin",
+   "Guddoomiyaha SoDMA oo Antalya kula kulmay ... (Radio Muqdisho): kulan protocol ah",
+   "Xasan Sheekh Waa Nin Cabasho badan (Daljir): hadal/ra'yi Muuse Biixi, ma aha war cusub",
+   "Barnaamijka Baraarug ee Warbaahinta Daljir: barnaamij, ma aha war"
   ],
   "waitingForImage": 10,
   "waitingIds": [
@@ -90,6 +98,6 @@
   ],
   "stale": false,
   "problems": [],
-  "lastSuccessfulPublishAt": "2026-11-19T01:02:27Z"
+  "lastSuccessfulPublishAt": "2026-11-19T03:54:46Z"
  }
 }
