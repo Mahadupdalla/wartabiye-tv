@@ -714,6 +714,8 @@ for r in SECTIONS:
 for r in sorted(k for k in newest_of if k.startswith('qayb/')):
     urls.append(f'<url><loc>{SITE_URL}{r}/</loc>{lm(newest_of[r])}</url>')
 urls.append(f'<url><loc>{arch_url}</loc>{lm(newest)}</url>')
+if os.path.exists(os.path.join(root, 'games', 'index.html')):   # the Games Center (games/), a static page of its own
+    urls.append(f'<url><loc>{SITE_URL}games/</loc></url>')
 for n in public:
     langs = tr_pages.get(n['id'], [])
     alt = ''

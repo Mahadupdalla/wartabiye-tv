@@ -1,0 +1,1281 @@
+{
+ "version": 1,
+ "games": [
+  {
+   "id": "chess",
+   "engine": "chess",
+   "icon": "♟️",
+   "color": "#334155",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "popular",
+    "brain",
+    "multi"
+   ],
+   "popular": true,
+   "featured": true,
+   "enabled": true,
+   "order": 1,
+   "difficulty": "medium",
+   "title": {
+    "so": "Shax (Chess)",
+    "en": "Chess"
+   },
+   "desc": {
+    "so": "Shaxda caalamiga ah: ka ciyaar kombiyuutarka ama saaxiib.",
+    "en": "Classic chess against the computer or a friend on the same device."
+   },
+   "how": {
+    "so": "Taabo gabal, kadibna taabo meesha aad u dhaqaajineyso. Boqorka kan kale ku xir (checkmate) si aad u guuleysato.",
+    "en": "Tap a piece, then tap where it should go. Checkmate the other king to win. Undo is allowed."
+   },
+   "dailyWin": true
+  },
+  {
+   "id": "four-homes",
+   "engine": "ludo",
+   "icon": "🎲",
+   "color": "#16a34a",
+   "cats": [
+    "kids",
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "popular",
+    "multi"
+   ],
+   "popular": true,
+   "featured": true,
+   "enabled": true,
+   "order": 2,
+   "difficulty": "medium",
+   "title": {
+    "so": "Afarta Guri",
+    "en": "Four Homes"
+   },
+   "desc": {
+    "so": "Ciyaar shax-laadhuu ah: geli afartaada gabal gurigooda ka hor inta kuwa kale.",
+    "en": "A dice race board game: bring all four of your tokens home first. Play the computer or friends."
+   },
+   "how": {
+    "so": "Riix laadhuuga, kadibna taabo gabal. 6 ayaa gabal ka saara saldhigga. Meelaha xiddigta leh waa ammaan.",
+    "en": "Roll the dice, then tap a token to move. A 6 brings a token out. Star squares are safe."
+   },
+   "dailyWin": true,
+   "isNew": true
+  },
+  {
+   "id": "dominoes",
+   "engine": "dominoes",
+   "icon": "🁫",
+   "color": "#0f766e",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "popular",
+    "multi"
+   ],
+   "popular": true,
+   "featured": false,
+   "enabled": true,
+   "order": 3,
+   "difficulty": "medium",
+   "title": {
+    "so": "Domino",
+    "en": "Dominoes"
+   },
+   "desc": {
+    "so": "Isku xir dhagaxyada tirada isku mid ah. Ka hor mar kombiyuutarka.",
+    "en": "Match the ends of the tiles and empty your hand before the computer does."
+   },
+   "how": {
+    "so": "Taabo dhagax ku habboon cidhif ka mid ah silsiladda. Haddii aadan haysan, mid soo qaado.",
+    "en": "Tap a tile that matches an end of the chain. If you can’t play, draw a tile."
+   },
+   "dailyWin": true
+  },
+  {
+   "id": "city-dash",
+   "engine": "runner",
+   "icon": "🏃",
+   "color": "#f97316",
+   "cats": [
+    "kids",
+    "teens"
+   ],
+   "tags": [
+    "popular"
+   ],
+   "popular": true,
+   "featured": true,
+   "enabled": true,
+   "order": 4,
+   "difficulty": "medium",
+   "title": {
+    "so": "Orodka Magaalada",
+    "en": "City Dash"
+   },
+   "desc": {
+    "so": "Ku orod waddooyinka, ka bood caqabadaha oo uruuri lacagaha.",
+    "en": "Run through the city, jump and dodge obstacles and collect coins."
+   },
+   "how": {
+    "so": "Bidix/midig si aad waddo u beddesho, kor si aad u booddo, hoos si aad u gunuuncato.",
+    "en": "Left/right to switch lanes, up to jump, down to slide."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "goals": [
+    300,
+    1000
+   ]
+  },
+  {
+   "id": "highway-racer",
+   "engine": "racer",
+   "icon": "🏎️",
+   "color": "#ef4444",
+   "cats": [
+    "teens"
+   ],
+   "tags": [
+    "popular"
+   ],
+   "popular": true,
+   "featured": true,
+   "enabled": true,
+   "order": 5,
+   "difficulty": "medium",
+   "title": {
+    "so": "Tartanka Jidka Weyn",
+    "en": "Highway Racer"
+   },
+   "desc": {
+    "so": "Baabuurtaada wad, iska ilaali gawaarida kale oo shidaal uruuri.",
+    "en": "Drive fast, avoid traffic and pick up fuel and coins."
+   },
+   "how": {
+    "so": "Bidix iyo midig si aad u leexato. Kor si aad u dardargeliso, hoos si aad u yareyso.",
+    "en": "Left/right to steer. Up to speed up, down to brake."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "goals": [
+    500,
+    1500
+   ]
+  },
+  {
+   "id": "penalty",
+   "engine": "penalty",
+   "icon": "⚽",
+   "color": "#16a34a",
+   "cats": [
+    "kids",
+    "teens"
+   ],
+   "tags": [
+    "popular",
+    "multi"
+   ],
+   "popular": true,
+   "featured": false,
+   "enabled": true,
+   "order": 6,
+   "difficulty": "medium",
+   "title": {
+    "so": "Rigoorayaasha",
+    "en": "Penalty Shootout"
+   },
+   "desc": {
+    "so": "Laad rigoore oo ka hor tag laadadka kooxda kale.",
+    "en": "Take penalties and save shots in a five-round shootout."
+   },
+   "how": {
+    "so": "Taabo meesha aad rabto inaad kubadda u dirto. Marka aad goolhaye tahay, taabo dhinaca aad u booddo.",
+    "en": "Tap where you want to shoot. When you are the goalkeeper, tap where to dive."
+   },
+   "goals": [
+    30
+   ],
+   "dailyWin": true
+  },
+  {
+   "id": "hoops",
+   "engine": "hoops",
+   "icon": "🏀",
+   "color": "#ea580c",
+   "cats": [
+    "kids",
+    "teens"
+   ],
+   "tags": [
+    "popular"
+   ],
+   "popular": true,
+   "featured": false,
+   "enabled": true,
+   "order": 7,
+   "difficulty": "medium",
+   "title": {
+    "so": "Kubadda Koleyga",
+    "en": "Hoop Shot"
+   },
+   "desc": {
+    "so": "Ku tuur kubadda shabagga intaadan waqtigu dhammaan.",
+    "en": "Throw the ball into the hoop as many times as you can before time runs out."
+   },
+   "how": {
+    "so": "Kubadda jiid oo sii daa si aad u tuurto. Inta aad jiiddo ayay xooggu le’eg yahay.",
+    "en": "Drag the ball back and release to throw. A longer drag is a stronger throw."
+   },
+   "goals": [
+    10,
+    25
+   ]
+  },
+  {
+   "id": "snake",
+   "engine": "snake",
+   "icon": "🐍",
+   "color": "#22c55e",
+   "cats": [
+    "kids",
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "popular"
+   ],
+   "popular": true,
+   "featured": false,
+   "enabled": true,
+   "order": 8,
+   "difficulty": "medium",
+   "title": {
+    "so": "Masaska",
+    "en": "Snake"
+   },
+   "desc": {
+    "so": "Mas yar oo cunaya miro oo sii dheeraanaya. Ha isku dhicin!",
+    "en": "Guide the snake to the fruit and grow longer. Don’t bite your tail!"
+   },
+   "how": {
+    "so": "Fallaadhaha ama gacanta mari si aad jihada u beddesho.",
+    "en": "Use the arrows or swipe to turn."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "goals": [
+    50,
+    150
+   ]
+  },
+  {
+   "id": "falling-blocks",
+   "engine": "blocks",
+   "icon": "🧱",
+   "color": "#6366f1",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "popular",
+    "brain"
+   ],
+   "popular": true,
+   "featured": true,
+   "enabled": true,
+   "order": 9,
+   "difficulty": "medium",
+   "title": {
+    "so": "Dhagxaanta Dhacaya",
+    "en": "Falling Blocks"
+   },
+   "desc": {
+    "so": "Isku dhig dhagxaanta dhacaya si aad saf buuxa u tirtirto.",
+    "en": "Fit the falling blocks together to clear full lines."
+   },
+   "how": {
+    "so": "Bidix/midig dhaqaaji, kor wareeji, hoos dhaqso u soo deji, Space si toos ah u dhig.",
+    "en": "Left/right to move, up to rotate, down to drop faster, Space for a hard drop."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "goals": [
+    1000,
+    5000
+   ]
+  },
+  {
+   "id": "merge-2048",
+   "engine": "merge",
+   "icon": "🔢",
+   "color": "#eab308",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "popular",
+    "brain"
+   ],
+   "popular": true,
+   "featured": false,
+   "enabled": true,
+   "order": 10,
+   "difficulty": "medium",
+   "title": {
+    "so": "Isku Dar 2048",
+    "en": "Merge 2048"
+   },
+   "desc": {
+    "so": "Isku dar tirooyinka isku midka ah ilaa aad gaarto 2048.",
+    "en": "Slide the tiles and merge equal numbers to reach 2048."
+   },
+   "how": {
+    "so": "Fallaadhaha ama gacanta mari si dhammaan tirooyinka loo dhaqaajiyo.",
+    "en": "Use the arrows or swipe to slide all the tiles."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "goals": [
+    1000,
+    5000
+   ]
+  },
+  {
+   "id": "solitaire",
+   "engine": "solitaire",
+   "icon": "🃏",
+   "color": "#15803d",
+   "cats": [
+    "adults"
+   ],
+   "tags": [
+    "popular"
+   ],
+   "popular": true,
+   "featured": false,
+   "enabled": true,
+   "order": 11,
+   "difficulty": "medium",
+   "title": {
+    "so": "Kaararka Keligaa",
+    "en": "Solitaire"
+   },
+   "desc": {
+    "so": "Ciyaarta kaararka ee caanka ah: kala hagaaji afarta nooc.",
+    "en": "The classic patience card game: build the four suits from Ace to King."
+   },
+   "how": {
+    "so": "Taabo kaar, kadibna taabo meesha aad dhigayso. Laba jeer taabo si toos ah ugu dirto saldhigga.",
+    "en": "Tap a card, then tap where to put it. Double-tap to send it to the foundations."
+   },
+   "dailyWin": true
+  },
+  {
+   "id": "sudoku",
+   "engine": "sudoku",
+   "icon": "🔢",
+   "color": "#037BDC",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "popular",
+    "brain"
+   ],
+   "popular": true,
+   "featured": false,
+   "enabled": true,
+   "order": 12,
+   "difficulty": "medium",
+   "title": {
+    "so": "Sudoku",
+    "en": "Sudoku"
+   },
+   "desc": {
+    "so": "Buuxi shaxda si saf kasta, tiir kasta iyo sanduuq kasta uu 1 ilaa 9 u yeesho.",
+    "en": "Fill the grid so every row, column and box has 1 to 9."
+   },
+   "how": {
+    "so": "Taabo god, kadibna taabo tiro. Qalinka u isticmaal qoraallo.",
+    "en": "Tap a square, then a number. Use the pencil for notes."
+   },
+   "keys": {
+    "so": "Fallaadhaha iyo tirooyinka 1-9.",
+    "en": "Arrow keys and the numbers 1–9."
+   },
+   "dailyWin": true
+  },
+  {
+   "id": "block-builder",
+   "engine": "builder",
+   "icon": "🏗️",
+   "color": "#0ea5e9",
+   "cats": [
+    "kids",
+    "teens"
+   ],
+   "tags": [
+    "popular"
+   ],
+   "popular": true,
+   "featured": false,
+   "enabled": true,
+   "order": 13,
+   "difficulty": "medium",
+   "title": {
+    "so": "Dhis Adduunkaaga",
+    "en": "Block Builder"
+   },
+   "desc": {
+    "so": "Dhis guryo, beero iyo magaalooyin adiga oo isticmaalaya dhagxaan midab leh.",
+    "en": "Build houses, gardens and towns with colourful blocks. Your world is saved."
+   },
+   "how": {
+    "so": "Dooro dhagax, kadibna taabo shaxda si aad u dhigto. Masaxa u isticmaal inaad tirtirto.",
+    "en": "Choose a block and tap the grid to place it. Use the eraser to remove."
+   },
+   "levels": false,
+   "isNew": true
+  },
+  {
+   "id": "checkers",
+   "engine": "checkers",
+   "icon": "⚫",
+   "color": "#b91c1c",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "brain",
+    "multi"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 14,
+   "difficulty": "medium",
+   "title": {
+    "so": "Jaar (Checkers)",
+    "en": "Checkers"
+   },
+   "desc": {
+    "so": "Ku bood gabalada kale oo ka qaad dhammaan.",
+    "en": "Jump over your opponent’s pieces and capture them all."
+   },
+   "how": {
+    "so": "Taabo gabal, kadibna meesha uu u socdo. Haddii aad qaadi karto, waa qasab.",
+    "en": "Tap a piece, then where it goes. If you can capture, you must."
+   },
+   "dailyWin": true
+  },
+  {
+   "id": "four-in-a-row",
+   "engine": "four",
+   "icon": "🔴",
+   "color": "#dc2626",
+   "cats": [
+    "kids",
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "brain",
+    "multi"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 15,
+   "difficulty": "medium",
+   "title": {
+    "so": "Afar Saf",
+    "en": "Four in a Row"
+   },
+   "desc": {
+    "so": "Ku dhig afar gabal oo isku xiga saf, tiir ama xagal.",
+    "en": "Drop discs and get four in a row before your opponent."
+   },
+   "how": {
+    "so": "Taabo tiir si aad gabal ugu ridato.",
+    "en": "Tap a column to drop a disc."
+   },
+   "keys": {
+    "so": "Bidix/midig iyo Enter.",
+    "en": "Left/right and Enter."
+   },
+   "dailyWin": true
+  },
+  {
+   "id": "trivia",
+   "engine": "trivia",
+   "icon": "❓",
+   "color": "#7c3aed",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "popular": false,
+   "featured": true,
+   "enabled": true,
+   "order": 16,
+   "difficulty": "medium",
+   "title": {
+    "so": "Su’aalaha Aqoonta",
+    "en": "Quiz Time"
+   },
+   "desc": {
+    "so": "Su’aalo ku saabsan Soomaaliya, adduunka, sayniska iyo cayaaraha.",
+    "en": "Questions about Somalia, the world, science and sport."
+   },
+   "how": {
+    "so": "Dooro jawaabta saxda ah intaanu waqtigu dhammaan. 50:50 waxay ka saartaa laba jawaab.",
+    "en": "Choose the right answer before the timer runs out. 50:50 removes two answers."
+   },
+   "keys": {
+    "so": "Furayaasha 1-4.",
+    "en": "Keys 1–4."
+   },
+   "goals": [
+    500,
+    1000
+   ]
+  },
+  {
+   "id": "brain-gym",
+   "engine": "brain",
+   "icon": "🧠",
+   "color": "#db2777",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 17,
+   "difficulty": "medium",
+   "title": {
+    "so": "Jimicsiga Maskaxda",
+    "en": "Brain Gym"
+   },
+   "desc": {
+    "so": "Xisaab degdeg ah, midabada, tirada weyn iyo waxa ka duwan.",
+    "en": "Quick maths, colours, bigger number and odd-one-out challenges."
+   },
+   "how": {
+    "so": "Si degdeg ah u jawaab. Jawaab kasta oo sax ah waxay ku siinaysaa dhibco iyo waqti.",
+    "en": "Answer fast. Every correct answer gives points and extra time."
+   },
+   "goals": [
+    200,
+    500
+   ]
+  },
+  {
+   "id": "reaction",
+   "engine": "reaction",
+   "icon": "⚡",
+   "color": "#f59e0b",
+   "cats": [
+    "teens"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 18,
+   "difficulty": "medium",
+   "title": {
+    "so": "Xawaaraha Fal-celinta",
+    "en": "Reaction Test"
+   },
+   "desc": {
+    "so": "Intee in le’eg ayaad u dhaqso badan tahay? Tijaabi falcelintaada.",
+    "en": "How fast are you? Test your reactions with lights and targets."
+   },
+   "how": {
+    "so": "Sug ilaa uu cagaar noqdo, kadibna taabo. Kadib taabo bartilmaameedyada.",
+    "en": "Wait for green, then tap. Then tap the targets as fast as you can."
+   },
+   "keys": {
+    "so": "Space ama Enter.",
+    "en": "Space or Enter."
+   },
+   "goals": [
+    300,
+    600
+   ]
+  },
+  {
+   "id": "car-parking",
+   "engine": "parking",
+   "icon": "🅿️",
+   "color": "#0369a1",
+   "cats": [
+    "teens"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 19,
+   "difficulty": "medium",
+   "title": {
+    "so": "Baabuur Dhigasho",
+    "en": "Car Parking"
+   },
+   "desc": {
+    "so": "Baabuurka si taxaddar leh u geli meesha la dhigto.",
+    "en": "Steer carefully into the parking space without hitting anything."
+   },
+   "how": {
+    "so": "Kor/hoos hore iyo gadaal, bidix/midig si aad u leexiso.",
+    "en": "Up/down to drive forwards and backwards, left/right to steer."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "goals": [
+    300,
+    800
+   ],
+   "isNew": true
+  },
+  {
+   "id": "maze",
+   "engine": "maze",
+   "icon": "🗝️",
+   "color": "#4f46e5",
+   "cats": [
+    "kids",
+    "teens"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 20,
+   "difficulty": "medium",
+   "title": {
+    "so": "Safarka Dhexda",
+    "en": "Maze Quest"
+   },
+   "desc": {
+    "so": "Raadi furaha, fur albaabka oo ka bax dhexda. Uruuri xiddigaha!",
+    "en": "Find the key, open the door and escape the maze. Collect the stars!"
+   },
+   "how": {
+    "so": "Fallaadhaha ama gacanta mari si aad u socoto.",
+    "en": "Use the arrows or swipe to move."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "goals": [
+    300
+   ]
+  },
+  {
+   "id": "word-search",
+   "engine": "wordsearch",
+   "icon": "🔍",
+   "color": "#0891b2",
+   "cats": [
+    "teens",
+    "adults"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 21,
+   "difficulty": "medium",
+   "title": {
+    "so": "Raadi Erayada",
+    "en": "Word Search"
+   },
+   "desc": {
+    "so": "Raadi erayada ku qarsoon shaxda xarfaha.",
+    "en": "Find the hidden words in the letter grid."
+   },
+   "how": {
+    "so": "Taabo xarafka hore, kadibna xarafka ugu dambeeya ee erayga.",
+    "en": "Tap the first letter, then the last letter of the word."
+   },
+   "dailyWin": true
+  },
+  {
+   "id": "crossword",
+   "engine": "crossword",
+   "icon": "✏️",
+   "color": "#1e40af",
+   "cats": [
+    "adults"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 22,
+   "difficulty": "medium",
+   "title": {
+    "so": "Erayada Iskutallaabta",
+    "en": "Crossword"
+   },
+   "desc": {
+    "so": "Buuxi erayada adiga oo raacaya tilmaamaha.",
+    "en": "Fill in the words using the clues."
+   },
+   "how": {
+    "so": "Taabo god, qor xarfaha. Taabo mar kale si aad jihada u beddesho.",
+    "en": "Tap a square and type. Tap again to change direction."
+   },
+   "keys": {
+    "so": "Xarfaha, fallaadhaha iyo Backspace.",
+    "en": "Letters, arrows and Backspace."
+   },
+   "dailyWin": true,
+   "isNew": true
+  },
+  {
+   "id": "tile-match",
+   "engine": "tiles",
+   "icon": "🀄",
+   "color": "#b45309",
+   "cats": [
+    "adults"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 23,
+   "difficulty": "medium",
+   "title": {
+    "so": "Isku Aadi Dhagxaanta",
+    "en": "Tile Match"
+   },
+   "desc": {
+    "so": "Ciyaar dhagxaan Shiinees u eg: ka saar laba dhagax oo isku mid ah oo xor ah.",
+    "en": "A mahjong-style puzzle: remove pairs of matching free tiles to clear the board."
+   },
+   "how": {
+    "so": "Taabo laba dhagax oo isku mid ah oo aan la xirin. Talo iyo isku-qas waa la heli karaa.",
+    "en": "Tap two matching tiles that are free. Hints and shuffles are available."
+   },
+   "dailyWin": true,
+   "isNew": true
+  },
+  {
+   "id": "memory",
+   "engine": "memory",
+   "icon": "🧩",
+   "color": "#9333ea",
+   "cats": [
+    "adults",
+    "teens"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 24,
+   "difficulty": "medium",
+   "title": {
+    "so": "Xusuusta Kaararka",
+    "en": "Memory Cards"
+   },
+   "desc": {
+    "so": "Rogo kaararka oo raadi labada isku midka ah.",
+    "en": "Turn over cards and find the matching pairs."
+   },
+   "how": {
+    "so": "Taabo laba kaar. Haddii ay isku mid yihiin way furnaanayaan.",
+    "en": "Tap two cards. If they match, they stay open."
+   },
+   "goals": [
+    100,
+    200
+   ],
+   "options": {
+    "set": "symbols"
+   }
+  },
+  {
+   "id": "number-puzzle",
+   "engine": "slide",
+   "icon": "🔟",
+   "color": "#0d9488",
+   "cats": [
+    "adults",
+    "teens"
+   ],
+   "tags": [
+    "brain"
+   ],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 25,
+   "difficulty": "medium",
+   "title": {
+    "so": "Halxiraalaha Tirooyinka",
+    "en": "Number Slide"
+   },
+   "desc": {
+    "so": "Dhaqaaji dhagxaanta si tirooyinku u noqdaan 1 ilaa dhammaad.",
+    "en": "Slide the tiles to put the numbers in order."
+   },
+   "how": {
+    "so": "Taabo dhagax ku xiga meesha bannaan si aad u dhaqaajiso.",
+    "en": "Tap a tile next to the gap to slide it."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "options": {
+    "mode": "numbers"
+   },
+   "dailyWin": true
+  },
+  {
+   "id": "kids-memory",
+   "engine": "memory",
+   "icon": "🐘",
+   "color": "#f472b6",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 26,
+   "difficulty": "easy",
+   "title": {
+    "so": "Xusuusta Xayawaanka",
+    "en": "Animal Memory"
+   },
+   "desc": {
+    "so": "Raadi labada xayawaan ee isku midka ah.",
+    "en": "Find the matching animal pairs."
+   },
+   "how": {
+    "so": "Taabo laba kaar. Haddii ay isku mid yihiin way furnaanayaan.",
+    "en": "Tap two cards. If they match, they stay open."
+   },
+   "options": {
+    "set": "animals",
+    "big": true
+   }
+  },
+  {
+   "id": "abc",
+   "engine": "kidsquiz",
+   "icon": "🔤",
+   "color": "#f59e0b",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 27,
+   "difficulty": "easy",
+   "title": {
+    "so": "Baro Xarfaha",
+    "en": "Learn the Letters"
+   },
+   "desc": {
+    "so": "Maqal xarafka oo dooro kan saxda ah.",
+    "en": "Listen to the letter and pick the right one."
+   },
+   "how": {
+    "so": "Dhegeyso, kadibna taabo xarafka saxda ah. 🔊 ku riix si aad mar kale u maqasho.",
+    "en": "Listen, then tap the right letter. Press 🔊 to hear it again."
+   },
+   "options": {
+    "mode": "letters"
+   }
+  },
+  {
+   "id": "counting",
+   "engine": "kidsquiz",
+   "icon": "🍎",
+   "color": "#ef4444",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 28,
+   "difficulty": "easy",
+   "title": {
+    "so": "Tirinta",
+    "en": "Let’s Count"
+   },
+   "desc": {
+    "so": "Tiri waxyaabaha oo dooro tirada saxda ah.",
+    "en": "Count the things and pick the right number."
+   },
+   "how": {
+    "so": "Tiri sawirada, kadibna taabo tirada.",
+    "en": "Count the pictures, then tap the number."
+   },
+   "options": {
+    "mode": "counting"
+   }
+  },
+  {
+   "id": "kids-math",
+   "engine": "kidsquiz",
+   "icon": "➕",
+   "color": "#22c55e",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 29,
+   "difficulty": "easy",
+   "title": {
+    "so": "Xisaabta Carruurta",
+    "en": "Kids Maths"
+   },
+   "desc": {
+    "so": "Isku dar iyo ka jar fudud oo sawirro leh.",
+    "en": "Simple adding and taking away with pictures."
+   },
+   "how": {
+    "so": "Xalli xisaabta, kadibna taabo jawaabta.",
+    "en": "Work out the sum, then tap the answer."
+   },
+   "options": {
+    "mode": "kidsmath"
+   }
+  },
+  {
+   "id": "first-words",
+   "engine": "kidsquiz",
+   "icon": "📚",
+   "color": "#3b82f6",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 30,
+   "difficulty": "easy",
+   "title": {
+    "so": "Erayada Koowaad",
+    "en": "First Words"
+   },
+   "desc": {
+    "so": "Eeg sawirka oo dooro erayga saxda ah.",
+    "en": "Look at the picture and choose the right word."
+   },
+   "how": {
+    "so": "Taabo erayga ku habboon sawirka.",
+    "en": "Tap the word that matches the picture."
+   },
+   "options": {
+    "mode": "words"
+   }
+  },
+  {
+   "id": "word-builder",
+   "engine": "spell",
+   "icon": "🔠",
+   "color": "#8b5cf6",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 31,
+   "difficulty": "easy",
+   "title": {
+    "so": "Dhis Erayga",
+    "en": "Word Builder"
+   },
+   "desc": {
+    "so": "Xarfaha u kala hagaaji si aad u qorto erayga sawirka.",
+    "en": "Put the letters in order to spell the picture’s word."
+   },
+   "how": {
+    "so": "Taabo xarfaha siday u kala horreeyaan. ↶ ayaa xarafkii u dambeeyay ka noqda.",
+    "en": "Tap the letters in the right order. ↶ takes back the last letter."
+   },
+   "keys": {
+    "so": "Qor xarfaha.",
+    "en": "Type the letters."
+   },
+   "isNew": true
+  },
+  {
+   "id": "coloring",
+   "engine": "coloring",
+   "icon": "🖍️",
+   "color": "#ec4899",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 32,
+   "difficulty": "easy",
+   "title": {
+    "so": "Buugga Midabaynta",
+    "en": "Colouring Book"
+   },
+   "desc": {
+    "so": "Midabee sawiro qurux badan: guri, kalluun, ubax, geel iyo kuwo kale.",
+    "en": "Colour in lovely pictures: a house, a fish, a flower, a camel and more."
+   },
+   "how": {
+    "so": "Dooro midab, kadibna taabo qayb ka mid ah sawirka.",
+    "en": "Pick a colour, then tap a part of the picture."
+   },
+   "levels": false
+  },
+  {
+   "id": "draw",
+   "engine": "draw",
+   "icon": "🎨",
+   "color": "#f97316",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 33,
+   "difficulty": "easy",
+   "title": {
+    "so": "Sawir Samee",
+    "en": "Draw & Doodle"
+   },
+   "desc": {
+    "so": "Sawir wax kasta oo aad rabto: qalimo, midabo iyo stikarro.",
+    "en": "Draw anything you like with brushes, colours and stickers."
+   },
+   "how": {
+    "so": "Farta ama jiirka ku sawir. Dooro midab, cabbir ama stikar. 💾 ayaa kaydisa sawirka.",
+    "en": "Draw with your finger or mouse. Choose a colour, size or sticker. 💾 saves your drawing."
+   },
+   "levels": false
+  },
+  {
+   "id": "picture-puzzle",
+   "engine": "slide",
+   "icon": "🖼️",
+   "color": "#14b8a6",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 34,
+   "difficulty": "easy",
+   "title": {
+    "so": "Halxiraalaha Sawirka",
+    "en": "Picture Puzzle"
+   },
+   "desc": {
+    "so": "Dhaqaaji qaybaha si sawirku u noqdo mid dhammaystiran.",
+    "en": "Slide the pieces to put the picture back together."
+   },
+   "how": {
+    "so": "Taabo qayb ku xigta meesha bannaan.",
+    "en": "Tap a piece next to the gap."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "options": {
+    "mode": "picture"
+   }
+  },
+  {
+   "id": "animal-match",
+   "engine": "pairs",
+   "icon": "🦒",
+   "color": "#eab308",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 35,
+   "difficulty": "easy",
+   "title": {
+    "so": "Isku Aadi Xayawaanka",
+    "en": "Animal Match"
+   },
+   "desc": {
+    "so": "Isku xir xayawaanka iyo magaciisa.",
+    "en": "Match each animal with its name."
+   },
+   "how": {
+    "so": "Taabo sawir, kadibna taabo magaciisa.",
+    "en": "Tap a picture, then tap its name."
+   },
+   "options": {
+    "set": "animals"
+   }
+  },
+  {
+   "id": "animal-homes",
+   "engine": "pairs",
+   "icon": "🪺",
+   "color": "#84cc16",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 36,
+   "difficulty": "easy",
+   "title": {
+    "so": "Guryaha Xayawaanka",
+    "en": "Animal Homes"
+   },
+   "desc": {
+    "so": "Xayawaan kasta u geey meesha uu ku nool yahay.",
+    "en": "Match each animal with the place where it lives."
+   },
+   "how": {
+    "so": "Taabo xayawaan, kadibna taabo gurigiisa.",
+    "en": "Tap an animal, then tap its home."
+   },
+   "options": {
+    "set": "homes"
+   },
+   "isNew": true
+  },
+  {
+   "id": "shapes",
+   "engine": "shapes",
+   "icon": "🔷",
+   "color": "#06b6d4",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 37,
+   "difficulty": "easy",
+   "title": {
+    "so": "Qaababka",
+    "en": "Shape Sorter"
+   },
+   "desc": {
+    "so": "Qaab kasta geli meeshiisa saxda ah.",
+    "en": "Put each shape into its matching outline."
+   },
+   "how": {
+    "so": "Jiid qaabka ilaa meeshiisa, ama taabo qaabka kadibna meesha.",
+    "en": "Drag a shape to its outline, or tap the shape and then the outline."
+   }
+  },
+  {
+   "id": "kids-snake",
+   "engine": "snake",
+   "icon": "🐛",
+   "color": "#65a30d",
+   "cats": [
+    "kids"
+   ],
+   "tags": [],
+   "popular": false,
+   "featured": false,
+   "enabled": true,
+   "order": 38,
+   "difficulty": "easy",
+   "title": {
+    "so": "Dirxiga Gaajaysan",
+    "en": "Hungry Caterpillar"
+   },
+   "desc": {
+    "so": "Dirxiga u geey miraha. Waa tartiib oo derbiyo ma laha.",
+    "en": "Lead the caterpillar to the fruit. It goes slowly and there are no walls."
+   },
+   "how": {
+    "so": "Fallaadhaha ama gacanta mari.",
+    "en": "Use the arrows or swipe."
+   },
+   "keys": {
+    "so": "Fallaadhaha ama W A S D. Mobile: gacanta mari ama riix badhamada.",
+    "en": "Arrow keys or W A S D. Phone: swipe or use the on-screen buttons."
+   },
+   "goals": [
+    30
+   ],
+   "levels": false,
+   "defaultLevel": "easy"
+  }
+ ]
+}
