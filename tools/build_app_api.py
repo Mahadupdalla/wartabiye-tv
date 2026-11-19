@@ -170,11 +170,21 @@ def build(news, ads, videos, site, now, notify=None):
     for lang in LANGS:
         feeds[lang] = [card(a, lang) for a in arts if lang in a['tr']]
     ids = {a['id'] for a in arts}
+    pub = {a['id']: a.get('publishedAt') for a in arts}
+
+    def fresh_pick(i):  # a homepage pick stays on top for 6 hours after publication (as the website, assets/app.js PICK_MS)
+        try:
+            d = datetime.datetime.fromisoformat(str(pub.get(i)).replace('Z', '+00:00'))
+            d = d if d.tzinfo else d.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=3)))
+            return (now - d).total_seconds() < 6 * 3600
+        except Exception:
+            return False
+
     def picks(key):  # the editor's homepage picks in /admin/ (data/site.json "featured" / "trending"), as on the website
         out = []
         for f in (site or {}).get(key) or []:
             i = f if isinstance(f, str) else (f.get('article') if isinstance(f, dict) else None)
-            if i in ids and i not in out:
+            if i in ids and i not in out and (key != 'featured' or fresh_pick(i)):
                 out.append(i)
         return out[:10]
     featured, trending = picks('featured'), picks('trending')
