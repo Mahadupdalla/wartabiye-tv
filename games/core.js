@@ -9,7 +9,7 @@
   var WTG = window.WTG = window.WTG || {};
   var engines = {}, waiting = {};
   // every game file in games/g/ (a game in data/games.json with any other engine is not shown)
-  WTG.ENGINES = ['blocks', 'brain', 'builder', 'checkers', 'chess', 'coloring', 'crossword', 'dominoes', 'draw', 'four', 'hoops', 'hoops3d', 'kidsquiz', 'ludo', 'maze', 'memory', 'merge', 'pairs', 'parking', 'penalty', 'penalty3d', 'racer', 'racer3d', 'reaction', 'runner', 'runner3d', 'shapes', 'slide', 'snake', 'solitaire', 'spell', 'sudoku', 'tiles', 'trivia', 'wordsearch'];
+  WTG.ENGINES = ['blocks', 'brain', 'builder', 'checkers', 'chess', 'coloring', 'crossword', 'dominoes', 'draw', 'four', 'hoops', 'hoops3d', 'kidsquiz', 'ludo', 'ludo3d', 'maze', 'memory', 'merge', 'pairs', 'parking', 'penalty', 'penalty3d', 'racer', 'racer3d', 'reaction', 'runner', 'runner3d', 'shapes', 'slide', 'snake', 'solitaire', 'spell', 'sudoku', 'tiles', 'trivia', 'wordsearch'];
   WTG.register = function (id, factory) { engines[id] = factory; (waiting[id] || []).forEach(function (f) { f(); }); delete waiting[id]; };
 
   // ------------------------------------------------------------------ language
@@ -61,6 +61,9 @@
   WTG.data = function (pid) { var d = lsGet('wtg-p-' + (pid || profiles().current), null) || blank(); var b = blank(); for (var k in b) if (d[k] == null) d[k] = b[k]; return d; };
   WTG.saveData = function (d, pid) { lsSet('wtg-p-' + (pid || profiles().current), d); };
   WTG.update = function (fn) { var d = WTG.data(); fn(d); WTG.saveData(d); return d; };
+  // play-coins: earned by playing, spent only on looks inside games. Not money: they cannot be bought or cashed out.
+  WTG.coins = function () { return Math.max(0, WTG.data().coins || 0); };
+  WTG.addCoins = function (n) { var d = WTG.update(function (D) { D.coins = Math.max(0, Math.min(999999, (D.coins || 0) + Math.round(n || 0))); }); return d.coins; };
 
   // ------------------------------------------------------------------ sound (synthesised: no files to download)
   // player preferences for all games (this device only)
@@ -383,6 +386,9 @@
       if (better) D.best[game.id] = sc;
       if (won) D.wins[game.id] = (D.wins[game.id] || 0) + 1;
       D.total = (D.total || 0) + (game.lowWins ? (won ? 100 : 0) : sc);
+      // every finished game gives a few play-coins (games with their own coins skip this)
+      var gotCoins = game.ownCoins ? 0 : (won ? 5 : 1) + Math.min(10, Math.floor((game.lowWins ? 0 : sc) / 300));
+      D.coins = Math.min(999999, (D.coins || 0) + gotCoins);
       WTG.saveData(D);
       // standard achievements of every game
       if (won) award(game.id + ':win', { so: 'Guushii ugu horreysay: ' + t(game.title), en: 'First win: ' + t(game.title) });
@@ -396,6 +402,7 @@
         if (msg) p.append(h('p', { class: 'wtg-msg', text: t(msg) }));
         p.append(h('div', { class: 'wtg-final' }, h('span', null, h('small', { text: s('score') }), h('b', { text: String(sc) })), h('span', null, h('small', { text: s('best') }), h('b', { text: String(WTG.data().best[game.id] || sc) }))));
         if (better && sc > 0) p.append(h('p', { class: 'wtg-new', text: '⭐ ' + s('newBest') }));
+        if (gotCoins) p.append(h('p', { class: 'wtg-new', text: '+' + gotCoins + ' 🪙 · ' + WTG.coins() }));
         p.append(h('button', { type: 'button', class: 'wtg-go', html: ic('restart') + '<span>' + s('again') + '</span>', onclick: function () { begin(); } }),
           h('button', { type: 'button', class: 'wtg-sec', html: ic('back') + '<span>' + s('exit') + '</span>', onclick: function () { WTG.close(); } }));
         p.querySelector('.wtg-go').focus({ preventScroll: true });
@@ -405,7 +412,10 @@
     // timers that respect pause
     var tick = setInterval(function () {
       if (!state.running || state.paused || state.over) return;
-      state.timers = state.timers.filter(function (T) { if (!T.on) return false; T.left -= 100; if (T.left <= 0) { T.on = false; try { T.fn(); } catch (e) { console.warn(e); } return false; } return true; });
+      // run the due timers after the list is updated, so a timer started inside a timer is kept
+      var due = [];
+      state.timers = state.timers.filter(function (T) { if (!T.on) return false; T.left -= 100; if (T.left <= 0) { T.on = false; due.push(T); return false; } return true; });
+      due.forEach(function (T) { try { T.fn(); } catch (e) { console.warn(e); } });
     }, 100);
     function onVis() { if (document.hidden) pause(); }
     function onKey(e) {

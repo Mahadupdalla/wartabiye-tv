@@ -162,7 +162,7 @@
   function meCard() {
     var me = WTG.me(), D = WTG.data(), plays = 0; for (var k in D.plays) plays += D.plays[k];
     var box = $('meCard'); box.innerHTML = '';
-    box.append(h('div', { class: 'av', text: me.avatar }), h('div', { class: 'mi' }, h('b', { text: me.name }), h('span', { text: u('played') + ': ' + plays + ' · 🏆 ' + Object.keys(D.ach).length + ' · ' + u('total') + ': ' + (D.total || 0) })),
+    box.append(h('div', { class: 'av', text: me.avatar }), h('div', { class: 'mi' }, h('b', { text: me.name }), h('span', { text: u('played') + ': ' + plays + ' · 🏆 ' + Object.keys(D.ach).length + ' · ' + u('total') + ': ' + (D.total || 0) + ' · 🪙 ' + (D.coins || 0) })),
       h('button', { type: 'button', class: 'btn ghost small', text: u('profile'), onclick: function () { profile(); } }));
     $('profAv').textContent = me.avatar;
   }
