@@ -169,6 +169,22 @@
     swimming:'M2 18c2 0 2-1 4-1s2 1 4 1 2-1 4-1 2 1 4 1 2-1 4-1M7 13l4-4 3 2 4-3M16 6a2 2 0 1 0 0 .1',cycling:'M5 17a3 3 0 1 0 0 .1M19 17a3 3 0 1 0 0 .1M5 17l4-7h6l4 7M12 10l-2-4h-2',
     baseball:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM7 5c1.5 4 1.5 10 0 14M17 5c-1.5 4-1.5 10 0 14',golf:'M8 21V3l8 4-8 4M5 21h10',handball:ICONS.Ciyaaraha,badminton:'M6 18l6-6M12 12l5-8 3 3-8 5zM5 19a1.5 1.5 0 1 0 0 .1',
     olympics:'M5 10a3 3 0 1 0 0 .1M12 10a3 3 0 1 0 0 .1M19 10a3 3 0 1 0 0 .1M8.5 14a3 3 0 1 0 0 .1M15.5 14a3 3 0 1 0 0 .1',esports:'M6 9h12a3 3 0 0 1 3 3v2a3 3 0 0 1-5 2l-1-1H9l-1 1a3 3 0 0 1-5-2v-2a3 3 0 0 1 3-3zM8 11v3M6.5 12.5h3M16 12h.1M18 13h.1',other:'M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z'};
+  // the credit under an article photo (tools/image_system.py "imageInfo"): "Photo: <source> | Photographer: <name> |
+  // License: <licence>", source and licence linked so anyone can check them; the category graphic and AI illustrations say
+  // plainly that they are not photos of the event. Older articles without imageInfo use their credit fields.
+  function photoCaption(it){
+    var fc=el('figcaption'),k=it.imageKind,I=it.imageInfo&&typeof it.imageInfo==='object'?it.imageInfo:null;
+    if(k==='category'){fc.append(el('b',null,tr('catGraphic')+': '+(catName(it.category)||tr('news'))),' '+tr('catGraphicNote')+' · Wartabiye TV');return fc}
+    if(k==='ai-illustration')fc.append(el('b',null,tr('aiIllus')),' '+tr('aiIllusNote')+' ');
+    else if(k==='illustrative')fc.append(el('b',null,tr('illus')),tr('illusNote'));
+    var src=I&&I.source,who=I&&(I.photographer||I.owner),lic=I?I.license:it.imageLicense,page=safeUrl(I&&I.pageUrl||it.imageSourceUrl);
+    if(!I){var cr=typeof it.imageCredit==='string'&&it.imageCredit?it.imageCredit:(it.by==='admin'?'Wartabiye TV':'');var m=cr.split(' / ');if(m.length>1){who=m.slice(0,-1).join(' / ');src=m[m.length-1]}else src=cr}
+    if(!src&&!who)return fc;
+    function lk(t,u){if(!u)return document.createTextNode(t);var a=el('a',null,t);a.href=u;a.target='_blank';a.rel='noopener';return a}
+    fc.append(tr('photo')+': ',lk(src||who,page));
+    if(src&&who)fc.append(' | '+tr('photographer')+': '+who);
+    if(lic&&typeof lic==='string'){fc.append(' | '+tr('licenseWord')+': ');fc.append(lk(lic,safeUrl(I&&I.licenseUrl)))}
+    return fc}
   function ph(it,cls,big,sizes){
     var s=el('span','ph s-'+section(it)+(cls?' '+cls:''));var cn=catName(it.category)||tr('news');
     var full=imgUrl(it.image),small=imgUrl(it.thumb);var iu=big?full:(small||full);var has=false;
@@ -179,6 +195,7 @@
       var FOC={top:'50% 15%',bottom:'50% 85%',left:'20% 50%',right:'80% 50%'};if(FOC[it.imageFocus])im.style.objectPosition=FOC[it.imageFocus];
       im.addEventListener('error',function(){im.remove();s.classList.add('none');var ill=s.querySelector('.illus');if(ill)ill.remove();s.querySelector('.phc').hidden=false;s.append(el('span','illus phtag',tr('phTag')));if(!broken[it._id]){broken[it._id]=1}});
       im.src=iu;s.append(im);has=true;if(it.imageKind==='illustrative')s.append(el('span','illus',tr('illus')));
+      else if(it.imageKind==='category'){s.classList.add('catg');s.append(el('span','illus',tr('catGraphic')+' · '+cn))}else if(it.imageKind==='ai-illustration')s.append(el('span','illus',tr('aiIllus')));
     }else if(it.result&&it.result.home&&it.result.away&&it.result.score){
       // automatic match-result report: the result card (both crests and the final score) is its picture
       var R=it.result;s.classList.add('rescard');s.setAttribute('role','img');s.setAttribute('aria-label',F(it,'imageAlt')||F(it,'title'));
@@ -462,12 +479,9 @@
     A.append(sh);
     // imageSize 'small' (set per article in data/news/<id>.json): a smaller portrait photo, centred under the title
     var fig=el('figure','figure'+(it.imageSize==='small'?' small':''));fig.append(ph(it,'hero',true));
-    if(imgUrl(it.image)){var fc=el('figcaption');if(it.imageKind==='illustrative')fc.append(el('b',null,tr('illus')),tr('illusNote'));
-      var cr2=typeof it.imageCredit==='string'&&it.imageCredit?it.imageCredit:(it.by==='admin'?'Wartabiye TV':'');
-      if(cr2){fc.append(tr('photo')+': ');var iu2=safeUrl(it.imageSourceUrl);if(iu2){var ca=el('a',null,cr2);ca.href=iu2;ca.target='_blank';ca.rel='noopener';fc.append(ca)}else fc.append(cr2);if(it.imageLicense)fc.append(' · '+it.imageLicense)}
-      if(fc.childNodes.length)fig.append(fc)}
+    if(imgUrl(it.image)){var fc=photoCaption(it);if(fc.childNodes.length)fig.append(fc)}
     else if(it.result&&it.result.score){var fr=el('figcaption');fr.append((F(it,'imageAlt')||'')+(it.result.provider?' · '+it.result.provider:''));fig.append(fr)}
-    else{var fn=el('figcaption');fn.append(tr('noImg')+(L==='so'&&typeof it.imageNote==='string'&&it.imageNote?': '+it.imageNote:'.'));fig.append(fn)}
+    else{var fn=el('figcaption');fn.append(tr('noImg')+'.');fig.append(fn)}
     A.append(fig);
     var bd=soAttr(el('div','body'),isSo(it));var txt2=(body||sum||F(it,'title'));
     txt2.split(/\n+/).forEach(function(p){p=p.trim();if(!p)return;if(/^##\s+/.test(p))bd.append(el('h2','sub',p.replace(/^##\s+/,'')));else bd.append(el('p',null,p))});A.append(bd);

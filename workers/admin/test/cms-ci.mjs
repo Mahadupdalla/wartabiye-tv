@@ -161,7 +161,7 @@ try {
   await p.goto(W + '/#dashboard'); await p.waitForSelector('#v-native .kpi .val', { timeout: 60000 }).catch(() => {}); await sleep(9000);
   let T = await txt();
   check(/Website Online/.test(T), 'Overview: wartabiyetv.com shows as online');
-  check(/Published articles \d{3,}/.test(T), 'Overview: real published-article count');
+  check(/Published articles \d[\d,]{2,}/.test(T), 'Overview: real published-article count');
   check(/Last successful deployment \d+ (min|h|days?) ago|just now/.test(T), 'Overview: last deployment from GitHub Actions');
   check(/Regular news Every 3 hours/.test(T) && /08:00 and 18:00/.test(T), 'Overview: publishing schedule (3-hourly news, sports 08:00/18:00)');
   await p.screenshot({ path: join(OUT, 'c-overview.png'), fullPage: true });

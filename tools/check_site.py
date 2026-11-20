@@ -18,6 +18,7 @@ for n in items:
         seen.add(u)
     img = n.get('image')
     if not img and n.get('by') != 'auto-results': errors.append(f'{nid}: published without a photo (every article needs its own photo)')
+    elif img and img.startswith('img/category/'): pass  # the category graphic is shared on purpose (no photo of the event)
     elif img and img in used_imgs: errors.append(f'{nid}: uses the same photo as {used_imgs[img]} (every article needs its own photo)')
     else: used_imgs[img] = nid
     if img and not n.get('imageAlt'): errors.append(f'{nid}: photo needs a description (imageAlt)')
@@ -51,7 +52,7 @@ RULE_FROM = '2026-11-02'
 users = {}
 for n in items:
     for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
-        if key: users.setdefault(key, []).append(n)
+        if key and not key.startswith('img/category/'): users.setdefault(key, []).append(n)
 for n in items:
     if n.get('by') == 'admin' or (n.get('publishedAt') or '')[:10] < RULE_FROM: continue
     if n.get('by') == 'auto-results':   # match-result report: the result card (crests + score) is its picture
@@ -62,6 +63,43 @@ for n in items:
     for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
         if key and len(users.get(key, [])) > 1:
             errors.append(f"{n.get('id')}: photo {key} is also used by " + ', '.join(o.get('id', '?') for o in users[key] if o is not n))
+# image system (tools/image_system.py, from RULE_FROM): an automatic article's photo must have confirmed usage rights
+# (VERIFIED / ATTRIBUTION REQUIRED) or be the category graphic; no agency photo, no non-commercial or no-changes licence,
+# no near-identical copy of another story's photo, AI illustrations only when switched on and never on breaking news
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import image_system as _IS  # noqa: E402
+_settings = _IS.load_settings()
+try: _reg = json.load(open(_IS.REGISTRY, encoding='utf-8')).get('images', {})
+except Exception: _reg = {}
+_dh = {}
+for _e in _reg.values():
+    for _u in _e.get('uses', []):
+        if _u.get('current') and _e.get('dhash'): _dh[_u['article']] = _e['dhash']
+for n in items:
+    nid = n.get('id', '?')
+    info = n.get('imageInfo') or {}
+    img = n.get('image') or ''
+    if not img or n.get('by') in ('admin', 'auto-results') or (n.get('publishedAt') or '')[:10] < _IS.RULE_FROM: continue
+    st = info.get('status')
+    if st not in _IS.PUBLISHABLE_AUTO:
+        errors.append(f"{nid}: photo usage rights not confirmed (status {st or 'unknown'}); use another photo or the category graphic")
+    if st == 'CATEGORY_GRAPHIC' and not img.startswith('img/category/'): errors.append(f'{nid}: category graphic status on a photo that is not a category graphic')
+    if img.startswith('img/category/') and n.get('imageKind') != 'category': errors.append(f'{nid}: category graphic must have imageKind "category"')
+    if st == 'AI_ILLUSTRATION':
+        if not _settings.get('aiIllustrations'): errors.append(f'{nid}: AI illustrations are switched off (data/image-settings.json)')
+        if n.get('breaking'): errors.append(f'{nid}: breaking news needs a real, verified photo or the category graphic, not an AI illustration')
+        if n.get('imageKind') != 'ai-illustration': errors.append(f'{nid}: AI illustration must have imageKind "ai-illustration" (shown with the label)')
+    lic = _IS.licence_info(info.get('license'), info.get('licenseUrl'))
+    if st in ('VERIFIED', 'ATTRIBUTION_REQUIRED'):
+        if not lic or not lic['free']: errors.append(f"{nid}: licence {info.get('license')!r} does not allow publication")
+        if _IS.is_agency(info.get('pageUrl'), n.get('imageCredit')): errors.append(f'{nid}: news-agency photo (all rights reserved)')
+        if not str(info.get('pageUrl') or '').startswith('https://'): errors.append(f'{nid}: photo without a source page link')
+        if st == 'ATTRIBUTION_REQUIRED' and not (info.get('photographer') or info.get('owner')): errors.append(f'{nid}: licence needs a credit but no photographer/owner is recorded')
+    d = _dh.get(nid)
+    cont = set(((json.load(open(os.path.join(root, 'data', 'news', nid + '.json'), encoding='utf-8')).get('imageRights') or {}).get('continuing') or [])) if d and os.path.exists(os.path.join(root, 'data', 'news', nid + '.json')) else set()
+    for other, d2 in _dh.items():
+        if d and other != nid and other not in cont and _IS.hamming(d, d2) <= _IS.NEAR:
+            errors.append(f'{nid}: photo is a near-identical copy of the photo of {other} (every story needs its own photo)'); break
 with_img = sum(1 for n in items if n.get('image'))
 print(f'articles={len(items)} with_image={with_img} placeholder={len(items)-with_img}')
 meta = news.get('updatedAt') if isinstance(news, dict) else None

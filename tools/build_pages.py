@@ -261,7 +261,39 @@ def ph(n, big=False, hero=False, lang='so'):
         sizes = '(max-width:1000px) 100vw, 860px' if big else '(max-width:640px) 92vw, (max-width:1000px) 46vw, 320px'
         srcset = f' srcset="{esc(small)} 480w, {esc(full)} 1200w" sizes="{sizes}"'
     return (f'<span class="ph s-{section(n)}{" hero" if hero else ""}"><img src="{esc(src)}"{srcset} alt="{esc(alt)}"{wh}'
-            f' decoding="async"{extra}>' + (f'<span class="illus">{esc(T("illus", lang))}</span>' if n.get('imageKind') == 'illustrative' else '') + '</span>')
+            f' decoding="async"{extra}>' + ({'illustrative': f'<span class="illus">{esc(T("illus", lang))}</span>',
+                                            'category': f'<span class="illus">{esc(T("catGraphic", lang))} · {esc(cat_name(n.get("category"), lang) or "")}</span>',
+                                            'ai-illustration': f'<span class="illus">{esc(T("aiIllus", lang))}</span>'}.get(n.get('imageKind'), '')) + '</span>')
+
+
+def photo_caption(n, lang='so'):
+    """The credit under the photo, as assets/app.js shows it: "Photo: <source> | Photographer: <name> | License: <licence>"
+    with the source page and the licence linked; the category graphic and AI illustrations are never called photos."""
+    k, I = n.get('imageKind'), n.get('imageInfo') or {}
+    link = lambda t, u: f'<a href="{esc(u)}" target="_blank" rel="noopener">{esc(t)}</a>' if str(u or '').startswith('https://') else esc(t)
+    if k == 'category':
+        return f'<b>{esc(T("catGraphic", lang))}: {esc(cat_name(n.get("category"), lang) or "")}</b> {esc(T("catGraphicNote", lang))} · Wartabiye TV'
+    cap = ''
+    if k == 'ai-illustration':
+        cap += f'<b>{esc(T("aiIllus", lang))}</b> {esc(T("aiIllusNote", lang))} '
+    elif k == 'illustrative':
+        cap += f'<b>{esc(T("illus", lang))}</b>{esc(T("illusNote", lang))}'
+    src, who, lic = I.get('source'), I.get('photographer') or I.get('owner'), I.get('license') or n.get('imageLicense')
+    page = I.get('pageUrl') or n.get('imageSourceUrl')
+    if not I:
+        cr = n.get('imageCredit') or ('Wartabiye TV' if n.get('by') == 'admin' else '')
+        if ' / ' in cr:
+            who, src = cr.rsplit(' / ', 1)
+        else:
+            src = cr
+    if not (src or who):
+        return cap.strip()
+    cap += f'{esc(T("photo", lang))}: ' + link(src or who, page)
+    if src and who:
+        cap += f' | {esc(T("photographer", lang))}: {esc(who)}'
+    if lic:
+        cap += f' | {esc(T("licenseWord", lang))}: ' + link(lic, I.get('licenseUrl'))
+    return cap
 
 
 def meta_line(n, lang='so'):
@@ -406,6 +438,11 @@ for n in public:
                 io['creditText'] = n['imageCredit']
             if n.get('imageLicense') and str(n.get('imageSourceUrl') or '').startswith('https://'):
                 io['acquireLicensePage'] = n['imageSourceUrl']
+            _ii = n.get('imageInfo') or {}
+            if str(_ii.get('licenseUrl') or '').startswith('https://'):
+                io['license'] = _ii['licenseUrl']
+            if _ii.get('photographer'):
+                io['creator'] = {'@type': 'Person', 'name': _ii['photographer']}
             art['image'] = [io]
         else:
             art['image'] = [LOGO]
@@ -438,15 +475,7 @@ for n in public:
             when += f'<span class="dot">{esc(T("updatedWord", lang) if lang == "so" else "↻")} <time datetime="{esc(mod)}">{esc(show_date(mod, lang))}</time></span>'
         fig = ''
         if n.get('image'):
-            cap = ''
-            if n.get('imageKind') == 'illustrative':
-                cap += f'<b>{esc(T("illus", lang))}</b> '
-            credit = n.get('imageCredit') or ('Wartabiye TV' if n.get('by') == 'admin' else '')
-            if credit:
-                src = str(n.get('imageSourceUrl') or '')
-                cap += f'{esc(T("photo", lang))}: ' + (f'<a href="{esc(src)}" target="_blank" rel="noopener">{esc(credit)}</a>' if src.startswith('https://') else esc(credit))
-                if n.get('imageLicense'):
-                    cap += f' · {esc(n["imageLicense"])}'
+            cap = photo_caption(n, lang)
             fig = f'<figure class="figure{" small" if n.get("imageSize") == "small" else ""}">{ph(n, big=True, hero=True, lang=lang)}' + (f'<figcaption>{cap}</figcaption>' if cap else '') + '</figure>'
         # small publisher byline (no disclaimer box): "Warkaan waxaa daabacay Wartabiye TV" only for the newsroom's own stories,
         # "Waxaa daabacay Wartabiye TV" for every story built on other outlets' reporting (same rule as assets/app.js)

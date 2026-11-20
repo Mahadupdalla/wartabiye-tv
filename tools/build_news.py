@@ -6,6 +6,7 @@ afterwards in /admin/ is published as "manual", so the page no longer labels it 
 import json, os, glob, datetime, sys
 from translations import LANGS, text_hash, has
 import attribution
+import image_system
 PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
 
 # The old article disclaimer box (removed by the owner on 13 November 2026; articles now show only a small
@@ -43,6 +44,7 @@ def needs_photo(n):
 
 
 def image_ok(n):
+    # its own photo, or the WARTABIYE TV category graphic (img/category/) when no accurate legal photo exists
     img = (n.get('image') or '').lstrip('/')
     return img.startswith('img/') and os.path.isfile(os.path.join(root, img))
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -83,9 +85,16 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     # small card image made by tools/make_thumbs.py (publish workflow); cards fall back to the full image without it
     n.pop('thumb', None)
     if n.get('image'):
-        t = os.path.join('img', 'news', 'w480', os.path.splitext(os.path.basename(n['image']))[0] + '.webp')
+        t = os.path.join(os.path.dirname(n['image']), 'w480', os.path.splitext(os.path.basename(n['image']))[0] + '.webp')
         if os.path.isfile(os.path.join(root, t)):
             n['thumb'] = t
+    # image record (tools/image_system.py): readers get only the credit facts (source, photographer, licence, link,
+    # status); the internal record (match score, history, approval) and the editors' photo notes stay in /admin/
+    rec = image_system.record(n)
+    n.pop('imageRights', None)
+    n.pop('imageNote', None)
+    if rec:
+        n['imageInfo'] = image_system.public(rec)
     for lang in LANGS:
         if not has(n, lang):
             n.pop(lang, None); continue
@@ -173,7 +182,7 @@ dst = os.path.join(root, 'data', 'news.json')
 
 
 # only the article page uses these (it loads the full data/news.json)
-LITE_DROP = ('body', 'alsoReportedBy', 'originalTitle', 'verification', 'imageSourceUrl')
+LITE_DROP = ('body', 'alsoReportedBy', 'originalTitle', 'verification', 'imageSourceUrl', 'imageInfo')
 
 
 def lite_item(o):

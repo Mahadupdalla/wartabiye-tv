@@ -488,10 +488,10 @@ def hold_text(nid, note):
 
 
 def hold(nid, note):
-    p = os.path.join(NEWS, nid + '.json')
-    n = json.load(open(p, encoding='utf-8'))
-    n.update({'published': False, 'imagePending': True, 'image': None, 'imageNote': note})
-    save(n)
+    """No accurate legal photo: the category graphic, or Sugaya sawir when /admin/ -> Image sources says "hold"."""
+    import image_system as IS
+    n = IS.fallback(nid, note)
+    return n.get('imageKind') == 'category'
 
 
 # ---------------------------------------------------------------- run
@@ -644,7 +644,7 @@ def run(cand_path, state_path, dry=False):
         save(n)
         ok, note = attach_photo(n, a)
         if not ok:
-            hold(n['id'], note)
+            ok = hold(n['id'], note)  # True: published with the category graphic (data/image-settings.json noPhoto)
         if qerr:
             # an incomplete text (cut off, placeholder ending, too short without a reason) is never published: it waits in
             # /admin/ as a draft with the reason, so the owner can finish it (the money is already spent; nothing is retried)

@@ -10,6 +10,7 @@ import { loginPage, csp, page } from './pages.js';
 import { collect, summary, realtime, rollup } from './analytics.js';
 import { proxy, automation } from './github.js';
 import { searchConsole } from './gsc.js';
+import { imageSearch, imageFetch } from './images.js';
 
 const PUBLIC_FILES = /^\/(assets\/(login\.css|theme\.js)|brand\/[\w.-]+|favicon\.ico|robots\.txt)$/;
 
@@ -63,6 +64,8 @@ export default {
         if (p === '/api/analytics/realtime') return await realtime(req, env);
         if (p === '/api/automation') return await automation(req, env, s);
         if (p === '/api/search-console') return await searchConsole(req, env);
+        if (p === '/api/images/search') return await imageSearch(req, env);
+        if (p === '/api/images/fetch') return await imageFetch(req, env);
         if (p === '/api/ping' && req.method === 'POST') return json({ ok: true, expiresAt: Math.min(s.expires, now() + idle) });
         if (p === '/api/security') {
           const [log, sessions] = await Promise.all([
@@ -90,7 +93,7 @@ export default {
         // the publishing tool (Sveltia CMS); it may only talk to this Worker
         return await asset(req, env, p, { 'content-security-policy': csp({ img: site + ' https:', connect: 'data: blob:', font: 'https://cdn.jsdelivr.net', style: 'https://cdn.jsdelivr.net', frame: "'self'", script: "'self' 'unsafe-eval' blob:" }) + "; worker-src 'self' blob:" });
       }
-      return await asset(req, env, p, { 'content-security-policy': csp({ img: site + ' https://raw.githubusercontent.com', connect: site + ' https://raw.githubusercontent.com https://www.googleapis.com' }), 'cache-control': 'no-store' });
+      return await asset(req, env, p, { 'content-security-policy': csp({ img: site + ' https://raw.githubusercontent.com https://upload.wikimedia.org https://commons.wikimedia.org https://*.staticflickr.com https://api.openverse.org https://images.unsplash.com https://images.pexels.com https://cdn.pixabay.com https://pixabay.com', connect: site + ' https://raw.githubusercontent.com https://www.googleapis.com' }), 'cache-control': 'no-store' });
     } catch (e) {
       console.error(e);
       if (p.startsWith('/api/') || p === '/c') return json({ error: 'server_error' }, 500);

@@ -26,11 +26,13 @@ jobs:
         run: |
           for d in 5 15 30; do pip install -q pillow && break; echo "pip failed, retrying in $d s"; sleep $d; done
           python3 tools/make_thumbs.py
+      - name: Image usage database and image sources report (img fingerprints, earlier uses, licence status)
+        run: python3 tools/image_system.py audit
       - name: Build news.json and ads.json
         run: python3 tools/build_news.py
       - name: Check news, dates and images (nothing is published if this fails)
         run: |
-          python3 tools/media_test.py && node tools/sports_feed.mjs test && python3 tools/live_feeds.py test && python3 tools/attribution.py test
+          python3 tools/image_system_test.py && python3 tools/media_test.py && node tools/sports_feed.mjs test && python3 tools/live_feeds.py test && python3 tools/attribution.py test
           python3 -c "import json;[json.load(open(f)) for f in ('data/site.json','data/live.json','data/sports.json','data/media-sources.json')]"
           # one bad NEW automatic article (no photo, shared photo, missing description ...) is held in Sugaya sawir with the
           # reason instead of blocking every other article; anything else still stops the publication (tools/quarantine.py)
@@ -52,7 +54,7 @@ jobs:
         run: python3 tools/build_app_api.py test && python3 tools/build_app_api.py || echo "::warning::api/v1 for the mobile app was not rebuilt"
       - name: Commit the built files
         run: |
-          git add -A $(ls -d api 2>/dev/null) $(ls -d assets/min 2>/dev/null) index.html $(ls ads.txt 2>/dev/null || git ls-files ads.txt) data/news data/news.json data/news-lite.json data/lite data/story data/ads.json data/videos.json data/notifications.json data/seo-report.json data/attribution-report.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml news-sitemap.xml rss.xml $(for d in en ar fr nl it de tr es qayb kaydka; do { [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1; } && echo "$d"; done) ciyaaraha caalamka soomaaliya bariga-afrika wararka-tooska xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska shuruudaha
+          git add -A $(ls -d api 2>/dev/null) $(ls -d assets/min 2>/dev/null) index.html $(ls ads.txt 2>/dev/null || git ls-files ads.txt) data/news data/news.json data/news-lite.json data/lite data/story data/ads.json data/videos.json data/notifications.json data/seo-report.json data/attribution-report.json data/image-registry.json data/image-report.json img/news/w480 war muuqaal toos ciyaaraha-toos sitemap.xml news-sitemap.xml rss.xml $(for d in en ar fr nl it de tr es qayb kaydka; do { [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1; } && echo "$d"; done) ciyaaraha caalamka soomaaliya bariga-afrika wararka-tooska xayeysiimaha xiriir nagu-saabsan anshaxa saxitaannada asturnaanta siyaasadda-xayeysiiska shuruudaha
           if git diff --cached --quiet; then echo "built files already up to date"; exit 0; fi
           git config user.name "wartabiye-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
