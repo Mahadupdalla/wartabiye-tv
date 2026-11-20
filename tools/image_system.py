@@ -478,7 +478,7 @@ def fold(s):
     return re.sub(r'[^a-z0-9\' -]+', ' ', s.replace('_', ' ')).strip()
 
 
-ORG_WORDS = set('party news league council union court ministry government bank university club united city fc association federation '
+ORG_WORDS = set('nou firm park stadium stadio estadio arena ground derby party news league council union court ministry government bank university club united city fc association federation '
                 'committee agency airlines airways company group house department office forces army police nations state states '
                 'republic kingdom cup finals final open prix championship world olympic olympics games times post daily today tv '
                 'radio online press institute foundation organisation organization commission parliament senate congress assembly '
@@ -920,7 +920,15 @@ def download(url, nid, mirror=None):
     tmp = os.path.join(root, 'img', 'news', f'.{nid}.part')
     # mirror: the same file through Openverse's image proxy (full size), for hosts this environment cannot reach
     # (live.staticflickr.com is blocked here, so Flickr photos found through Openverse could never be saved)
-    if not fetch(url, tmp, tries=2, wait=3) and not (mirror and fetch(mirror, tmp, tries=3, wait=3)):
+    urls = [url]
+    m = re.match(r'https://upload\.wikimedia\.org/wikipedia/commons/([0-9a-f])/([0-9a-f]{2})/([^/?]+)$', url or '')
+    if m:   # a Commons original is often 5-20 MB: ask for the 1280 px copy on the same host first (thumb.wikimedia.org,
+            # where Special:FilePath now redirects, is blocked in the news task's environment)
+        urls.insert(0, f'https://upload.wikimedia.org/wikipedia/commons/thumb/{m.group(1)}/{m.group(2)}/{m.group(3)}/1280px-{m.group(3)}')
+    if mirror:
+        urls.append(mirror)
+    # Wikimedia answers HTTP 429 to quick repeats: give it time (8, 16, 24 s); other hosts get two quick tries
+    if not any(fetch(u, tmp, tries=4 if 'wikimedia.org' in u else 2, wait=8 if 'wikimedia.org' in u else 3) for u in urls):
         raise ValueError('download failed')
     try:
         from PIL import Image
@@ -1120,6 +1128,98 @@ def audit(save_file=True):
     return rep
 
 
+# ------------------------------------------------------------------------------------------------ candidates to look at
+# The news task (a Claude run) chose the category graphic for 12 of 21 stories on 20 Nov: looking at each candidate
+# took too long. "candidates" lists, for every recent story that only has the category graphic, the best photos whose
+# own TITLE names the story's person (or two of its subjects), and saves a small preview of each, so the task can
+# LOOK at them in one go and attach the right one. It never attaches by itself: on 20 Nov three photos that "matched"
+# by title showed something else (a Liverpool shirt rack for Xabi Alonso, a conference hall for a Uganda loan).
+SPORT_WORDS = ('football', 'soccer', 'fc', 'cf', 'club', 'match', 'cup', 'league', 'liga', 'serie', 'premier', 'player',
+               'stadium', 'training', 'goal', 'world cup', 'champions', 'olympic', 'tennis', 'open', 'grand prix', 'motogp',
+               'formula', 'race', 'nba', 'nfl', 'athletics', 'marathon', 'national team', 'v ', ' vs ', 'friendly', 'final')
+AUTO_MIN = 0.7
+PREVIEWS = os.environ.get('WTV_PREVIEWS', '/tmp/wtv-previews')
+
+
+def _sure(S, c, category):
+    title = fold(' '.join(str(c.get(k) or '') for k in ('title', 'alt')))
+    whole = fold(' '.join(str(c.get(k) or '') for k in ('title', 'description', 'alt', 'categories', 'tags')))
+    if S['people']:
+        who = [p for p in S['people'] if _has(title, p)]
+        if not who:
+            return None
+        if category == 'Ciyaaraha' and not any(w in ' ' + whole + ' ' for w in SPORT_WORDS) and not any(_has(whole, o) for o in S['orgs']):
+            return None   # same name, other person (e.g. a footballer and a politician called Joao Pedro)
+        return who[0]
+    # no person: the photo must name two of the story's subjects (e.g. club + city), or one specific multi-word
+    # name; one generic word ("Parliament", "Italy") is not proof that it shows this story
+    generic = ('parliament', 'government', 'ministry', 'police', 'army', 'cabinet', 'senate', 'court', 'united', 'national')
+    hit = [x for x in S['orgs'] + S['places'] if _has(title, x) and x not in generic]
+    if len(hit) >= 2 or any(len(x.split()) >= 2 and x not in ('united states', 'united kingdom', 'european union') for x in hit):
+        return hit[0]
+    return None
+
+
+def upgrade(days=2, limit=8, budget=420, dry=True):
+    """Recent automatic stories that only have the category graphic: list certain-looking candidates with previews."""
+    t0, done, tried = time.time(), [], 0
+    os.makedirs(PREVIEWS, exist_ok=True)
+    now = datetime.now(EAT)
+    for n in sorted(articles(), key=lambda a: str(a.get('publishedAt') or ''), reverse=True):
+        if time.time() - t0 > budget or tried >= limit:
+            break
+        if n.get('imageKind') != 'category' or n.get('by') not in ('claude', 'auto-sports', 'sports-writer', None):
+            continue
+        try:
+            age = now - datetime.fromisoformat(str(n.get('publishedAt')))
+        except ValueError:
+            continue
+        r = n.get('imageRights') or {}
+        if age > timedelta(days=days) or (r.get('upgradeTriedAt') and now - datetime.fromisoformat(r['upgradeTriedAt']) < timedelta(hours=6)):
+            continue
+        tried += 1
+        S = subjects(n)
+        cands = gather(S, queries_for(S))
+        S, ranked = rank(n, cands)
+        pick = None
+        for c in ranked:
+            if c['score'] is None or c['score'] < AUTO_MIN:
+                continue
+            who = _sure(S, c, n.get('category'))
+            if who:
+                pick = (c, who)
+                break
+        p, cur = load(n['id'])
+        if not pick:
+            if not dry:
+                cur['imageRights'] = dict(cur.get('imageRights') or {}, upgradeTriedAt=now_iso())
+                save(p, cur)
+            print(f"{n['id']}: no certain match, keeps the category graphic")
+            continue
+        c, who = pick
+        name = ' '.join(w.capitalize() for w in who.split())
+        print(f"{n['id']}: {c['ref']} ({c['score']:.2f}, {name})")
+        for j, c2 in enumerate([x for x in ranked if x['score'] is not None and _sure(S, x, n.get('category'))][:3]):
+            pv = os.path.join(PREVIEWS, f"{n['id'][:60]}-{j + 1}.jpg")
+            ov = str(c2.get('ref') or '')
+            m = re.match(r'https://upload\.wikimedia\.org/wikipedia/commons/(?:thumb/)?([0-9a-f])/([0-9a-f]{2})/([^/?]+)', str(c2.get('directUrl') or ''))
+            src = (f'https://api.openverse.org/v1/images/{ov[10:]}/thumb/' if ov.startswith('openverse:') else
+                   f'https://upload.wikimedia.org/wikipedia/commons/thumb/{m.group(1)}/{m.group(2)}/{m.group(3)}/400px-{m.group(3)}' if m else c2.get('directUrl'))
+            ok = fetch(src, pv, tries=2, wait=3) if src else None
+            print(f"    {j + 1}. {c2['ref']} | {c2.get('license')} | {(c2.get('author') or '')[:30]} | {(c2.get('title') or '')[:80]}" + (f"\n       preview: {pv}" if ok else ''))
+        if dry:
+            continue
+        try:
+            attach(n['id'], c, f'{name}, sawir hore', {'en': f'{name}, file photo'}, 'illustrative', by='auto-upgrade')
+            done.append(n['id'])
+        except ValueError as e:
+            cur['imageRights'] = dict(cur.get('imageRights') or {}, upgradeTriedAt=now_iso())
+            save(p, cur)
+            print(f"{n['id']}: {e}")
+    print(f'upgrade: {len(done)} of {tried} stories got a real photo')
+    return done
+
+
 # ------------------------------------------------------------------------------------------------ command line
 def _args(a):
     out, multi = {}, {}
@@ -1128,7 +1228,7 @@ def _args(a):
     while i < len(a):
         if a[i].startswith('--'):
             k = a[i]
-            if k in ('--attach', '--json'):
+            if k in ('--attach', '--json', '--dry'):
                 out[k] = True
                 i += 1
                 continue
@@ -1221,6 +1321,8 @@ def main(a):
         elif cmd == 'audit':
             r = audit()
             print(f"image report: {r['counts']} flagged={r['flagged']}")
+        elif cmd in ('candidates', 'upgrade'):
+            upgrade(int(o.get('--days', 2)), int(o.get('--limit', 12)), int(o.get('--budget', 600)), True)
         elif cmd == 'providers':
             print(json.dumps(providers_status(), indent=2))
         else:
