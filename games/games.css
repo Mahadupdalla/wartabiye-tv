@@ -170,7 +170,7 @@ footer.gf a{color:#fff;font-weight:700}
 .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stats3 div{background:var(--chip);border-radius:12px;padding:10px;text-align:center}.stats3 b{display:block;font-size:20px;font-family:var(--display)}.stats3 small{color:var(--muted);font-size:12px}
 
 /* ================= the game player ================= */
-html.wtg-open,html.wtg-open body{overflow:hidden}
+html.wtg-open,html.wtg-open body{overflow:hidden;overscroll-behavior:none}
 .wtg-player{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 50% -10%,color-mix(in srgb,var(--gc) 40%,transparent),transparent),linear-gradient(180deg,#061a33,#0a2a52);color:#fff;animation:fade .2s;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 .wtg-bar{display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(0,0,0,.25);border-bottom:2px solid var(--red);flex-wrap:nowrap}
 .wtg-title{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
@@ -296,3 +296,6 @@ html.wtg-open,html.wtg-open body{overflow:hidden}
 /* games with their own app screens (direct): a one-row bar, no score boxes */
 .wtg-slim .wtg-scores{display:none}
 @media (max-width:640px){.wtg-slim .wtg-bar{flex-wrap:nowrap}.wtg-slim .wtg-title{flex:1 1 auto}.wtg-slim .wtg-title b{display:none}}
+
+/* the game fills exactly the visible screen on phones (the address bar is not counted), and never scrolls the page */
+.wtg-player{height:100vh;height:100dvh;bottom:auto;overscroll-behavior:none}
