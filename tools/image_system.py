@@ -329,7 +329,14 @@ def articles(include_trash=True):
 
 
 def norm_url(u):
-    return urllib.parse.unquote(str(u or '')).split('?')[0].rstrip('/').lower() or None
+    # the query is part of the address for pages like commons.wikimedia.org/w/index.php?curid=123 (every Commons
+    # photo found through Openverse has one), so only tracking parameters and Commons size options are dropped
+    u = urllib.parse.unquote(str(u or '')).strip()
+    if not u:
+        return None
+    base, _, q = u.partition('?')
+    keep = [kv for kv in q.split('&') if kv and kv.split('=')[0].lower() in ('curid', 'title', 'id', 'oldid', 'v', 'photo', 'image')]
+    return (base.rstrip('/') + ('?' + '&'.join(sorted(keep)) if keep else '')).lower()
 
 
 def build_registry(save=True):
@@ -578,8 +585,13 @@ def score(S, c, nid=None, reg=None, continuing=(), kind='illustrative', min_widt
     # identity of people
     cand_people = [fold(x) for x in _names(' '.join(str(c.get(k) or '') for k in ('title', 'description')))]
     if S['people']:
-        hit = [p for p in S['people'] if _has(text, p)]
-        parts['identity'] = len(hit) / len(S['people']) if hit else 0.0
+        # the person must be named in the photo's own title or caption; tags and keywords alone are not proof (Openverse
+        # tags a whole Flickr album with the same names, e.g. attack-scene photos tagged with the president's name)
+        own = fold(' '.join(str(c.get(k) or '') for k in (('title', 'alt') if c.get('sourceType') == 'openverse' else ('title', 'description', 'alt'))))
+        hit = [p for p in S['people'] if _has(own, p)]
+        # a photo of ONE of the story's named people is the right photo (a story often names 2-3 people; no photo
+        # shows all of them), so any confirmed person counts in full
+        parts['identity'] = 1.0 if hit else 0.0
         if not hit:
             others = [p for p in cand_people if is_person_name(p) and not any(_has(p, o) for o in S['orgs'] + S['places'])]
             why.append('wrong person: shows ' + others[0] if others else 'does not show ' + S['people'][0])
@@ -603,7 +615,8 @@ def score(S, c, nid=None, reg=None, continuing=(), kind='illustrative', min_widt
     # relevance: the exact subject (people > organisations > places > topic words)
     keys = [(p, 3) for p in S['people']] + [(o, 2) for o in S['orgs']] + [(p, 1.5) for p in S['places']] + [(k, 0.5) for k in S['keywords'][:6]]
     tot = sum(w for _, w in keys) or 1
-    parts['relevance'] = round(sum(w for k, w in keys if _has(text, k)) / tot, 3)
+    # measured against one person + one organisation (5): a photo cannot show every name of the story
+    parts['relevance'] = round(min(1.0, sum(w for k, w in keys if _has(text, k)) / min(tot, 5)), 3)
     if parts['relevance'] < 0.2:
         why.append('weak relevance to this story')
     # freshness
@@ -898,9 +911,11 @@ def _remove_old(n, keep):
             pass
 
 
-def download(url, nid):
+def download(url, nid, mirror=None):
     tmp = os.path.join(root, 'img', 'news', f'.{nid}.part')
-    if not fetch(url, tmp, tries=4):
+    # mirror: the same file through Openverse's image proxy (full size), for hosts this environment cannot reach
+    # (live.staticflickr.com is blocked here, so Flickr photos found through Openverse could never be saved)
+    if not fetch(url, tmp, tries=2, wait=3) and not (mirror and fetch(mirror, tmp, tries=3, wait=3)):
         raise ValueError('download failed')
     try:
         from PIL import Image
@@ -932,7 +947,8 @@ def attach(nid, cand, alt, alts=None, kind='illustrative', continuing=(), by='im
     st = status_of(rights, lic)
     if st not in ('VERIFIED', 'ATTRIBUTION_REQUIRED'):
         raise ValueError(f'not attached: status would be {st} (usage rights not confirmed)')
-    tmp, fmt, w, h = download(cand['directUrl'], nid)
+    ov = str(cand.get('ref') or '')
+    tmp, fmt, w, h = download(cand['directUrl'], nid, f'https://api.openverse.org/v1/images/{ov[10:]}/thumb/?full_size=true&compressed=false' if ov.startswith('openverse:') else None)
     try:
         if w < settings['minWidth']:
             raise ValueError(f'too small ({w} px wide)')

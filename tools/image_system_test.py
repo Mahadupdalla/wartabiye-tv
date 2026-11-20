@@ -253,6 +253,16 @@ for nid, date, held, want in (('t14-new-draft', fresh, None, True), ('t15-old-dr
     check(f'draft {nid}: ' + ('published with the category graphic' if want else 'stays a draft (owner publishes it)'),
           (x.get('published') is not False) == want and x['image'].startswith('img/category/') and x.get('heldBy') == held, str(x.get('published')))
 
+# ---- fixes of 20 Nov (evening): multi-person stories, Openverse tags, Commons curid links
+check('two Commons pages with ?curid= are different photos', IS.norm_url('https://commons.wikimedia.org/w/index.php?curid=1') != IS.norm_url('https://commons.wikimedia.org/w/index.php?curid=2'))
+check('tracking parameters do not make a photo look new', IS.norm_url('https://www.flickr.com/photos/a/1?utm_source=x') == IS.norm_url('https://www.flickr.com/photos/a/1'))
+m1 = article('t17-two-people', 'Inter: Lautaro Martínez oo diyaar ah, Cristian Chivu ayaa sheegay', 'Tababare Cristian Chivu iyo Lautaro Martínez.', 'Ciyaaraha', section='sports',
+             en=('Inter: Lautaro Martínez ready, says Cristian Chivu', 'Coach Cristian Chivu said Lautaro Martínez is fit.'))
+_, rk = IS.rank(m1, [C('File:Lautaro Martinez 2025.jpg', 'Lautaro Martinez 2025', 'CC0', 'A. Papaccio', width=1300, date='2025-03-01')], (), 'illustrative')
+check('a photo of ONE of the named people of a story is accepted', rk[0]['score'] is not None, '; '.join(rk[0]['rejected']))
+_, rk = IS.rank(m1, [C('openverse:tagged', '2013_09_07_Village_Restaurant_Attack_003', 'CC0', 'AMISOM Public Information', provider='openverse', width=1024, tags='lautaro martinez cristian chivu')], (), 'illustrative')
+check('Openverse: a name only in the tags is not the person (album tags)', rk[0]['score'] is None)
+
 # ---- hold setting and the registry
 json.dump({'noPhoto': 'hold'}, open(IS.SETTINGS, 'w'))
 n13 = article('t13-hold', 'War kale', 'Qoraal.', 'Siyaasadda')
