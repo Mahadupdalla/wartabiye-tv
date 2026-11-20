@@ -240,6 +240,19 @@ check('older articles: photographer and source read from the credit, not invente
 check('public credit: only source, photographer, licence, link and status reach readers', set(IS.public(IS.record(x1))) <= set(IS.PUBLIC_KEYS) and 'matchScore' not in IS.public(IS.record(x1)))
 check('visible credit text', IS.record(x1)['attribution'] == 'Photo: Wikimedia Commons | Photographer: Villa Somalia staff | License: CC BY-SA 4.0', IS.record(x1)['attribution'])
 
+# ---- drafts: only a story the task has just written is published by the image step
+from datetime import datetime as _dt, timedelta as _td
+fresh = (_dt.now(IS.EAT) - _td(hours=2)).replace(microsecond=0).isoformat()
+for nid, date, held, want in (('t14-new-draft', fresh, None, True), ('t15-old-draft', '2026-11-10T10:00:00+03:00', None, False),
+                              ('t16-held-draft', fresh, 'publish-check', False)):
+    d = article(nid, 'War sugaya sawir', 'Qoraal.', 'Bulshada', date=date)
+    d.update({'published': False, 'imagePending': True}, **({'heldBy': held} if held else {}))
+    IS.save(os.path.join(IS.NEWS, nid + '.json'), d)
+    IS.fallback(nid)
+    _, x = IS.load(nid)
+    check(f'draft {nid}: ' + ('published with the category graphic' if want else 'stays a draft (owner publishes it)'),
+          (x.get('published') is not False) == want and x['image'].startswith('img/category/') and x.get('heldBy') == held, str(x.get('published')))
+
 # ---- hold setting and the registry
 json.dump({'noPhoto': 'hold'}, open(IS.SETTINGS, 'w'))
 n13 = article('t13-hold', 'War kale', 'Qoraal.', 'Siyaasadda')

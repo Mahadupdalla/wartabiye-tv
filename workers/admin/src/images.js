@@ -111,7 +111,7 @@ export async function imageFetch(req) {
   const filePath = t.hostname === 'commons.wikimedia.org' && t.pathname.startsWith('/wiki/Special:FilePath/');
   if (t.protocol !== 'https:' || !(IMAGE_HOSTS.test(t.hostname) || filePath)) return json({ error: 'only images from the photo providers can be downloaded here' }, 403);
   const r = await fetch(t.toString(), { headers: { 'user-agent': UA }, redirect: 'follow' });
-  if (r.url && !IMAGE_HOSTS.test(new URL(r.url).hostname) && !filePath) return json({ error: 'redirected away from the photo provider' }, 403);
+  if (r.url && !IMAGE_HOSTS.test(new URL(r.url).hostname) && !(filePath && new URL(r.url).hostname === 'commons.wikimedia.org')) return json({ error: 'redirected away from the photo provider' }, 403);
   const ct = r.headers.get('content-type') || '';
   if (!r.ok || !/^image\/(jpeg|png|webp)/.test(ct)) return json({ error: 'not a photo (' + r.status + ' ' + ct + ')' }, 502);
   const len = +(r.headers.get('content-length') || 0);

@@ -871,7 +871,7 @@ def _put(n, fields, rights):
     """Write the image fields right after publishedAt (keeps the files easy to read) and drop the waiting flags."""
     out = {}
     for k, v in n.items():
-        if k in fields or k in ('imageNote', 'imagePending', 'imageRights', 'heldBy'):
+        if k in fields or k in ('imageNote', 'imagePending', 'imageRights'):
             continue
         out[k] = v
         if k == 'publishedAt':
@@ -960,11 +960,29 @@ def attach(nid, cand, alt, alts=None, kind='illustrative', continuing=(), by='im
     for lang, t in (alts or {}).items():
         if t and isinstance(out.get(lang), dict):
             out[lang]['imageAlt'] = t
-    if n.get('imagePending') and n.get('published') is False and n.get('heldBy') != 'publish-check':
+    if _may_autopublish(n):
         out['published'] = True
     save(p, out)
     print(f"{nid}: {rel} ({rights['license']}, {credit}) status {st}")
     return out
+
+
+AUTO_PUBLISH_HOURS = 24
+
+
+def _may_autopublish(n, now=None):
+    """Only a story the news task has just written (waiting for its photo, under a day old) is published by the image
+    step. Older drafts (e.g. the ones already waiting in "Sugaya sawir") and anything held by a check stay drafts: the
+    owner publishes them in /admin/."""
+    if not (n.get('imagePending') and n.get('published') is False) or n.get('heldBy'):
+        return False
+    try:
+        t = datetime.fromisoformat(str(n.get('publishedAt')).replace('Z', '+00:00'))
+        if t.tzinfo is None:
+            t = t.replace(tzinfo=EAT)
+    except ValueError:
+        return False
+    return (now or datetime.now(EAT)) - t <= timedelta(hours=AUTO_PUBLISH_HOURS)
 
 
 def fallback(nid, reason=None):
@@ -986,7 +1004,7 @@ def fallback(nid, reason=None):
     for lang in ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es'):
         if isinstance(out.get(lang), dict):
             out[lang].pop('imageAlt', None)
-    if n.get('imagePending') and n.get('published') is False and n.get('heldBy') != 'publish-check':
+    if _may_autopublish(n):
         out['published'] = True
     save(p, out)
     print(f'{nid}: category graphic {g}')
