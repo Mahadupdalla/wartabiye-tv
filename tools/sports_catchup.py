@@ -63,6 +63,36 @@ def main(argv):
     return build_pool(out, pool, hours) if pool else 0
 
 
+NAME = re.compile(r"\b[A-ZÀ-ÖØ-Þ][\w'À-ÿ-]{3,}")
+COMMON = {'With','From','After','Before','Premier','League','Champions','Europa','Serie','Liga','Bundesliga','Ligue','World','Cup','Coupe','Copa',
+          'Real','Madrid','Barcelona','Manchester','United','City','Inter','Milan','Juventus','Bayern','Paris','Saint','Germain','Chelsea','Arsenal',
+          'Liverpool','Tottenham','Atlético','Atletico','Dortmund','Napoli','Roma','England','France','Spain','Italy','Germany','Brazil','Argentina',
+          'Football','Soccer','Club','Coach','Match','Game','Final','Season','News','Sport','Sports','FIFA','UEFA','Nations','The','This','That','What',
+          'When','Where','Their','There','After','Over','Under','Into','About','Says','Said','Will','Could','Would','Should','Report','Official','Breaking'}
+
+
+def names(t):
+    return {w.strip("'-").lower() for w in NAME.findall(t or '') if w.strip("'-") not in COMMON}
+
+
+def site_sports_names(days=3):
+    # names in the headlines (English, original and Somali) of the site's recent sports articles: a player or coach name is the same
+    # in every language, so it catches a Spanish or German report of an event the site already has in English (the 18:08 run of
+    # 20 Nov 2026 wrote 12 sports stories and had to delete 7 as repeats)
+    import datetime, glob
+    cut = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)).isoformat()[:19]
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    out = []
+    for f in glob.glob(os.path.join(root, 'data', 'news', '*.json')):
+        if os.path.basename(f)[:10] < cut[:10]: continue
+        try: n = json.load(open(f, encoding='utf-8'))
+        except Exception: continue
+        if n.get('section') != 'sports' or (n.get('publishedAt') or '') < cut: continue
+        en = n.get('en') if isinstance(n.get('en'), dict) else {}
+        out.append((os.path.basename(f)[:-5], names(' '.join(filter(None, [en.get('title'), n.get('originalTitle'), n.get('title')])))))
+    return out
+
+
 def build_pool(cand, pool, hours):
     import datetime, time
     t0 = time.time()
@@ -72,14 +102,21 @@ def build_pool(cand, pool, hours):
     if r.returncode != 0: print('dedup failed: no pool written'); return 1
     d = json.load(open(plan, encoding='utf-8'))
     items = [i for i in (d.get('stories') or []) if (i.get('section') or 'sports') == 'sports']
+    site = site_sports_names()
+    for i in items:
+        n = names(i.get('title'))
+        hit = next((sid for sid, sn in site if len(n & sn) >= 2 or (len(n & sn) == 1 and len(next(iter(n & sn))) >= 6 and len(n) <= 3)), None)
+        if hit: i['likelyOnSite'] = hit
+    onsite = sum(1 for i in items if i.get('likelyOnSite'))
     items.sort(key=lambda i: i.get('publishedAt') or '', reverse=True)
     items.sort(key=lambda i: 0 if BIG.search(i.get('title') or '') else 1)
     items.sort(key=lambda i: 0 if i.get('alsoReportedBy') else 1)
+    items.sort(key=lambda i: 1 if i.get('likelyOnSite') else 0)  # same names as a recent site article: last, check the event first
     two = sum(1 for i in items if i.get('alsoReportedBy'))
     json.dump({'builtAt': datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'), 'hours': float(hours),
-               'dedupSeconds': round(time.time() - t0), 'twoSource': two, 'items': items},
+               'dedupSeconds': round(time.time() - t0), 'twoSource': two, 'likelyOnSite': onsite, 'items': items},
               open(pool, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print(f'sports pool: {len(items)} checked stories ({two} already reported by two or more outlets) in {time.time() - t0:.0f} s -> {pool}')
+    print(f'sports pool: {len(items)} checked stories ({two} already reported by two or more outlets, {onsite} with the same names as a recent site article, put last) in {time.time() - t0:.0f} s -> {pool}')
     return 0
 
 if __name__ == '__main__':
