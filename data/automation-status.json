@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-21T00:32:42+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-21T00:49:38+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-20T20:31:35Z",
- "newestArticleAt": "2026-11-20T23:30:00+03:00",
- "lastSourceCheckAt": "2026-11-21T00:30:18+03:00",
- "sourceChecks24h": 291,
- "publishedArticles": 1072,
- "liveArticles": 1072,
+ "newestArticleAt": "2026-11-21T00:06:35+03:00",
+ "lastSourceCheckAt": "2026-11-21T00:45:41+03:00",
+ "sourceChecks24h": 290,
+ "publishedArticles": 1090,
+ "liveArticles": 1090,
  "waitingForImage": 123,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-20T20:31:35Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44812147791"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-20T21:49:37+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-20T21:52:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-21T00:47:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,51 +47,65 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-21T00:30:12+03:00",
-   "lastSuccessAt": "2026-11-21T00:30:12+03:00",
+   "lastCheckAt": "2026-11-21T00:45:35+03:00",
+   "lastSuccessAt": "2026-11-21T00:45:35+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-20T21:50:00+03:00",
+  "lastSourceCheckAt": "2026-11-21T00:10:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-20T21:01:39+03:00",
-   "sourceName": "BBC Somali",
-   "title": "Dal Soomaaliya deris la ah oo ka mid ah 10-ka wadan ee la filayo inay yeeshaan tirada ugu badan ee Muslimiinta 2050",
-   "url": "https://www.bbc.com/somali/articles/cr0jxgygjxp8o?at_medium=RSS&at_campaign=rss"
+   "publishedAt": "2026-11-20T23:44:09+03:00",
+   "sourceName": "Hiiraan Online",
+   "title": "Safaaradda Jabuuti ee Soomaaliya oo warsaxafadeed ka soo saartay dhacdadii ka dhacday garoonka diyaaradaha Ugaas Khaliif",
+   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta20-195576.htm"
   },
   "latestPublished": {
-   "id": "2026-11-20-gogosha-wada-hadalka-tallaabada-xigta-xasan-sheekh",
-   "title": "GOGOSHII WADA-HADALKA OO WALI LA HESHIIS LA’YAHAY: MAXAY TAHAY TALLAABADA XIGTA EE MADAXWEYNE XASAN SHEEKH?",
-   "publishedAt": "2026-11-20T23:30:00+03:00",
-   "source": "Wartabiye TV",
-   "url": "/war/2026-11-20-gogosha-wada-hadalka-tallaabada-xigta-xasan-sheekh.html"
+   "id": "2026-11-20-jabuuti-aussom-garoonka-ugaas-khaliif-beledweyne-war-saxaafadeed",
+   "title": "Jabuuti oo sheegtay in ciidamadeeda AUSSOM ay ka hortageen la wareegidda garoonka Beledweyne",
+   "publishedAt": "2026-11-20T23:44:09+03:00",
+   "source": "Hiiraan Online",
+   "url": "/war/2026-11-20-jabuuti-aussom-garoonka-ugaas-khaliif-beledweyne-war-saxaafadeed.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 67,
+  "publishedLastRun": 1,
+  "rejectedLastRun": 63,
   "rejectedReasons": {
-   "old": 2,
-   "duplicate": 63,
+   "duplicate": 61,
    "on-site": 2
   },
   "taskRejectedReasons": [
-   "UAE condemnation (Shabelle): headline-only, unconfirmed",
-   "Xamse / Koonfur Galbeed: single source, unconfirmed",
-   "F-16 report: single source, unconfirmed",
-   "Ayaan Caydiid: headline-only, unconfirmed",
-   "Caasimada items: headline-only (not opened)",
-   "Golaha wasiirrada & go'aanka Imaaraadka: duplicate (already on site)",
-   "GCC statement: duplicate",
-   "Xamse: duplicate",
-   "AFRICOM strike: duplicate",
-   "Hirshabelle: duplicate",
-   "Puntland: duplicate",
-   "UK & Xasan Sheekh: duplicate",
-   "BBC lifestyle/analysis & opinion pieces: not newsworthy"
+   "Duulimaadyadii garoonka diyaaradaha Ugaas Khaliif oo wali hakad ku jira: isla dhacdada, waxaa lagu daray warka safaaradda Jabuuti",
+   "Jabuuti oo shaacisay inay ka hortagtay qabsashada garoonka Beledweyne (Caasimada): cinwaan keliya; waxaa lagu xaqiijiyay Hiiraan, waxaana lagu daray alsoReportedBy",
+   "MAANHADAL: Waxka bedelka Dastuurka Puntland (Daljir): ra'yi/falanqeyn, war ma aha",
+   "Soomaaliya, Imaaraadka, Masar iyo 13 dal (Caasimada): cinwaan keliya; Hiiraan/Goobjoog/Puntland Post lama helin, WebSearch lama samayn waqti dartiis -> pending",
+   "BBC Somali sheekooyin (Muslimiinta, dalxiis, birta jirka, ilkaha, filim, kansar, AI, barnaamijyo raadiye): war cusub ma aha (sheeko/barnaamij)",
+   "Ciidan loo diyaariyey ilaalinta madaxda (Caasimada): cinwaan keliya, il kale lama helin -> pending",
+   "Mareykanka, Shiinaha iyo Ruushka baaq nabadeed (Goobjoog): falanqeyn, war ma aha",
+   "Xoghayaha GCC oo cambaareeyay (Horseed): hore ayaa loo daabacay (2026-11-20-golaha-iskaashiga-khaliijka...)",
+   "Nin Hargeysa lagu aasi gaadhay (Caasimada): cinwaan keliya, il kale lama helin",
+   "Xiritaanka xafiiska siyaasadda QM (BBC Somali): falanqeyn",
+   "SoDMA Oslo / Antalya (Radio Muqdisho): kulan borotokool ah, go'aan ma leh",
+   "DF iyo maamul goboleedyada heshiis (Caasimada): hore ayaa loo daabacay (shirka 25aad ee wasiirrada maaliyadda)",
+   "Golaha Wasiirrada go'aanno Imaaraadka (Radio Muqdisho/Shabelle): hore ayaa loogu daray warka bannaanbaxa iyo eryidda safiirka",
+   "Empty Chairs at Villa Somalia (Puntland Post): ra'yi",
+   "Ethiopia aviation cooperation with Qatar, Somalia, Mauritius (Fana): hal il oo dowladeed, Soomaaliya ma aha mawduuca ugu weyn",
+   "Xogta kulamada wasiirka arrimaha dibadda Oslo (Caasimada): hore ayaa loo daabacay (shirka Oslo)",
+   "R/W Xamza / Xamse mucaaradka (Caasimada/Hiiraan/Goobjoog): hore ayaa loo daabacay",
+   "Puntland siyaasiyiin cambaareeyey (Horseed/Puntland Post): hore ayaa loo daabacay",
+   "Ayaan Caydiid dacwad (Horseed): cinwaan keliya, eedeyn halis ah, il kale lama helin -> pending",
+   "Imaaraadka jawaab / xiray safaaradda (Horseed/Hiiraan/Puntland Post/Shabelle): hore ayaa loo daabacay",
+   "F-16 Turkiga (Caasimada): hore ayaa loo daabacay (2026-11-18)",
+   "UK iyo Xasan Sheekh (Goobjoog): hore ayaa loo daabacay",
+   "Xasan oo dabacsanaan u muujiyay mucaaradka (Caasimada): hore ayaa loo daabacay",
+   "COP31 Soomaaliya (Shabelle): cinwaan keliya; dhacdooyin COP31 hore ayaa loo daabacay",
+   "DF taageero dheeraad ah (Caasimada): cinwaan keliya oo aan dhammaystirnayn",
+   "Wasiirka Cadaaladda shir maxaabiista (Shabelle): cinwaan keliya, il kale lama helin -> pending",
+   "Somalia urges Norway, Sweden / Soomaaliya iyo Sweden Oslo (Shabelle): kulan borotokool; shirka Oslo hore ayaa loo daabacay",
+   "Gulf Bloc / UAE condemns (Shabelle): hore ayaa loo daabacay (GCC)"
   ],
   "waitingForImage": 11,
   "waitingIds": [
