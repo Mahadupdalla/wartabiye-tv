@@ -594,7 +594,12 @@ def score(S, c, nid=None, reg=None, continuing=(), kind='illustrative', min_widt
         parts['identity'] = 1.0 if hit else 0.0
         if not hit:
             others = [p for p in cand_people if is_person_name(p) and not any(_has(p, o) for o in S['orgs'] + S['places'])]
-            why.append('wrong person: shows ' + others[0] if others else 'does not show ' + S['people'][0])
+            # a photo of someone else is wrong; a photo of the place, venue or organisation (no person named in it) is not
+            # "wrong", it just scores lower than a photo of the person (the automatic choice still needs minScore)
+            if others:
+                why.append('wrong person: shows ' + others[0])
+            elif not any(_has(text, x) for x in S['places'] + S['orgs']):
+                why.append('does not show ' + S['people'][0])
     else:
         others = [p for p in cand_people if is_person_name(p) and not any(_has(p, o) or _has(o, p) for o in S['orgs'] + S['places'] + S['keywords'])]
         portrait = re.search(r'\b(portrait|headshot|official photo)\b', text)
