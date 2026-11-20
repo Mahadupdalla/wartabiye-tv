@@ -352,7 +352,8 @@
   function openEditor(el, a) {
     var isNew = !a;
     var art = a ? JSON.parse(JSON.stringify(a)) : { title: '', summary: '', body: '', category: ((STORE.site && STORE.site.categories) || ['Siyaasadda'])[0], section: F.section || 'somalia', publishedAt: nowMogadishu(), published: false, breaking: false, important: false, source: 'Wartabiye TV', by: 'admin', timeVerified: true };
-    var newPhoto = null;   // {bytes, path, sha, url}
+    var newPhoto = null;   // {bytes, path, sha, url} (+ rights, fields when found with "Search photo sources")
+    if (window.WTV_IMG) window.WTV_IMG.loadExtra().catch(function () {});
     el.innerHTML = '';
     var back = h('button', { class: 'btn', type: 'button', text: '← All articles', onclick: function () { if (!dirty || confirm('Leave without saving your changes?')) drawList(el); } });
     var dirty = false;
@@ -401,9 +402,18 @@
       ph.append(src ? h('img', { src: src, alt: '' }) : h('div', { class: 'noimg big', text: 'No photo. A published article needs its own photo.' }));
       var others = art.image && !newPhoto ? usedBy(art.image, art.id) : [];
       if (others.length) ph.append(h('p', { class: 'pt-err', text: 'This photo is also used by: ' + others.map(function (o) { return o.title; }).join(', ') + '. Every article needs its own photo.' }));
+      // image record (images-admin.js): status, source and licence, as /admin/ -> Image sources shows them
+      var IMG = window.WTV_IMG, rec = IMG && (src ? IMG.record(newPhoto ? Object.assign({}, art, newPhoto.fields || { image: newPhoto.path, imageKind: 'actual' }, { imageRights: newPhoto.rights || { sourceType: 'editor' } }) : art) : null);
+      if (rec) ph.append(h('p', { class: 'sub' }, IMG.chipFor(rec.status), ' ', rec.source ? 'Source: ' + rec.source : '', rec.photographer ? ' · Photographer: ' + rec.photographer : '', rec.license ? ' · Licence: ' + rec.license : '',
+        rec.pageUrl ? h('a', { href: rec.pageUrl, target: '_blank', rel: 'noopener', text: ' · open source page' }) : null));
       ph.append(h('div', { class: 'row' },
+        IMG ? h('button', { class: 'btn small', type: 'button', text: 'Search photo sources', onclick: function () {
+          IMG.loadExtra().then(function () { IMG.searchModal(Object.assign({}, art, { id: art.id || slug(title.value), title: title.value || art.title }), function (res) {
+            newPhoto = res; alt.value = res.fields.imageAlt; credit.value = res.fields.imageCredit || ''; license.value = res.fields.imageLicense || ''; srcUrl.value = res.fields.imageSourceUrl || ''; kind.value = res.fields.imageKind; dirty = true; drawPhoto();
+          }); });
+        } }) : null,
         h('button', { class: 'btn small primary', type: 'button', text: src ? 'Replace: upload new' : 'Upload photo', onclick: function () { pickFile(function (f) { cropDialog(f, art.id || slug(title.value), function (res) { newPhoto = res; dirty = true; drawPhoto(); }); }); } }),
-        h('button', { class: 'btn small', type: 'button', text: 'Choose from library', onclick: function () { libraryPicker(art.id, function (img) { newPhoto = null; art.image = img.path; dirty = true; drawPhoto(); }); } }),
+        h('button', { class: 'btn small', type: 'button', text: 'Choose from library', onclick: function () { libraryPicker(art.id, function (img) { newPhoto = null; art.image = img.path; art.imageRights = { source: 'Wartabiye TV', sourceType: 'editor', status: 'EDITOR_UPLOAD', approval: 'pending', retrievedAt: nowMogadishu(), note: 'chosen from the library' }; dirty = true; drawPhoto(); }); } }),
         src ? h('button', { class: 'btn small', type: 'button', text: 'Remove photo', onclick: function () { newPhoto = null; art.image = ''; dirty = true; drawPhoto(); } }) : null));
     }
     drawPhoto();
@@ -432,6 +442,21 @@
       ['imageAlt', 'imageCredit', 'imageLicense', 'imageSourceUrl', 'imageKind', 'imageFocus'].forEach(function (k, i) { var v = [alt, credit, license, srcUrl, kind, focus][i].value.trim(); if (k === 'imageFocus' && v === 'center' && !(k in art)) v = ''; if (v) n[k] = v; else delete n[k]; });
       if (newPhoto) n.image = newPhoto.path;
       if (!n.image) delete n.image;
+      // the image record follows the photo: a photo from the search keeps the provider's facts; an upload is an EDITOR
+      // UPLOAD until its rights are confirmed in Image sources; edited credit fields update the record (status recomputed)
+      if (newPhoto) {
+        var hist = ((art.imageRights || {}).history || []).slice(); if (art.image) hist.push({ at: nowMogadishu(), action: 'replaced', image: art.image, pageUrl: (art.imageRights || {}).pageUrl || art.imageSourceUrl || null, by: 'admin' });
+        n.imageRights = newPhoto.rights ? Object.assign({}, newPhoto.rights) : { source: 'Wartabiye TV', sourceType: 'editor', status: 'EDITOR_UPLOAD', approval: 'pending', retrievedAt: nowMogadishu(), uploadedBy: (W().me() || {}).login || 'owner' };
+        if (hist.length) n.imageRights.history = hist.slice(-20);
+        if (!newPhoto.rights) { n.imageKind = n.imageKind || 'actual'; }
+      }
+      if (n.image && n.imageRights && window.WTV_IMG && !/^img\/category\//.test(n.image)) {
+        var R = n.imageRights, cp = String(n.imageCredit || '').split(' / ');
+        R.license = n.imageLicense || R.license; if (n.imageSourceUrl) R.pageUrl = n.imageSourceUrl;
+        if (cp.length > 1) R.photographer = cp.slice(0, -1).join(' / ');
+        R.status = window.WTV_IMG.statusOf(R);
+      }
+      if (!n.image) delete n.imageRights;
       LANGS.forEach(function (l) {
         var I = trInputs[l[0]], vals = [I.title.value.trim(), I.summary.value.trim(), I.body.value.trim(), I.imageAlt.value.trim()];
         if (JSON.stringify(vals) === I.orig) return;
@@ -622,6 +647,7 @@
       grid.innerHTML = '';
       STORE.images.filter(function (x) { return !q.value || x.name.indexOf(q.value.toLowerCase()) >= 0; }).slice(0, 120).forEach(function (x) {
         var u = usedBy(x.path, forId);
+        if (!u.length && window.WTV_IMG && window.WTV_IMG.earlierUses) u = window.WTV_IMG.earlierUses(x.path, forId);
         grid.append(h('button', { class: 'mitem' + (u.length ? ' used' : ''), type: 'button', title: u.length ? 'Used by: ' + u[0].title : 'Not used by another article', onclick: function () { if (u.length) return toast('Already used by “' + u[0].title + '”. Every article needs its own photo.', true); m.remove(); cb(x); } },
           h('img', { src: thumb(x.path), alt: '', loading: 'lazy', onerror: function () { this.onerror = null; this.src = full(x.path); } }), h('span', { text: u.length ? 'In use' : 'Free' })));
       });
@@ -761,4 +787,8 @@
   VIEWS.somalia = function (el) { renderList(el, 'somalia'); };
   VIEWS.world = function (el) { renderList(el, 'world'); };
   VIEWS.sports = function (el) { renderList(el, 'sports'); };
+  // shared with the Image sources screen (images-admin.js)
+  window.WTV_C = { gh: gh, commitFiles: commitFiles, load: load, store: function () { return STORE; }, toast: toast, modal: modal, cropDialog: cropDialog,
+    pickFile: pickFile, thumb: thumb, full: full, json2: json2, fmtDate: fmtDate, site: site, repo: repo, track: track, articleUrl: articleUrl, usedBy: usedBy,
+    chip: chip, inp: inp, sel: sel, field: field, loadingBox: loadingBox, failBox: failBox, slug: slug, nowMogadishu: nowMogadishu };
 })();

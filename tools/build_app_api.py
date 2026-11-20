@@ -107,8 +107,10 @@ def article(it):
         'by': 'admin' if it.get('by') == 'admin' else 'newsroom',
         'image': img(it.get('image')), 'thumb': img(it.get('thumb')),
         'imageCredit': s(it.get('imageCredit')) or ('Wartabiye TV' if it.get('by') == 'admin' and img(it.get('image')) else ''),
-        'imageLicense': s(it.get('imageLicense')), 'imageSourceUrl': s(it.get('imageSourceUrl')) if s(it.get('imageSourceUrl')).startswith('https://') else '',
-        'imageKind': s(it.get('imageKind')), 'imageNote': s(it.get('imageNote')),
+        'imageLicense': '' if it.get('imageKind') == 'category' else s(it.get('imageLicense')), 'imageSourceUrl': s(it.get('imageSourceUrl')) if s(it.get('imageSourceUrl')).startswith('https://') else '',
+        'imageKind': s(it.get('imageKind')),
+        # credit facts from the image system (source, photographer, licence + link, status); never the editors' notes
+        'imageInfo': {k: v for k, v in (it.get('imageInfo') or {}).items() if k in ('source', 'pageUrl', 'photographer', 'owner', 'license', 'licenseUrl', 'status') and isinstance(v, str)},
         # the editorial source note (owner's spec, 19 Nov 2026): the outlets the story is based on, credited once under the
         # text; the link only when a licence requires it. "credit" = the same record the website uses.
         'source': credit_names(it),
@@ -142,8 +144,8 @@ def card(a, lang):
             c[k] = True
     if not a['timeVerified']:
         c['timeVerified'] = False
-    if a['imageKind'] == 'illustrative':          # the website marks these photos "Sawir muujin ah"
-        c['imageKind'] = 'illustrative'
+    if a['imageKind'] in ('illustrative', 'category', 'ai-illustration'):  # labelled on the website: illustrative photo / category graphic / AI
+        c['imageKind'] = a['imageKind']
     if t['status'] == 'auto':
         c['autoTranslated'] = True
     return c

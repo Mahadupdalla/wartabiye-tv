@@ -1,0 +1,9 @@
+{
+  "about": "Image rules for every article (tools/image_system.py, /admin/ -> Image sources). noPhoto: what happens when no accurate photo with usable rights is found: 'category-graphic' = publish with the WARTABIYE TV graphic of the category (labelled as a category graphic, never as a photo of the event); 'hold' = keep the story as a draft in Sugaya sawir. Stock photos (Unsplash, Pexels, Pixabay) are never used for stories about named people. AI illustrations stay off until a provider is set up.",
+  "noPhoto": "category-graphic",
+  "providers": ["commons", "openverse", "unsplash", "pexels", "pixabay"],
+  "minWidth": 800,
+  "minScore": 0.6,
+  "stockForPeople": false,
+  "aiIllustrations": false
+}
