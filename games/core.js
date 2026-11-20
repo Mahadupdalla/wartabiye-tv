@@ -213,6 +213,22 @@
     }
     document.body.append(root);
     document.documentElement.classList.add('wtg-open');
+    // while a game is open the page must not scroll or zoom under your finger (phones, above all iPhone)
+    var vpMeta = document.querySelector('meta[name="viewport"]'), vpOld = vpMeta ? vpMeta.getAttribute('content') : null;
+    if (vpMeta) vpMeta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
+    var bodyY = window.scrollY || 0, bs = document.body.style, bodyOld = [bs.position, bs.top, bs.left, bs.right, bs.width];
+    bs.position = 'fixed'; bs.top = -bodyY + 'px'; bs.left = '0'; bs.right = '0'; bs.width = '100%';
+    function canScroll(el) {
+      for (; el && el !== root; el = el.parentElement) {
+        var cs = getComputedStyle(el);
+        if (/(auto|scroll)/.test(cs.overflowY + cs.overflowX) && (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1)) return true;
+      }
+      return false;
+    }
+    function onTouchMove(e) { if (e.touches && e.touches.length > 1) { e.preventDefault(); return; } if (!canScroll(e.target)) e.preventDefault(); }
+    root.addEventListener('touchmove', onTouchMove, { passive: false });
+    function onGesture(e) { e.preventDefault(); }
+    document.addEventListener('gesturestart', onGesture);
     state.root = root;
     cur = state;
 
@@ -435,6 +451,9 @@
       try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
       try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
       root.remove(); document.documentElement.classList.remove('wtg-open');
+      if (vpMeta && vpOld != null) vpMeta.setAttribute('content', vpOld);
+      document.removeEventListener('gesturestart', onGesture);
+      bs.position = bodyOld[0]; bs.top = bodyOld[1]; bs.left = bodyOld[2]; bs.right = bodyOld[3]; bs.width = bodyOld[4]; window.scrollTo(0, bodyY);
     };
     state.hooks = hooks;
 

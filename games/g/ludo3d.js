@@ -1052,7 +1052,7 @@ WTG.register3d('ludo3d', function (M, api) {
       var vf = cam.fov * Math.PI / 360, W = X.W, H = X.H;
       // phones show and hide their address bar on a tap, which changes the height a little: keep the board's size and place steady
       if (fit.W !== W || Math.abs(fit.H - H) > 160) { fit.W = W; fit.H = H; } else fit.H = Math.min(fit.H, H);
-      var H0 = fit.H, P = portrait ? Math.min(W * 0.92, H0 - 200) : Math.min(H0 * 0.95, W - 260), topPx = portrait ? 104 + (H0 - 200 - P) / 2 : (H0 - P) / 2;
+      var H0 = fit.H, P = portrait ? Math.min(W * 0.86, H0 - 220) : Math.min(H0 * 0.95, W - 260), topPx = portrait ? 104 + (H0 - 220 - P) / 2 : (H0 - P) / 2;
       var upp = 16.2 / P, dist = H * upp / (2 * Math.tan(vf)), tz = -((topPx + P / 2) - H / 2) * upp;
       cam.position.set(0, dist, tz + dist * 0.035); cam.lookAt(0, 0, tz);
     }
