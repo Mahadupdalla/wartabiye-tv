@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-20T12:16:44+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-20T12:41:46+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-20T06:57:35Z",
  "newestArticleAt": "2026-11-20T08:59:18+03:00",
- "lastSourceCheckAt": "2026-11-20T12:15:20+03:00",
+ "lastSourceCheckAt": "2026-11-20T12:40:19+03:00",
  "sourceChecks24h": 293,
- "publishedArticles": 1012,
+ "publishedArticles": 1023,
  "liveArticles": 1012,
- "waitingForImage": 121,
- "liveInSync": true,
+ "waitingForImage": 122,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-20T06:57:35Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44691458409"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-20T09:41:45+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-20T09:56:51+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-20T12:39:11+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,45 +47,49 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-20T12:15:13+03:00",
-   "lastSuccessAt": "2026-11-20T12:15:13+03:00",
+   "lastCheckAt": "2026-11-20T12:40:12+03:00",
+   "lastSuccessAt": "2026-11-20T12:40:12+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-20T09:55:29+03:00",
+  "lastSourceCheckAt": "2026-11-20T12:45:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-20T08:59:18+03:00",
-   "sourceName": "Puntland Post",
-   "title": "Golaha Siyaasiyiinta iyo Aqoonyahanka Puntland oo cambaareeyay go’aankii Garoowe looga mamnuucay shirarka siyaasadeed",
-   "url": "https://puntlandpost.net/2026/11/20/golaha-siyaasiyiinta-iyo-aqoonyahanka-puntland-oo-cambaareeyay-goaankii-garoowe-looga-mamnuucay-shirarka-siyaasadeed/"
+   "publishedAt": "2026-11-20T11:45:22+03:00",
+   "sourceName": "Hiiraan Online",
+   "title": "Golaha Iskaashiga Khaliijka oo cambaareeyay hadallada Dowladda Soomaaliya ee ka dhanka ah Imaaraadka Carabta",
+   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta20-195572.htm"
   },
   "latestPublished": {
-   "id": "2026-11-20-golaha-siyaasiyiinta-puntland-cambaareeyay-mamnuuca-shirarka-garoowe",
-   "title": "Golaha Siyaasiyiinta Puntland oo ka soo horjeestay mamnuucidda shirarka mucaaradka ee Garoowe",
-   "publishedAt": "2026-11-20T08:59:18+03:00",
-   "source": "Puntland Post",
-   "url": "/war/2026-11-20-golaha-siyaasiyiinta-puntland-cambaareeyay-mamnuuca-shirarka-garoowe.html"
+   "id": "2026-11-20-golaha-iskaashiga-khaliijka-cambaareeyay-hadallada-soomaaliya-imaaraadka",
+   "title": "Golaha Iskaashiga Khaliijka oo cambaareeyay hadallada mas'uuliyiinta Soomaaliya ee ku aaddan Imaaraadka",
+   "publishedAt": "2026-11-20T11:45:22+03:00",
+   "source": "Hiiraan Online",
+   "url": "/war/2026-11-20-golaha-iskaashiga-khaliijka-cambaareeyay-hadallada-soomaaliya-imaaraadka.html"
   },
-  "publishedLastRun": 3,
-  "rejectedLastRun": 83,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 67,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 74,
-   "on-site": 1
+   "old": 4,
+   "duplicate": 63
   },
   "taskRejectedReasons": [
-   "Golaha Wasiirrada oo go'aanno ka soo saaray weerarrada Imaaraatka (Shabelle): headline-only; Hiiraan/Goobjoog/Puntland Post none, WebSearch so none -> pending",
-   "Madaxweyne Xasan Sheekh oo mucaaradka u muujiyay diyaar u ahaanshaha wada-hadal (Hiiraan): hore ayuu bogga ugu jiray (maqaalka admin 19 Nov, Madasha Samatabixinta) - duplicate",
-   "Imaaraadka oo sheegay inuu Janaayo xiray safaaraddiisa (Hiiraan): hore ayuu bogga ugu jiray (duplicate)",
-   "The price for a dream - filim (BBC Somali): headline-only, war ma aha (filim/qiso)",
-   "Idaacadda Subaxnimo / Dunida iyo Maanta (BBC Somali): barnaamij raadiye, war ma aha",
-   "Catch-up 24 saac (Imaaraadka safiirka, Axmed Madoobe, Beledweyne, Hirshabeelle garoonka, Kismaayo, AFRICOM, Cabdalla Cabdalla iwm): hore ayay bogga ugu jireen ama sababihii hore (protocol/falanqeyn/headline-only) weli way jiraan",
-   "SONNA: WebSearch site:sonna.so lama samayn (waqti), wax cusub lama xaqiijin"
+   "R/W Xamza: Beesha caalamku meesha aan maanta joogno ma joogto (Caasimada): isla dhacdo oo hore loo daabacay 07:45 (Xamse kama sii tiirsana beesha caalamka) -> duplicate",
+   "Guddoomiyaha SoDMA oo Antalya kula kulmay Marwo Gemma Tanner (Radio Muqdisho): kulan protocol ah, go'aan cusub ma laha -> not news",
+   "Somalia urges Norway, Sweden to boost disaster preparedness (Shabelle): headline-only; la xiriira kulamada SoDMA ee COP31, xog dheeraad ah lama helin -> pending",
+   "Qaar kamid ah siyaasiyiinta Puntland oo cambaareeyey go'aan (Horseed): isla dhacdo oo hore loo daabacay 08:59 (Puntland Post) -> duplicate",
+   "Ayaan Caydiid ... Maraykanku dacwad ku soo oogey (Horseed): headline-only, eedeyn culus; il kale oo la akhrin karo lama helin -> pending",
+   "Ilkuhu ma kaa wasakhoobaan shaah ama bun (BBC Somali): caafimaad guud, war ma aha -> not news",
+   "Xamse oo mucaaradka ugu baaqay (Hiiraan 08:08): bogga lama helin (404); dhacdada waxaa hore u daboolay 07:45 -> duplicate",
+   "Imaaraadka oo sheegay in bishii Janaayo uu xiray safaaraddiisa (Hiiraan): hore loo daabacay 19 Nov 23:32 -> duplicate",
+   "Golaha Wasiirrada oo go'aanno ka soo saaray weerarrada Imaaraatka (Shabelle 07:57): headline-only; go'aankii 72 saac hore ayaa loo daabacay -> duplicate",
+   "Ra'iisul wasaare Xamse: Qofkii nooga dhinta dagaallada Koonfur Galbeed (Goobjoog): ku jira maqaalka 07:45 -> duplicate",
+   "Dood ka dhalatay barnaamij AI ah (BBC Somali): war Soomaaliyeed ma aha -> not news",
+   "Wararka 24-saac ee Imaaraadka/Beledweyne/Axmed Madoobe: dhammaantood hore ayaa loo daabacay (dedup + hubin gacan) -> duplicate"
   ],
   "waitingForImage": 11,
   "waitingIds": [
