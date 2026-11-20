@@ -1045,6 +1045,9 @@ a[data-soc] svg.bi,a[data-soc] svg.bi *{stroke:none}
 .figure .ph.hero{aspect-ratio:auto;display:grid;place-items:center;background:var(--chip);border:1px solid var(--line)}
 .figure .ph.hero>img{position:relative;inset:auto;width:100%;height:auto;max-height:min(78vh,720px);object-fit:contain;object-position:center;transform:none!important}
 .figure .ph.hero.none{aspect-ratio:16/9;border:0}
+/* imageSize 'small': smaller photo centred under the title */
+.figure.small{max-width:340px;margin-left:auto;margin-right:auto;text-align:center}
+.figure.small .ph.hero>img{max-height:none}
 @media (max-width:640px){.figure .ph.hero>img{max-height:72vh}}
 
 /* ---------- translation not available ---------- */

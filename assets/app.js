@@ -460,7 +460,8 @@
     cp.addEventListener('click',function(){var done=function(){cp.lastChild.textContent=tr('copied')};try{navigator.clipboard.writeText(url).then(done,function(){})}catch(e){}});sh.append(cp);
     if(navigator.share){var ns=el('button','ns');ns.type='button';ns.innerHTML=svg('M18 8a3 3 0 1 0-2.8-4M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8.6 13.5l6.8 4M15.4 6.5l-6.8 4');ns.append(tr('shareMore'));ns.addEventListener('click',function(){navigator.share({title:title,url:url}).catch(function(){})});sh.append(ns)}
     A.append(sh);
-    var fig=el('figure','figure');fig.append(ph(it,'hero',true));
+    // imageSize 'small' (set per article in data/news/<id>.json): a smaller portrait photo, centred under the title
+    var fig=el('figure','figure'+(it.imageSize==='small'?' small':''));fig.append(ph(it,'hero',true));
     if(imgUrl(it.image)){var fc=el('figcaption');if(it.imageKind==='illustrative')fc.append(el('b',null,tr('illus')),tr('illusNote'));
       var cr2=typeof it.imageCredit==='string'&&it.imageCredit?it.imageCredit:(it.by==='admin'?'Wartabiye TV':'');
       if(cr2){fc.append(tr('photo')+': ');var iu2=safeUrl(it.imageSourceUrl);if(iu2){var ca=el('a',null,cr2);ca.href=iu2;ca.target='_blank';ca.rel='noopener';fc.append(ca)}else fc.append(cr2);if(it.imageLicense)fc.append(' · '+it.imageLicense)}
