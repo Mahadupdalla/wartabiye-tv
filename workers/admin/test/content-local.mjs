@@ -34,6 +34,8 @@ http.createServer(async (req, res) => {
   if (u.pathname === '/graphql') {
     const q = JSON.parse(body.toString()).query;
     const bl = [...q.matchAll(/(b\d+):object\(oid:"([^"]+)"\)/g)];
+    // GQL_502_OVER=<n>: answer 502 like GitHub does when a query is too slow, for every batch larger than n
+    if (bl.length && process.env.GQL_502_OVER && bl.length > +process.env.GQL_502_OVER) return send(502, '<html>502 Bad Gateway</html>');
     if (bl.length) {
       const byOid = {}; for (const d of ['data/news', 'data/trash/news']) for (const e of (tree(d, true) || { entries: [] }).entries) byOid[e.oid] = e.object.text;
       return send(200, { data: { repository: Object.fromEntries(bl.map(([, k, oid]) => [k, byOid[oid] != null ? { text: byOid[oid] } : null])) } });

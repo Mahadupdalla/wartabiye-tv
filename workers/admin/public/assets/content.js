@@ -89,9 +89,17 @@
     var texts = TEXTCACHE;   // a blob's text never changes: kept by its id between loads
     function fillTexts(R) {
       var es = ((R.news && R.news.entries) || []).concat((R.trash && R.trash.entries) || []).filter(function (e) { return /\.json$/.test(e.name) && !texts[e.oid]; });
-      var batches = []; for (var i = 0; i < es.length; i += 70) batches.push(es.slice(i, i + 70));
-      var run = function (b) { return gql('query($o:String!,$n:String!){repository(owner:$o,name:$n){' + b.map(function (e, j) { return 'b' + j + ':object(oid:"' + e.oid + '"){... on Blob{text}}'; }).join('') + '}}', { o: p[0], n: p[1] })
-        .then(function (d) { b.forEach(function (e, j) { var o = d.repository['b' + j]; if (o) texts[e.oid] = o.text; }); }); };
+      // 40 articles per query; GitHub answers 502 when one query takes over ~10 s (nine languages per article), so a
+      // failed batch is asked again in two halves (down to single files) instead of failing the whole list
+      var batches = []; for (var i = 0; i < es.length; i += 40) batches.push(es.slice(i, i + 40));
+      var run = function (b, tries) { return gql('query($o:String!,$n:String!){repository(owner:$o,name:$n){' + b.map(function (e, j) { return 'b' + j + ':object(oid:"' + e.oid + '"){... on Blob{text}}'; }).join('') + '}}', { o: p[0], n: p[1] }, 0)
+        .then(function (d) { b.forEach(function (e, j) { var o = d.repository['b' + j]; if (o) texts[e.oid] = o.text; }); }, function (err) {
+          tries = (tries || 0) + 1;
+          if (tries > 4 || !/50[234]|timeout|Failed to fetch/i.test(String(err && err.message))) throw err;
+          if (b.length === 1) return new Promise(function (r) { setTimeout(r, 1500); }).then(function () { return run(b, tries); });
+          var half = Math.ceil(b.length / 2);
+          return run(b.slice(0, half), tries).then(function () { return run(b.slice(half), tries); });
+        }); };
       var q = batches.slice(), workers = [];
       for (var w = 0; w < 4; w++) workers.push((function next() { var b = q.shift(); return b ? run(b).then(next) : Promise.resolve(); })());
       return Promise.all(workers).then(function () {
