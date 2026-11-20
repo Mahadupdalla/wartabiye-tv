@@ -447,7 +447,7 @@ for n in public:
                 cap += f'{esc(T("photo", lang))}: ' + (f'<a href="{esc(src)}" target="_blank" rel="noopener">{esc(credit)}</a>' if src.startswith('https://') else esc(credit))
                 if n.get('imageLicense'):
                     cap += f' · {esc(n["imageLicense"])}'
-            fig = f'<figure class="figure">{ph(n, big=True, hero=True, lang=lang)}' + (f'<figcaption>{cap}</figcaption>' if cap else '') + '</figure>'
+            fig = f'<figure class="figure{" small" if n.get("imageSize") == "small" else ""}">{ph(n, big=True, hero=True, lang=lang)}' + (f'<figcaption>{cap}</figcaption>' if cap else '') + '</figure>'
         # small publisher byline (no disclaimer box): "Warkaan waxaa daabacay Wartabiye TV" only for the newsroom's own stories,
         # "Waxaa daabacay Wartabiye TV" for every story built on other outlets' reporting (same rule as assets/app.js)
         src_name = str(n.get('source') or '')
