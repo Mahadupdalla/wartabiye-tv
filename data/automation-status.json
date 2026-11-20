@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-20T15:11:48+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-20T15:41:48+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-20T10:03:51Z",
- "newestArticleAt": "2026-11-20T12:50:00+03:00",
- "lastSourceCheckAt": "2026-11-20T15:10:19+03:00",
+ "newestArticleAt": "2026-11-20T14:39:10+03:00",
+ "lastSourceCheckAt": "2026-11-20T15:40:19+03:00",
  "sourceChecks24h": 293,
- "publishedArticles": 1024,
- "liveArticles": 1024,
- "waitingForImage": 122,
- "liveInSync": true,
+ "publishedArticles": 1037,
+ "liveArticles": 1037,
+ "waitingForImage": 123,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-20T10:03:51Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44715988307"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-20T12:41:46+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-20T12:39:11+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-20T15:39:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,22 +47,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-20T15:10:12+03:00",
-   "lastSuccessAt": "2026-11-20T15:10:12+03:00",
+   "lastCheckAt": "2026-11-20T15:40:13+03:00",
+   "lastSuccessAt": "2026-11-20T15:40:13+03:00",
    "lastReportAt": "2026-11-09T12:50:08+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-20T12:45:00+03:00",
+  "lastSourceCheckAt": "2026-11-20T15:37:30+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-20T11:45:22+03:00",
-   "sourceName": "Hiiraan Online",
-   "title": "Golaha Iskaashiga Khaliijka oo cambaareeyay hadallada Dowladda Soomaaliya ee ka dhanka ah Imaaraadka Carabta",
-   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta20-195572.htm"
+   "publishedAt": "2026-11-20T14:37:41+03:00",
+   "sourceName": "BBC Somali",
+   "title": "Xiritaanka xafiiska siyaasadda QM ee Soomaaliya, guul mise guuldarro?",
+   "url": "https://www.bbc.com/somali/articles/cx7v2z0qyrjmo?at_medium=RSS&at_campaign=rss"
   },
   "latestPublished": {
    "id": "2026-11-20-saacid-baaqa-midnimada-qaranka-isku-duubnida",
@@ -66,25 +71,26 @@
    "source": "Wartabiye TV",
    "url": "/war/2026-11-20-saacid-baaqa-midnimada-qaranka-isku-duubnida.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 67,
+  "publishedLastRun": 0,
+  "rejectedLastRun": 66,
   "rejectedReasons": {
-   "old": 4,
-   "duplicate": 63
+   "old": 8,
+   "duplicate": 58
   },
   "taskRejectedReasons": [
-   "R/W Xamza: Beesha caalamku meesha aan maanta joogno ma joogto (Caasimada): isla dhacdo oo hore loo daabacay 07:45 (Xamse kama sii tiirsana beesha caalamka) -> duplicate",
-   "Guddoomiyaha SoDMA oo Antalya kula kulmay Marwo Gemma Tanner (Radio Muqdisho): kulan protocol ah, go'aan cusub ma laha -> not news",
-   "Somalia urges Norway, Sweden to boost disaster preparedness (Shabelle): headline-only; la xiriira kulamada SoDMA ee COP31, xog dheeraad ah lama helin -> pending",
-   "Qaar kamid ah siyaasiyiinta Puntland oo cambaareeyey go'aan (Horseed): isla dhacdo oo hore loo daabacay 08:59 (Puntland Post) -> duplicate",
-   "Ayaan Caydiid ... Maraykanku dacwad ku soo oogey (Horseed): headline-only, eedeyn culus; il kale oo la akhrin karo lama helin -> pending",
-   "Ilkuhu ma kaa wasakhoobaan shaah ama bun (BBC Somali): caafimaad guud, war ma aha -> not news",
-   "Xamse oo mucaaradka ugu baaqay (Hiiraan 08:08): bogga lama helin (404); dhacdada waxaa hore u daboolay 07:45 -> duplicate",
-   "Imaaraadka oo sheegay in bishii Janaayo uu xiray safaaraddiisa (Hiiraan): hore loo daabacay 19 Nov 23:32 -> duplicate",
-   "Golaha Wasiirrada oo go'aanno ka soo saaray weerarrada Imaaraatka (Shabelle 07:57): headline-only; go'aankii 72 saac hore ayaa loo daabacay -> duplicate",
-   "Ra'iisul wasaare Xamse: Qofkii nooga dhinta dagaallada Koonfur Galbeed (Goobjoog): ku jira maqaalka 07:45 -> duplicate",
-   "Dood ka dhalatay barnaamij AI ah (BBC Somali): war Soomaaliyeed ma aha -> not news",
-   "Wararka 24-saac ee Imaaraadka/Beledweyne/Axmed Madoobe: dhammaantood hore ayaa loo daabacay (dedup + hubin gacan) -> duplicate"
+   "Golaha Wasiirrada oo go'aanno kasoo saaray weerarka qaawan ee Imaaraatka (Radio Muqdisho 13:54): nuqul — waa kulankii 19 November (amarka 72 saacadood, Xero Jarmal) oo hore loo daabacay",
+   "Golaha Wasiirrada oo go'aanno ka soo saaray weerarrada Imaaraatka (Shabelle 07:57): isla dhacdadaas, hore loo daabacay",
+   "DF iyo maamul goboleedyada oo heshiis ka gaaray (Caasimada 14:00): headline-only; u muuqda shirka wasiirrada maaliyadda oo hore loo daabacay (07:52)",
+   "Guddoomiyaha SoDMA oo Oslo kaga qeybgalay kulamo (Radio Muqdisho 14:04): borotokool, war cusub ma leh",
+   "Xogta kulamo wasiirka arrimaha dibadda Oslo (Caasimada 12:29): headline-only; borotokool",
+   "Xiritaanka xafiiska siyaasadda QM, guul mise guuldarro? (BBC Somali 14:37): falanqayn, ma aha war",
+   "Somali protesters support expulsion of UAE ambassador (Africanews 11:45): hal il; dhacdada asalka ah hore loo daabacay",
+   "Empty Chairs at Villa Somalia (Puntland Post 13:25): ra'yi",
+   "Ayaan Caydiid ... Maraykanku dacwad ku soo oogey (Horseed 09:19): headline-only, eedeyn culus; il kale lama helin -> lama daabicin",
+   "Dayaaradaha F-16 ee Turkiga (Caasimada 06:00): headline-only; il kale lama helin",
+   "Xoolaha Maxjarada Boosaaso (Horseed, 19 Nov 18:29): headline-only; il kale lama helin",
+   "Djibouti peacekeepers killed Beledweyne (Somali Guardian 19 Nov 21:08): khasaare, hal il; xaaladda Baladweyne hore ayaa loo daabacay",
+   "BBC Somali (caafimaad, AI, filim, barnaamijyo raadiye): ma aha war Soomaaliyeed oo cusub"
   ],
   "waitingForImage": 11,
   "waitingIds": [
