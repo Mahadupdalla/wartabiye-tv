@@ -49,9 +49,16 @@ for ad in ads:
 print(f'adverts={len(ads)}')
 # photo rule (from 2026-11-02): every automatic article has its own image, never shared with another article
 RULE_FROM = '2026-11-02'
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+def _src_key(u):
+    # the source page, without tracking parameters; keeps ?curid= / ?title= (every Commons file found through
+    # Openverse has a commons.wikimedia.org/w/index.php?curid=<n> link, and those are different photos)
+    base, _, q = str(u or '').partition('?')
+    keep = [kv for kv in q.split('&') if kv and kv.split('=')[0].lower() in ('curid', 'title', 'id', 'oldid', 'v', 'photo', 'image')]
+    return (base + ('?' + '&'.join(sorted(keep)) if keep else '')) or None
 users = {}
 for n in items:
-    for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
+    for key in (n.get('image'), _src_key(n.get('imageSourceUrl'))):
         if key and not key.startswith('img/category/'): users.setdefault(key, []).append(n)
 for n in items:
     if n.get('by') == 'admin' or (n.get('publishedAt') or '')[:10] < RULE_FROM: continue
@@ -60,7 +67,7 @@ for n in items:
         if n.get('image') or not all(isinstance(r.get(k), dict) for k in ('home', 'away', 'score')): errors.append(f"{n.get('id')}: result report without a valid result block")
         continue
     if not n.get('image'): errors.append(f"{n.get('id')}: published without its own photo (should be a draft under Sugaya sawir)")
-    for key in (n.get('image'), (n.get('imageSourceUrl') or '').split('?')[0] or None):
+    for key in (n.get('image'), _src_key(n.get('imageSourceUrl'))):
         if key and len(users.get(key, [])) > 1:
             errors.append(f"{n.get('id')}: photo {key} is also used by " + ', '.join(o.get('id', '?') for o in users[key] if o is not n))
 # image system (tools/image_system.py, from RULE_FROM): an automatic article's photo must have confirmed usage rights
