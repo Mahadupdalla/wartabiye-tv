@@ -28,9 +28,12 @@ What it does now:
   5. usage database (data/image-registry.json): SHA-256 and a 256-bit picture fingerprint (dHash) of every photo, and
      which articles used it and when. A photo (or a near-identical copy) already used by another story is refused,
      unless the new article is the same continuing story (--continuing <article-id>).
-  6. no accurate legal photo: the article gets the WARTABIYE TV graphic of its category (img/category/), labelled as a
-     category graphic, never as a photo of the event (data/image-settings.json "noPhoto": "category-graphic"), or it
-     waits in /admin/ -> "Sugaya sawir" when the setting is "hold".
+  6. NO IMAGE, NO PUBLICATION (owner's rule of 21 Nov 2026, replaces the category-graphic fallback): an article without
+     a relevant photo with usable rights is NOT published. It stays a draft in /admin/ -> "Sugaya sawir" ("published":
+     false, "imagePending": true, the reason in "imageNote") until the owner uploads a photo. The WARTABIYE TV category
+     graphic (img/category/) no longer counts as an article image anywhere (build_news.py, check_site.py).
+     `enforce` finds published articles with no photo, a category graphic or a broken / empty photo file, tries to find
+     a certain photo for each, and holds the ones without one for manual review ("heldBy": "image-rule").
   7. every new or replaced photo gets a NEW file name (img/news/<id>-<hash>.<ext>), so no cache can show an old one.
 
   python3 tools/image_system.py find <id> [--person N]... [--place P]... [--org O]... [--keyword K]... [--query Q]...
@@ -39,7 +42,9 @@ What it does now:
   python3 tools/image_system.py attach <id> <ref> --alt "<Somali>" [--alt-en ...] [--kind ...] [--continuing <id>]
           ref = "File:Name.jpg" (Commons) | "openverse:<uuid>" | an https image URL with --page <url> --license <name>
           --author <name> [--source <name>] (official sources; the licence must be stated on that page)
-  python3 tools/image_system.py fallback <id> [--reason "<Somali>"]      category graphic (or hold, see settings)
+  python3 tools/image_system.py fallback <id> [--reason "<Somali>"]      no photo: keep it as a draft (Sugaya sawir)
+  python3 tools/image_system.py enforce [--no-search] [--limit N] [--budget S]   published articles without a valid photo:
+          find one (certain matches only) or hold them for manual review; --no-search only holds (publish workflow)
   python3 tools/image_system.py approve <id> | reject <id> --reason "..."
   python3 tools/image_system.py record <id>          the image record as the site and /admin/ see it
   python3 tools/image_system.py registry             rebuild data/image-registry.json (publish workflow)
@@ -60,7 +65,36 @@ EAT = timezone(timedelta(hours=3))
 # reported in /admin/ -> Image sources (data/image-report.json) and keep working as they are
 RULE_FROM = '2026-11-21'
 STATUSES = ('VERIFIED', 'ATTRIBUTION_REQUIRED', 'LICENSE_UNCLEAR', 'EDITOR_UPLOAD', 'AI_ILLUSTRATION', 'CATEGORY_GRAPHIC')
-PUBLISHABLE_AUTO = ('VERIFIED', 'ATTRIBUTION_REQUIRED', 'CATEGORY_GRAPHIC', 'AI_ILLUSTRATION')
+PUBLISHABLE_AUTO = ('VERIFIED', 'ATTRIBUTION_REQUIRED', 'AI_ILLUSTRATION')   # CATEGORY_GRAPHIC: never published (21 Nov 2026)
+IMAGE_EXT = ('.jpg', '.jpeg', '.png', '.webp', '.gif')
+_MAGIC = (b'\xff\xd8\xff', b'\x89PNG\r\n\x1a\n', b'GIF87a', b'GIF89a')
+
+
+def image_problem(n, base=None):
+    """Why an article's featured image is not valid for publication, or None when it is. Valid = a local photo file
+    under img/ (never a remote URL), not the category graphic, with a picture extension, at least 2 KB and real
+    JPEG / PNG / WebP / GIF content (so an empty, cut-off or HTML "image" never reaches readers as a broken picture)."""
+    img = str(n.get('image') or '').strip()
+    if not img:
+        return 'no featured image'
+    if img.startswith(('http://', 'https://', '//', 'data:')):
+        return 'image is a remote link, not a saved file'
+    img = img.lstrip('/')
+    if img.startswith('img/category/') or n.get('imageKind') == 'category':
+        return 'only the category graphic (not a photo of the story)'
+    if not img.startswith('img/') or '..' in img or not img.lower().endswith(IMAGE_EXT):
+        return f'image path {img!r} is not a photo file under img/'
+    f = os.path.join(base or root, img)
+    try:
+        if os.path.getsize(f) < 2048:
+            return f'image file {img} is empty or too small'
+        with open(f, 'rb') as fh:
+            head = fh.read(12)
+    except OSError:
+        return f'image file {img} is missing'
+    if not (head.startswith(_MAGIC) or (head[:4] == b'RIFF' and head[8:12] == b'WEBP')):
+        return f'image file {img} is not a valid picture'
+    return None
 
 
 def now_iso():
@@ -252,9 +286,10 @@ def _json(p, default):
 
 
 def load_settings():
-    s = {'noPhoto': 'category-graphic', 'providers': ['commons', 'openverse', 'unsplash', 'pexels', 'pixabay'],
+    s = {'noPhoto': 'hold', 'providers': ['commons', 'openverse', 'unsplash', 'pexels', 'pixabay'],
          'minWidth': 800, 'minScore': 0.6, 'stockForPeople': False, 'aiIllustrations': False}
     s.update(_json(SETTINGS, {}))
+    s['noPhoto'] = 'hold'   # owner's rule of 21 Nov 2026: no image, no publication (the category graphic is never used)
     return s
 
 
@@ -1014,30 +1049,128 @@ def _may_autopublish(n, now=None):
     return (now or datetime.now(EAT)) - t <= timedelta(hours=AUTO_PUBLISH_HOURS)
 
 
-def fallback(nid, reason=None):
-    """No accurate, legal photo: the WARTABIYE TV graphic of the article's category (never presented as a photo of the
-    event), or hold the article in "Sugaya sawir" when /admin/ -> Image sources says so."""
-    p, n = load(nid)
-    if load_settings()['noPhoto'] == 'hold':
-        n.update({'image': None, 'imagePending': True, 'published': False, 'imageNote': reason or 'sawir sharci ah oo warkan khuseeya weli lama helin'})
-        save(p, n)
-        print(f'{nid}: waiting for a photo (Sugaya sawir)')
-        return n
-    g = category_graphic(n)
-    rights = {'source': 'Wartabiye TV', 'sourceType': 'category', 'license': 'Wartabiye TV', 'status': 'CATEGORY_GRAPHIC',
-              'retrievedAt': now_iso(), 'approval': 'approved', 'reason': reason or None, 'history': _history(n, 'category-graphic')}
-    _remove_old(n, g)
-    out = _put(n, {'image': g, 'imageAlt': f"Sawirka qaybta {n.get('category') or 'wararka'} ee Wartabiye TV", 'imageCredit': 'Wartabiye TV',
-                   'imageLicense': 'Wartabiye TV', 'imageSourceUrl': None, 'imageKind': 'category'},
-               {k: v for k, v in rights.items() if v not in (None, '', [])})
+IMAGE_FIELDS = ('image', 'imageAlt', 'imageCredit', 'imageLicense', 'imageSourceUrl', 'imageKind', 'thumb')
+HOLD_NOTE = 'Sawir sax ah oo sharci ah oo warkan khuseeya lama helin. Fadlan gacanta ku geli sawir, kadibna daabac.'
+
+
+def _hold(n, reason, held_by=None):
+    """No image, no publication: drop a category graphic / broken image, keep the story as a draft in "Sugaya sawir"."""
+    out = {k: v for k, v in n.items() if k not in IMAGE_FIELDS and k != '_deleted'}
     for lang in ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es'):
         if isinstance(out.get(lang), dict):
-            out[lang].pop('imageAlt', None)
-    if _may_autopublish(n):
-        out['published'] = True
-    save(p, out)
-    print(f'{nid}: category graphic {g}')
+            out[lang] = {k: v for k, v in out[lang].items() if k != 'imageAlt'}
+    r = dict(n.get('imageRights') or {})
+    if n.get('image'):
+        r = {'history': _history(n, 'removed', {'reason': reason}), 'enforceTriedAt': r.get('enforceTriedAt')}
+    r = {k: v for k, v in r.items() if v not in (None, '', [])}
+    out['imageRights'] = r or None
+    if not out['imageRights']:
+        out.pop('imageRights')
+    out.update({'image': None, 'published': False, 'imagePending': True, 'imageNote': (reason or HOLD_NOTE)[:400]})
+    if held_by:
+        out['heldBy'] = held_by
+        out['heldAt'] = now_iso()
     return out
+
+
+def fallback(nid, reason=None):
+    """No accurate, legal photo: the article is NOT published. It waits in /admin/ -> "Sugaya sawir" for the owner to
+    upload a photo (owner's rule of 21 Nov 2026; the category graphic is no longer used as a fallback)."""
+    p, n = load(nid)
+    if n.get('image') and str(n['image']).startswith('img/news/'):
+        _remove_old(n, None)
+    n = _hold(n, reason or HOLD_NOTE)
+    save(p, n)
+    print(f'{nid}: no photo, kept as a draft (Sugaya sawir), the owner is asked to add one')
+    return n
+
+
+def _pick_certain(n):
+    """A photo for an article that is already written: only a candidate that scores well AND whose own title names the
+    story's person (or two of its subjects) is taken automatically (same certainty rule as `candidates`)."""
+    S = subjects(n)
+    cands = gather(S, queries_for(S))
+    S, ranked = rank(n, cands)
+    for c in ranked:
+        if c['score'] is None or c['score'] < AUTO_MIN:
+            continue
+        who = _sure(S, c, n.get('category'))
+        if not who:
+            continue
+        if not S['people']:
+            # no named person: never attached automatically. Place / organisation names alone picked a UAE wreath-laying
+            # in Virginia, a USGS map and an empty beach for three stories on 21 Nov 2026; those stories wait for a
+            # photo chosen by someone who looked at it (news task `find` / `attach`, or the owner in /admin/)
+            return None
+        return c, ' '.join(w.capitalize() for w in who.split())
+    return None
+
+
+def enforce(search=True, limit=40, budget=900, retry_hours=6):
+    """Every published article must have a valid, relevant photo. For each article that is published (or that this
+    rule held before) and has no photo, only the category graphic, or a broken / empty photo file:
+      1. search (unless --no-search): attach a certain match (see _pick_certain); an article this rule held earlier is
+         published again once it has its photo;
+      2. otherwise hold it: "published": false, "imagePending": true, "heldBy": "image-rule", the reason in "imageNote",
+         so the owner sees it in /admin/ -> "Sugaya sawir" / "Waiting for photo" and can upload a photo.
+    Match-result cards (their picture is the result card) are not touched. Returns {"fixed": [...], "held": [...]}."""
+    t0, tried, fixed, held = time.time(), 0, [], []
+    now = datetime.now(EAT)
+    for n in sorted(articles(include_trash=False), key=lambda a: str(a.get('publishedAt') or ''), reverse=True):
+        if n.get('by') == 'auto-results':
+            continue
+        was_held = n.get('heldBy') == 'image-rule' and n.get('published') is False
+        if n.get('published', True) is False and not was_held:
+            continue
+        why = image_problem(n)
+        if not why:
+            continue
+        nid = n['id']
+        p, cur = load(nid)
+        r = cur.get('imageRights') or {}
+        recent = False
+        try:
+            recent = bool(r.get('enforceTriedAt')) and now - datetime.fromisoformat(r['enforceTriedAt']) < timedelta(hours=retry_hours)
+        except ValueError:
+            pass
+        got = None
+        if search and not recent and tried < limit and time.time() - t0 < budget:
+            tried += 1
+            try:
+                pick = _pick_certain(dict(cur, id=nid))
+                if pick:
+                    c, name = pick
+                    attach(nid, c, f'{name}, sawir hore', {'en': f'{name}, file photo'}, 'illustrative', by='image-rule')
+                    p, got = load(nid)
+            except Exception as e:  # noqa: BLE001  a failed download or a refused photo: hold it, try again later
+                print(f'{nid}: {e}')
+                try:
+                    os.remove(os.path.join(root, 'img', 'news', f'.{nid}.part'))
+                except OSError:
+                    pass
+                p, cur = load(nid)
+            if got and not image_problem(got):
+                if was_held:
+                    got['published'] = True
+                    for k in ('heldBy', 'heldAt', 'imagePending', 'imageNote'):
+                        got.pop(k, None)
+                save(p, got)
+                fixed.append(nid)
+                print(f'{nid}: photo found ({got["image"]})' + (', published again' if was_held else ''))
+                continue
+            p, cur = load(nid)
+            cur['imageRights'] = dict(cur.get('imageRights') or {}, enforceTriedAt=now_iso())
+        if was_held:
+            if cur.get('imageRights') != n.get('imageRights'):
+                save(p, cur)
+            continue
+        if cur.get('image') and str(cur['image']).startswith('img/news/') and why.endswith(('is empty or too small', 'is not a valid picture')):
+            _remove_old(cur, None)
+        save(p, _hold(cur, f'Sugaya sawir (xeerka sawirka): {why}. ' + HOLD_NOTE, 'image-rule'))
+        held.append(nid)
+        print(f'{nid}: held for manual review: {why}')
+    print(f'enforce: {len(fixed)} got a photo, {len(held)} held for manual review (Sugaya sawir)')
+    return {'fixed': fixed, 'held': held}
 
 
 def resolve(ref, args):
@@ -1120,7 +1253,12 @@ def audit(save_file=True):
     rep = {'about': 'Image sources report (tools/image_system.py audit). Shown in /admin/ -> Image sources. Older articles are '
                     'listed as they are; nothing here changes the website.',
            'updatedAt': now_iso(), 'counts': dict(sorted(counts.items())), 'flagged': len(problems), 'providers': providers_status(),
-           'settings': load_settings(), 'articles': sorted(rows, key=lambda r: str(r['publishedAt'] or ''), reverse=True)}
+           'settings': load_settings(), 'articles': sorted(rows, key=lambda r: str(r['publishedAt'] or ''), reverse=True),
+           # no image, no publication: the stories waiting for the owner to upload a photo (manual review)
+           'waitingForPhoto': sorted(({'id': n['id'], 'title': (n.get('title') or '')[:140], 'publishedAt': n.get('publishedAt'),
+                                       'heldBy': n.get('heldBy'), 'reason': n.get('imageNote')}
+                                      for n in articles(include_trash=False) if n.get('published') is False and n.get('imagePending')),
+                                     key=lambda r: str(r['publishedAt'] or ''), reverse=True)}
     if save_file:
         with open(REPORT, 'w', encoding='utf-8') as f:
             json.dump(rep, f, ensure_ascii=False, separators=(',', ':'))
@@ -1228,7 +1366,7 @@ def _args(a):
     while i < len(a):
         if a[i].startswith('--'):
             k = a[i]
-            if k in ('--attach', '--json', '--dry'):
+            if k in ('--attach', '--json', '--dry', '--no-search'):
                 out[k] = True
                 i += 1
                 continue
@@ -1300,6 +1438,8 @@ def main(a):
             attach(nid, c, o['--alt'], _alts(o), o.get('--kind', 'illustrative'), tuple(m.get('--continuing', [])), by=o.get('--by', 'news-task'))
         elif cmd == 'fallback':
             fallback(pos[1], o.get('--reason'))
+        elif cmd == 'enforce':
+            enforce(not o.get('--no-search'), int(o.get('--limit', 40)), int(o.get('--budget', 900)))
         elif cmd in ('approve', 'reject'):
             p, n = load(pos[1])
             r = dict(record(n) or {})

@@ -488,7 +488,7 @@ def hold_text(nid, note):
 
 
 def hold(nid, note):
-    """No accurate legal photo: the category graphic, or Sugaya sawir when /admin/ -> Image sources says "hold"."""
+    """No accurate legal photo: the story waits in Sugaya sawir (no image, no publication, 21 Nov 2026)."""
     import image_system as IS
     n = IS.fallback(nid, note)
     return n.get('imageKind') == 'category'
@@ -644,7 +644,7 @@ def run(cand_path, state_path, dry=False):
         save(n)
         ok, note = attach_photo(n, a)
         if not ok:
-            ok = hold(n['id'], note)  # True: published with the category graphic (data/image-settings.json noPhoto)
+            ok = hold(n['id'], note)  # always False now: no image, no publication
         if qerr:
             # an incomplete text (cut off, placeholder ending, too short without a reason) is never published: it waits in
             # /admin/ as a draft with the reason, so the owner can finish it (the money is already spent; nothing is retried)

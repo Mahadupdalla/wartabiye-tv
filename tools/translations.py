@@ -100,6 +100,25 @@ def add(src):
     return 1 if refused and not added else 0
 
 
+IMAGE_RULE_KEYS = {'image', 'imageAlt', 'imageCredit', 'imageLicense', 'imageSourceUrl', 'imageKind', 'imageRights', 'imageNote',
+                   'imagePending', 'heldBy', 'heldAt', 'published', 'thumb', 'imageFocus'}
+
+
+def image_rule_change(a, b):
+    """Only the photo changed, by the photo rule: the article was taken off the site because it had no valid photo, or it
+    got a photo chosen by tools/image_system.py enforce (selectedBy "image-rule"). Text and dates never change here."""
+    changed = {k for k in set(a) | set(b) if a.get(k) != b.get(k)}
+    for k in [k for k in changed if k in LANGS]:
+        if isinstance(a.get(k), dict) and isinstance(b.get(k), dict) and \
+                {x: y for x, y in a[k].items() if x != 'imageAlt'} == {x: y for x, y in b[k].items() if x != 'imageAlt'}:
+            changed.discard(k)
+    if not changed or not changed <= IMAGE_RULE_KEYS:
+        return False
+    if b.get('published') is False and b.get('imagePending') is True:
+        return True
+    return (b.get('imageRights') or {}).get('selectedBy') == 'image-rule' and bool(b.get('image'))
+
+
 def verify(ref='HEAD'):
     """Existing files may only gain en/ar/fr/nl/it/de/tr blocks that were missing; nothing else may change."""
     bad = []
@@ -117,6 +136,8 @@ def verify(ref='HEAD'):
             if not article_quality.allowed_change(a, b):
                 bad.append(f'{rel}: changed, but not a valid completion by tools/article_quality.py expand')
             continue
+        if image_rule_change(a, b):
+            continue  # tools/image_system.py enforce / fallback / reject: no image, no publication (21 Nov 2026)
         for k in set(a) | set(b):
             if a.get(k) == b.get(k):
                 continue

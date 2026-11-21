@@ -6,6 +6,8 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 news = json.load(open(os.path.join(root, 'data', 'news.json'), encoding='utf-8'))
 items = news['news'] if isinstance(news, dict) else news
 errors, seen, used_imgs = [], set(), {}
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from image_system import image_problem as _image_problem  # noqa: E402  (no image, no publication: 21 Nov 2026)
 for n in items:
     nid = n.get('id', '?')
     for k in ('id', 'title', 'category', 'publishedAt'):
@@ -18,13 +20,14 @@ for n in items:
         seen.add(u)
     img = n.get('image')
     if not img and n.get('by') != 'auto-results': errors.append(f'{nid}: published without a photo (every article needs its own photo)')
-    elif img and img.startswith('img/category/'): pass  # the category graphic is shared on purpose (no photo of the event)
+    elif img and (img.startswith('img/category/') or n.get('imageKind') == 'category'): errors.append(f'{nid}: published with only the category graphic (no image, no publication: it must wait in Sugaya sawir)')
     elif img and img in used_imgs: errors.append(f'{nid}: uses the same photo as {used_imgs[img]} (every article needs its own photo)')
     else: used_imgs[img] = nid
     if img and not n.get('imageAlt'): errors.append(f'{nid}: photo needs a description (imageAlt)')
     if img:
         if not img.startswith('img/'): errors.append(f'{nid}: image must be a local img/ path, got {img}')
         elif not os.path.isfile(os.path.join(root, img)): errors.append(f'{nid}: image file missing {img}')
+        elif _image_problem(n, root): errors.append(f'{nid}: broken featured image: {_image_problem(n, root)}')
         if n.get('by') != 'admin' and (not n.get('imageCredit') or not n.get('imageLicense')): errors.append(f'{nid}: image without credit/licence')
     for lang in ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es'):
         t = n.get(lang)
@@ -89,12 +92,12 @@ for n in items:
     if not img or n.get('by') in ('admin', 'auto-results') or (n.get('publishedAt') or '')[:10] < _IS.RULE_FROM: continue
     st = info.get('status')
     if st not in _IS.PUBLISHABLE_AUTO:
-        errors.append(f"{nid}: photo usage rights not confirmed (status {st or 'unknown'}); use another photo or the category graphic")
+        errors.append(f"{nid}: photo usage rights not confirmed (status {st or 'unknown'}); use another photo or keep the story in Sugaya sawir")
     if st == 'CATEGORY_GRAPHIC' and not img.startswith('img/category/'): errors.append(f'{nid}: category graphic status on a photo that is not a category graphic')
     if img.startswith('img/category/') and n.get('imageKind') != 'category': errors.append(f'{nid}: category graphic must have imageKind "category"')
     if st == 'AI_ILLUSTRATION':
         if not _settings.get('aiIllustrations'): errors.append(f'{nid}: AI illustrations are switched off (data/image-settings.json)')
-        if n.get('breaking'): errors.append(f'{nid}: breaking news needs a real, verified photo or the category graphic, not an AI illustration')
+        if n.get('breaking'): errors.append(f'{nid}: breaking news needs a real, verified photo, not an AI illustration')
         if n.get('imageKind') != 'ai-illustration': errors.append(f'{nid}: AI illustration must have imageKind "ai-illustration" (shown with the label)')
     lic = _IS.licence_info(info.get('license'), info.get('licenseUrl'))
     if st in ('VERIFIED', 'ATTRIBUTION_REQUIRED'):

@@ -143,7 +143,7 @@ S, r, b = best(n5, c5)
 check('5 Business: picks the Ethiopian Airlines plane', b and b['ref'] == 'File:Ethiopian Airlines Boeing 787 Addis Ababa.jpg', str(b and b['ref']))
 check('5 Business: rejects the other airline in another country', why(r, 'File:Kenya Airways Boeing 787 at Nairobi.jpg') != '')
 
-# 6. Breaking news without a usable photo -> category graphic, never an AI picture
+# 6. Breaking news without a usable photo -> not published (no image, no publication), never an AI picture
 n6 = article('t6-qarax-muqdisho', 'DEGDEG: Qarax ka dhacay Muqdisho', 'Qarax ayaa maanta ka dhacay magaalada Muqdisho.', 'Amniga', breaking=True,
              en=('BREAKING: Explosion in Mogadishu', 'An explosion hit Mogadishu today.'))
 c6 = [C('afp-blast', 'Explosion in Mogadishu', 'CC BY 4.0', 'AFP', page='https://www.afp.com/en/photo/1'),
@@ -152,8 +152,8 @@ S, r, b = best(n6, c6)
 check('6 Breaking: no candidate passes (agency photo; photo without the author its licence needs)', b is None, str(b and b['ref']))
 IS.fallback(n6['id'], 'sawir dhab ah oo qaraxa ah lama helin')
 _, x6 = IS.load(n6['id'])
-check('6 Breaking: gets the security category graphic, labelled as category graphic', x6['image'] == 'img/category/amniga.jpg' and x6['imageKind'] == 'category'
-      and IS.record(x6)['status'] == 'CATEGORY_GRAPHIC', json.dumps({k: x6.get(k) for k in ('image', 'imageKind')}))
+check('6 Breaking: no category graphic, kept as a draft in Sugaya sawir', not x6.get('image') and not x6.get('imageKind') and x6.get('published') is False
+      and x6.get('imagePending') is True and x6.get('imageNote'), json.dumps({k: x6.get(k) for k in ('image', 'imageKind', 'published')}))
 
 # 7. Technology news
 n7 = article('t7-iphone-cusub', 'Apple oo soo bandhigtay iPhone cusub', 'Shirkadda Apple ayaa soo bandhigtay iPhone cusub.', 'Teknolojiyadda', 'world',
@@ -188,8 +188,8 @@ S, r, b = best(n10, [])
 check('10 No image: nothing found', b is None)
 IS.fallback(n10['id'])
 _, x10 = IS.load(n10['id'])
-check('10 No image: society category graphic, no invented source or licence', x10['image'] == 'img/category/bulshada.jpg' and not x10.get('imageSourceUrl')
-      and IS.record(x10).get('photographer') is None)
+check('10 No image: not published, no category graphic, no invented source or licence', not x10.get('image') and not x10.get('imageSourceUrl')
+      and x10.get('published') is False and x10.get('imagePending') is True and IS.record(x10) is None)
 
 # ---- reuse prevention, near-identical copies, unique names
 _, x1 = IS.load(n1['id'])
@@ -243,15 +243,15 @@ check('visible credit text', IS.record(x1)['attribution'] == 'Photo: Wikimedia C
 # ---- drafts: only a story the task has just written is published by the image step
 from datetime import datetime as _dt, timedelta as _td
 fresh = (_dt.now(IS.EAT) - _td(hours=2)).replace(microsecond=0).isoformat()
-for nid, date, held, want in (('t14-new-draft', fresh, None, True), ('t15-old-draft', '2026-11-10T10:00:00+03:00', None, False),
+for nid, date, held, want in (('t14-new-draft', fresh, None, False), ('t15-old-draft', '2026-11-10T10:00:00+03:00', None, False),
                               ('t16-held-draft', fresh, 'publish-check', False)):
     d = article(nid, 'War sugaya sawir', 'Qoraal.', 'Bulshada', date=date)
     d.update({'published': False, 'imagePending': True}, **({'heldBy': held} if held else {}))
     IS.save(os.path.join(IS.NEWS, nid + '.json'), d)
     IS.fallback(nid)
     _, x = IS.load(nid)
-    check(f'draft {nid}: ' + ('published with the category graphic' if want else 'stays a draft (owner publishes it)'),
-          (x.get('published') is not False) == want and x['image'].startswith('img/category/') and x.get('heldBy') == held, str(x.get('published')))
+    check(f'draft {nid}: no photo = stays a draft in Sugaya sawir (no category graphic)',
+          (x.get('published') is not False) == want and not x.get('image') and x.get('imagePending') is True and x.get('heldBy') == held, str(x.get('published')))
 
 # ---- fixes of 20 Nov (evening): multi-person stories, Openverse tags, Commons curid links
 check('two Commons pages with ?curid= are different photos', IS.norm_url('https://commons.wikimedia.org/w/index.php?curid=1') != IS.norm_url('https://commons.wikimedia.org/w/index.php?curid=2'))
@@ -263,13 +263,67 @@ check('a photo of ONE of the named people of a story is accepted', rk[0]['score'
 _, rk = IS.rank(m1, [C('openverse:tagged', '2013_09_07_Village_Restaurant_Attack_003', 'CC0', 'AMISOM Public Information', provider='openverse', width=1024, tags='lautaro martinez cristian chivu')], (), 'illustrative')
 check('Openverse: a name only in the tags is not the person (album tags)', rk[0]['score'] is None)
 
-# ---- hold setting and the registry
-json.dump({'noPhoto': 'hold'}, open(IS.SETTINGS, 'w'))
+# ---- the old "category-graphic" setting can no longer publish a story without a photo
+json.dump({'noPhoto': 'category-graphic'}, open(IS.SETTINGS, 'w'))
 n13 = article('t13-hold', 'War kale', 'Qoraal.', 'Siyaasadda')
 IS.fallback(n13['id'])
 _, x13 = IS.load(n13['id'])
-check('setting "hold": the story waits in Sugaya sawir instead', x13.get('imagePending') is True and x13.get('published') is False and not x13.get('image'))
+check('old setting "category-graphic" is ignored: the story waits in Sugaya sawir', x13.get('imagePending') is True and x13.get('published') is False and not x13.get('image'))
 os.remove(IS.SETTINGS)
+
+# ---- image validation (no broken links, no empty image fields, no category graphic as a featured image)
+def _f(rel, data):
+    with open(os.path.join(tmp, rel), 'wb') as fh:
+        fh.write(data)
+    return rel
+_f('img/news/empty.jpg', b'')
+_f('img/news/html.jpg', b'<html>' + b'x' * 4000)
+check('valid: a real downloaded photo passes', IS.image_problem(x1, tmp) is None, str(IS.image_problem(x1, tmp)))
+for label, art in (('empty image field', {'image': ''}), ('missing field', {}), ('remote link', {'image': 'https://example.com/a.jpg'}),
+                   ('category graphic', {'image': 'img/category/amniga.jpg', 'imageKind': 'category'}),
+                   ('missing file', {'image': 'img/news/nothing-here.jpg'}), ('empty file', {'image': 'img/news/empty.jpg'}),
+                   ('not a picture', {'image': 'img/news/html.jpg'}), ('not under img/', {'image': 'data/news.json'})):
+    check(f'invalid image refused: {label}', IS.image_problem(art, tmp) is not None)
+
+# ---- enforce: published stories without a valid photo get one (certain match) or are held for manual review
+_rank0, _gather0 = IS.rank, IS.gather
+e1 = article('t20-cat-published', 'Madaxweyne Hassan Sheikh Mohamud oo gaaray Nairobi', 'Madaxweyne Hassan Sheikh Mohamud ayaa gaaray Nairobi.', 'Siyaasadda',
+             en=('President Hassan Sheikh Mohamud arrives in Nairobi', 'President Hassan Sheikh Mohamud arrived in Nairobi.'))
+e1.update({'published': True, 'image': 'img/category/siyaasadda.jpg', 'imageKind': 'category', 'imageCredit': 'Wartabiye TV'})
+IS.save(os.path.join(IS.NEWS, e1['id'] + '.json'), e1)
+e2 = article('t21-noimg-published', 'Tuulo yar oo roob helay', 'Roob ayaa ka da\'ay tuulada.', 'Bulshada')
+e2.update({'published': True, 'image': 'img/news/empty.jpg'})
+IS.save(os.path.join(IS.NEWS, e2['id'] + '.json'), e2)
+e3 = article('t22-admin-ok', 'War maamulka', 'Qoraal.', 'Siyaasadda')
+shutil.copy(os.path.join(tmp, x1['image']), os.path.join(tmp, 'img/news/t22-admin-ok-own.jpg'))
+IS.save(os.path.join(IS.NEWS, e3['id'] + '.json'), dict(e3, published=True, by='admin', image='img/news/t22-admin-ok-own.jpg'))
+ok_pic = C('File:Hassan Sheikh Mohamud in Nairobi 2025.jpg', 'Hassan Sheikh Mohamud in Nairobi 2025', 'CC BY 4.0', 'Villa Somalia', width=1600, date='2025-05-01')
+IS.gather = lambda S, qs, providers=None: [dict(ok_pic)] if 'hassan sheikh mohamud' in ' '.join(S.get('people') or []).lower() else []
+r = IS.enforce(search=True, limit=10, budget=60)
+_, y1 = IS.load(e1['id']); _, y2 = IS.load(e2['id']); _, y3 = IS.load(e3['id'])
+check('enforce: a category-graphic story gets a certain photo and stays published', e1['id'] in r['fixed'] and y1.get('published') is True
+      and y1['image'].startswith('img/news/t20-') and IS.image_problem(y1, tmp) is None, json.dumps(r))
+check('enforce: a story with a broken photo and no match is held for manual review', e2['id'] in r['held'] and y2.get('published') is False
+      and y2.get('imagePending') is True and y2.get('heldBy') == 'image-rule' and not y2.get('image') and 'xeerka sawirka' in y2.get('imageNote', ''), json.dumps(y2, ensure_ascii=False)[:300])
+check('enforce: a valid published story is not touched', y3.get('published') is True and y3['image'] == 'img/news/t22-admin-ok-own.jpg')
+check('enforce: the search time is kept on a held story', bool((y2.get('imageRights') or {}).get('enforceTriedAt')))
+pic2 = C('File:Ceel Garas village 2024.jpg', 'Ceel Garas village 2024', 'CC0', 'A. B.', width=1600)
+_pick0, calls = IS._pick_certain, []
+IS._pick_certain = lambda n: calls.append(n['id']) or ((dict(pic2, score=0.9), 'Ceel Garas') if n['id'] == e2['id'] else None)
+r2 = IS.enforce(search=True)
+check('enforce: a held story is not searched again before its next window', e2['id'] not in calls and e2['id'] not in r2['held'] + r2['fixed'])
+y2['imageRights'] = {}
+IS.save(os.path.join(IS.NEWS, e2['id'] + '.json'), y2)
+r3 = IS.enforce(search=True)
+_, y2b = IS.load(e2['id'])
+check('enforce: a held story is published again once a certain photo is found', e2['id'] in r3['fixed'] and y2b.get('published') is True
+      and not y2b.get('heldBy') and not y2b.get('imagePending') and IS.image_problem(y2b, tmp) is None, json.dumps(r3))
+IS._pick_certain, IS.gather = _pick0, _gather0
+e4 = article('t23-nosearch', 'War kale oo sawir la\'aan ah', 'Qoraal.', 'Bulshada')
+IS.save(os.path.join(IS.NEWS, e4['id'] + '.json'), dict(e4, published=True, image='img/category/bulshada.jpg', imageKind='category'))
+r4 = IS.enforce(search=False)
+_, y4 = IS.load(e4['id'])
+check('enforce --no-search: holds without searching', e4['id'] in r4['held'] and y4.get('published') is False and not y4.get('image'))
 reg = IS.build_registry()
 uses = {u['article'] for e in reg['images'].values() for u in e['uses']}
 check('registry: every photo and every use is recorded', {n1['id'], n12['id']} <= uses)
