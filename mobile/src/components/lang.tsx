@@ -3,7 +3,7 @@
 // changes language where they always did, without nine full-width rows. The choice is saved at once (settings.tsx).
 import React, { useRef, useState } from 'react';
 import { Animated, Easing, Modal, Platform, Pressable, Text, View, useWindowDimensions } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettings } from '../lib/settings';
 import { LANG_INFO, LANGS, type Lang } from '../lib/types';
 import { R } from '../lib/theme';
