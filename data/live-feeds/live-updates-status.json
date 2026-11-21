@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-21T20:40:10Z",
+ "lastCheckAt": "2026-11-21T21:35:10Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-09": {
@@ -121,7 +121,16 @@
   "2026-11-21": {
    "written": 0,
    "merged": 0,
-   "skipped": 162,
+   "skipped": 164,
+   "declined": 0,
+   "failed": 0,
+   "calls": 0,
+   "usd": 0
+  },
+  "2026-11-22": {
+   "written": 0,
+   "merged": 0,
+   "skipped": 4,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -129,15 +138,6 @@
   }
  },
  "done": {
-  "b849a499be6a7344": "2026-11-18T20:45:11Z",
-  "4282a45ce03989a4": "2026-11-18T20:45:11Z",
-  "2ff1d41d4132126f": "2026-11-18T20:45:11Z",
-  "3987956c2ac1efd6": "2026-11-18T21:00:11Z",
-  "bae6869c851d5c1d": "2026-11-18T21:15:11Z",
-  "e36132f88f1994ce": "2026-11-18T21:20:12Z",
-  "24ca5fbbdad0ae90": "2026-11-18T21:20:12Z",
-  "6ccc71eecafd4ca6": "2026-11-18T21:30:11Z",
-  "8e9345fbc4a4f5b3": "2026-11-18T21:30:11Z",
   "e48ba57fcb4e2086": "2026-11-18T21:40:11Z",
   "c3261a1d086e0f1f": "2026-11-18T21:45:11Z",
   "7545245e638bafe3": "2026-11-18T21:45:11Z",
@@ -764,11 +764,49 @@
   "4505aab8d5552e2c": "2026-11-21T19:35:11Z",
   "ddb90bb60accc725": "2026-11-21T19:50:11Z",
   "db1a9d115bc435be": "2026-11-21T20:00:11Z",
-  "c1c090ae1cfb7fa2": "2026-11-21T20:10:12Z"
+  "c1c090ae1cfb7fa2": "2026-11-21T20:10:12Z",
+  "10d20ce6a18b1a7c": "2026-11-21T20:55:13Z",
+  "86c4e817690b99be": "2026-11-21T20:55:13Z",
+  "aedff471d118343a": "2026-11-21T21:25:09Z",
+  "a483f4d15ca0a193": "2026-11-21T21:25:09Z",
+  "b0b72e86c2bd8703": "2026-11-21T21:30:12Z",
+  "7184f6b94649af20": "2026-11-21T21:35:10Z"
  },
  "recent": [
   {
-   "at": "2026-11-21T20:40:10Z",
+   "at": "2026-11-21T21:35:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Mexico captures drug cartel boss ‘El Chapo Isidro’ after deadly firefight",
+   "url": "https://www.france24.com/en/americas/20261121-mexico-captures-drug-cartel-boss-el-chapo-isidro-after-deadly-firefight"
+  },
+  {
+   "at": "2026-11-21T21:35:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Iran says held talks with Qatari mediators, urges US to accept conditions",
+   "url": "https://www.aljazeera.com/news/2026/11/21/iran-says-held-talks-with-qatari-mediators-urges-us-to-accept-conditions?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:35:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Eisenkot invites Netanyahu’s party for ‘marathon’ Israeli coalition talks",
+   "url": "https://www.france24.com/en/middle-east/20261121-eisenkot-invites-netanyahu-s-party-for-marathon-israeli-coalition-talks"
+  },
+  {
+   "at": "2026-11-21T21:35:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Thousands protest across Europe over living costs and housing",
+   "url": "https://www.aljazeera.com/news/2026/11/21/thousands-protest-across-europe-over-living-costs-and-housing?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:35:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -776,7 +814,7 @@
    "url": "https://www.france24.com/en/france/20261121-france-s-sixth-consecutive-saturday-of-protests-draw-lower-turnout"
   },
   {
-   "at": "2026-11-21T20:40:10Z",
+   "at": "2026-11-21T21:35:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -784,7 +822,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/21/why-is-the-us-army-detonating-lead-rich-explosives-in-iowa?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T20:40:10Z",
+   "at": "2026-11-21T21:35:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -792,39 +830,39 @@
    "url": "https://www.france24.com/en/tv-shows/spotlight/20261121-worst-ever-cop-summit"
   },
   {
-   "at": "2026-11-21T20:40:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "at": "2026-11-21T21:30:12Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "France 24",
    "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
    "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
   },
   {
-   "at": "2026-11-21T20:40:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
-   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
-  },
-  {
-   "at": "2026-11-21T20:40:10Z",
+   "at": "2026-11-21T21:30:12Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Noni Madueke salvages draw for Arsenal at Newcastle United as Raya injured",
-   "url": "https://www.aljazeera.com/sports/2026/11/21/noni-madueke-salvages-draw-for-arsenal-at-newcastle-united-as-raya-injured?traffic_source=rss"
+   "title": "Iran says held talks with Qatari mediators, urges US to accept conditions",
+   "url": "https://www.aljazeera.com/news/2026/11/21/iran-says-held-talks-with-qatari-mediators-urges-us-to-accept-conditions?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T20:40:10Z",
+   "at": "2026-11-21T21:30:12Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
+   "source": "France 24",
+   "title": "Eisenkot invites Netanyahu’s party for ‘marathon’ Israeli coalition talks",
+   "url": "https://www.france24.com/en/middle-east/20261121-eisenkot-invites-netanyahu-s-party-for-marathon-israeli-coalition-talks"
   },
   {
-   "at": "2026-11-21T20:35:17Z",
+   "at": "2026-11-21T21:30:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Thousands protest across Europe over living costs and housing",
+   "url": "https://www.aljazeera.com/news/2026/11/21/thousands-protest-across-europe-over-living-costs-and-housing?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:30:12Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -832,7 +870,15 @@
    "url": "https://www.france24.com/en/france/20261121-france-s-sixth-consecutive-saturday-of-protests-draw-lower-turnout"
   },
   {
-   "at": "2026-11-21T20:35:17Z",
+   "at": "2026-11-21T21:30:12Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Why is the US Army detonating lead-rich explosives in Iowa?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/why-is-the-us-army-detonating-lead-rich-explosives-in-iowa?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:30:12Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -840,39 +886,47 @@
    "url": "https://www.france24.com/en/tv-shows/spotlight/20261121-worst-ever-cop-summit"
   },
   {
-   "at": "2026-11-21T20:35:17Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
-   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
-  },
-  {
-   "at": "2026-11-21T20:35:17Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "at": "2026-11-21T21:25:09Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "France 24",
    "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
    "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
   },
   {
-   "at": "2026-11-21T20:35:17Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "at": "2026-11-21T21:25:09Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "Al Jazeera",
    "title": "Noni Madueke salvages draw for Arsenal at Newcastle United as Raya injured",
    "url": "https://www.aljazeera.com/sports/2026/11/21/noni-madueke-salvages-draw-for-arsenal-at-newcastle-united-as-raya-injured?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T20:35:17Z",
+   "at": "2026-11-21T21:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
+   "source": "Al Jazeera",
+   "title": "Iran says held talks with Qatari mediators, urges US to accept conditions",
+   "url": "https://www.aljazeera.com/news/2026/11/21/iran-says-held-talks-with-qatari-mediators-urges-us-to-accept-conditions?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T20:30:10Z",
+   "at": "2026-11-21T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Eisenkot invites Netanyahu’s party for ‘marathon’ Israeli coalition talks",
+   "url": "https://www.france24.com/en/middle-east/20261121-eisenkot-invites-netanyahu-s-party-for-marathon-israeli-coalition-talks"
+  },
+  {
+   "at": "2026-11-21T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Thousands protest across Europe over living costs and housing",
+   "url": "https://www.aljazeera.com/news/2026/11/21/thousands-protest-across-europe-over-living-costs-and-housing?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -880,7 +934,15 @@
    "url": "https://www.france24.com/en/france/20261121-france-s-sixth-consecutive-saturday-of-protests-draw-lower-turnout"
   },
   {
-   "at": "2026-11-21T20:30:10Z",
+   "at": "2026-11-21T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Why is the US Army detonating lead-rich explosives in Iowa?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/why-is-the-us-army-detonating-lead-rich-explosives-in-iowa?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -888,7 +950,7 @@
    "url": "https://www.france24.com/en/tv-shows/spotlight/20261121-worst-ever-cop-summit"
   },
   {
-   "at": "2026-11-21T20:30:10Z",
+   "at": "2026-11-21T21:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -896,31 +958,31 @@
    "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
   },
   {
-   "at": "2026-11-21T20:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
-   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
-  },
-  {
-   "at": "2026-11-21T20:30:10Z",
+   "at": "2026-11-21T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Noni Madueke salvages draw for Arsenal at Newcastle United as Raya injured",
-   "url": "https://www.aljazeera.com/sports/2026/11/21/noni-madueke-salvages-draw-for-arsenal-at-newcastle-united-as-raya-injured?traffic_source=rss"
+   "title": "Iran says held talks with Qatari mediators, urges US to accept conditions",
+   "url": "https://www.aljazeera.com/news/2026/11/21/iran-says-held-talks-with-qatari-mediators-urges-us-to-accept-conditions?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T20:30:10Z",
+   "at": "2026-11-21T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
+   "source": "France 24",
+   "title": "Eisenkot invites Netanyahu’s party for ‘marathon’ Israeli coalition talks",
+   "url": "https://www.france24.com/en/middle-east/20261121-eisenkot-invites-netanyahu-s-party-for-marathon-israeli-coalition-talks"
   },
   {
-   "at": "2026-11-21T20:25:10Z",
+   "at": "2026-11-21T21:20:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Thousands protest across Europe over living costs and housing",
+   "url": "https://www.aljazeera.com/news/2026/11/21/thousands-protest-across-europe-over-living-costs-and-housing?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -928,7 +990,15 @@
    "url": "https://www.france24.com/en/france/20261121-france-s-sixth-consecutive-saturday-of-protests-draw-lower-turnout"
   },
   {
-   "at": "2026-11-21T20:25:10Z",
+   "at": "2026-11-21T21:20:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Why is the US Army detonating lead-rich explosives in Iowa?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/why-is-the-us-army-detonating-lead-rich-explosives-in-iowa?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -936,7 +1006,7 @@
    "url": "https://www.france24.com/en/tv-shows/spotlight/20261121-worst-ever-cop-summit"
   },
   {
-   "at": "2026-11-21T20:25:10Z",
+   "at": "2026-11-21T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -944,7 +1014,7 @@
    "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
   },
   {
-   "at": "2026-11-21T20:25:10Z",
+   "at": "2026-11-21T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -952,7 +1022,7 @@
    "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
   },
   {
-   "at": "2026-11-21T20:25:10Z",
+   "at": "2026-11-21T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -960,292 +1030,228 @@
    "url": "https://www.aljazeera.com/sports/2026/11/21/noni-madueke-salvages-draw-for-arsenal-at-newcastle-united-as-raya-injured?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T20:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T20:20:10Z",
+   "at": "2026-11-21T21:15:15Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
-   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
+   "title": "Eisenkot invites Netanyahu’s party for ‘marathon’ Israeli coalition talks",
+   "url": "https://www.france24.com/en/middle-east/20261121-eisenkot-invites-netanyahu-s-party-for-marathon-israeli-coalition-talks"
   },
   {
-   "at": "2026-11-21T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
-   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
-  },
-  {
-   "at": "2026-11-21T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T20:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
-   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
-  },
-  {
-   "at": "2026-11-21T20:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
-   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
-  },
-  {
-   "at": "2026-11-21T20:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T20:10:12Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "Getting rid of antibiotic resistance: Challenges and possible solutions",
-   "url": "https://www.dw.com/en/getting-rid-of-antibiotic-resistance-challenges-and-possible-solutions/a-80010693?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
-   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
-  },
-  {
-   "at": "2026-11-21T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
-   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
-  },
-  {
-   "at": "2026-11-21T20:10:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
-   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
-  },
-  {
-   "at": "2026-11-21T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
-   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
-  },
-  {
-   "at": "2026-11-21T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Getting rid of antibiotic resistance: Challenges and possible solutions",
-   "url": "https://www.dw.com/en/getting-rid-of-antibiotic-resistance-challenges-and-possible-solutions/a-80010693?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T20:00:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "Mexican special forces arrest drug kingpin 'Chapo Isidro'",
-   "url": "https://www.dw.com/en/mexican-special-forces-arrest-drug-kingpin-chapo-isidro/a-80010745?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T20:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
-   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
-  },
-  {
-   "at": "2026-11-21T20:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
-   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
-  },
-  {
-   "at": "2026-11-21T20:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T20:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Getting rid of antibiotic resistance: Challenges and possible solutions",
-   "url": "https://www.dw.com/en/getting-rid-of-antibiotic-resistance-challenges-and-possible-solutions/a-80010693?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Getting rid of antibiotic resistance: Challenges and possible solutions",
-   "url": "https://www.dw.com/en/getting-rid-of-antibiotic-resistance-challenges-and-possible-solutions/a-80010693?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Mexican special forces arrest drug kingpin 'Chapo Isidro'",
-   "url": "https://www.dw.com/en/mexican-special-forces-arrest-drug-kingpin-chapo-isidro/a-80010745?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:50:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "FBI national crime database suffers suspected breach: Reports",
-   "url": "https://www.aljazeera.com/news/2026/11/21/fbi-national-crime-database-suffers-suspected-breach-reports?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T19:50:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T19:50:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Getting rid of antibiotic resistance: Challenges and possible solutions",
-   "url": "https://www.dw.com/en/getting-rid-of-antibiotic-resistance-challenges-and-possible-solutions/a-80010693?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:50:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Mexican special forces arrest drug kingpin 'Chapo Isidro'",
-   "url": "https://www.dw.com/en/mexican-special-forces-arrest-drug-kingpin-chapo-isidro/a-80010745?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T19:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Getting rid of antibiotic resistance: Challenges and possible solutions",
-   "url": "https://www.dw.com/en/getting-rid-of-antibiotic-resistance-challenges-and-possible-solutions/a-80010693?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Mexican special forces arrest drug kingpin 'Chapo Isidro'",
-   "url": "https://www.dw.com/en/mexican-special-forces-arrest-drug-kingpin-chapo-isidro/a-80010745?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:45:10Z",
+   "at": "2026-11-21T21:15:15Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "FBI national crime database suffers suspected breach: Reports",
-   "url": "https://www.aljazeera.com/news/2026/11/21/fbi-national-crime-database-suffers-suspected-breach-reports?traffic_source=rss"
+   "title": "Thousands protest across Europe over living costs and housing",
+   "url": "https://www.aljazeera.com/news/2026/11/21/thousands-protest-across-europe-over-living-costs-and-housing?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T19:40:09Z",
+   "at": "2026-11-21T21:15:15Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "url": "https://www.bbc.co.uk/news/articles/cj752ddve27ko?at_medium=RSS&at_campaign=rss"
+   "source": "France 24",
+   "title": "France’s sixth consecutive Saturday of protests draw lower turnout",
+   "url": "https://www.france24.com/en/france/20261121-france-s-sixth-consecutive-saturday-of-protests-draw-lower-turnout"
   },
   {
-   "at": "2026-11-21T19:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Getting rid of antibiotic resistance: Challenges and possible solutions",
-   "url": "https://www.dw.com/en/getting-rid-of-antibiotic-resistance-challenges-and-possible-solutions/a-80010693?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Mexican special forces arrest drug kingpin 'Chapo Isidro'",
-   "url": "https://www.dw.com/en/mexican-special-forces-arrest-drug-kingpin-chapo-isidro/a-80010745?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T19:40:09Z",
+   "at": "2026-11-21T21:15:15Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "FBI national crime database suffers suspected breach: Reports",
-   "url": "https://www.aljazeera.com/news/2026/11/21/fbi-national-crime-database-suffers-suspected-breach-reports?traffic_source=rss"
+   "title": "Why is the US Army detonating lead-rich explosives in Iowa?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/why-is-the-us-army-detonating-lead-rich-explosives-in-iowa?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T19:35:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
+   "at": "2026-11-21T21:15:15Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Drone attack sets Russian cargo ship ablaze in Gulf of Finland",
-   "url": "https://www.france24.com/en/drone-attack-sets-russian-cargo-ship-ablaze-in-gulf-of-finland"
+   "title": "'Worst Ever' COP Summit?",
+   "url": "https://www.france24.com/en/tv-shows/spotlight/20261121-worst-ever-cop-summit"
+  },
+  {
+   "at": "2026-11-21T21:15:15Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
+   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
+  },
+  {
+   "at": "2026-11-21T21:15:15Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
+   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
+  },
+  {
+   "at": "2026-11-21T21:15:15Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Noni Madueke salvages draw for Arsenal at Newcastle United as Raya injured",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/noni-madueke-salvages-draw-for-arsenal-at-newcastle-united-as-raya-injured?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Eisenkot invites Netanyahu’s party for ‘marathon’ Israeli coalition talks",
+   "url": "https://www.france24.com/en/middle-east/20261121-eisenkot-invites-netanyahu-s-party-for-marathon-israeli-coalition-talks"
+  },
+  {
+   "at": "2026-11-21T21:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Thousands protest across Europe over living costs and housing",
+   "url": "https://www.aljazeera.com/news/2026/11/21/thousands-protest-across-europe-over-living-costs-and-housing?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "France’s sixth consecutive Saturday of protests draw lower turnout",
+   "url": "https://www.france24.com/en/france/20261121-france-s-sixth-consecutive-saturday-of-protests-draw-lower-turnout"
+  },
+  {
+   "at": "2026-11-21T21:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Why is the US Army detonating lead-rich explosives in Iowa?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/why-is-the-us-army-detonating-lead-rich-explosives-in-iowa?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "'Worst Ever' COP Summit?",
+   "url": "https://www.france24.com/en/tv-shows/spotlight/20261121-worst-ever-cop-summit"
+  },
+  {
+   "at": "2026-11-21T21:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
+   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
+  },
+  {
+   "at": "2026-11-21T21:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
+   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
+  },
+  {
+   "at": "2026-11-21T21:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Noni Madueke salvages draw for Arsenal at Newcastle United as Raya injured",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/noni-madueke-salvages-draw-for-arsenal-at-newcastle-united-as-raya-injured?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Eisenkot invites Netanyahu’s party for ‘marathon’ Israeli coalition talks",
+   "url": "https://www.france24.com/en/middle-east/20261121-eisenkot-invites-netanyahu-s-party-for-marathon-israeli-coalition-talks"
+  },
+  {
+   "at": "2026-11-21T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Thousands protest across Europe over living costs and housing",
+   "url": "https://www.aljazeera.com/news/2026/11/21/thousands-protest-across-europe-over-living-costs-and-housing?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "France’s sixth consecutive Saturday of protests draw lower turnout",
+   "url": "https://www.france24.com/en/france/20261121-france-s-sixth-consecutive-saturday-of-protests-draw-lower-turnout"
+  },
+  {
+   "at": "2026-11-21T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Why is the US Army detonating lead-rich explosives in Iowa?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/why-is-the-us-army-detonating-lead-rich-explosives-in-iowa?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "'Worst Ever' COP Summit?",
+   "url": "https://www.france24.com/en/tv-shows/spotlight/20261121-worst-ever-cop-summit"
+  },
+  {
+   "at": "2026-11-21T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia attacks Zelensky's hometown, Ukraine reaffirms wish to join NATO",
+   "url": "https://www.france24.com/en/europe/20261121-russia-attacks-zelensky-s-hometown-ukraine-reaffirms-wish-to-join-nato"
+  },
+  {
+   "at": "2026-11-21T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russia launches ballistic missile attack on Zelensky's hometown in central Ukraine",
+   "url": "https://www.france24.com/en/russia-launches-ballistic-missile-attack-on-zelensky-s-hometown-in-central-ukraine"
+  },
+  {
+   "at": "2026-11-21T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Noni Madueke salvages draw for Arsenal at Newcastle United as Raya injured",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/noni-madueke-salvages-draw-for-arsenal-at-newcastle-united-as-raya-injured?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Eisenkot invites Netanyahu’s party for ‘marathon’ Israeli coalition talks",
+   "url": "https://www.france24.com/en/middle-east/20261121-eisenkot-invites-netanyahu-s-party-for-marathon-israeli-coalition-talks"
+  },
+  {
+   "at": "2026-11-21T21:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Thousands protest across Europe over living costs and housing",
+   "url": "https://www.aljazeera.com/news/2026/11/21/thousands-protest-across-europe-over-living-costs-and-housing?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T21:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "France’s sixth consecutive Saturday of protests draw lower turnout",
+   "url": "https://www.france24.com/en/france/20261121-france-s-sixth-consecutive-saturday-of-protests-draw-lower-turnout"
+  },
+  {
+   "at": "2026-11-21T21:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Why is the US Army detonating lead-rich explosives in Iowa?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/why-is-the-us-army-detonating-lead-rich-explosives-in-iowa?traffic_source=rss"
   }
  ]
 }
