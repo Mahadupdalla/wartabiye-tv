@@ -1,26 +1,31 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-21T12:46:15+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
- "lastSuccessfulPublishAt": "2026-11-21T08:36:35Z",
- "newestArticleAt": "2026-11-21T09:00:00+03:00",
- "lastSourceCheckAt": "2026-11-21T12:45:17+03:00",
+ "updatedAt": "2026-11-21T13:41:20+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
+ "lastSuccessfulPublishAt": "2026-11-21T09:53:49Z",
+ "newestArticleAt": "2026-11-21T11:57:44+03:00",
+ "lastSourceCheckAt": "2026-11-21T13:40:17+03:00",
  "sourceChecks24h": 290,
- "publishedArticles": 1097,
- "liveArticles": 1097,
- "waitingForImage": 159,
+ "publishedArticles": 1111,
+ "liveArticles": 1111,
+ "waitingForImage": 157,
  "liveInSync": true,
  "publishFailures24h": 0,
  "lastPublishRun": {
-  "created_at": "2026-11-21T08:36:35Z",
+  "created_at": "2026-11-21T09:53:49Z",
   "conclusion": "success",
-  "event": "workflow_dispatch",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44885685450"
+  "event": "push",
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44891730685"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-21T08:36:33+00:00",
+  "since": "2026-11-21T10:41:19+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-21T09:10:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-21T12:10:29+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,46 +47,49 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-21T12:45:10+03:00",
-   "lastSuccessAt": "2026-11-21T12:45:10+03:00",
+   "lastCheckAt": "2026-11-21T13:40:10+03:00",
+   "lastSuccessAt": "2026-11-21T13:40:10+03:00",
    "lastReportAt": "2026-11-21T01:00:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-21T09:10:00+03:00",
+  "lastSourceCheckAt": "2026-11-21T12:10:29+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-21T07:28:30+03:00",
-   "sourceName": "Horseed Media",
-   "title": "Pro Dalxa oo nidaamka 4.5 ku sheegay boog ku taalla Soomaaliya.",
-   "url": "https://horseedmedia.net/pro-dalxa-oo-nidaamka-4-5-ku-sheegay-boog-ku-taalla-soomaaliya/427794/"
+   "publishedAt": "2026-11-21T11:43:32+03:00",
+   "sourceName": "Goobjoog News",
+   "title": "Taliyaha Guud ee Ciidamada Uganda oo hadal dood dhaliyay ka soo saaray xaaladda Soomaaliya",
+   "url": "https://goobjoog.com/2026/11/21/taliyaha-guud-ee-ciidamada-uganda-oo-hadal-dood-dhaliyay-ka-soo-saaray-xaaladda-soomaaliya"
   },
   "latestPublished": {
-   "id": "2026-11-21-isbeddel-golaha-wasiirrada-wasiirka-gaashaandhigga",
-   "title": "ISBEDDEL LAGU SAMEYNAYO GOLAHA WASIIRRADA XUKUUMADDA SOOMAALIYA",
-   "publishedAt": "2026-11-21T02:45:00+03:00",
+   "id": "2026-11-21-soomaaliya-turkiga-safaaradda-ankara-xiriir-taariikhi",
+   "title": "Soomaaliya iyo Türkiye: Xiriir Taariikhi ah oo Soo Taxnaa Tobannaan Sano, Safaaradda Ankara oo Galaysa Marxalad Cusub",
+   "publishedAt": "2026-11-21T13:35:00+03:00",
    "source": "Wartabiye TV",
-   "url": "/war/2026-11-21-isbeddel-golaha-wasiirrada-wasiirka-gaashaandhigga.html"
+   "url": "/war/2026-11-21-soomaaliya-turkiga-safaaradda-ankara-xiriir-taariikhi.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 57,
+  "publishedLastRun": 1,
+  "rejectedLastRun": 62,
   "rejectedReasons": {
-   "old": 2,
-   "duplicate": 53,
+   "duplicate": 60,
    "on-site": 2
   },
   "taskRejectedReasons": [
-   "Dowladda Soomaaliya oo si Cad u Sheegtay in dalalka Deriska Qaarkood ay ku Lug leeyihiin Dagaalka Koonfur Galbeed: eedeyn culus oo hal il (Goobjoog) keliya, Ra'iisul Wasaaraha lama magacaabin -> pending",
-   "Safaaradda Jabuuti oo ka hadashay dhacdadii garoonka Beledweyne: duplicate (2026-11-20-jabuuti-aussom-garoonka-ugaas-khaliif-beledweyne-war-saxaafadeed)",
-   "Daawo: NY Times oo kashifay sirta saldhigyada milatari ee Imaaraadka ee Soomaaliya: duplicate (isla warbixinta NYT, waxaa la qoray Goobjoog)",
-   "Dowladaha Soomaaliya iyo Uganda oo yeeshay kulan looga hadlay xoojinta xiriirka labada dal: kulan borotokool ah oo aan go'aan lahayn",
-   "Pro Dalxa oo nidaamka 4.5 ku sheegay boog ku taalla Soomaaliya: ra'yi / headline-only",
-   "MAANHADAL: Waxka bedelka Dastuurka Puntland: ra'yi (opinion)",
-   "Empty Chairs at Villa Somalia: ra'yi (opinion)",
-   "Catch-up (20 Nov) Caasimada/Horseed/Shabelle/BBC Somali headline-only: inta badan waa la daabacay (Imaaraadka, GCC, Beledweyne) ama waa muuqaal/ra'yi/borotokool; kuwa kale (Xasan iyo mucaaradka, DF iyo maamul goboleedyada heshiis) headline-only, il akhrisan karo lama helin -> lama daabicin"
+   "Taliyaha Guud ee Ciidamada Uganda oo hadal dood dhaliyay ka soo saaray xaaladda Soomaaliya: Goobjoog bogga lama furi karo (403), qoraalka X ee Muhoozi faahfaahin lama hayo; hal il -> pending",
+   "PUNTLAND oo kumanaan dollar oo magdhaw ah ku xukuntay isbital kuyaal Garoowe: headline-only (Horseed); Hiiraan/Goobjoog/Puntland Post ma jiro, WebSearch so none -> pending",
+   "Shaqaalihii & ciidamadii dowladda hoose ee Galkacyo oo shaqo-joojin sameeyey: headline-only (Horseed); facts-only ilo ma jiro, WebSearch so none -> pending",
+   "La-taliyaha Amniga Qaranka oo sheegay in Soomaaliya aan loo adeegsan karin dagaallada Yemen iyo Suudaan: duplicate (2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan)",
+   "Imaaraadka oo madaarro ku yaalla Berbera iyo Boosaaso u beddelay saldhigyo ciidan (Hiiraan/Shabelle): duplicate (2026-11-21-baaritaan-imaaraadka-xarumo-milatari-berbera-boosaaso)",
+   "Somalia opposition rejects another request for talks (Somali Guardian) / Xog: Mucaaradka oo diiday dalab (Caasimada) / Golaha Mustaqbalka oo isku khilaafay (Puntland Post): isla dhacdada la daabacay -> alsoReportedBy",
+   "Muwaadin Soomaali ah oo Kenya ku helay dukumentiyo been abuur ah (Hiiraan): dhacdo shakhsi ah oo maxkamadeed, qiimo war yar",
+   "PS Ummi Bashir joins Somali cultural dance during Wajir visit (KBC): borotokool, war ma aha",
+   "Guddoomiyaha Midowga Afrika oo qaabilay Danjiraha Qatar (Shabelle): borotokool",
+   "Soomaaliya oo ka qayb gashay shirka Wasiirrada Arrimaha Dibadda Waqooyiga Yurub iyo Afrika ee Oslo (Shabelle): headline-only, kulan borotokool; Oslo hore ayaa loo daabacay",
+   "Safaaradda Jabuuti oo ka hadashay weerarkii garoonka Beledweyne (Shabelle): duplicate (2026-11-20-jabuuti-aussom-garoonka-ugaas-khaliif-beledweyne-war-saxaafadeed)",
+   "Catch-up 20-21 Nov (Pro Dalxa, MAANHADAL, Empty Chairs, Dowladda iyo Uganda kulan, NY Times Imaaraadka, Dowladda deriska Koonfur Galbeed): sababihii run 09:08 weli way taagan yihiin (ra'yi / borotokool / duplicate / eedeyn hal il)"
   ],
   "waitingForImage": 18,
   "waitingIds": [
@@ -106,6 +114,6 @@
   ],
   "stale": false,
   "problems": [],
-  "lastSuccessfulPublishAt": "2026-11-21T08:36:35Z"
+  "lastSuccessfulPublishAt": "2026-11-21T09:53:49Z"
  }
 }
