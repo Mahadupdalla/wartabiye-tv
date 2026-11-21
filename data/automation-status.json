@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-21T06:36:37+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-21T06:41:36+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-21T00:57:09Z",
  "newestArticleAt": "2026-11-21T02:45:00+03:00",
- "lastSourceCheckAt": "2026-11-21T06:35:22+03:00",
- "sourceChecks24h": 290,
- "publishedArticles": 1107,
+ "lastSourceCheckAt": "2026-11-21T06:40:20+03:00",
+ "sourceChecks24h": 289,
+ "publishedArticles": 1121,
  "liveArticles": 1107,
  "waitingForImage": 123,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-21T00:57:09Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44847156072"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-11T19:06:51+00:00",
+  "since": "2026-11-21T03:41:35+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-21T03:54:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-21T06:10:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -42,15 +47,15 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-21T06:35:13+03:00",
-   "lastSuccessAt": "2026-11-21T06:35:13+03:00",
+   "lastCheckAt": "2026-11-21T06:40:11+03:00",
+   "lastSuccessAt": "2026-11-21T06:40:11+03:00",
    "lastReportAt": "2026-11-21T01:00:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-21T03:58:00+03:00",
+  "lastSourceCheckAt": "2026-11-21T06:10:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
@@ -66,30 +71,20 @@
    "source": "Wartabiye TV",
    "url": "/war/2026-11-21-isbeddel-golaha-wasiirrada-wasiirka-gaashaandhigga.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 62,
+  "publishedLastRun": 0,
+  "rejectedLastRun": 60,
   "rejectedReasons": {
-   "duplicate": 60,
+   "duplicate": 58,
    "on-site": 2
   },
   "taskRejectedReasons": [
-   "Jabuuti oo shaacisay inay ka hortagtay qabsashada garoonka Beledweyne (Caasimada): nuqul – horay loo daabacay 20 Nov (war-saxaafadeedka Jabuuti)",
-   "MAANHADAL: Waxka bedelka Dastuurka Puntland (Daljir): ra'yi/falanqayn, war ma aha",
-   "Soomaaliya, Imaaraadka, Masar iyo 13 dal oo isku mowqif ka noqday (Caasimada): headline-only; mawduuca lama caddeyn karo, Hiiraan/Goobjoog ma jiraan -> lama daabicin",
-   "Dal Soomaaliya deris la ah ... Muslimiinta (BBC Somali): war caalami/bulsho, Soomaaliya war cusub ma aha",
-   "Shan dal oo dalxiiska ku habboon (BBC Somali): war ma aha",
-   "Ciidan loo diyaariyey ilaalinta madaxda (Caasimada): headline-only; il kale lama helin",
-   "Mareykanka, Shiinaha iyo Ruushka baaq nabadeed (Goobjoog): falanqayn",
-   "Xoghayaha Golaha Iskaashiga Khaliijka (Horseed): nuqul – bogga waa ku jiraa 20 Nov",
-   "Nin isagoo nool Hargeysa lagu aasi gaadhay (Caasimada): headline-only; il kale lama helin",
-   "Xiritaanka xafiiska siyaasadda QM (BBC Somali): falanqayn",
-   "Guddoomiyaha SoDMA Oslo (Radio Muqdisho): borotokool, war cusub ma laha",
-   "DF iyo maamul goboleedyada heshiis (Caasimada): nuqul – shirka wasiirrada maaliyadda waa ku jiraa",
-   "Golaha Wasiirrada / Imaaraadka (Radio Muqdisho, Shabelle): nuqul",
-   "Empty Chairs at Villa Somalia (Puntland Post): ra'yi",
-   "Ethiopia aviation cooperation (Fana): borotokool",
-   "Wasiirka Cadaaladda shir cafis maxaabiis (Shabelle): headline-only; il kale lama helin",
-   "UK / Xasan Sheekh; Imaaraadka; Xamse; Sweden; Norway; COP31 Soomaaliya: nuqul – bogga waa ku jira"
+   "Ayaan Caydiid oo ninkeedu xildhibaan noqday, dacwad Mareykan (Horseed): headline-only; Hiiraan/Goobjoog none, WebSearch en none -> lama daabicin",
+   "Ra'iisul wasaare Xamse: Imaaraadka ayaa mas'uul ka ah Koonfur Galbeed (Goobjoog): nuqul - bogga waa ku jiraa 20 Nov",
+   "Xamse oo mucaaradka ugu baaqay (Hiiraan): nuqul - bogga waa ku jiraa",
+   "Golaha Siyaasiyiinta Puntland / mamnuuca shirarka Garoowe (Puntland Post, Horseed): nuqul - bogga waa ku jiraa",
+   "Imaaraadka safaaradda Muqdisho (Hiiraan, Horseed): nuqul",
+   "Wararka kale ee Soomaaliya ee 24-ka saac (BBC Somali, Caasimada, Shabelle, Daljir, Goobjoog, Radio Muqdisho, Fana): sababihii orodkii 03:08 weli way taagan yihiin (nuqul / ra'yi / borotokool / headline-only il kale lama helin)",
+   "SONNA: WebSearch site:sonna.so - war cusub lama helin"
   ],
   "waitingForImage": 11,
   "waitingIds": [
