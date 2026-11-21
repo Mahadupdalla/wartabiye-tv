@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-21T08:45:09Z",
+ "lastCheckAt": "2026-11-21T09:40:09Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-09": {
@@ -121,7 +121,7 @@
   "2026-11-21": {
    "written": 0,
    "merged": 0,
-   "skipped": 70,
+   "skipped": 75,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -129,15 +129,6 @@
   }
  },
  "done": {
-  "00bbe00c565bc377": "2026-11-18T09:10:09Z",
-  "6bb95f5b7f287d61": "2026-11-18T09:15:10Z",
-  "7f602e2f645444f4": "2026-11-18T09:15:10Z",
-  "5fb3ae69e35e13c4": "2026-11-18T09:15:10Z",
-  "0945ad7dd67dd7c8": "2026-11-18T09:15:10Z",
-  "f3afaeaf6b65107c": "2026-11-18T09:15:10Z",
-  "33cd2694a5950520": "2026-11-18T09:25:09Z",
-  "0bed3842a76fd9a4": "2026-11-18T09:25:09Z",
-  "80d78c322c3c796e": "2026-11-18T09:40:08Z",
   "f183011ed93e7069": "2026-11-18T09:55:11Z",
   "c5f790c60fb053cc": "2026-11-18T09:55:11Z",
   "6761e82c8b8595ae": "2026-11-18T10:10:10Z",
@@ -831,19 +822,72 @@
   "d3ae8b6abe0629b8": "2026-11-21T08:35:09Z",
   "1f858df1380819aa": "2026-11-21T08:40:09Z",
   "25e287884892cba2": "2026-11-21T08:40:09Z",
-  "d0e65f19e226586a": "2026-11-21T08:45:09Z"
+  "d0e65f19e226586a": "2026-11-21T08:45:09Z",
+  "f01cf604f34c52f1": "2026-11-21T09:00:09Z",
+  "040c95d5f0395ef6": "2026-11-21T09:05:09Z",
+  "c89b852dfdc603c6": "2026-11-21T09:25:09Z",
+  "e47c150ec2c76fc8": "2026-11-21T09:30:10Z",
+  "09f042383a8378d3": "2026-11-21T09:40:09Z"
  },
  "recent": [
   {
-   "at": "2026-11-21T08:45:09Z",
+   "at": "2026-11-21T09:40:09Z",
    "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "Al Jazeera",
-   "title": "Swimmer braves tanker attacks to expose Hormuz contamination",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/21/swimmer-braves-tanker-attacks-to-expose-hormuz-contamination?traffic_source=rss"
+   "reason": "older than 90 minutes",
+   "source": "BBC News",
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-21T08:45:09Z",
+   "at": "2026-11-21T09:40:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC Somali",
+   "title": "Dhageyso:Yaa sameyay Heesta gilgishay baraha bulshada Carabta iyo Soomaalida kadib khilaafka Muqdisho iyo Abu Dubai",
+   "url": "https://www.bbc.com/somali/articles/cq5y1lvg9d80o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-21T09:40:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "France braces for fresh protests as social unrest enters sixth week",
+   "url": "https://www.france24.com/en/france/20261121-live-france-braces-for-fresh-protests-as-social-unrest-enters-sixth-week"
+  },
+  {
+   "at": "2026-11-21T09:40:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "'Killer robots' talks at UN end with no legally binding ban",
+   "url": "https://www.dw.com/en/killer-robots-talks-at-un-end-with-no-legally-binding-ban/a-80008584?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-21T09:40:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "French police officers guilty of Michel Zecler assault: What happens now?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/french-police-officers-guilty-of-michel-zecler-assault-what-happens-now?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:40:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Harry Kane to miss ‘a few months’ after injury as Bayern Munich draw",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/ballon-dor-kane-to-miss-a-few-months-after-injury-as-bayern-munich-held?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:40:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:40:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -851,87 +895,247 @@
    "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T08:45:09Z",
+   "at": "2026-11-21T09:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "France braces for fresh protests as social unrest enters sixth week",
+   "url": "https://www.france24.com/en/france/20261121-live-france-braces-for-fresh-protests-as-social-unrest-enters-sixth-week"
+  },
+  {
+   "at": "2026-11-21T09:35:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
-   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
-   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
+   "title": "'Killer robots' talks at UN end with no legally binding ban",
+   "url": "https://www.dw.com/en/killer-robots-talks-at-un-end-with-no-legally-binding-ban/a-80008584?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-21T08:45:09Z",
+   "at": "2026-11-21T09:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "French police officers guilty of Michel Zecler assault: What happens now?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/french-police-officers-guilty-of-michel-zecler-assault-what-happens-now?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Harry Kane to miss ‘a few months’ after injury as Bayern Munich draw",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/ballon-dor-kane-to-miss-a-few-months-after-injury-as-bayern-munich-held?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gianni Infantino’s FIFA re-election backed by South America’s CONMEBOL",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:35:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-21T08:45:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least four killed, 35 injured in fire at power station in Iraq’s Basra",
-   "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:40:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "Man convicted of arson over deadly 2025 Palisades fire in Los Angeles",
-   "url": "https://www.dw.com/en/man-convicted-of-arson-over-deadly-2025-palisades-fire-in-los-angeles/a-80007933?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:40:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Three US citizens among 4 convicted in Honduras over sex-trafficking case",
-   "url": "https://www.aljazeera.com/news/2026/11/21/three-us-citizens-among-4-convicted-in-honduras-over-sex-trafficking-case?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
-   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least four killed, 35 injured in fire at power station in Iraq’s Basra",
-   "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:35:09Z",
+   "at": "2026-11-21T09:30:10Z",
    "result": "skipped",
    "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "Spain court grants bail to pro-Palestinian activist James ‘Fergie’ Chambers",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/21/spain-court-grants-bail-to-pro-palestinian-activist-james-fergie-chambers-2?traffic_source=rss"
+   "title": "Fire sprinkler sprays water at flame-covered sign in China",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/21/fire-sprinkler-sprays-water-at-flame-covered-sign-in-china?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T08:35:09Z",
+   "at": "2026-11-21T09:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "France braces for fresh protests as social unrest enters sixth week",
+   "url": "https://www.france24.com/en/france/20261121-live-france-braces-for-fresh-protests-as-social-unrest-enters-sixth-week"
+  },
+  {
+   "at": "2026-11-21T09:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "'Killer robots' talks at UN end with no legally binding ban",
+   "url": "https://www.dw.com/en/killer-robots-talks-at-un-end-with-no-legally-binding-ban/a-80008584?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-21T09:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "French police officers guilty of Michel Zecler assault: What happens now?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/french-police-officers-guilty-of-michel-zecler-assault-what-happens-now?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Harry Kane to miss ‘a few months’ after injury as Bayern Munich draw",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/ballon-dor-kane-to-miss-a-few-months-after-injury-as-bayern-munich-held?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gianni Infantino’s FIFA re-election backed by South America’s CONMEBOL",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-21T09:25:09Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "US Agriculture Department and FBI hit by cyberattacks, media report",
-   "url": "https://www.france24.com/en/americas/20261121-us-agriculture-department-fbi-hit-by-cyberattacks-media-report"
+   "source": "DW News",
+   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
+   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-21T08:35:09Z",
+   "at": "2026-11-21T09:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "France braces for fresh protests as social unrest enters sixth week",
+   "url": "https://www.france24.com/en/france/20261121-live-france-braces-for-fresh-protests-as-social-unrest-enters-sixth-week"
+  },
+  {
+   "at": "2026-11-21T09:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "'Killer robots' talks at UN end with no legally binding ban",
+   "url": "https://www.dw.com/en/killer-robots-talks-at-un-end-with-no-legally-binding-ban/a-80008584?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-21T09:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "French police officers guilty of Michel Zecler assault: What happens now?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/french-police-officers-guilty-of-michel-zecler-assault-what-happens-now?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Harry Kane to miss ‘a few months’ after injury as Bayern Munich draw",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/ballon-dor-kane-to-miss-a-few-months-after-injury-as-bayern-munich-held?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gianni Infantino’s FIFA re-election backed by South America’s CONMEBOL",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-21T09:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "France braces for fresh protests as social unrest enters sixth week",
+   "url": "https://www.france24.com/en/france/20261121-live-france-braces-for-fresh-protests-as-social-unrest-enters-sixth-week"
+  },
+  {
+   "at": "2026-11-21T09:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "'Killer robots' talks at UN end with no legally binding ban",
+   "url": "https://www.dw.com/en/killer-robots-talks-at-un-end-with-no-legally-binding-ban/a-80008584?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-21T09:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "French police officers guilty of Michel Zecler assault: What happens now?",
+   "url": "https://www.aljazeera.com/news/2026/11/21/french-police-officers-guilty-of-michel-zecler-assault-what-happens-now?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Harry Kane to miss ‘a few months’ after injury as Bayern Munich draw",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/ballon-dor-kane-to-miss-a-few-months-after-injury-as-bayern-munich-held?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gianni Infantino’s FIFA re-election backed by South America’s CONMEBOL",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-21T09:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -939,47 +1143,119 @@
    "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-21T08:35:09Z",
+   "at": "2026-11-21T09:15:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:15:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gianni Infantino’s FIFA re-election backed by South America’s CONMEBOL",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-21T08:35:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least four killed, 35 injured in fire at power station in Iraq’s Basra",
-   "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:35:09Z",
+   "at": "2026-11-21T09:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
-   "title": "Man convicted of arson over deadly 2025 Palisades fire in Los Angeles",
-   "url": "https://www.dw.com/en/man-convicted-of-arson-over-deadly-2025-palisades-fire-in-los-angeles/a-80007933?maca=en-rss-en-all-1573-rdf"
+   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
+   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-21T08:35:09Z",
+   "at": "2026-11-21T09:10:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Three US citizens among 4 convicted in Honduras over sex-trafficking case",
-   "url": "https://www.aljazeera.com/news/2026/11/21/three-us-citizens-among-4-convicted-in-honduras-over-sex-trafficking-case?traffic_source=rss"
+   "title": "Harry Kane to miss ‘a few months’ after injury as Bayern Munich draw",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/ballon-dor-kane-to-miss-a-few-months-after-injury-as-bayern-munich-held?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T08:30:09Z",
+   "at": "2026-11-21T09:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gianni Infantino’s FIFA re-election backed by South America’s CONMEBOL",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-21T09:10:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
+   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-21T09:05:09Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "Three El Salvador soldiers die in explosives accident in Haiti",
-   "url": "https://www.dw.com/en/three-el-salvador-soldiers-die-in-explosives-accident-in-haiti/a-80008005?maca=en-rss-en-all-1573-rdf"
+   "source": "BBC News",
+   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
+   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-21T08:30:09Z",
+   "at": "2026-11-21T09:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Harry Kane to miss ‘a few months’ after injury as Bayern Munich draw",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/ballon-dor-kane-to-miss-a-few-months-after-injury-as-bayern-munich-held?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Gianni Infantino’s FIFA re-election backed by South America’s CONMEBOL",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-21T09:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-21T09:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -987,287 +1263,39 @@
    "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-21T08:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least four killed, 35 injured in fire at power station in Iraq’s Basra",
-   "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Man convicted of arson over deadly 2025 Palisades fire in Los Angeles",
-   "url": "https://www.dw.com/en/man-convicted-of-arson-over-deadly-2025-palisades-fire-in-los-angeles/a-80007933?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Three US citizens among 4 convicted in Honduras over sex-trafficking case",
-   "url": "https://www.aljazeera.com/news/2026/11/21/three-us-citizens-among-4-convicted-in-honduras-over-sex-trafficking-case?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "US Agriculture Department and FBI hit by cyberattacks, media report",
-   "url": "https://www.france24.com/en/americas/20261121-us-agriculture-department-fbi-hit-by-cyberattacks-media-report"
-  },
-  {
-   "at": "2026-11-21T08:25:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
-   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:25:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:25:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least four killed, 35 injured in fire at power station in Iraq’s Basra",
-   "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:25:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Man convicted of arson over deadly 2025 Palisades fire in Los Angeles",
-   "url": "https://www.dw.com/en/man-convicted-of-arson-over-deadly-2025-palisades-fire-in-los-angeles/a-80007933?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:25:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Three US citizens among 4 convicted in Honduras over sex-trafficking case",
-   "url": "https://www.aljazeera.com/news/2026/11/21/three-us-citizens-among-4-convicted-in-honduras-over-sex-trafficking-case?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:25:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "US Agriculture Department and FBI hit by cyberattacks, media report",
-   "url": "https://www.france24.com/en/americas/20261121-us-agriculture-department-fbi-hit-by-cyberattacks-media-report"
-  },
-  {
-   "at": "2026-11-21T08:25:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Three El Salvador soldiers die in explosives accident in Haiti",
-   "url": "https://www.dw.com/en/three-el-salvador-soldiers-die-in-explosives-accident-in-haiti/a-80008005?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
-   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least four killed, 35 injured in fire at power station in Iraq’s Basra",
-   "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Man convicted of arson over deadly 2025 Palisades fire in Los Angeles",
-   "url": "https://www.dw.com/en/man-convicted-of-arson-over-deadly-2025-palisades-fire-in-los-angeles/a-80007933?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Three US citizens among 4 convicted in Honduras over sex-trafficking case",
-   "url": "https://www.aljazeera.com/news/2026/11/21/three-us-citizens-among-4-convicted-in-honduras-over-sex-trafficking-case?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "US Agriculture Department and FBI hit by cyberattacks, media report",
-   "url": "https://www.france24.com/en/americas/20261121-us-agriculture-department-fbi-hit-by-cyberattacks-media-report"
-  },
-  {
-   "at": "2026-11-21T08:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Three El Salvador soldiers die in explosives accident in Haiti",
-   "url": "https://www.dw.com/en/three-el-salvador-soldiers-die-in-explosives-accident-in-haiti/a-80008005?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:15:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
-   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:15:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:15:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least four killed, 35 injured in fire at power station in Iraq’s Basra",
-   "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:15:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Man convicted of arson over deadly 2025 Palisades fire in Los Angeles",
-   "url": "https://www.dw.com/en/man-convicted-of-arson-over-deadly-2025-palisades-fire-in-los-angeles/a-80007933?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:15:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Three US citizens among 4 convicted in Honduras over sex-trafficking case",
-   "url": "https://www.aljazeera.com/news/2026/11/21/three-us-citizens-among-4-convicted-in-honduras-over-sex-trafficking-case?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:15:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "US Agriculture Department and FBI hit by cyberattacks, media report",
-   "url": "https://www.france24.com/en/americas/20261121-us-agriculture-department-fbi-hit-by-cyberattacks-media-report"
-  },
-  {
-   "at": "2026-11-21T08:15:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Three El Salvador soldiers die in explosives accident in Haiti",
-   "url": "https://www.dw.com/en/three-el-salvador-soldiers-die-in-explosives-accident-in-haiti/a-80008005?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:10:10Z",
+   "at": "2026-11-21T09:00:09Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
-   "source": "BBC Somali",
-   "title": "Sirta boorsada nukliyeerka ee Putin: Yaa sida, sideese loo maamulaa hubka nukliyeerka ee halkaa ku jira?",
-   "url": "https://www.bbc.com/somali/articles/c9kgmxnpdjzpo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "US judge jails Indian national in foiled Sikh separatist murder plot",
-   "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
    "title": "At least four killed, 35 injured in fire at power station in Iraq’s Basra",
    "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T08:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Man convicted of arson over deadly 2025 Palisades fire in Los Angeles",
-   "url": "https://www.dw.com/en/man-convicted-of-arson-over-deadly-2025-palisades-fire-in-los-angeles/a-80007933?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:10:10Z",
+   "at": "2026-11-21T09:00:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Three US citizens among 4 convicted in Honduras over sex-trafficking case",
-   "url": "https://www.aljazeera.com/news/2026/11/21/three-us-citizens-among-4-convicted-in-honduras-over-sex-trafficking-case?traffic_source=rss"
+   "title": "Illicit alcohol kills 11, poisons 180 in northeast India’s Manipur state",
+   "url": "https://www.aljazeera.com/news/2026/11/21/suspected-toxic-alcohol-kills-at-least-11-people-in-northeast-india?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T08:10:10Z",
+   "at": "2026-11-21T09:00:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "US Agriculture Department and FBI hit by cyberattacks, media report",
-   "url": "https://www.france24.com/en/americas/20261121-us-agriculture-department-fbi-hit-by-cyberattacks-media-report"
+   "source": "Al Jazeera",
+   "title": "Gianni Infantino’s FIFA re-election backed by South America’s CONMEBOL",
+   "url": "https://www.aljazeera.com/sports/2026/11/21/gianni-infantinos-fifa-re-election-backed-by-south-americas-conmebol?traffic_source=rss"
   },
   {
-   "at": "2026-11-21T08:10:10Z",
+   "at": "2026-11-21T09:00:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Three El Salvador soldiers die in explosives accident in Haiti",
-   "url": "https://www.dw.com/en/three-el-salvador-soldiers-die-in-explosives-accident-in-haiti/a-80008005?maca=en-rss-en-all-1573-rdf"
+   "source": "BBC News",
+   "title": "Trafalgar Square Christmas tree felled in Norway",
+   "url": "https://www.bbc.co.uk/news/articles/cx8dv4327dnpo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-21T08:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Sirta boorsada nukliyeerka ee Putin: Yaa sida, sideese loo maamulaa hubka nukliyeerka ee halkaa ku jira?",
-   "url": "https://www.bbc.com/somali/articles/c9kgmxnpdjzpo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:05:09Z",
+   "at": "2026-11-21T09:00:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -1275,44 +1303,12 @@
    "url": "https://www.dw.com/en/us-judge-jails-indian-national-in-foiled-sikh-separatist-murder-plot/live-80008104?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-21T08:05:09Z",
+   "at": "2026-11-21T09:00:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
    "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
    "url": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-21T08:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least two killed, 28 injured in fire at power station in Iraq’s Basra",
-   "url": "https://www.aljazeera.com/news/2026/11/21/at-least-two-people-killed-as-fire-engulfs-power-station-in-southern-iraq?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Man convicted of arson over deadly 2025 Palisades fire in Los Angeles",
-   "url": "https://www.dw.com/en/man-convicted-of-arson-over-deadly-2025-palisades-fire-in-los-angeles/a-80007933?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-21T08:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Three US citizens among 4 convicted in Honduras over sex-trafficking case",
-   "url": "https://www.aljazeera.com/news/2026/11/21/three-us-citizens-among-4-convicted-in-honduras-over-sex-trafficking-case?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-21T08:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "US Agriculture Department and FBI hit by cyberattacks, media report",
-   "url": "https://www.france24.com/en/americas/20261121-us-agriculture-department-fbi-hit-by-cyberattacks-media-report"
   }
  ]
 }
