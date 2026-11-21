@@ -15,6 +15,10 @@ on:
         description: 'Lost your phone AND the recovery codes? Type RESET to remove the authenticator app (you set a new one at the next sign-in; GitHub sign-in is still required).'
         required: false
         default: ''
+      reset_github_app:
+        description: 'Admin sign-in shows a GitHub 404 page because the GitHub App was deleted? Type RESET to forget it; then open the admin and press "Create the GitHub App" again while signed in to GitHub as the repository owner.'
+        required: false
+        default: ''
 permissions:
   contents: write
   actions: write
@@ -127,6 +131,12 @@ jobs:
         run: |
           npx wrangler d1 execute wartabiye-admin --remote --command "DELETE FROM mfa; DELETE FROM sessions; INSERT INTO audit (ts, event, ok, detail) VALUES (strftime('%s','now'), 'mfa_reset', 1, 'authenticator removed by workflow run ${{ github.run_id }} (${{ github.actor }})');"
           echo "::warning::Authenticator removed. The next sign-in (GitHub owner only) sets up a new one."
+      - name: Forget the GitHub App (only when asked)
+        if: steps.cf.outputs.ready == 'yes' && github.event.inputs.reset_github_app == 'RESET'
+        run: |
+          npx wrangler d1 execute wartabiye-admin --remote --command "DELETE FROM config WHERE k = 'github_app'; DELETE FROM sessions; INSERT INTO audit (ts, event, ok, detail) VALUES (strftime('%s','now'), 'github_app_reset', 1, 'GitHub App removed by workflow run ${{ github.run_id }} (${{ github.actor }})');"
+          if npx wrangler secret list 2>/dev/null | grep -q 'GITHUB_CLIENT_ID'; then npx wrangler secret delete GITHUB_CLIENT_ID --force >/dev/null || true; npx wrangler secret delete GITHUB_CLIENT_SECRET --force >/dev/null || true; fi
+          echo "::warning::GitHub App forgotten. Open the admin while signed in to GitHub as the repository owner and press Create the GitHub App."
       - name: Check it is live and closed to strangers
         if: steps.cf.outputs.ready == 'yes'
         env: { URL: '${{ steps.deploy.outputs.url }}' }
