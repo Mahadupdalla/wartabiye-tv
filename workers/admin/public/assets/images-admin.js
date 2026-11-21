@@ -99,7 +99,7 @@
       fetch(s + 'data/image-report.json' + cb, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
       fetch(s + 'data/image-registry.json' + cb, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
       C().gh('GET', '/repos/' + C().repo() + '/contents/data/image-settings.json').then(function (f) { SETTINGS_SHA = f.sha; return JSON.parse(decodeURIComponent(escape(atob(f.content.replace(/\n/g, ''))))); }).catch(function () { return null; }),
-    ]).then(function (r) { REPORT = r[0] || { articles: [], providers: {} }; REG = (r[1] && r[1].images) || {}; SETTINGS = r[2] || { noPhoto: 'category-graphic' }; });
+    ]).then(function (r) { REPORT = r[0] || { articles: [], providers: {} }; REG = (r[1] && r[1].images) || {}; SETTINGS = r[2] || { noPhoto: 'hold' }; });
   }
   function flagsOf(id) { var row = (REPORT.articles || []).find(function (x) { return x.id === id; }); return (row && row.flags) || []; }
   function usesOf(a) {
@@ -142,12 +142,13 @@
     el.append(h('div', { class: 'hero' }, h('div', null, h('h2', { text: 'Image sources' }),
       h('p', { text: 'Every article photo with its source, photographer, licence and status. Status comes from the facts only: a photo is never marked Verified by hand. ' + (REPORT.updatedAt ? 'Report from ' + C().fmtDate(REPORT.updatedAt) + '. ' : '') + 'Photo sources: ' + provLine + '.' }))));
     // setting: no accurate photo
-    var mode = C().sel(SETTINGS.noPhoto || 'category-graphic', [['category-graphic', 'Publish with the category graphic'], ['hold', 'Keep the story as a draft (Sugaya sawir)']]);
+    // owner's rule of 21 Nov 2026: no image, no publication (the category-graphic option was removed)
+    var mode = C().sel('hold', [['hold', 'Keep the story as a draft (Sugaya sawir) until a photo is uploaded']]);
     var saveMode = h('button', { class: 'btn small', type: 'button', text: 'Save', onclick: function () {
       var s = Object.assign({}, SETTINGS, { noPhoto: mode.value });
       C().commitFiles([{ path: 'data/image-settings.json', text: JSON.stringify(s, null, 2) + '\n', expect: SETTINGS_SHA }], 'Maamul: sawirrada: ' + (mode.value === 'hold' ? 'sug sawir' : 'sawirka qaybta')).then(function () { C().toast('Saved. The news automation uses it from its next run.'); return loadExtra(true); }).then(function () { draw(el); }).catch(function (e) { C().toast(e.message, true); });
     } });
-    el.append(h('div', { class: 'card' }, h('div', { class: 'two' }, C().field('When no accurate photo with usable rights is found', mode, 'The category graphic is labelled "Category graphic" on the website, never shown as a photo of the event.'), h('div', { style: 'align-self:end' }, saveMode))));
+    el.append(h('div', { class: 'card' }, h('div', { class: 'two' }, C().field('When no accurate photo with usable rights is found', mode, 'No image, no publication: the story is not published until it has a relevant photo with usable rights. Upload one in Articles → Waiting for photo.'), h('div', { style: 'align-self:end' }, saveMode))));
     var seg = h('div', { class: 'seg' });
     [['review', 'Needs review'], ['match', 'Check match'], ['all', 'All']].concat(['VERIFIED', 'ATTRIBUTION_REQUIRED', 'LICENSE_UNCLEAR', 'EDITOR_UPLOAD', 'CATEGORY_GRAPHIC', 'AI_ILLUSTRATION', 'NO_IMAGE'].map(function (k) { return [k, LABEL[k] + ' (' + (counts[k] || 0) + ')']; }))
       .forEach(function (t) { seg.append(h('button', { type: 'button', 'aria-pressed': String(F.f === t[0]), text: t[1], onclick: function () { F.f = t[0]; F.limit = 60; draw(el); } })); });
@@ -211,7 +212,7 @@
       h('a', { class: 'btn', href: '#articles?edit=' + encodeURIComponent(a.id), text: 'Edit article', onclick: function () { m.remove(); } }),
       h('button', { class: 'btn', type: 'button', text: 'Upload another', onclick: function () { C().pickFile(function (f) { C().cropDialog(f, a.id, function (res) { m.remove(); saveUpload(a, res, el); }); }); } }),
       h('button', { class: 'btn', type: 'button', text: 'Search for another', onclick: function () { m.remove(); searchModal(a, function (res) { savePick(a, res, el); }); } }),
-      a.image && r.status !== 'CATEGORY_GRAPHIC' ? h('button', { class: 'btn danger', type: 'button', text: 'Reject', onclick: function () { if (confirm('Reject this photo? The article gets its category graphic until you choose another one.')) { m.remove(); reject(a, el); } } }) : null,
+      a.image && r.status !== 'CATEGORY_GRAPHIC' ? h('button', { class: 'btn danger', type: 'button', text: 'Reject', onclick: function () { if (confirm('Reject this photo? The article leaves the website (Waiting for photo) until you add another one.')) { m.remove(); reject(a, el); } } }) : null,
       a.image ? h('button', { class: 'btn primary', type: 'button', text: r.status === 'EDITOR_UPLOAD' ? 'I own it / have permission: approve' : 'Approve', onclick: function () { m.remove(); approve(a, r, el); } }) : null,
     ].filter(Boolean);
     var m = C().modal('Image record: ' + (a.title || a.id), body, acts);
@@ -261,11 +262,12 @@
     commitArticle(a, n, [], 'Maamul: sawirka waa la oggolaaday "' + a.id + '"', 'Photo approved').then(function () { draw(el); }).catch(function (e) { C().toast(e.message, true); });
   }
   function reject(a, el) {
-    var n = base(a), g = categoryGraphic(a);
-    n.imageRights = clean({ source: 'Wartabiye TV', sourceType: 'category', license: 'Wartabiye TV', status: 'CATEGORY_GRAPHIC', approval: 'approved', retrievedAt: C().nowMogadishu(), history: hist(a, 'rejected', { reason: 'rejected in /admin/' }) });
-    Object.assign(n, { image: g, imageKind: 'category', imageCredit: 'Wartabiye TV', imageLicense: 'Wartabiye TV', imageAlt: 'Sawirka qaybta ' + (a.category || 'wararka') + ' ee Wartabiye TV' });
-    delete n.imageSourceUrl; delete n.imageFocus;
-    oldFileChanges(a, g).then(function (ch) { return commitArticle(a, n, ch, 'Maamul: sawirka waa la diiday "' + a.id + '"', 'Photo rejected'); }).then(function () { draw(el); }).catch(function (e) { C().toast(e.message, true); });
+    // no image, no publication (21 Nov 2026): a rejected photo takes the story off the site until another photo is added
+    var n = base(a);
+    n.imageRights = clean({ history: hist(a, 'rejected', { reason: 'rejected in /admin/' }) });
+    Object.assign(n, { image: null, published: false, imagePending: true, imageNote: 'Sawirka waa la diiday. Geli sawir kale, kadibna daabac.' });
+    ['imageKind', 'imageCredit', 'imageLicense', 'imageAlt', 'imageSourceUrl', 'imageFocus'].forEach(function (k) { delete n[k]; });
+    oldFileChanges(a, null).then(function (ch) { return commitArticle(a, n, ch, 'Maamul: sawirka waa la diiday "' + a.id + '"', 'Photo rejected'); }).then(function () { draw(el); }).catch(function (e) { C().toast(e.message, true); });
   }
   function saveUpload(a, res, el) {
     sha256(res.bytes).then(function (sh) {

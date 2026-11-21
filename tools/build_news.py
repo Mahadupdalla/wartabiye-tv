@@ -40,13 +40,15 @@ def result_card(n):
 
 
 def needs_photo(n):
-    return n.get('by') != 'admin' and not result_card(n) and (n.get('publishedAt') or '')[:10] >= PHOTO_RULE_FROM
+    # NO IMAGE, NO PUBLICATION (owner's rule of 21 Nov 2026): every article, old or new, automatic or written in /admin/,
+    # needs a valid featured photo; only the automatic match-result cards draw their own picture (crests + score)
+    return not result_card(n)
 
 
 def image_ok(n):
-    # its own photo, or the WARTABIYE TV category graphic (img/category/) when no accurate legal photo exists
-    img = (n.get('image') or '').lstrip('/')
-    return img.startswith('img/') and os.path.isfile(os.path.join(root, img))
+    # its own photo file (tools/image_system.py image_problem: saved under img/, real picture content, not empty, not a
+    # remote link); the WARTABIYE TV category graphic (img/category/) no longer counts as an article image
+    return image_system.image_problem(n, root) is None
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Banned addresses (tools/east_africa.py EXCLUDED_SITES; empty since the owner lifted the Somalia ban on 8 Nov 2026):
 # a NEW automatic article from one is not published. The owner's own articles are never touched.
@@ -74,7 +76,8 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     # photo rule: an automatic article from the photo-rule date on is only published with its own image file;
     # otherwise it stays a draft in /admin/ under "Sugaya sawir" until the owner adds a photo
     if needs_photo(n) and not image_ok(n):
-        print(f"{n['id']}: no image file, kept as draft (Sugaya sawir)")
+        print(f"{n['id']}: not published, {image_system.image_problem(n, root)} (Sugaya sawir: add a photo in /admin/)")
+        pending.append(n['id'])
         continue
     if n.get('image') and n['image'].startswith('/'):
         n['image'] = n['image'].lstrip('/')

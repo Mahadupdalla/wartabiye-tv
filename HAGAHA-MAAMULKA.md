@@ -39,6 +39,7 @@ Browser: isticmaal Chrome, Edge, Safari ama Firefox oo la cusboonaysiiyay (Chrom
 - **Beddel:** fur war kasta, beddel cinwaanka, qoraalka ama sawirka, kadibna riix **Save**.
 - **Tirtir:** fur warka → ⋮ (sare, midig) → **Delete**.
 - **Degdeg (12 saac):** wuxuu warka ku tusaa calaamad DEGDEG ah 12 saac.
+- **Sawir la'aan, daabacaad la'aan:** war aan sawir sax ah lahayn bogga kama muuqdo. Hawsha wararka iyo hubinta daabacaadda waxay dhigaan **Waiting for photo / Sugaya sawir** (sababta waa ku qoran tahay). Fur warka, geli sawir la xiriira warka (adiga leh ama liisan sharci ah), kadibna riix **Publish**. Sawirka qaybta looma isticmaalo sawirka warka.
 
 - **Qaybta weyn (section):** Soomaaliya, Caalamka ama Ciyaaraha. Haddii aad banaanayso, qaybta (category) ayaa go'aamisa.
 - **Ciyaaraha:** dooro **Nooca ciyaarta** (kubadda cagta, orodka, F1 …), **Tartanka** (Premier League, AFCON …) iyo **Nooca warka** (suuq-geynta, warbixin ciyaar, ciyaaryahan, koox). Bogga Ciyaaraha wuxuu ku shaandheeyaa.

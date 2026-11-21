@@ -26,6 +26,8 @@ jobs:
         run: |
           for d in 5 15 30; do pip install -q pillow && break; echo "pip failed, retrying in $d s"; sleep $d; done
           python3 tools/make_thumbs.py
+      - name: No image, no publication (an article without a valid photo goes to Sugaya sawir for the owner)
+        run: python3 tools/image_system.py enforce --no-search
       - name: Image usage database and image sources report (img fingerprints, earlier uses, licence status)
         run: python3 tools/image_system.py audit
       - name: Build news.json and ads.json
