@@ -13,12 +13,12 @@
    "18:00"
   ],
   "windowMinutes": 55,
-  "nextRun": "2026-11-14T08:00+03:00"
+  "nextRun": "2026-11-21T18:00+03:00"
  },
- "lastCheckAt": "2026-11-13T19:32:00+03:00",
+ "lastCheckAt": "2026-11-21T16:12:02+03:00",
  "lastRun": {
-  "skipped": 0,
-  "duplicates": 61,
+  "skipped": 35,
+  "duplicates": 49,
   "failed": 2
  },
  "lastWrittenAt": null,
@@ -31,9 +31,38 @@
    "refused": 0,
    "failed": 8,
    "usd": 0
+  },
+  "2026-11-21": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 35,
+   "refused": 0,
+   "failed": 2,
+   "usd": 0
   }
  },
  "recent": [
+  {
+   "at": "2026-11-21T16:12:02+03:00",
+   "section": "somalia",
+   "source": "dailynews-tz",
+   "title": "TAZARA revival promises stronger Tanzania-China ties and a new trade lifeline across Africa",
+   "url": "https://dailynews.co.tz/tazara-revival-promises-stronger-tanzania-china-ties-and-a-new-trade-lifeline-across-africa-2/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:12:02+03:00",
+   "section": "somalia",
+   "source": "nilepost",
+   "title": "Former Grace Villa Residents Return to Mentor Girls Who Followed Them",
+   "url": "https://nilepost.co.ug/news/389378/former-grace-villa-residents-return-to-mentor-girls-who-followed-them",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
   {
    "at": "2026-11-13T19:32:00+03:00",
    "section": "somalia",
@@ -116,5 +145,5 @@
   }
  ],
  "model": "claude-opus-5-5",
- "routineLastRunMinutesAgo": 259
+ "routineLastRunMinutesAgo": 242
 }
