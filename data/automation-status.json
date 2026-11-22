@@ -1,12 +1,12 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-22T11:41:05+03:00",
+ "updatedAt": "2026-11-22T12:32:11+03:00",
  "overall": "ok",
  "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
  "lastSuccessfulPublishAt": "2026-11-21T20:00:32Z",
  "newestArticleAt": "2026-11-21T13:35:00+03:00",
- "lastSourceCheckAt": "2026-11-22T11:38:32+03:00",
- "sourceChecks24h": 289,
+ "lastSourceCheckAt": "2026-11-22T12:30:23+03:00",
+ "sourceChecks24h": 288,
  "publishedArticles": 1112,
  "liveArticles": 1112,
  "waitingForImage": 157,
@@ -24,11 +24,11 @@
  "writers": {
   "news": {
    "mode": "fallback",
-   "lastCheckAt": "2026-11-22T11:40:53+03:00",
+   "lastCheckAt": "2026-11-22T12:31:55+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 0,
-    "duplicates": 31
+    "skipped": 2,
+    "duplicates": 34
    }
   },
   "sports": {
@@ -41,8 +41,8 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-22T11:38:23+03:00",
-   "lastSuccessAt": "2026-11-22T11:38:23+03:00",
+   "lastCheckAt": "2026-11-22T12:30:14+03:00",
+   "lastSuccessAt": "2026-11-22T12:30:14+03:00",
    "lastReportAt": "2026-11-21T23:00:13+03:00",
    "newReports": 0,
    "failed": []
@@ -106,8 +106,10 @@
    "2026-11-18-wasaaradda-arrimaha-dibadda-cabasho-rasmi-imaaraadka-tallaabo-sharci",
    "2026-11-19-aljeeriya-soomaaliya-khibradda-shidaalka-sonatrach"
   ],
-  "stale": false,
-  "problems": [],
+  "stale": true,
+  "problems": [
+   "The Somali sources have reported no Somalia story for more than 24 hours (check data/world/status.json, sources with country \"so\")."
+  ],
   "lastSuccessfulPublishAt": "2026-11-21T20:00:32Z"
  }
 }
