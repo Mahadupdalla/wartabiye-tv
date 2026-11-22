@@ -1,11 +1,11 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-22T19:28:32+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-22T20:03:42+03:00",
+ "overall": "retrying",
+ "overallText": "Cillad ku meel gaar ah: si otomaatig ah ayaa dib loogu celinayaa",
  "lastSuccessfulPublishAt": "2026-11-22T16:08:20Z",
  "newestArticleAt": "2026-11-22T18:03:00+03:00",
- "lastSourceCheckAt": "2026-11-22T19:25:21+03:00",
+ "lastSourceCheckAt": "2026-11-22T20:00:33+03:00",
  "sourceChecks24h": 288,
  "publishedArticles": 1154,
  "liveArticles": 1154,
@@ -13,12 +13,17 @@
  "liveInSync": true,
  "publishFailures24h": 4,
  "lastPublishRun": {
-  "created_at": "2026-11-22T16:08:20Z",
-  "conclusion": "success",
-  "event": "push",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45042130774"
+  "created_at": "2026-11-22T17:00:32Z",
+  "conclusion": "failure",
+  "event": "workflow_dispatch",
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45046970393"
  },
- "retry": null,
+ "retry": {
+  "attempts": 1,
+  "max": 4,
+  "lastRetryAt": "2026-11-22T17:03:40+00:00",
+  "since": "2026-11-22T17:03:40+00:00"
+ },
  "problems": [],
  "hourlyRoutineLastRunAt": "2026-11-22T19:07:01+03:00",
  "writers": {
@@ -41,10 +46,10 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-22T19:25:13+03:00",
-   "lastSuccessAt": "2026-11-22T19:25:13+03:00",
-   "lastReportAt": "2026-11-21T23:00:13+03:00",
-   "newReports": 0,
+   "lastCheckAt": "2026-11-22T20:00:12+03:00",
+   "lastSuccessAt": "2026-11-22T20:00:12+03:00",
+   "lastReportAt": "2026-11-22T20:00:12+03:00",
+   "newReports": 1,
    "failed": []
   }
  },
