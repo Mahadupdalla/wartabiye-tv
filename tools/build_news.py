@@ -7,6 +7,17 @@ import json, os, glob, datetime, sys
 from translations import LANGS, text_hash, has
 import attribution
 import image_system
+
+
+def is_animated(path):
+    try:
+        from PIL import Image
+        with Image.open(path) as im:
+            return getattr(im, 'n_frames', 1) > 1
+    except Exception:
+        return False
+
+
 PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
 
 # The old article disclaimer box (removed by the owner on 13 November 2026; articles now show only a small
@@ -87,6 +98,19 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         pending.append(n['id']); continue
     # small card image made by tools/make_thumbs.py (publish workflow); cards fall back to the full image without it
     n.pop('thumb', None)
+    # animated photo (a moving result graphic, 22 Nov 2026): the article page shows the full moving file on every
+    # screen size (the small card image stays a still); a translation may carry its own photo ("image" in n[<lang>])
+    n.pop('imageAnimated', None)
+    if n.get('image') and is_animated(os.path.join(root, n['image'])):
+        n['imageAnimated'] = True
+    for lang in LANGS:
+        t = n.get(lang)
+        if isinstance(t, dict) and t.get('image'):
+            li = str(t['image']).lstrip('/')
+            if li.startswith('img/') and os.path.isfile(os.path.join(root, li)):
+                t['image'] = li
+            else:
+                t.pop('image', None)
     if n.get('image'):
         t = os.path.join(os.path.dirname(n['image']), 'w480', os.path.splitext(os.path.basename(n['image']))[0] + '.webp')
         if os.path.isfile(os.path.join(root, t)):

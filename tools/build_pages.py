@@ -248,6 +248,11 @@ art_href = lambda n: f'war/{n["id"]}.html'
 
 def ph(n, big=False, hero=False, lang='so'):
     full, small = n.get('image') or '', n.get('thumb') or ''
+    li = (n.get(lang) or {}).get('image') if lang != 'so' and isinstance(n.get(lang), dict) else None
+    if li:
+        full, small = li, ''
+    elif big and n.get('imageAnimated'):
+        small = ''   # a moving graphic: the full file on every screen size (the 480px card copy is a still)
     src = full if big else (small or full)
     alt = (n.get(lang) or {}).get('imageAlt') if lang != 'so' and isinstance(n.get(lang), dict) else None
     alt = alt or n.get('imageAlt') or n.get('title') or ''
