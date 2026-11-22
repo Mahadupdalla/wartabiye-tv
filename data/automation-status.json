@@ -1,15 +1,15 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-22T15:41:55+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-22T15:57:05+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-21T20:00:32Z",
- "newestArticleAt": "2026-11-21T13:35:00+03:00",
- "lastSourceCheckAt": "2026-11-22T15:40:21+03:00",
+ "newestArticleAt": "2026-11-22T14:07:32+03:00",
+ "lastSourceCheckAt": "2026-11-22T15:55:24+03:00",
  "sourceChecks24h": 287,
- "publishedArticles": 1112,
- "liveArticles": 1112,
- "waitingForImage": 157,
+ "publishedArticles": 1133,
+ "liveArticles": 1133,
+ "waitingForImage": 162,
  "liveInSync": true,
  "publishFailures24h": 0,
  "lastPublishRun": {
@@ -18,17 +18,22 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/44943941675"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-21T08:36:33+00:00",
+  "since": "2026-11-22T12:57:02+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-21T12:10:29+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-22T16:05:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
-   "lastCheckAt": "2026-11-22T15:41:45+03:00",
+   "lastCheckAt": "2026-11-22T15:56:51+03:00",
    "lastWrittenAt": null,
    "lastRun": {
     "skipped": 0,
-    "duplicates": 38
+    "duplicates": 37
    }
   },
   "sports": {
@@ -41,49 +46,47 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-22T15:40:11+03:00",
-   "lastSuccessAt": "2026-11-22T15:40:11+03:00",
+   "lastCheckAt": "2026-11-22T15:55:15+03:00",
+   "lastSuccessAt": "2026-11-22T15:55:15+03:00",
    "lastReportAt": "2026-11-21T23:00:13+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-21T12:10:29+03:00",
+  "lastSourceCheckAt": "2026-11-22T15:58:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-21T11:43:32+03:00",
-   "sourceName": "Goobjoog News",
-   "title": "Taliyaha Guud ee Ciidamada Uganda oo hadal dood dhaliyay ka soo saaray xaaladda Soomaaliya",
-   "url": "https://goobjoog.com/2026/11/21/taliyaha-guud-ee-ciidamada-uganda-oo-hadal-dood-dhaliyay-ka-soo-saaray-xaaladda-soomaaliya"
+   "publishedAt": "2026-11-22T14:30:48+03:00",
+   "sourceName": "Radio Muqdisho (state broadcaster)",
+   "title": "Wasiirka Warfaafinta XFS oo bogaadin ugu tagay Hobollada Qaranka Waaberi",
+   "url": "https://radiomuqdisho.so/wasiirka-warfaafinta-xfs-oo-bogaadin-ugu-tagay-hobollada-qaranka-waaberi/"
   },
   "latestPublished": {
-   "id": "2026-11-21-soomaaliya-turkiga-safaaradda-ankara-xiriir-taariikhi",
-   "title": "Soomaaliya iyo Türkiye: Xiriir Taariikhi ah oo Soo Taxnaa Tobannaan Sano, Safaaradda Ankara oo Galaysa Marxalad Cusub",
-   "publishedAt": "2026-11-21T13:35:00+03:00",
-   "source": "Wartabiye TV",
-   "url": "/war/2026-11-21-soomaaliya-turkiga-safaaradda-ankara-xiriir-taariikhi.html"
+   "id": "2026-11-22-senator-faroole-muddo-xileedka-madaxda-dowladda-dhammaaday",
+   "title": "Senator Faroole: muddo-xileedka madaxweynaha iyo baarlamaanka federaalka waa dhammaaday",
+   "publishedAt": "2026-11-22T14:03:45+03:00",
+   "source": "Puntland Post",
+   "url": "/war/2026-11-22-senator-faroole-muddo-xileedka-madaxda-dowladda-dhammaaday.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 62,
+  "publishedLastRun": 8,
+  "rejectedLastRun": 88,
   "rejectedReasons": {
-   "duplicate": 60,
-   "on-site": 2
+   "old": 6,
+   "duplicate": 82
   },
   "taskRejectedReasons": [
-   "Taliyaha Guud ee Ciidamada Uganda oo hadal dood dhaliyay ka soo saaray xaaladda Soomaaliya: Goobjoog bogga lama furi karo (403), qoraalka X ee Muhoozi faahfaahin lama hayo; hal il -> pending",
-   "PUNTLAND oo kumanaan dollar oo magdhaw ah ku xukuntay isbital kuyaal Garoowe: headline-only (Horseed); Hiiraan/Goobjoog/Puntland Post ma jiro, WebSearch so none -> pending",
-   "Shaqaalihii & ciidamadii dowladda hoose ee Galkacyo oo shaqo-joojin sameeyey: headline-only (Horseed); facts-only ilo ma jiro, WebSearch so none -> pending",
-   "La-taliyaha Amniga Qaranka oo sheegay in Soomaaliya aan loo adeegsan karin dagaallada Yemen iyo Suudaan: duplicate (2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan)",
-   "Imaaraadka oo madaarro ku yaalla Berbera iyo Boosaaso u beddelay saldhigyo ciidan (Hiiraan/Shabelle): duplicate (2026-11-21-baaritaan-imaaraadka-xarumo-milatari-berbera-boosaaso)",
-   "Somalia opposition rejects another request for talks (Somali Guardian) / Xog: Mucaaradka oo diiday dalab (Caasimada) / Golaha Mustaqbalka oo isku khilaafay (Puntland Post): isla dhacdada la daabacay -> alsoReportedBy",
-   "Muwaadin Soomaali ah oo Kenya ku helay dukumentiyo been abuur ah (Hiiraan): dhacdo shakhsi ah oo maxkamadeed, qiimo war yar",
-   "PS Ummi Bashir joins Somali cultural dance during Wajir visit (KBC): borotokool, war ma aha",
-   "Guddoomiyaha Midowga Afrika oo qaabilay Danjiraha Qatar (Shabelle): borotokool",
-   "Soomaaliya oo ka qayb gashay shirka Wasiirrada Arrimaha Dibadda Waqooyiga Yurub iyo Afrika ee Oslo (Shabelle): headline-only, kulan borotokool; Oslo hore ayaa loo daabacay",
-   "Safaaradda Jabuuti oo ka hadashay weerarkii garoonka Beledweyne (Shabelle): duplicate (2026-11-20-jabuuti-aussom-garoonka-ugaas-khaliif-beledweyne-war-saxaafadeed)",
-   "Catch-up 20-21 Nov (Pro Dalxa, MAANHADAL, Empty Chairs, Dowladda iyo Uganda kulan, NY Times Imaaraadka, Dowladda deriska Koonfur Galbeed): sababihii run 09:08 weli way taagan yihiin (ra'yi / borotokool / duplicate / eedeyn hal il)"
+   "Turkiga oo safaarad ka furay Ankara / duulimaadyada Beledweyne / Golaha Mustaqbalka diiday: hore ayay bogga ugu jireen (duplicate)",
+   "Madaxweyne Xasan oo diyaar u ah inuu booqdo mucaaradka: waxaa la daabacay 20 Nov (duplicate)",
+   "Radio Muqdisho: Waaberi xuska: protocol, not news",
+   "Caasimada cinwaan amni: duplicate",
+   "Somali Guardian Banooda: unconfirmed headline-only",
+   "Shabelle baasaboorka elektarooniga: unconfirmed headline-only",
+   "Goobjoog xulafada Imaaraadka: analysis / opinion, not news",
+   "Horseed Jubbaland: unconfirmed headline-only",
+   "BBC Somali cunto: not newsworthy",
+   "Markabyada dagaalka Turkiga: duplicate (lagu daray warka taliyaha ciidamada Turkiga)"
   ],
   "waitingForImage": 18,
   "waitingIds": [
@@ -106,10 +109,8 @@
    "2026-11-18-wasaaradda-arrimaha-dibadda-cabasho-rasmi-imaaraadka-tallaabo-sharci",
    "2026-11-19-aljeeriya-soomaaliya-khibradda-shidaalka-sonatrach"
   ],
-  "stale": true,
-  "problems": [
-   "The Somali sources have reported no Somalia story for more than 24 hours (check data/world/status.json, sources with country \"so\")."
-  ],
+  "stale": false,
+  "problems": [],
   "lastSuccessfulPublishAt": "2026-11-21T20:00:32Z"
  }
 }
