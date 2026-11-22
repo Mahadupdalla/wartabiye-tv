@@ -5,6 +5,19 @@ Translations ("en", "ar", "fr", "nl", "it", "de", "tr", "es") are kept; a machin
 afterwards in /admin/ is published as "manual", so the page no longer labels it as machine-translated."""
 import json, os, glob, datetime, sys
 from translations import LANGS, text_hash, has
+import attribution
+import image_system
+
+
+def is_animated(path):
+    try:
+        from PIL import Image
+        with Image.open(path) as im:
+            return getattr(im, 'n_frames', 1) > 1
+    except Exception:
+        return False
+
+
 PHOTO_RULE_FROM = '2026-11-02'  # articles before this date were published under the old rule (placeholder allowed)
 
 # The old article disclaimer box (removed by the owner on 13 November 2026; articles now show only a small
@@ -38,12 +51,15 @@ def result_card(n):
 
 
 def needs_photo(n):
-    return n.get('by') != 'admin' and not result_card(n) and (n.get('publishedAt') or '')[:10] >= PHOTO_RULE_FROM
+    # NO IMAGE, NO PUBLICATION (owner's rule of 21 Nov 2026): every article, old or new, automatic or written in /admin/,
+    # needs a valid featured photo; only the automatic match-result cards draw their own picture (crests + score)
+    return not result_card(n)
 
 
 def image_ok(n):
-    img = (n.get('image') or '').lstrip('/')
-    return img.startswith('img/') and os.path.isfile(os.path.join(root, img))
+    # its own photo file (tools/image_system.py image_problem: saved under img/, real picture content, not empty, not a
+    # remote link); the WARTABIYE TV category graphic (img/category/) no longer counts as an article image
+    return image_system.image_problem(n, root) is None
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Banned addresses (tools/east_africa.py EXCLUDED_SITES; empty since the owner lifted the Somalia ban on 8 Nov 2026):
 # a NEW automatic article from one is not published. The owner's own articles are never touched.
@@ -71,7 +87,8 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     # photo rule: an automatic article from the photo-rule date on is only published with its own image file;
     # otherwise it stays a draft in /admin/ under "Sugaya sawir" until the owner adds a photo
     if needs_photo(n) and not image_ok(n):
-        print(f"{n['id']}: no image file, kept as draft (Sugaya sawir)")
+        print(f"{n['id']}: not published, {image_system.image_problem(n, root)} (Sugaya sawir: add a photo in /admin/)")
+        pending.append(n['id'])
         continue
     if n.get('image') and n['image'].startswith('/'):
         n['image'] = n['image'].lstrip('/')
@@ -81,10 +98,30 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
         pending.append(n['id']); continue
     # small card image made by tools/make_thumbs.py (publish workflow); cards fall back to the full image without it
     n.pop('thumb', None)
+    # animated photo (a moving result graphic, 22 Nov 2026): the article page shows the full moving file on every
+    # screen size (the small card image stays a still); a translation may carry its own photo ("image" in n[<lang>])
+    n.pop('imageAnimated', None)
+    if n.get('image') and is_animated(os.path.join(root, n['image'])):
+        n['imageAnimated'] = True
+    for lang in LANGS:
+        t = n.get(lang)
+        if isinstance(t, dict) and t.get('image'):
+            li = str(t['image']).lstrip('/')
+            if li.startswith('img/') and os.path.isfile(os.path.join(root, li)):
+                t['image'] = li
+            else:
+                t.pop('image', None)
     if n.get('image'):
-        t = os.path.join('img', 'news', 'w480', os.path.splitext(os.path.basename(n['image']))[0] + '.webp')
+        t = os.path.join(os.path.dirname(n['image']), 'w480', os.path.splitext(os.path.basename(n['image']))[0] + '.webp')
         if os.path.isfile(os.path.join(root, t)):
             n['thumb'] = t
+    # image record (tools/image_system.py): readers get only the credit facts (source, photographer, licence, link,
+    # status); the internal record (match score, history, approval) and the editors' photo notes stay in /admin/
+    rec = image_system.record(n)
+    n.pop('imageRights', None)
+    n.pop('imageNote', None)
+    if rec:
+        n['imageInfo'] = image_system.public(rec)
     for lang in LANGS:
         if not has(n, lang):
             n.pop(lang, None); continue
@@ -98,6 +135,10 @@ for f in sorted(glob.glob(os.path.join(root, 'data', 'news', '*.json'))):
     for k in ('summary', 'body'):
         if k in n:
             n[k] = drop_disclaimer(n[k])
+    # editorial attribution (owner's spec, 19 Nov 2026; tools/attribution.py): citation phrases that only name another
+    # outlet ("Sida ay werisay Hiiraan Online, …") leave the public text, and the outlets are credited once in the
+    # article's editorial footer ("credit"). Only data/news.json changes: the article file keeps its original text.
+    attribution.apply(n, LANGS)
     # regional stories written before 8 Nov 2026 have no "country": derive it from the headline (or the outlet's home
     # country) so the Somalia page (#soomaaliya) lists them too; only data/news.json changes, never the article file
     if (n.get('section') or 'somalia') == 'somalia' and not n.get('country') and n.get('region') != 'east-africa-wide':
@@ -165,6 +206,73 @@ if os.path.exists(p):
     status = json.load(open(p, encoding='utf-8'))
 out = {'lastRunAt': status.get('lastRunAt'), 'lastSuccessAt': status.get('lastSuccessAt') or status.get('lastRunAt'), 'lastRunNote': status.get('lastRunNote'), 'news': news}
 dst = os.path.join(root, 'data', 'news.json')
+
+
+# only the article page uses these (it loads the full data/news.json)
+LITE_DROP = ('body', 'alsoReportedBy', 'originalTitle', 'verification', 'imageSourceUrl', 'imageInfo')
+
+
+def lite_item(o):
+    """The same article without its full text (in every language): enough for every list, card and the ticker."""
+    o = {k: v for k, v in o.items() if k not in LITE_DROP}
+    for lang in LANGS:
+        if isinstance(o.get(lang), dict):
+            o[lang] = {k: v for k, v in o[lang].items() if k != 'body'}
+    return o
+
+
+# data/news-lite.json: what the pages load first (a small fraction of news.json), so the lists show at once even on a
+# slow phone connection; the full texts come from data/news.json only when an article is opened in the page
+lite_path = os.path.join(root, 'data', 'news-lite.json')
+lite_txt = json.dumps({**out, 'news': [lite_item(o) for o in news]}, ensure_ascii=False, separators=(',', ':'))
+if not os.path.exists(lite_path) or open(lite_path, encoding='utf-8').read() != lite_txt:
+    open(lite_path, 'w', encoding='utf-8').write(lite_txt)
+    print(f'{len(news)} published articles -> data/news-lite.json')
+
+# Language switching on phones (17 Nov 2026): the page no longer downloads every language at once.
+#   data/lite/so.json      the lists in Somali (no translations), loaded first on every page, with "ver"
+#   data/lite/<lang>.json  {"ver", "t": {id: translated title/summary}}: one language, loaded only when a visitor
+#                          reads in that language (and cached by the browser until the next publication changes "ver")
+#   data/story/<id>.json   one article with its full text in every language: an article page loads only this file
+#                          (instead of the whole data/news.json) when the reader switches language or opens a story
+# data/news-lite.json and data/news.json stay as they are (older pages, the app, the checks).
+import hashlib
+
+
+def put(path, txt):
+    if os.path.exists(path) and open(path, encoding='utf-8').read() == txt:
+        return False
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    open(path, 'w', encoding='utf-8').write(txt)
+    return True
+
+
+def compact(o):
+    return json.dumps(o, ensure_ascii=False, separators=(',', ':'))
+
+
+lite_news = [lite_item(o) for o in news]
+ver = hashlib.sha1(compact(lite_news).encode('utf-8')).hexdigest()[:10]
+put(os.path.join(root, 'data', 'lite', 'so.json'), compact({**{k: out[k] for k in out if k != 'news'}, 'ver': ver, 'news': [{k: v for k, v in o.items() if k not in LANGS} for o in lite_news]}))
+for lang in LANGS:
+    put(os.path.join(root, 'data', 'lite', lang + '.json'), compact({'ver': ver, 't': {o['id']: o[lang] for o in lite_news if o.get('id') and isinstance(o.get(lang), dict)}}))
+story_dir = os.path.join(root, 'data', 'story')
+ids = set()
+for o in news:
+    if o.get('id'):
+        ids.add(o['id'] + '.json')
+        put(os.path.join(story_dir, o['id'] + '.json'), compact(o))
+for f in os.listdir(story_dir) if os.path.isdir(story_dir) else []:
+    if f.endswith('.json') and f not in ids:
+        os.remove(os.path.join(story_dir, f))
+print(f'data/lite (ver {ver}) and data/story ({len(ids)} articles) up to date')
+
+try:
+    r = attribution.report(news)
+    print(f"attribution: {r['counts']} ({r['needsReview']} to review in /admin/)")
+except Exception as e:  # the report is for /admin/ only: never block a publication
+    print('attribution report skipped:', e)
+
 # keep the file untouched when nothing changed, so rebuilding never makes an empty commit
 old = json.load(open(dst, encoding='utf-8')) if os.path.exists(dst) else {}
 if {k: old.get(k) for k in out} == out:

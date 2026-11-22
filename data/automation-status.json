@@ -1,94 +1,109 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-14T22:51:21+03:00",
+ "updatedAt": "2026-11-22T22:17:51+03:00",
  "overall": "ok",
  "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
- "lastSuccessfulPublishAt": "2026-11-14T18:29:40Z",
- "newestArticleAt": "2026-11-14T21:00:00+03:00",
- "lastSourceCheckAt": "2026-11-14T22:50:21+03:00",
- "sourceChecks24h": 292,
- "publishedArticles": 522,
- "liveArticles": 522,
- "waitingForImage": 90,
+ "lastSuccessfulPublishAt": "2026-11-22T19:11:24Z",
+ "newestArticleAt": "2026-11-22T21:25:00+03:00",
+ "lastSourceCheckAt": "2026-11-22T22:15:21+03:00",
+ "sourceChecks24h": 288,
+ "publishedArticles": 1166,
+ "liveArticles": 1166,
+ "waitingForImage": 166,
  "liveInSync": true,
- "publishFailures24h": 0,
+ "publishFailures24h": 5,
  "lastPublishRun": {
-  "created_at": "2026-11-14T18:29:40Z",
+  "created_at": "2026-11-22T19:11:24Z",
   "conclusion": "success",
-  "event": "push",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/43626890172"
+  "event": "workflow_dispatch",
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45059335534"
  },
  "retry": null,
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-14T21:29:30+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-22T22:04:22+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
-   "lastCheckAt": "2026-11-13T19:32:00+03:00",
+   "lastCheckAt": "2026-11-22T15:56:51+03:00",
    "lastWrittenAt": null,
    "lastRun": {
     "skipped": 0,
-    "duplicates": 61,
-    "failed": 2
+    "duplicates": 37
    }
   },
   "sports": {
-   "mode": "paused: Anthropic API credit balance too low since 2026-11-14T18:01:38+03:00 (add credit in console.anthropic.com → Plans & Billing; the $1 daily limit stays)",
-   "lastCheckAt": "2026-11-14T22:51:19+03:00",
+   "mode": "off: switched off by the owner on 16 Nov 2026 (the 3-hourly news runs write up to 15 sports stories each)",
+   "lastCheckAt": "2026-11-16T20:06:29+03:00",
    "lastWrittenAt": null,
    "lastRun": {
-    "skipped": 3,
-    "waitingForSchedule": 69
+    "skipped": 6,
+    "waitingForSchedule": 88
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-14T22:50:13+03:00",
-   "lastSuccessAt": "2026-11-14T22:50:13+03:00",
-   "lastReportAt": "2026-11-09T12:50:08+03:00",
+   "lastCheckAt": "2026-11-22T22:15:13+03:00",
+   "lastSuccessAt": "2026-11-22T22:15:13+03:00",
+   "lastReportAt": "2026-11-22T22:00:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-14T21:09:51+03:00",
+  "lastSourceCheckAt": "2026-11-22T22:04:22+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-14T20:33:00+03:00",
-   "sourceName": "Horseed Media",
-   "title": "Hindiya iyo Soomaaliya oo ka wada hadlay xoojinta iskaashiga difaaca, iyadoo diiradda la saarayo amniga badda iyo la-dagaallanka argagixisada",
-   "url": "https://horseedmedia.net/hindiya-iyo-soomaaliya-oo-ka-wada-hadlay-xoojinta-iskaashiga-difaaca-iyadoo-diiradda-la-saarayo-amniga-badda-iyo-la-dagaallanka-argagixisada/427545/"
+   "publishedAt": "2026-11-22T20:47:07+03:00",
+   "sourceName": "Goobjoog News",
+   "title": "Hoggaamiyaha Galmudug oo Ku dhawaaqay Xukuumad Ka Tarjumaysa Rabitaanka Iyo Himilada Shacabka",
+   "url": "https://goobjoog.com/2026/11/22/hoggaamiyaha-galmudug-oo-ku-dhawaaqay-xukuumad-ka-tarjumaysa-rabitaanka-iyo-himilada-shacabka-2"
   },
   "latestPublished": {
-   "id": "2026-11-14-soomaaliya-turkiga-heshiis-ilaalinta-qoysaska-antalya",
-   "title": "Soomaaliya iyo Turkiga oo Antalya ku kala saxiixday heshiis lagu xoojinayo ilaalinta qoysaska iyo adeegyada bulshada",
-   "publishedAt": "2026-11-14T16:29:46+03:00",
-   "source": "Hiiraan Online",
-   "url": "/war/2026-11-14-soomaaliya-turkiga-heshiis-ilaalinta-qoysaska-antalya.html"
+   "id": "2026-11-22-puntland-carmo-500-guri-ciidanka-booliiska-muumin",
+   "title": "Puntland oo Carmo ka dhagax-dhigtay 500 guri oo loogu talagalay ciidanka booliiska iyo qoysaskooda",
+   "publishedAt": "2026-11-22T19:48:18+03:00",
+   "source": "Puntland Post",
+   "url": "/war/2026-11-22-puntland-carmo-500-guri-ciidanka-booliiska-muumin.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 65,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 90,
   "rejectedReasons": {
-   "old": 2,
-   "duplicate": 63
+   "old": 6,
+   "duplicate": 84
   },
   "taskRejectedReasons": [
-   "Somalia election talks called by president Hassan Sheikh fail to start as opposition boycotts (Somali Guardian 19:19): headline-only; Hiiraan/Goobjoog/Garowe kuma jiraan, WebSearch en (natiijooyin 2025 oo kaliya) -> pending; dhacdada gogosha waxaa hore u daboolay 2 war (Goobjoog 06:09, admin 15:45)",
-   "Somalia's Election Crisis Deepens as Talks Collapse (Horseed 20:02): headline-only, isla dhacdada kore -> pending",
-   "Xogta howlgal culus oo Danab iyo Mareykanka ka fuliyeen Shabeellaha Hoose (Caasimada 20:00): headline-only; Hiiraan/Goobjoog none, WebSearch so none -> pending",
-   "Maxkamadda ciidamada go'aan kiiska Tahliil Guure (Caasimada 18:41): headline-only; Hiiraan/Goobjoog none, WebSearch so none -> pending",
-   "Axmed Madoobe oo magacaabay Madaxweyne Ku-xigeenka Labaad (Hiiraan 18:29): duplicate (2026-11-14-axmed-madoobe-mukhtaar-madaxweyne-ku-xigeenka-labaad)",
-   "Soomaaliya iyo Hindiya wada-tashiga (Hiiraan 18:35) / India-Somalia defence cooperation (Horseed 20:01): duplicate (2026-11-14-soomaaliya-hindiya-wada-tashiga-arrimaha-dibadda)",
-   "Catch-up (Puntland xeerarka, Sanbaloolshe, ALECSO, Cadalle, Boobe Yuusuf, Shabelle SoDMA/Danab/Turkiga, iwm): sababihii orodkii 18:08 weli way jiraan",
-   "Hiiraan English (Laftagareen ciidamo, Wasiirka Waxbarashada, KDF RPG Moyale): bogga taariikh kaliya ayuu leeyahay (waqti ma laha) oo 5-daqiiqo monitor-ku ma arag -> lama daabicin"
+   "Golaha wasiirrada Galmudug (Daljir/Caasimada): isku dhacdo, waxaa la qoray hal war (Goobjoog)",
+   "Nidaamka diiwaangelinta shirkadaha amniga (Goobjoog): la xiriira warkii mamnuucidda hubka ee horey loo qoray",
+   "Gaalkacyo taraafikada, maxkamadda khamriga (Daljir): arrimo maxalli ah oo yar",
+   "Catch-up: amniga 74%, EACJ, Turkiga, ICAO, Faroole, Uganda, Sonatrach: horey ayay boggu u lahaayeen",
+   "Banooda, Jubaland, baasaboorka, SoDMA/NRC, Beledweyne: cinwaan keliya; Hiiraan/Goobjoog/Garowe lama helin -> lama daabicin",
+   "CAF Kiswahili (KBC): hal il oo dowladeed; bogga CAF wuxuu xaqiijiyay shirka Abuja oo keliya, go'aanka ma ahan -> lama daabicin"
   ],
-  "waitingForImage": 2,
+  "waitingForImage": 21,
   "waitingIds": [
+   "2026-11-15-fiqi-hindiya-wada-hadal-difaaca-amniga-badda",
+   "2026-11-22-galmudug-liibaan-wareegto-24-wasiir-golaha-cusub",
+   "2026-11-14-maxkamadda-ciidamada-dil-toogasho-tahliil-guure",
    "2026-11-09-qaamuuska-luuqadda-dhegoolayaasha",
-   "2026-11-14-updf-beenisay-askar-uganda-lagu-dilay-shabeellaha-hoose"
+   "2026-11-14-soomaaliya-17-dal-cambaareeyay-weerarka-isbitaalka-naasir",
+   "2026-11-21-garoonka-ugaas-khaliif-beledweyne-xiran-sabti-axad",
+   "2026-11-12-xawaadle-dibadbax-15-november-hiiraan-hirshabeelle",
+   "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
+   "2026-11-17-sodma-arc-kulan-cop31-caymiska-musiibooyinka",
+   "2026-11-22-sweden-booliska-maxkamad-dilka-wiil-soomaali-14-jir",
+   "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera",
+   "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag",
+   "2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan",
+   "2026-11-14-beesha-makane-ciidamo-beledweyne-hirshabeelle",
+   "2026-11-20-jabuuti-aussom-garoonka-ugaas-khaliif-beledweyne-war-saxaafadeed",
+   "2026-11-15-banaanbax-beledweyne-hirshabeelle-dowladda",
+   "2026-11-14-updf-beenisay-askar-uganda-lagu-dilay-shabeellaha-hoose",
+   "2026-11-18-somaliland-khadar-xuseen-jawaab-xasan-sheekh-imaaraadka",
+   "2026-11-21-baaritaan-imaaraadka-xarumo-milatari-berbera-boosaaso",
+   "2026-11-18-wasaaradda-arrimaha-dibadda-cabasho-rasmi-imaaraadka-tallaabo-sharci"
   ],
   "stale": false,
   "problems": [],
-  "lastSuccessfulPublishAt": "2026-11-14T18:29:40Z"
+  "lastSuccessfulPublishAt": "2026-11-22T19:11:24Z"
  }
 }

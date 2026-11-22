@@ -57,6 +57,8 @@ collections:
       - {label: Ciyaaraha, field: section, pattern: sports}
       - {label: Caalamka, field: section, pattern: world}
       - {label: Xayeysiis, field: sponsored, pattern: true}
+      - {label: 'Isha: u baahan dib-u-qoris', field: rewriteStatus, pattern: needs-rewrite}
+      - {label: 'Isha: sugaya xaqiijin', field: verificationStatus, pattern: pending}
     fields:
       - {name: title, label: Cinwaanka, widget: string}
       - {name: summary, label: 'Hordhac (soo koobid)', widget: text, hint: '1-2 jumladood oo sheegaya xogta ugu muhiimsan: yaa, maxaa, xaggee, goorma. Waxay ka muuqataa kaararka iyo korka maqaalka.'}
@@ -112,7 +114,49 @@ collections:
       - {name: originalTitle, label: 'Cinwaanka asalka ah ee isha (gudaha oo kaliya)', widget: string, required: false, hint: 'Cinwaanka sida daabacaha u qoray. Bogga dadweynaha kama muuqdo.'}
       - {name: sourceRights, label: 'Xuquuqda / shuruudaha isha (gudaha oo kaliya)', widget: string, required: false, hint: 'Tusaale: all rights reserved, headline-and-link only. Hawsha wararka waxay ka soo qaadataa data/world/sources.json.'}
       - {name: verification, label: 'Xaqiijinta (gudaha oo kaliya)', widget: text, required: false, hint: 'Ilaha kale ee warka xaqiijiyay iyo sida loo hubiyay. Bogga dadweynaha kama muuqdo.'}
-      - {name: attributionRequired, label: 'Magaca isha bogga ha lagu muujiyo (sharci ama heshiis ayaa u baahan)', widget: boolean, default: false, required: false, hint: 'Dami (caadi): kaararka iyo maqaalka kuma qorna magaca ama link-ga isha. Shid KALIYA marka ruqsad ama heshiis uu qasab ka dhigo in isha si cad loo xuso.'}
+      - {name: attributionRequired, label: 'Link-ga isha ha la muujiyo (sharci ama heshiis ayaa u baahan)', widget: boolean, default: false, required: false, hint: 'Dami (caadi): qoraalka isha ee hoose wuxuu magacaabaa isha, link la''aan. Shid KALIYA marka ruqsad ama heshiis uu qasab ka dhigo link-ga isha.'}
+      # editorial source management (owner's spec, 19 Nov 2026; tools/attribution.py). The article footer shows
+      # WARBIXINTA / TAARIIKHDA / QAYBTA and, for a story built on other outlets, ONE source note:
+      # "WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay <isha>." Never in the headline.
+      - name: attribution
+        label: 'Nooca warbixinta (attribution)'
+        widget: select
+        required: false
+        hint: 'Banaan = si otomaatig ah: warkaaga (Wartabiye TV) = Warbixin asal ah; war hawsha wararka = Laga soo xigtay hal il ama Ilo badan. Qoraalka isha ee hoose ayaa ka muuqda maqaalka (cinwaanka kuma jiro).'
+        options:
+          - {label: 'Warbixin asal ah oo Wartabiye TV (original reporting) — isha lama sheego', value: original}
+          - {label: 'Dib loo qoray, hal il dibadeed (rewritten from an external source)', value: rewritten}
+          - {label: 'Ilo badan (multiple-source report)', value: multi}
+          - {label: 'War rasmi ah (official statement)', value: official}
+          - {label: 'Tifaftirku si madax-bannaan ayuu u xaqiijiyay (editorially verified)', value: verified}
+      - name: sources
+        label: 'Ilaha la xusayo (source note)'
+        widget: list
+        required: false
+        hint: 'Banaan = isha warka (kor) iyo ilaha kale ee xogtooda qoraalka lagu isticmaalay. Ku qor halkan haddii aad rabto inaad adigu go''aamiso ilaha la xusayo. War rasmi ah: magaca hay''adda (tusaale Wasaaradda Arrimaha Dibadda).'
+        summary: '{{fields.name}}'
+        fields:
+          - {name: name, label: 'Magaca isha', widget: string}
+          - {name: url, label: 'Link-ga warbixinta asalka ah', widget: string, required: false}
+      - {name: sourcePublishedAt, label: 'Goorta isha asalka ah daabacday (original publication date)', widget: string, required: false, hint: 'Tusaale 2026-11-19T11:20:00+03:00. Gudaha oo kaliya.'}
+      - name: rewriteStatus
+        label: 'Xaaladda dib-u-qorista (rewriting status)'
+        widget: select
+        required: false
+        hint: 'Banaan = Dib loo qoray (hawsha wararka waxay ku qortaa ereyadeeda). "Ha la taaban" = bogga wuxuu muujinayaa qoraalka sida uu yahay, xitaa magacyada ilaha (sixitaan otomaatig ah ma jiro).'
+        options:
+          - {label: 'Dib loo qoray (rewritten)', value: rewritten}
+          - {label: 'Waxay u baahan tahay dib-u-qoris (needs rewriting)', value: needs-rewrite}
+          - {label: 'Ha la taaban: qoraalka sida uu yahay (locked)', value: locked}
+      - name: verificationStatus
+        label: 'Xaaladda xaqiijinta (editorial verification status)'
+        widget: select
+        required: false
+        options:
+          - {label: 'Tifaftirka ayaa xaqiijiyay (verified)', value: verified}
+          - {label: 'Ilo badan ayaa sheegay (multi-source)', value: multi-source}
+          - {label: 'Hal il oo keliya (single source)', value: single-source}
+          - {label: 'Sugaya xaqiijin (pending)', value: pending}
       - {name: timeVerified, label: Waqtiga waa la hubiyay, widget: boolean, default: true}
       - {name: discoveredAt, label: 'Goorta la helay (kormeeraha 5 daqiiqo; ha beddelin)', widget: string, required: false}
       - {name: verifiedAt, label: 'Goorta la hubiyay (hawsha wararka; ha beddelin)', widget: string, required: false}
@@ -820,6 +864,39 @@ collections:
               - {name: title, label: Cinwaan, widget: string, required: false}
               - {name: reason, label: Sababta, widget: string, required: false}
               - {name: id, label: Id, widget: string, required: false}
+      - name: attributionReport
+        label: 'Ilaha iyo xuquuqda wararka (attribution report)'
+        file: data/attribution-report.json
+        format: json
+        description: 'Waxaa qora daabacaad kasta (tools/attribution.py), ha beddelin. Nooc kasta tirada wararka; "review" = wararka u baahan inaad eegto: magac isha ah oo weli qoraalka ku jira (badanaa xigasho ama wareysi, taasoo la ilaalinayo) ama war aan isha lahayn. Si aad u saxdo, fur warka (Wararka) oo beddel "Nooca warbixinta", "Ilaha la xusayo" ama qoraalka.'
+        fields:
+          - {name: total, label: 'Wararka bogga ku jira', widget: number, required: false}
+          - {name: needsReview, label: 'U baahan in la eego', widget: number, required: false}
+          - name: counts
+            label: 'Nooca warbixinta'
+            widget: object
+            required: false
+            fields:
+              - {name: original, label: 'Warbixin asal ah (Wartabiye TV)', widget: number, required: false}
+              - {name: rewritten, label: 'Hal il dibadeed', widget: number, required: false}
+              - {name: multi, label: 'Ilo badan', widget: number, required: false}
+              - {name: official, label: 'War rasmi ah', widget: number, required: false}
+              - {name: verified, label: 'Tifaftirku xaqiijiyay', widget: number, required: false}
+          - name: review
+            label: 'Wararka la eegayo'
+            widget: list
+            required: false
+            summary: '{{fields.title}} · {{fields.type}} · {{fields.namesInText}}'
+            fields:
+              - {name: id, label: Id, widget: string, required: false}
+              - {name: title, label: Cinwaan, widget: string, required: false}
+              - {name: type, label: 'Nooca', widget: string, required: false}
+              - {name: sources, label: 'Ilaha la xusay', widget: string, required: false}
+              - {name: sourceUrl, label: 'Link-ga isha', widget: string, required: false}
+              - {name: namesInText, label: 'Magacyada ilaha ee weli qoraalka ku jira', widget: string, required: false}
+              - {name: rewriteStatus, label: 'Dib-u-qorista', widget: string, required: false}
+              - {name: verificationStatus, label: 'Xaqiijinta', widget: string, required: false}
+              - {name: publishedAt, label: 'Taariikhda', widget: string, required: false}
       - name: status
         label: 'Xaaladda cusbooneysiintii u dambeysay (waxaa qora hawsha, ha beddelin)'
         file: data/world/status.json
@@ -2263,6 +2340,164 @@ collections:
                       - {name: p, label: Qoraal, widget: text, required: false}
           - name: adpolicy
             label: 'Siyaasadda Xayeysiiska'
+            widget: object
+            collapsed: true
+            fields:
+              - name: so
+                label: 'Soomaali'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: en
+                label: 'English'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: ar
+                label: 'العربية'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: fr
+                label: 'Français'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: nl
+                label: 'Nederlands'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: it
+                label: 'Italiano'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: de
+                label: 'Deutsch'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: tr
+                label: 'Türkçe'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+              - name: es
+                label: 'Español'
+                widget: object
+                collapsed: true
+                required: false
+                fields:
+                  - {name: title, label: Cinwaan, widget: string, required: false}
+                  - {name: intro, label: Hordhac, widget: text, required: false}
+                  - name: sections
+                    label: Qaybo
+                    widget: list
+                    required: false
+                    summary: '{{h}}'
+                    hint: 'Xariiq ku bilaabmaysa "- " waxay noqonaysaa liis.'
+                    fields:
+                      - {name: h, label: Cinwaan-hoosaad, widget: string, required: false}
+                      - {name: p, label: Qoraal, widget: text, required: false}
+          - name: terms
+            label: 'Shuruudaha Isticmaalka'
             widget: object
             collapsed: true
             fields:

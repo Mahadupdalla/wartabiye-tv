@@ -179,8 +179,10 @@
     live: { title: 'LIVE News', native: 'live' },
     livesrc: { title: 'LIVE News sources', cms: '#/collections/media/entries/sources', links: [['LIVE News sources', '#/collections/media/entries/sources'], ['Fast sources (5 minutes)', '#/collections/world/entries/fast']] },
     media: { title: 'Media Library', native: 'media' },
+    images: { title: 'Image sources & copyright', native: 'images' },
     homepage: { title: 'Homepage', native: 'homepage' },
     ads: { title: 'Advertising', native: 'ads' },
+    games: { title: 'Games', native: 'games' },
     notifications: { title: 'Notifications', cms: '#/collections/alerts', links: [['Alerts', '#/collections/alerts'], ['Notification settings & delivery log', '#/collections/notify']] },
     settings: { title: 'Website settings', native: 'settings' },
   };

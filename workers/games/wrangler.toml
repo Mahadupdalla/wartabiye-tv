@@ -1,0 +1,20 @@
+# Wartabiye TV Games: private online rooms for friends (Cloudflare Workers + Durable Objects, free plan is enough).
+# Deployed automatically by .github/workflows/games-deploy.yml with the same two repository secrets the admin uses
+# (CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID). No secret is written in this file.
+# A room is a short code shared between friends: no accounts, no chat, no public matchmaking, no personal data.
+name = "wartabiye-games"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[[durable_objects.bindings]]
+name = "ROOMS"
+class_name = "Room"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room"]
+
+[vars]
+# only the website may open rooms
+ALLOWED_ORIGINS = "https://www.wartabiyetv.com,https://wartabiyetv.com"

@@ -51,7 +51,11 @@ const fs = require('fs');
   }
   const { p } = await open(1280, 900, '');
   for (const it of news) {
-    await p.evaluate(id => location.hash = 'war-' + encodeURIComponent(id), it.id); await p.waitForTimeout(250);
+    // the article's full text comes from its own file (data/story/<id>.json) after the hash changes; right after a
+    // publication the first ask for that file can take longer than a fixed short wait, so wait (up to 15 s) for the
+    // headline itself instead of failing a page that is only still loading (20 Nov 2026: 44 such false failures)
+    await p.evaluate(id => location.hash = 'war-' + encodeURIComponent(id), it.id);
+    await p.waitForFunction(t => { const h = document.querySelector('#story h1'); return h && h.textContent.trim() === t.trim() }, it.title, { timeout: 15000 }).catch(() => {});
     const r = await p.evaluate(async () => {
       const s = document.getElementById('story'); const im = s.querySelector('figure .ph img');
       if (im) { im.loading = 'eager'; await new Promise(res => { if (im.complete) res(); else { im.onload = im.onerror = res } }) }
@@ -69,7 +73,7 @@ const fs = require('fs');
   }
   // Sports and World hubs, the pages, and their own addresses (/ciyaaraha/ …) open without errors or sideways scrolling
   for (const [w, h, name] of [[1280, 900, 'desktop'], [390, 844, 'mobile']]) {
-    for (const path of ['#ciyaaraha', '#caalamka', '#muuqaal', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
+    for (const path of ['#ciyaaraha', '#caalamka', '#muuqaal', '#xayeysiimaha', '#xiriir', '#nagu-saabsan', '#anshaxa', '#asturnaanta', '#saxitaannada', '#siyaasadda-xayeysiiska', '#shuruudaha', '#raadi?q=a', '#kaydsan', 'ciyaaraha/', 'caalamka/', 'xayeysiimaha/']) {
       const { p: q, errs } = await open(w, h, path);
       const r = await q.evaluate(() => { const v = document.getElementById('pageView'); return { shown: !v.hidden && v.innerText.trim().length > 20, overflow: document.documentElement.scrollWidth > innerWidth, h: (v.querySelector('h1') || {}).textContent } });
       console.log(name, 'page', path, JSON.stringify(r), errs);

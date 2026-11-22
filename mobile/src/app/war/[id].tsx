@@ -236,7 +236,7 @@ export default function ArticleScreen() {
       </View>
 
       <View style={{ paddingTop: 16 }}>
-        <Photo uri={article.image || article.thumb} alt={tx.imageAlt || somali.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} rounded={0} priority="high" illus={article.imageKind === 'illustrative'} />
+        <Photo uri={tx.image || article.image || article.thumb} alt={tx.imageAlt || somali.imageAlt} style={{ width: '100%', aspectRatio: 16 / 10 }} rounded={0} priority="high" illus={article.imageKind === 'illustrative'} />
         <View style={{ paddingTop: 8, paddingHorizontal: 16 }}>
           {article.image ? (
             <T style={{ fontSize: 12.5, lineHeight: 18 }} muted>

@@ -40,7 +40,9 @@ function trOf(it: Raw, lang: Lang): Translation | null {
   if (lang === 'so') return { title: str(it.title), summary: str(it.summary), body: str(it.body), imageAlt: str(it.imageAlt), status: 'original' };
   const x = it[lang];
   if (!x || typeof x !== 'object' || !str(x.title)) return null;
-  return { title: str(x.title), summary: str(x.summary), body: str(x.body), imageAlt: str(x.imageAlt), status: x.status === 'manual' ? 'manual' : 'auto' };
+  const t: Translation = { title: str(x.title), summary: str(x.summary), body: str(x.body), imageAlt: str(x.imageAlt), status: x.status === 'manual' ? 'manual' : 'auto' };
+  if (img(x.image)) t.image = img(x.image); // this language's own photo (a result graphic with translated words)
+  return t;
 }
 function hash(s: string): string {
   let h = 0x811c9dc5;
@@ -49,6 +51,8 @@ function hash(s: string): string {
 }
 export function articleFromRaw(it: Raw): Article {
   const show = !!(it.source && it.source !== 'Wartabiye TV' && it.attributionRequired === true);
+  const cr = it.credit && typeof it.credit === 'object' ? it.credit : null;
+  const names = cr ? (cr.type === 'original' ? '' : (Array.isArray(cr.sources) ? cr.sources : []).map((x: any) => str(x && x.name)).filter(Boolean).join(', ')) : show ? str(it.source) : '';
   const a: Article = {
     id: it.id, url: 'https://www.wartabiyetv.com/war/' + it.id + '.html', publishedAt: it.publishedAt, timeVerified: it.timeVerified !== false,
     section: sectionOf(it), category: str(it.category), country: str(it.country), region: str(it.region), sport: str(it.sport), competition: str(it.competition),
@@ -56,8 +60,9 @@ export function articleFromRaw(it: Raw): Article {
     image: img(it.image), thumb: img(it.thumb),
     imageCredit: str(it.imageCredit) || (it.by === 'admin' && img(it.image) ? 'Wartabiye TV' : ''), imageLicense: str(it.imageLicense),
     imageSourceUrl: str(it.imageSourceUrl).startsWith('https://') ? str(it.imageSourceUrl) : '', imageKind: str(it.imageKind), imageNote: str(it.imageNote),
-    source: show ? str(it.source) : '', sourceUrl: show && str(it.sourceUrl).startsWith('http') ? str(it.sourceUrl) : '',
-    basedOnOthers: !!(it.by !== 'admin' && it.source && it.source !== 'Wartabiye TV' && !show), tr: {}, rev: '',
+    // the editorial source note (same as tools/build_app_api.py credit_names): every outlet the story is based on
+    source: names, sourceUrl: show && str(it.sourceUrl).startsWith('http') ? str(it.sourceUrl) : '',
+    basedOnOthers: !!(it.by !== 'admin' && !names && !(cr && cr.type === 'original')), tr: {}, rev: '',
   };
   for (const l of LANGS) { const t = trOf(it, l); if (t) a.tr[l] = t; }
   a.rev = 'f' + hash(JSON.stringify(a));
@@ -69,7 +74,7 @@ export function cardOf(a: Article, lang: Lang): Card | null {
   let summary = t.summary || t.body;
   if (summary.length > 320) summary = summary.slice(0, 320).replace(/\s+\S*$/, '') + '…';
   const c: Card = { id: a.id, rev: a.rev, title: t.title, summary, publishedAt: a.publishedAt, section: a.section, category: a.category,
-    image: a.image, thumb: a.thumb || a.image, imageAlt: t.imageAlt || a.tr.so?.imageAlt || '' };
+    image: t.image || a.image, thumb: t.image || a.thumb || a.image, imageAlt: t.imageAlt || a.tr.so?.imageAlt || '' };
   if (a.country) c.country = a.country;
   if (a.region) c.region = a.region;
   if (a.sport) c.sport = a.sport;

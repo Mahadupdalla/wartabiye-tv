@@ -11,10 +11,14 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `tools/seo_audit.py`, `data/seo.json`, `news-sitemap.xml` | Google SEO: boggaga waxay HTML-ka ku sitaan wararka dhabta ah (bogga hore, qaybaha `qayb/<qayb>/`, kaydka `kaydka/`, war kasta), `news-sitemap.xml` (48-kii saac ee u dambeysay), hubin daabacaad kasta (`data/seo-report.json`, /admin/ → SEO & health). Turjumaadaha bog gaar ah: `data/seo.json` `translatedPages` (`reviewed` = kuwa maamulku saxay oo kaliya) |
 | `tools/make_thumbs.py` | Sawirro yaryar 480px webp (`img/news/w480/`) |
 | `admin/`, `admin/codsiyada/` | Maamulka (Sveltia CMS, login GitHub) iyo maamulka gaarka ah ee codsiyada xayeysiiska (repo private) |
-| `img/news/` | Sawirrada wararka (Wikimedia Commons / VOA, liisan sharci ah) |
+| `img/news/` | Sawirrada wararka (Wikimedia Commons / Openverse / VOA, liisan sharci ah). Sawir kasta magac cusub ayuu leeyahay: `<id>-<hash>.<ext>` |
+| `tools/image_system.py` | Nidaamka sawirrada: raadin, liisan, dhibco (qofka, goobta, ururka), diiwaanka isticmaalka (`data/image-registry.json`), `imageRights`, sawirka qaybta. Tijaabo: `tools/image_system_test.py` |
+| `img/category/` | Sawirrada qaybaha (14). Tan iyo 21 Nov 2026 looma isticmaalo sawirka warka (sawir la'aan = Sugaya sawir). Waxaa sameeya `tools/make_category_graphics.js` |
+| `data/image-settings.json`, `data/image-sources.json` | Dejinta sawirrada (sawir la'aan: had iyo jeer `hold` = Sugaya sawir) iyo ilaha rasmiga ah |
 | `tools/translations.py` | Turjumaadda wararka (en/ar/fr/nl/it/de/tr): liiska kuwa maqan, ku darid aan waxba dib u qorin, hubin |
 | `tools/lang_test.js` | Tijaabada badhanka luqadda (9 luqadood, desktop + mobile, RTL) |
 | `tools/article_quality.py` | Heerka war dhammaystiran (hordhac, qoraal buuxa, cinwaan-hoosaad `## `, gabagabo, jumlad aan goyan): `check --new` hawsha wararka, `report` wararka gaagaaban, `expand` dhammaystirka ammaan ah ee war hore (kuwa maamulku taabtay waa la ilaaliyaa) |
+| `tools/attribution.py` | Magacaabista ilaha (19 Nov 2026): war kasta waa war Wartabiye TV. Cinwaanka, hordhaca iyo qoraalka kuma qorna magaca warbaahinta laga soo xigtay ("Sida ay werisay …" waa laga saaraa `data/news.json`, faylka warka lama taabto). Hoosta maqaalka: WARBIXINTA / TAARIIKHDA / QAYBTA iyo hal qoraal isha ah ("WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay …"). Maamulka: "Nooca warbixinta", "Ilaha la xusayo", xaaladda dib-u-qorista iyo xaqiijinta; warbixinta `data/attribution-report.json`. Tijaabo: `python3 tools/attribution.py test` |
 | `tools/check_site.py` | Hubinta: JSON sax ah, taariikh sax ah, URL aan labanlaabmin, sawir kasta wuu jiraa, qaybaha iyo xayeysiisyada |
 | `tools/live_test.js` | Tijaabada browser-ka: bogga hore, war kasta, qaybaha, Ciyaaraha, Caalamka, Xayeysiimaha, boggaga |
 | `assets/media.js`, `assets/media-i18n.js` | Muuqaal Wararka (`#muuqaal`, `muuqaal/<id>.html`), LIVE TV (`#toos`), Ciyaaraha Toos (`#ciyaaraha-toos`), 9 luqadood |
@@ -35,6 +39,12 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `.github/workflows/mobile-app.yml` | Tijaabooyinka app-ka (isku xirka, 9 luqadood, bogga tooska ah) iyo dhismaha Android (APK + AAB) |
 | `data/adsense.json`, `tools/build_adsense.py`, `assets/ads.js` | Google AdSense Auto ads (bogga kaliya, app-ka ma aha). Inta aan publisher ID dhab ah lagu kaydin /admin/ → Advertising, waxba Google lagama daro bogga, `ads.txt`-na ma jiro. Kadib: koodka rasmiga ah ee `<head>`, `google-adsense-account` meta iyo `ads.txt` si toos ah ayaa loo daabacaa. Tijaabo: `python3 tools/adsense_test.py` |
 | `tools/notify_test.js` | Tijaabada gambaleelka (desktop + mobile, RTL, link kasta war dhab ah) |
+
+## Nidaamka sawirrada
+
+War kasta wuxuu helaa sawir u gaar ah oo la xiriira dadka, goobta, ururka iyo taariikhda warka. `tools/image_system.py find <id> --person ... --place ... --org ...` wuxuu ka raadiyaa Wikimedia Commons iyo Openverse (fure looma baahna), wuxuu hubiyaa liisanka, wuxuu diidaa sawirrada wakaaladaha (Reuters, AP, AFP, Getty...), qof khaldan, goob khaldan iyo sawir hore loo isticmaalay (SHA-256 iyo faraha sawirka). Sawir kasta wuxuu leeyahay diiwaan buuxa (`imageRights`): isha, bogga, sawirqaadaha, liisanka, taariikhda la soo qaaday. Bogga wuxuu muujiyaa: "Sawir: <isha> | Sawirqaade: <magac> | Liisanka: <liisan>". **Sawir la'aan, daabacaad la'aan (21 Nov 2026):** war aan lahayn sawir sax ah oo sharci ah lama daabaco. Wuxuu ku sugaa /admin/ → **Waiting for photo / Sugaya sawir** (sababta: `imageNote`) ilaa maamulku sawir geliyo. Sawirka qaybta (`img/category/`) mar dambe looma isticmaalo sawirka warka. `python3 tools/image_system.py enforce` wuxuu baaraa war kasta oo baxay: sawir la'aan, sawirka qaybta ama fayl jaban/madhan → wuxuu raadiyaa sawir hubaal ah, haddii kale wuu celiyaa (`heldBy: "image-rule"`). `build_news.py` iyo `check_site.py` midna ma daabacaan war aan sawir sax ah lahayn. /admin/ → **Image sources**: eeg, raadi, beddel, ansixi ama diid.
+
+Furayaasha ikhtiyaariga ah (bilaash): `UNSPLASH_ACCESS_KEY`, `PEXELS_API_KEY`, `PIXABAY_API_KEY`. Ku dar environment variables-ka deegaanka Claude ee hawsha wararka iyo `wrangler secret put` (admin Worker). Sawirrada stock lagama isticmaalo qof magac leh. Sawirrada AI waa dansan yihiin.
 
 ## Cusbooneysiinta saacad kasta
 Hawl jadwal ah oo Claude ah ayaa socota **saacad kasta, 24 saac, 7 maalmood (Africa/Nairobi, qiyaastii daqiiqadda :08)**, cloud-ka Anthropic dhexdiisa (laptop looma baahna). Jadwalku ma ballanqaado daqiiqad sax ah.

@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Interface text for Video News, LIVE TV and LIVE Sports (assets/media.js) in the nine site languages.
    Added to window.WT_I18N (assets/i18n.js). Somali is the original; any missing text falls back to Somali. */
 (function(){

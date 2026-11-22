@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV, premium edition. Same identity as the live site: Wartabiye blue #037BDC, red #F2060A, the round logo,
    Archivo headlines and Public Sans text, blue sticky menu with a red rule, DEGDEG ticker, story mosaic, blue footer.
    Light and dark themes share the same tokens; dark is chosen by the visitor or by the device setting. */
@@ -316,6 +317,21 @@ html[lang=ar] .body p:first-of-type::first-letter{font:inherit;float:none;margin
 .byline .by{color:var(--muted)}
 .byline .by b{color:var(--fg);font-weight:700}
 .srcline{margin:-.2em 0 0;max-width:68ch;font-size:13px;color:var(--muted)}
+/* editorial footer: WARBIXINTA / TAARIIKHDA / QAYBTA and one discreet source note */
+.edfoot{max-width:68ch;margin:6px 0 22px;padding:12px 0 2px;border-top:3px solid var(--blue);font-size:13px;color:var(--muted)}
+.edfoot .edbrand{margin:0 0 8px;font:800 12px var(--display);letter-spacing:.12em;color:var(--blue)}
+.edfoot dl{display:flex;flex-wrap:wrap;gap:6px 22px;margin:0}
+.edfoot dl div{display:flex;gap:6px;align-items:baseline}
+.edfoot dt{font:700 11.5px var(--display);letter-spacing:.08em;color:var(--fg)}
+.edfoot dd{margin:0}
+.edfoot .srcnote{margin:10px 0 0;line-height:1.5}
+.edfoot .srcnote b{color:var(--fg);font-weight:700}
+.edfoot .srcnote a{color:var(--link);text-decoration:underline;text-underline-offset:2px}
+:root[data-theme="dark"] .edfoot .edbrand{color:#6fb6ff}
+.docproof{margin:8px 0 24px;max-width:68ch;display:grid;gap:12px}
+.docproof .docpage{display:block;border:1px solid var(--line);background:#fff}
+.docproof .docpage img{display:block;width:100%;height:auto}
+.docproof .docpdf{justify-self:start;padding:8px 14px;border:1px solid var(--line);border-radius:6px;font-weight:700;color:var(--link);text-decoration:none}
 .srcline a{color:var(--link);font-weight:600;text-decoration:underline;text-underline-offset:3px;word-break:break-word}
 .spon-note{background:var(--surface);color:var(--fg);border:1px solid var(--red);border-radius:var(--r-sm);padding:10px 14px;font-weight:600;font-size:14px;margin-bottom:14px}
 :root[data-theme="dark"] .spon-note{background:#3a2a0b;color:#ffd58a;border-color:#5f4512}
@@ -486,6 +502,10 @@ footer p{font-size:14px;margin:14px 0 0;line-height:1.65}
 .lang img{width:20px;height:14px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px rgba(11,28,51,.18);flex:none;display:block}
 .lang-btn svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .lang-btn .lc{display:none}
+/* while a language's titles are loading (a second or less): the flag pulses gently */
+.lang-btn.busy{cursor:progress}.lang-btn.busy img{animation:langbusy .7s ease-in-out infinite alternate}
+@keyframes langbusy{to{opacity:.3}}
+@media (prefers-reduced-motion:reduce){.lang-btn.busy img{animation:none;opacity:.5}}
 .lang-menu{position:absolute;inset-inline-end:0;top:calc(100% + 6px);z-index:30;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:8px;box-shadow:var(--shadow-2);min-width:190px;padding:6px;display:grid;gap:2px}
 .lang-menu[hidden]{display:none}
 .lang-menu button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:9px 10px;border-radius:5px;font:600 14px var(--body);color:var(--fg);cursor:pointer;text-align:start}
@@ -1025,6 +1045,9 @@ a[data-soc] svg.bi,a[data-soc] svg.bi *{stroke:none}
 .figure .ph.hero{aspect-ratio:auto;display:grid;place-items:center;background:var(--chip);border:1px solid var(--line)}
 .figure .ph.hero>img{position:relative;inset:auto;width:100%;height:auto;max-height:min(78vh,720px);object-fit:contain;object-position:center;transform:none!important}
 .figure .ph.hero.none{aspect-ratio:16/9;border:0}
+/* imageSize 'small': smaller photo centred under the title */
+.figure.small{max-width:340px;margin-left:auto;margin-right:auto;text-align:center}
+.figure.small .ph.hero>img{max-height:none}
 @media (max-width:640px){.figure .ph.hero>img{max-height:72vh}}
 
 /* ---------- translation not available ---------- */
@@ -1398,3 +1421,13 @@ html[dir=rtl] .links.fade{-webkit-mask-image:linear-gradient(to left,#000 calc(1
 .archive li{border-bottom:1px solid var(--line);padding:10px 2px}
 .archive a{color:var(--fg);font-weight:600;line-height:1.35}
 .archive a:hover{color:var(--blue)}
+/* photo protection (with assets/protect.js): photos cannot be dragged out and iPhone/iPad long-press shows no
+   "Save image" menu. Text stays selectable and copyable. Light deterrent only. */
+img,picture,video{-webkit-user-drag:none;-webkit-touch-callout:none}
+/* after a refresh in another language than the page's own HTML: the stories stay hidden (a small spinner shows) until
+   they are shown in the reader's language, a second or two (assets/app.js, "wt-wait") */
+html.wt-wait #main>*,html.wt-wait .tick-track{visibility:hidden}
+html.wt-wait #main{position:relative}
+html.wt-wait #main::before{content:"";position:absolute;left:50%;top:40px;width:30px;height:30px;margin-left:-15px;border-radius:50%;border:3px solid rgba(0,0,0,.12);border-top-color:var(--red,#e30613);animation:wtspin .8s linear infinite;z-index:1}
+@keyframes wtspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){html.wt-wait #main::before{animation:none}}

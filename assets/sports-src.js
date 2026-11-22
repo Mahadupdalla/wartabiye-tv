@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV: where the LIVE Sports page (assets/media.js) gets its data, all in one provider-neutral format
    (the same format as the sports proxy in workers/sports-api):
      match: {id, utcDate, status, minute, competition:{id,name,area,emblem}, round, home:{id,name,crest}, away:{...},

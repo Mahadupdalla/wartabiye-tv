@@ -1499,6 +1499,63 @@
    "notes": "International Headlines first, Top Stories as a second feed. Photos are ABC/AP/Reuters/Getty: never reused. Video-only items are skipped."
   },
   {
+   "id": "pbs-newshour",
+   "name": "PBS NewsHour",
+   "shareLink": "",
+   "homepage": "https://www.pbs.org/newshour/world",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 80,
+   "fastPoll": true,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.pbs.org/newshour/feeds/rss/world"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Added 17 Nov 2026 (owner's approval): its article pages open with WebFetch and carry the full Associated Press wire text, so it is the readable way to confirm AP reporting (apnews.com blocks this container). Credit AP when the story is an AP wire. Photos are AP/Getty/PBS: never reused."
+  },
+  {
+   "id": "cbs-news",
+   "name": "CBS News",
+   "shareLink": "",
+   "homepage": "https://www.cbsnews.com/world/",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 75,
+   "fastPoll": true,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.cbsnews.com/latest/rss/world"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Added 17 Nov 2026 (owner's approval): feed and full article pages open with WebFetch. Photos are CBS/AP/Reuters/Getty: never reused. Live-updates pages are used only for facts with a clear time."
+  },
+  {
+   "id": "anadolu",
+   "name": "Anadolu Agency (AA)",
+   "shareLink": "",
+   "homepage": "https://www.aa.com.tr/en",
+   "section": "world",
+   "enabled": true,
+   "verified": true,
+   "priority": 75,
+   "fastPoll": true,
+   "feeds": [
+    {
+     "type": "rss",
+     "url": "https://www.aa.com.tr/en/rss/default?cat=world"
+    }
+   ],
+   "imagePolicy": "all-rights-reserved",
+   "notes": "Added 17 Nov 2026 (owner's approval): Turkish state news agency; feed opens with WebFetch; strong Africa and Middle East coverage. Attribute claims to AA. Photos are AA: never reused."
+  },
+  {
    "id": "swedenherald",
    "name": "Sweden Herald",
    "shareLink": "",

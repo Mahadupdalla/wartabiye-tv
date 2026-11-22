@@ -44,7 +44,7 @@ sports_cycle() {
     if python3 tools/build_news.py >/dev/null && python3 tools/check_site.py >/dev/null; then
       git add data/news/*-natiijo-*.json
     else
-      echo "result reports did not pass the site check: not published"; git checkout -q -- data/news.json; git clean -qf data/news; new=0
+      echo "result reports did not pass the site check: not published"; git checkout -q -- data/news.json $(git ls-files data/news-lite.json data/lite data/story); git clean -qf data/news data/lite data/story; new=0
     fi
   fi
   # the result-check status for /admin/: with every new report, otherwise about once an hour
@@ -58,7 +58,7 @@ sports_cycle() {
   git "${BOT[@]}" commit -q -m "$msg" || return 1
   # the rebuilt data/news.json etc. are not committed (the publish workflow builds them): drop them, or the rebase
   # refuses to start ("cannot pull with rebase: You have unstaged changes", seen 9 Nov 09:35 UTC: 3 reports lost)
-  git reset -q --hard HEAD
+  git reset -q --hard HEAD; git clean -qf data/lite data/story 2>/dev/null || true
   push_main || return 1
   if [ "$new" -gt 0 ]; then
     # a push made with the job's token starts no workflow: start the publish workflow (pages, bell, push alerts)
@@ -101,7 +101,7 @@ sports_writer_cycle() {
   git "${BOT[@]}" commit -q -m "$msg" || return 1
   # the rebuilt data/news.json etc. are not committed (the publish workflow builds them): drop them, or the rebase
   # refuses to start ("cannot pull with rebase: You have unstaged changes", seen 9 Nov 09:35 UTC: 3 reports lost)
-  git reset -q --hard HEAD
+  git reset -q --hard HEAD; git clean -qf data/lite data/story 2>/dev/null || true
   push_main || return 1
   if [ "$pub" -gt 0 ]; then
     gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
@@ -158,6 +158,33 @@ push_main() {
   echo "could not push to main after 4 tries (kept for the next check)"; git reset -q --hard origin/main; return 1
 }
 
+sports_pool_cycle() {
+  # the checked 24-hour sports list for the 3-hourly news task (owner's decision of 17 November 2026: 15 sports stories
+  # every run). The runs start at :08 Africa/Nairobi every 3 hours (UTC hours 0, 3, 6 ... at :08); the list is built
+  # from :15 of the hour before (UTC hour 2, 5, 8 ...), once per run, in the background so the 5-minute checks keep their
+  # clock. The news task then reads sports-pool.json from branch world-feed in seconds (tools/news_task_prompt.md).
+  [ $(( 10#$(date -u +%H) % 3 )) -eq 2 ] && [ $(( 10#$(date -u +%M) )) -ge 15 ] || return 0
+  [ -f /tmp/fast/sports-pool.lock ] && return 0
+  built=$(git show FETCH_HEAD:sports-pool.json 2>/dev/null | python3 -c "import json,sys;print(json.load(sys.stdin).get('builtAt',''))" 2>/dev/null || true)
+  bage=$(python3 -c "import datetime;o='$built';print(9999 if not o else int((datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(o)).total_seconds()//60))")
+  [ "$bage" -ge 90 ] || return 0
+  touch /tmp/fast/sports-pool.lock
+  ( cd "$GITHUB_WORKSPACE"
+    rm -rf /tmp/sp && git worktree add -q -f /tmp/sp HEAD 2>/dev/null || { rm -f /tmp/fast/sports-pool.lock; exit 1; }
+    cd /tmp/sp && git fetch -q origin world-feed 2>/dev/null
+    if python3 tools/sports_catchup.py --pool /tmp/sports-pool.json --max 600 > /tmp/sports-pool.log 2>&1; then
+      for i in 1 2 3; do
+        ( rm -rf /tmp/wfp && mkdir /tmp/wfp && cd /tmp/wfp && git init -q
+          { git fetch -q "$REMOTE" world-feed && git checkout -q -b world-feed FETCH_HEAD; } || exit 1
+          cp /tmp/sports-pool.json sports-pool.json && git add sports-pool.json
+          git "${BOT[@]}" commit -q -m "Sports pool for the next news run $(date -u +%FT%TZ)" && git push -q "$REMOTE" world-feed ) && break
+        sleep 7
+      done
+    fi
+    tail -1 /tmp/sports-pool.log
+    cd "$GITHUB_WORKSPACE" && git worktree remove -f /tmp/sp 2>/dev/null; rm -f /tmp/fast/sports-pool.lock ) &
+}
+
 cycle() {
   cd "$GITHUB_WORKSPACE"
   # the newest main: new articles (for "published / held" tracking), source list changes, monitor fixes
@@ -188,9 +215,25 @@ cycle() {
   else
     echo "nothing fresh to hand over"
   fi
+  git fetch -q origin world-feed 2>/dev/null || true
+  sports_pool_cycle || echo "sports pool failed this time (the next check retries)"
 
-  # sports news articles from the fresh sports stories (Claude API, only with the secret ANTHROPIC_API_KEY)
-  sports_writer_cycle || echo "sports writer failed this time (the next check retries)"
+  # sports news articles from the fresh sports stories (Claude API): SWITCHED OFF by the owner's decision of 16 November
+  # 2026 ("Leave the separate sports writer off. The main news runs cover sports now."). The 3-hourly news task writes up
+  # to 15 sports stories per run. To switch it back on, restore the line below.
+  # sports_writer_cycle || echo "sports writer failed this time (the next check retries)"
+  echo "sports writer: off (owner's decision of 16 Nov 2026; the 3-hourly news runs cover sports)"
+  python3 - <<'PY' || true
+import json, os
+p = '/tmp/fast/sports-writer-status.json'
+try:
+    d = json.load(open(p, encoding='utf-8'))
+except Exception:
+    d = {}
+d['mode'] = "off: switched off by the owner on 16 Nov 2026 (the 3-hourly news runs write up to 15 sports stories each)"
+os.makedirs('/tmp/fast', exist_ok=True)
+json.dump(d, open(p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+PY
   # world and East Africa articles (Claude API, only with the secret; by default only while the hourly routine is down)
   news_writer_cycle || echo "news writer failed this time (the next check retries)"
   # publishing watchdog: re-start a failed publish, re-build a stuck GitHub Pages, alert the owner when retries do not help

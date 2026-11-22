@@ -77,13 +77,26 @@ def translation(it, lang):
     x = it.get(lang)
     if not isinstance(x, dict) or not s(x.get('title')):
         return None
-    return {'title': s(x.get('title')), 'summary': s(x.get('summary')), 'body': s(x.get('body')), 'imageAlt': s(x.get('imageAlt')),
-            # "manual" = checked by a person in /admin/; anything else is an automatic translation and is labelled as such
-            'status': 'manual' if x.get('status') == 'manual' else 'auto'}
+    t = {'title': s(x.get('title')), 'summary': s(x.get('summary')), 'body': s(x.get('body')), 'imageAlt': s(x.get('imageAlt')),
+         # "manual" = checked by a person in /admin/; anything else is an automatic translation and is labelled as such
+         'status': 'manual' if x.get('status') == 'manual' else 'auto'}
+    if img(x.get('image')):
+        t['image'] = img(x.get('image'))   # this language's own photo (e.g. a result graphic with translated words)
+    return t
 
 
 def show_source(it):
     return bool(it.get('source') and it.get('source') != 'Wartabiye TV' and it.get('attributionRequired') is True)
+
+
+def credit_names(it):
+    """the outlets credited in the article's source note (tools/attribution.py "credit"), e.g. "Hiiraan Online, Puntland Post"."""
+    c = it.get('credit') if isinstance(it.get('credit'), dict) else None
+    if c is None:
+        return s(it.get('source')) if show_source(it) else ''
+    if c.get('type') == 'original':
+        return ''
+    return ', '.join(s(x.get('name')) for x in c.get('sources') or [] if isinstance(x, dict) and s(x.get('name')))
 
 
 def article(it):
@@ -97,12 +110,17 @@ def article(it):
         'by': 'admin' if it.get('by') == 'admin' else 'newsroom',
         'image': img(it.get('image')), 'thumb': img(it.get('thumb')),
         'imageCredit': s(it.get('imageCredit')) or ('Wartabiye TV' if it.get('by') == 'admin' and img(it.get('image')) else ''),
-        'imageLicense': s(it.get('imageLicense')), 'imageSourceUrl': s(it.get('imageSourceUrl')) if s(it.get('imageSourceUrl')).startswith('https://') else '',
-        'imageKind': s(it.get('imageKind')), 'imageNote': s(it.get('imageNote')),
-        # the website shows a publisher only when it must be credited; otherwise "based on reports from other media"
-        'source': s(it.get('source')) if show_source(it) else '',
+        'imageLicense': '' if it.get('imageKind') == 'category' else s(it.get('imageLicense')), 'imageSourceUrl': s(it.get('imageSourceUrl')) if s(it.get('imageSourceUrl')).startswith('https://') else '',
+        'imageKind': s(it.get('imageKind')),
+        # credit facts from the image system (source, photographer, licence + link, status); never the editors' notes
+        'imageInfo': {k: v for k, v in (it.get('imageInfo') or {}).items() if k in ('source', 'pageUrl', 'photographer', 'owner', 'license', 'licenseUrl', 'status') and isinstance(v, str)},
+        # the editorial source note (owner's spec, 19 Nov 2026): the outlets the story is based on, credited once under the
+        # text; the link only when a licence requires it. "credit" = the same record the website uses.
+        'source': credit_names(it),
         'sourceUrl': s(it.get('sourceUrl')) if show_source(it) and s(it.get('sourceUrl')).startswith('http') else '',
-        'basedOnOthers': bool(it.get('by') != 'admin' and it.get('source') and it.get('source') != 'Wartabiye TV' and not show_source(it)),
+        'basedOnOthers': bool(it.get('by') != 'admin' and not credit_names(it) and (it.get('credit') or {}).get('type', 'rewritten') != 'original'),
+        'credit': {'type': s((it.get('credit') or {}).get('type')) or ('original' if it.get('by') == 'admin' else 'rewritten'),
+                   'sources': [{'name': s(x.get('name'))} for x in (it.get('credit') or {}).get('sources') or [] if isinstance(x, dict) and s(x.get('name'))]},
         'tr': {},
     }
     for lang in LANGS:
@@ -119,7 +137,7 @@ def card(a, lang):
     if len(summ) > CARD_TEXT:
         summ = summ[:CARD_TEXT].rsplit(' ', 1)[0] + '…'
     c = {'id': a['id'], 'rev': a['rev'], 'title': t['title'], 'summary': summ, 'publishedAt': a['publishedAt'],
-         'section': a['section'], 'category': a['category'], 'image': a['image'], 'thumb': a['thumb'] or a['image'],
+         'section': a['section'], 'category': a['category'], 'image': t.get('image') or a['image'], 'thumb': t.get('image') or a['thumb'] or a['image'],
          'imageAlt': t['imageAlt'] or a['tr']['so']['imageAlt'] if 'so' in a['tr'] else t['imageAlt']}
     for k in ('country', 'region', 'sport', 'competition', 'sponsor'):
         if a[k]:
@@ -129,8 +147,8 @@ def card(a, lang):
             c[k] = True
     if not a['timeVerified']:
         c['timeVerified'] = False
-    if a['imageKind'] == 'illustrative':          # the website marks these photos "Sawir muujin ah"
-        c['imageKind'] = 'illustrative'
+    if a['imageKind'] in ('illustrative', 'category', 'ai-illustration'):  # labelled on the website: illustrative photo / category graphic / AI
+        c['imageKind'] = a['imageKind']
     if t['status'] == 'auto':
         c['autoTranslated'] = True
     return c
@@ -157,11 +175,21 @@ def build(news, ads, videos, site, now, notify=None):
     for lang in LANGS:
         feeds[lang] = [card(a, lang) for a in arts if lang in a['tr']]
     ids = {a['id'] for a in arts}
+    pub = {a['id']: a.get('publishedAt') for a in arts}
+
+    def fresh_pick(i):  # a homepage pick stays on top for 6 hours after publication (as the website, assets/app.js PICK_MS)
+        try:
+            d = datetime.datetime.fromisoformat(str(pub.get(i)).replace('Z', '+00:00'))
+            d = d if d.tzinfo else d.replace(tzinfo=datetime.timezone(datetime.timedelta(hours=3)))
+            return (now - d).total_seconds() < 6 * 3600
+        except Exception:
+            return False
+
     def picks(key):  # the editor's homepage picks in /admin/ (data/site.json "featured" / "trending"), as on the website
         out = []
         for f in (site or {}).get(key) or []:
             i = f if isinstance(f, str) else (f.get('article') if isinstance(f, dict) else None)
-            if i in ids and i not in out:
+            if i in ids and i not in out and (key != 'featured' or fresh_pick(i)):
                 out.append(i)
         return out[:10]
     featured, trending = picks('featured'), picks('trending')
@@ -231,6 +259,10 @@ def test():
     assert a1['section'] == 'somalia' and arts[0]['section'] == 'sports'
     assert a1['source'] == '' and a1['basedOnOthers'] is True, 'publisher shown only when it must be credited'
     assert arts[0]['source'] == 'X' and arts[0]['sourceUrl'] == 'https://x'
+    cr = article({'id': 'd-4', 'title': 'T', 'source': 'Hiiraan Online', 'credit': {'type': 'multi', 'sources': [{'name': 'Hiiraan Online', 'url': 'https://h'}, {'name': 'Puntland Post'}]}})
+    assert cr['source'] == 'Hiiraan Online, Puntland Post' and cr['basedOnOthers'] is False and cr['credit']['type'] == 'multi', 'the source note credits every outlet'
+    own = article({'id': 'e-5', 'title': 'T', 'by': 'admin', 'source': 'Wartabiye TV', 'credit': {'type': 'original', 'sources': []}})
+    assert own['source'] == '' and own['basedOnOthers'] is False, "the newsroom's own story names no outlet"
     assert arts[0]['image'] == '', 'unsafe image dropped'
     assert feeds['en'][1]['autoTranslated'] is True and 'autoTranslated' not in feeds['en'][0]
     assert len(feeds['so'][0]['summary']) <= CARD_TEXT + 1 and feeds['so'][0]['breaking'] is True

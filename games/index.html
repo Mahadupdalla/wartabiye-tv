@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="so" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Games | Wartabiye TV</title>
+<meta name="description" content="Wartabiye TV Games: ciyaaro bilaash ah oo laga ciyaaro bogga gudihiisa. Carruurta, dhalinyarada, dadka waaweyn iyo odayaasha: jees, sudoku, ereyo, xisaab, tartan baabuur iyo kuwo kale.">
+<meta name="theme-color" content="#04213f">
+<link rel="canonical" href="https://www.wartabiyetv.com/games/">
+<link rel="icon" href="../img/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Wartabiye TV Games">
+<meta property="og:description" content="Free games you play right on Wartabiye TV: kids, teenagers, adults and seniors.">
+<meta property="og:url" content="https://www.wartabiyetv.com/games/">
+<meta property="og:image" content="https://www.wartabiyetv.com/img/logo.png">
+<script>try{var t=localStorage.getItem('wartabiye-theme');if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){}
+try{var h=document.documentElement,l=new URLSearchParams(location.search).get('lang')||localStorage.getItem('wartabiye-lang');if(/^(so|en|ar|fr|nl|it|de|tr|es)$/.test(l||'')){h.lang=l;h.dir=l==='ar'?'rtl':'ltr'}}catch(e){}
+window.WARTABIYE_ROUTE='games'</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,600..900&family=Public+Sans:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@400..700&display=swap">
+<link rel="stylesheet" href="games.css?v=6">
+</head>
+<body>
+<a class="skip" href="#main" id="skip">Skip</a>
+<header class="gh">
+  <div class="wrap">
+    <a class="brand" href="../" aria-label="Wartabiye TV"><img src="../img/logo.png" alt="" width="40" height="40"><b>WARTABIYE<i>TV</i></b><em>🎮 GAMES</em></a>
+    <nav aria-label="Games">
+      <a class="newslink" href="../" id="newsLink"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span id="newsTxt">Wararka</span></a>
+      <button type="button" id="profBtn" aria-haspopup="dialog"><span id="profAv">🦁</span><span class="sr" id="profTxt">Profile</span></button>
+      <button type="button" id="themeBtn" aria-label="Light / dark"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <label class="sr" for="langSel">Language</label>
+      <select id="langSel">
+        <option value="so">Soomaali</option><option value="en">English</option><option value="ar">العربية</option><option value="fr">Français</option><option value="nl">Nederlands</option><option value="it">Italiano</option><option value="tr">Türkçe</option><option value="de">Deutsch</option><option value="es">Español</option>
+      </select>
+    </nav>
+  </div>
+</header>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1 id="heroTitle">Wartabiye TV <span>Games</span></h1>
+      <div class="feat" id="feat" aria-roledescription="carousel"></div>
+    </div>
+    <div class="side-cards">
+      <div class="me-card" id="meCard"></div>
+      <div class="daily" id="daily"></div>
+    </div>
+  </div>
+</section>
+<div class="fbar">
+  <div class="wrap">
+    <div class="chips" id="chips" role="toolbar"></div>
+    <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr" for="q" id="qLab">Search</label><input id="q" type="search" autocomplete="off"></div>
+  </div>
+</div>
+<main id="main" tabindex="-1">
+  <div class="wrap" id="rows"><p class="empty" id="loadingTxt">…</p></div>
+</main>
+<footer class="gf"><div class="wrap"><span>© <span id="yr">2026</span> Wartabiye TV</span><a href="../" id="footNews">wartabiyetv.com</a></div></footer>
+<noscript><p style="padding:20px;text-align:center">Games need JavaScript. Ciyaaruhu waxay u baahan yihiin JavaScript.</p></noscript>
+<script src="core.js?v=8"></script>
+<script src="prefs.js?v=5"></script>
+<script src="hub.js?v=5"></script>
+<script src="../assets/stats.js" data-endpoint="https://wartabiye-admin.wartabiye.workers.dev" defer></script>
+</body>
+</html>

@@ -26,7 +26,10 @@ esc = lambda s: html.escape(str(s or ''), quote=True)
 EAT = datetime.timezone(datetime.timedelta(hours=3))
 LANGS = ('en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es')
 
-tpl = open(os.path.join(root, 'index.html'), encoding='utf-8').read()
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import build_min  # noqa: E402  minified JS/CSS for visitors (assets/min/, made by tools/build_min.py at every publish)
+# the template always starts from the readable assets; write() points each page at the up-to-date minified copies
+tpl = build_min.unrewrite(open(os.path.join(root, 'index.html'), encoding='utf-8').read())
 a, b = tpl.index('<!--seo-->'), tpl.index('<!--/seo-->') + len('<!--/seo-->')
 assert '<!--story-->' in tpl, 'story marker missing in index.html'
 REGIONS = ('mosaic', 'list', 'blocks', 'ftrend', 'fcats', 'tick')
@@ -81,9 +84,13 @@ def load_i18n():
 I18N = load_i18n()
 SO_WORDS = {'home': 'Hoyga', 'somaliaNav': 'Soomaaliya', 'eastAfrica': 'Bariga Afrika', 'world': 'Caalamka', 'sports': 'Ciyaaraha',
             'related': 'Wararka la xiriira', 'photo': 'Sawirka', 'back': '← Ku noqo bogga hore', 'seeAll': 'Dhammaan',
-            'pubBy': 'Waxaa daabacay Wartabiye TV', 'wroteBy': 'Wartabiye TV ayaa qortay', 'srcLabel': 'Isha',
+            'pubBy': 'Waxaa daabacay Wartabiye TV', 'wroteBy': 'Warkaan waxaa daabacay Wartabiye TV', 'srcLabel': 'Isha',
             'illus': 'Sawir muujin ah', 'latestWorld': 'Wararka Caalamka', 'latestSports': 'Wararka Ciyaaraha', 'categories': 'Qaybaha',
-            'latestShort': 'Ugu dambeeyay', 'updatedWord': 'La cusbooneysiiyay'}
+            'latestShort': 'Ugu dambeeyay', 'updatedWord': 'La cusbooneysiiyay',
+            'edBrand': 'WARTABIYE TV NEWS', 'edReport': 'WARBIXINTA', 'edDate': 'TAARIIKHDA', 'edSection': 'QAYBTA', 'edSource': 'ISHA',
+            'noteBased': 'Iyadoo lagu salaynayo warbixin ay baahisay {src}.', 'noteMulti': 'Iyadoo lagu salaynayo warbixinno ay baahiyeen {src}.',
+            'noteOfficial': 'Iyadoo lagu salaynayo war rasmi ah oo ay soo saartay {src}.', 'noteVerified': 'Xogtan waxaa xaqiijiyay tifaftirka Wartabiye TV.',
+            'noteFirst': 'Warbixinta ugu horreysay waxaa baahisay {src}.', 'andWord': 'iyo', 'secWorld': 'Wararka Caalamka', 'secSomalia': 'Wararka Soomaaliya'}
 
 
 def T(key, lang='so'):
@@ -95,14 +102,14 @@ def T(key, lang='so'):
     return v if isinstance(v, str) and v.strip() else SO_WORDS.get(key, key)
 
 
-CATN = {'en': {'Siyaasadda': 'Politics', 'Amniga': 'Security', 'Bulshada': 'Society', 'Dhaqaalaha': 'Economy', 'Adduunka': 'World', 'Ciyaaraha': 'Sports'},
-        'ar': {'Siyaasadda': 'سياسة', 'Amniga': 'أمن', 'Bulshada': 'مجتمع', 'Dhaqaalaha': 'اقتصاد', 'Adduunka': 'العالم', 'Ciyaaraha': 'رياضة'},
-        'fr': {'Siyaasadda': 'Politique', 'Amniga': 'Sécurité', 'Bulshada': 'Société', 'Dhaqaalaha': 'Économie', 'Adduunka': 'Monde', 'Ciyaaraha': 'Sport'},
-        'nl': {'Siyaasadda': 'Politiek', 'Amniga': 'Veiligheid', 'Bulshada': 'Samenleving', 'Dhaqaalaha': 'Economie', 'Adduunka': 'Wereld', 'Ciyaaraha': 'Sport'},
-        'it': {'Siyaasadda': 'Politica', 'Amniga': 'Sicurezza', 'Bulshada': 'Società', 'Dhaqaalaha': 'Economia', 'Adduunka': 'Mondo', 'Ciyaaraha': 'Sport'},
-        'de': {'Siyaasadda': 'Politik', 'Amniga': 'Sicherheit', 'Bulshada': 'Gesellschaft', 'Dhaqaalaha': 'Wirtschaft', 'Adduunka': 'Welt', 'Ciyaaraha': 'Sport'},
-        'tr': {'Siyaasadda': 'Siyaset', 'Amniga': 'Güvenlik', 'Bulshada': 'Toplum', 'Dhaqaalaha': 'Ekonomi', 'Adduunka': 'Dünya', 'Ciyaaraha': 'Spor'},
-        'es': {'Siyaasadda': 'Política', 'Amniga': 'Seguridad', 'Bulshada': 'Sociedad', 'Dhaqaalaha': 'Economía', 'Adduunka': 'Mundo', 'Ciyaaraha': 'Deportes'}}
+CATN = {'en': {'Siyaasadda': 'Politics', 'Amniga': 'Security', 'Bulshada': 'Society', 'Dhaqaalaha': 'Economy', 'Adduunka': 'World', 'Ciyaaraha': 'Sports', 'Teknolojiyadda': 'Technology'},
+        'ar': {'Siyaasadda': 'سياسة', 'Amniga': 'أمن', 'Bulshada': 'مجتمع', 'Dhaqaalaha': 'اقتصاد', 'Adduunka': 'العالم', 'Ciyaaraha': 'رياضة', 'Teknolojiyadda': 'تكنولوجيا'},
+        'fr': {'Siyaasadda': 'Politique', 'Amniga': 'Sécurité', 'Bulshada': 'Société', 'Dhaqaalaha': 'Économie', 'Adduunka': 'Monde', 'Ciyaaraha': 'Sport', 'Teknolojiyadda': 'Technologie'},
+        'nl': {'Siyaasadda': 'Politiek', 'Amniga': 'Veiligheid', 'Bulshada': 'Samenleving', 'Dhaqaalaha': 'Economie', 'Adduunka': 'Wereld', 'Ciyaaraha': 'Sport', 'Teknolojiyadda': 'Technologie'},
+        'it': {'Siyaasadda': 'Politica', 'Amniga': 'Sicurezza', 'Bulshada': 'Società', 'Dhaqaalaha': 'Economia', 'Adduunka': 'Mondo', 'Ciyaaraha': 'Sport', 'Teknolojiyadda': 'Tecnologia'},
+        'de': {'Siyaasadda': 'Politik', 'Amniga': 'Sicherheit', 'Bulshada': 'Gesellschaft', 'Dhaqaalaha': 'Wirtschaft', 'Adduunka': 'Welt', 'Ciyaaraha': 'Sport', 'Teknolojiyadda': 'Technologie'},
+        'tr': {'Siyaasadda': 'Siyaset', 'Amniga': 'Güvenlik', 'Bulshada': 'Toplum', 'Dhaqaalaha': 'Ekonomi', 'Adduunka': 'Dünya', 'Ciyaaraha': 'Spor', 'Teknolojiyadda': 'Teknoloji'},
+        'es': {'Siyaasadda': 'Política', 'Amniga': 'Seguridad', 'Bulshada': 'Sociedad', 'Dhaqaalaha': 'Economía', 'Adduunka': 'Mundo', 'Ciyaaraha': 'Deportes', 'Teknolojiyadda': 'Tecnología'}}
 CATS = [c for c in (SITE.get('categories') or []) if isinstance(c, str)] or ['Siyaasadda', 'Amniga', 'Bulshada', 'Dhaqaalaha', 'Adduunka', 'Ciyaaraha']
 cat_name = lambda k, lang='so': (CATN.get(lang) or {}).get(k, k) if lang != 'so' else k
 slug = lambda c: str(c or '').lower()
@@ -206,6 +213,7 @@ def head(title, desc, url, img, kind='website', extra='', img_alt='', size=None,
 
 def write(path, page, wanted):
     wanted.add(path)
+    page = build_min.rewrite(page)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     if not os.path.exists(path) or open(path, encoding='utf-8').read() != page:
         open(path, 'w', encoding='utf-8').write(page)
@@ -240,6 +248,11 @@ art_href = lambda n: f'war/{n["id"]}.html'
 
 def ph(n, big=False, hero=False, lang='so'):
     full, small = n.get('image') or '', n.get('thumb') or ''
+    li = (n.get(lang) or {}).get('image') if lang != 'so' and isinstance(n.get(lang), dict) else None
+    if li:
+        full, small = li, ''
+    elif big and n.get('imageAnimated'):
+        small = ''   # a moving graphic: the full file on every screen size (the 480px card copy is a still)
     src = full if big else (small or full)
     alt = (n.get(lang) or {}).get('imageAlt') if lang != 'so' and isinstance(n.get(lang), dict) else None
     alt = alt or n.get('imageAlt') or n.get('title') or ''
@@ -253,7 +266,39 @@ def ph(n, big=False, hero=False, lang='so'):
         sizes = '(max-width:1000px) 100vw, 860px' if big else '(max-width:640px) 92vw, (max-width:1000px) 46vw, 320px'
         srcset = f' srcset="{esc(small)} 480w, {esc(full)} 1200w" sizes="{sizes}"'
     return (f'<span class="ph s-{section(n)}{" hero" if hero else ""}"><img src="{esc(src)}"{srcset} alt="{esc(alt)}"{wh}'
-            f' decoding="async"{extra}>' + (f'<span class="illus">{esc(T("illus", lang))}</span>' if n.get('imageKind') == 'illustrative' else '') + '</span>')
+            f' decoding="async"{extra}>' + ({'illustrative': f'<span class="illus">{esc(T("illus", lang))}</span>',
+                                            'category': f'<span class="illus">{esc(T("catGraphic", lang))} · {esc(cat_name(n.get("category"), lang) or "")}</span>',
+                                            'ai-illustration': f'<span class="illus">{esc(T("aiIllus", lang))}</span>'}.get(n.get('imageKind'), '')) + '</span>')
+
+
+def photo_caption(n, lang='so'):
+    """The credit under the photo, as assets/app.js shows it: "Photo: <source> | Photographer: <name> | License: <licence>"
+    with the source page and the licence linked; the category graphic and AI illustrations are never called photos."""
+    k, I = n.get('imageKind'), n.get('imageInfo') or {}
+    link = lambda t, u: f'<a href="{esc(u)}" target="_blank" rel="noopener">{esc(t)}</a>' if str(u or '').startswith('https://') else esc(t)
+    if k == 'category':
+        return f'<b>{esc(T("catGraphic", lang))}: {esc(cat_name(n.get("category"), lang) or "")}</b> {esc(T("catGraphicNote", lang))} · Wartabiye TV'
+    cap = ''
+    if k == 'ai-illustration':
+        cap += f'<b>{esc(T("aiIllus", lang))}</b> {esc(T("aiIllusNote", lang))} '
+    elif k == 'illustrative':
+        cap += f'<b>{esc(T("illus", lang))}</b>{esc(T("illusNote", lang))}'
+    src, who, lic = I.get('source'), I.get('photographer') or I.get('owner'), I.get('license') or n.get('imageLicense')
+    page = I.get('pageUrl') or n.get('imageSourceUrl')
+    if not I:
+        cr = n.get('imageCredit') or ('Wartabiye TV' if n.get('by') == 'admin' else '')
+        if ' / ' in cr:
+            who, src = cr.rsplit(' / ', 1)
+        else:
+            src = cr
+    if not (src or who):
+        return cap.strip()
+    cap += f'{esc(T("photo", lang))}: ' + link(src or who, page)
+    if src and who:
+        cap += f' | {esc(T("photographer", lang))}: {esc(who)}'
+    if lic:
+        cap += f' | {esc(T("licenseWord", lang))}: ' + link(lic, I.get('licenseUrl'))
+    return cap
 
 
 def meta_line(n, lang='so'):
@@ -291,7 +336,7 @@ by_id = {n['id']: n for n in public}
 FOOT_TREND = ''.join(f'<a href="{art_href(n)}"><span>{esc(n.get("title"))}</span><small>{esc(show_date(n.get("publishedAt"), "so", False))}</small></a>' for n in public[:3])
 # the DEGDEG ticker: the newest headlines as real links (never a "loading" placeholder in the HTML)
 TICK = ''.join(f'<a href="{art_href(n)}">{esc(n.get("title"))}</a>' for n in [x for x in public if not x.get('sponsored')][:8])
-FOOT_CATS = ''.join(f'<a href="qayb/{slug(k)}/">{esc(k)}<span>{sum(1 for n in public if n.get("category") == k)}</span></a>' for k in CATS)
+FOOT_CATS = ''.join(f'<a href="qayb/{slug(k)}/">{esc(k)}<span>{c}</span></a>' for k in CATS for c in [sum(1 for n in public if n.get("category") == k)] if c)
 
 # ---------- translations that may have their own page ----------
 
@@ -318,6 +363,36 @@ def related(n, k=6):
     pool = [x for x in public if x is not n and not x.get('sponsored') and section(x) == s]
     first = [x for x in pool if x.get('category') == c]
     return (first + [x for x in pool if x not in first])[:k]
+
+
+def ed_footer(n, lang='so'):
+    """The editorial footer of every article (owner's spec, 19 Nov 2026; same as assets/app.js edFooter):
+    WARBIXINTA / TAARIIKHDA / QAYBTA and, for a story built on other outlets' reporting, ONE discreet source note
+    ("WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay X."). The credit comes from tools/attribution.py."""
+    c = n.get('credit') or {}
+    t, srcs = c.get('type') or 'original', c.get('sources') or []
+
+    def nm(x):
+        u = str(x.get('url') or '')
+        return f'<a href="{esc(u)}" target="_blank" rel="noopener">{esc(x["name"])}</a>' if c.get('link') and u.startswith('https://') else esc(x['name'])
+    names = [nm(x) for x in srcs]
+    joined = (', '.join(names[:-1]) + f' {esc(T("andWord", lang))} ' + names[-1]) if len(names) > 1 else (names[0] if names else '')
+    note = ''
+    if t == 'verified':
+        note = esc(T('noteVerified', lang)) + (' ' + esc(T('noteFirst', lang)).replace('{src}', joined) if joined else '')
+    elif joined and t in ('rewritten', 'multi', 'official'):
+        key = 'noteOfficial' if t == 'official' else 'noteMulti' if len(names) > 1 else 'noteBased'
+        note = esc(T(key, lang)).replace('{src}', joined)
+    pub = n.get('publishedAt')
+    s_ = section(n)
+    cat = T('secWorld', lang) if s_ == 'world' and n.get('category') in (None, 'Adduunka') else cat_name(n.get('category'), lang) if n.get('category') else T('secSomalia', lang)
+    rows = [(T('edReport', lang), 'WARTABIYE TV')]  # values are HTML
+    if parse(pub):
+        rows.append((T('edDate', lang), f'<time datetime="{esc(pub)}">{esc(show_date(pub, lang, False))}</time>'))
+    rows.append((T('edSection', lang), esc(cat)))
+    return ('<aside class="edfoot"><p class="edbrand">' + esc(T('edBrand', lang)) + '</p><dl>'
+            + ''.join(f'<div><dt>{esc(k)}</dt><dd>{v}</dd></div>' for k, v in rows)
+            + '</dl>' + (f'<p class="srcnote"><b>WARTABIYE TV</b> — {note}</p>' if note else '') + '</aside>')
 
 
 # ---------- 1. article pages ----------
@@ -357,7 +432,9 @@ for n in public:
                'url': url, 'articleSection': cat_name(n.get('category'), lang) if n.get('category') else None,
                'isAccessibleForFree': True,
                'author': {'@type': 'Organization', '@id': ORG_ID, 'name': 'Wartabiye TV', 'url': SITE_URL + 'nagu-saabsan/'},
-               'publisher': PUBLISHER}
+               'publisher': PUBLISHER, 'copyrightHolder': {'@id': ORG_ID}}
+        if str(pub or '')[:4].isdigit():
+            art['copyrightYear'] = int(str(pub)[:4])  # the article text; photo rights stay with the photo's credit/licence
         if n.get('image'):
             io = {'@type': 'ImageObject', 'url': img, 'caption': alt}
             if size:
@@ -366,13 +443,20 @@ for n in public:
                 io['creditText'] = n['imageCredit']
             if n.get('imageLicense') and str(n.get('imageSourceUrl') or '').startswith('https://'):
                 io['acquireLicensePage'] = n['imageSourceUrl']
+            _ii = n.get('imageInfo') or {}
+            if str(_ii.get('licenseUrl') or '').startswith('https://'):
+                io['license'] = _ii['licenseUrl']
+            if _ii.get('photographer'):
+                io['creator'] = {'@type': 'Person', 'name': _ii['photographer']}
             art['image'] = [io]
         else:
             art['image'] = [LOGO]
         if body:
             art['wordCount'] = len(re.findall(r'\w+', summary + ' ' + body))
-        if n.get('sourceUrl'):
-            art['isBasedOn'] = n['sourceUrl']
+        cr_ = n.get('credit') or {}
+        based_on = [x['url'] for x in cr_.get('sources') or [] if str(x.get('url') or '').startswith('https://')]
+        if cr_.get('type') not in (None, 'original') and (based_on or n.get('sourceUrl')):
+            art['isBasedOn'] = based_on if len(based_on) > 1 else (based_on or [n['sourceUrl']])[0]
         if lang != 'so':
             art['translationOfWork'] = {'@id': page_url(n)}
         if n.get('sponsored'):
@@ -396,38 +480,39 @@ for n in public:
             when += f'<span class="dot">{esc(T("updatedWord", lang) if lang == "so" else "↻")} <time datetime="{esc(mod)}">{esc(show_date(mod, lang))}</time></span>'
         fig = ''
         if n.get('image'):
-            cap = ''
-            if n.get('imageKind') == 'illustrative':
-                cap += f'<b>{esc(T("illus", lang))}</b> '
-            credit = n.get('imageCredit') or ('Wartabiye TV' if n.get('by') == 'admin' else '')
-            if credit:
-                src = str(n.get('imageSourceUrl') or '')
-                cap += f'{esc(T("photo", lang))}: ' + (f'<a href="{esc(src)}" target="_blank" rel="noopener">{esc(credit)}</a>' if src.startswith('https://') else esc(credit))
-                if n.get('imageLicense'):
-                    cap += f' · {esc(n["imageLicense"])}'
-            fig = f'<figure class="figure">{ph(n, big=True, hero=True, lang=lang)}' + (f'<figcaption>{cap}</figcaption>' if cap else '') + '</figure>'
-        # small publisher byline (no disclaimer box): "Wartabiye TV ayaa qortay" only for the newsroom's own stories,
+            cap = photo_caption(n, lang)
+            fig = f'<figure class="figure{" small" if n.get("imageSize") == "small" else ""}">{ph(n, big=True, hero=True, lang=lang)}' + (f'<figcaption>{cap}</figcaption>' if cap else '') + '</figure>'
+        # small publisher byline (no disclaimer box): "Warkaan waxaa daabacay Wartabiye TV" only for the newsroom's own stories,
         # "Waxaa daabacay Wartabiye TV" for every story built on other outlets' reporting (same rule as assets/app.js)
         src_name = str(n.get('source') or '')
         own = n.get('by') == 'admin' and (not src_name or src_name == 'Wartabiye TV')
         by_txt = esc(T('wroteBy' if own else 'pubBy', lang))
         by_html = '<span class="by">' + (by_txt.replace('Wartabiye TV', '<b>Wartabiye TV</b>', 1) if 'Wartabiye TV' in by_txt else by_txt) + '</span>'
-        # a licence that requires public credit gets one small source line under the text
-        based = ''
-        if src_name and src_name != 'Wartabiye TV' and n.get('attributionRequired') is True:
-            su = str(n.get('sourceUrl') or '')
-            based = (f'<p class="srcline">{esc(T("srcLabel", lang))}: '
-                     + (f'<a href="{esc(su)}" target="_blank" rel="noopener">{esc(src_name)} ↗</a>' if su.startswith('https://') else esc(src_name)) + '</p>')
+        based = ed_footer(n, lang)
         rel = related(n)
         rel_html = ''
         if rel:
             rel_html = ('<section class="related"><div class="blockhead"><h2>' + esc(T('related', lang)) + '</h2></div><div class="rgrid">'
                         + ''.join(f'<a href="{art_href(r)}">{ph(r)}{cat_tag(r)}<h4>{esc(r.get("title"))}</h4>{meta_line(r)}</a>' for r in rel)
                         + '</div></section>')
+        doc_html = ''
+        dcm = n.get('document')
+        if isinstance(dcm, dict):
+            tr_ = n.get(lang) if lang != 'so' and isinstance(n.get(lang), dict) else {}
+            dt = str(tr_.get('docTitle') or n.get('docTitle') or '')
+            parts = [f'<h2 class="sub">{esc(dt)}</h2>'] if dt else []
+            for i, pg in enumerate(dcm.get('pages') or []):
+                if isinstance(pg, str) and pg.startswith('img/'):
+                    parts.append(f'<a class="docpage" href="{esc(pg)}" target="_blank" rel="noopener"><img src="{esc(pg)}" loading="lazy" alt="{esc((dt + " · " if dt else "") + str(i + 1))}"></a>')
+            pdf = dcm.get('pdf')
+            if isinstance(pdf, str) and pdf.startswith('img/'):
+                parts.append(f'<a class="docpdf" href="{esc(pdf)}" target="_blank" rel="noopener" download>PDF ↓</a>')
+            if parts:
+                doc_html = '<section class="docproof">' + ''.join(parts) + '</section>'
         lede = f'<p class="lede">{esc(summary)}</p>' if body and summary else ''
         text = inner if body else f'<p>{esc(summary or title)}</p>'
         pre = (cr + cat_tag(n, lang) + f'<h1>{esc(title)}</h1>{lede}<div class="byline"><img src="img/logo.png" alt="" width="36" height="36">'
-               f'<div class="meta">{by_html}{when}</div></div>{fig}<div class="body">{text}</div>{based}{rel_html}'
+               f'<div class="meta">{by_html}{when}</div></div>{fig}<div class="body">{text}</div>{doc_html}{based}{rel_html}'
                f'<a class="back" href="./">{esc(T("back", lang))}</a>')
         if lang == 'so':
             write(os.path.join(out_dir, nid + '.html'), subpage(seo, pre), wanted)
@@ -444,7 +529,7 @@ for lang in LANGS:
 
 # ---------- 2. section and information pages: route -> (title, description, key in pages.json or None) ----------
 # which AdSense setting each route follows ("sections" = news lists, "info" = advertising, contact, about, policies)
-INFO_ROUTES = {'xayeysiimaha', 'xiriir', 'nagu-saabsan', 'anshaxa', 'saxitaannada', 'asturnaanta', 'siyaasadda-xayeysiiska'}
+INFO_ROUTES = {'xayeysiimaha', 'xiriir', 'nagu-saabsan', 'anshaxa', 'saxitaannada', 'asturnaanta', 'siyaasadda-xayeysiiska', 'shuruudaha'}
 SECTIONS = {
     'ciyaaraha': ('Wararka Ciyaaraha', 'Wararka ciyaaraha ugu muhiimsan ee maalinta, hal meel: kubadda cagta, kubadda koleyga, teniska, Formula 1, feerka, orodka, esports iyo kuwo kale.', None),
     'soomaaliya': ('Wararka Soomaaliya', 'Wararka Soomaaliya ee la hubiyay: dowladda iyo baarlamaanka, dowlad goboleedyada, siyaasadda, dhaqaalaha, waxbarashada, gargaarka, horumarinta iyo wararka degdegga ah.', None),
@@ -461,6 +546,7 @@ SECTIONS = {
     'saxitaannada': (None, None, 'corrections'),
     'asturnaanta': (None, None, 'privacy'),
     'siyaasadda-xayeysiiska': (None, None, 'adpolicy'),
+    'shuruudaha': (None, None, 'terms'),
 }
 # which stories each news route lists (the same rules as assets/app.js inHub)
 HUBS = {'ciyaaraha': lambda x: section(x) == 'sports', 'caalamka': lambda x: section(x) == 'world',
@@ -491,7 +577,7 @@ for route, (title, desc, key) in SECTIONS.items():
         if items:
             newest_of[route] = max(x.get('updatedAt') or x.get('publishedAt') or '' for x in items)
         cls = HUB_CLASS.get(route, 'somalia')
-        pre = (f'<section class="hubhead {cls}"><div class="wrap"><h1>{esc(title)}</h1><p>{esc(desc)}</p></div></section>'
+        pre = (f'<section class="hubhead {cls}"><div class="wrap"><h1>{esc(title)}</h1></div></section>'
                '<div class="wrap layout"><div>'
                + (f'<div class="cards one">{card(items[0], True)}</div><section class="secblock"><div class="cards">'
                   + ''.join(card(x) for x in items[1:]) + '</div></section>' if items else '')
@@ -535,7 +621,10 @@ for f in glob.glob(os.path.join(root, 'qayb', '*', 'index.html')):
 
 # ---------- 3. the homepage itself: real headlines and links in the HTML ----------
 feat_ids = [f if isinstance(f, str) else (f or {}).get('article') for f in (SITE.get('featured') or [])]
-featured = [by_id[i] for i in feat_ids if i in by_id]
+# an editor's pick stays on top for 6 hours after publication, then returns to the normal order (as assets/app.js PICK_MS)
+_pick_now = datetime.datetime.now(datetime.timezone.utc)
+featured = [by_id[i] for i in feat_ids if i in by_id and parse(by_id[i].get('publishedAt'))
+            and (_pick_now - parse(by_id[i].get('publishedAt'))).total_seconds() < 6 * 3600]
 pool = [x for x in public if not x.get('sponsored') and x not in featured]
 mosaic = (featured + pool)[:5]
 rest = [x for x in public if x not in mosaic and section(x) == 'somalia'][:20]
@@ -555,7 +644,7 @@ org = {'@context': 'https://schema.org', '@type': 'NewsMediaOrganization', '@id'
        'contactPoint': {'@type': 'ContactPoint', 'contactType': 'Newsroom', 'url': SITE_URL + 'xiriir/', 'availableLanguage': ['so', 'en', 'ar']},
        'areaServed': 'SO', 'knowsLanguage': ['so', 'en', 'ar', 'fr', 'nl', 'it', 'de', 'tr', 'es']}
 website = {'@context': 'https://schema.org', '@type': 'WebSite', '@id': SITE_URL + '#website', 'name': 'Wartabiye TV', 'alternateName': 'Wartabiye TV News',
-           'url': SITE_URL, 'inLanguage': 'so', 'publisher': {'@id': ORG_ID}}
+           'url': SITE_URL, 'inLanguage': 'so', 'publisher': {'@id': ORG_ID}, 'copyrightHolder': {'@id': ORG_ID}}
 verif = ''.join(f'<meta name="google-site-verification" content="{esc(t)}">\n' for t in ((SEO.get('verification') or {}).get('google') or [])
                 if re.fullmatch(r'[A-Za-z0-9_-]{20,100}', str(t)))
 bing = (SEO.get('verification') or {}).get('bing')
@@ -573,6 +662,7 @@ home = region(home, 'blocks', blocks)
 home = region(home, 'ftrend', FOOT_TREND)
 home = region(home, 'fcats', FOOT_CATS)
 home = region(home, 'tick', TICK)
+home = build_min.rewrite(home)
 if home != open(os.path.join(root, 'index.html'), encoding='utf-8').read():
     open(os.path.join(root, 'index.html'), 'w', encoding='utf-8').write(home)
 
@@ -661,6 +751,8 @@ for r in SECTIONS:
 for r in sorted(k for k in newest_of if k.startswith('qayb/')):
     urls.append(f'<url><loc>{SITE_URL}{r}/</loc>{lm(newest_of[r])}</url>')
 urls.append(f'<url><loc>{arch_url}</loc>{lm(newest)}</url>')
+if os.path.exists(os.path.join(root, 'games', 'index.html')):   # the Games Center (games/), a static page of its own
+    urls.append(f'<url><loc>{SITE_URL}games/</loc></url>')
 for n in public:
     langs = tr_pages.get(n['id'], [])
     alt = ''

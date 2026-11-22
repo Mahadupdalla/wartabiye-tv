@@ -1,3 +1,4 @@
+/*! © 2026 Wartabiye TV. All Rights Reserved. This code, design, text and branding are the property of Wartabiye TV; copying, reuse or redistribution without written permission is prohibited. */
 /* Wartabiye TV visitor statistics (privacy-friendly, no cookies).
    Sends one small anonymous message per page opened to our own counter (Cloudflare Worker): the page address,
    the site language, and where the visit came from (e.g. "google.com"). Nothing else: no name, no IP stored,
@@ -18,10 +19,11 @@
   var ST = /^[a-f0-9]{32}$/.test(P.get('wtvselftest') || '') ? P.get('wtvselftest') : '';
   if (P.has('preview') || get('wtv-notrack') === '1' || (navigator.webdriver && !ST)) return;
 
-  var PAGES = /^(ciyaaraha|caalamka|bariga-afrika|wararka-tooska|muuqaal|toos|ciyaaraha-toos|raadi|kaydsan|xiriir|xayeysiimaha|ilaha-xaaladda|nagu-saabsan|anshaxa|saxitaannada|asturnaanta|siyaasadda-xayeysiiska)$/;
+  var PAGES = /^(ciyaaraha|caalamka|bariga-afrika|wararka-tooska|muuqaal|toos|ciyaaraha-toos|raadi|kaydsan|xiriir|xayeysiimaha|ilaha-xaaladda|nagu-saabsan|anshaxa|saxitaannada|asturnaanta|siyaasadda-xayeysiiska|shuruudaha)$/;
   function pathNow() {
     var h = '';
     try { h = decodeURIComponent((location.hash || '').slice(1)); } catch (e) { h = (location.hash || '').slice(1); }
+    if (window.WARTABIYE_ROUTE === 'games') { var g = /^play-([a-z0-9-]{1,35})$/.exec(h.toLowerCase()); return { p: g ? '/games-' + g[1] : '/games' }; }
     if (!h && window.WARTABIYE_STORY) h = 'war-' + window.WARTABIYE_STORY;
     if (!h && window.WARTABIYE_ROUTE) h = window.WARTABIYE_ROUTE;
     var base = h.split('?')[0].toLowerCase();
