@@ -7,18 +7,9 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-22T20:30:10Z",
+ "lastCheckAt": "2026-11-22T21:25:11Z",
  "lastWrittenAt": null,
  "days": {
-  "2026-11-09": {
-   "written": 0,
-   "merged": 0,
-   "skipped": 174,
-   "declined": 0,
-   "failed": 29,
-   "calls": 29,
-   "usd": 0.0
-  },
   "2026-11-10": {
    "written": 0,
    "merged": 0,
@@ -130,7 +121,16 @@
   "2026-11-22": {
    "written": 0,
    "merged": 0,
-   "skipped": 141,
+   "skipped": 146,
+   "declined": 0,
+   "failed": 0,
+   "calls": 0,
+   "usd": 0
+  },
+  "2026-11-23": {
+   "written": 0,
+   "merged": 0,
+   "skipped": 3,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -138,25 +138,6 @@
   }
  },
  "done": {
-  "e9a1d64fadb5d95f": "2026-11-19T20:30:13Z",
-  "decae37700caa0c7": "2026-11-19T20:30:13Z",
-  "72c040a76cc71caf": "2026-11-19T20:30:13Z",
-  "55d96cd4130383c6": "2026-11-19T20:45:11Z",
-  "8c56fdbe2f6d0049": "2026-11-19T20:45:11Z",
-  "4ae9e36cfdba5ecc": "2026-11-19T20:50:12Z",
-  "42a972871329f657": "2026-11-19T20:50:12Z",
-  "646f795f08ca368d": "2026-11-19T20:55:11Z",
-  "eb1e6e1afdc11e91": "2026-11-19T21:00:11Z",
-  "944d294598da9d6c": "2026-11-19T21:00:11Z",
-  "9fadaeea4137c47f": "2026-11-19T21:02:26Z",
-  "dd3a777c292ef502": "2026-11-19T21:02:26Z",
-  "b0605d660b9a2170": "2026-11-19T21:05:11Z",
-  "e2e08ed6393d248c": "2026-11-19T21:10:12Z",
-  "934c30345a5f6dc6": "2026-11-19T21:10:12Z",
-  "6fc37f02efc17749": "2026-11-19T21:10:12Z",
-  "22758ca2f7ab22a1": "2026-11-19T21:10:12Z",
-  "ff14204cea599f55": "2026-11-19T21:10:12Z",
-  "8de921d60327898d": "2026-11-19T21:15:11Z",
   "9a626d0b39103af2": "2026-11-19T21:25:12Z",
   "1849409bc4178585": "2026-11-19T21:25:12Z",
   "ab08836df09a167f": "2026-11-19T21:50:14Z",
@@ -687,379 +668,139 @@
   "456e2621c377918c": "2026-11-22T19:55:10Z",
   "44650bbc0408bfac": "2026-11-22T19:55:10Z",
   "2b5f9ee639963bb2": "2026-11-22T20:00:12Z",
-  "ee99e3bdcaf063a4": "2026-11-22T20:15:11Z"
+  "ee99e3bdcaf063a4": "2026-11-22T20:15:11Z",
+  "708f9a10cc5be4cd": "2026-11-22T20:35:11Z",
+  "6fb0beae30a85cd2": "2026-11-22T20:40:11Z",
+  "a1dae3ea8c6aace5": "2026-11-22T20:50:10Z",
+  "05cde07a86052f95": "2026-11-22T20:55:11Z",
+  "47bb7eee4f054fd0": "2026-11-22T20:55:11Z",
+  "01bd548e87386099": "2026-11-22T21:10:10Z",
+  "71731c15a4cdb6ba": "2026-11-22T21:10:10Z",
+  "a37fad3168cec18b": "2026-11-22T21:15:10Z"
  },
  "recent": [
   {
-   "at": "2026-11-22T20:30:10Z",
+   "at": "2026-11-22T21:25:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
-   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-22T20:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
-   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
-  },
-  {
-   "at": "2026-11-22T20:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
-   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
-  },
-  {
-   "at": "2026-11-22T20:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
-  },
-  {
-   "at": "2026-11-22T20:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
-   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
-   "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
-   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-22T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
-   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
-  },
-  {
-   "at": "2026-11-22T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
-   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
-  },
-  {
-   "at": "2026-11-22T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
-  },
-  {
-   "at": "2026-11-22T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
-   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
-   "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
-   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-22T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
-   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
-  },
-  {
-   "at": "2026-11-22T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
-   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
-  },
-  {
-   "at": "2026-11-22T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
-  },
-  {
-   "at": "2026-11-22T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
-   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
-   "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:15:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Liverpool thrash 10-man Man United in nightmare start for Pochettino",
-   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-thrash-10-man-man-united-in-nightmare-start-for-pochettino?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
-   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-22T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
-   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
-  },
-  {
-   "at": "2026-11-22T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
-  },
-  {
-   "at": "2026-11-22T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
-   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
-   "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
-   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-22T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
-   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
-  },
-  {
-   "at": "2026-11-22T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
-  },
-  {
-   "at": "2026-11-22T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
-   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
-   "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Liverpool thrash 10-man Man United in nightmare start for Pochettino",
-   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-thrash-10-man-man-united-in-nightmare-start-for-pochettino?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
-   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-22T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
-   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
-  },
-  {
-   "at": "2026-11-22T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
-  },
-  {
-   "at": "2026-11-22T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
-   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
-   "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Liverpool thrash 10-man Man United in nightmare start for Pochettino",
-   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-thrash-10-man-man-united-in-nightmare-start-for-pochettino?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:00:12Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
    "source": "BBC News",
-   "title": "US Army to detonate tonnes of unstable explosives in Iowa despite court order",
-   "url": "https://www.bbc.co.uk/news/articles/cvglrx764gdxo?at_medium=RSS&at_campaign=rss"
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-22T20:00:12Z",
+   "at": "2026-11-22T21:25:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
-   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
   },
   {
-   "at": "2026-11-22T20:00:12Z",
+   "at": "2026-11-22T21:25:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T21:16:57Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T21:16:57Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T21:16:57Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T21:15:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "France 24",
    "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
    "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
   },
   {
-   "at": "2026-11-22T20:00:12Z",
+   "at": "2026-11-22T21:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T21:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
   },
   {
-   "at": "2026-11-22T20:00:12Z",
+   "at": "2026-11-22T21:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
-   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
   },
   {
-   "at": "2026-11-22T20:00:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
-   "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T20:00:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Liverpool thrash 10-man Man United in nightmare start for Pochettino",
-   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-thrash-10-man-man-united-in-nightmare-start-for-pochettino?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T19:55:10Z",
+   "at": "2026-11-22T21:10:10Z",
    "result": "skipped",
    "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "Cockroaches, dissent and a paradigm shift in India",
-   "url": "https://www.aljazeera.com/video/the-listening-post/2026/11/22/cockroaches-dissent-and-a-paradigm-shift-in-india?traffic_source=rss"
+   "title": "Fire breaks out at popular tourist hotspot in Zanzibar",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/22/fire-breaks-out-at-popular-tourist-hotspot-in-zanzibar?traffic_source=rss"
   },
   {
-   "at": "2026-11-22T19:55:10Z",
+   "at": "2026-11-22T21:10:10Z",
    "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "Al Jazeera",
-   "title": "On China, is Trump bucking the US national security establishment?",
-   "url": "https://www.aljazeera.com/video/the-bottom-line/2026/11/22/on-china-is-trump-bucking-the-us-national-security-establishment?traffic_source=rss"
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
+   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
   },
   {
-   "at": "2026-11-22T19:55:10Z",
+   "at": "2026-11-22T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
-   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-22T19:55:10Z",
+   "at": "2026-11-22T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1067,7 +808,39 @@
    "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
   },
   {
-   "at": "2026-11-22T19:55:10Z",
+   "at": "2026-11-22T21:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T21:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T21:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T21:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
+   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
+  },
+  {
+   "at": "2026-11-22T21:05:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1075,7 +848,207 @@
    "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
   },
   {
-   "at": "2026-11-22T19:55:10Z",
+   "at": "2026-11-22T21:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T21:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T21:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T21:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
+   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
+  },
+  {
+   "at": "2026-11-22T21:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
+   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
+  },
+  {
+   "at": "2026-11-22T20:55:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "DW News",
+   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
+   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-22T20:55:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "DW Africa",
+   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
+   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-africa-8291-rdf"
+  },
+  {
+   "at": "2026-11-22T20:55:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T20:55:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T20:55:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T20:55:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
+   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
+  },
+  {
+   "at": "2026-11-22T20:55:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
+   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
+  },
+  {
+   "at": "2026-11-22T20:50:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "Al Jazeera",
+   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
+   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
+   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-22T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
+   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
+  },
+  {
+   "at": "2026-11-22T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
+   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
+  },
+  {
+   "at": "2026-11-22T20:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
+   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-22T20:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T20:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T20:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T20:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian warship hit by suspected Ukrainian drone at Benghazi naval base, Libyan officials say",
+   "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
+  },
+  {
+   "at": "2026-11-22T20:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Burnham, 'Brejoin' & the Ghosts of Brexit",
+   "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
+  },
+  {
+   "at": "2026-11-22T20:45:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -1083,39 +1056,15 @@
    "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
   },
   {
-   "at": "2026-11-22T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "at": "2026-11-22T20:40:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "Al Jazeera",
    "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
    "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
   },
   {
-   "at": "2026-11-22T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Liverpool thrash 10-man Man United in nightmare start for Pochettino",
-   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-thrash-10-man-man-united-in-nightmare-start-for-pochettino?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "US Army to detonate tonnes of unstable explosives in Iowa despite court order",
-   "url": "https://www.bbc.co.uk/news/articles/cvglrx764gdxo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-22T19:50:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "BBC News",
-   "title": "COP31 fails to reach major climate deal as talks expose deep divisions",
-   "url": "https://www.bbc.co.uk/news/articles/cqwy06zrd26lo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-22T19:50:10Z",
+   "at": "2026-11-22T20:40:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -1123,7 +1072,31 @@
    "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-22T19:50:10Z",
+   "at": "2026-11-22T20:40:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T20:40:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T20:40:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T20:40:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1131,7 +1104,7 @@
    "url": "https://www.france24.com/en/africa/20261122-russian-warship-hit-by-suspected-ukrainian-drone-at-libya-s-benghazi-naval-base"
   },
   {
-   "at": "2026-11-22T19:50:10Z",
+   "at": "2026-11-22T20:40:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1139,36 +1112,52 @@
    "url": "https://www.france24.com/en/tv-shows/spotlight/20261122-burnham-brejoin-the-ghosts-of-brexit"
   },
   {
-   "at": "2026-11-22T19:50:10Z",
+   "at": "2026-11-22T20:40:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "CHK_Aber Kawas becomes first Palestinian in New York state Senate history",
-   "url": "https://www.aljazeera.com/news/2026/11/22/chk_aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
+   "title": "Aber Kawas becomes first Palestinian in New York state Senate history",
+   "url": "https://www.aljazeera.com/news/2026/11/22/aber-kawas-becomes-first-palestinian-in-new-york-state-senate-history?traffic_source=rss"
   },
   {
-   "at": "2026-11-22T19:50:10Z",
+   "at": "2026-11-22T20:35:11Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Why has the COP31 climate summit failed to reach agreement?",
+   "url": "https://www.aljazeera.com/video/inside-story/2026/11/22/why-has-the-cop31-climate-summit-failed-to-reach-agreement?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-22T20:35:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "‘Horrific’ and ‘chilling’: Officials condemn ICE arrests at Seattle airport",
-   "url": "https://www.aljazeera.com/news/2026/11/22/horrific-and-chilling-officials-condemn-ice-arrests-at-seattle-airport?traffic_source=rss"
+   "source": "DW News",
+   "title": "Sudan: Drones hit UN building, residential area in Khartoum",
+   "url": "https://www.dw.com/en/sudan-drones-hit-un-building-residential-area-in-khartoum/a-80015122?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-22T19:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Liverpool thrash 10-man Man United in nightmare start for Pochettino",
-   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-thrash-10-man-man-united-in-nightmare-start-for-pochettino?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-22T19:50:10Z",
+   "at": "2026-11-22T20:35:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
-   "title": "US Army to detonate tonnes of unstable explosives in Iowa despite court order",
-   "url": "https://www.bbc.co.uk/news/articles/cvglrx764gdxo?at_medium=RSS&at_campaign=rss"
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "url": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-22T20:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Democrat Hubbard wins North Carolina recount, clinching historic House majority",
+   "url": "https://www.france24.com/en/americas/20261122-democrat-hubbard-wins-north-carolina-recount-clinching-historic-house-majority"
+  },
+  {
+   "at": "2026-11-22T20:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Liverpool 4-0 Manchester United: Five key takeaways for Pochettino",
+   "url": "https://www.aljazeera.com/sports/2026/11/22/liverpool-4-0-manchester-united-the-key-takeaways-for-pochettino?traffic_source=rss"
   }
  ]
 }
