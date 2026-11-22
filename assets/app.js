@@ -187,7 +187,7 @@
     return fc}
   function ph(it,cls,big,sizes){
     var s=el('span','ph s-'+section(it)+(cls?' '+cls:''));var cn=catName(it.category)||tr('news');
-    var full=imgUrl(it.image),small=imgUrl(it.thumb);var iu=big?full:(small||full);var has=false;
+    var LI=L!=='so'&&it[L]&&imgUrl(it[L].image);var full=LI||imgUrl(it.image),small=LI||(big&&it.imageAnimated)?null:imgUrl(it.thumb);var iu=big?full:(small||full);var has=false;
     if(iu&&!broken[it._id]){
       var im=document.createElement('img');var hero=cls==='hero';im.loading=hero?'eager':'lazy';im.decoding='async';if(hero)im.setAttribute('fetchpriority','high');im.alt=F(it,'imageAlt')||F(it,'title');
       // the browser picks the 480px version or the full photo for the size it is shown at, so cards stay sharp on phones
