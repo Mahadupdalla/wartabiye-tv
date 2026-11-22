@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-22T16:01:45+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-22T16:07:09+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-22T12:57:36Z",
  "newestArticleAt": "2026-11-22T14:07:32+03:00",
- "lastSourceCheckAt": "2026-11-22T16:00:25+03:00",
- "sourceChecks24h": 287,
- "publishedArticles": 1135,
+ "lastSourceCheckAt": "2026-11-22T16:05:20+03:00",
+ "sourceChecks24h": 288,
+ "publishedArticles": 1136,
  "liveArticles": 1135,
  "waitingForImage": 163,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 1,
  "lastPublishRun": {
   "created_at": "2026-11-22T12:57:36Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45024947314"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-21T08:36:33+00:00",
+  "since": "2026-11-22T13:07:08+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-22T16:10:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-22T16:05:59+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,15 +46,15 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-22T16:00:16+03:00",
-   "lastSuccessAt": "2026-11-22T16:00:16+03:00",
+   "lastCheckAt": "2026-11-22T16:05:11+03:00",
+   "lastSuccessAt": "2026-11-22T16:05:11+03:00",
    "lastReportAt": "2026-11-21T23:00:13+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-22T15:58:00+03:00",
+  "lastSourceCheckAt": "2026-11-22T16:05:59+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
@@ -65,23 +70,18 @@
    "source": "Puntland Post",
    "url": "/war/2026-11-22-senator-faroole-muddo-xileedka-madaxda-dowladda-dhammaaday.html"
   },
-  "publishedLastRun": 8,
+  "publishedLastRun": 0,
   "rejectedLastRun": 88,
   "rejectedReasons": {
    "old": 6,
    "duplicate": 82
   },
   "taskRejectedReasons": [
-   "Turkiga oo safaarad ka furay Ankara / duulimaadyada Beledweyne / Golaha Mustaqbalka diiday: hore ayay bogga ugu jireen (duplicate)",
-   "Madaxweyne Xasan oo diyaar u ah inuu booqdo mucaaradka: waxaa la daabacay 20 Nov (duplicate)",
-   "Radio Muqdisho: Waaberi xuska: protocol, not news",
-   "Caasimada cinwaan amni: duplicate",
-   "Somali Guardian Banooda: unconfirmed headline-only",
-   "Shabelle baasaboorka elektarooniga: unconfirmed headline-only",
-   "Goobjoog xulafada Imaaraadka: analysis / opinion, not news",
-   "Horseed Jubbaland: unconfirmed headline-only",
-   "BBC Somali cunto: not newsworthy",
-   "Markabyada dagaalka Turkiga: duplicate (lagu daray warka taliyaha ciidamada Turkiga)"
+   "Global Safety Report, lix garsoore EACJ, Xasan Sheekh iyo mucaaradka, taliyaha Turkiga, Aswan, kaydka tallaallada: duplicate (run-ka 15:08 ayaa horey u daabacay)",
+   "Faroole statement: duplicate (already on site)",
+   "Beledweyne: duplicate (already on site)",
+   "Ankara embassy: duplicate (already on site)",
+   "Ruto in Congo: single state-media source, unconfirmed"
   ],
   "waitingForImage": 19,
   "waitingIds": [
