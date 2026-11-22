@@ -40,7 +40,7 @@ export interface Card {
   imageKind?: string;
 }
 
-export interface Translation { title: string; summary: string; body: string; imageAlt: string; status: 'original' | 'manual' | 'auto' }
+export interface Translation { title: string; summary: string; body: string; imageAlt: string; status: 'original' | 'manual' | 'auto'; image?: string }
 
 /** The full article (api/v1/a/<id>.json) */
 export interface Article {
