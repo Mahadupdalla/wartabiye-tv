@@ -77,9 +77,12 @@ def translation(it, lang):
     x = it.get(lang)
     if not isinstance(x, dict) or not s(x.get('title')):
         return None
-    return {'title': s(x.get('title')), 'summary': s(x.get('summary')), 'body': s(x.get('body')), 'imageAlt': s(x.get('imageAlt')),
-            # "manual" = checked by a person in /admin/; anything else is an automatic translation and is labelled as such
-            'status': 'manual' if x.get('status') == 'manual' else 'auto'}
+    t = {'title': s(x.get('title')), 'summary': s(x.get('summary')), 'body': s(x.get('body')), 'imageAlt': s(x.get('imageAlt')),
+         # "manual" = checked by a person in /admin/; anything else is an automatic translation and is labelled as such
+         'status': 'manual' if x.get('status') == 'manual' else 'auto'}
+    if img(x.get('image')):
+        t['image'] = img(x.get('image'))   # this language's own photo (e.g. a result graphic with translated words)
+    return t
 
 
 def show_source(it):
@@ -134,7 +137,7 @@ def card(a, lang):
     if len(summ) > CARD_TEXT:
         summ = summ[:CARD_TEXT].rsplit(' ', 1)[0] + '…'
     c = {'id': a['id'], 'rev': a['rev'], 'title': t['title'], 'summary': summ, 'publishedAt': a['publishedAt'],
-         'section': a['section'], 'category': a['category'], 'image': a['image'], 'thumb': a['thumb'] or a['image'],
+         'section': a['section'], 'category': a['category'], 'image': t.get('image') or a['image'], 'thumb': t.get('image') or a['thumb'] or a['image'],
          'imageAlt': t['imageAlt'] or a['tr']['so']['imageAlt'] if 'so' in a['tr'] else t['imageAlt']}
     for k in ('country', 'region', 'sport', 'competition', 'sponsor'):
         if a[k]:
