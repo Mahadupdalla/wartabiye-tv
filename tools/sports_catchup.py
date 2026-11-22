@@ -63,6 +63,7 @@ def main(argv):
     return build_pool(out, pool, hours) if pool else 0
 
 
+SCORE = re.compile(r'\b(\d{1,2})\s*[-–:]\s*(\d{1,2})\b')
 NAME = re.compile(r"\b[A-ZÀ-ÖØ-Þ][\w'À-ÿ-]{3,}")
 COMMON = {'With','From','After','Before','Premier','League','Champions','Europa','Serie','Liga','Bundesliga','Ligue','World','Cup','Coupe','Copa',
           'Real','Madrid','Barcelona','Manchester','United','City','Inter','Milan','Juventus','Bayern','Paris','Saint','Germain','Chelsea','Arsenal',
@@ -108,15 +109,32 @@ def build_pool(cand, pool, hours):
         hit = next((sid for sid, sn in site if len(n & sn) >= 2 or (len(n & sn) == 1 and len(next(iter(n & sn))) >= 6 and len(n) <= 3)), None)
         if hit: i['likelyOnSite'] = hit
     onsite = sum(1 for i in items if i.get('likelyOnSite'))
+    # PAIR CANDIDATES (22 Nov 2026: only 22 of 505 pool stories had "alsoReportedBy", the sports sites are blocked for the run, and
+    # the 18:08 run skipped 7 stories as one-source): another outlet's pool item with the same rare names (or one name and the same
+    # score) is probably the same event. The run compares the two excerpts and, if they state the same fact, uses it as the second source.
+    keys = [(names(i.get('title')), set(SCORE.findall(i.get('title') or ''))) for i in items]
+    for a, i in enumerate(items):
+        if i.get('alsoReportedBy') or i.get('likelyOnSite'): continue
+        na, sa = keys[a]; got = []
+        for b, j in enumerate(items):
+            if a == b or (j.get('sourceName') or j.get('source')) == (i.get('sourceName') or i.get('source')): continue
+            if any((g['source'] == (j.get('sourceName') or j.get('source'))) for g in got): continue
+            nb, sb = keys[b]; c = na & nb
+            if len(c) >= 2 or (c and sa & sb):
+                got.append({'source': j.get('sourceName') or j.get('source'), 'url': j.get('url'), 'title': j.get('title'),
+                            'excerpt': (j.get('excerpt') or j.get('description') or '')[:400], 'publishedAt': j.get('publishedAt')})
+                if len(got) == 3: break
+        if got: i['pairCandidates'] = got
+    paired = sum(1 for i in items if i.get('pairCandidates'))
     items.sort(key=lambda i: i.get('publishedAt') or '', reverse=True)
     items.sort(key=lambda i: 0 if BIG.search(i.get('title') or '') else 1)
-    items.sort(key=lambda i: 0 if i.get('alsoReportedBy') else 1)
+    items.sort(key=lambda i: 0 if i.get('alsoReportedBy') else 1 if i.get('pairCandidates') else 2)
     items.sort(key=lambda i: 1 if i.get('likelyOnSite') else 0)  # same names as a recent site article: last, check the event first
     two = sum(1 for i in items if i.get('alsoReportedBy'))
     json.dump({'builtAt': datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'), 'hours': float(hours),
-               'dedupSeconds': round(time.time() - t0), 'twoSource': two, 'likelyOnSite': onsite, 'items': items},
+               'dedupSeconds': round(time.time() - t0), 'twoSource': two, 'pairCandidates': paired, 'likelyOnSite': onsite, 'items': items},
               open(pool, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print(f'sports pool: {len(items)} checked stories ({two} already reported by two or more outlets, {onsite} with the same names as a recent site article, put last) in {time.time() - t0:.0f} s -> {pool}')
+    print(f'sports pool: {len(items)} checked stories ({two} already reported by two or more outlets, {paired} with a likely second outlet to compare, {onsite} with the same names as a recent site article, put last) in {time.time() - t0:.0f} s -> {pool}')
     return 0
 
 if __name__ == '__main__':
