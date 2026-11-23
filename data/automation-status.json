@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-23T03:11:52+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-23T04:06:43+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-22T22:22:22Z",
  "newestArticleAt": "2026-11-23T00:56:25+03:00",
- "lastSourceCheckAt": "2026-11-23T03:10:25+03:00",
+ "lastSourceCheckAt": "2026-11-23T04:05:25+03:00",
  "sourceChecks24h": 285,
- "publishedArticles": 1186,
+ "publishedArticles": 1198,
  "liveArticles": 1186,
  "waitingForImage": 166,
- "liveInSync": true,
+ "liveInSync": false,
  "publishFailures24h": 5,
  "lastPublishRun": {
   "created_at": "2026-11-22T22:22:22Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45077352798"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-22T17:58:29+00:00",
+  "since": "2026-11-23T01:06:41+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-23T01:21:18+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-23T04:07:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,29 +46,29 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-23T03:10:16+03:00",
-   "lastSuccessAt": "2026-11-23T03:10:16+03:00",
+   "lastCheckAt": "2026-11-23T04:05:16+03:00",
+   "lastSuccessAt": "2026-11-23T04:05:16+03:00",
    "lastReportAt": "2026-11-22T22:00:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-23T01:21:06+03:00",
+  "lastSourceCheckAt": "2026-11-23T04:06:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-22T23:31:45+03:00",
-   "sourceName": "Hiiraan Online",
-   "title": "Maraykanka oo sheegay in safarrada diblomaasiyiintiisa ee Somaliland lagu dabaqo siyaasaddiisa amni ee Soomaaliya",
-   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta22-195596.htm"
+   "publishedAt": "2026-11-23T02:35:43+03:00",
+   "sourceName": "Radio Daljir",
+   "title": "Booliska Puntland oo 2027-ka loo dhisayo 2,500 oo guri.",
+   "url": "https://daljir.com/booliska-puntland-oo-2027-ka-loo-dhisayo-2500-oo-guri/"
   },
   "latestPublished": {
-   "id": "2026-11-22-warbixin-kongareeska-maraykanka-somaliland-xiriirka-amniga",
-   "title": "Warbixin loo diyaariyay Kongareeska Maraykanka oo ka hadashay muhiimadda istaraatiijiga ah ee Somaliland",
-   "publishedAt": "2026-11-22T23:31:45+03:00",
+   "id": "2026-11-23-cali-cosoble-madaxweynihii-hore-hirshabeelle-geeriyooday-qaahira",
+   "title": "Cali Cabdullaahi Cosoble, madaxweynihii ugu horreeyay ee Hirshabeelle, oo ku geeriyooday Qaahira",
+   "publishedAt": "2026-11-23T01:46:30+03:00",
    "source": "Hiiraan Online",
-   "url": "/war/2026-11-22-warbixin-kongareeska-maraykanka-somaliland-xiriirka-amniga.html"
+   "url": "/war/2026-11-23-cali-cosoble-madaxweynihii-hore-hirshabeelle-geeriyooday-qaahira.html"
   },
   "publishedLastRun": 3,
   "rejectedLastRun": 80,
@@ -72,11 +77,15 @@
    "duplicate": 74
   },
   "taskRejectedReasons": [
-   "Hoggaamiyaha Galmudug oo magacaabay golihiisa Wasiirada cusub: duplicate (draft hore ayaa jira)",
-   "Wasiir ka tirsan Puntland oo ka soo muuqday liiska golaha wasiirrada Galmudug: unconfirmed (hal il)",
-   "Xog: Xasan oo u baxaya safar dibadeed: unconfirmed headline-only",
-   "Fal-celin aan caadi aheyn oo ka dhalatay kaalinta 1-aad: not newsworthy / unconfirmed",
-   "Xubinta Ganacsiga ee Shabelle 22-11-2026: not newsworthy (barnaamij)"
+   "Sudan drones blamed on Ethiopia (Türkiye Today): pending - il keli ah, eedeyn culus, il labaad lama helin",
+   "Daljir: 2,500 guri: bogga lama furi karo (403) oo wuxuu la mid yahay warka Carmo ee hore - duplicate",
+   "Caasimada 'Xog' warar: headline-only, lama xaqiijin",
+   "Somali Guardian Banooda: headline-only, lama xaqiijin",
+   "Horseed Jubbaland: headline-only, lama xaqiijin",
+   "Al Jazeera falanqeyn Imaaraadka: falanqeyn/ra'yi, war ma aha",
+   "Garowe Online doonta Nigeria: war shisheeye, kuma jiro Soomaaliya",
+   "Maalinta Macallinka, NRC Oslo iyo kuwo kale: borotokool, war ma aha",
+   "EACJ, ICAO, ciidamada badda Turkiga, ciidamada Uganda, golaha Galmudug, badbaadada 74%, Faroole, Masar-Suudaan-Eritrea: duplicate (horay ayay boggu u lahaa)"
   ],
   "waitingForImage": 22,
   "waitingIds": [
