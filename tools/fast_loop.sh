@@ -68,6 +68,28 @@ sports_cycle() {
   fi
 }
 
+photo_rescue_cycle() {
+  # photos for the news task's fresh drafts (Sugaya sawir), twice an hour: the news task's machine often gets HTTP 429 from
+  # Wikimedia Commons and Openverse (the 00:08 run of 24 Nov 2026 kept 7 of 14 stories as drafts); GitHub's runners do not.
+  # Only a certain match is attached (same rule as enforce), and attach() publishes only drafts the news task wrote in the
+  # last 24 hours that nobody held or edited.
+  [ $(( 10#$(date -u +%M) % 30 )) -lt 5 ] || return 0
+  python3 tools/image_system.py rescue --limit 6 --budget 150 --state /tmp/fast/photo-rescue-state.json | tee /tmp/rescue.txt || return 0
+  rm -f img/news/.*.part
+  new=$(grep -c '^rescued ' /tmp/rescue.txt 2>/dev/null || true); new=${new:-0}
+  [ "$new" -gt 0 ] || { git checkout -q -- data/ img/ 2>/dev/null; git clean -qf img/news 2>/dev/null; return 0; }
+  if python3 tools/build_news.py >/dev/null && python3 tools/check_site.py >/dev/null; then
+    git add data/news/ img/news/
+  else
+    echo "rescued photos did not pass the site check: not published"; git checkout -q -- data/ img/ 2>/dev/null; git clean -qf img/news; return 0
+  fi
+  git diff --cached --quiet && return 0
+  git "${BOT[@]}" commit -q -m "Sawirro: $new war oo sugayay sawir ayaa la helay sawir, waana la daabacay" || return 1
+  git reset -q --hard HEAD; git clean -qf data/lite data/story 2>/dev/null || true
+  push_main || return 1
+  gh workflow run publish.yml --repo "$REPO" --ref main || echo "could not start the publish workflow"
+}
+
 sports_writer_cycle() {
   # 3. sports NEWS articles (tools/sports_writer.py) on the owner's own Claude API key (secret ANTHROPIC_API_KEY, billed
   #    per use, separate from the owner's Claude plan): the fresh sports stories handed to branch world-feed are checked,
@@ -236,6 +258,8 @@ json.dump(d, open(p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 PY
   # world and East Africa articles (Claude API, only with the secret; by default only while the hourly routine is down)
   news_writer_cycle || echo "news writer failed this time (the next check retries)"
+  git fetch -q origin main && git reset -q --hard origin/main || true
+  photo_rescue_cycle || echo "photo rescue failed this time (the next check retries)"
   # publishing watchdog: re-start a failed publish, re-build a stuck GitHub Pages, alert the owner when retries do not help
   git fetch -q origin main && git reset -q --hard origin/main || true
   python3 tools/automation_watchdog.py run --state /tmp/fast || echo "watchdog failed this time (the next check retries)"
