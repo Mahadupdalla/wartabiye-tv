@@ -7,18 +7,9 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-23T20:20:11Z",
+ "lastCheckAt": "2026-11-23T21:15:10Z",
  "lastWrittenAt": null,
  "days": {
-  "2026-11-10": {
-   "written": 0,
-   "merged": 0,
-   "skipped": 257,
-   "declined": 0,
-   "failed": 0,
-   "calls": 0,
-   "usd": 0
-  },
   "2026-11-11": {
    "written": 0,
    "merged": 0,
@@ -130,7 +121,16 @@
   "2026-11-23": {
    "written": 0,
    "merged": 0,
-   "skipped": 178,
+   "skipped": 181,
+   "declined": 0,
+   "failed": 0,
+   "calls": 0,
+   "usd": 0
+  },
+  "2026-11-24": {
+   "written": 0,
+   "merged": 0,
+   "skipped": 5,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -138,10 +138,6 @@
   }
  },
  "done": {
-  "51bdd196589ee62e": "2026-11-20T20:50:10Z",
-  "04cee6e2e64103da": "2026-11-20T21:10:11Z",
-  "e627d923d738b97b": "2026-11-20T21:10:11Z",
-  "c8aa98c984c06ac0": "2026-11-20T21:10:11Z",
   "3640a3fbb9529fb8": "2026-11-20T21:15:12Z",
   "3d617bdf334af614": "2026-11-20T21:20:10Z",
   "d78d2117a5c1a8ff": "2026-11-20T21:20:10Z",
@@ -626,19 +622,75 @@
   "b18c74686dbe06b3": "2026-11-23T19:35:11Z",
   "59a966b49afd1bb9": "2026-11-23T19:45:10Z",
   "453f83981e759d0e": "2026-11-23T19:55:10Z",
-  "ae547cff696f54b9": "2026-11-23T20:10:10Z"
+  "ae547cff696f54b9": "2026-11-23T20:10:10Z",
+  "42402989af3bf5d1": "2026-11-23T20:35:09Z",
+  "7c23f8676353b5d7": "2026-11-23T20:35:09Z",
+  "f57582a725cbf577": "2026-11-23T20:55:10Z",
+  "91c11a76bc51c2e2": "2026-11-23T21:05:10Z",
+  "43e2508d6326defc": "2026-11-23T21:05:10Z",
+  "76c36a370ecbffba": "2026-11-23T21:10:10Z",
+  "5e65228f99a965a5": "2026-11-23T21:15:10Z",
+  "435658bc0d87e666": "2026-11-23T21:15:10Z"
  },
  "recent": [
   {
-   "at": "2026-11-23T20:20:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24 Africa",
+   "at": "2026-11-23T21:15:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "Al Jazeera",
+   "title": "As tech outages mount, some New Yorkers prepare for the worst",
+   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:15:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
    "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
    "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
   },
   {
-   "at": "2026-11-23T20:20:11Z",
+   "at": "2026-11-23T21:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US drug prices leave patients facing impossible choices",
+   "url": "https://www.aljazeera.com/news/2026/11/23/us-drug-prices-leave-patients-facing-impossible-choices?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "What strike on Russian ship in Libya says about spread of Ukraine war",
+   "url": "https://www.bbc.co.uk/news/articles/cm894p88jzxpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-23T21:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Iran flogs singer Parastoo Ahmadi for performing without headscarf",
+   "url": "https://www.aljazeera.com/news/2026/11/23/iran-flogs-singer-parastoo-ahmadi-for-performing-without-headscarf?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Turkish police hunting for lioness stalking Istanbul",
+   "url": "https://www.aljazeera.com/news/2026/11/23/turkish-police-hunting-for-lioness-stalking-istanbul?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Libya's east seeks UN probe into claims Ukrainian military present in west",
+   "url": "https://www.france24.com/en/libya-s-east-seeks-un-probe-into-claims-ukrainian-military-present-in-west"
+  },
+  {
+   "at": "2026-11-23T21:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -646,7 +698,7 @@
    "url": "https://www.dw.com/en/denmark-top-court-backs-hardline-immigration-ghetto-law/a-80026478?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-23T20:20:11Z",
+   "at": "2026-11-23T21:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -654,7 +706,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/protesting-bangladesh-garment-workers-reject-pay-offer?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T20:20:11Z",
+   "at": "2026-11-23T21:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -662,31 +714,63 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/trump-delays-explosive-detonation-in-us-state-of-iowa-amid-legal-battles?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T20:20:11Z",
+   "at": "2026-11-23T21:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Trump backs Nvidia boss's return but top Democrat vows probe",
+   "url": "https://www.france24.com/en/trump-backs-nvidia-boss-s-return-but-top-democrat-vows-probe"
+  },
+  {
+   "at": "2026-11-23T21:10:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Ukraine claims it sank Russian warship off Libya",
+   "url": "https://www.france24.com/en/ukraine-claims-it-sank-russian-warship-off-libya"
+  },
+  {
+   "at": "2026-11-23T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "As tech outages mount, some New Yorkers prepare for the worst",
-   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
+   "title": "US drug prices leave patients facing impossible choices",
+   "url": "https://www.aljazeera.com/news/2026/11/23/us-drug-prices-leave-patients-facing-impossible-choices?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T20:20:11Z",
+   "at": "2026-11-23T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:15:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24 Africa",
+   "source": "France 24",
    "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
    "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
   },
   {
-   "at": "2026-11-23T20:15:12Z",
+   "at": "2026-11-23T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Iran flogs singer Parastoo Ahmadi for performing without headscarf",
+   "url": "https://www.aljazeera.com/news/2026/11/23/iran-flogs-singer-parastoo-ahmadi-for-performing-without-headscarf?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Turkish police hunting for lioness stalking Istanbul",
+   "url": "https://www.aljazeera.com/news/2026/11/23/turkish-police-hunting-for-lioness-stalking-istanbul?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Libya's east seeks UN probe into claims Ukrainian military present in west",
+   "url": "https://www.france24.com/en/libya-s-east-seeks-un-probe-into-claims-ukrainian-military-present-in-west"
+  },
+  {
+   "at": "2026-11-23T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -694,7 +778,7 @@
    "url": "https://www.dw.com/en/denmark-top-court-backs-hardline-immigration-ghetto-law/a-80026478?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-23T20:15:12Z",
+   "at": "2026-11-23T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -702,7 +786,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/protesting-bangladesh-garment-workers-reject-pay-offer?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T20:15:12Z",
+   "at": "2026-11-23T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -710,404 +794,324 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/trump-delays-explosive-detonation-in-us-state-of-iowa-amid-legal-battles?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T20:15:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "As tech outages mount, some New Yorkers prepare for the worst",
-   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:15:12Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:10:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24 Africa",
-   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
-   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
-  },
-  {
-   "at": "2026-11-23T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "As tech outages mount, some New Yorkers prepare for the worst",
-   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24 Africa",
-   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
-   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
-  },
-  {
-   "at": "2026-11-23T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "As tech outages mount, some New Yorkers prepare for the worst",
-   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T20:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24 Africa",
-   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
-   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
-  },
-  {
-   "at": "2026-11-23T20:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "As tech outages mount, some New Yorkers prepare for the worst",
-   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T20:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:55:10Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "Al Jazeera",
-   "title": "CEO Jensen Huang returns to Nvidia’s office",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/23/ceo-jensen-huang-returns-to-nvidias-office?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24 Africa",
-   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
-   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
-  },
-  {
-   "at": "2026-11-23T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "As tech outages mount, some New Yorkers prepare for the worst",
-   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24 Africa",
-   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
-   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
-  },
-  {
-   "at": "2026-11-23T19:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:45:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
-   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24 Africa",
-   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
-   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
-  },
-  {
-   "at": "2026-11-23T19:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:40:16Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:40:16Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:40:16Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
-   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:35:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "BBC News",
-   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
-   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T19:35:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
-   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:35:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:35:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
-   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:30:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:30:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
-   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:30:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
-   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T19:30:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
-   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:25:10Z",
-   "result": "skipped",
-   "reason": "not a news report (live blog, video, opinion, analysis ...)",
-   "source": "Al Jazeera",
-   "title": "Thousands flee Manchester concert after unknown substance released",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/23/thousands-flee-manchester-concert-after-unknown-substance-released?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:25:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "'Deeply shocked': Gisèle Pelicot to sue publisher after nude photos used in book campaign",
-   "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
-  },
-  {
-   "at": "2026-11-23T19:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
-   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
-   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T19:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
-   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:20:13Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:20:13Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
-   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:20:13Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
-   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T19:20:13Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
-   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T19:20:13Z",
+   "at": "2026-11-23T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "'Deeply shocked': Gisèle Pelicot to sue publisher after nude photos used in book campaign",
-   "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
+   "title": "Trump backs Nvidia boss's return but top Democrat vows probe",
+   "url": "https://www.france24.com/en/trump-backs-nvidia-boss-s-return-but-top-democrat-vows-probe"
   },
   {
-   "at": "2026-11-23T19:15:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Tajikistan follows US call, withdraws from ICC",
-   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-23T19:15:10Z",
+   "at": "2026-11-23T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
-   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
+   "title": "As tech outages mount, some New Yorkers prepare for the worst",
+   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Nvidia reinstates Huang as CEO after Trump intervention",
+   "url": "https://www.france24.com/en/nvidia-reinstates-huang-as-ceo-after-trump-intervention"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "'Maintain control': UN chief calls for creation of AI safety framework within a year",
+   "url": "https://www.france24.com/en/americas/20261123-un-chief-antonio-guterres-calls-for-global-ai-safety-framework-within-a-year"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Turkish police hunting for lioness stalking Istanbul",
+   "url": "https://www.aljazeera.com/news/2026/11/23/turkish-police-hunting-for-lioness-stalking-istanbul?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Libya's east seeks UN probe into claims Ukrainian military present in west",
+   "url": "https://www.france24.com/en/libya-s-east-seeks-un-probe-into-claims-ukrainian-military-present-in-west"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Denmark: Top court backs hardline immigration \"ghetto law\"",
+   "url": "https://www.dw.com/en/denmark-top-court-backs-hardline-immigration-ghetto-law/a-80026478?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Protesting Bangladesh garment workers reject pay offer",
+   "url": "https://www.aljazeera.com/news/2026/11/23/protesting-bangladesh-garment-workers-reject-pay-offer?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Trump delays explosive detonation in US state of Iowa amid legal battles",
+   "url": "https://www.aljazeera.com/news/2026/11/23/trump-delays-explosive-detonation-in-us-state-of-iowa-amid-legal-battles?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Trump backs Nvidia boss's return but top Democrat vows probe",
+   "url": "https://www.france24.com/en/trump-backs-nvidia-boss-s-return-but-top-democrat-vows-probe"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "As tech outages mount, some New Yorkers prepare for the worst",
+   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:05:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Ukraine claims it sank Russian warship off Libya",
+   "url": "https://www.france24.com/en/ukraine-claims-it-sank-russian-warship-off-libya"
+  },
+  {
+   "at": "2026-11-23T21:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24 Africa",
+   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
+  },
+  {
+   "at": "2026-11-23T21:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Turkish police hunting for lioness stalking Istanbul",
+   "url": "https://www.aljazeera.com/news/2026/11/23/turkish-police-hunting-for-lioness-stalking-istanbul?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Denmark: Top court backs hardline immigration \"ghetto law\"",
+   "url": "https://www.dw.com/en/denmark-top-court-backs-hardline-immigration-ghetto-law/a-80026478?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T21:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Protesting Bangladesh garment workers reject pay offer",
+   "url": "https://www.aljazeera.com/news/2026/11/23/protesting-bangladesh-garment-workers-reject-pay-offer?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Trump delays explosive detonation in US state of Iowa amid legal battles",
+   "url": "https://www.aljazeera.com/news/2026/11/23/trump-delays-explosive-detonation-in-us-state-of-iowa-amid-legal-battles?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T21:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "As tech outages mount, some New Yorkers prepare for the worst",
+   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:55:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "Al Jazeera",
+   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
+   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24 Africa",
+   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
+  },
+  {
+   "at": "2026-11-23T20:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Turkish police hunting for lioness stalking Istanbul",
+   "url": "https://www.aljazeera.com/news/2026/11/23/turkish-police-hunting-for-lioness-stalking-istanbul?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Denmark: Top court backs hardline immigration \"ghetto law\"",
+   "url": "https://www.dw.com/en/denmark-top-court-backs-hardline-immigration-ghetto-law/a-80026478?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T20:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Protesting Bangladesh garment workers reject pay offer",
+   "url": "https://www.aljazeera.com/news/2026/11/23/protesting-bangladesh-garment-workers-reject-pay-offer?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Trump delays explosive detonation in US state of Iowa amid legal battles",
+   "url": "https://www.aljazeera.com/news/2026/11/23/trump-delays-explosive-detonation-in-us-state-of-iowa-amid-legal-battles?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "As tech outages mount, some New Yorkers prepare for the worst",
+   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24 Africa",
+   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
+  },
+  {
+   "at": "2026-11-23T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Turkish police hunting for lioness stalking Istanbul",
+   "url": "https://www.aljazeera.com/news/2026/11/23/turkish-police-hunting-for-lioness-stalking-istanbul?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Denmark: Top court backs hardline immigration \"ghetto law\"",
+   "url": "https://www.dw.com/en/denmark-top-court-backs-hardline-immigration-ghetto-law/a-80026478?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Protesting Bangladesh garment workers reject pay offer",
+   "url": "https://www.aljazeera.com/news/2026/11/23/protesting-bangladesh-garment-workers-reject-pay-offer?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Trump delays explosive detonation in US state of Iowa amid legal battles",
+   "url": "https://www.aljazeera.com/news/2026/11/23/trump-delays-explosive-detonation-in-us-state-of-iowa-amid-legal-battles?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "As tech outages mount, some New Yorkers prepare for the worst",
+   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
+   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:45:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24 Africa",
+   "title": "How far will Ukraine war spread? Kyiv targets Russian vessels in Libya",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261123-how-far-will-ukraine-war-spread-kyiv-targets-russian-vessels-in-libya"
+  },
+  {
+   "at": "2026-11-23T20:45:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Turkish police hunting for lioness stalking Istanbul",
+   "url": "https://www.aljazeera.com/news/2026/11/23/turkish-police-hunting-for-lioness-stalking-istanbul?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:45:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Denmark: Top court backs hardline immigration \"ghetto law\"",
+   "url": "https://www.dw.com/en/denmark-top-court-backs-hardline-immigration-ghetto-law/a-80026478?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T20:45:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Protesting Bangladesh garment workers reject pay offer",
+   "url": "https://www.aljazeera.com/news/2026/11/23/protesting-bangladesh-garment-workers-reject-pay-offer?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:45:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Trump delays explosive detonation in US state of Iowa amid legal battles",
+   "url": "https://www.aljazeera.com/news/2026/11/23/trump-delays-explosive-detonation-in-us-state-of-iowa-amid-legal-battles?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:45:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "As tech outages mount, some New Yorkers prepare for the worst",
+   "url": "https://www.aljazeera.com/news/2026/11/23/as-tech-outages-mount-some-new-yorkers-prepare-for-the-worst?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T20:45:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Russia threatens ‘hostile’ Estonia with ‘open war’",
+   "url": "https://www.aljazeera.com/news/2026/11/23/russia-threatens-hostile-estonia-with-open-war?traffic_source=rss"
   }
  ]
 }
