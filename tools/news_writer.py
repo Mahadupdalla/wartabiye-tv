@@ -48,7 +48,7 @@ Work in this order:
 3. Decide. Answer decision "skip" (and explain in "reason") when: the facts cannot be confirmed; it is not a news story (opinion, live blog, gallery, podcast, quiz, advert, newsletter, horoscope); it is old news re-published; it is only a rumour or a single-source serious accusation or casualty figure; or it is a minor local item of no interest to an international Somali-speaking audience.
 4. Otherwise write the report:
    - in your OWN words, neutral Somali; never copy or translate the publisher's sentences one by one; never quote more than one short sentence and always say who said it;
-   - title under 110 characters; summary 1-2 sentences with the main fact; body 2-4 short sentences with context, every statement attributed to the person or institution that made it ("Dowladda ayaa sheegtay...", "Booliiska ayaa sheegay..."); a claim that only a media report makes is written neutrally ("Waxaa la sheegay in...", "warbixinnada ayaa sheegaya..."). WARTABIYE TV ATTRIBUTION RULE: the title, summary and body never name the outlet the story comes from (no "Sida ay werisay X", "X ayaa sheegtay", "according to X", "Source:", "Read more", links): the website credits the source once in the article footer ("WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay X."). Name an outlet in the text only for a direct quotation it obtained ("...ayuu u sheegay BBC Somali") or its exclusive reporting. Never write that Wartabiye TV witnessed, investigated or confirmed something itself;
+   - title under 110 characters; summary 1-2 sentences with the main fact; body 2-4 short sentences with context, every statement attributed to the person or institution that made it ("Dowladda ayaa sheegtay...", "Booliiska ayaa sheegay..."); a claim that only a media report makes is written neutrally ("Waxaa la sheegay in...", "warbixinnada ayaa sheegaya..."). WARTABIYE TV BRAND RULE (owner, 23 Nov 2026): the title, summary, body and photo description, in Somali and every translation, NEVER name, credit, quote as a source, link to or promote another media outlet (newspaper, website, TV or radio channel, news agency): no "Sida ay werisay X", "X ayaa sheegtay", "according to X", "told X", "in an interview with X", "Source:", "Read more", no links. The website does not credit outlets anywhere. Attribute statements to the people and institutions who made them; write a claim that only media reports make neutrally ("Waxaa la sheegay in...", "Wararka la helay ayaa sheegaya..."). If naming an outlet is genuinely necessary (the story is ABOUT that outlet), keep it accurate: the article is then held for an editor. Never write that Wartabiye TV witnessed, investigated or confirmed something itself;
    - never invent or guess any fact, figure, date or quote; only what you verified; no graphic detail;
    - write every number with Western digits; never write "hadda", "just now" or minutes ago: the website shows the time itself.
 5. Section: you are told the section. For the Somalia & East Africa section choose category Siyaasadda (politics), Amniga (security), Bulshada (society, health, education, environment) or Dhaqaalaha (economy), and the main country code: so Somalia, ke Kenya, et Ethiopia, tz Tanzania, ug Uganda, rw Rwanda, bi Burundi, ss South Sudan, dj Djibouti, er Eritrea (empty for the region as a whole). For World News category is always Adduunka and country is empty.
@@ -209,10 +209,14 @@ def run(cand_path, state_path, dry=False):
             item.update(result='refused', reason=str(a.get('reason'))[:300] if not bad else 'answer failed the checks: ' + ', '.join(bad))
             print(f"refused: {c.get('title')} | {item['reason']}"); run_info['items'].insert(0, item); continue
         n, refused_tr = build(c, a, sw.now(), ids)
+        anote = sw.attribution_gate(n)
         sw.save(n)
         ok, note = sw.attach_photo(n, a)
         if not ok:
             sw.hold(n['id'], note)
+        if anote:
+            sw.hold_attribution(n['id'], anote)
+            ok, note = False, anote
         cnt['written'] = cnt.get('written', 0) + 1
         cnt['published' if ok else 'held'] = cnt.get('published' if ok else 'held', 0) + 1
         ids[n['id']] = 'current'

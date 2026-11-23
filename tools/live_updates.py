@@ -6,7 +6,9 @@ News, set in /admin/ -> Ilaha muuqaalka iyo wararka tooska) and turns each NEW, 
 ORIGINAL update in Somali (a headline and two or three sentences) with the eight site translations. The updates appear on
 the LIVE News page (#wararka-tooska) as an automatically updated timeline; nothing is copied from the publisher: only the
 publisher's own headline and short RSS description are given to Claude as the facts, and the update is written in Wartabiye
-TV's own words, attributing the claim to the newsroom that reported it ("sida ay BBC sheegtay").
+TV's own words. Owner's rule of 23 Nov 2026: the update never names, credits or links the newsroom that reported it (claims
+are attributed to the people and institutions who made them, media-only claims are written neutrally); the newsrooms, links
+and times stay in live-updates.json "sources" and /admin/, never in the public text.
 
 Rules that keep the timeline honest:
   - an update exists only when an approved newsroom's own feed lists the story, with the publisher's own time;
@@ -15,7 +17,7 @@ Rules that keep the timeline honest:
     added to that update as a corroborating source (no new update, no API call);
   - opinion, analysis, explainers, live blogs, galleries, videos, podcasts and quizzes are skipped without an API call;
   - Claude declines anything that is not a factual news report or that the given facts do not support; every number in the
-    update must appear in the publisher's headline or description, and the reporting newsroom must be named;
+    update must appear in the publisher's headline or description, and no newsroom may be named in the text;
   - "breaking" only when the publisher itself marked it.
 
 Cost: the owner's own Claude API key (GitHub secret ANTHROPIC_API_KEY, billed per use by Anthropic, separate from the
@@ -166,7 +168,7 @@ Write a short LIVE update in neutral, standard Somali, in Wartabiye TV's own wor
 - "title": a clear Somali news headline (at most 110 characters), no clickbait, no quotation of the original headline word for word.
 - "text": two or three short sentences (at most 420 characters) with the core facts: who, what, where, and when if given.
 - Use ONLY the facts in the headline and description you are given. Add nothing: no background you remember, no numbers, names, places or causes that are not in the text, no speculation, no opinion. If a fact is a claim by someone, say who claims it.
-- Name the newsroom that reported it inside the text in the Somali way, e.g. "sida ay BBC sheegtay", "Al Jazeera ayaa werisay", "DW ayaa sheegtay". Do not add links.
+- WARTABIYE TV BRAND RULE: never name, credit or link the newsroom that reported it, or any other media outlet, in any language (no "sida ay BBC sheegtay", "Al Jazeera ayaa werisay", "according to DW", "told Reuters"). Attribute a statement to the person or institution that made it ("Booliiska ayaa sheegay..."); write a claim that only the report makes neutrally ("Waxaa la sheegay in...", "Wararka la helay ayaa sheegaya..."). Never claim Wartabiye TV witnessed or verified it. No links.
 - Every number you use must appear in the given text (or be the day or year of the publication date), written with Western digits 0-9 in every language.
 - Then translate the Somali title and text faithfully into English (en), Modern Standard Arabic (ar), French (fr), Dutch (nl), Italian (it), German (de), Turkish (tr) and Spanish (es), keeping the same facts, names and numbers.
 
@@ -257,8 +259,14 @@ def check_answer(a, group):
         extra = numbers(title + ' ' + text) - allowed
         if extra:
             return f'{lang}: number(s) not in the source: {", ".join(sorted(extra))}'
-    if not names_newsroom(a['so']['text'] + ' ' + a['so']['title'], group):
-        return 'the Somali text does not name the newsroom that reported it'
+    if names_newsroom(a['so']['text'] + ' ' + a['so']['title'], group):
+        return 'the text names the newsroom (owner\'s rule: no other media outlet is named)'
+    import attribution
+    for lang in ('so',) + tuple(LANGS):
+        t = a.get(lang) or {}
+        left = attribution.mentions((t.get('title') or '') + ' ' + (t.get('text') or ''), [x.get('source') for x in group], lang, strict=True)
+        if left:
+            return f'{lang}: names another media outlet ({", ".join(left)})'
     if a.get('region') not in REGIONS:
         return 'unknown region'
     return ''
@@ -483,8 +491,8 @@ def selftest():
 
     with tempfile.TemporaryDirectory() as dd:
         json.dump(wire, open(os.path.join(dd, 'live-wire.json'), 'w'))
-        c = Client([answer('Baarlamaanka Soomaaliya oo ansixiyay miisaaniyadda 2027', 'Xildhibaannada Muqdisho ayaa ansixiyay miisaaniyadda 2027, sida ay BBC Somali sheegtay.', 'somalia'),
-                    answer('Daadad ka dhacay Nairobi oo dilay 12 qof', 'Ugu yaraan 12 qof ayaa ku dhintay Nairobi kadib roob culus, sida ay BBC sheegtay iyadoo xiganaysa booliiska.')])
+        c = Client([answer('Baarlamaanka Soomaaliya oo ansixiyay miisaaniyadda 2027', 'Xildhibaannada Muqdisho ayaa ansixiyay miisaaniyadda 2027.', 'somalia'),
+                    answer('Daadad ka dhacay Nairobi oo dilay 12 qof', 'Ugu yaraan 12 qof ayaa ku dhintay Nairobi kadib roob culus, sida ay booliisku sheegeen.')])
         items, st = run(dd, client=c, t=t)
         check(len(c.calls) == 2, 'two API calls (Somalia story first, the two Kenya reports as one event)')
         check('MAIN ITEM' in c.calls[0] and 'Somali parliament' in c.calls[0], 'Somalia has priority')
@@ -506,7 +514,7 @@ def selftest():
         w3 = dict(w2); w3['items'] = w2['items'] + [{'id': 'a4', 'title': 'Kenya floods: death toll in Nairobi rises to 20', 'url': 'https://www.bbc.co.uk/news/articles/a4',
                                                       'desc': 'Police say 20 people have now died in Nairobi.', 'source': 'BBC News Africa', 'sourceId': 'bbc-africa', 'region': 'eastafrica', 'publishedAt': '2026-11-09T12:30:00Z'}]
         json.dump(w3, open(os.path.join(dd, 'live-wire.json'), 'w'))
-        c3 = Client([answer('Daadadka Nairobi: dhimashadu waxay gaartay 20', 'Booliiska ayaa sheegay in 20 qof ay hadda ku dhinteen Nairobi, sida ay BBC sheegtay.')])
+        c3 = Client([answer('Daadadka Nairobi: dhimashadu waxay gaartay 20', 'Booliiska ayaa sheegay in 20 qof ay hadda ku dhinteen Nairobi.')])
         items, st = run(dd, client=c3, t=t + D.timedelta(minutes=55))
         f = next((u for u in items if u.get('story')), None)
         check(len(c3.calls) == 1 and 'NEW DEVELOPMENT' in c3.calls[0] and 'Daadad ka dhacay Nairobi' in c3.calls[0], 'follow-up sent with the story so far')
@@ -520,10 +528,11 @@ def selftest():
         check(not c4.calls, 'a repeat of the latest development is merged without a call')
     # the rules
     g = [wire['items'][0]]
-    check(check_answer(answer('Daadad Nairobi', 'Ugu yaraan 15 qof ayaa ku dhintay Nairobi, sida ay BBC sheegtay iyadoo xiganaysa booliiska.'), g).startswith('so: number'), 'invented number refused')
-    check('newsroom' in check_answer(answer('Daadad ka dhacay Nairobi', 'Ugu yaraan 12 qof ayaa ku dhintay Nairobi kadib roob culus oo da\'ay.'), g), 'newsroom must be named')
+    check(check_answer(answer('Daadad Nairobi', 'Ugu yaraan 15 qof ayaa ku dhintay Nairobi, sida ay booliisku sheegeen.'), g).startswith('so: number'), 'invented number refused')
+    check('newsroom' in check_answer(answer('Daadad ka dhacay Nairobi', 'Ugu yaraan 12 qof ayaa ku dhintay Nairobi kadib roob culus, sida ay BBC sheegtay.'), g), 'naming the newsroom is refused')
+    check(check_answer(answer('Daadad ka dhacay Nairobi oo dilay 12', 'Ugu yaraan 12 qof ayaa ku dhintay Nairobi kadib roob culus oo da\'ay.'), g) == '', 'a neutral update passes')
     check(check_answer(answer('x', 'y', publish=False), g) == 'vague', 'declined item kept out')
-    check(check_answer(answer('Daadad ka dhacay Nairobi oo dilay 12', 'Ugu yaraan 12 qof ayaa ku dhintay Nairobi, sida ay BBC sheegtay. https://bbc.co.uk'), g) == 'so: contains a link', 'no links')
+    check(check_answer(answer('Daadad ka dhacay Nairobi oo dilay 12', 'Ugu yaraan 12 qof ayaa ku dhintay Nairobi kadib roob culus. https://bbc.co.uk'), g) == 'so: contains a link', 'no links')
     check(similar('Kenya floods: 12 killed as heavy rains hit Nairobi', 'Heavy rains in Nairobi kill 12, Kenya police say'), 'same event detected')
     check(not similar('Kenya floods kill 12 in Nairobi', 'Ethiopia and Eritrea leaders meet in Asmara'), 'different events kept apart')
     check(SKIP.search('Live: Israel strikes Gaza') and SKIP.search('https://www.bbc.co.uk/news/av/world-1') and not SKIP.search('Kenya floods kill 12'), 'skip rules')

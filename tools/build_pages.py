@@ -366,23 +366,21 @@ def related(n, k=6):
 
 
 def ed_footer(n, lang='so'):
-    """The editorial footer of every article (owner's spec, 19 Nov 2026; same as assets/app.js edFooter):
-    WARBIXINTA / TAARIIKHDA / QAYBTA and, for a story built on other outlets' reporting, ONE discreet source note
-    ("WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay X."). The credit comes from tools/attribution.py."""
+    """The editorial footer of every article (same as assets/app.js edFooter): WARBIXINTA / TAARIIKHDA / QAYBTA. Owner's
+    rule of 23 Nov 2026: never another media outlet's name or link. Only "Xogtan waxaa xaqiijiyay tifaftirka Wartabiye TV."
+    when the owner marked the story verified, and the issuing institution of an official statement (not a media outlet).
+    The credit comes from tools/attribution.py (public_credit)."""
+    import attribution as _at
     c = n.get('credit') or {}
-    t, srcs = c.get('type') or 'original', c.get('sources') or []
-
-    def nm(x):
-        u = str(x.get('url') or '')
-        return f'<a href="{esc(u)}" target="_blank" rel="noopener">{esc(x["name"])}</a>' if c.get('link') and u.startswith('https://') else esc(x['name'])
-    names = [nm(x) for x in srcs]
+    t = c.get('type') or 'original'
+    srcs = [x for x in c.get('sources') or [] if t == 'official' and isinstance(x, dict) and x.get('name') and not _at.is_outlet(x['name'])]
+    names = [esc(x['name']) for x in srcs]
     joined = (', '.join(names[:-1]) + f' {esc(T("andWord", lang))} ' + names[-1]) if len(names) > 1 else (names[0] if names else '')
     note = ''
     if t == 'verified':
-        note = esc(T('noteVerified', lang)) + (' ' + esc(T('noteFirst', lang)).replace('{src}', joined) if joined else '')
-    elif joined and t in ('rewritten', 'multi', 'official'):
-        key = 'noteOfficial' if t == 'official' else 'noteMulti' if len(names) > 1 else 'noteBased'
-        note = esc(T(key, lang)).replace('{src}', joined)
+        note = esc(T('noteVerified', lang))
+    elif t == 'official' and joined:
+        note = esc(T('noteOfficial', lang)).replace('{src}', joined)
     pub = n.get('publishedAt')
     s_ = section(n)
     cat = T('secWorld', lang) if s_ == 'world' and n.get('category') in (None, 'Adduunka') else cat_name(n.get('category'), lang) if n.get('category') else T('secSomalia', lang)
@@ -453,10 +451,7 @@ for n in public:
             art['image'] = [LOGO]
         if body:
             art['wordCount'] = len(re.findall(r'\w+', summary + ' ' + body))
-        cr_ = n.get('credit') or {}
-        based_on = [x['url'] for x in cr_.get('sources') or [] if str(x.get('url') or '').startswith('https://')]
-        if cr_.get('type') not in (None, 'original') and (based_on or n.get('sourceUrl')):
-            art['isBasedOn'] = based_on if len(based_on) > 1 else (based_on or [n['sourceUrl']])[0]
+        # no "isBasedOn" link to another outlet in the page metadata (owner's rule of 23 Nov 2026)
         if lang != 'so':
             art['translationOfWork'] = {'@id': page_url(n)}
         if n.get('sponsored'):
@@ -482,11 +477,8 @@ for n in public:
         if n.get('image'):
             cap = photo_caption(n, lang)
             fig = f'<figure class="figure{" small" if n.get("imageSize") == "small" else ""}">{ph(n, big=True, hero=True, lang=lang)}' + (f'<figcaption>{cap}</figcaption>' if cap else '') + '</figure>'
-        # small publisher byline (no disclaimer box): "Warkaan waxaa daabacay Wartabiye TV" only for the newsroom's own stories,
-        # "Waxaa daabacay Wartabiye TV" for every story built on other outlets' reporting (same rule as assets/app.js)
-        src_name = str(n.get('source') or '')
-        own = n.get('by') == 'admin' and (not src_name or src_name == 'Wartabiye TV')
-        by_txt = esc(T('wroteBy' if own else 'pubBy', lang))
+        # byline on every article (owner's rule of 23 Nov 2026, same as assets/app.js): "Warkaan waxaa daabacay Wartabiye TV"
+        by_txt = esc(T('wroteBy', lang))
         by_html = '<span class="by">' + (by_txt.replace('Wartabiye TV', '<b>Wartabiye TV</b>', 1) if 'Wartabiye TV' in by_txt else by_txt) + '</span>'
         based = ed_footer(n, lang)
         rel = related(n)

@@ -85,18 +85,13 @@ def translation(it, lang):
     return t
 
 
-def show_source(it):
-    return bool(it.get('source') and it.get('source') != 'Wartabiye TV' and it.get('attributionRequired') is True)
-
-
-def credit_names(it):
-    """the outlets credited in the article's source note (tools/attribution.py "credit"), e.g. "Hiiraan Online, Puntland Post"."""
-    c = it.get('credit') if isinstance(it.get('credit'), dict) else None
-    if c is None:
-        return s(it.get('source')) if show_source(it) else ''
-    if c.get('type') == 'original':
-        return ''
-    return ', '.join(s(x.get('name')) for x in c.get('sources') or [] if isinstance(x, dict) and s(x.get('name')))
+def public_credit(it):
+    """the article's credit as the website shows it (tools/attribution.py public_credit, owner's rule of 23 Nov 2026): the
+    type, and a name only for an official statement by an institution that is not a media outlet. Never an outlet."""
+    import attribution
+    c = it.get('credit') if isinstance(it.get('credit'), dict) else {}
+    t = s(c.get('type')) or ('original' if it.get('by') == 'admin' else 'rewritten')
+    return attribution.public_credit({'type': t, 'sources': c.get('sources') or []})
 
 
 def article(it):
@@ -114,13 +109,13 @@ def article(it):
         'imageKind': s(it.get('imageKind')),
         # credit facts from the image system (source, photographer, licence + link, status); never the editors' notes
         'imageInfo': {k: v for k, v in (it.get('imageInfo') or {}).items() if k in ('source', 'pageUrl', 'photographer', 'owner', 'license', 'licenseUrl', 'status') and isinstance(v, str)},
-        # the editorial source note (owner's spec, 19 Nov 2026): the outlets the story is based on, credited once under the
-        # text; the link only when a licence requires it. "credit" = the same record the website uses.
-        'source': credit_names(it),
-        'sourceUrl': s(it.get('sourceUrl')) if show_source(it) and s(it.get('sourceUrl')).startswith('http') else '',
-        'basedOnOthers': bool(it.get('by') != 'admin' and not credit_names(it) and (it.get('credit') or {}).get('type', 'rewritten') != 'original'),
-        'credit': {'type': s((it.get('credit') or {}).get('type')) or ('original' if it.get('by') == 'admin' else 'rewritten'),
-                   'sources': [{'name': s(x.get('name'))} for x in (it.get('credit') or {}).get('sources') or [] if isinstance(x, dict) and s(x.get('name'))]},
+        # owner's rule of 23 Nov 2026: the app never names, credits or links another media outlet (every article is a
+        # Wartabiye TV article). "source"/"sourceUrl" stay empty and "basedOnOthers" false, so installed app versions
+        # show no source note either; "credit" = the same public record the website uses.
+        'source': '',
+        'sourceUrl': '',
+        'basedOnOthers': False,
+        'credit': public_credit(it),
         'tr': {},
     }
     for lang in LANGS:
@@ -257,10 +252,12 @@ def test():
     assert meta['counts'] == {'so': 2, 'en': 2, 'ar': 0, 'fr': 0, 'nl': 0, 'it': 0, 'tr': 0, 'de': 0, 'es': 0}, meta['counts']
     a1 = arts[1]
     assert a1['section'] == 'somalia' and arts[0]['section'] == 'sports'
-    assert a1['source'] == '' and a1['basedOnOthers'] is True, 'publisher shown only when it must be credited'
-    assert arts[0]['source'] == 'X' and arts[0]['sourceUrl'] == 'https://x'
+    assert a1['source'] == '' and a1['basedOnOthers'] is False, 'no outlet and no "based on other media" note'
+    assert arts[0]['source'] == '' and arts[0]['sourceUrl'] == '', 'never an outlet or its link, even when attributionRequired'
     cr = article({'id': 'd-4', 'title': 'T', 'source': 'Hiiraan Online', 'credit': {'type': 'multi', 'sources': [{'name': 'Hiiraan Online', 'url': 'https://h'}, {'name': 'Puntland Post'}]}})
-    assert cr['source'] == 'Hiiraan Online, Puntland Post' and cr['basedOnOthers'] is False and cr['credit']['type'] == 'multi', 'the source note credits every outlet'
+    assert cr['source'] == '' and cr['basedOnOthers'] is False and cr['credit'] == {'type': 'multi', 'sources': []}, 'multi-source story names no outlet'
+    off = article({'id': 'f-6', 'title': 'T', 'credit': {'type': 'official', 'sources': [{'name': 'Wasaaradda Caafimaadka'}]}})
+    assert off['credit']['sources'] == [{'name': 'Wasaaradda Caafimaadka'}], 'an official institution may be named'
     own = article({'id': 'e-5', 'title': 'T', 'by': 'admin', 'source': 'Wartabiye TV', 'credit': {'type': 'original', 'sources': []}})
     assert own['source'] == '' and own['basedOnOthers'] is False, "the newsroom's own story names no outlet"
     assert arts[0]['image'] == '', 'unsafe image dropped'

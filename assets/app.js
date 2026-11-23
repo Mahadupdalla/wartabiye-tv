@@ -128,28 +128,28 @@
     var s=section(it);if(s==='sports'||s==='world')return el('span','cat',tr(s));
     return it.category?el('span','cat',catName(it.category)):null}
   function whenText(it){var d=new Date(it.publishedAt);if(isNaN(d))return tr('timeUnknown');if(it.timeVerified===false)return dayMonth(d)+' · '+tr('timeUnverified');return ago(it.publishedAt)}
-  // Cards and lists never show publisher names or "read on another website" links (owner's decisions of 9 Nov 2026).
-  // The source of a story built on other outlets' reporting is credited once, in the article's editorial footer
-  // (edFooter, owner's spec of 19 Nov 2026), from "credit" (built by tools/attribution.py into data/news.json).
-  // article byline: "Warkaan waxaa daabacay Wartabiye TV" only for the newsroom's own stories (written in /admin/ with no outside
-  // source); every story built on other outlets' reporting says "Waxaa daabacay Wartabiye TV" (published by), so it is
-  // never presented as Wartabiye TV's own first-hand reporting. The brand name is shown in bold.
+  // Cards, lists and articles never show another media outlet's name, logo or link (owner's rule of 23 Nov 2026, which
+  // replaces the source note of 19 Nov): every article is published under the WARTABIYE TV identity only. The outlets a
+  // story was researched from stay in the article file and in /admin/; "credit" (tools/attribution.py, data/news.json)
+  // carries only the type, and a name only for an official statement by an institution that is not a media outlet.
+  // article byline on EVERY article: "Warkaan waxaa daabacay Wartabiye TV", the brand name in bold.
   function ownStory(it){return !!(it&&it.by==='admin'&&(!it.source||it.source==='Wartabiye TV'))}
-  function byLine(it){var t=tr(ownStory(it)?'wroteBy':'pubBy'),k=t.indexOf('Wartabiye TV'),b=el('span','by');
+  function byLine(it){var t=tr('wroteBy'),k=t.indexOf('Wartabiye TV'),b=el('span','by');
     if(k<0)b.append(t);else{if(k)b.append(t.slice(0,k));b.append(el('b',null,'Wartabiye TV'));if(k+12<t.length)b.append(t.slice(k+12))}return b}
-  // editorial footer of every article (same as tools/build_pages.py ed_footer): WARBIXINTA / TAARIIKHDA / QAYBTA and, for a
-  // story built on other outlets' reporting, ONE discreet source note "WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay X."
+  // editorial footer of every article (same as tools/build_pages.py ed_footer): WARBIXINTA / TAARIIKHDA / QAYBTA, plus
+  // "Xogtan waxaa xaqiijiyay tifaftirka Wartabiye TV." only when the owner marked the story verified, and the issuing
+  // institution of an official statement. Never an outlet.
+  var OUTLET_RX=/\b(?:online|news|media|tv|radio|post|times|press|agency|network|daily|herald|journal|gazette|fm|channel|broadcasting|sports?|bbc|cnn|reuters|afp|associated press|al jazeera|dw|france 24|euronews|sonna)\b/i;
   function edFooter(it){
     var c=it.credit&&typeof it.credit==='object'?it.credit:{type:ownStory(it)?'original':'rewritten',sources:[]};
-    var srcs=(Array.isArray(c.sources)?c.sources:[]).filter(function(x){return x&&typeof x.name==='string'&&x.name});
+    var srcs=c.type==='official'?(Array.isArray(c.sources)?c.sources:[]).filter(function(x){return x&&typeof x.name==='string'&&x.name&&!OUTLET_RX.test(x.name)}):[];
     var f=el('aside','edfoot');f.append(el('p','edbrand',tr('edBrand')));var dl=el('dl');
     function row(k,v){var d=el('div');d.append(el('dt',null,k));var dd=el('dd');dd.append(v);d.append(dd);dl.append(d)}
     row(tr('edReport'),'WARTABIYE TV');var d=new Date(it.publishedAt);if(!isNaN(d)){var t=el('time',null,fullDate(d));t.dateTime=it.publishedAt;row(tr('edDate'),t)}
     var s=section(it);row(tr('edSection'),s==='world'&&(!it.category||it.category==='Adduunka')?tr('secWorld'):it.category?catName(it.category):tr('secSomalia'));f.append(dl);
-    function names(p){srcs.forEach(function(x,i){if(i)p.append(i===srcs.length-1?' '+tr('andWord')+' ':', ');var u=c.link?safeUrl(x.url):'';if(u){var a=el('a',null,x.name);a.href=u;a.target='_blank';a.rel='noopener';p.append(a)}else p.append(x.name)})}
-    function put(p,tpl){var k=tpl.indexOf('{src}');if(k<0){p.append(tpl);return}p.append(tpl.slice(0,k));names(p);p.append(tpl.slice(k+5))}
-    var key=c.type==='verified'?'noteVerified':!srcs.length?'':c.type==='official'?'noteOfficial':c.type==='multi'||srcs.length>1?'noteMulti':c.type==='rewritten'?'noteBased':'';
-    if(key){var p=el('p','srcnote');p.append(el('b',null,'WARTABIYE TV'),' — ');put(p,tr(key));if(c.type==='verified'&&srcs.length){p.append(' ');put(p,tr('noteFirst'))}f.append(p)}
+    function put(p,tpl){var k=tpl.indexOf('{src}');if(k<0){p.append(tpl);return}p.append(tpl.slice(0,k));srcs.forEach(function(x,i){if(i)p.append(i===srcs.length-1?' '+tr('andWord')+' ':', ');p.append(x.name)});p.append(tpl.slice(k+5))}
+    var key=c.type==='verified'?'noteVerified':c.type==='official'&&srcs.length?'noteOfficial':'';
+    if(key){var p=el('p','srcnote');p.append(el('b',null,'WARTABIYE TV'),' — ');put(p,tr(key));f.append(p)}
     return f}
   function meta(it,withSrc){
     var m=el('div','meta');m.append(el('b',null,'Wartabiye TV'));var w=whenText(it);if(w){var ws=el('span','dot',w);if(it.timeVerified!==false&&tms(it))ws.setAttribute('data-ago',it.publishedAt);m.append(ws)}
