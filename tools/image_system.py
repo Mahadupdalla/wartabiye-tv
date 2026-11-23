@@ -45,6 +45,8 @@ What it does now:
   python3 tools/image_system.py fallback <id> [--reason "<Somali>"]      no photo: keep it as a draft (Sugaya sawir)
   python3 tools/image_system.py enforce [--no-search] [--limit N] [--budget S]   published articles without a valid photo:
           find one (certain matches only) or hold them for manual review; --no-search only holds (publish workflow)
+  python3 tools/image_system.py rescue [--limit N] [--budget S] [--state F]   the news task's fresh drafts waiting for a
+          photo: attach a certain match and publish them (5-minute monitor, on GitHub's runners)
   python3 tools/image_system.py approve <id> | reject <id> --reason "..."
   python3 tools/image_system.py record <id>          the image record as the site and /admin/ see it
   python3 tools/image_system.py registry             rebuild data/image-registry.json (publish workflow)
@@ -1199,6 +1201,47 @@ def enforce(search=True, limit=40, budget=900, retry_hours=6):
     return {'fixed': fixed, 'held': held}
 
 
+def rescue(limit=10, budget=300, state=None, retry_hours=2):
+    """Photos for the news task's fresh drafts (23 Nov 2026: the 00:08 run kept 7 of its 14 stories, 5 of them sports, in
+    "Sugaya sawir" because Commons and Openverse answered HTTP 429 to the run's machine). Run by the 5-minute monitor on
+    GitHub's runners: for every draft the news task wrote in the last AUTO_PUBLISH_HOURS that waits only for its photo
+    (_may_autopublish: not held by a check, not touched by the owner), attach a CERTAIN match (_pick_certain, the same
+    rule as enforce); attach() then publishes it. Nothing else is changed; a draft with no certain match stays a draft.
+    The time of each try is kept in the state file (not in the article), so a draft is retried every retry_hours."""
+    t0, tried, done = time.time(), 0, []
+    st = _json(state, {}) if state else {}
+    now = time.time()
+    for n in sorted(articles(include_trash=False), key=lambda a: str(a.get('publishedAt') or ''), reverse=True):
+        if tried >= limit or time.time() - t0 > budget:
+            break
+        if n.get('by') == 'auto-results' or not _may_autopublish(n):
+            continue
+        nid = n['id']
+        if now - float(st.get(nid) or 0) < retry_hours * 3600:
+            continue
+        tried += 1
+        st[nid] = now
+        try:
+            pick = _pick_certain(n)
+            if pick:
+                c, name = pick
+                out = attach(nid, c, f'{name}, sawir hore', {'en': f'{name}, file photo'}, 'illustrative', by='image-rescue')
+                if out.get('published') is True and not image_problem(out):
+                    done.append(nid)
+                    print(f'rescued {nid}: {out.get("image")}')
+        except Exception as e:  # noqa: BLE001  a failed download or a refused photo: the draft stays, retried later
+            print(f'{nid}: {e}')
+            try:
+                os.remove(os.path.join(root, 'img', 'news', f'.{nid}.part'))
+            except OSError:
+                pass
+    if state:
+        cut = now - 2 * AUTO_PUBLISH_HOURS * 3600
+        json.dump({k: v for k, v in st.items() if float(v or 0) > cut}, open(state, 'w', encoding='utf-8'))
+    print(f'rescue: {tried} drafts tried, {len(done)} got a photo and were published')
+    return done
+
+
 def resolve(ref, args):
     if ref.startswith('File:'):
         c = commons_candidate(ref)
@@ -1464,6 +1507,8 @@ def main(a):
             attach(nid, c, o['--alt'], _alts(o), o.get('--kind', 'illustrative'), tuple(m.get('--continuing', [])), by=o.get('--by', 'news-task'))
         elif cmd == 'fallback':
             fallback(pos[1], o.get('--reason'))
+        elif cmd == 'rescue':
+            rescue(int(o.get('--limit', 10)), int(o.get('--budget', 300)), o.get('--state'))
         elif cmd == 'enforce':
             enforce(not o.get('--no-search'), int(o.get('--limit', 40)), int(o.get('--budget', 900)))
         elif cmd in ('approve', 'reject'):
