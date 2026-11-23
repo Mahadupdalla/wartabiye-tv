@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-24T00:51:49+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-24T01:11:48+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-23T20:13:16Z",
  "newestArticleAt": "2026-11-23T20:53:49+03:00",
- "lastSourceCheckAt": "2026-11-24T00:50:19+03:00",
- "sourceChecks24h": 293,
- "publishedArticles": 1261,
+ "lastSourceCheckAt": "2026-11-24T01:10:23+03:00",
+ "sourceChecks24h": 292,
+ "publishedArticles": 1268,
  "liveArticles": 1261,
- "waitingForImage": 188,
- "liveInSync": true,
+ "waitingForImage": 195,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-23T20:13:16Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45257084961"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-22T17:58:29+00:00",
+  "since": "2026-11-23T22:11:47+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-23T22:15:12+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-24T01:10:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-24T00:50:13+03:00",
-   "lastSuccessAt": "2026-11-24T00:50:13+03:00",
+   "lastCheckAt": "2026-11-24T01:10:16+03:00",
+   "lastSuccessAt": "2026-11-24T01:10:16+03:00",
    "lastReportAt": "2026-11-22T22:00:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-23T21:11:03+03:00",
+  "lastSourceCheckAt": "2026-11-24T01:09:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-23T21:02:32+03:00",
-   "sourceName": "Radio Daljir",
-   "title": "Fariinta Barnaamijka Baraarug ee Warbaahinta Daljir.",
-   "url": "https://daljir.com/fariinta-barnaamijka-baraarug-ee-warbaahinta-daljir/"
+   "publishedAt": "2026-11-23T23:00:08+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Itoobiya oo u sii dhawaanaysa Imaaraadka xilli uu xumaaday xiriirka Abu Dhabi iyo Muqdisho",
+   "url": "https://www.caasimada.net/itoobiya-oo-u-sii-dhawaanaysa-imaaraadka-xilli-uu-xumaaday-xiriirka-abu-dhabi-iyo-muqdisho/"
   },
   "latestPublished": {
    "id": "2026-11-23-xasan-sheekh-museveni-war-murtiyeed-kampala-wadahadal",
@@ -65,28 +70,25 @@
    "source": "Hiiraan Online",
    "url": "/war/2026-11-23-xasan-sheekh-museveni-war-murtiyeed-kampala-wadahadal.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 82,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 86,
   "rejectedReasons": {
-   "old": 10,
-   "duplicate": 71,
-   "on-site": 1
+   "old": 18,
+   "duplicate": 68
   },
   "taskRejectedReasons": [
-   "Saadaq Joon oo loo magacaabay Wasiirka gaashaandhiga DFS (Daljir/Hiiraan/Puntland Post/Goobjoog/Horseed/Caasimada/Shabelle): duplicate, bogga ayuu ku jiraa (14:50)",
-   "Dowladda Soomaaliya oo sheegtay in 285 xubnood oo Al-Shabaab ah lagu dilay (Hiiraan) + Caasimada 'Sidee ~300 Shabaab loo dilay': sheegasho dowladeed oo hal il ah oo khasaare ah -> pending (sidii hore)",
-   "Garoowe: Dooda Barlamaanka ee wax-ka-beddelka dastuurka oo wali socota (Daljir) / Barlamaanka Puntland oo awoodi waayey (Horseed): bogga Daljir waa 403 container-kan, Horseed headline-only; il kale lama helin -> lama daabicin",
-   "Uganda Army Chief Visits Troops in Somalia Amid Withdrawal From Barawe (Shabelle): headline-only; Hiiraan/Goobjoog none -> lama xaqiijin",
-   "DF Soomaaliya oo ku dhawaaqday inay qoraneyso ciidamo cusub (Caasimada): headline-only; il akhrin karo lama helin -> lama xaqiijin",
-   "Somali President Meets SONATRACH Delegation (Shabelle): headline-only; xaqiijin lama helin run-kan",
-   "Guddiyada Maaliyadda ee Labada Aqal oo su'aalo weydiiyay Wasiirka Maaliyadda (Shabelle): headline-only; lama xaqiijin",
-   "Somaliland's Saudi livestock trade at risk (Puntland Post): ra'yi/falanqeyn, war ma aha",
-   "Who Threatens Somali Unity More (Horseed OpEd) / Somalia's political paralysis (Caasimada): ra'yi",
-   "Baraagaha qol munaasabad soo dhaweyn maamul degmo (Daljir) / Sheekh Umal Garoowe (Daljir, Puntland Post): protocol/hadal, qiimo war ma leh",
-   "Wafdi DF Dhuusamareeb / Cosoble geeridiisa / Galmudug wasiir is-casilay / Muhoozi hadalkiisa: duplicate, bogga ayay ku jiraan",
-   "Fariinta Barnaamijka Baraarug / Dunida iyo Maanta / Idaacadda Subaxnimo: barnaamij, war ma aha"
+   "Golaha Puntland: doodda dastuurka: headline-only; Daljir 403, Horseed cinwaan keliya, WebSearch so+en none -> pending",
+   "Taliyaha Ciidamada Dhulka Uganda oo kormeeray qorshaha bixitaanka ciidamada UPDF: duplicate (ku jira 2026-11-23-xasan-sheekh-booqasho-uganda)",
+   "Saadaq Joon oo loo magacaabay wasiirka Gaashaandhigga: duplicate (bogga ku jira)",
+   "Xasan Sheekh iyo Museveni oo ka wada hadlay khilaafka siyaasadeed: duplicate (war-murtiyeed Kampala)",
+   "Itoobiya iyo Imaaraadka: duplicate (2026-11-23-abiy-imaaraadka)",
+   "Guddiga Doorashooyinka oo kordhiyey diiwaangelinta: duplicate (2026-11-23-niebc)",
+   "Midowga Afrika/AUSSOM shir kala-guurka: duplicate (2026-11-23-aussom-shir)",
+   "Daacish iyo Al-Shabaab weerarro Puntland: duplicate (bogga ku jira)",
+   "Muhoozi hadallada Turkiga/Soomaaliya: duplicate (bogga ku jira)",
+   "Horseed / Caasimada OpEd: opinion, not news"
   ],
-  "waitingForImage": 24,
+  "waitingForImage": 26,
   "waitingIds": [
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
    "2026-11-15-fiqi-hindiya-wada-hadal-difaaca-amniga-badda",
@@ -102,12 +104,12 @@
    "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag",
    "2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan",
    "2026-11-14-beesha-makane-ciidamo-beledweyne-hirshabeelle",
+   "2026-11-23-trump-soomaalida-minnesota-truth-social-ilhan-cumar",
+   "2026-11-23-dowladda-285-al-shabaab-daynuunaay-bay-isaaq-ukurow",
    "2026-11-20-jabuuti-aussom-garoonka-ugaas-khaliif-beledweyne-war-saxaafadeed",
    "2026-11-15-banaanbax-beledweyne-hirshabeelle-dowladda",
    "2026-11-23-wafdi-federaal-dhuusamareeb-shirweynaha-banii-aadamnimada",
-   "2026-11-14-updf-beenisay-askar-uganda-lagu-dilay-shabeellaha-hoose",
-   "2026-11-22-garoonka-ugaas-khaliif-beledweyne-dib-loo-furayo-aussom-xildhibaano",
-   "2026-11-18-somaliland-khadar-xuseen-jawaab-xasan-sheekh-imaaraadka"
+   "2026-11-14-updf-beenisay-askar-uganda-lagu-dilay-shabeellaha-hoose"
   ],
   "stale": false,
   "problems": [],
