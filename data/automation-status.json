@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-23T12:51:45+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-23T13:17:25+03:00",
+ "overall": "retrying",
+ "overallText": "Cillad ku meel gaar ah: si otomaatig ah ayaa dib loogu celinayaa",
  "lastSuccessfulPublishAt": "2026-11-23T06:53:29Z",
  "newestArticleAt": "2026-11-23T09:04:14+03:00",
- "lastSourceCheckAt": "2026-11-23T12:50:21+03:00",
- "sourceChecks24h": 291,
- "publishedArticles": 1228,
+ "lastSourceCheckAt": "2026-11-23T13:15:24+03:00",
+ "sourceChecks24h": 290,
+ "publishedArticles": 1240,
  "liveArticles": 1228,
- "waitingForImage": 168,
- "liveInSync": true,
+ "waitingForImage": 173,
+ "liveInSync": false,
  "publishFailures24h": 4,
  "lastPublishRun": {
   "created_at": "2026-11-23T06:53:29Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45127203912"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-22T17:58:29+00:00",
+  "since": "2026-11-23T10:17:23+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-23T09:51:56+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-23T13:15:45+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,45 +46,45 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-23T12:50:12+03:00",
-   "lastSuccessAt": "2026-11-23T12:50:12+03:00",
+   "lastCheckAt": "2026-11-23T13:15:15+03:00",
+   "lastSuccessAt": "2026-11-23T13:15:15+03:00",
    "lastReportAt": "2026-11-22T22:00:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-23T09:08:00+03:00",
+  "lastSourceCheckAt": "2026-11-23T13:15:06+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-23T08:41:42+03:00",
+   "publishedAt": "2026-11-23T11:59:59+03:00",
    "sourceName": "BBC Somali",
-   "title": "Maxaad ka taqaan dahablaha caanka ahaa ee geeriyooday ee la sawiran qalanjada Soomaaliyeed",
-   "url": "https://www.bbc.com/somali/articles/cm868jzwwxg9o?at_medium=RSS&at_campaign=rss"
+   "title": "Laba markab oo midkood Ruushku leeyahay oo lagu weeraray bariga Liibiya iyo baaritaan degdeg ah oo lagu baaqay",
+   "url": "https://www.bbc.com/somali/articles/ckedq2yxvj1xo?at_medium=RSS&at_campaign=rss"
   },
   "latestPublished": {
-   "id": "2026-11-23-cali-cosoble-madaxweynihii-hore-hirshabeelle-geeriyooday-qaahira",
-   "title": "Cali Cabdullaahi Cosoble, madaxweynihii ugu horreeyay ee Hirshabeelle, oo ku geeriyooday Qaahira",
-   "publishedAt": "2026-11-23T01:46:30+03:00",
-   "source": "Hiiraan Online",
-   "url": "/war/2026-11-23-cali-cosoble-madaxweynihii-hore-hirshabeelle-geeriyooday-qaahira.html"
+   "id": "2026-11-23-xasan-sheekh-booqasho-uganda-museveni-muhoozi-ciidamada-updf",
+   "title": "Madaxweyne Xasan Sheekh oo booqasho hal maalin ah ku tagaya Uganda, xilli hadallada Muhoozi ay muran dhaliyeen",
+   "publishedAt": "2026-11-23T11:19:47+03:00",
+   "source": "Goobjoog News",
+   "url": "/war/2026-11-23-xasan-sheekh-booqasho-uganda-museveni-muhoozi-ciidamada-updf.html"
   },
-  "publishedLastRun": 0,
-  "rejectedLastRun": 79,
+  "publishedLastRun": 4,
+  "rejectedLastRun": 84,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 71
+   "old": 12,
+   "duplicate": 72
   },
   "taskRejectedReasons": [
-   "Trump oo ka hadlay Soomaalida Minnesota (Goobjoog): taariikhda hadalka lama hubin karo, lama xaqiijin inuu cusub yahay",
-   "Booliska Puntland iyo 2,500 guri (Daljir): boggu waa muuqaal keliya, xog qoran ma jirto",
-   "Digniinta Takfiirka Garowe (Horseed): cinwaan keliya, il labaad lama helin (pending)",
-   "Hubka culus ee DF (Caasimada): hore ayaa loo daabacay 22 November (duplicate)",
-   "Golaha wasiirada Galmudug, geerida Cosoble, SONATRACH, EACJ, amniga 74%, ICAO, Faroole, Beledweyne: horey ayay boggu ugu jiraan (duplicate)",
-   "BBC Somali: qormo ku saabsan dahabley: maqaal muuqaal ah, war ma aha (not newsworthy)"
+   "Weerarka Calmiskaad (Puntland Post): lama xaqiijin, khasaaraha hal il kaliya -> pending",
+   "Codsiga Sheekh Umal: qiimo war ma leh",
+   "Horseed OpEd: ra'yi",
+   "Caasimada: cinwaan kaliya, il kale lama helin",
+   "Cosoble, golaha wasiirrada Galmudug, SONATRACH, tusaha amniga 74%, ICAO, Faroole, EACJ: horey ayay bogga ugu jireen",
+   "BBC dahab feature: maqaal muuqaal ah, war cusub maaha"
   ],
-  "waitingForImage": 21,
+  "waitingForImage": 22,
   "waitingIds": [
    "2026-11-15-fiqi-hindiya-wada-hadal-difaaca-amniga-badda",
    "2026-11-22-galmudug-liibaan-wareegto-24-wasiir-golaha-cusub",
