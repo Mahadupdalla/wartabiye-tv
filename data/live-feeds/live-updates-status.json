@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-23T18:30:10Z",
+ "lastCheckAt": "2026-11-23T19:25:10Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-10": {
@@ -130,7 +130,7 @@
   "2026-11-23": {
    "written": 0,
    "merged": 0,
-   "skipped": 166,
+   "skipped": 173,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -138,20 +138,6 @@
   }
  },
  "done": {
-  "68f50784e780188f": "2026-11-20T18:35:10Z",
-  "78db6a39ac7e88a7": "2026-11-20T18:40:08Z",
-  "20ea11a59a491c92": "2026-11-20T18:40:08Z",
-  "88104756fc04509b": "2026-11-20T18:40:08Z",
-  "0aa87482671cd03f": "2026-11-20T18:55:11Z",
-  "16d831b84e329eb8": "2026-11-20T19:00:12Z",
-  "71ff1c838b4ebdb0": "2026-11-20T19:05:11Z",
-  "952e40cdf3b622f7": "2026-11-20T19:05:11Z",
-  "7abcb9e67aa8baf2": "2026-11-20T19:10:58Z",
-  "ccdf7c29263923a4": "2026-11-20T19:15:11Z",
-  "907a25d3e6931696": "2026-11-20T19:15:11Z",
-  "88252eac90ac866e": "2026-11-20T19:15:11Z",
-  "767c2779862d27ef": "2026-11-20T19:20:10Z",
-  "16c3296f556575b0": "2026-11-20T19:20:10Z",
   "9850fda4b50d2aa8": "2026-11-20T19:25:34Z",
   "0c5c416688d48ab9": "2026-11-20T19:25:34Z",
   "6cc38668b794ad05": "2026-11-20T19:30:11Z",
@@ -634,19 +620,42 @@
   "634f23836ced94b5": "2026-11-23T17:50:10Z",
   "76e72c51b82b643a": "2026-11-23T17:55:10Z",
   "6c8e8f63ded135d0": "2026-11-23T18:10:11Z",
-  "c8ff235995c4f53b": "2026-11-23T18:25:10Z"
+  "c8ff235995c4f53b": "2026-11-23T18:25:10Z",
+  "935d96ed99344ba5": "2026-11-23T18:35:11Z",
+  "706fb2b27ce613c4": "2026-11-23T18:45:10Z",
+  "06aad3f91216c99e": "2026-11-23T18:45:10Z",
+  "2899c804fa74025f": "2026-11-23T18:55:10Z",
+  "205809fc507f53ba": "2026-11-23T19:10:11Z",
+  "f23a95a408d18cf2": "2026-11-23T19:25:10Z",
+  "7f7bbd955501d629": "2026-11-23T19:25:10Z"
  },
  "recent": [
   {
-   "at": "2026-11-23T18:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
-   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
+   "at": "2026-11-23T19:25:10Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Thousands flee Manchester concert after unknown substance released",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/23/thousands-flee-manchester-concert-after-unknown-substance-released?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:30:10Z",
+   "at": "2026-11-23T19:25:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "'Deeply shocked': Gisèle Pelicot to sue publisher after nude photos used in book campaign",
+   "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
+  },
+  {
+   "at": "2026-11-23T19:25:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T19:25:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -654,7 +663,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:30:10Z",
+   "at": "2026-11-23T19:25:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -662,7 +671,7 @@
    "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-23T18:30:10Z",
+   "at": "2026-11-23T19:25:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -670,55 +679,15 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:30:10Z",
+   "at": "2026-11-23T19:20:13Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "'Deeply shocked': Gisèle Pelicot to sue publisher after nude photos used in book campaign",
-   "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-23T18:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Tajikistan moves to leave ICC amid US push against court",
-   "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T18:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "What failure of COP31 reveals about a divided world",
-   "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:30:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Comedian impersonates Trump's dance moves, mocks trade talks at Canada press dinner",
-   "url": "https://www.bbc.co.uk/news/articles/cr930y92dyx4o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:25:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Finland summons Russian ambassador after suspected airspace violation",
-   "url": "https://www.france24.com/en/europe/20261123-finland-summons-russian-ambassador-after-suspected-airspace-violation"
-  },
-  {
-   "at": "2026-11-23T18:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
-   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:25:10Z",
+   "at": "2026-11-23T19:20:13Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -726,7 +695,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:25:10Z",
+   "at": "2026-11-23T19:20:13Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -734,7 +703,7 @@
    "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-23T18:25:10Z",
+   "at": "2026-11-23T19:20:13Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -742,7 +711,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:25:10Z",
+   "at": "2026-11-23T19:20:13Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -750,39 +719,15 @@
    "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
   },
   {
-   "at": "2026-11-23T18:25:10Z",
+   "at": "2026-11-23T19:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Tajikistan moves to leave ICC amid US push against court",
-   "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-23T18:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "What failure of COP31 reveals about a divided world",
-   "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Comedian impersonates Trump's dance moves, mocks trade talks at Canada press dinner",
-   "url": "https://www.bbc.co.uk/news/articles/cr930y92dyx4o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
-   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:20:10Z",
+   "at": "2026-11-23T19:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -790,7 +735,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:20:10Z",
+   "at": "2026-11-23T19:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -798,7 +743,7 @@
    "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-23T18:20:10Z",
+   "at": "2026-11-23T19:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -806,7 +751,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:20:10Z",
+   "at": "2026-11-23T19:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -814,47 +759,31 @@
    "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
   },
   {
-   "at": "2026-11-23T18:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "at": "2026-11-23T19:10:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "Al Jazeera",
    "title": "Tajikistan moves to leave ICC amid US push against court",
    "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:20:10Z",
+   "at": "2026-11-23T19:10:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "What failure of COP31 reveals about a divided world",
-   "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-23T18:20:10Z",
+   "at": "2026-11-23T19:10:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Comedian impersonates Trump's dance moves, mocks trade talks at Canada press dinner",
-   "url": "https://www.bbc.co.uk/news/articles/cr930y92dyx4o?at_medium=RSS&at_campaign=rss"
+   "source": "Al Jazeera",
+   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
+   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Finland summons Russian ambassador after suspected airspace violation",
-   "url": "https://www.france24.com/en/europe/20261123-finland-summons-russian-ambassador-after-suspected-airspace-violation"
-  },
-  {
-   "at": "2026-11-23T18:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
-   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:15:11Z",
+   "at": "2026-11-23T19:10:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -862,7 +791,15 @@
    "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-23T18:15:11Z",
+   "at": "2026-11-23T19:10:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
+   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T19:10:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -870,55 +807,23 @@
    "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
   },
   {
-   "at": "2026-11-23T18:15:11Z",
+   "at": "2026-11-23T19:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T19:05:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Tajikistan moves to leave ICC amid US push against court",
-   "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
+   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
+   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "What failure of COP31 reveals about a divided world",
-   "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Comedian impersonates Trump's dance moves, mocks trade talks at Canada press dinner",
-   "url": "https://www.bbc.co.uk/news/articles/cr930y92dyx4o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Finland summons Russian ambassador after suspected airspace violation",
-   "url": "https://www.france24.com/en/europe/20261123-finland-summons-russian-ambassador-after-suspected-airspace-violation"
-  },
-  {
-   "at": "2026-11-23T18:10:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Israeli strikes kill at least three, including UNRWA worker, in Gaza",
-   "url": "https://www.aljazeera.com/news/2026/11/23/israeli-drone-strike-kills-unrwa-worker-in-gaza?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T18:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
-   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:10:11Z",
+   "at": "2026-11-23T19:05:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -926,7 +831,15 @@
    "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-23T18:10:11Z",
+   "at": "2026-11-23T19:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
+   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T19:05:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -934,7 +847,7 @@
    "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
   },
   {
-   "at": "2026-11-23T18:10:11Z",
+   "at": "2026-11-23T19:05:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -942,39 +855,39 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:10:11Z",
+   "at": "2026-11-23T19:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T19:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
+   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T19:00:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
-   "title": "What failure of COP31 reveals about a divided world",
-   "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
+   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
+   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-23T18:10:11Z",
+   "at": "2026-11-23T19:00:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Comedian impersonates Trump's dance moves, mocks trade talks at Canada press dinner",
-   "url": "https://www.bbc.co.uk/news/articles/cr930y92dyx4o?at_medium=RSS&at_campaign=rss"
+   "source": "Al Jazeera",
+   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
+   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Finland summons Russian ambassador after suspected airspace violation",
-   "url": "https://www.france24.com/en/europe/20261123-finland-summons-russian-ambassador-after-suspected-airspace-violation"
-  },
-  {
-   "at": "2026-11-23T18:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
-   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:05:10Z",
+   "at": "2026-11-23T19:00:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -982,7 +895,7 @@
    "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
   },
   {
-   "at": "2026-11-23T18:05:10Z",
+   "at": "2026-11-23T19:00:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -990,47 +903,39 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:05:10Z",
+   "at": "2026-11-23T18:57:28Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "What failure of COP31 reveals about a divided world",
-   "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-23T18:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Comedian impersonates Trump's dance moves, mocks trade talks at Canada press dinner",
-   "url": "https://www.bbc.co.uk/news/articles/cr930y92dyx4o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:05:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Finland summons Russian ambassador after suspected airspace violation",
-   "url": "https://www.france24.com/en/europe/20261123-finland-summons-russian-ambassador-after-suspected-airspace-violation"
-  },
-  {
-   "at": "2026-11-23T18:05:10Z",
+   "at": "2026-11-23T18:57:28Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Israeli strikes kill at least three, including UNRWA worker, in Gaza",
-   "url": "https://www.aljazeera.com/news/2026/11/23/israeli-drone-strike-kills-unrwa-worker-in-gaza?traffic_source=rss"
+   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
+   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:00:11Z",
+   "at": "2026-11-23T18:57:28Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
-   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
+   "source": "BBC News",
+   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
+   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-23T18:00:11Z",
+   "at": "2026-11-23T18:57:28Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
+   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T18:57:28Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1038,7 +943,7 @@
    "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
   },
   {
-   "at": "2026-11-23T18:00:11Z",
+   "at": "2026-11-23T18:57:28Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -1046,55 +951,47 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T18:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "What failure of COP31 reveals about a divided world",
-   "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Comedian impersonates Trump's dance moves, mocks trade talks at Canada press dinner",
-   "url": "https://www.bbc.co.uk/news/articles/cr930y92dyx4o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-23T18:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Finland summons Russian ambassador after suspected airspace violation",
-   "url": "https://www.france24.com/en/europe/20261123-finland-summons-russian-ambassador-after-suspected-airspace-violation"
-  },
-  {
-   "at": "2026-11-23T18:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Israeli strikes kill at least three, including UNRWA worker, in Gaza",
-   "url": "https://www.aljazeera.com/news/2026/11/23/israeli-drone-strike-kills-unrwa-worker-in-gaza?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-23T17:55:10Z",
+   "at": "2026-11-23T18:55:10Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Russia warns Ukraine of ‘dangerous trend’ after Libya and Baltic attacks",
-   "url": "https://www.aljazeera.com/news/2026/11/23/russia-warns-ukraine-of-dangerous-trend-after-libya-and-baltic-attacks?traffic_source=rss"
+   "source": "BBC News",
+   "title": "What failure of COP31 reveals about a divided world",
+   "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-23T17:55:10Z",
+   "at": "2026-11-23T18:55:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC Somali",
-   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
-   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-23T17:55:10Z",
+   "at": "2026-11-23T18:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
+   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T18:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
+   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-23T18:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
+   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T18:55:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1102,7 +999,7 @@
    "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
   },
   {
-   "at": "2026-11-23T17:55:10Z",
+   "at": "2026-11-23T18:55:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -1110,12 +1007,108 @@
    "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
   },
   {
-   "at": "2026-11-23T17:55:10Z",
+   "at": "2026-11-23T18:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T18:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
+   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T18:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
+   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-23T18:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
+   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T18:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "'Deeply shocked': Gisèle Pelicot to sue publisher after nude photos used in book campaign",
+   "url": "https://www.france24.com/en/france/20261123-deeply-shocked-gis%C3%A8le-pelicot-sue-publisher-nude-photos-used-book-campaign"
+  },
+  {
+   "at": "2026-11-23T18:50:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Tajikistan moves to leave ICC amid US push against court",
+   "url": "https://www.aljazeera.com/news/2026/11/23/tajikistan-moves-to-leave-icc-amid-us-push-against-court?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T18:50:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
    "title": "What failure of COP31 reveals about a divided world",
    "url": "https://www.bbc.co.uk/news/articles/cky970n83rvjo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-23T18:45:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "BBC News",
+   "title": "Comedian impersonates Trump's dance moves, mocks trade talks at Canada press dinner",
+   "url": "https://www.bbc.co.uk/news/articles/cr930y92dyx4o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-23T18:45:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "BBC Somali",
+   "title": "Hay'adda Oxfam oo soo saartay digniin halis ka jirta magaalada Qaza",
+   "url": "https://www.bbc.com/somali/articles/cr3wgdn0nw5yo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-23T18:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Tajikistan follows US call, withdraws from ICC",
+   "url": "https://www.dw.com/en/tajikistan-follows-us-call-withdraws-from-icc/a-80023903?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-23T18:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "India pledges $1.6bn in flood relief for Nepal as Balendra Shah visits Modi",
+   "url": "https://www.aljazeera.com/news/2026/11/23/india-pledges-1-6bn-in-flood-relief-for-nepal?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-23T18:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
+   "url": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-23T18:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Danish top court’s ‘ghetto law’ ruling supports hardline immigration policy",
+   "url": "https://www.aljazeera.com/news/2026/11/23/danish-top-courts-ghetto-law-ruling-supports-hardline-immigration-policy?traffic_source=rss"
   }
  ]
 }
