@@ -74,6 +74,9 @@ photo_rescue_cycle() {
   # Only a certain match is attached (same rule as enforce), and attach() publishes only drafts the news task wrote in the
   # last 24 hours that nobody held or edited.
   [ $(( 10#$(date -u +%M) % 30 )) -lt 5 ] || return 0
+  # the photo check (tools/image_system.py download) needs Pillow; the monitor's runner does not have it by default (24 Nov
+  # 2026: every rescue try ended "not a photo the site can show")
+  python3 -c "import PIL" 2>/dev/null || python3 -m pip install -q pillow || { echo "photo rescue: Pillow could not be installed"; return 0; }
   python3 tools/image_system.py rescue --limit 6 --budget 150 --state /tmp/fast/photo-rescue-state.json | tee /tmp/rescue.txt || return 0
   rm -f img/news/.*.part
   new=$(grep -c '^rescued ' /tmp/rescue.txt 2>/dev/null || true); new=${new:-0}
