@@ -39,6 +39,7 @@ Website wararka Soomaaliga ah. Bogga public-ka ah waxaa lagu martigeliyaa GitHub
 | `.github/workflows/mobile-app.yml` | Tijaabooyinka app-ka (isku xirka, 9 luqadood, bogga tooska ah) iyo dhismaha Android (APK + AAB) |
 | `data/adsense.json`, `tools/build_adsense.py`, `assets/ads.js` | Google AdSense Auto ads (bogga kaliya, app-ka ma aha). Inta aan publisher ID dhab ah lagu kaydin /admin/ → Advertising, waxba Google lagama daro bogga, `ads.txt`-na ma jiro. Kadib: koodka rasmiga ah ee `<head>`, `google-adsense-account` meta iyo `ads.txt` si toos ah ayaa loo daabacaa. Tijaabo: `python3 tools/adsense_test.py` |
 | `tools/notify_test.js` | Tijaabada gambaleelka (desktop + mobile, RTL, link kasta war dhab ah) |
+| `assets/listen.js`, `workers/tts/` | **Dhageyso Warbixinta**: badhanka dhageysiga ee hoosta cinwaanka war kasta (9 luqadood, luqadda bogga). Codka waxaa sameeya Azure AI Speech (Soomaali: `so-SO-UbaxNeural`) marka Play la riixo oo kaliya, waana la kaydiyaa. Furaha waxaa lagu hayaa Cloudflare oo kaliya (secrets `AZURE_SPEECH_KEY`, `AZURE_SPEECH_REGION`). Faahfaahin: `workers/tts/README.md`. Tijaabooyin: `cd workers/tts && npm test`, `tools/listen_test.js`, Actions → Codka Soomaaliga - tijaabo |
 
 ## Nidaamka sawirrada
 
