@@ -46,7 +46,7 @@ try{var h=document.documentElement,l=new URLSearchParams(location.search).get('l
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500..900&family=Noto+Sans+Arabic:wght@400..700&display=swap">
-<link rel="stylesheet" href="assets/min/site.min.css?v=51224a5456">
+<link rel="stylesheet" href="assets/min/site.min.css?v=97e1b45418">
 <!-- Google AdSense (website only): filled in by tools/build_adsense.py from data/adsense.json; empty until a real publisher ID is saved in /admin/ -->
 <!--adsense--><!--/adsense-->
 </head>
@@ -199,7 +199,9 @@ try{var h=document.documentElement,l=new URLSearchParams(location.search).get('l
 <script src="assets/min/media-i18n.min.js?v=200d96e662"></script>
 <script src="assets/min/sports-src.min.js?v=bbab3c8c64"></script>
 <script src="assets/min/media.min.js?v=d3b5df076e"></script>
-<script src="assets/min/app.min.js?v=e23e61d8fb"></script>
+<!-- article audio player: data-endpoint is filled in by .github/workflows/tts-deploy.yml (empty = no player) -->
+<script src="assets/min/listen.min.js?v=09c635521e" data-endpoint=""></script>
+<script src="assets/min/app.min.js?v=34f2dea2c8"></script>
 <script src="assets/min/notify.min.js?v=f45efaa2ec"></script>
 <script src="assets/min/protect.min.js?v=0fa5a17413" defer></script>
 <!-- visitor statistics: privacy-friendly, no cookies; data-endpoint is filled in by .github/workflows/admin-deploy.yml -->
