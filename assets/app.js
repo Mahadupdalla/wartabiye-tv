@@ -41,6 +41,8 @@
   function F(it,f){var x=trOf(it);if(x)return typeof x[f]==='string'?x[f]:'';return typeof it[f]==='string'?it[f]:''}
   function isSo(it){return L!=='so'&&!trOf(it)}
   function soAttr(e,on){if(on){e.lang='so';e.dir='ltr'}else{e.removeAttribute('lang');e.removeAttribute('dir')}return e}
+  // article text: **bold** becomes <strong>, everything else stays plain text (never HTML)
+  function rich(e,t){String(t).split(/\*\*(.+?)\*\*/).forEach(function(x,i){if(!x)return;if(i%2){var b=document.createElement('strong');b.textContent=x;e.append(b)}else e.append(x)});return e}
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
   function tEl(tag,cls,it,f){return soAttr(el(tag,cls,F(it,f)),isSo(it))}
   function soBadge(it){return isSo(it)?el('span','olang',tr('somaliOnly')):null}
@@ -488,7 +490,7 @@
     else{var fn=el('figcaption');fn.append(tr('noImg')+'.');fig.append(fn)}
     A.append(fig);
     var bd=soAttr(el('div','body'),isSo(it));var txt2=(body||sum||F(it,'title'));
-    txt2.split(/\n+/).forEach(function(p){p=p.trim();if(!p)return;if(/^##\s+/.test(p))bd.append(el('h2','sub',p.replace(/^##\s+/,'')));else bd.append(el('p',null,p))});A.append(bd);
+    txt2.split(/\n+/).forEach(function(p){p=p.trim();if(!p)return;if(/^##\s+/.test(p))bd.append(el('h2','sub',p.replace(/^##\s+/,'')));else if(/^>\s*/.test(p)){var bq=el('blockquote','quote');bq.append(rich(el('p'),p.replace(/^>\s*/,'')));bd.append(bq)}else bd.append(rich(el('p'),p))});A.append(bd);
     // an official document attached as proof: page images (click for full size) and the original PDF
     var dcm=it.document;if(dcm&&typeof dcm==='object'){var dsec=el('section','docproof');var dt=F(it,'docTitle')||it.docTitle||'';if(dt)dsec.append(el('h2','sub',dt));
       (Array.isArray(dcm.pages)?dcm.pages:[]).forEach(function(pg,pi){var pu=imgUrl(pg);if(!pu)return;var pa=el('a','docpage');pa.href=pu;pa.target='_blank';pa.rel='noopener';var pim=el('img');pim.src=pu;pim.loading='lazy';pim.alt=(dt?dt+' · ':'')+(pi+1);pa.append(pim);dsec.append(pa)});

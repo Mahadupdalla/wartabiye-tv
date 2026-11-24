@@ -474,7 +474,11 @@ for n in public:
         cr = '<nav class="crumbs" aria-label="breadcrumb">' + '<span>/</span>'.join(
             f'<a href="{c[1].replace(SITE_URL, "") or "./"}">{esc(c[0])}</a>' for c in crumbs[:-1]) + '</nav>'
         paras = [p.strip() for p in re.split(r'\n+', body) if p.strip()]
-        inner = ''.join(f'<h2 class="sub">{esc(p[3:].strip())}</h2>' if p.startswith('## ') else f'<p>{esc(p)}</p>' for p in paras)
+        def rich(t):  # **bold** -> <strong>, the rest escaped (same rule as assets/app.js)
+            return re.sub(r'\*\*(.+?)\*\*', lambda m: f'<strong>{m.group(1)}</strong>', esc(t))
+        inner = ''.join(f'<h2 class="sub">{esc(p[3:].strip())}</h2>' if p.startswith('## ')
+                        else f'<blockquote class="quote"><p>{rich(p[1:].strip())}</p></blockquote>' if p.startswith('>')
+                        else f'<p>{rich(p)}</p>' for p in paras)
         when = (f'<time class="dot" datetime="{esc(pub)}">{esc(show_date(pub, lang))}</time>' if parse(pub) else '')
         if mod and mod != pub and parse(mod):
             when += f'<span class="dot">{esc(T("updatedWord", lang) if lang == "so" else "↻")} <time datetime="{esc(mod)}">{esc(show_date(mod, lang))}</time></span>'
