@@ -1,0 +1,154 @@
+name: Dhageyso Warbixinta (article audio deploy)
+# Tests and deploys workers/tts (Cloudflare Workers + KV, free plan) and tells the website where it is, so every article
+# shows the "Dhageyso Warbixinta" player. Needs these repository secrets (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID   (the same ones as the secure admin, workers/admin/README.md)
+#   AZURE_SPEECH_KEY      Azure AI Speech resource → Keys and Endpoint → KEY 1
+#   AZURE_SPEECH_REGION   the same page → Location/Region, e.g. westeurope, eastus, uaenorth
+# Optional repository VARIABLES (not secrets): VOICE_SO, RATE_SO (e.g. so-SO-MuuseNeural, -4%), TTS_DAILY_CHAR_LIMIT,
+# and for Somali on ElevenLabs: TTS_PROVIDER_SO=elevenlabs + ELEVENLABS_VOICE_SO (+ secret ELEVENLABS_API_KEY).
+# Without the Azure secrets nothing is shown on the website (no button that cannot work). Keys are stored only in Cloudflare.
+on:
+  push:
+    branches: [main]
+    paths: ['workers/tts/**', '.github/workflows/tts-deploy.yml']
+  pull_request:
+    paths: ['workers/tts/**', 'assets/listen.js', '.github/workflows/tts-deploy.yml']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'on = narrate articles; off = stop new audio at once and hide the player'
+        required: false
+        default: 'on'
+        type: choice
+        options: ['on', 'off']
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: tts-deploy
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Worker tests (text preparation, Somali rules, cache, long articles, errors, limits)
+        run: cd workers/tts && npm test
+      - name: Player script is valid
+        run: node --check assets/listen.js
+  deploy:
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CF_ACCOUNT_SECRET: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+      AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      MODE: ${{ github.event.inputs.mode || 'on' }}
+      WRANGLER: npx --yes wrangler@4.150.0
+    defaults: { run: { working-directory: workers/tts } }
+    steps:
+      - name: Cloudflare account connected?
+        id: cf
+        working-directory: .
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CF_ACCOUNT_SECRET" ]; then
+            echo "::notice::Article audio not deployed: add the repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID, then run this workflow again."
+            echo "ready=no" >> "$GITHUB_OUTPUT"
+          else echo "ready=yes" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/checkout@v4
+        if: steps.cf.outputs.ready == 'yes'
+      - uses: actions/setup-node@v4
+        if: steps.cf.outputs.ready == 'yes'
+        with: { node-version: '22' }
+      - name: Cloudflare account and audio store (KV, created once)
+        if: steps.cf.outputs.ready == 'yes'
+        run: |
+          cf() { curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H 'Content-Type: application/json' "$@"; }
+          given=$(printf '%s' "$CF_ACCOUNT_SECRET" | tr -d '[:space:]"')
+          accts=$(cf "https://api.cloudflare.com/client/v4/accounts?per_page=50")
+          [ "$(echo "$accts" | jq -r '.success')" = true ] || { echo "Cloudflare said: $(echo "$accts" | jq -c '.errors')"; echo "::error::CLOUDFLARE_API_TOKEN is not accepted"; exit 1; }
+          ids=$(echo "$accts" | jq -r '.result[].id')
+          if echo "$ids" | grep -qx "$given"; then id=$given; elif [ "$(echo "$ids" | grep -c .)" = 1 ]; then id=$ids; else echo "::error::CLOUDFLARE_ACCOUNT_ID does not match the token"; exit 1; fi
+          echo "::add-mask::$id"; echo "CLOUDFLARE_ACCOUNT_ID=$id" >> "$GITHUB_ENV"
+          api="https://api.cloudflare.com/client/v4/accounts/$id/storage/kv/namespaces"
+          ns=$(cf "$api?per_page=100" | jq -r '.result[]? | select(.title=="wartabiye-tts-audio") | .id' | head -1)
+          if [ -z "$ns" ]; then ns=$(cf -X POST -d '{"title":"wartabiye-tts-audio"}' "$api" | jq -r '.result.id // empty'); fi
+          [ -n "$ns" ] || { echo "::error::could not create the KV store (the token needs Workers KV Storage · Edit)"; exit 1; }
+          sed -i "s/PASTE_KV_NAMESPACE_ID_HERE/$ns/" wrangler.toml
+          grep -q "$ns" wrangler.toml
+      - name: Deploy
+        if: steps.cf.outputs.ready == 'yes'
+        id: deploy
+        env:
+          VOICE_SO: ${{ vars.VOICE_SO }}
+          RATE_SO: ${{ vars.RATE_SO }}
+          DAILY: ${{ vars.TTS_DAILY_CHAR_LIMIT }}
+          PROV_SO: ${{ vars.TTS_PROVIDER_SO }}
+          EL_VOICE: ${{ vars.ELEVENLABS_VOICE_SO }}
+        run: |
+          args=(--var "TTS_MODE:$MODE")
+          [ -n "$VOICE_SO" ] && args+=(--var "VOICE_SO:$VOICE_SO")
+          [ -n "$RATE_SO" ] && args+=(--var "RATE_SO:$RATE_SO")
+          [ -n "$DAILY" ] && args+=(--var "DAILY_CHAR_LIMIT:$DAILY")
+          [ -n "$PROV_SO" ] && args+=(--var "TTS_PROVIDER_SO:$PROV_SO")
+          [ -n "$EL_VOICE" ] && args+=(--var "ELEVENLABS_VOICE_SO:$EL_VOICE")
+          $WRANGLER deploy "${args[@]}" 2>&1 | tee deploy.log
+          url=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)
+          [ -n "$url" ] || { echo "::error::no workers.dev address in the deploy output"; exit 1; }
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+      - name: Provider keys (stored only in Cloudflare, never printed)
+        if: steps.cf.outputs.ready == 'yes'
+        run: |
+          if [ -n "$AZURE_SPEECH_KEY" ] && [ -n "$AZURE_SPEECH_REGION" ]; then
+            printf '%s' "$AZURE_SPEECH_KEY" | $WRANGLER secret put AZURE_SPEECH_KEY >/dev/null
+            printf '%s' "$AZURE_SPEECH_REGION" | $WRANGLER secret put AZURE_SPEECH_REGION >/dev/null
+            echo "Azure Speech key and region stored in Cloudflare"
+          else echo "::warning::AZURE_SPEECH_KEY / AZURE_SPEECH_REGION secrets missing: the player stays hidden on the website"; fi
+          if [ -n "$ELEVENLABS_API_KEY" ]; then printf '%s' "$ELEVENLABS_API_KEY" | $WRANGLER secret put ELEVENLABS_API_KEY >/dev/null && echo "ElevenLabs key stored"; fi
+      - name: Live check (health, a real Somali article narrated, seeking)
+        if: steps.cf.outputs.ready == 'yes'
+        id: live
+        env: { URL: '${{ steps.deploy.outputs.url }}' }
+        run: |
+          ok=; for i in $(seq 1 40); do if curl -fsS -m 15 -o health.json "$URL/health"; then ok=1; break; fi; sleep 15; done
+          [ -n "$ok" ] || { echo "::error::$URL is not reachable"; exit 1; }
+          cat health.json; echo
+          if [ "$MODE" != on ] || [ "$(jq -r '.configured' health.json)" != true ]; then echo "show=no" >> "$GITHUB_OUTPUT"; exit 0; fi
+          id=$(python3 -c "import json;n=[x for x in json.load(open('../../data/news.json'))['news'] if x.get('published')!=False and x.get('body')];n.sort(key=lambda x:x.get('publishedAt',''),reverse=True);print(n[0]['id'])")
+          for lang in so en; do
+            curl -sS -m 120 -H 'Origin: https://www.wartabiyetv.com' "$URL/v1/listen?id=$id&lang=$lang" -o listen.json; cat listen.json; echo
+            jq -e '.ok == true and (.duration > 1)' listen.json >/dev/null || { echo "::error::narration of $id in $lang failed: $(jq -c . listen.json)"; exit 1; }
+            code=$(curl -sS -o part.mp3 -w '%{http_code}' -H 'Range: bytes=0-4095' "$(jq -r .url listen.json)"); [ "$code" = 206 ] || { echo "::error::seeking (byte range) failed: $code"; exit 1; }
+          done
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$URL/v1/listen?id=../x&lang=so"); [ "$code" = 400 ]
+          echo "Somali and English narration work: $id"
+          echo "show=yes" >> "$GITHUB_OUTPUT"
+      - name: Tell the website where the audio service is (or hide the player)
+        if: steps.cf.outputs.ready == 'yes'
+        working-directory: .
+        env:
+          URL: ${{ steps.live.outputs.show == 'yes' && steps.deploy.outputs.url || '' }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git checkout -- workers/tts/wrangler.toml
+          for d in 2 4 8 16 0; do
+            git pull -q --rebase origin main || true
+            sed -i -E "s#(<script src=\"assets/[^\"]*listen[^\"]*\" data-endpoint=\")[^\"]*(\")#\1$URL\2#" index.html
+            grep -q "listen[^\"]*\" data-endpoint=\"$URL\"" index.html || { echo "::error::listen.js tag not found in index.html"; exit 1; }
+            git add index.html
+            if git diff --cached --quiet; then echo "website already set (${URL:-player hidden})"; exit 0; fi
+            git config user.name "wartabiye-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -q -m "Dhageyso Warbixinta: cinwaanka adeegga codka"
+            if git push -q origin HEAD:main; then
+              for w in 5 15 30; do gh workflow run publish.yml --ref main && break; sleep $w; done
+              exit 0
+            fi
+            git reset -q --hard origin/main 2>/dev/null || true
+            [ "$d" = 0 ] || sleep "$d"
+          done
+          echo "::error::could not save the audio service address"; exit 1

@@ -1,0 +1,31 @@
+name: Codka Soomaaliga - tijaabo (Somali voice test)
+# Run by hand (Actions → this workflow → Run workflow) after adding the AZURE_SPEECH_KEY and AZURE_SPEECH_REGION secrets.
+# Makes the Somali test sentences and two whole published articles with every Somali voice (Ubax, Muuse; normal and a
+# little slower; ElevenLabs too when its key and voice are set), measures how understandable each is with Somali
+# speech recognition, and keeps the MP3 files for listening (the run's "Artifacts": somali-voice-test.zip).
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  voices:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Somali voices, round-trip intelligibility and listening files
+        env:
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_VOICE_SO: ${{ vars.ELEVENLABS_VOICE_SO }}
+        run: |
+          [ -n "$AZURE_SPEECH_KEY" ] && [ -n "$AZURE_SPEECH_REGION" ] || { echo "::error::add the AZURE_SPEECH_KEY and AZURE_SPEECH_REGION repository secrets first"; exit 1; }
+          node workers/tts/scripts/voice-test.mjs somali-voice-test
+          cat somali-voice-test/REPORT.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: somali-voice-test
+          path: somali-voice-test/
+          retention-days: 30

@@ -1,0 +1,35 @@
+# Wartabiye TV article audio ("Dhageyso Warbixinta"). Cloudflare Workers free plan is enough to start.
+# Deployed by .github/workflows/tts-deploy.yml (it creates the KV store and fills in its id). By hand:
+#   npx wrangler@4.150.0 kv namespace create wartabiye-tts      → paste the id below
+#   npx wrangler@4.150.0 secret put AZURE_SPEECH_KEY            (Azure AI Speech key, never in this repository)
+#   npx wrangler@4.150.0 secret put AZURE_SPEECH_REGION         (the Speech resource's region, e.g. westeurope)
+#   npx wrangler@4.150.0 deploy
+name = "wartabiye-tts"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+# audio files (MP3), their records, and the daily character counter
+kv_namespaces = [
+  { binding = "TTS", id = "PASTE_KV_NAMESPACE_ID_HERE" }
+]
+
+[vars]
+SITE_URL = "https://www.wartabiyetv.com/"
+# only these sites may ask for audio from a browser
+ALLOWED_ORIGINS = "https://www.wartabiyetv.com,https://wartabiyetv.com"
+# "off" stops new audio at once (the page then says audio is unavailable; articles are untouched)
+TTS_MODE = "on"
+# cost guard: characters sent to the speech provider per day (UTC). Azure neural voices cost about $15 per million
+# characters after the free 0.5 million a month, so 150000 a day is at most about $2.25 a day
+DAILY_CHAR_LIMIT = "150000"
+# longest article that is narrated (characters of speech, about 60 minutes of audio)
+MAX_CHARS = "50000"
+# new audio files one visitor may start per 10 minutes (listening to existing audio is never limited)
+IP_LIMIT = "12"
+# an audio file nobody has re-made is removed after this many days; it is made again at the next Play
+KEEP_DAYS = "180"
+# optional: another narrator per language without a code change, e.g. VOICE_SO = "so-SO-MuuseNeural", or "off"
+# optional: RATE_SO = "-6%" (speaking rate)
+# optional, Somali on ElevenLabs instead of Azure: TTS_PROVIDER_SO = "elevenlabs", ELEVENLABS_VOICE_SO = "<voice id>",
+#   secret ELEVENLABS_API_KEY

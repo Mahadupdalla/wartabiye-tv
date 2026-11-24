@@ -464,6 +464,10 @@
     function step(k){var cur=fsGet()||(innerWidth<=640?17:18);var v=Math.max(15,Math.min(24,cur+k));lsSet(LS.fs,String(v));fsApply()}
     sm.addEventListener('click',function(){step(-1)});lgB.addEventListener('click',function(){step(1)});
     rt.append(sm,lgB,bmBtn(it,true));by.append(rt);A.append(by);
+    // "Dhageyso Warbixinta": the article read aloud in the language on screen (assets/listen.js + workers/tts). Only for
+    // published articles that exist in this language (a missing translation returned above, so nothing is read in another one)
+    if(window.WTListen&&WTListen.enabled&&!it._preview){var lp=WTListen.player({id:id,lang:L,title:F(it,'title'),image:imgUrl(it.image),
+      chars:[F(it,'title'),body&&sum?sum:'',body||sum].join(' ').length});if(lp)A.append(lp)}
     // share: the article's own page on Wartabiye TV
     var url=articleUrl(it),title=F(it,'title'),enc=encodeURIComponent(url),txt=encodeURIComponent(title+' — Wartabiye TV');
     var sh=el('div','share');sh.setAttribute('aria-label',tr('share'));

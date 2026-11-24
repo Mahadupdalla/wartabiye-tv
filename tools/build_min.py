@@ -14,7 +14,7 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(root, 'assets')
 OUT = os.path.join(ASSETS, 'min')
 MANIFEST = os.path.join(OUT, 'manifest.json')
-FILES = ['i18n.js', 'media-i18n.js', 'sports-src.js', 'media.js', 'app.js', 'notify.js', 'protect.js', 'stats.js', 'ads.js', 'site.css']
+FILES = ['i18n.js', 'media-i18n.js', 'sports-src.js', 'media.js', 'listen.js', 'app.js', 'notify.js', 'protect.js', 'stats.js', 'ads.js', 'site.css']
 COPYRIGHT = '/*! © 2026 Wartabiye TV. All Rights Reserved.'
 
 
