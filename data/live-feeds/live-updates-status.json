@@ -7,18 +7,9 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-24T20:35:10Z",
+ "lastCheckAt": "2026-11-24T21:30:10Z",
  "lastWrittenAt": null,
  "days": {
-  "2026-11-11": {
-   "written": 0,
-   "merged": 0,
-   "skipped": 234,
-   "declined": 0,
-   "failed": 0,
-   "calls": 0,
-   "usd": 0
-  },
   "2026-11-12": {
    "written": 0,
    "merged": 0,
@@ -130,7 +121,16 @@
   "2026-11-24": {
    "written": 0,
    "merged": 0,
-   "skipped": 230,
+   "skipped": 236,
+   "declined": 0,
+   "failed": 0,
+   "calls": 0,
+   "usd": 0
+  },
+  "2026-11-25": {
+   "written": 0,
+   "merged": 0,
+   "skipped": 7,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -138,10 +138,6 @@
   }
  },
  "done": {
-  "10d20ce6a18b1a7c": "2026-11-21T20:55:13Z",
-  "86c4e817690b99be": "2026-11-21T20:55:13Z",
-  "aedff471d118343a": "2026-11-21T21:25:09Z",
-  "a483f4d15ca0a193": "2026-11-21T21:25:09Z",
   "b0b72e86c2bd8703": "2026-11-21T21:30:12Z",
   "7184f6b94649af20": "2026-11-21T21:35:10Z",
   "d96c342c31b73d3f": "2026-11-21T21:40:11Z",
@@ -696,27 +692,168 @@
   "732902948ae858c3": "2026-11-24T20:30:09Z",
   "ef4727089511248c": "2026-11-24T20:30:09Z",
   "f00997e2ed727110": "2026-11-24T20:30:09Z",
-  "73a1466aac5eed93": "2026-11-24T20:35:10Z"
+  "73a1466aac5eed93": "2026-11-24T20:35:10Z",
+  "619974f6a6eee5ae": "2026-11-24T20:45:09Z",
+  "d37a0a16f72805a0": "2026-11-24T20:50:10Z",
+  "dbb94134964567f4": "2026-11-24T20:50:10Z",
+  "4e594291598c919a": "2026-11-24T20:50:10Z",
+  "61a985d0c2e87d76": "2026-11-24T20:55:10Z",
+  "2be3c14365aeac0e": "2026-11-24T20:55:10Z",
+  "11edec9e492e30d3": "2026-11-24T21:00:11Z",
+  "f44e72adf4a9b310": "2026-11-24T21:10:10Z",
+  "1eb1fa7937412a4f": "2026-11-24T21:10:10Z",
+  "c72e72c51c891f35": "2026-11-24T21:25:09Z",
+  "0272d8f01cdae17a": "2026-11-24T21:25:09Z",
+  "9c887b791c3744d6": "2026-11-24T21:25:09Z",
+  "ced8634422f03424": "2026-11-24T21:30:10Z"
  },
  "recent": [
   {
-   "at": "2026-11-24T20:35:10Z",
+   "at": "2026-11-24T21:30:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "The Bukele method: will Salvadoran leader's strong-arm tactics work for Haiti?",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261124-the-bukele-method-will-salvadoran-leader-s-strong-arm-tactics-work-for-haiti"
+  },
+  {
+   "at": "2026-11-24T21:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T21:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Senegal reinstated as AFCON 2025 winners",
+   "url": "https://www.france24.com/en/senegal-reinstated-as-afcon-2025-winners"
+  },
+  {
+   "at": "2026-11-24T21:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Hostage situation reported in Colombia as armed men flee into supermarket",
+   "url": "https://www.aljazeera.com/news/2026/11/24/hostage-situation-reported-in-colombia-as-armed-men-flee-into-supermarket?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "UN slams Iran after it flogs singer for performing without veil",
+   "url": "https://www.france24.com/en/asia-pacific/20261124-un-condemns-iran-flogging-singer-parastoo-ahmadi"
+  },
+  {
+   "at": "2026-11-24T21:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Libya’s Haftar visits Turkiye days after Ukraine hits Russian warship",
+   "url": "https://www.aljazeera.com/news/2026/11/24/libyas-haftar-visits-turkiye-days-after-ukraine-hits-russian-warship?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian nuclear satellites plan 'foolhardy', expert says",
+   "url": "https://www.france24.com/en/russian-nuclear-satellites-plan-foolhardy-expert-says"
+  },
+  {
+   "at": "2026-11-24T21:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US Army to detonate more than 4 tonnes of lead azide in Iowa on Wednesday",
+   "url": "https://www.aljazeera.com/news/2026/11/24/us-army-to-detonate-more-than-4-tonnes-of-lead-azide-in-iowa-on-wednesday?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Senegal AFCON ruling 'good in the books of sports law', expert says",
+   "url": "https://www.france24.com/en/senegal-afcon-ruling-good-in-the-books-of-sports-law-expert-says"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Senegal regain AFCON title on appeal at Morocco's expense",
+   "url": "https://www.france24.com/en/senegal-regain-afcon-title-on-appeal-at-morocco-s-expense"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
    "source": "Al Jazeera",
-   "title": "Israel’s Ben-Gvir accused of seeking ‘religious war’ over mosque raids",
-   "url": "https://www.aljazeera.com/news/2026/11/24/israels-ben-gvir-accused-of-seeking-religious-war-over-mosque-raids?traffic_source=rss"
+   "title": "Turkish military helicopter crash kills five in western Turkiye",
+   "url": "https://www.aljazeera.com/news/2026/11/24/turkish-military-helicopter-crash-kills-five-in-western-turkiye?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:35:10Z",
+   "at": "2026-11-24T21:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Nigerian monarch, 92, suspended after sexual assault claims",
-   "url": "https://www.bbc.co.uk/news/articles/cmglrz462nn6o?at_medium=RSS&at_campaign=rss"
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-24T20:35:10Z",
+   "at": "2026-11-24T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Senegal reinstated as AFCON 2025 winners",
+   "url": "https://www.france24.com/en/senegal-reinstated-as-afcon-2025-winners"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Hostage situation reported in Colombia as armed men flee into supermarket",
+   "url": "https://www.aljazeera.com/news/2026/11/24/hostage-situation-reported-in-colombia-as-armed-men-flee-into-supermarket?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "UN slams Iran after it flogs singer for performing without veil",
+   "url": "https://www.france24.com/en/asia-pacific/20261124-un-condemns-iran-flogging-singer-parastoo-ahmadi"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Libya’s Haftar visits Turkiye days after Ukraine hits Russian warship",
+   "url": "https://www.aljazeera.com/news/2026/11/24/libyas-haftar-visits-turkiye-days-after-ukraine-hits-russian-warship?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian nuclear satellites plan 'foolhardy', expert says",
+   "url": "https://www.france24.com/en/russian-nuclear-satellites-plan-foolhardy-expert-says"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US Army to detonate more than 4 tonnes of lead azide in Iowa on Wednesday",
+   "url": "https://www.aljazeera.com/news/2026/11/24/us-army-to-detonate-more-than-4-tonnes-of-lead-azide-in-iowa-on-wednesday?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -724,111 +861,63 @@
    "url": "https://www.france24.com/en/tv-shows/the-debate/20261124-the-bukele-method-will-salvadoran-leader-s-strong-arm-tactics-work-for-haiti"
   },
   {
-   "at": "2026-11-24T20:35:10Z",
+   "at": "2026-11-24T21:20:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Senegal AFCON ruling 'good in the books of sports law', expert says",
-   "url": "https://www.france24.com/en/senegal-afcon-ruling-good-in-the-books-of-sports-law-expert-says"
+   "title": "Senegal reinstated as AFCON 2025 winners",
+   "url": "https://www.france24.com/en/senegal-reinstated-as-afcon-2025-winners"
   },
   {
-   "at": "2026-11-24T20:35:10Z",
+   "at": "2026-11-24T21:20:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Hostage situation reported in Colombia as armed men flee into supermarket",
+   "url": "https://www.aljazeera.com/news/2026/11/24/hostage-situation-reported-in-colombia-as-armed-men-flee-into-supermarket?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Senegal regain AFCON title on appeal at Morocco's expense",
-   "url": "https://www.france24.com/en/senegal-regain-afcon-title-on-appeal-at-morocco-s-expense"
+   "title": "UN slams Iran after it flogs singer for performing without veil",
+   "url": "https://www.france24.com/en/asia-pacific/20261124-un-condemns-iran-flogging-singer-parastoo-ahmadi"
   },
   {
-   "at": "2026-11-24T20:35:10Z",
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Turkish military helicopter crash kills five in western Turkiye",
-   "url": "https://www.aljazeera.com/news/2026/11/24/turkish-military-helicopter-crash-kills-five-in-western-turkiye?traffic_source=rss"
+   "title": "Libya’s Haftar visits Turkiye days after Ukraine hits Russian warship",
+   "url": "https://www.aljazeera.com/news/2026/11/24/libyas-haftar-visits-turkiye-days-after-ukraine-hits-russian-warship?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:35:10Z",
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Car bomb destroys buildings in central Colombian city",
-   "url": "https://www.france24.com/en/car-bomb-destroys-buildings-in-central-colombian-city"
+   "title": "Russian nuclear satellites plan 'foolhardy', expert says",
+   "url": "https://www.france24.com/en/russian-nuclear-satellites-plan-foolhardy-expert-says"
   },
   {
-   "at": "2026-11-24T20:35:10Z",
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Putin says retaliation ‘inevitable’ after Ukraine hit Russian oil plants",
-   "url": "https://www.aljazeera.com/news/2026/11/24/putin-says-kyiv-hit-russian-oil-plants-despite-trump-plea-vows-retaliation?traffic_source=rss"
+   "title": "US Army to detonate more than 4 tonnes of lead azide in Iowa on Wednesday",
+   "url": "https://www.aljazeera.com/news/2026/11/24/us-army-to-detonate-more-than-4-tonnes-of-lead-azide-in-iowa-on-wednesday?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:35:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian losses on Ukrainian front top 700,000 including missing",
-   "url": "https://www.france24.com/en/russian-losses-on-ukrainian-front-top-700-000-including-missing"
-  },
-  {
-   "at": "2026-11-24T20:35:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "China Southern Airlines unit to buy 50 Boeing 737-8 planes",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/china-southern-airlines-unit-to-buy-50-boeing-737-8-planes?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:35:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US House counsel denies backing controversial raid on Ilhan Omar’s home",
-   "url": "https://www.aljazeera.com/news/2026/11/24/us-house-counsel-denies-backing-controversial-raid-on-ilhan-omars-home?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:30:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "UN News",
-   "title": "Decades of gains against AIDS could unravel as HIV funding dries up",
-   "url": "https://news.un.org/feed/view/en/story/2026/11/1168869"
-  },
-  {
-   "at": "2026-11-24T20:30:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "UN News",
-   "title": "‘Far too much failure’: UN deputy chief’s final call to end violence against women",
-   "url": "https://news.un.org/feed/view/en/story/2026/11/1168868"
-  },
-  {
-   "at": "2026-11-24T20:30:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "UN News",
-   "title": "Security Council LIVE: Can conflict resolution keep pace as AI and drones reshape war?",
-   "url": "https://news.un.org/feed/view/en/story/2026/11/1168866"
-  },
-  {
-   "at": "2026-11-24T20:30:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "UN News",
-   "title": "DR Congo: Concern for trapped Ebola workers as violence against women and girls deepens",
-   "url": "https://news.un.org/feed/view/en/story/2026/11/1168865"
-  },
-  {
-   "at": "2026-11-24T20:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Nigerian monarch, 92, suspended after sexual assault claims",
-   "url": "https://www.bbc.co.uk/news/articles/cmglrz462nn6o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-24T20:30:09Z",
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -836,7 +925,7 @@
    "url": "https://www.france24.com/en/tv-shows/the-debate/20261124-the-bukele-method-will-salvadoran-leader-s-strong-arm-tactics-work-for-haiti"
   },
   {
-   "at": "2026-11-24T20:30:09Z",
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -844,7 +933,7 @@
    "url": "https://www.france24.com/en/senegal-afcon-ruling-good-in-the-books-of-sports-law-expert-says"
   },
   {
-   "at": "2026-11-24T20:30:09Z",
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -852,7 +941,7 @@
    "url": "https://www.france24.com/en/senegal-regain-afcon-title-on-appeal-at-morocco-s-expense"
   },
   {
-   "at": "2026-11-24T20:30:09Z",
+   "at": "2026-11-24T21:20:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -860,63 +949,63 @@
    "url": "https://www.aljazeera.com/news/2026/11/24/turkish-military-helicopter-crash-kills-five-in-western-turkiye?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:30:09Z",
+   "at": "2026-11-24T21:15:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24 Africa",
+   "title": "Senegal reinstated as AFCON 2025 winners",
+   "url": "https://www.france24.com/en/senegal-reinstated-as-afcon-2025-winners"
+  },
+  {
+   "at": "2026-11-24T21:15:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Hostage situation reported in Colombia as armed men flee into supermarket",
+   "url": "https://www.aljazeera.com/news/2026/11/24/hostage-situation-reported-in-colombia-as-armed-men-flee-into-supermarket?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:15:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T21:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Car bomb destroys buildings in central Colombian city",
-   "url": "https://www.france24.com/en/car-bomb-destroys-buildings-in-central-colombian-city"
+   "title": "UN slams Iran after it flogs singer for performing without veil",
+   "url": "https://www.france24.com/en/asia-pacific/20261124-un-condemns-iran-flogging-singer-parastoo-ahmadi"
   },
   {
-   "at": "2026-11-24T20:30:09Z",
+   "at": "2026-11-24T21:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Putin says retaliation ‘inevitable’ after Ukraine hit Russian oil plants",
-   "url": "https://www.aljazeera.com/news/2026/11/24/putin-says-kyiv-hit-russian-oil-plants-despite-trump-plea-vows-retaliation?traffic_source=rss"
+   "title": "Libya’s Haftar visits Turkiye days after Ukraine hits Russian warship",
+   "url": "https://www.aljazeera.com/news/2026/11/24/libyas-haftar-visits-turkiye-days-after-ukraine-hits-russian-warship?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:30:09Z",
+   "at": "2026-11-24T21:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Russian losses on Ukrainian front top 700,000 including missing",
-   "url": "https://www.france24.com/en/russian-losses-on-ukrainian-front-top-700-000-including-missing"
+   "title": "Russian nuclear satellites plan 'foolhardy', expert says",
+   "url": "https://www.france24.com/en/russian-nuclear-satellites-plan-foolhardy-expert-says"
   },
   {
-   "at": "2026-11-24T20:30:09Z",
+   "at": "2026-11-24T21:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "China Southern Airlines unit to buy 50 Boeing 737-8 planes",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/china-southern-airlines-unit-to-buy-50-boeing-737-8-planes?traffic_source=rss"
+   "title": "US Army to detonate more than 4 tonnes of lead azide in Iowa on Wednesday",
+   "url": "https://www.aljazeera.com/news/2026/11/24/us-army-to-detonate-more-than-4-tonnes-of-lead-azide-in-iowa-on-wednesday?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US House counsel denies backing controversial raid on Ilhan Omar’s home",
-   "url": "https://www.aljazeera.com/news/2026/11/24/us-house-counsel-denies-backing-controversial-raid-on-ilhan-omars-home?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Israel’s Ben-Gvir accused of seeking ‘religious war’ over mosque raids",
-   "url": "https://www.aljazeera.com/news/2026/11/24/israels-ben-gvir-accused-of-seeking-religious-war-over-mosque-raids?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Nigerian monarch, 92, suspended after sexual assault claims",
-   "url": "https://www.bbc.co.uk/news/articles/cmglrz462nn6o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-24T20:25:09Z",
+   "at": "2026-11-24T21:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -924,7 +1013,7 @@
    "url": "https://www.france24.com/en/tv-shows/the-debate/20261124-the-bukele-method-will-salvadoran-leader-s-strong-arm-tactics-work-for-haiti"
   },
   {
-   "at": "2026-11-24T20:25:09Z",
+   "at": "2026-11-24T21:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -932,7 +1021,7 @@
    "url": "https://www.france24.com/en/senegal-afcon-ruling-good-in-the-books-of-sports-law-expert-says"
   },
   {
-   "at": "2026-11-24T20:25:09Z",
+   "at": "2026-11-24T21:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -940,7 +1029,7 @@
    "url": "https://www.france24.com/en/senegal-regain-afcon-title-on-appeal-at-morocco-s-expense"
   },
   {
-   "at": "2026-11-24T20:25:09Z",
+   "at": "2026-11-24T21:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -948,167 +1037,71 @@
    "url": "https://www.aljazeera.com/news/2026/11/24/turkish-military-helicopter-crash-kills-five-in-western-turkiye?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Car bomb destroys buildings in central Colombian city",
-   "url": "https://www.france24.com/en/car-bomb-destroys-buildings-in-central-colombian-city"
-  },
-  {
-   "at": "2026-11-24T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Putin says retaliation ‘inevitable’ after Ukraine hit Russian oil plants",
-   "url": "https://www.aljazeera.com/news/2026/11/24/putin-says-kyiv-hit-russian-oil-plants-despite-trump-plea-vows-retaliation?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian losses on Ukrainian front top 700,000 including missing",
-   "url": "https://www.france24.com/en/russian-losses-on-ukrainian-front-top-700-000-including-missing"
-  },
-  {
-   "at": "2026-11-24T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "China Southern Airlines unit to buy 50 Boeing 737-8 planes",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/china-southern-airlines-unit-to-buy-50-boeing-737-8-planes?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US House counsel denies backing controversial raid on Ilhan Omar’s home",
-   "url": "https://www.aljazeera.com/news/2026/11/24/us-house-counsel-denies-backing-controversial-raid-on-ilhan-omars-home?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:25:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Israel’s Ben-Gvir accused of seeking ‘religious war’ over mosque raids",
-   "url": "https://www.aljazeera.com/news/2026/11/24/israels-ben-gvir-accused-of-seeking-religious-war-over-mosque-raids?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
+   "at": "2026-11-24T21:10:10Z",
    "result": "skipped",
-   "reason": "older than 90 minutes",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "Global landmine casualties hit a five-year high, driven by Myanmar, Syria",
-   "url": "https://www.aljazeera.com/news/2026/11/24/global-landmine-casualties-hit-a-five-year-high-driven-by-myanmar-syria?traffic_source=rss"
+   "title": "Brazil doctor uses surfboard and sledgehammer in flood rescue",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/24/brazil-doctor-uses-surfboard-and-sledgehammer-in-flood-rescue?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Nigerian monarch, 92, suspended after sexual assault claims",
-   "url": "https://www.bbc.co.uk/news/articles/cmglrz462nn6o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "The Bukele method: will Salvadoran leader's strong-arm tactics work for Haiti?",
-   "url": "https://www.france24.com/en/tv-shows/the-debate/20261124-the-bukele-method-will-salvadoran-leader-s-strong-arm-tactics-work-for-haiti"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Senegal AFCON ruling 'good in the books of sports law', expert says",
-   "url": "https://www.france24.com/en/senegal-afcon-ruling-good-in-the-books-of-sports-law-expert-says"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Senegal regain AFCON title on appeal at Morocco's expense",
-   "url": "https://www.france24.com/en/senegal-regain-afcon-title-on-appeal-at-morocco-s-expense"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Turkish military helicopter crash kills five in western Turkiye",
-   "url": "https://www.aljazeera.com/news/2026/11/24/turkish-military-helicopter-crash-kills-five-in-western-turkiye?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Car bomb destroys buildings in central Colombian city",
-   "url": "https://www.france24.com/en/car-bomb-destroys-buildings-in-central-colombian-city"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Putin says retaliation ‘inevitable’ after Ukraine hit Russian oil plants",
-   "url": "https://www.aljazeera.com/news/2026/11/24/putin-says-kyiv-hit-russian-oil-plants-despite-trump-plea-vows-retaliation?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Russian losses on Ukrainian front top 700,000 including missing",
-   "url": "https://www.france24.com/en/russian-losses-on-ukrainian-front-top-700-000-including-missing"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "China Southern Airlines unit to buy 50 Boeing 737-8 planes",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/china-southern-airlines-unit-to-buy-50-boeing-737-8-planes?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US House counsel denies backing controversial raid on Ilhan Omar’s home",
-   "url": "https://www.aljazeera.com/news/2026/11/24/us-house-counsel-denies-backing-controversial-raid-on-ilhan-omars-home?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Israel’s Ben-Gvir accused of seeking ‘religious war’ over mosque raids",
-   "url": "https://www.aljazeera.com/news/2026/11/24/israels-ben-gvir-accused-of-seeking-religious-war-over-mosque-raids?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:10:10Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
    "source": "DW News",
-   "title": "Bombed factories, billion-dollar opportunity: Why German companies are staying in Ukraine",
-   "url": "https://www.dw.com/en/bombed-factories-billion-dollar-opportunity-why-german-companies-are-staying-in-ukraine/a-80030201?maca=en-rss-en-all-1573-rdf"
+   "title": "European court finds states can turn back migrants in some cases",
+   "url": "https://www.dw.com/en/european-court-finds-states-can-turn-back-migrants-in-some-cases/a-80038352?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Nigerian monarch, 92, suspended after sexual assault claims",
-   "url": "https://www.bbc.co.uk/news/articles/cmglrz462nn6o?at_medium=RSS&at_campaign=rss"
+   "source": "Al Jazeera",
+   "title": "Hostage situation reported in Colombia as armed men flee into supermarket",
+   "url": "https://www.aljazeera.com/news/2026/11/24/hostage-situation-reported-in-colombia-as-armed-men-flee-into-supermarket?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "UN slams Iran after it flogs singer for performing without veil",
+   "url": "https://www.france24.com/en/asia-pacific/20261124-un-condemns-iran-flogging-singer-parastoo-ahmadi"
+  },
+  {
+   "at": "2026-11-24T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Libya’s Haftar visits Turkiye days after Ukraine hits Russian warship",
+   "url": "https://www.aljazeera.com/news/2026/11/24/libyas-haftar-visits-turkiye-days-after-ukraine-hits-russian-warship?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Russian nuclear satellites plan 'foolhardy', expert says",
+   "url": "https://www.france24.com/en/russian-nuclear-satellites-plan-foolhardy-expert-says"
+  },
+  {
+   "at": "2026-11-24T21:10:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US Army to detonate more than 4 tonnes of lead azide in Iowa on Wednesday",
+   "url": "https://www.aljazeera.com/news/2026/11/24/us-army-to-detonate-more-than-4-tonnes-of-lead-azide-in-iowa-on-wednesday?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1116,7 +1109,7 @@
    "url": "https://www.france24.com/en/tv-shows/the-debate/20261124-the-bukele-method-will-salvadoran-leader-s-strong-arm-tactics-work-for-haiti"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1124,7 +1117,7 @@
    "url": "https://www.france24.com/en/senegal-afcon-ruling-good-in-the-books-of-sports-law-expert-says"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -1132,7 +1125,7 @@
    "url": "https://www.france24.com/en/senegal-regain-afcon-title-on-appeal-at-morocco-s-expense"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -1140,44 +1133,60 @@
    "url": "https://www.aljazeera.com/news/2026/11/24/turkish-military-helicopter-crash-kills-five-in-western-turkiye?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T21:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Car bomb destroys buildings in central Colombian city",
-   "url": "https://www.france24.com/en/car-bomb-destroys-buildings-in-central-colombian-city"
+   "title": "UN slams Iran after it flogs singer for performing without veil",
+   "url": "https://www.france24.com/en/asia-pacific/20261124-un-condemns-iran-flogging-singer-parastoo-ahmadi"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Putin says retaliation ‘inevitable’ after Ukraine hit Russian oil plants",
-   "url": "https://www.aljazeera.com/news/2026/11/24/putin-says-kyiv-hit-russian-oil-plants-despite-trump-plea-vows-retaliation?traffic_source=rss"
+   "title": "Libya’s Haftar visits Turkiye days after Ukraine hits Russian warship",
+   "url": "https://www.aljazeera.com/news/2026/11/24/libyas-haftar-visits-turkiye-days-after-ukraine-hits-russian-warship?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Russian losses on Ukrainian front top 700,000 including missing",
-   "url": "https://www.france24.com/en/russian-losses-on-ukrainian-front-top-700-000-including-missing"
+   "title": "Russian nuclear satellites plan 'foolhardy', expert says",
+   "url": "https://www.france24.com/en/russian-nuclear-satellites-plan-foolhardy-expert-says"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "China Southern Airlines unit to buy 50 Boeing 737-8 planes",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/china-southern-airlines-unit-to-buy-50-boeing-737-8-planes?traffic_source=rss"
+   "title": "US Army to detonate more than 4 tonnes of lead azide in Iowa on Wednesday",
+   "url": "https://www.aljazeera.com/news/2026/11/24/us-army-to-detonate-more-than-4-tonnes-of-lead-azide-in-iowa-on-wednesday?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T20:15:09Z",
+   "at": "2026-11-24T21:05:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "US House counsel denies backing controversial raid on Ilhan Omar’s home",
-   "url": "https://www.aljazeera.com/news/2026/11/24/us-house-counsel-denies-backing-controversial-raid-on-ilhan-omars-home?traffic_source=rss"
+   "source": "France 24",
+   "title": "The Bukele method: will Salvadoran leader's strong-arm tactics work for Haiti?",
+   "url": "https://www.france24.com/en/tv-shows/the-debate/20261124-the-bukele-method-will-salvadoran-leader-s-strong-arm-tactics-work-for-haiti"
+  },
+  {
+   "at": "2026-11-24T21:05:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Senegal AFCON ruling 'good in the books of sports law', expert says",
+   "url": "https://www.france24.com/en/senegal-afcon-ruling-good-in-the-books-of-sports-law-expert-says"
   }
  ]
 }
