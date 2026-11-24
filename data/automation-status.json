@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-25T00:26:24+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-25T00:51:28+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-24T20:15:35Z",
  "newestArticleAt": "2026-11-24T22:25:00+03:00",
- "lastSourceCheckAt": "2026-11-25T00:25:17+03:00",
+ "lastSourceCheckAt": "2026-11-25T00:50:17+03:00",
  "sourceChecks24h": 269,
- "publishedArticles": 1360,
+ "publishedArticles": 1372,
  "liveArticles": 1360,
- "waitingForImage": 205,
- "liveInSync": true,
+ "waitingForImage": 206,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-24T20:15:35Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45478905883"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-23T22:16:24+00:00",
+  "since": "2026-11-24T21:51:27+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-24T21:42:35+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-25T00:49:27+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-25T00:25:11+03:00",
-   "lastSuccessAt": "2026-11-25T00:25:11+03:00",
+   "lastCheckAt": "2026-11-25T00:50:10+03:00",
+   "lastSuccessAt": "2026-11-25T00:50:10+03:00",
    "lastReportAt": "2026-11-24T23:15:11+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-24T21:42:23+03:00",
+  "lastSourceCheckAt": "2026-11-25T00:49:15+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-24T20:29:33+03:00",
-   "sourceName": "Goobjoog News",
-   "title": "Mareykanka iyo Qatar oo Soomaaliya Ku Daray Ajandaha Wada-hadalladooda Istaraatiijiga ah",
-   "url": "https://goobjoog.com/2026/11/24/mareykanka-iyo-qatar-oo-soomaaliya-ku-daray-ajandaha-wada-hadalladooda-istaraatiijiga-ah"
+   "publishedAt": "2026-11-24T23:32:52+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Shacabka Garoowe oo bilaabay inay qaxaan kadib xaalad soo korortay + Sawirro",
+   "url": "https://www.caasimada.net/shacabka-oo-bilaabay-inay-ka-qaxaan-garoowe-kadib-xaalad-soo-korortay-sawirro/"
   },
   "latestPublished": {
    "id": "2026-11-24-golaha-wasiirrada-ansixiyay-wax-ka-beddelka-xeerka-doorashooyinka-xisbiyada",
@@ -65,22 +70,24 @@
    "source": "Wartabiye TV",
    "url": "/war/2026-11-24-golaha-wasiirrada-ansixiyay-wax-ka-beddelka-xeerka-doorashooyinka-xisbiyada.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 90,
+  "publishedLastRun": 0,
+  "rejectedLastRun": 94,
   "rejectedReasons": {
    "old": 10,
-   "duplicate": 78,
+   "duplicate": 82,
    "on-site": 2
   },
   "taskRejectedReasons": [
-   "Lafta-gareen (Caasimada): unconfirmed headline-only",
-   "Dayax eedeyn basaasnimo: duplicate (already on site)",
-   "Farmaajo/Museveni: duplicate",
-   "Soomaaliya-Indonesia: duplicate",
-   "Mareykanka-Qatar: duplicate",
-   "Ra'iisul wasaaraha munaasabadda dhalashada boqorka UK: not newsworthy (protocol)",
-   "BBC Somali Geelle: not newsworthy (analysis feature)",
-   "Shabelle: dib-u-eegista xabsiyada, shirka dib-u-habaynta xabsiyada, Danab Bay, golaha EAC, OPCW: unconfirmed headline-only (pending)"
+   "Golaha Wasiirrada oo ansixiyay wax ka beddelka sharciga doorashooyinka (Radio Muqdisho/Hiiraan/Goobjoog/Caasimada/Horseed): duplicate - horay ayuu bogga ugu jiray (2026-11-24-golaha-wasiirrada-ansixiyay-wax-ka-beddelka-xeerka-doorasho)",
+   "UAE Condemns Somalia's Hostile Approach (Capital FM Kenya): duplicate - war-saxaafadeedka MoFA ee 19 Nov horay ayaa loo daabacay",
+   "Ra'iisul Wasaare Xamsa oo bogaadiyey xiriirka Soomaaliya iyo UK (Radio Muqdisho+Goobjoog): protocol - munaasabad xuska dhalashada Boqorka, go'aan ma leh",
+   "Shacabka Garoowe oo bilaabay inay qaxaan (Caasimada): headline-only; Hiiraan/Goobjoog none, WebSearch so none -> pending",
+   "Shirweyne adeegyada bulshada Puntland oo Garowe ku soo xirmay (Horseed): headline-only, il kale lama helin -> pending",
+   "Hay'adda Duulista Rayidka: Booliska garoonka Aadan Cadde oo la wareegay machadka tababarka (Goobjoog): hal il keliya, muran siyaasadeed -> pending",
+   "Ciidamada dowladda oo u dhaqaaqay degmo ay haystaan ciidanka Lafta-gareen (Caasimada): headline-only, il kale lama helin -> pending",
+   "Soomaaliya iyo Sacuudiga iskaashiga gaadiidka badda (Goobjoog): protocol - kulan danjire",
+   "Fahad oo weerar ku qaaday Farmaajo (Caasimada): ra'yi/headline-only",
+   "Somali Guardian/Shabelle/Caasimada catch-up (Museveni, Indonesia, Somali Airlines, Saadaq Joon, Dayax, Farmaajo): duplicate - horay ayaa loo daabacay"
   ],
   "waitingForImage": 28,
   "waitingIds": [
