@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-24T12:51:40+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-24T12:56:33+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-24T08:50:48Z",
  "newestArticleAt": "2026-11-24T11:55:00+03:00",
- "lastSourceCheckAt": "2026-11-24T12:50:19+03:00",
+ "lastSourceCheckAt": "2026-11-24T12:55:20+03:00",
  "sourceChecks24h": 276,
- "publishedArticles": 1294,
+ "publishedArticles": 1304,
  "liveArticles": 1294,
- "waitingForImage": 207,
- "liveInSync": true,
+ "waitingForImage": 214,
+ "liveInSync": false,
  "publishFailures24h": 1,
  "lastPublishRun": {
   "created_at": "2026-11-24T08:50:48Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45359681531"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-23T22:16:24+00:00",
+  "since": "2026-11-24T09:56:32+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-24T10:02:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-24T12:57:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-24T12:50:12+03:00",
-   "lastSuccessAt": "2026-11-24T12:50:12+03:00",
+   "lastCheckAt": "2026-11-24T12:55:12+03:00",
+   "lastSuccessAt": "2026-11-24T12:55:12+03:00",
    "lastReportAt": "2026-11-22T22:00:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-24T10:02:24+03:00",
+  "lastSourceCheckAt": "2026-11-24T13:00:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-24T08:20:52+03:00",
-   "sourceName": "Nile Post (Uganda)",
-   "title": "Museveni, Somali President Hassan Sheikh Mohamud Discuss Security Situation in Mogadishu",
-   "url": "https://nilepost.co.ug/news/390103/museveni-somali-president-hassan-sheikh-mohamud-discuss-security-situation-in-mogadishu"
+   "publishedAt": "2026-11-24T11:38:13+03:00",
+   "sourceName": "Goobjoog News",
+   "title": "Madaxweyne Xasan Sheekh oo ka Tacsiyeeyay Geerida Sheekh Axmed Maxamed (Axmed Tiir)",
+   "url": "https://goobjoog.com/2026/11/24/madaxweyne-xasan-sheekh-oo-ka-tacsiyeeyay-geerida-sheekh-axmed-maxamed-axmed-tiir"
   },
   "latestPublished": {
    "id": "2026-11-24-xasan-sheekh-kulan-degdeg-golaha-wasiirrada-xisbiyada",
@@ -65,18 +70,21 @@
    "source": "Wartabiye TV",
    "url": "/war/2026-11-24-xasan-sheekh-kulan-degdeg-golaha-wasiirrada-xisbiyada.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 84,
+  "publishedLastRun": 0,
+  "rejectedLastRun": 86,
   "rejectedReasons": {
-   "old": 16,
-   "duplicate": 68
+   "old": 10,
+   "duplicate": 76
   },
   "taskRejectedReasons": [
-   "Villa Somalia oo beenisay in Uganda ay dhexdhexaadin doonto: headline-only (Caasimada); Hiiraan/Goobjoog none, WebSearch so+en none -> pending",
-   "Xasan Sheekh iyo SONATRACH: headline-only (Shabelle); Hiiraan/Goobjoog none, WebSearch so+en none -> pending",
-   "Kulanka badda Soomaaliya iyo Sacuudiga (Goobjoog): protocol, not newsworthy",
-   "Dastuurka Puntland 2012 (Horseed): headline-only; WebSearch none -> pending",
-   "Museveni/Entebbe, Saadaq Joon, Cosoble, golaha Puntland, Muhoozi: duplicate (already on site)"
+   "AUSSOM/Denmark (Caasimada): cinwaan keliya, il labaad lama helin, pending",
+   "Guddoomiyaha Golaha iyo Garsooraha Sare ee la eryay (Shabelle): cinwaan keliya, lama xaqiijin, pending",
+   "Dib u eegista maxaabiista (Shabelle): cinwaan keliya, lama xaqiijin, pending",
+   "Hawlgalka Danab ee Bay (Shabelle): cinwaan keliya, lama xaqiijin, pending",
+   "Ra'iisul wasaaraha iyo Guddiga Xuquuqul Insaanka (Shabelle): cinwaan keliya, lama xaqiijin, pending",
+   "Kulanka EAC (Shabelle): cinwaan keliya, lama xaqiijin, pending",
+   "Ololaha xoolaha Puntland (Horseed): cinwaan keliya, lama xaqiijin, pending",
+   "Tacsida Axmed Tiir (Goobjoog): bogga lama akhriyi karin (403)"
   ],
   "waitingForImage": 27,
   "waitingIds": [
