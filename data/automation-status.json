@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-25T09:16:25+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-25T09:41:35+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-25T05:02:56Z",
  "newestArticleAt": "2026-11-25T05:18:19+03:00",
- "lastSourceCheckAt": "2026-11-25T09:15:17+03:00",
- "sourceChecks24h": 279,
- "publishedArticles": 1397,
+ "lastSourceCheckAt": "2026-11-25T09:40:21+03:00",
+ "sourceChecks24h": 280,
+ "publishedArticles": 1401,
  "liveArticles": 1397,
- "waitingForImage": 206,
- "liveInSync": true,
+ "waitingForImage": 213,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-25T05:02:56Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45550862204"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-23T22:16:24+00:00",
+  "since": "2026-11-25T06:41:33+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-25T07:10:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-25T09:50:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,54 +46,51 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-25T09:15:10+03:00",
-   "lastSuccessAt": "2026-11-25T09:15:10+03:00",
+   "lastCheckAt": "2026-11-25T09:40:14+03:00",
+   "lastSuccessAt": "2026-11-25T09:40:14+03:00",
    "lastReportAt": "2026-11-25T01:30:11+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-25T07:08:23+03:00",
+  "lastSourceCheckAt": "2026-11-25T09:45:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-25T06:00:23+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Xog: Ciidamada Mareykanka oo dib ugu laabtay Balidoogle xilli la filayo howlgallo culus",
-   "url": "https://www.caasimada.net/xog-ciidamada-mareykanka-oo-dib-ugu-laabtay-baledogle-xilli-la-filayo-howlgallo-culus/"
+   "publishedAt": "2026-11-25T08:07:20+03:00",
+   "sourceName": "Hiiraan Online",
+   "title": "Maxkamad Mareykanka ku taalla oo soo bandhigtay qaybo ka mid ah dukumentiyada la xiriira baaritaanka guriga xildhibaan Ilhaan Cumar",
+   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta25-195621.htm"
   },
   "latestPublished": {
-   "id": "2026-11-24-golaha-wasiirrada-ansixiyay-wax-ka-beddelka-xeerka-doorashooyinka-xisbiyada",
-   "title": "Golaha Wasiirrada oo ansixiyey wax-ka-beddelka xeerarka doorashooyinka iyo xisbiyada siyaasadda",
-   "publishedAt": "2026-11-24T22:25:00+03:00",
-   "source": "Wartabiye TV",
-   "url": "/war/2026-11-24-golaha-wasiirrada-ansixiyay-wax-ka-beddelka-xeerka-doorashooyinka-xisbiyada.html"
+   "id": "2026-11-25-maxkamad-mareykan-dukumentiyo-baaritaanka-guriga-ilhaan-cumar",
+   "title": "Maxkamad Mareykan ah oo shaacisay qaybo ka mid ah dukumentiyada baaritaanka guriga Ilhaan Cumar",
+   "publishedAt": "2026-11-25T08:07:20+03:00",
+   "source": "Hiiraan Online",
+   "url": "/war/2026-11-25-maxkamad-mareykan-dukumentiyo-baaritaanka-guriga-ilhaan-cumar.html"
   },
-  "publishedLastRun": 0,
-  "rejectedLastRun": 93,
+  "publishedLastRun": 3,
+  "rejectedLastRun": 96,
   "rejectedReasons": {
-   "old": 10,
-   "duplicate": 81,
-   "on-site": 2
+   "old": 16,
+   "duplicate": 79,
+   "on-site": 1
   },
   "taskRejectedReasons": [
-   "Xog: Ciidamada Mareykanka oo dib ugu laabtay Balidoogle (Caasimada): headline-only; Hiiraan/Goobjoog none -> pending",
-   "Shacabka Garoowe oo bilaabay inay qaxaan (Caasimada): headline-only; Hiiraan/Goobjoog none -> pending",
-   "Ciidamada dowladda oo u dhaqaaqay degmo ay haystaan ciidanka Lafta-gareen (Caasimada): headline-only; il kale lama helin -> pending",
-   "Somalia parliament speaker accuses neighbours of colluding with Al-Shabaab (Somali Guardian/Shabelle): headline-only; WebSearch en none -> pending",
-   "Somalia to review detention of prisoners held over debts (Shabelle): headline-only; Hiiraan none -> pending",
-   "UAE condemns Somalia hostile approach (Capital FM): horay ayuu u jiray (19-20 Nov)",
-   "Xukuumadda oo wax ka beddeshay xeerka doorashooyinka (Hiiraan/Horseed/Caasimada/Radio Muqdisho): horay ayuu u jiray (24 Nov 22:25)",
-   "Farmaajo/Museveni, Indonesia, Somali Airlines, Mareykan-Qatar, Dayax, Saadaq Joon, Oruç Reis: horay ayay u jireen",
-   "Imaaraadka waa dadka kaliya ee inoo gurmaday (Daljir): hadal/ra'yi, war cusub ma aha",
-   "Madaxii Sirdoonka RSF oo goostay (Daljir): Suudaan, xeerka gobolka ka baxsan",
-   "Ra'iisul Wasaare Xamza iyo UK, Guddiga Xuquuqul Insaanka, OPCW, SoDMA, Sacuudi badda: borotokool, war cusub ma aha",
-   "AUSSOM ballanqaad Denmark, Villa Somalia beenisay Uganda dhex-dhexaadin (Caasimada): headline-only; il kale lama helin -> pending",
-   "Danab howlgal Baay (Shabelle): headline-only, sheegasho ciidan oo keliya -> pending",
-   "Somalia EAC Council of Ministers Kampala (Shabelle+Horseed): headline-only labaduba; il akhrin karo lama helin -> pending"
+   "Isbeddel lagu sameeyey qaybsiga kuraasta aqalka sare (Horseed): headline-only; Hiiraan/Goobjoog none -> pending",
+   "Wafti uu hoggaaminayo Islaan Bashiir ... Roox (Horseed): headline-only; Hiiraan/Goobjoog none -> pending",
+   "Xog: Fiqi oo laba xil midkood (Caasimada): xan/xog aan la xaqiijin, war ma aha",
+   "Ciidamada Mareykanka Balidoogle (Caasimada): headline-only; il kale lama helin -> pending",
+   "Shacabka Garoowe oo qaxaya (Caasimada): headline-only; il kale lama helin -> pending",
+   "Imaaraadka waa dadka kaliya ee inoo gurmaday (Daljir): hadal/ra'yi",
+   "Madaxii sirdoonka RSF (Daljir): Suudaan, xeerka gobolka ka baxsan",
+   "Xukuumadda xeerka doorashooyinka (Hiiraan/Horseed/Caasimada/Radio Muqdisho): horay ayuu u jiray",
+   "BBC Somali: Idaacadda Subaxnimo / Dunida iyo Maanta: barnaamij raadiye, war ma aha",
+   "Kulamada borotokoolka (Xamza-UK, Guddiga Xuquuqul Insaanka, SoDMA, AUSSOM-UK): borotokool",
+   "Somali Guardian/Shabelle: Guddoomiyaha baarlamaanka, maxaabiista deynta, Danab Baay: headline-only, il kale lama helin -> pending"
   ],
-  "waitingForImage": 28,
+  "waitingForImage": 30,
   "waitingIds": [
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
    "2026-11-24-baarlamaanka-puntland-wax-ka-beddelka-dastuurka-40-cod-44",
