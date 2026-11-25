@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-24T23:20:11Z",
+ "lastCheckAt": "2026-11-25T00:15:10Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-12": {
@@ -130,7 +130,7 @@
   "2026-11-25": {
    "written": 0,
    "merged": 0,
-   "skipped": 19,
+   "skipped": 27,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -138,9 +138,6 @@
   }
  },
  "done": {
-  "e14c511a44686abc": "2026-11-21T23:30:10Z",
-  "caa368e1c1157f45": "2026-11-21T23:35:10Z",
-  "1453db92e2f8e259": "2026-11-22T00:15:10Z",
   "c0f99e277cec9667": "2026-11-22T00:45:09Z",
   "b5553ff19c000bac": "2026-11-22T01:10:10Z",
   "0cdc2ecf2eb91d84": "2026-11-22T01:15:10Z",
@@ -704,19 +701,51 @@
   "8081297d019d857f": "2026-11-24T23:00:11Z",
   "97b4be0a9bb6b143": "2026-11-24T23:15:11Z",
   "1dd810159f39499e": "2026-11-24T23:15:11Z",
-  "c3c3df9289a3173b": "2026-11-24T23:20:11Z"
+  "c3c3df9289a3173b": "2026-11-24T23:20:11Z",
+  "5ecb03524faf4a69": "2026-11-24T23:30:10Z",
+  "3023884089de4a2e": "2026-11-24T23:35:11Z",
+  "f0614611501e45ff": "2026-11-24T23:35:11Z",
+  "2ad3b6fa20d4a18f": "2026-11-24T23:50:10Z",
+  "ad056cd7373cb045": "2026-11-24T23:55:10Z",
+  "b69a766984af6eb6": "2026-11-25T00:05:11Z",
+  "e0a72d230636d7e5": "2026-11-25T00:10:10Z",
+  "b10ed5ca2171636d": "2026-11-25T00:15:10Z"
  },
  "recent": [
   {
-   "at": "2026-11-24T23:20:11Z",
+   "at": "2026-11-25T00:15:10Z",
    "result": "skipped",
-   "reason": "older than 90 minutes",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "Colombian president blames ex-FARC rebels for car bomb blast",
-   "url": "https://www.aljazeera.com/news/2026/11/24/colombian-president-blames-ex-farc-rebels-for-car-bomb-blast?traffic_source=rss"
+   "title": "Iran war live: Houthis threaten Saudi ports over coalition’s Hodeidah order",
+   "url": "https://www.aljazeera.com/news/liveblog/2026/11/25/iran-war-live-houthis-threaten-saudi-ports-over-coalitions-hodeidah-order?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:20:11Z",
+   "at": "2026-11-25T00:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Rebel group retreats in DR Congo after heavy clashes with government forces",
+   "url": "https://www.aljazeera.com/news/2026/11/24/rebel-group-retreats-in-dr-congo-after-heavy-clashes-with-government-forces?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T00:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "New York jury convicts Huawei of stealing trade secrets",
+   "url": "https://www.france24.com/en/americas/20261124-new-york-jury-convicts-huawei-of-stealing-trade-secrets"
+  },
+  {
+   "at": "2026-11-25T00:15:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "South Africa convicts Zimbabwean who tried to fight Ukraine for Russia",
+   "url": "https://www.aljazeera.com/news/2026/11/24/south-africa-convicts-zimbabwean-who-tried-to-fight-ukraine-for-russia?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T00:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -724,7 +753,7 @@
    "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
   },
   {
-   "at": "2026-11-24T23:20:11Z",
+   "at": "2026-11-25T00:15:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -732,63 +761,31 @@
    "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:20:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "at": "2026-11-25T00:10:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "Al Jazeera",
    "title": "Bellingham stunner, Mbappe brace help Real Madrid rout PSV",
    "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:20:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Scientists discover quasar formed 630 million years after the Big Bang",
-   "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-24T23:20:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News",
-   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
-   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-24T23:20:11Z",
+   "at": "2026-11-25T00:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Tech executives' investment in Trump 'clearly paying off' as Huang reinstated at Nvidia",
-   "url": "https://www.france24.com/en/tech-executives-investment-in-trump-clearly-paying-off-as-huang-reinstated-at-nvidia"
+   "title": "New York jury convicts Huawei of stealing trade secrets",
+   "url": "https://www.france24.com/en/americas/20261124-new-york-jury-convicts-huawei-of-stealing-trade-secrets"
   },
   {
-   "at": "2026-11-24T23:20:11Z",
+   "at": "2026-11-25T00:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
-   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
+   "title": "South Africa convicts Zimbabwean who tried to fight Ukraine for Russia",
+   "url": "https://www.aljazeera.com/news/2026/11/24/south-africa-convicts-zimbabwean-who-tried-to-fight-ukraine-for-russia?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:15:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "China’s Huawei found guilty of trade secrets conspiracy, fraud in US trial",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/chinese-tech-giant-huawei-found-guilty-of-conspiracy-to-steal-trade-secrets?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T23:15:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "'Quid pro quo’: Nvidia too big to fail or ‘too close to personal interest of people around Trump’?",
-   "url": "https://www.france24.com/en/quid-pro-quo-nvidia-too-big-to-fail-or-too-close-to-personal-interest-of-people-around-trump"
-  },
-  {
-   "at": "2026-11-24T23:15:11Z",
+   "at": "2026-11-25T00:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -796,7 +793,7 @@
    "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
   },
   {
-   "at": "2026-11-24T23:15:11Z",
+   "at": "2026-11-25T00:10:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -804,7 +801,47 @@
    "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:15:11Z",
+   "at": "2026-11-25T00:05:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "DW News",
+   "title": "Scientists discover quasar formed 630 million years after the Big Bang",
+   "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-25T00:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "New York jury convicts Huawei of stealing trade secrets",
+   "url": "https://www.france24.com/en/americas/20261124-new-york-jury-convicts-huawei-of-stealing-trade-secrets"
+  },
+  {
+   "at": "2026-11-25T00:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "South Africa convicts Zimbabwean who tried to fight Ukraine for Russia",
+   "url": "https://www.aljazeera.com/news/2026/11/24/south-africa-convicts-zimbabwean-who-tried-to-fight-ukraine-for-russia?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T00:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Champions League: Real Madrid thrash PSV 5-1 in comeback win as Manchester City held by Napoli",
+   "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
+  },
+  {
+   "at": "2026-11-25T00:05:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Arsenal and Dortmund draw 1-1 as Gyokeres goes from hero to villain",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T00:05:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -812,7 +849,47 @@
    "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:15:11Z",
+   "at": "2026-11-25T00:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "New York jury convicts Huawei of stealing trade secrets",
+   "url": "https://www.france24.com/en/americas/20261124-new-york-jury-convicts-huawei-of-stealing-trade-secrets"
+  },
+  {
+   "at": "2026-11-25T00:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "South Africa convicts Zimbabwean who tried to fight Ukraine for Russia",
+   "url": "https://www.aljazeera.com/news/2026/11/24/south-africa-convicts-zimbabwean-who-tried-to-fight-ukraine-for-russia?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T00:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Champions League: Real Madrid thrash PSV 5-1 in comeback win as Manchester City held by Napoli",
+   "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
+  },
+  {
+   "at": "2026-11-25T00:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Arsenal and Dortmund draw 1-1 as Gyokeres goes from hero to villain",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T00:00:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Bellingham stunner, Mbappe brace help Real Madrid rout PSV",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T00:00:11Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -820,7 +897,71 @@
    "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-24T23:15:11Z",
+   "at": "2026-11-24T23:55:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T23:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "New York jury convicts Huawei of stealing trade secrets",
+   "url": "https://www.france24.com/en/americas/20261124-new-york-jury-convicts-huawei-of-stealing-trade-secrets"
+  },
+  {
+   "at": "2026-11-24T23:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "South Africa convicts Zimbabwean who tried to fight Ukraine for Russia",
+   "url": "https://www.aljazeera.com/news/2026/11/24/south-africa-convicts-zimbabwean-who-tried-to-fight-ukraine-for-russia?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Champions League: Real Madrid thrash PSV 5-1 in comeback win as Manchester City held by Napoli",
+   "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
+  },
+  {
+   "at": "2026-11-24T23:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Arsenal and Dortmund draw 1-1 as Gyokeres goes from hero to villain",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Bellingham stunner, Mbappe brace help Real Madrid rout PSV",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:55:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Scientists discover quasar formed 630 million years after the Big Bang",
+   "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-24T23:50:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "UN News",
+   "title": "World News in Brief: Vaccine crisis in Yemen, aid for Ukraine, another UNRWA staffer killed",
+   "url": "https://news.un.org/feed/view/en/story/2026/11/1168871"
+  },
+  {
+   "at": "2026-11-24T23:50:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -828,31 +969,15 @@
    "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-24T23:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Tech executives' investment in Trump 'clearly paying off' as Huang reinstated at Nvidia",
-   "url": "https://www.france24.com/en/tech-executives-investment-in-trump-clearly-paying-off-as-huang-reinstated-at-nvidia"
-  },
-  {
-   "at": "2026-11-24T23:15:11Z",
+   "at": "2026-11-24T23:50:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
-   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
+   "title": "South Africa convicts Zimbabwean who tried to fight Ukraine for Russia",
+   "url": "https://www.aljazeera.com/news/2026/11/24/south-africa-convicts-zimbabwean-who-tried-to-fight-ukraine-for-russia?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:15:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Colombian president blames ex-FARC rebels for car bomb blast",
-   "url": "https://www.aljazeera.com/news/2026/11/24/colombian-president-blames-ex-farc-rebels-for-car-bomb-blast?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T23:10:10Z",
+   "at": "2026-11-24T23:50:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -860,7 +985,15 @@
    "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
   },
   {
-   "at": "2026-11-24T23:10:10Z",
+   "at": "2026-11-24T23:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Arsenal and Dortmund draw 1-1 as Gyokeres goes from hero to villain",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:50:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -868,7 +1001,7 @@
    "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:10:10Z",
+   "at": "2026-11-24T23:50:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -876,47 +1009,23 @@
    "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-24T23:10:10Z",
+   "at": "2026-11-24T23:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T23:45:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "China’s Huawei found guilty of trade secrets conspiracy, fraud in US trial",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/chinese-tech-giant-huawei-found-guilty-of-conspiracy-to-steal-trade-secrets?traffic_source=rss"
+   "title": "South Africa convicts Zimbabwean who tried to fight Ukraine for Russia",
+   "url": "https://www.aljazeera.com/news/2026/11/24/south-africa-convicts-zimbabwean-who-tried-to-fight-ukraine-for-russia?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Tech executives' investment in Trump 'clearly paying off' as Huang reinstated at Nvidia",
-   "url": "https://www.france24.com/en/tech-executives-investment-in-trump-clearly-paying-off-as-huang-reinstated-at-nvidia"
-  },
-  {
-   "at": "2026-11-24T23:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
-   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T23:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Colombian president blames ex-FARC rebels for car bomb blast",
-   "url": "https://www.aljazeera.com/news/2026/11/24/colombian-president-blames-ex-farc-rebels-for-car-bomb-blast?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T23:10:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "'Quid pro quo’: Nvidia too big to fail or ‘too close to personal interest of people around Trump’?",
-   "url": "https://www.france24.com/en/quid-pro-quo-nvidia-too-big-to-fail-or-too-close-to-personal-interest-of-people-around-trump"
-  },
-  {
-   "at": "2026-11-24T23:05:11Z",
+   "at": "2026-11-24T23:45:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -924,7 +1033,15 @@
    "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
   },
   {
-   "at": "2026-11-24T23:05:11Z",
+   "at": "2026-11-24T23:45:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Arsenal and Dortmund draw 1-1 as Gyokeres goes from hero to villain",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:45:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -932,7 +1049,7 @@
    "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:05:11Z",
+   "at": "2026-11-24T23:45:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -940,55 +1057,127 @@
    "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-24T23:05:11Z",
+   "at": "2026-11-24T23:40:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T23:40:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Champions League: Real Madrid thrash PSV 5-1 in comeback win as Manchester City held by Napoli",
+   "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
+  },
+  {
+   "at": "2026-11-24T23:40:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "China’s Huawei found guilty of trade secrets conspiracy, fraud in US trial",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/chinese-tech-giant-huawei-found-guilty-of-conspiracy-to-steal-trade-secrets?traffic_source=rss"
+   "title": "Arsenal and Dortmund draw 1-1 as Gyokeres goes from hero to villain",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:05:11Z",
+   "at": "2026-11-24T23:40:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Bellingham stunner, Mbappe brace help Real Madrid rout PSV",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:40:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Scientists discover quasar formed 630 million years after the Big Bang",
+   "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-24T23:35:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "France 24",
+   "title": "Tech executives' investment in Trump 'clearly paying off' as Huang reinstated at Nvidia",
+   "url": "https://www.france24.com/en/tv-shows/a-propos/20261124-tech-executives-investment-in-trump-clearly-paying-off-as-huang-reinstated-at-nvidia"
+  },
+  {
+   "at": "2026-11-24T23:35:11Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "Al Jazeera",
+   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
+   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Champions League: Real Madrid thrash PSV 5-1 in comeback win as Manchester City held by Napoli",
+   "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
+  },
+  {
+   "at": "2026-11-24T23:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Arsenal and Dortmund draw 1-1 as Gyokeres goes from hero to villain",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Bellingham stunner, Mbappe brace help Real Madrid rout PSV",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-24T23:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "DW News",
+   "title": "Scientists discover quasar formed 630 million years after the Big Bang",
+   "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
+  },
+  {
+   "at": "2026-11-24T23:35:11Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "url": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-24T23:30:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "France 24",
    "title": "Tech executives' investment in Trump 'clearly paying off' as Huang reinstated at Nvidia",
    "url": "https://www.france24.com/en/tech-executives-investment-in-trump-clearly-paying-off-as-huang-reinstated-at-nvidia"
   },
   {
-   "at": "2026-11-24T23:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
-   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T23:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Colombian president blames ex-FARC rebels for car bomb blast",
-   "url": "https://www.aljazeera.com/news/2026/11/24/colombian-president-blames-ex-farc-rebels-for-car-bomb-blast?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T23:05:11Z",
+   "at": "2026-11-24T23:30:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "'Quid pro quo’: Nvidia too big to fail or ‘too close to personal interest of people around Trump’?",
-   "url": "https://www.france24.com/en/quid-pro-quo-nvidia-too-big-to-fail-or-too-close-to-personal-interest-of-people-around-trump"
+   "title": "Champions League: Real Madrid thrash PSV 5-1 in comeback win as Manchester City held by Napoli",
+   "url": "https://www.france24.com/en/sport/20261124-champions-league-real-madrid-thrash-psv-5-1-in-comeback-win-as-manchester-city-held-by-napoli"
   },
   {
-   "at": "2026-11-24T23:00:11Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Jensen Huang's Nvidia comeback sends AI videos into overdrive",
-   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261124-jensen-huang-s-nvidia-comeback-sends-ai-videos-into-overdrive"
+   "at": "2026-11-24T23:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Arsenal and Dortmund draw 1-1 as Gyokeres goes from hero to villain",
+   "url": "https://www.aljazeera.com/sports/2026/11/24/arsenal-and-dortmund-draw-1-1-as-gyokeres-goes-from-hero-to-villain?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:00:11Z",
+   "at": "2026-11-24T23:30:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -996,196 +1185,12 @@
    "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
   },
   {
-   "at": "2026-11-24T23:00:11Z",
+   "at": "2026-11-24T23:30:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
    "title": "Scientists discover quasar formed 630 million years after the Big Bang",
    "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-24T23:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "China’s Huawei found guilty of trade secrets conspiracy, fraud in US trial",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/chinese-tech-giant-huawei-found-guilty-of-conspiracy-to-steal-trade-secrets?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T23:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
-   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T23:00:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Colombian president blames ex-FARC rebels for car bomb blast",
-   "url": "https://www.aljazeera.com/news/2026/11/24/colombian-president-blames-ex-farc-rebels-for-car-bomb-blast?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:55:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Did Nvidia knowingly send chips to China 'cutout'? Was there ‘pay-to-play’ involving Trump, Lutnick?",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261124-did-nvidia-knowingly-send-chips-to-china-cutout-was-there-pay-to-play-involving-trump-lutnick"
-  },
-  {
-   "at": "2026-11-24T22:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Bellingham stunner, Mbappe brace help Real Madrid rout PSV",
-   "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Scientists discover quasar formed 630 million years after the Big Bang",
-   "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-24T22:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "China’s Huawei found guilty of trade secrets conspiracy, fraud in US trial",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/chinese-tech-giant-huawei-found-guilty-of-conspiracy-to-steal-trade-secrets?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
-   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Colombian president blames ex-FARC rebels for car bomb blast",
-   "url": "https://www.aljazeera.com/news/2026/11/24/colombian-president-blames-ex-farc-rebels-for-car-bomb-blast?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Jensen Huang's Nvidia comeback sends AI videos into overdrive",
-   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261124-jensen-huang-s-nvidia-comeback-sends-ai-videos-into-overdrive"
-  },
-  {
-   "at": "2026-11-24T22:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Bellingham stunner, Mbappe brace help Real Madrid rout PSV",
-   "url": "https://www.aljazeera.com/sports/2026/11/24/bellingham-stunner-mbappe-brace-help-real-madrid-rout-psv?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Scientists discover quasar formed 630 million years after the Big Bang",
-   "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-24T22:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "China’s Huawei found guilty of trade secrets conspiracy, fraud in US trial",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/chinese-tech-giant-huawei-found-guilty-of-conspiracy-to-steal-trade-secrets?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
-   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Colombian president blames ex-FARC rebels for car bomb blast",
-   "url": "https://www.aljazeera.com/news/2026/11/24/colombian-president-blames-ex-farc-rebels-for-car-bomb-blast?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Jensen Huang's Nvidia comeback sends AI videos into overdrive",
-   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261124-jensen-huang-s-nvidia-comeback-sends-ai-videos-into-overdrive"
-  },
-  {
-   "at": "2026-11-24T22:50:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Did Nvidia knowingly send chips to China 'cutout'? Was there ‘pay-to-play’ involving Trump, Lutnick?",
-   "url": "https://www.france24.com/en/tv-shows/spotlight/20261124-did-nvidia-knowingly-send-chips-to-china-cutout-was-there-pay-to-play-involving-trump-lutnick"
-  },
-  {
-   "at": "2026-11-24T22:45:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Senegal reinstated as AFCON 2025 winners",
-   "url": "https://www.france24.com/en/senegal-reinstated-as-afcon-2025-winners"
-  },
-  {
-   "at": "2026-11-24T22:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Scientists discover quasar formed 630 million years after the Big Bang",
-   "url": "https://www.dw.com/en/scientists-discover-quasar-formed-630-million-years-after-the-big-bang/a-80041882?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-24T22:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "China’s Huawei found guilty of trade secrets conspiracy, fraud in US trial",
-   "url": "https://www.aljazeera.com/economy/2026/11/24/chinese-tech-giant-huawei-found-guilty-of-conspiracy-to-steal-trade-secrets?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Todd Blanche declines to confirm if Nvidia’s Jensen Huang was investigated",
-   "url": "https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Colombian president blames ex-FARC rebels for car bomb blast",
-   "url": "https://www.aljazeera.com/news/2026/11/24/colombian-president-blames-ex-farc-rebels-for-car-bomb-blast?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-24T22:45:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Jensen Huang's Nvidia comeback sends AI videos into overdrive",
-   "url": "https://www.france24.com/en/tv-shows/truth-or-fake/20261124-jensen-huang-s-nvidia-comeback-sends-ai-videos-into-overdrive"
   }
  ]
 }
