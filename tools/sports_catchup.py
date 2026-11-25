@@ -20,7 +20,7 @@ galleries) and keeps the newest --max stories (default 200).
 """
 import json, os, re, subprocess, sys
 
-NOISE = re.compile(r'(?i)\b(live|en directo|en vivo|in diretta|en direct|liveticker|how to watch|where to watch|d[oó]nde ver|dove vedere|o[uù] regarder|tv channel|horario|prono|pronostic|cuotas|quote|odds|betting|bet\b|tips|fantasy|quiz|gallery|galer[ií]a|fotogallery|in pictures|player ratings|pagelle|notes|ratings|podcast|video|quelle cha[iî]ne|[àa] quelle heure|netflix|serie del momento)\b')
+NOISE = re.compile(r'(?i)\b(live|en directo|en vivo|in diretta|en direct|liveticker|how to watch|where to watch|d[oó]nde ver|dove vedere|o[uù] regarder|tv channel|horario|prono|pronostic|cuotas|quote|odds|betting|bet\b|tips|fantasy|quiz|gallery|galer[ií]a|fotogallery|in pictures|player ratings|pagelle|notes|ratings|podcast|video|quelle cha[iî]ne|[àa] quelle heure|netflix|serie del momento|pronos|promo|promo code|bonus|bonus bets|chollo|black friday|highlights|las fotos|le foto|1x1|once probable|probable xi|predicted line-?ups?|stock report|power rankings|papers)\b')
 # big leagues and clubs (FOOTBALL PRIORITY in tools/news_task_prompt.md): these go first inside each group of the pool
 BIG = re.compile(r'(?i)(premier league|la ?liga|serie a|bundesliga|ligue 1|champions league|europa league|saudi pro|afcon|world cup|mundial|coupe du monde|weltmeister|real madrid|barcelona|bar[cç]a|atl[eé]tico|manchester|man (city|utd|united)|liverpool|arsenal|chelsea|tottenham|spurs|bayern|dortmund|juventus|juve|inter\b|milan|napoli|psg|paris saint|al[- ]nassr|al[- ]hilal|al[- ]ittihad|ronaldo|messi|mbapp|haaland|salah|yamal|kane|bellingham|vin[ií]cius|guardiola|ancelotti|xabi|flick|slot\b|arteta|maresca|amorim|transfer|fichaj|wechsel|mercato|injur|lesi[oó]n|verletz|blessure|infortun)')
 
@@ -128,7 +128,11 @@ def build_pool(cand, pool, hours):
     paired = sum(1 for i in items if i.get('pairCandidates'))
     items.sort(key=lambda i: i.get('publishedAt') or '', reverse=True)
     items.sort(key=lambda i: 0 if BIG.search(i.get('title') or '') else 1)
-    items.sort(key=lambda i: 0 if i.get('alsoReportedBy') else 1 if i.get('pairCandidates') else 2)
+    # an official club, league or federation page is itself a second source (OFFICIAL BODY = SECOND SOURCE in the news task):
+    # put it right after the stories two outlets already report (25 Nov 2026: UEFA, Liverpool FC and Bundesliga.com items sat
+    # below betting promos and the 09:08 run wrote 0 football stories)
+    official = lambda i: bool(re.search(r'(?i)\(official\)|^(uefa|fifa|caf|premier league|laliga|bundesliga|ligue 1|serie a)\b', i.get('sourceName') or ''))
+    items.sort(key=lambda i: 0 if i.get('alsoReportedBy') else 1 if official(i) else 2 if i.get('pairCandidates') else 3)
     items.sort(key=lambda i: 1 if i.get('likelyOnSite') else 0)  # same names as a recent site article: last, check the event first
     two = sum(1 for i in items if i.get('alsoReportedBy'))
     json.dump({'builtAt': datetime.datetime.now(datetime.timezone.utc).isoformat(timespec='seconds'), 'hours': float(hours),
