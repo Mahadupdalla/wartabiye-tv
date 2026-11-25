@@ -1,31 +1,31 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-25T18:32:03+03:00",
- "overall": "retrying",
- "overallText": "Cillad ku meel gaar ah: si otomaatig ah ayaa dib loogu celinayaa",
+ "updatedAt": "2026-11-25T19:06:57+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": null,
  "newestArticleAt": "2026-11-25T15:02:39+03:00",
- "lastSourceCheckAt": "2026-11-25T18:30:18+03:00",
- "sourceChecks24h": 286,
- "publishedArticles": 1419,
+ "lastSourceCheckAt": "2026-11-25T19:05:30+03:00",
+ "sourceChecks24h": 285,
+ "publishedArticles": 1430,
  "liveArticles": 1419,
- "waitingForImage": 215,
- "liveInSync": true,
- "publishFailures24h": 15,
+ "waitingForImage": 226,
+ "liveInSync": false,
+ "publishFailures24h": 14,
  "lastPublishRun": {
-  "created_at": "2026-11-25T15:11:40Z",
+  "created_at": "2026-11-25T16:03:10Z",
   "conclusion": "failure",
-  "event": "workflow_dispatch",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45642375360"
+  "event": "push",
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45650663099"
  },
  "retry": {
-  "attempts": 1,
+  "attempts": 0,
   "max": 4,
-  "lastRetryAt": "2026-11-25T15:32:00+00:00",
-  "since": "2026-11-25T15:16:42+00:00"
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-25T16:06:56+00:00"
  },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-25T16:02:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-25T19:02:06+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -46,63 +46,54 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-25T18:30:11+03:00",
-   "lastSuccessAt": "2026-11-25T18:30:11+03:00",
+   "lastCheckAt": "2026-11-25T19:05:24+03:00",
+   "lastSuccessAt": "2026-11-25T19:05:24+03:00",
    "lastReportAt": "2026-11-25T01:30:11+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-25T16:01:12+03:00",
+  "lastSourceCheckAt": "2026-11-25T19:01:56+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-25T15:06:01+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Fal-celin caro leh oo ka dhalatay dhambaal wasaaradda a/dibadda Somalia u dirtay Qatar",
-   "url": "https://www.caasimada.net/fal-celin-caro-leh-oo-ka-dhalatay-dhambaal-wasaaradda-a-dibadda-somalia-u-dirtay-qatar/"
+   "publishedAt": "2026-11-25T17:59:30+03:00",
+   "sourceName": "BBC Somali",
+   "title": "Dunida Iyo Maanta",
+   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsrjnm417m?at_medium=RSS&at_campaign=rss"
   },
   "latestPublished": {
-   "id": "2026-11-25-jubbaland-difaacday-xiriirka-imaaraadka-xasan-sheekh",
-   "title": "Jubbaland oo difaacday xiriirka Imaaraadka, kana soo horjeesatay baaqyada Xasan Sheekh ee xiriirka loogu jarayo",
-   "publishedAt": "2026-11-25T14:49:51+03:00",
-   "source": "Hiiraan Online",
-   "url": "/war/2026-11-25-jubbaland-difaacday-xiriirka-imaaraadka-xasan-sheekh.html"
+   "id": "2026-11-25-imaaraadka-qatar-turkiga-loollanka-saameynta-soomaaliya",
+   "title": "Imaaraadka, Qatar iyo Turkiga: Soomaaliya ma goob lool-lan saameyn, mise shacabka ayaa ka faa'iidaysanaya?",
+   "publishedAt": "2026-11-25T18:49:00+03:00",
+   "source": "Wartabiye TV",
+   "url": "/war/2026-11-25-imaaraadka-qatar-turkiga-loollanka-saameynta-soomaaliya.html"
   },
-  "publishedLastRun": 3,
-  "rejectedLastRun": 106,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 116,
   "rejectedReasons": {
    "old": 16,
-   "duplicate": 89,
+   "duplicate": 99,
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Fal-celin caro leh oo ka dhalatay dhambaal wasaaradda a/dibadda Somalia u dirtay Qatar (Caasimada): headline-only; Goobjoog/Hiiraan none -> lama xaqiijin",
-   "Soomaaliya oo Tacsi u Dirtay Dowladda Qatar (Goobjoog): protocol/tacsi, war qiimo yar",
-   "Guddoomiyaha SoDMA oo gaaray Dhuusamareeb (Radio Muqdisho): booqasho protocol ah, go'aan cusub ma leh",
-   "Puntland oo baaritaan ku samaynaysa shirkadaha biyaha & korontada (Horseed): headline-only; la xiriira war hore oo site-ka ku jira (2026-11-25 Puntland qorshe qiimaha adeegyada) -> lama xaqiijin",
-   "Somalia: House Speaker Raises Alarm Over Alleged Regional Plot (Garowe): horay ayuu site-ka ugu jiray (duplicate)",
-   "Somalia: Cabinet Approves Election Law Changes (Garowe) / Xukuumadda ... xeerka doorashooyinka (Horseed, Hiiraan, Shabelle, Puntland Post): duplicate (2026-11-24 Golaha Wasiirrada)",
-   "Culimadii Soomaaliyeed oo isku haysta qodobo dastuurka (Horseed): headline-only; Hiiraan/Goobjoog none -> lama xaqiijin",
-   "Isbeddel lagu sameeyey qaybsiga kuraasta aqalka sare (Horseed): headline-only; Hiiraan/Goobjoog none -> lama xaqiijin",
-   "Xog: Fiqi oo laba xil midkood loo badinayo (Caasimada): xan/xog aan la xaqiijin",
-   "Xog: Ciidamada Mareykanka oo dib ugu laabtay Balidoogle (Caasimada): headline-only, sheegasho amni oo hal il ah -> lama xaqiijin",
-   "Wafti Islaan Bashiir ... Roox (Horseed): headline-only; il kale lama helin",
-   "Shacabka Garoowe oo bilaabay inay qaxaan (Caasimada): headline-only; il kale lama helin",
-   "Somalia : Fahad Yasin still backing president (Garowe): faallo/ra'yi siyaasadeed",
-   "Gabar kareemada ... kelyaha / Fitamiin D (BBC Somali): sheeko caafimaad guud, ma aha war Soomaaliya",
-   "Amniga madaxweyne Xasan Sheekh oo aad loo adkeeyay (Caasimada): headline-only, faahfaahin la'aan",
-   "Taiwan Reaffirms Somaliland Ties (Garowe): duplicate (2026-11-24 Taiwan wakiil cusub)",
-   "Farmaajo oo soo dhaweeyay booqashada Museveni (Shabelle/Hiiraan): duplicate (2026-11-24)",
-   "Soomaaliya iyo Indonesia caafimaad (Hiiraan/Horseed): duplicate (2026-11-24)",
-   "UAE Condemns Somalia's 'Hostile' Approach (Capital FM): bayaanka Imaaraadka waa 19 November (war hore); waxaa lagu xusay asalka maqaalka Jubbaland",
-   "Golaha Wasiirrada ... Sharciga Doorashooyinka (Radio Muqdisho/Goobjoog): duplicate",
-   "Soomaaliya oo soo bandhigtay qiimeynta daah-furnaanta Miisaaniyadda 2025 (Shabelle): headline-only; il kale lama helin (raadin kooban, waqti)",
-   "Galmudug oo dhaarisay Xeer Ilaaliyaha Guud (Shabelle): headline-only; il kale lama helin",
-   "Idaacadda Subaxnimo / Dunida Iyo Maanta / Xubinta Ganacsiga (BBC/Shabelle): barnaamij, ma aha war"
+   "Hordhaca Barnaamijka Baraarug ee Warbaahinta Daljir: ma aha war (barnaamij)",
+   "Caasho Gelle & Kalmadeena dhagax dhiga garoonka Gaalkacyo / Deni khudbadda garoonka (Daljir, Horseed): horay ayaa loo daabacay (2026-11-25-deni-dhagax-dhigay-garoonka-diyaaradaha-gaalkacyo)",
+   "Puntland President Deni Defends Government Agreements (Horseed): headline-only; Daljir waa muuqaal khudbad, il kale oo qoraal ah lama helin -> la dhaafay",
+   "Somalia Releases Footage Alleging UAE Operated Unauthorized Military Facilities (Horseed): headline-only, eedeyn culus; WebSearch en none, Hiiraan/Goobjoog none -> lama daabicin",
+   "Somalia cabinet rewrites election laws (Somali Guardian) / Cabinet Approves Election Law Changes (Garowe): horay ayaa loo daabacay 24 Nov",
+   "Cabdiraxmaan Cabdishakuur oo Xasan Sheekh ku eedeeyay (Hiiraan): eedeyn siyaasadeed hal il keliya -> la dhaafay",
+   "Xiisad ka taagan doorashada Ururka Qareennada (Hiiraan): horay ayaa loo daabacay",
+   "Somalia: House Speaker Raises Alarm Over Alleged Regional Plot (Garowe): horay ayaa loo daabacay",
+   "Jubbaland heshiis ganacsi Imaaraati (Hiiraan) / Hargeysa laba walaalo (Caasimada): horay ayaa loo daabacay",
+   "Fal-celin dhambaal Qatar (Caasimada): headline-only, xaqiijin lama helin",
+   "Garoowe biyaha qiimaha jaban (Horseed) / Puntland baaritaan shirkadaha biyaha (Horseed): headline-only; horay ayaa loo daabacay qorshaha Puntland ee qiimaha adeegyada",
+   "BBC Somali (caafimaad, Fitamiin D, kareemada, baadari): ma aha war Soomaaliyeed oo cusub (maqaallo caafimaad/sheeko)",
+   "Guddoomiyaha SoDMA Dhuusamareeb (Radio Muqdisho): booqasho borotokool ah, faahfaahin go'aan ma leh",
+   "Culimada qodobada dastuurka, Fiqi laba xil, Ciidamada Mareykanka Balidoogle, Garoowe qax (Horseed/Caasimada, catch-up): headline-only, xaqiijin il akhrisan karo lama helin"
   ],
-  "waitingForImage": 32,
+  "waitingForImage": 34,
   "waitingIds": [
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
    "2026-11-24-baarlamaanka-puntland-wax-ka-beddelka-dastuurka-40-cod-44",
@@ -117,13 +108,13 @@
    "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
    "2026-11-17-sodma-arc-kulan-cop31-caymiska-musiibooyinka",
    "2026-11-22-sweden-booliska-maxkamad-dilka-wiil-soomaali-14-jir",
+   "2026-11-25-soomaaliya-shirka-wasiirrada-iora-new-delhi",
    "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera",
    "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag",
    "2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan",
    "2026-11-14-beesha-makane-ciidamo-beledweyne-hirshabeelle",
    "2026-11-23-trump-soomaalida-minnesota-truth-social-ilhan-cumar",
-   "2026-11-24-garoonka-ugaas-khaliif-beledweyne-la-xiray-lix-maalmood",
-   "2026-11-23-dowladda-285-al-shabaab-daynuunaay-bay-isaaq-ukurow"
+   "2026-11-24-garoonka-ugaas-khaliif-beledweyne-la-xiray-lix-maalmood"
   ],
   "stale": false,
   "problems": [],
