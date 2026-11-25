@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-25T19:30:09Z",
+ "lastCheckAt": "2026-11-25T20:25:09Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-12": {
@@ -130,7 +130,7 @@
   "2026-11-25": {
    "written": 0,
    "merged": 0,
-   "skipped": 220,
+   "skipped": 227,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -138,12 +138,6 @@
   }
  },
  "done": {
-  "af467a0a4d9d5dda": "2026-11-22T19:35:10Z",
-  "ca50e27920630fd1": "2026-11-22T19:50:10Z",
-  "456e2621c377918c": "2026-11-22T19:55:10Z",
-  "44650bbc0408bfac": "2026-11-22T19:55:10Z",
-  "2b5f9ee639963bb2": "2026-11-22T20:00:12Z",
-  "ee99e3bdcaf063a4": "2026-11-22T20:15:11Z",
   "708f9a10cc5be4cd": "2026-11-22T20:35:11Z",
   "6fb0beae30a85cd2": "2026-11-22T20:40:11Z",
   "a1dae3ea8c6aace5": "2026-11-22T20:50:10Z",
@@ -785,19 +779,42 @@
   "315f4c45ce6f325e": "2026-11-25T19:00:10Z",
   "f4903349854929e2": "2026-11-25T19:00:10Z",
   "7cd4ff25e7d06fbc": "2026-11-25T19:25:10Z",
-  "69404e610b401226": "2026-11-25T19:30:09Z"
+  "69404e610b401226": "2026-11-25T19:30:09Z",
+  "51d63bda36c2cc6f": "2026-11-25T19:40:11Z",
+  "4b6679d458d38d0a": "2026-11-25T19:40:11Z",
+  "25bebad9ce276286": "2026-11-25T19:45:15Z",
+  "1f65d7c532250044": "2026-11-25T20:10:14Z",
+  "ad39b610060f4ced": "2026-11-25T20:25:09Z",
+  "89eb16b80ceca9c2": "2026-11-25T20:25:09Z",
+  "0596de2442d695a1": "2026-11-25T20:25:09Z"
  },
  "recent": [
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:25:09Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Migrant wrongly deported by Trump leaves US for Spain",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/25/migrant-wrongly-deported-by-trump-leaves-us-for-spain?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:25:09Z",
+   "result": "skipped",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
+   "source": "Al Jazeera",
+   "title": "Elderly man with Alzheimer’s rescued after 11 days in Amazon jungle",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/25/aje-onl-nf_man-with-alzheimers-rescued-after-11-days-in-amazon-251126?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:25:09Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
    "source": "DW News",
-   "title": "Spain: Canary Islands witness 1-day migration record",
-   "url": "https://www.dw.com/en/spain-canary-islands-witness-1-day-migration-record/a-80052770?maca=en-rss-en-all-1573-rdf"
+   "title": "Peter Magyar meets Volodymyr Zelenskyy: Hungary and Ukraine make a fresh start after the icy relations of the Viktor Orban era",
+   "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -805,7 +822,23 @@
    "url": "https://www.bbc.co.uk/news/articles/cwg7l5ve251ko?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Israeli judges recommend dropping most serious charges against Netanyahu",
+   "url": "https://www.bbc.co.uk/news/articles/cxj05mv723r2o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US Army declares Iowa lead azide detonation ‘tremendously successful’",
+   "url": "https://www.aljazeera.com/news/2026/11/25/us-army-declares-iowa-lead-azide-detonation-tremendously-successful?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -813,7 +846,15 @@
    "url": "https://www.bbc.co.uk/news/articles/cq0l34e4kkr5o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Could renewed strikes on Hodeidah port worsen Yemen’s humanitarian crisis?",
+   "url": "https://www.aljazeera.com/news/2026/11/25/could-renewed-strikes-on-hodeidah-port-worsen-yemens-humanitarian-crisis?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -821,7 +862,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/uk-military-moving-aircraft-to-hangars-in-case-of-drone-attacks?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -829,7 +870,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/us-grants-spacex-approval-for-1-million-space-data-centres?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -837,7 +878,7 @@
    "url": "https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -845,7 +886,7 @@
    "url": "https://www.france24.com/en/france/20261125-french-milei-presidential-candidate-david-lisnard-aims-reshape-france-right-wing"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -853,31 +894,31 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/at-least-30-killed-in-egypt-vehicle-fire-health-ministry-says?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Peter Magyar meets Volodymyr Zelenskyy: Hungary and Ukraine make a fresh start after the icy relations of the Viktor Orban era",
-   "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
+   "source": "BBC News",
+   "title": "US Army says controlled blast of explosives in Iowa was 'huge success'",
+   "url": "https://www.bbc.co.uk/news/articles/cwg7l5ve251ko?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-25T19:30:09Z",
+   "at": "2026-11-25T20:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Israeli judges recommend dropping most serious charges against Netanyahu",
+   "url": "https://www.bbc.co.uk/news/articles/cxj05mv723r2o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
-   "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
+   "title": "US Army declares Iowa lead azide detonation ‘tremendously successful’",
+   "url": "https://www.aljazeera.com/news/2026/11/25/us-army-declares-iowa-lead-azide-detonation-tremendously-successful?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Ecuador and US review joint military operations, official says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/ecuador-and-us-review-joint-military-operations-official-says?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "BBC News",
@@ -885,7 +926,15 @@
    "url": "https://www.bbc.co.uk/news/articles/cq0l34e4kkr5o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:20:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Could renewed strikes on Hodeidah port worsen Yemen’s humanitarian crisis?",
+   "url": "https://www.aljazeera.com/news/2026/11/25/could-renewed-strikes-on-hodeidah-port-worsen-yemens-humanitarian-crisis?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -893,7 +942,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/uk-military-moving-aircraft-to-hangars-in-case-of-drone-attacks?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -901,7 +950,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/us-grants-spacex-approval-for-1-million-space-data-centres?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -909,7 +958,7 @@
    "url": "https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -917,7 +966,7 @@
    "url": "https://www.france24.com/en/france/20261125-french-milei-presidential-candidate-david-lisnard-aims-reshape-france-right-wing"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -925,7 +974,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/at-least-30-killed-in-egypt-vehicle-fire-health-ministry-says?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -933,23 +982,47 @@
    "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:15:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "US Army says controlled blast of explosives in Iowa was 'huge success'",
+   "url": "https://www.bbc.co.uk/news/articles/cwg7l5ve251ko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:15:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Israeli judges recommend dropping most serious charges against Netanyahu",
+   "url": "https://www.bbc.co.uk/news/articles/cxj05mv723r2o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
-   "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
+   "title": "US Army declares Iowa lead azide detonation ‘tremendously successful’",
+   "url": "https://www.aljazeera.com/news/2026/11/25/us-army-declares-iowa-lead-azide-detonation-tremendously-successful?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:25:10Z",
+   "at": "2026-11-25T20:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Canary Islands witness 1-day migration record",
-   "url": "https://www.dw.com/en/spain-canary-islands-witness-1-day-migration-record/a-80052770?maca=en-rss-en-all-1573-rdf"
+   "source": "BBC News",
+   "title": "North Korea expels Swiss diplomat in sanctions row",
+   "url": "https://www.bbc.co.uk/news/articles/cq0l34e4kkr5o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-25T19:20:10Z",
+   "at": "2026-11-25T20:15:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Could renewed strikes on Hodeidah port worsen Yemen’s humanitarian crisis?",
+   "url": "https://www.aljazeera.com/news/2026/11/25/could-renewed-strikes-on-hodeidah-port-worsen-yemens-humanitarian-crisis?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -957,7 +1030,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/uk-military-moving-aircraft-to-hangars-in-case-of-drone-attacks?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:20:10Z",
+   "at": "2026-11-25T20:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -965,7 +1038,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/us-grants-spacex-approval-for-1-million-space-data-centres?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:20:10Z",
+   "at": "2026-11-25T20:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -973,7 +1046,7 @@
    "url": "https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:20:10Z",
+   "at": "2026-11-25T20:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
@@ -981,7 +1054,7 @@
    "url": "https://www.france24.com/en/france/20261125-french-milei-presidential-candidate-david-lisnard-aims-reshape-france-right-wing"
   },
   {
-   "at": "2026-11-25T19:20:10Z",
+   "at": "2026-11-25T20:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -989,7 +1062,7 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/at-least-30-killed-in-egypt-vehicle-fire-health-ministry-says?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:20:10Z",
+   "at": "2026-11-25T20:15:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -997,199 +1070,95 @@
    "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-25T19:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
-   "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Canary Islands witness 1-day migration record",
-   "url": "https://www.dw.com/en/spain-canary-islands-witness-1-day-migration-record/a-80052770?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T19:20:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Ecuador and US review joint military operations, official says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/ecuador-and-us-review-joint-military-operations-official-says?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "World reacts to Trump’s new tariffs as US stocks tumble",
-   "url": "https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "The ‘French Milei’? Presidential candidate David Lisnard aims to reshape France’s right wing",
-   "url": "https://www.france24.com/en/france/20261125-french-milei-presidential-candidate-david-lisnard-aims-reshape-france-right-wing"
-  },
-  {
-   "at": "2026-11-25T19:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least 30 killed in Egypt vehicle fire, health ministry says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/at-least-30-killed-in-egypt-vehicle-fire-health-ministry-says?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Peter Magyar meets Volodymyr Zelenskyy: Hungary and Ukraine make a fresh start after the icy relations of the Viktor Orban era",
-   "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T19:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
-   "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Canary Islands witness 1-day migration record",
-   "url": "https://www.dw.com/en/spain-canary-islands-witness-1-day-migration-record/a-80052770?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T19:15:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Ecuador and US review joint military operations, official says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/ecuador-and-us-review-joint-military-operations-official-says?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "World reacts to Trump’s new tariffs as US stocks tumble",
-   "url": "https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "The ‘French Milei’? Presidential candidate David Lisnard aims to reshape France’s right wing",
-   "url": "https://www.france24.com/en/france/20261125-french-milei-presidential-candidate-david-lisnard-aims-reshape-france-right-wing"
-  },
-  {
-   "at": "2026-11-25T19:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "At least 30 killed in Egypt vehicle fire, health ministry says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/at-least-30-killed-in-egypt-vehicle-fire-health-ministry-says?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Peter Magyar meets Volodymyr Zelenskyy: Hungary and Ukraine make a fresh start after the icy relations of the Viktor Orban era",
-   "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T19:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
-   "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Canary Islands witness 1-day migration record",
-   "url": "https://www.dw.com/en/spain-canary-islands-witness-1-day-migration-record/a-80052770?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T19:10:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Ecuador and US review joint military operations, official says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/ecuador-and-us-review-joint-military-operations-official-says?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "The ‘French Milei’? Presidential candidate David Lisnard aims to reshape France’s right wing",
-   "url": "https://www.france24.com/en/france/20261125-french-milei-presidential-candidate-david-lisnard-aims-reshape-france-right-wing"
-  },
-  {
-   "at": "2026-11-25T19:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Peter Magyar meets Volodymyr Zelenskyy: Hungary and Ukraine make a fresh start after the icy relations of the Viktor Orban era",
-   "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T19:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
-   "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Canary Islands witness 1-day migration record",
-   "url": "https://www.dw.com/en/spain-canary-islands-witness-1-day-migration-record/a-80052770?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T19:05:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Ecuador and US review joint military operations, official says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/ecuador-and-us-review-joint-military-operations-official-says?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T19:00:10Z",
+   "at": "2026-11-25T20:10:14Z",
    "result": "skipped",
-   "reason": "older than 90 minutes",
+   "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "Iraq’s top court rules government can take over Kurdish borders, oil fields",
-   "url": "https://www.aljazeera.com/news/2026/11/25/iraqs-top-court-rules-government-can-take-over-kurdish-borders-oil-fields?traffic_source=rss"
+   "title": "Dozens killed in Egypt vehicle fire",
+   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/25/aje-onl-nf_dozens-killed-in-egypt-vehicle-fire-251126?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:00:10Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "US Army says controlled blast of explosives in Iowa was 'huge success'",
+   "url": "https://www.bbc.co.uk/news/articles/cwg7l5ve251ko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Israeli judges recommend dropping most serious charges against Netanyahu",
+   "url": "https://www.bbc.co.uk/news/articles/cxj05mv723r2o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US Army declares Iowa lead azide detonation ‘tremendously successful’",
+   "url": "https://www.aljazeera.com/news/2026/11/25/us-army-declares-iowa-lead-azide-detonation-tremendously-successful?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "North Korea expels Swiss diplomat in sanctions row",
+   "url": "https://www.bbc.co.uk/news/articles/cq0l34e4kkr5o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Could renewed strikes on Hodeidah port worsen Yemen’s humanitarian crisis?",
+   "url": "https://www.aljazeera.com/news/2026/11/25/could-renewed-strikes-on-hodeidah-port-worsen-yemens-humanitarian-crisis?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "UK military ‘moving aircraft to hangars in case of drone attacks’",
+   "url": "https://www.aljazeera.com/news/2026/11/25/uk-military-moving-aircraft-to-hangars-in-case-of-drone-attacks?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US grants SpaceX approval for 1 million space data centres",
+   "url": "https://www.aljazeera.com/news/2026/11/25/us-grants-spacex-approval-for-1-million-space-data-centres?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "World reacts to Trump’s new tariffs as US stocks tumble",
+   "url": "https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Turkey's deadly factory blast: 'Investing in safety costs more than letting people die'",
-   "url": "https://www.france24.com/en/europe/20261125-factory-blast-turkey-izmir"
+   "title": "The ‘French Milei’? Presidential candidate David Lisnard aims to reshape France’s right wing",
+   "url": "https://www.france24.com/en/france/20261125-french-milei-presidential-candidate-david-lisnard-aims-reshape-france-right-wing"
   },
   {
-   "at": "2026-11-25T19:00:10Z",
+   "at": "2026-11-25T20:10:14Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "At least 30 killed in Egypt vehicle fire, health ministry says",
+   "url": "https://www.aljazeera.com/news/2026/11/25/at-least-30-killed-in-egypt-vehicle-fire-health-ministry-says?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:10:14Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -1197,31 +1166,79 @@
    "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-25T19:00:10Z",
+   "at": "2026-11-25T20:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "US Army says controlled blast of explosives in Iowa was 'huge success'",
+   "url": "https://www.bbc.co.uk/news/articles/cwg7l5ve251ko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Israeli judges recommend dropping most serious charges against Netanyahu",
+   "url": "https://www.bbc.co.uk/news/articles/cxj05mv723r2o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "North Korea expels Swiss diplomat in sanctions row",
+   "url": "https://www.bbc.co.uk/news/articles/cq0l34e4kkr5o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T20:00:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
-   "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
+   "title": "Could renewed strikes on Hodeidah port worsen Yemen’s humanitarian crisis?",
+   "url": "https://www.aljazeera.com/news/2026/11/25/could-renewed-strikes-on-hodeidah-port-worsen-yemens-humanitarian-crisis?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T19:00:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Canary Islands witness 1-day migration record",
-   "url": "https://www.dw.com/en/spain-canary-islands-witness-1-day-migration-record/a-80052770?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T19:00:10Z",
+   "at": "2026-11-25T20:00:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Ecuador and US review joint military operations, official says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/ecuador-and-us-review-joint-military-operations-official-says?traffic_source=rss"
+   "title": "UK military ‘moving aircraft to hangars in case of drone attacks’",
+   "url": "https://www.aljazeera.com/news/2026/11/25/uk-military-moving-aircraft-to-hangars-in-case-of-drone-attacks?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T18:55:10Z",
+   "at": "2026-11-25T20:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "US grants SpaceX approval for 1 million space data centres",
+   "url": "https://www.aljazeera.com/news/2026/11/25/us-grants-spacex-approval-for-1-million-space-data-centres?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "World reacts to Trump’s new tariffs as US stocks tumble",
+   "url": "https://www.aljazeera.com/economy/2026/11/25/world-reacts-to-trumps-new-tariffs-as-us-stocks-tumble?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "The ‘French Milei’? Presidential candidate David Lisnard aims to reshape France’s right wing",
+   "url": "https://www.france24.com/en/france/20261125-french-milei-presidential-candidate-david-lisnard-aims-reshape-france-right-wing"
+  },
+  {
+   "at": "2026-11-25T20:00:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "At least 30 killed in Egypt vehicle fire, health ministry says",
+   "url": "https://www.aljazeera.com/news/2026/11/25/at-least-30-killed-in-egypt-vehicle-fire-health-ministry-says?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-25T20:00:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
@@ -1229,44 +1246,28 @@
    "url": "https://www.dw.com/en/peter-magyar-meets-volodymyr-zelenskyy-hungary-and-ukraine-make-a-fresh-start-after-the-icy-relations-of-the-viktor-orban-era/a-80054175?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-25T18:55:10Z",
+   "at": "2026-11-25T19:55:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "US Army says controlled blast of explosives in Iowa was 'huge success'",
+   "url": "https://www.bbc.co.uk/news/articles/cwg7l5ve251ko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T19:55:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "North Korea expels Swiss diplomat in sanctions row",
+   "url": "https://www.bbc.co.uk/news/articles/cq0l34e4kkr5o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-25T19:55:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Nigeria’s Tinubu pledges to bring peace to rebellion-hit border region",
-   "url": "https://www.aljazeera.com/news/2026/11/25/nigerias-tinubu-pledges-to-bring-peace-to-insurgency-hit-northeast-region?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T18:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Spain: Canary Islands witness 1-day migration record",
-   "url": "https://www.dw.com/en/spain-canary-islands-witness-1-day-migration-record/a-80052770?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T18:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Ecuador and US review joint military operations, official says",
-   "url": "https://www.aljazeera.com/news/2026/11/25/ecuador-and-us-review-joint-military-operations-official-says?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T18:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Iraq’s top court rules government can take over Kurdish borders, oil fields",
-   "url": "https://www.aljazeera.com/news/2026/11/25/iraqs-top-court-rules-government-can-take-over-kurdish-borders-oil-fields?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T18:55:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Turkey's deadly factory blast: 'Investing in safety costs more than letting people die'",
-   "url": "https://www.france24.com/en/europe/20261125-factory-blast-turkey-izmir"
+   "title": "Could renewed strikes on Hodeidah port worsen Yemen’s humanitarian crisis?",
+   "url": "https://www.aljazeera.com/news/2026/11/25/could-renewed-strikes-on-hodeidah-port-worsen-yemens-humanitarian-crisis?traffic_source=rss"
   }
  ]
 }
