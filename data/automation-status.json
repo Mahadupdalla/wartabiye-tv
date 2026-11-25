@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-25T12:41:19+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-25T12:47:14+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-25T08:13:09Z",
  "newestArticleAt": "2026-11-25T08:38:16+03:00",
- "lastSourceCheckAt": "2026-11-25T12:40:16+03:00",
+ "lastSourceCheckAt": "2026-11-25T12:45:16+03:00",
  "sourceChecks24h": 284,
- "publishedArticles": 1402,
+ "publishedArticles": 1408,
  "liveArticles": 1402,
- "waitingForImage": 212,
- "liveInSync": true,
+ "waitingForImage": 216,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-25T08:13:09Z",
@@ -18,9 +18,14 @@
   "event": "push",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45574369301"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-23T22:16:24+00:00",
+  "since": "2026-11-25T09:47:13+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-25T09:50:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-25T12:43:38+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-25T12:40:10+03:00",
-   "lastSuccessAt": "2026-11-25T12:40:10+03:00",
+   "lastCheckAt": "2026-11-25T12:45:10+03:00",
+   "lastSuccessAt": "2026-11-25T12:45:10+03:00",
    "lastReportAt": "2026-11-25T01:30:11+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-25T09:45:00+03:00",
+  "lastSourceCheckAt": "2026-11-25T12:43:38+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-25T08:07:20+03:00",
-   "sourceName": "Hiiraan Online",
-   "title": "Maxkamad Mareykanka ku taalla oo soo bandhigtay qaybo ka mid ah dukumentiyada la xiriira baaritaanka guriga xildhibaan Ilhaan Cumar",
-   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta25-195621.htm"
+   "publishedAt": "2026-11-25T11:44:38+03:00",
+   "sourceName": "Addis Standard",
+   "title": "Somalia’s parliament speaker accuses Kenya, Ethiopia, Uganda of colluding with Al-Shabaab",
+   "url": "https://addisstandard.com/?p=61508"
   },
   "latestPublished": {
    "id": "2026-11-25-maxkamad-mareykan-dukumentiyo-baaritaanka-guriga-ilhaan-cumar",
@@ -65,27 +70,26 @@
    "source": "Hiiraan Online",
    "url": "/war/2026-11-25-maxkamad-mareykan-dukumentiyo-baaritaanka-guriga-ilhaan-cumar.html"
   },
-  "publishedLastRun": 3,
-  "rejectedLastRun": 96,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 94,
   "rejectedReasons": {
-   "old": 16,
-   "duplicate": 79,
+   "old": 12,
+   "duplicate": 81,
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Isbeddel lagu sameeyey qaybsiga kuraasta aqalka sare (Horseed): headline-only; Hiiraan/Goobjoog none -> pending",
-   "Wafti uu hoggaaminayo Islaan Bashiir ... Roox (Horseed): headline-only; Hiiraan/Goobjoog none -> pending",
-   "Xog: Fiqi oo laba xil midkood (Caasimada): xan/xog aan la xaqiijin, war ma aha",
-   "Ciidamada Mareykanka Balidoogle (Caasimada): headline-only; il kale lama helin -> pending",
-   "Shacabka Garoowe oo qaxaya (Caasimada): headline-only; il kale lama helin -> pending",
-   "Imaaraadka waa dadka kaliya ee inoo gurmaday (Daljir): hadal/ra'yi",
-   "Madaxii sirdoonka RSF (Daljir): Suudaan, xeerka gobolka ka baxsan",
-   "Xukuumadda xeerka doorashooyinka (Hiiraan/Horseed/Caasimada/Radio Muqdisho): horay ayuu u jiray",
-   "BBC Somali: Idaacadda Subaxnimo / Dunida iyo Maanta: barnaamij raadiye, war ma aha",
-   "Kulamada borotokoolka (Xamza-UK, Guddiga Xuquuqul Insaanka, SoDMA, AUSSOM-UK): borotokool",
-   "Somali Guardian/Shabelle: Guddoomiyaha baarlamaanka, maxaabiista deynta, Danab Baay: headline-only, il kale lama helin -> pending"
+   "Madaxweyne Deni oo dhagax-dhigay mashruuca casriyeynta Garoonka Diyaaradaha Gaalkacyo: headline-only (Horseed); WebSearch en: Goobjoog natiijo 2017 kaliya, il kale oo maanta lama helin -> pending",
+   "UAE Condemns Somalia's 'Hostile' Approach: bayaanka UAE 19 November ayuu ahaa, horay ayaa loo daabacay (duplicate)",
+   "Soomaaliya oo soo bandhigtay qiimeynta daah-furnaanta Miisaaniyadda 2025: headline-only (Shabelle), lama xaqiijin (waqti) -> pending",
+   "Galmudug oo dhaarisay Xeer Ilaaliyaha Guud iyo Garyaqaanka Guud: headline-only (Shabelle), lama xaqiijin -> pending",
+   "Jabuuti iyo Madagascar oo kala saxiixday saddex heshiis: headline-only (Shabelle); La Nation booqasho kaliya, faahfaahinta heshiisyada lama xaqiijin",
+   "Golaha Wasiirrada wax ka beddelka xeerka doorashooyinka (Radio Muqdisho/Hiiraan/Caasimada/Horseed): duplicate - horay 24 Nov",
+   "Museveni casuumaad/Farmaajo: duplicate - horay 23-24 Nov",
+   "Beledweyne garoonka xiritaan: duplicate - horay 24 Nov",
+   "Amniga Xasan Sheekh (Caasimada) / Xog: Fiqi / Ciidamada Mareykanka Balidoogle: headline-only xog aan la xaqiijin / ra'yi",
+   "BBC Somali barnaamijyo (Idaacadda Subaxnimo, Dunida Iyo Maanta), xusuus-qor baadari: ma aha war Soomaaliyeed"
   ],
-  "waitingForImage": 30,
+  "waitingForImage": 32,
   "waitingIds": [
    "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera",
    "2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan",
@@ -103,10 +107,10 @@
    "2026-11-15-banaanbax-beledweyne-hirshabeelle-dowladda",
    "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag",
    "2026-11-22-galmudug-liibaan-wareegto-24-wasiir-golaha-cusub",
+   "2026-11-25-turkiga-muuqaal-saldhigga-hawada-sare-spaceport-soomaaliya",
    "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
    "2026-11-23-dowladda-285-al-shabaab-daynuunaay-bay-isaaq-ukurow",
-   "2026-11-18-somaliland-khadar-xuseen-jawaab-xasan-sheekh-imaaraadka",
-   "2026-11-12-xawaadle-dibadbax-15-november-hiiraan-hirshabeelle"
+   "2026-11-18-somaliland-khadar-xuseen-jawaab-xasan-sheekh-imaaraadka"
   ],
   "stale": false,
   "problems": [],
