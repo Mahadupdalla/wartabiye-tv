@@ -1211,7 +1211,10 @@ def rescue(limit=10, budget=300, state=None, retry_hours=2):
     t0, tried, done = time.time(), 0, []
     st = _json(state, {}) if state else {}
     now = time.time()
-    for n in sorted(articles(include_trash=False), key=lambda a: str(a.get('publishedAt') or ''), reverse=True):
+    # sports drafts first (owner's priority of 24 Nov 2026: 15 sports stories per run), newest first within each group
+    pool = sorted(articles(include_trash=False), key=lambda a: str(a.get('publishedAt') or ''), reverse=True)
+    pool.sort(key=lambda a: 0 if (a.get('section') == 'sports' or a.get('category') == 'Ciyaaraha') else 1)
+    for n in pool:
         if tried >= limit or time.time() - t0 > budget:
             break
         if n.get('by') == 'auto-results' or not _may_autopublish(n):
