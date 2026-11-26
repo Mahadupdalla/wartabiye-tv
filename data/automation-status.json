@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-27T00:43:33+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-27T00:53:41+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-26T21:03:26Z",
  "newestArticleAt": "2026-11-26T20:30:01+03:00",
- "lastSourceCheckAt": "2026-11-27T00:40:21+03:00",
+ "lastSourceCheckAt": "2026-11-27T00:50:39+03:00",
  "sourceChecks24h": 267,
- "publishedArticles": 1537,
+ "publishedArticles": 1540,
  "liveArticles": 1537,
- "waitingForImage": 250,
- "liveInSync": true,
+ "waitingForImage": 267,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-26T21:03:26Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45895429193"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-26T21:53:40+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-26T22:14:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-27T00:55:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,46 +46,45 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-27T00:40:12+03:00",
-   "lastSuccessAt": "2026-11-27T00:40:12+03:00",
-   "lastReportAt": "2026-11-26T22:15:11+03:00",
-   "newReports": 0,
+   "lastCheckAt": "2026-11-27T00:50:11+03:00",
+   "lastSuccessAt": "2026-11-27T00:50:11+03:00",
+   "lastReportAt": "2026-11-27T00:50:11+03:00",
+   "newReports": 7,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-26T21:11:00+03:00",
+  "lastSourceCheckAt": "2026-11-27T00:53:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-26T20:47:00+03:00",
-   "sourceName": "Garowe Online",
-   "title": "Turkey Expands Support for Somalia’s Navy and Coast Guard | Garowe Online",
-   "url": "https://www.garoweonline.com/en/news/somalia/turkey-expands-support-for-somalias-navy-and-coast-guard"
+   "publishedAt": "2026-11-26T23:42:48+03:00",
+   "sourceName": "Hiiraan Online",
+   "title": "Cudud Ciidan oo lagu soo bandhigay Baladweyne iyo Ugaas Yuusuf oo booqday",
+   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta26-195643.htm"
   },
   "latestPublished": {
-   "id": "2026-11-26-soomaaliya-amniga-duulista-heerarka-eac-cassoa",
-   "title": "Soomaaliya oo hirgelinaysa nidaam amniga duulista ah oo waafaqsan heerarka Bariga Afrika",
-   "publishedAt": "2026-11-26T17:29:09+03:00",
-   "source": "Goobjoog News",
-   "url": "/war/2026-11-26-soomaaliya-amniga-duulista-heerarka-eac-cassoa.html"
+   "id": "2026-11-27-somaliland-ciidamo-awdal-selel-saylac-golaha-amniga",
+   "title": "Somaliland oo go'aansatay inay ciidamo xooggan u dirto Awdal iyo Selel kadib xiisado iyo dilal laga soo sheegay Saylac",
+   "publishedAt": "2026-11-26T23:38:44+03:00",
+   "source": "Hiiraan Online",
+   "url": "/war/2026-11-27-somaliland-ciidamo-awdal-selel-saylac-golaha-amniga.html"
   },
-  "publishedLastRun": 3,
-  "rejectedLastRun": 63,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 70,
   "rejectedReasons": {
-   "old": 6,
-   "duplicate": 57
+   "old": 8,
+   "duplicate": 62
   },
   "taskRejectedReasons": [
-   "Ka hortagga HIV (BBC Somali): ma aha war Soomaaliya, caafimaad guud",
-   "Taliyaha Ciidanka Xoogga Dalka Baydhabo (Goobjoog): kormeer caadi ah, war cusub ma leh",
-   "Soomaaliya shirka EAC socdaalka Kampala (Goobjoog): ka qeybgal shir, protocol",
-   "Dunida Iyo Maanta / Idaacadda Subaxnimo (BBC Somali): barnaamij raadiye, ma aha war",
-   "Turkiga taageeradiisa DF (Caasimada): isla dhacdada Garowe Online, alsoReportedBy",
-   "Trump plans to meet Michigan senator-elect (Garowe Online): war shisheeye, ma aha Soomaaliya",
-   "Catch-up 24-saac kale: sababihii hore ee run-kii 18:08 weli way taagan yihiin (protocol, falanqayn, duplicate, hal il)"
+   "Madasha CHF ee Dhuusamareeb oo soo gabagabowday (Radio Muqdisho): waqti la'aan; war la mid ah 23 Nov horay u jiray",
+   "Kulanka dowladda iyo safiirrada (Caasimada): cinwaan kaliya, lama xaqiijin",
+   "Daljir: geed beerid / guddoomiyaha maxkamadda Burtinle / barnaamijyo: borotokool, muhiimad yar",
+   "Xuutiyiinta iyo Al-Shabaab (Hiiraan): falanqayn, war ma aha",
+   "Gantaallada Turkiga (Garowe Online): waqti la'aan, musharax orodka xiga",
+   "Tirada khasaaraha Saylac: hal il kaliya, lama xaqiijin"
   ],
-  "waitingForImage": 42,
+  "waitingForImage": 43,
   "waitingIds": [
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
