@@ -1,15 +1,15 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-26T22:06:44+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-26T22:19:26+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-26T16:06:14Z",
- "newestArticleAt": "2026-11-26T17:53:16+03:00",
- "lastSourceCheckAt": "2026-11-26T22:00:25+03:00",
- "sourceChecks24h": 276,
- "publishedArticles": 1527,
- "liveArticles": 1527,
- "waitingForImage": 241,
+ "newestArticleAt": "2026-11-26T20:30:01+03:00",
+ "lastSourceCheckAt": "2026-11-26T22:15:38+03:00",
+ "sourceChecks24h": 275,
+ "publishedArticles": 1531,
+ "liveArticles": 1531,
+ "waitingForImage": 256,
  "liveInSync": true,
  "publishFailures24h": 0,
  "lastPublishRun": {
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45855576650"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-26T19:19:24+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-26T18:57:12+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-26T22:14:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-26T22:00:12+03:00",
-   "lastSuccessAt": "2026-11-26T22:00:12+03:00",
-   "lastReportAt": "2026-11-26T01:30:11+03:00",
-   "newReports": 0,
+   "lastCheckAt": "2026-11-26T22:15:11+03:00",
+   "lastSuccessAt": "2026-11-26T22:15:11+03:00",
+   "lastReportAt": "2026-11-26T22:15:11+03:00",
+   "newReports": 1,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-26T18:57:12+03:00",
+  "lastSourceCheckAt": "2026-11-26T21:11:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-26T17:59:30+03:00",
-   "sourceName": "BBC Somali",
-   "title": "Dunida Iyo Maanta",
-   "url": "https://www.bbc.com/somali/bbc_somali_radio/w1730vsrjnm6y4q?at_medium=RSS&at_campaign=rss"
+   "publishedAt": "2026-11-26T20:47:00+03:00",
+   "sourceName": "Garowe Online",
+   "title": "Turkey Expands Support for Somalia’s Navy and Coast Guard | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/turkey-expands-support-for-somalias-navy-and-coast-guard"
   },
   "latestPublished": {
    "id": "2026-11-26-soomaaliya-amniga-duulista-heerarka-eac-cassoa",
@@ -65,30 +70,28 @@
    "source": "Goobjoog News",
    "url": "/war/2026-11-26-soomaaliya-amniga-duulista-heerarka-eac-cassoa.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 68,
+  "publishedLastRun": 3,
+  "rejectedLastRun": 63,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 60
+   "old": 6,
+   "duplicate": 57
   },
   "taskRejectedReasons": [
-   "Itoobiya oo heegan gelisay ciidankeeda Soomaaliya ka jooga (Caasimada): headline-only; Hiiraan 10:30 (hore loo diiday hal il) faahfaahin cusub ma bixin; WebSearch lama samayn -> pending (lama xaqiijin)",
-   "Is Somalia's President Looking for an External Enemy (Horseed): ra'yi/falanqayn, ma aha war",
-   "Somaliland Vows to Deepen UAE Ties (Horseed): headline-only; Cirro safarka horay ayuu u daabacnaa, horumar cusub lama xaqiijin",
-   "Maxaa keeni kara timo-daadashada haweenka (BBC Somali): ma aha war",
-   "Somalia Says Beledweyne Airport Closure Is Temporary (Horseed): headline-only; Beledweyne horay ayuu u jiray, il akhrisan oo cusub lama helin -> pending",
-   "UK-Somalia Friendship King's Birthday (Horseed/Shabelle): protocol, not news",
-   "Turkish-Made Missiles Identified in Deadly Somalia Airstrike (Garowe Online): eedeyn culus + khasaare, hal il (baaritaan The Guardian) -> pending",
-   "Maxay ka Tarjumaysaa Diidmadii Soomaaliya (Goobjoog): falanqayn",
-   "EUCAP Somalia port security training Puntland (Horseed): headline-only, tababar caadi ah",
-   "Catch-up 24-saac (Koonfur Galbeed sirdoon Caasimada): waxaa lagu daray warka SISA ee Goobjoog",
-   "Catch-up kale: sababihii hore (protocol, duplicate, analysis) weli way taagan yihiin"
+   "Ka hortagga HIV (BBC Somali): ma aha war Soomaaliya, caafimaad guud",
+   "Taliyaha Ciidanka Xoogga Dalka Baydhabo (Goobjoog): kormeer caadi ah, war cusub ma leh",
+   "Soomaaliya shirka EAC socdaalka Kampala (Goobjoog): ka qeybgal shir, protocol",
+   "Dunida Iyo Maanta / Idaacadda Subaxnimo (BBC Somali): barnaamij raadiye, ma aha war",
+   "Turkiga taageeradiisa DF (Caasimada): isla dhacdada Garowe Online, alsoReportedBy",
+   "Trump plans to meet Michigan senator-elect (Garowe Online): war shisheeye, ma aha Soomaaliya",
+   "Catch-up 24-saac kale: sababihii hore ee run-kii 18:08 weli way taagan yihiin (protocol, falanqayn, duplicate, hal il)"
   ],
-  "waitingForImage": 39,
+  "waitingForImage": 42,
   "waitingIds": [
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
+   "2026-11-26-guddiga-shaqaalaha-rayidka-ogeysiis-anshaxa-baraha-bulshada",
    "2026-11-24-baarlamaanka-puntland-wax-ka-beddelka-dastuurka-40-cod-44",
+   "2026-11-26-puntland-wasiir-qarjab-warqadda-guddoomiyaha-mudug-sharci-darro",
    "2026-11-15-fiqi-hindiya-wada-hadal-difaaca-amniga-badda",
    "2026-11-25-turkiga-muuqaal-saldhigga-hawada-sare-spaceport-soomaaliya",
    "2026-11-25-deni-dhagax-dhigay-garoonka-diyaaradaha-gaalkacyo",
@@ -103,9 +106,7 @@
    "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera",
    "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag",
    "2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan",
-   "2026-11-14-beesha-makane-ciidamo-beledweyne-hirshabeelle",
-   "2026-11-23-trump-soomaalida-minnesota-truth-social-ilhan-cumar",
-   "2026-11-24-garoonka-ugaas-khaliif-beledweyne-la-xiray-lix-maalmood"
+   "2026-11-14-beesha-makane-ciidamo-beledweyne-hirshabeelle"
   ],
   "stale": false,
   "problems": [],
