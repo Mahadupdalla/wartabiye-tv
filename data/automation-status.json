@@ -1,15 +1,15 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-26T09:56:39+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-26T10:05:04+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-26T04:05:08Z",
- "newestArticleAt": "2026-11-26T06:02:37+03:00",
- "lastSourceCheckAt": "2026-11-26T09:55:21+03:00",
+ "newestArticleAt": "2026-11-26T08:53:41+03:00",
+ "lastSourceCheckAt": "2026-11-26T10:00:18+03:00",
  "sourceChecks24h": 284,
- "publishedArticles": 1486,
- "liveArticles": 1486,
- "waitingForImage": 228,
+ "publishedArticles": 1493,
+ "liveArticles": 1493,
+ "waitingForImage": 231,
  "liveInSync": true,
  "publishFailures24h": 0,
  "lastPublishRun": {
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45752937789"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-26T07:05:00+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-26T06:58:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-26T09:58:31+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,46 +46,47 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-26T09:55:11+03:00",
-   "lastSuccessAt": "2026-11-26T09:55:11+03:00",
+   "lastCheckAt": "2026-11-26T10:00:11+03:00",
+   "lastSuccessAt": "2026-11-26T10:00:11+03:00",
    "lastReportAt": "2026-11-26T01:30:11+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-26T06:11:00+03:00",
+  "lastSourceCheckAt": "2026-11-26T09:11:26+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-26T05:06:10+03:00",
-   "sourceName": "BBC News World",
-   "title": "As foreign troops withdraw from Somalia, could al-Shabab take over?",
-   "url": "https://www.bbc.co.uk/news/articles/ck62y23z58yeo?at_medium=RSS&at_campaign=rss"
+   "publishedAt": "2026-11-26T08:44:20+03:00",
+   "sourceName": "Horseed Media",
+   "title": "Dowladda Hoose ee Garoowe oo shirkadaha biyaha iyo korontada kala hadashay qiimo dhimis",
+   "url": "https://horseedmedia.net/dowladda-hoose-ee-garoowe-oo-shirkadaha-biyaha-iyo-korontada-kala-hadashay-qiimo-dhimis/428028/"
   },
   "latestPublished": {
-   "id": "2026-11-25-wasiirka-gaadiidka-ciidamada-garoonka-beledweyne-laga-saaro",
-   "title": "Wasiirka Gaadiidka oo ku baaqay in ciidamada laga saaro garoonka Beledweyne si duulimaadyada dib loogu bilaabo",
-   "publishedAt": "2026-11-25T20:08:24+03:00",
-   "source": "Hiiraan Online",
-   "url": "/war/2026-11-25-wasiirka-gaadiidka-ciidamada-garoonka-beledweyne-laga-saaro.html"
+   "id": "2026-11-26-ocha-gargaarka-soomaaliya-233-xarumood-nafaqo-la-xiray",
+   "title": "OCHA: Yaraanta lacagta gargaarka oo keentay in Soomaaliya laga xiro 233 xarumood oo nafaqo",
+   "publishedAt": "2026-11-26T06:48:32+03:00",
+   "source": "Goobjoog News",
+   "url": "/war/2026-11-26-ocha-gargaarka-soomaaliya-233-xarumood-nafaqo-la-xiray.html"
   },
   "publishedLastRun": 1,
-  "rejectedLastRun": 84,
+  "rejectedLastRun": 72,
   "rejectedReasons": {
-   "old": 14,
-   "duplicate": 69,
+   "old": 10,
+   "duplicate": 61,
    "on-site": 1
   },
   "taskRejectedReasons": [
-   "Madaxweynaha Puntland oo si adag u difaacay Imaaraadka (Horseed): headline-only; Puntland Post/Daljir lama helin qoraal la akhriyi karo -> lama daabicin (khudbadda Deni ee Gaalkacyo horay ayay site-ka ugu jirtay)",
-   "Puntland oo baaritaan ku samaynaysa shirkadaha biyaha & korontada (Horseed) iyo Garoowe biyaha qiimo jaban: headline-only; waxaa lagu daray warka Puntland Post ee Garoowe",
-   "Mucaaradka oo qaylo dhaan kasoo saaray (Caasimada): headline-only, faahfaahin lama helin -> pending",
-   "Soomaaliya oo soo bandhigtay qiimeynta daah-furnaanta Miisaaniyadda 2025 (Shabelle): headline-only; il kale oo la akhriyi karo lama helin -> pending",
-   "As foreign troops withdraw from Somalia, could al-Shabab take over? (BBC): falanqeyn, ma aha war cusub",
-   "Agaasimaha Socdaalka oo booqday Safaaradda Uganda, Galmudug Xeer Ilaaliyaha, Wasiirka Arrimaha Dibadda iyo Safiirka Suudaan: borotokool",
-   "Kenya: MPs steal from one another (Standard): horay ayuu site-ka ugu jiray (Wetang'ula CCTV Sabina Chege)",
-   "Shaqooyinka kale ee catch-up: go'aamadii orodkii 03:10 ayaa weli ansax ah (duplicate / hal il / borotokool)"
+   "Khilaafka Soomaaliya iyo Imaaraadka oo sababay in dowladda Masar… (Caasimada): headline-only; Hiiraan/Goobjoog/Garowe lama helin war la mid ah -> lama daabicin",
+   "Soomaaliya oo Masar uga Tacsiyeeysay shilkii booyadda (Goobjoog): borotokool (tacsi)",
+   "Dowladda Hoose ee Garoowe qiimo dhimis (Horseed): horay ayuu site-ka ugu jiray (06:11)",
+   "Ra'iisul wasaare Xamza isku shaandheyn kooban (Caasimada): horay ayuu site-ka ugu jiray (magacaabista labada wasiir ku-xigeen)",
+   "Cabdiraxmaan Cabdishakuur oo Xasan Sheekh ku eedeeyay (Hiiraan): eedeyn siyaasadeed oo hal il keliya",
+   "Xildhibaanno cambareeyay xayirada duulimaadka Baladweyne (Hiiraan): dhacdada Beledweyne horay ayay site-ka ugu jirtay",
+   "Somalia cabinet election law changes (Garowe/Somali Guardian): horay ayuu site-ka ugu jiray (24 Nov)",
+   "Galmudug codka kalsoonida (Shabelle): horay ayuu site-ka ugu jiray",
+   "Shaqooyinka kale ee catch-up: go'aamadii orodyadii hore weli way ansax yihiin (borotokool / duplicate / hal il / ra'yi)"
   ],
   "waitingForImage": 35,
   "waitingIds": [
@@ -105,10 +111,8 @@
    "2026-11-24-garoonka-ugaas-khaliif-beledweyne-la-xiray-lix-maalmood",
    "2026-11-23-dowladda-285-al-shabaab-daynuunaay-bay-isaaq-ukurow"
   ],
-  "stale": true,
-  "problems": [
-   "No new Somalia article for 14 hours although the Somali sources have newer stories (latest: BBC News World 2026-11-26T05:06:10+03:00)."
-  ],
+  "stale": false,
+  "problems": [],
   "lastSuccessfulPublishAt": "2026-11-26T04:05:08Z"
  }
 }
