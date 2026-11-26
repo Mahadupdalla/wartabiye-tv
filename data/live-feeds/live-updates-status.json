@@ -7,7 +7,7 @@
   "perCheck": 2,
   "maxAgeMinutes": 90
  },
- "lastCheckAt": "2026-11-26T00:05:11Z",
+ "lastCheckAt": "2026-11-26T01:00:10Z",
  "lastWrittenAt": null,
  "days": {
   "2026-11-13": {
@@ -130,7 +130,7 @@
   "2026-11-26": {
    "written": 0,
    "merged": 0,
-   "skipped": 25,
+   "skipped": 35,
    "declined": 0,
    "failed": 0,
    "calls": 0,
@@ -138,12 +138,6 @@
   }
  },
  "done": {
-  "de25ddea0330fb09": "2026-11-23T00:10:10Z",
-  "d5604a3ed5cb8db2": "2026-11-23T00:10:10Z",
-  "93da1385db0e8e97": "2026-11-23T00:10:10Z",
-  "c36cd7f669a1d161": "2026-11-23T00:10:10Z",
-  "066ac24fc811c94e": "2026-11-23T00:45:10Z",
-  "288e6af64e1e0cfd": "2026-11-23T00:55:12Z",
   "ded30701b8f8c2d7": "2026-11-23T01:15:09Z",
   "58e2c5ab6154ed02": "2026-11-23T01:15:09Z",
   "442b3ff534a7057c": "2026-11-23T01:15:09Z",
@@ -804,19 +798,93 @@
   "f1f30c98b1adae58": "2026-11-25T23:50:08Z",
   "0ab592523eb18bc5": "2026-11-25T23:50:08Z",
   "b4e3d3e77b9b1d92": "2026-11-26T00:00:09Z",
-  "f9c9455fd6c6fea6": "2026-11-26T00:00:09Z"
+  "f9c9455fd6c6fea6": "2026-11-26T00:00:09Z",
+  "9756dbf2f8d728b0": "2026-11-26T00:15:09Z",
+  "317078de0b7624b1": "2026-11-26T00:20:09Z",
+  "a2035610287f0cf0": "2026-11-26T00:20:09Z",
+  "e8102e8ae2dd849e": "2026-11-26T00:25:09Z",
+  "2a19056c478943fa": "2026-11-26T00:45:08Z",
+  "e985cff163de6f0f": "2026-11-26T00:45:08Z",
+  "775d27b357e32922": "2026-11-26T00:45:08Z",
+  "b65ad181678624ee": "2026-11-26T00:45:08Z",
+  "e94d7b6a3b404dd9": "2026-11-26T00:50:10Z",
+  "b13fbd07613136eb": "2026-11-26T01:00:10Z"
  },
  "recent": [
   {
-   "at": "2026-11-26T00:05:11Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Duran Duran guitarist Andy Taylor dies at 65",
-   "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
+   "at": "2026-11-26T01:00:10Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "BBC News",
+   "title": "A renovation to upgrade these Hong Kong homes ended in an inferno that killed 168",
+   "url": "https://www.bbc.co.uk/news/articles/cqx2wrkyrdn8o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-26T00:05:11Z",
+   "at": "2026-11-26T01:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "The US pastor who wants to see women's right to vote overturned",
+   "url": "https://www.bbc.co.uk/news/articles/cwe89jyz4012o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T01:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Spanish elections: What you need to know and what's at stake",
+   "url": "https://www.bbc.co.uk/news/articles/c6wy4ejnyvdyo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T01:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "France's political mainstream risks presidential vote debacle with no clear candidate",
+   "url": "https://www.bbc.co.uk/news/articles/cq772vedgepro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T01:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Has global jihadism failed, or is it simply changing shape?",
+   "url": "https://www.bbc.co.uk/news/articles/cmx2x4e0n5jro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T01:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Zambia bans protest against push to remove presidential term limits",
+   "url": "https://www.aljazeera.com/news/2026/11/26/zambia-bans-protest-against-push-to-remove-presidential-term-limits?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T01:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "A meeting with Democrats over healthcare? Trump says he’s open to it",
+   "url": "https://www.aljazeera.com/news/2026/11/26/a-meeting-with-democrats-over-healthcare-trump-says-hes-open-to-it?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T01:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Macy's postpones Thanksgiving parade due to weather",
+   "url": "https://www.bbc.co.uk/news/articles/cwkgr38l2g9yo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T01:00:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Duran Duran guitarist Andy Taylor dies aged 65",
+   "url": "https://www.france24.com/en/culture/20261125-duran-duran-guitarist-andy-taylor-dies-aged-65"
+  },
+  {
+   "at": "2026-11-26T01:00:10Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -824,119 +892,71 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
   },
   {
-   "at": "2026-11-26T00:05:11Z",
+   "at": "2026-11-26T00:55:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "The US pastor who wants to see women's right to vote overturned",
+   "url": "https://www.bbc.co.uk/news/articles/cwe89jyz4012o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:55:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Spanish elections: What you need to know and what's at stake",
+   "url": "https://www.bbc.co.uk/news/articles/c6wy4ejnyvdyo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:55:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "France's political mainstream risks presidential vote debacle with no clear candidate",
+   "url": "https://www.bbc.co.uk/news/articles/cq772vedgepro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:55:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Has global jihadism failed, or is it simply changing shape?",
+   "url": "https://www.bbc.co.uk/news/articles/cmx2x4e0n5jro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:55:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
+   "title": "Zambia bans protest against push to remove presidential term limits",
+   "url": "https://www.aljazeera.com/news/2026/11/26/zambia-bans-protest-against-push-to-remove-presidential-term-limits?traffic_source=rss"
   },
   {
-   "at": "2026-11-26T00:00:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Le Pen party leaks: prefect dismissed, Paris deputy prosecutor placed under investigation",
-   "url": "https://www.france24.com/en/le-pen-party-leaks-prefect-dismissed-paris-deputy-prosecutor-placed-under-investigation"
-  },
-  {
-   "at": "2026-11-26T00:00:09Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "Israeli lawmakers advance October 7 inquiry opposed by Netanyahu",
-   "url": "https://www.france24.com/en/israeli-lawmakers-advance-october-7-inquiry-opposed-by-netanyahu"
-  },
-  {
-   "at": "2026-11-26T00:00:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Duran Duran guitarist Andy Taylor dies at 65",
-   "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-26T00:00:09Z",
+   "at": "2026-11-26T00:55:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Houthis target Saudi Arabia’s Red Sea ports as strikes escalate",
-   "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
+   "title": "A meeting with Democrats over healthcare? Trump says he’s open to it",
+   "url": "https://www.aljazeera.com/news/2026/11/26/a-meeting-with-democrats-over-healthcare-trump-says-hes-open-to-it?traffic_source=rss"
   },
   {
-   "at": "2026-11-26T00:00:09Z",
+   "at": "2026-11-26T00:55:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
+   "source": "BBC News",
+   "title": "Macy's postpones Thanksgiving parade due to weather",
+   "url": "https://www.bbc.co.uk/news/articles/cwkgr38l2g9yo?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-25T23:55:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Duran Duran guitarist Andy Taylor dies at 65",
-   "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T23:55:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Houthis target Saudi Arabia’s Red Sea ports as strikes escalate",
-   "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:55:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:55:09Z",
+   "at": "2026-11-26T00:55:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Le Pen party leaks: prefect dismissed, Paris deputy prosecutor placed under investigation",
-   "url": "https://www.france24.com/en/le-pen-party-leaks-prefect-dismissed-paris-deputy-prosecutor-placed-under-investigation"
+   "title": "Duran Duran guitarist Andy Taylor dies aged 65",
+   "url": "https://www.france24.com/en/culture/20261125-duran-duran-guitarist-andy-taylor-dies-aged-65"
   },
   {
-   "at": "2026-11-25T23:55:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Israeli lawmakers advance October 7 inquiry opposed by Netanyahu",
-   "url": "https://www.france24.com/en/israeli-lawmakers-advance-october-7-inquiry-opposed-by-netanyahu"
-  },
-  {
-   "at": "2026-11-25T23:50:08Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "BBC News Africa",
-   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
-   "url": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-25T23:50:08Z",
-   "result": "skipped",
-   "reason": "older than 90 minutes",
-   "source": "Al Jazeera",
-   "title": "Man United denied at Sporting as referee overshadows Fernandes double",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/man-united-denied-at-sporting-as-referee-overshadows-fernandes-double?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:50:08Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Duran Duran guitarist Andy Taylor dies at 65",
-   "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T23:50:08Z",
+   "at": "2026-11-26T00:55:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
@@ -944,343 +964,327 @@
    "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T23:50:08Z",
+   "at": "2026-11-26T00:55:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
+   "source": "BBC News",
+   "title": "A renovation to upgrade these Hong Kong homes ended in an inferno that killed 168",
+   "url": "https://www.bbc.co.uk/news/articles/cqx2wrkyrdn8o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-25T23:50:08Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Le Pen party leaks: prefect dismissed, Paris deputy prosecutor placed under investigation",
-   "url": "https://www.france24.com/en/le-pen-party-leaks-prefect-dismissed-paris-deputy-prosecutor-placed-under-investigation"
-  },
-  {
-   "at": "2026-11-25T23:50:08Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Israeli lawmakers advance October 7 inquiry opposed by Netanyahu",
-   "url": "https://www.france24.com/en/israeli-lawmakers-advance-october-7-inquiry-opposed-by-netanyahu"
-  },
-  {
-   "at": "2026-11-25T23:45:09Z",
+   "at": "2026-11-26T00:50:10Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
-   "source": "France 24",
-   "title": "New US tariffs: 'Trump lashing out really indiscriminately', expert says",
-   "url": "https://www.france24.com/en/tv-shows/a-propos/20261125-new-us-tariffs-trump-lashing-out-really-indiscriminately-expert-says"
+   "source": "BBC News",
+   "title": "Angelina Jolie and Brad Pitt settle legal battle over French winery",
+   "url": "https://www.bbc.co.uk/news/articles/cmvg2989wv74o?at_medium=RSS&at_campaign=rss"
   },
   {
-   "at": "2026-11-25T23:45:09Z",
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "The US pastor who wants to see women's right to vote overturned",
+   "url": "https://www.bbc.co.uk/news/articles/cwe89jyz4012o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Spanish elections: What you need to know and what's at stake",
+   "url": "https://www.bbc.co.uk/news/articles/c6wy4ejnyvdyo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "France's political mainstream risks presidential vote debacle with no clear candidate",
+   "url": "https://www.bbc.co.uk/news/articles/cq772vedgepro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Has global jihadism failed, or is it simply changing shape?",
+   "url": "https://www.bbc.co.uk/news/articles/cmx2x4e0n5jro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Zambia bans protest against push to remove presidential term limits",
+   "url": "https://www.aljazeera.com/news/2026/11/26/zambia-bans-protest-against-push-to-remove-presidential-term-limits?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "A meeting with Democrats over healthcare? Trump says he’s open to it",
+   "url": "https://www.aljazeera.com/news/2026/11/26/a-meeting-with-democrats-over-healthcare-trump-says-hes-open-to-it?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Macy's postpones Thanksgiving parade due to weather",
+   "url": "https://www.bbc.co.uk/news/articles/cwkgr38l2g9yo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Duran Duran guitarist Andy Taylor dies aged 65",
+   "url": "https://www.france24.com/en/culture/20261125-duran-duran-guitarist-andy-taylor-dies-aged-65"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Houthis target Saudi Arabia’s Red Sea ports as strikes escalate",
+   "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:50:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "A renovation to upgrade these Hong Kong homes ended in an inferno that killed 168",
+   "url": "https://www.bbc.co.uk/news/articles/cqx2wrkyrdn8o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
+   "source": "BBC News",
+   "title": "Moment Nasa spacecraft hit asteroid - and what happened next",
+   "url": "https://www.bbc.co.uk/news/videos/cwe9kxpgz2kpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "BBC News",
+   "title": "What we know about Trump's Thanksgiving tariffs",
+   "url": "https://www.bbc.co.uk/news/videos/c3x29v11ed1xo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "BBC News",
+   "title": "Trump's accounts traded Nvidia shares 44 times this year, records show",
+   "url": "https://www.bbc.co.uk/news/articles/cq772vk664yvo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
+   "source": "BBC News",
+   "title": "Greatest catch ever? Man on motorbike takes incredible grab",
+   "url": "https://www.bbc.co.uk/sport/cricket/videos/cwx2e0g93l3eo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "The US pastor who wants to see women's right to vote overturned",
+   "url": "https://www.bbc.co.uk/news/articles/cwe89jyz4012o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Spanish elections: What you need to know and what's at stake",
+   "url": "https://www.bbc.co.uk/news/articles/c6wy4ejnyvdyo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "France's political mainstream risks presidential vote debacle with no clear candidate",
+   "url": "https://www.bbc.co.uk/news/articles/cq772vedgepro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "Has global jihadism failed, or is it simply changing shape?",
+   "url": "https://www.bbc.co.uk/news/articles/cmx2x4e0n5jro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Zambia bans protest against push to remove presidential term limits",
+   "url": "https://www.aljazeera.com/news/2026/11/26/zambia-bans-protest-against-push-to-remove-presidential-term-limits?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "A meeting with Democrats over healthcare? Trump says he’s open to it",
+   "url": "https://www.aljazeera.com/news/2026/11/26/a-meeting-with-democrats-over-healthcare-trump-says-hes-open-to-it?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:45:08Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "New US tariffs: 'Trump lashing out really indiscriminately', expert says",
-   "url": "https://www.france24.com/en/new-us-tariffs-trump-lashing-out-really-indiscriminately-expert-says"
+   "title": "Duran Duran guitarist Andy Taylor dies aged 65",
+   "url": "https://www.france24.com/en/culture/20261125-duran-duran-guitarist-andy-taylor-dies-aged-65"
   },
   {
-   "at": "2026-11-25T23:45:09Z",
+   "at": "2026-11-26T00:45:08Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
-   "url": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o?at_medium=RSS&at_campaign=rss"
+   "source": "Al Jazeera",
+   "title": "Houthis target Saudi Arabia’s Red Sea ports as strikes escalate",
+   "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T23:45:09Z",
+   "at": "2026-11-26T00:45:08Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "BBC News",
+   "title": "A renovation to upgrade these Hong Kong homes ended in an inferno that killed 168",
+   "url": "https://www.bbc.co.uk/news/articles/cqx2wrkyrdn8o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "at": "2026-11-26T00:40:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Zambia bans protest against push to remove presidential term limits",
+   "url": "https://www.aljazeera.com/news/2026/11/26/zambia-bans-protest-against-push-to-remove-presidential-term-limits?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:40:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "A meeting with Democrats over healthcare? Trump says he’s open to it",
+   "url": "https://www.aljazeera.com/news/2026/11/26/a-meeting-with-democrats-over-healthcare-trump-says-hes-open-to-it?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:40:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Duran Duran guitarist Andy Taylor dies aged 65",
+   "url": "https://www.france24.com/en/culture/20261125-duran-duran-guitarist-andy-taylor-dies-aged-65"
+  },
+  {
+   "at": "2026-11-26T00:40:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Houthis target Saudi Arabia’s Red Sea ports as strikes escalate",
+   "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Zambia bans protest against push to remove presidential term limits",
+   "url": "https://www.aljazeera.com/news/2026/11/26/zambia-bans-protest-against-push-to-remove-presidential-term-limits?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "A meeting with Democrats over healthcare? Trump says he’s open to it",
+   "url": "https://www.aljazeera.com/news/2026/11/26/a-meeting-with-democrats-over-healthcare-trump-says-hes-open-to-it?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Duran Duran guitarist Andy Taylor dies aged 65",
+   "url": "https://www.france24.com/en/culture/20261125-duran-duran-guitarist-andy-taylor-dies-aged-65"
+  },
+  {
+   "at": "2026-11-26T00:35:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Houthis target Saudi Arabia’s Red Sea ports as strikes escalate",
+   "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Duran Duran guitarist Andy Taylor dies aged 65",
+   "url": "https://www.france24.com/en/culture/20261125-duran-duran-guitarist-andy-taylor-dies-aged-65"
+  },
+  {
+   "at": "2026-11-26T00:30:10Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "Al Jazeera",
+   "title": "Houthis target Saudi Arabia’s Red Sea ports as strikes escalate",
+   "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
+  },
+  {
+   "at": "2026-11-26T00:25:09Z",
+   "result": "skipped",
+   "reason": "older than 90 minutes",
    "source": "DW News",
    "title": "Duran Duran guitarist Andy Taylor dies at 65",
    "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
   },
   {
-   "at": "2026-11-25T23:45:09Z",
+   "at": "2026-11-26T00:25:09Z",
+   "result": "waiting",
+   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
+   "source": "France 24",
+   "title": "Duran Duran guitarist Andy Taylor dies aged 65",
+   "url": "https://www.france24.com/en/culture/20261125-duran-duran-guitarist-andy-taylor-dies-aged-65"
+  },
+  {
+   "at": "2026-11-26T00:25:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
+   "title": "Houthis target Saudi Arabia’s Red Sea ports as strikes escalate",
+   "url": "https://www.aljazeera.com/news/2026/11/25/houthis-target-saudi-arabias-red-sea-ports-as-strikes-escalate?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T23:45:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Le Pen party leaks: prefect dismissed, Paris deputy prosecutor placed under investigation",
-   "url": "https://www.france24.com/en/le-pen-party-leaks-prefect-dismissed-paris-deputy-prosecutor-placed-under-investigation"
-  },
-  {
-   "at": "2026-11-25T23:45:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Israeli lawmakers advance October 7 inquiry opposed by Netanyahu",
-   "url": "https://www.france24.com/en/israeli-lawmakers-advance-october-7-inquiry-opposed-by-netanyahu"
-  },
-  {
-   "at": "2026-11-25T23:45:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Man United denied at Sporting as referee overshadows Fernandes double",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/man-united-denied-at-sporting-as-referee-overshadows-fernandes-double?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
-   "url": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-25T23:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Duran Duran guitarist Andy Taylor dies at 65",
-   "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T23:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Le Pen party leaks: prefect dismissed, Paris deputy prosecutor placed under investigation",
-   "url": "https://www.france24.com/en/le-pen-party-leaks-prefect-dismissed-paris-deputy-prosecutor-placed-under-investigation"
-  },
-  {
-   "at": "2026-11-25T23:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Israeli lawmakers advance October 7 inquiry opposed by Netanyahu",
-   "url": "https://www.france24.com/en/israeli-lawmakers-advance-october-7-inquiry-opposed-by-netanyahu"
-  },
-  {
-   "at": "2026-11-25T23:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Man United denied at Sporting as referee overshadows Fernandes double",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/man-united-denied-at-sporting-as-referee-overshadows-fernandes-double?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:40:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "New US tariffs: 'Trump lashing out really indiscriminately', expert says",
-   "url": "https://www.france24.com/en/new-us-tariffs-trump-lashing-out-really-indiscriminately-expert-says"
-  },
-  {
-   "at": "2026-11-25T23:35:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
-   "url": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-25T23:35:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Duran Duran guitarist Andy Taylor dies at 65",
-   "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T23:35:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:35:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Le Pen party leaks: prefect dismissed, Paris deputy prosecutor placed under investigation",
-   "url": "https://www.france24.com/en/le-pen-party-leaks-prefect-dismissed-paris-deputy-prosecutor-placed-under-investigation"
-  },
-  {
-   "at": "2026-11-25T23:35:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Israeli lawmakers advance October 7 inquiry opposed by Netanyahu",
-   "url": "https://www.france24.com/en/israeli-lawmakers-advance-october-7-inquiry-opposed-by-netanyahu"
-  },
-  {
-   "at": "2026-11-25T23:35:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Man United denied at Sporting as referee overshadows Fernandes double",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/man-united-denied-at-sporting-as-referee-overshadows-fernandes-double?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:35:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "New US tariffs: 'Trump lashing out really indiscriminately', expert says",
-   "url": "https://www.france24.com/en/new-us-tariffs-trump-lashing-out-really-indiscriminately-expert-says"
-  },
-  {
-   "at": "2026-11-25T23:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
-   "url": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-25T23:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Duran Duran guitarist Andy Taylor dies at 65",
-   "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T23:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Le Pen party leaks: prefect dismissed, Paris deputy prosecutor placed under investigation",
-   "url": "https://www.france24.com/en/le-pen-party-leaks-prefect-dismissed-paris-deputy-prosecutor-placed-under-investigation"
-  },
-  {
-   "at": "2026-11-25T23:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Israeli lawmakers advance October 7 inquiry opposed by Netanyahu",
-   "url": "https://www.france24.com/en/israeli-lawmakers-advance-october-7-inquiry-opposed-by-netanyahu"
-  },
-  {
-   "at": "2026-11-25T23:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Man United denied at Sporting as referee overshadows Fernandes double",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/man-united-denied-at-sporting-as-referee-overshadows-fernandes-double?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:30:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "New US tariffs: 'Trump lashing out really indiscriminately', expert says",
-   "url": "https://www.france24.com/en/new-us-tariffs-trump-lashing-out-really-indiscriminately-expert-says"
-  },
-  {
-   "at": "2026-11-25T23:25:10Z",
+   "at": "2026-11-26T00:20:09Z",
    "result": "skipped",
    "reason": "not a news report (live blog, video, opinion, analysis ...)",
    "source": "Al Jazeera",
-   "title": "King tides and big waves batter coastal California",
-   "url": "https://www.aljazeera.com/video/newsfeed/2026/11/25/king-tides-and-big-waves-batter-coastal-california?traffic_source=rss"
+   "title": "Iran war live: Explosion rocks Sanaa; missiles intercepted over Riyadh",
+   "url": "https://www.aljazeera.com/news/liveblog/2026/11/26/iran-war-live-explosion-rocks-sanaa-missiles-intercepted-over-riyadh?traffic_source=rss"
   },
   {
-   "at": "2026-11-25T23:25:10Z",
+   "at": "2026-11-26T00:20:09Z",
    "result": "skipped",
    "reason": "older than 90 minutes",
-   "source": "UN News",
-   "title": "Türk warns of widening risk of atrocity crimes against Palestinians",
-   "url": "https://news.un.org/feed/view/en/story/2026/11/1168879"
-  },
-  {
-   "at": "2026-11-25T23:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
-   "url": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-25T23:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "DW News",
-   "title": "Duran Duran guitarist Andy Taylor dies at 65",
-   "url": "https://www.dw.com/en/duran-duran-guitarist-andy-taylor-dies-at-65/a-80055654?maca=en-rss-en-all-1573-rdf"
-  },
-  {
-   "at": "2026-11-25T23:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Malen and Roma deny injury-hit PSG in Champions League draw",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/malen-and-roma-deny-injury-hit-psg-in-champions-league-draw?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "France 24",
-   "title": "Le Pen party leaks: prefect dismissed, Paris deputy prosecutor placed under investigation",
-   "url": "https://www.france24.com/en/le-pen-party-leaks-prefect-dismissed-paris-deputy-prosecutor-placed-under-investigation"
+   "title": "PSG's perfect Champions League record ends as Roma snatch 2-2 draw with late penalty",
+   "url": "https://www.france24.com/en/sport/20261125-psg-s-perfect-champions-league-record-ends-as-roma-snatch-2-2-draw-with-late-penalty"
   },
   {
-   "at": "2026-11-25T23:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "Israeli lawmakers advance October 7 inquiry opposed by Netanyahu",
-   "url": "https://www.france24.com/en/israeli-lawmakers-advance-october-7-inquiry-opposed-by-netanyahu"
-  },
-  {
-   "at": "2026-11-25T23:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "Al Jazeera",
-   "title": "Man United denied at Sporting as referee overshadows Fernandes double",
-   "url": "https://www.aljazeera.com/sports/2026/11/25/man-united-denied-at-sporting-as-referee-overshadows-fernandes-double?traffic_source=rss"
-  },
-  {
-   "at": "2026-11-25T23:25:10Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "France 24",
-   "title": "New US tariffs: 'Trump lashing out really indiscriminately', expert says",
-   "url": "https://www.france24.com/en/new-us-tariffs-trump-lashing-out-really-indiscriminately-expert-says"
-  },
-  {
-   "at": "2026-11-25T23:20:09Z",
-   "result": "waiting",
-   "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
-   "source": "BBC News Africa",
-   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
-   "url": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o?at_medium=RSS&at_campaign=rss"
-  },
-  {
-   "at": "2026-11-25T23:20:09Z",
+   "at": "2026-11-26T00:20:09Z",
    "result": "waiting",
    "reason": "writer off (needs the owner's approval: LIVE_UPDATES_MODE=on, and ANTHROPIC_API_KEY with credit)",
    "source": "DW News",
