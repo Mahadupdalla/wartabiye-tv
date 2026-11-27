@@ -1,26 +1,31 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-27T18:27:16+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
- "lastSuccessfulPublishAt": "2026-11-27T14:13:03Z",
- "newestArticleAt": "2026-11-27T14:42:22+03:00",
- "lastSourceCheckAt": "2026-11-27T18:25:20+03:00",
+ "updatedAt": "2026-11-27T18:52:08+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
+ "lastSuccessfulPublishAt": "2026-11-27T15:48:06Z",
+ "newestArticleAt": "2026-11-27T18:30:00+03:00",
+ "lastSourceCheckAt": "2026-11-27T18:50:22+03:00",
  "sourceChecks24h": 255,
- "publishedArticles": 1588,
- "liveArticles": 1588,
- "waitingForImage": 271,
+ "publishedArticles": 1589,
+ "liveArticles": 1589,
+ "waitingForImage": 287,
  "liveInSync": true,
  "publishFailures24h": 0,
  "lastPublishRun": {
-  "created_at": "2026-11-27T14:13:03Z",
-  "conclusion": "success",
+  "created_at": "2026-11-27T15:48:37Z",
+  "conclusion": "cancelled",
   "event": "push",
-  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/46013901472"
+  "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/46028176179"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-27T15:52:06+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-27T16:26:32+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-27T18:44:46+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,51 +46,59 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-27T18:25:12+03:00",
-   "lastSuccessAt": "2026-11-27T18:25:12+03:00",
+   "lastCheckAt": "2026-11-27T18:50:12+03:00",
+   "lastSuccessAt": "2026-11-27T18:50:12+03:00",
    "lastReportAt": "2026-11-27T15:05:19+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-27T15:12:17+03:00",
+  "lastSourceCheckAt": "2026-11-27T18:44:35+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-27T15:00:44+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Maamulka Galmudug oo ku dhawaaqay in muddo sannad ah ay…",
-   "url": "https://www.caasimada.net/maamulka-galmudug-oo-ku-dhawaaqay-in-muddo-sannad-ah-ay/"
+   "publishedAt": "2026-11-27T18:07:37+03:00",
+   "sourceName": "Horseed Media",
+   "title": "Somalia to Begin Issuing East African Community E-Passports in January 2027",
+   "url": "https://horseedmedia.net/somalia-to-begin-issuing-east-african-community-e-passports-in-january-2027/428058/"
   },
   "latestPublished": {
-   "id": "2026-11-27-galmudug-cafis-khidmadaha-diiwaangelinta-hayadaha-samafalka-unsom",
-   "title": "Galmudug oo hal sano ka cafisay hay'adaha samafalka khidmadaha diiwaangelinta, xaruntii UNSOM-na u furtay",
-   "publishedAt": "2026-11-27T12:15:41+03:00",
-   "source": "Hiiraan Online",
-   "url": "/war/2026-11-27-galmudug-cafis-khidmadaha-diiwaangelinta-hayadaha-samafalka-unsom.html"
+   "id": "2026-11-27-wasiiru-dowlaha-duulista-lagu-eedeeyey-qori-ak47-xafiiska-wasiirka",
+   "title": "Xiisad culus oo ka taagan Wasaaradda Duulista iyo Hawada: Wasiiru-dowlaha oo lagu eedeeyey inuu qori AK-47 ah ku weeraray xafiiska Wasiirka",
+   "publishedAt": "2026-11-27T18:30:00+03:00",
+   "source": "Wartabiye TV",
+   "url": "/war/2026-11-27-wasiiru-dowlaha-duulista-lagu-eedeeyey-qori-ak47-xafiiska-wasiirka.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 45,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 51,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 37
+   "old": 6,
+   "duplicate": 45
   },
   "taskRejectedReasons": [
-   "Somali Supreme Court judges refuse to return to work after ruling president's term expired (Somali Guardian): headline-only; Hiiraan/Goobjoog none, WebSearch en none (natiijooyinka 6-7 Nov oo kaliya) -> pending",
-   "Safiirka Somaliland ee Israa'iil oo sheegay in Xasan Sheekh uu hore xidhiidh ula yeeshay Israa'iil (Hiiraan): sheegasho siyaasadeed oo lagu muransan yahay, hal il -> pending",
-   "Koonfur Galbeed oo tallaabada koowaad u qaaday dhismaha hay'ad sirdoon (Hiiraan): horay ayaa bogga ugu jiray (2026-11-26 SISA) -> duplicate",
-   "Turkiga oo xaqiijiyey qorshe ciidamada badda Soomaaliya (Hiiraan): horay ayaa bogga ugu jiray (2026-11-26) -> duplicate",
-   "Soomaaliya oo Kampala ku soo bandhigtay baasaboorka cusub (Hiiraan/Eye Radio): horay ayaa bogga ugu jiray -> duplicate",
-   "Soomaaliya iyo Hindiya oo ka wada hadlay xoojinta iskaashiga (Hiiraan): kulan borotokool ah, go'aan cusub ma leh",
-   "Wasiirka Isgaarsiinta oo ka qaybgalay shirka Golaha Wasiirrada Carabta (Hiiraan): borotokool",
-   "Madaxweynaha Puntland oo Galmudug ku ammaanay (Horseed): headline-only, borotokool",
-   "Somalia Moves to Protect Faculty of Agriculture Premises (Puntland Post): waqti la'aan, orodka xiga",
-   "Puntland iyo ganacsato ajaaniib ah shirkad kalluumaysi (Horseed): horay ayaa bogga ugu jiray",
-   "Is Somalia's President Looking for an External Enemy (Horseed): ra'yi",
-   "BBC Somali (Trump Soomaalida, HIV, timo-daadasho, Elon Musk, Xabaal qode, barnaamijyo raadiyo): ma aha war Soomaaliyeed cusub / barnaamij / adduunka"
+   "Madaxweynaha Deegaanka Soomaalida oo shacabka ugu baaqay inay ilaaliyaan xasilloonida: Itoobiya (Deegaanka Soomaalida), baaq guud, war cusub oo culus ma laha",
+   "Soomaaliya iyo Hindiya oo ka wada hadlay xoojinta iskaashiga: kulan borotokool ah, go'aan cusub ma jiro",
+   "Garnaqsi: Hashu maankay gaddaye: ra'yi / suugaan, war ma aha",
+   "Somalia Moves to Protect Faculty of Agriculture Premises: hal il (Puntland Post), faahfaahin yar; dib loo eegi doonaa",
+   "Nin muddo dheer xabsi ugu jiray (BBC Somali): sheeko bulsho oo aan Soomaaliya gudaheeda ahayn",
+   "Dunida Iyo Maanta / Idaacadda Subaxnimo (BBC Somali): barnaamij raadiye, war ma aha",
+   "Taliyaha Ciidanka Xoogga Dalka oo kormeer amni ku tegay Baydhabo: horey bogga ugu jira (Sugaya sawir)",
+   "Uganda Prepares Sixth Air Force Unit: horey bogga ugu jira",
+   "Turkiga ciidamada badda Soomaaliya: horey bogga ugu jira (Sugaya sawir)",
+   "Puntland iyo ganacsato ajaaniib ah shirkad kalluumaysi: horey bogga ugu jira",
+   "Somali Supreme Court judges refuse to return to work: headline-only (Somali Guardian); il kale lama helin -> pending",
+   "Safiirka Somaliland ee Israa'iil: hal il, eedeyn siyaasadeed -> pending",
+   "Madaxtooyada Puntland kheyraadka badda (Caasimada): headline-only, il kale lama helin",
+   "Wasiirka Isgaarsiinta shirka Golaha Wasiirrada Carabta: borotokool",
+   "Koonfur Galbeed hay'ad sirdoon: horey bogga ugu jira",
+   "Galmudug cafis hay'adaha samafalka: horey bogga ugu jira",
+   "Radio Daljir barnaamijyada (Martisoor, Baraarug): barnaamij, war ma aha",
+   "Guddoomiyaha Maxkamada Burtinle: borotokool (xil wareejin)",
+   "Xabaal qode 18,000 meyd (BBC Somali): sheeko aan Soomaaliya ahayn",
+   "Elon Musk dayax gacmeed / HIV (BBC Somali): adduunka, war hore"
   ],
-  "waitingForImage": 46,
+  "waitingForImage": 48,
   "waitingIds": [
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
@@ -99,17 +112,17 @@
    "2026-11-14-maxkamadda-ciidamada-dil-toogasho-tahliil-guure",
    "2026-11-26-taliyaha-xoogga-dalka-ibraahim-maxamed-baydhabo-kormeer-amniga",
    "2026-11-09-qaamuuska-luuqadda-dhegoolayaasha",
+   "2026-11-27-soomaaliya-imaaraadka-khilaaf-diblomaasiyad-wasiir-cabdifitaax",
    "2026-11-21-garoonka-ugaas-khaliif-beledweyne-xiran-sabti-axad",
    "2026-11-12-xawaadle-dibadbax-15-november-hiiraan-hirshabeelle",
    "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
    "2026-11-17-sodma-arc-kulan-cop31-caymiska-musiibooyinka",
    "2026-11-22-sweden-booliska-maxkamad-dilka-wiil-soomaali-14-jir",
    "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera",
-   "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag",
-   "2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan"
+   "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag"
   ],
   "stale": false,
   "problems": [],
-  "lastSuccessfulPublishAt": "2026-11-27T14:13:03Z"
+  "lastSuccessfulPublishAt": "2026-11-27T15:48:06Z"
  }
 }
