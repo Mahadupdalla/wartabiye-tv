@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-28T01:06:21+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-28T01:11:25+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-27T22:00:39Z",
  "newestArticleAt": "2026-11-27T20:58:06+03:00",
- "lastSourceCheckAt": "2026-11-28T01:05:17+03:00",
+ "lastSourceCheckAt": "2026-11-28T01:10:21+03:00",
  "sourceChecks24h": 268,
- "publishedArticles": 1614,
+ "publishedArticles": 1618,
  "liveArticles": 1614,
- "waitingForImage": 276,
- "liveInSync": true,
+ "waitingForImage": 288,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-27T22:00:39Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/46073921356"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-27T22:11:23+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-27T21:48:29+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-28T01:10:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,31 +46,31 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-28T01:05:11+03:00",
-   "lastSuccessAt": "2026-11-28T01:05:11+03:00",
+   "lastCheckAt": "2026-11-28T01:10:15+03:00",
+   "lastSuccessAt": "2026-11-28T01:10:15+03:00",
    "lastReportAt": "2026-11-28T01:00:10+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-27T21:11:20+03:00",
+  "lastSourceCheckAt": "2026-11-28T01:01:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-27T20:52:08+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Wasiir shaaciyay inuu iska casilay maamulka Waqooyi Bari kadib markii…",
-   "url": "https://www.caasimada.net/wasiir-shaaciyay-inuu-iska-casilay-maamulka-waqooyi-bari-kadib-markii/"
+   "publishedAt": "2026-11-27T23:42:51+03:00",
+   "sourceName": "Garowe Online",
+   "title": "Sudanese Army Rejects Ethiopian Proposal to End the War in Sudan | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/sudanese-army-rejects-ethiopian-proposal-to-end-the-war-in-sudan"
   },
   "latestPublished": {
-   "id": "2026-11-27-wasiiru-dowlaha-duulista-lagu-eedeeyey-qori-ak47-xafiiska-wasiirka",
-   "title": "Xiisad culus oo ka taagan Wasaaradda Duulista iyo Hawada: Wasiiru-dowlaha oo lagu eedeeyey inuu qori AK-47 ah ku weeraray xafiiska Wasiirka",
-   "publishedAt": "2026-11-27T18:30:00+03:00",
-   "source": "Wartabiye TV",
-   "url": "/war/2026-11-27-wasiiru-dowlaha-duulista-lagu-eedeeyey-qori-ak47-xafiiska-wasiirka.html"
+   "id": "2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya",
+   "title": "Midowga Afrika oo ansixiyay qorshe wajiyo leh oo lagu yareynayo ciidamada AUSSOM ee Soomaaliya",
+   "publishedAt": "2026-11-27T23:30:02+03:00",
+   "source": "Goobjoog News",
+   "url": "/war/2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya.html"
   },
-  "publishedLastRun": 0,
+  "publishedLastRun": 2,
   "rejectedLastRun": 58,
   "rejectedReasons": {
    "old": 8,
@@ -73,25 +78,13 @@
    "on-site": 3
   },
   "taskRejectedReasons": [
-   "Wasiir shaaciyay inuu iska casilay maamulka Waqooyi Bari (Caasimada): headline-only; Hiiraan/Goobjoog/Garowe/Puntland Post ma qorin, WebSearch so none -> pending",
-   "Tansaaniya oo Soomaaliya ka reebtay dalalka fiisaha la'aanta (Goobjoog): liis hore oo aan taariikh cusub lahayn, go'aan cusub lama xaqiijin",
-   "Somaliland: Xasan ... xiriirka Imaaraadka (Caasimada): headline-only, falanqayn/xog aan la xaqiijin",
-   "Dowladda Soomaaliya oo la shirtay safiiradeeda (Caasimada): headline-only; WebSearch so (MFA) none -> pending",
-   "Cutubyo ciidanka Uganda oo Soomaaliya laga saarayo (Caasimada): headline-only; Garowe (Uganda cutub cirka) horey bogga ugu jira, xog cusub lama xaqiijin",
-   "Soomaaliya oo sanadka soo socda bilaabeysa baasaboorka elektaroonigga (Horseed/Shabelle): horey bogga ugu jira",
-   "Madaxweynaha Deegaanka Soomaalida baaq (Hiiraan): baaq guud, war cusub ma laha",
-   "Soomaaliya iyo Hindiya iskaashi (Hiiraan/Shabelle): kulan borotokool",
-   "Garnaqsi: Hashu maankay gaddaye (Puntland Post): ra'yi",
-   "Somalia Moves to Protect Faculty of Agriculture Premises (Puntland Post): hal il, faahfaahin yar",
-   "Somali Supreme Court judges refuse to return to work (Somali Guardian): headline-only; il kale lama helin -> pending",
-   "Safiirka Somaliland ee Israa'iil (Hiiraan): hal il, eedeyn siyaasadeed -> pending",
-   "Madaxtooyada Puntland kheyraadka badda (Caasimada): headline-only, il kale lama helin",
-   "BBC Somali: barnaamijyo (Dunida Iyo Maanta, Idaacadda Subaxnimo) iyo sheekooyin aan Soomaaliya ahayn",
-   "Taliyaha Ciidanka Xoogga Baydhabo / Turkiga ciidamada badda / Koonfur Galbeed sirdoon / Galmudug / Puntland kalluumaysi / Somaliland ciidamo: horey bogga ugu jira",
-   "Radio Daljir barnaamijyo / Guddoomiyaha Maxkamada Burtinle: barnaamij / borotokool",
-   "Wasiirka Isgaarsiinta shirka Golaha Wasiirrada Carabta: borotokool"
+   "Waqooyi Bari / Somaliland: eedeyn culus oo Shidan ah (hal il kaliya): eedeyn culus hal il -> pending",
+   "Tansaaniya oo Soomaaliya ka reebtay dalalka fiisaha la'aanta (Goobjoog): boggu lama akhriyi karin, go'aan cusub oo taariikh leh lama xaqiijin",
+   "Soomaaliya oo bilaabeysa baasaboorka elektaroonigga: horey bogga ugu jira",
+   "Cutubyo ciidanka cirka Uganda ee Soomaaliya: horey bogga ugu jira",
+   "Sharciga sirdoonka Koonfur Galbeed: horey bogga ugu jira"
   ],
-  "waitingForImage": 48,
+  "waitingForImage": 49,
   "waitingIds": [
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
