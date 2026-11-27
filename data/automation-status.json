@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-27T04:08:16+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-27T04:18:52+03:00",
+ "overall": "retrying",
+ "overallText": "Cillad ku meel gaar ah: si otomaatig ah ayaa dib loogu celinayaa",
  "lastSuccessfulPublishAt": "2026-11-27T00:36:09Z",
  "newestArticleAt": "2026-11-27T00:09:26+03:00",
- "lastSourceCheckAt": "2026-11-27T04:05:23+03:00",
+ "lastSourceCheckAt": "2026-11-27T04:15:18+03:00",
  "sourceChecks24h": 263,
- "publishedArticles": 1550,
+ "publishedArticles": 1558,
  "liveArticles": 1550,
- "waitingForImage": 257,
- "liveInSync": true,
+ "waitingForImage": 267,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-27T00:36:09Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45917675140"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-27T01:18:51+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-27T00:55:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-27T04:16:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-27T04:05:16+03:00",
-   "lastSuccessAt": "2026-11-27T04:05:16+03:00",
+   "lastCheckAt": "2026-11-27T04:15:11+03:00",
+   "lastSuccessAt": "2026-11-27T04:15:11+03:00",
    "lastReportAt": "2026-11-27T01:30:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-27T00:53:00+03:00",
+  "lastSourceCheckAt": "2026-11-27T04:16:15+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-26T23:42:48+03:00",
-   "sourceName": "Hiiraan Online",
-   "title": "Cudud Ciidan oo lagu soo bandhigay Baladweyne iyo Ugaas Yuusuf oo booqday",
-   "url": "https://www.hiiraan.com/news/2026/Nov/wararka_maanta26-195643.htm"
+   "publishedAt": "2026-11-26T23:05:58+03:00",
+   "sourceName": "Radio Daljir",
+   "title": "‘Geedkasta oo aanu bixinayno waxaa u samayany habraac, geedkastana waxa uu yeelan doona Number",
+   "url": "https://daljir.com/geedkasta-oo-aanu-bixinayno-waxaa-u-samayany-habraac-geedkastana-waxa-uu-yeelan-doona-number/"
   },
   "latestPublished": {
    "id": "2026-11-27-somaliland-ciidamo-awdal-selel-saylac-golaha-amniga",
@@ -65,21 +70,36 @@
    "source": "Hiiraan Online",
    "url": "/war/2026-11-27-somaliland-ciidamo-awdal-selel-saylac-golaha-amniga.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 70,
+  "publishedLastRun": 4,
+  "rejectedLastRun": 69,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 62
+   "old": 10,
+   "duplicate": 59
   },
   "taskRejectedReasons": [
-   "Madasha CHF ee Dhuusamareeb oo soo gabagabowday (Radio Muqdisho): waqti la'aan; war la mid ah 23 Nov horay u jiray",
-   "Kulanka dowladda iyo safiirrada (Caasimada): cinwaan kaliya, lama xaqiijin",
-   "Daljir: geed beerid / guddoomiyaha maxkamadda Burtinle / barnaamijyo: borotokool, muhiimad yar",
-   "Xuutiyiinta iyo Al-Shabaab (Hiiraan): falanqayn, war ma aha",
-   "Gantaallada Turkiga (Garowe Online): waqti la'aan, musharax orodka xiga",
-   "Tirada khasaaraha Saylac: hal il kaliya, lama xaqiijin"
+   "Qaramada Midoobay: 36% oo keliya ayaa laga maalgeliyey qorshaha gargaarka Soomaaliya: hore loo daabacay (OCHA 233 xarumood, 26 Nov)",
+   "Madaxweynaha Somaliland oo ka soo laabtay safar (Cirro Hargeysa): hore loo daabacay",
+   "Puntland taliye ku-xigeenka madaxtooyada shil gaari: hore u jira (data/news, Sugaya sawir)",
+   "Beledweyne garoonka / Ugaas Yuusuf: hore loo daabacay 00:08",
+   "Taliyaha Ciidanka Xoogga Dalka Baydhabo: kormeer caadi ah, war cusub ma leh",
+   "Iskaashiga Xuutiyiinta iyo Al-Shabaab (Eurasia Review): falanqeyn/ra'yi, ma aha war",
+   "Ololaha 16-ka maalmood (Shabelle, headline-only): wakhti la'aan; ma la xaqiijin -> lama daabicin",
+   "Koonfur Galbeed hay'ad sirdoon (Caasimada, headline-only): hore u jira (golaha wasiirrada sharciga)",
+   "Soomaaliya tacsi Masar (Giza): borotokool",
+   "Daljir: geedaha, Burtinle maxkamad, barnaamijyo: war qaran ma aha / barnaamij",
+   "BBC Somali: HIV, timo-daadasho, Dunida iyo Maanta, Idaacadda: barnaamij/caafimaad guud, ma aha war Soomaaliyeed oo cusub",
+   "BBC Somali al-Shabaab falanqeyn (2): falanqeyn, ma aha war",
+   "Horseed: Is Somalia's President Looking for an External Enemy: ra'yi",
+   "UK-Somalia King's Birthday: borotokool",
+   "EUCAP Puntland ISPS tababar (Horseed, headline-only): wakhti la'aan, lama xaqiijin",
+   "Galmudug Humanitarian Forum / SoDMA (Shabelle, Radio Muqdisho, Goobjoog): waxaa lagu daray warka CHF ee la daabacay",
+   "Xamsa: dhaqaale nabadeed (Shabelle, headline-only): lama xaqiijin il kale",
+   "Madaxweyne Xasan Sheekh beeraleyda (Shabelle, headline-only): lama xaqiijin il kale",
+   "Turkiga taageero DF Soomaaliya (Caasimada): hore loo daabacay (ciidanka badda)",
+   "Dowladda Soomaaliya iyo safiiradeeda (Caasimada, headline-only): lama xaqiijin",
+   "Garowe: Trump Michigan: ma aha war Soomaaliyeed"
   ],
-  "waitingForImage": 43,
+  "waitingForImage": 45,
   "waitingIds": [
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
