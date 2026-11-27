@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-27T07:04:32+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-27T07:08:14+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-27T03:05:31Z",
  "newestArticleAt": "2026-11-27T01:43:11+03:00",
- "lastSourceCheckAt": "2026-11-27T07:00:18+03:00",
+ "lastSourceCheckAt": "2026-11-27T07:05:20+03:00",
  "sourceChecks24h": 261,
- "publishedArticles": 1564,
+ "publishedArticles": 1568,
  "liveArticles": 1564,
- "waitingForImage": 261,
- "liveInSync": true,
+ "waitingForImage": 266,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-27T03:05:31Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/45932122158"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-27T04:08:13+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-27T04:16:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-27T07:04:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-27T07:00:11+03:00",
-   "lastSuccessAt": "2026-11-27T07:00:11+03:00",
+   "lastCheckAt": "2026-11-27T07:05:11+03:00",
+   "lastSuccessAt": "2026-11-27T07:05:11+03:00",
    "lastReportAt": "2026-11-27T01:30:12+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-27T04:16:15+03:00",
+  "lastSourceCheckAt": "2026-11-27T07:04:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-26T23:05:58+03:00",
-   "sourceName": "Radio Daljir",
-   "title": "‘Geedkasta oo aanu bixinayno waxaa u samayany habraac, geedkastana waxa uu yeelan doona Number",
-   "url": "https://daljir.com/geedkasta-oo-aanu-bixinayno-waxaa-u-samayany-habraac-geedkastana-waxa-uu-yeelan-doona-number/"
+   "publishedAt": "2026-11-27T05:10:40+03:00",
+   "sourceName": "Puntland Post",
+   "title": "Puntland iyo maalgashadayaal shisheeye oo wada dhistay shirkad kalluumeysi",
+   "url": "https://puntlandpost.net/2026/11/27/puntland-iyo-maalgashadayaal-shisheeye-oo-wada-dhistay-shirkad-kalluumeysi/"
   },
   "latestPublished": {
    "id": "2026-11-27-somaliland-ciidamo-awdal-selel-saylac-golaha-amniga",
@@ -65,36 +70,22 @@
    "source": "Hiiraan Online",
    "url": "/war/2026-11-27-somaliland-ciidamo-awdal-selel-saylac-golaha-amniga.html"
   },
-  "publishedLastRun": 4,
-  "rejectedLastRun": 69,
+  "publishedLastRun": 2,
+  "rejectedLastRun": 63,
   "rejectedReasons": {
    "old": 10,
-   "duplicate": 59
+   "duplicate": 53
   },
   "taskRejectedReasons": [
-   "Qaramada Midoobay: 36% oo keliya ayaa laga maalgeliyey qorshaha gargaarka Soomaaliya: hore loo daabacay (OCHA 233 xarumood, 26 Nov)",
-   "Madaxweynaha Somaliland oo ka soo laabtay safar (Cirro Hargeysa): hore loo daabacay",
-   "Puntland taliye ku-xigeenka madaxtooyada shil gaari: hore u jira (data/news, Sugaya sawir)",
-   "Beledweyne garoonka / Ugaas Yuusuf: hore loo daabacay 00:08",
-   "Taliyaha Ciidanka Xoogga Dalka Baydhabo: kormeer caadi ah, war cusub ma leh",
-   "Iskaashiga Xuutiyiinta iyo Al-Shabaab (Eurasia Review): falanqeyn/ra'yi, ma aha war",
-   "Ololaha 16-ka maalmood (Shabelle, headline-only): wakhti la'aan; ma la xaqiijin -> lama daabicin",
-   "Koonfur Galbeed hay'ad sirdoon (Caasimada, headline-only): hore u jira (golaha wasiirrada sharciga)",
-   "Soomaaliya tacsi Masar (Giza): borotokool",
-   "Daljir: geedaha, Burtinle maxkamad, barnaamijyo: war qaran ma aha / barnaamij",
-   "BBC Somali: HIV, timo-daadasho, Dunida iyo Maanta, Idaacadda: barnaamij/caafimaad guud, ma aha war Soomaaliyeed oo cusub",
-   "BBC Somali al-Shabaab falanqeyn (2): falanqeyn, ma aha war",
-   "Horseed: Is Somalia's President Looking for an External Enemy: ra'yi",
-   "UK-Somalia King's Birthday: borotokool",
-   "EUCAP Puntland ISPS tababar (Horseed, headline-only): wakhti la'aan, lama xaqiijin",
-   "Galmudug Humanitarian Forum / SoDMA (Shabelle, Radio Muqdisho, Goobjoog): waxaa lagu daray warka CHF ee la daabacay",
-   "Xamsa: dhaqaale nabadeed (Shabelle, headline-only): lama xaqiijin il kale",
-   "Madaxweyne Xasan Sheekh beeraleyda (Shabelle, headline-only): lama xaqiijin il kale",
-   "Turkiga taageero DF Soomaaliya (Caasimada): hore loo daabacay (ciidanka badda)",
-   "Dowladda Soomaaliya iyo safiiradeeda (Caasimada, headline-only): lama xaqiijin",
-   "Garowe: Trump Michigan: ma aha war Soomaaliyeed"
+   "Shabelle ololaha 16 maalmood, dhaqaalaha Xamsa, beeralayda Xasan Sheekh: cinwaan keliya, lama xaqiijin",
+   "Caasimada kulanka safiirrada: cinwaan keliya",
+   "Farriimaha tacsida Soomaaliya-Masar: borotokool",
+   "Barnaamijyada Daljir iyo BBC Somali: ma aha war",
+   "Horseed: maqaal fikradeed",
+   "Sharciga doorashada Jubbaland, Fiqi UAE, Beledweyne, Cirro, UN 36%, ciidamada Itoobiya: horay ayay u jireen",
+   "Garowe Trump: ma aha Soomaaliya"
   ],
-  "waitingForImage": 45,
+  "waitingForImage": 47,
   "waitingIds": [
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
@@ -107,6 +98,7 @@
    "2026-11-22-galmudug-liibaan-wareegto-24-wasiir-golaha-cusub",
    "2026-11-14-maxkamadda-ciidamada-dil-toogasho-tahliil-guure",
    "2026-11-09-qaamuuska-luuqadda-dhegoolayaasha",
+   "2026-11-27-soomaaliya-baasaboor-cusub-shirka-socdaalka-eac-kampala",
    "2026-11-21-garoonka-ugaas-khaliif-beledweyne-xiran-sabti-axad",
    "2026-11-12-xawaadle-dibadbax-15-november-hiiraan-hirshabeelle",
    "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
@@ -114,8 +106,7 @@
    "2026-11-22-sweden-booliska-maxkamad-dilka-wiil-soomaali-14-jir",
    "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera",
    "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag",
-   "2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan",
-   "2026-11-14-beesha-makane-ciidamo-beledweyne-hirshabeelle"
+   "2026-11-21-soomaaliya-dhulkeeda-looma-adeegsan-karo-colaadaha-yemen-suudaan"
   ],
   "stale": false,
   "problems": [],
