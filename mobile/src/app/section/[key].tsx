@@ -52,8 +52,8 @@ export default function SectionScreen() {
           renderItem={({ item, index }) => {
             const last = index === list.length - 2;
             return (
-              <View style={{ marginHorizontal: 16, backgroundColor: colors.surface, overflow: 'hidden', borderTopLeftRadius: index === 0 ? 14 : 0, borderTopRightRadius: index === 0 ? 14 : 0, borderBottomLeftRadius: last ? 14 : 0, borderBottomRightRadius: last ? 14 : 0 }}>
-                <NewsRow c={item} first={index === 0} />
+              <View style={{ backgroundColor: colors.surface, borderBottomWidth: last ? 1 : 0, borderBottomColor: colors.hair }}>
+                <NewsRow c={item} />
               </View>
             );
           }}

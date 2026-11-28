@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, Image, Linking, Modal, Platform, Pressable, ScrollView, View, useWindowDimensions, type LayoutChangeEvent } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router, type Href } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettings } from '../lib/settings';
 import { useContent } from '../lib/content';
 import { clock, todayLine } from '../lib/i18n';
@@ -11,6 +11,25 @@ import { isBreaking, open } from './cards';
 import { LiveDot, Notice, ROW_RTL, Row, T } from './ui';
 import { LangButton } from './lang';
 import { useAlerts } from '../lib/alerts';
+
+// Duotone menu icons (Wartabiye blue, red for live and breaking). Drawn in design/menu-icons/*.svg, shipped as PNG.
+const MENU_ICONS = {
+  'all-news': require('../../assets/menu/all-news.png'),
+  'latest': require('../../assets/menu/latest.png'),
+  'somalia': require('../../assets/menu/somalia.png'),
+  'world': require('../../assets/menu/world.png'),
+  'sports': require('../../assets/menu/sports.png'),
+  'live': require('../../assets/menu/live.png'),
+  'breaking': require('../../assets/menu/breaking.png'),
+  'videos': require('../../assets/menu/videos.png'),
+  'search': require('../../assets/menu/search.png'),
+  'saved': require('../../assets/menu/saved.png'),
+  'notifications': require('../../assets/menu/notifications.png'),
+  'settings': require('../../assets/menu/settings.png'),
+  'ads': require('../../assets/menu/ads.png'),
+  'more': require('../../assets/menu/more.png'),
+} as const;
+type MenuIconName = keyof typeof MENU_ICONS;
 
 const LOGO = require('../../assets/logo.png');
 
@@ -120,23 +139,23 @@ export function MenuBar(_: { withBrand?: boolean }) {
   const top = bar ? bar.y + bar.h : 0;
   const slide = p.interpolate({ inputRange: [0, 1], outputRange: [-10, 0] });
   const fade = p.interpolate({ inputRange: [0, 0.7, 1], outputRange: [0, 0.95, 1] });
-  const sections: [keyof typeof Ionicons.glyphMap, string, () => void, boolean?][] = [
-    ['home-outline', t('allNews'), go(() => router.navigate('/'))],
-    ['time-outline', t('latest'), nav('/latest')],
-    ['flag-outline', t('somaliaNav'), nav('/section/somalia')],
-    ['earth-outline', t('world'), nav('/section/world')],
-    ['football-outline', t('sports'), nav('/section/sports')],
-    ['radio-outline', t('liveNewsNav'), go(() => router.navigate('/live')), true],
-    ['flash-outline', t('breakingTitle'), nav('/breaking'), true],
-    ['play-circle-outline', t('videosNav'), go(() => router.navigate('/videos'))],
+  const sections: [MenuIconName, string, () => void, boolean?][] = [
+    ['all-news', t('allNews'), go(() => router.navigate('/'))],
+    ['latest', t('latest'), nav('/latest')],
+    ['somalia', t('somaliaNav'), nav('/section/somalia')],
+    ['world', t('world'), nav('/section/world')],
+    ['sports', t('sports'), nav('/section/sports')],
+    ['live', t('liveNewsNav'), go(() => router.navigate('/live')), true],
+    ['breaking', t('breakingTitle'), nav('/breaking'), true],
+    ['videos', t('videosNav'), go(() => router.navigate('/videos'))],
   ];
-  const tools: [keyof typeof Ionicons.glyphMap, string, () => void][] = [
-    ['search-outline', t('search'), nav('/search')],
-    ['bookmark-outline', t('savedBtn'), go(() => router.navigate('/saved'))],
-    ['notifications-outline', t('notifications'), nav('/notifications')],
-    ['settings-outline', t('settings'), nav('/settings')],
-    ['megaphone-outline', t('advertise'), nav('/ads')],
-    ['ellipsis-horizontal-circle-outline', t('more'), go(() => router.navigate('/more'))],
+  const tools: [MenuIconName, string, () => void][] = [
+    ['search', t('search'), nav('/search')],
+    ['saved', t('savedBtn'), go(() => router.navigate('/saved'))],
+    ['notifications', t('notifications'), nav('/notifications')],
+    ['settings', t('settings'), nav('/settings')],
+    ['ads', t('advertise'), nav('/ads')],
+    ['more', t('more'), go(() => router.navigate('/more'))],
   ];
   const face = <MenuIcon p={p} />;
   const btnStyle = ({ pressed }: { pressed: boolean }) => ({ width: 38, height: 38, borderRadius: 19, alignItems: 'center' as const, justifyContent: 'center' as const, backgroundColor: pressed ? 'rgba(255,255,255,0.16)' : 'transparent' });
@@ -166,9 +185,9 @@ export function MenuBar(_: { withBrand?: boolean }) {
           <ScrollView contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 8, paddingBottom: 14 }} bounces={false}>
             {sections.map(([icon, text, onPress, live]) => (
               <Pressable key={text} onPress={onPress} accessibilityRole="link" style={({ pressed }) => ({ paddingVertical: 8, paddingHorizontal: 10, borderRadius: 10, backgroundColor: pressed ? colors.tint : 'transparent' })}>
-                <Row style={{ gap: 14 }}>
-                  <View style={{ width: 32, height: 32, borderRadius: 9, backgroundColor: live ? (colors.dark ? '#3b0d0e' : '#fdecec') : colors.tint, alignItems: 'center', justifyContent: 'center' }}>
-                    <Ionicons name={icon} size={17} color={live ? colors.red : colors.blue} />
+                <Row style={{ gap: 12 }}>
+                  <View style={{ width: 34, height: 34, borderRadius: 10, backgroundColor: live ? colors.red : colors.blue, alignItems: 'center', justifyContent: 'center' }}>
+                    <Image source={MENU_ICONS[icon]} style={{ width: 22, height: 22 }} resizeMode="contain" accessibilityIgnoresInvertColors />
                   </View>
                   <T f="display" style={{ flex: 1, fontSize: 15, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: rtl ? 'right' : 'left' }}>{text}</T>
                   <Ionicons name={rtl ? 'chevron-back' : 'chevron-forward'} size={16} color={colors.sub} />
@@ -179,7 +198,7 @@ export function MenuBar(_: { withBrand?: boolean }) {
             <View style={{ flexDirection: rtl && NATIVE ? 'row-reverse' : 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: 4, justifyContent: 'space-between' }}>
               {tools.map(([icon, text, onPress]) => (
                 <Pressable key={text} onPress={onPress} accessibilityRole="link" style={({ pressed }) => ({ width: '31.6%', paddingVertical: 10, paddingHorizontal: 8, borderRadius: 10, borderWidth: 1, borderColor: colors.hair, alignItems: 'center', gap: 4, backgroundColor: pressed ? colors.tint : 'transparent' })}>
-                  <Ionicons name={icon} size={18} color={colors.blue} />
+                  <View style={{ width: 32, height: 32, borderRadius: 9, backgroundColor: colors.blue, alignItems: 'center', justifyContent: 'center' }}><Image source={MENU_ICONS[icon]} style={{ width: 20, height: 20 }} resizeMode="contain" accessibilityIgnoresInvertColors /></View>
                   <T f="bodyBold" numberOfLines={1} style={{ fontSize: 12, textAlign: 'center' }}>{text}</T>
                 </Pressable>
               ))}
@@ -402,6 +421,41 @@ export function BreakingBanner() {
         </Pressable>
       ) : null}
     </Animated.View>
+  );
+}
+
+/** The section bar under the ticker, as in a newspaper's app: plain words, the page you are on underlined in blue.
+ *  It stays at the top with the ticker while Home scrolls. LIVE and Breaking carry a red dot. */
+export function SectionTabs({ active = 'home' }: { active?: string }) {
+  const { colors, t, rtl } = useSettings();
+  const flip = rtl && Platform.OS !== 'web';
+  const tabs: [string, string, () => void, boolean?][] = [
+    ['home', t('home'), () => router.navigate('/')],
+    ['somalia', t('somaliaNav'), () => router.push('/section/somalia')],
+    ['world', t('world'), () => router.push('/section/world')],
+    ['sports', t('sports'), () => router.push('/section/sports')],
+    ['live', t('liveNewsNav'), () => router.navigate('/live'), true],
+    ['breaking', t('breakingTitle'), () => router.push('/breaking'), true],
+    ['videos', t('videosNav'), () => router.navigate('/videos')],
+    ['latest', t('latestShort'), () => router.push('/latest')],
+  ];
+  return (
+    <View style={{ backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.hair }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} accessibilityLabel={t('sectionsBar')} style={{ flexGrow: 0, transform: flip ? [{ scaleX: -1 }] : undefined }} contentContainerStyle={{ paddingHorizontal: 8 }}>
+        {tabs.map(([k, label, go, red]) => {
+          const on = k === active;
+          return (
+            <Pressable key={k} onPress={on ? undefined : go} accessibilityRole="link" accessibilityState={{ selected: on }} style={({ pressed }) => ({ transform: flip ? [{ scaleX: -1 }] : undefined, height: 42, paddingHorizontal: 10, justifyContent: 'center', opacity: pressed ? 0.6 : 1 })}>
+              <Row style={{ gap: 6 }}>
+                {red ? <LiveDot size={6} /> : null}
+                <T f={on ? 'bodyBold' : 'bodyMed'} style={{ fontSize: 14, color: on ? colors.fg : colors.sub }}>{label}</T>
+              </Row>
+              <View style={{ position: 'absolute', left: 10, right: 10, bottom: 0, height: 3, borderTopLeftRadius: 2, borderTopRightRadius: 2, backgroundColor: on ? colors.blue : 'transparent' }} />
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }
 

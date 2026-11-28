@@ -18,6 +18,12 @@ on:
         description: 'Short note shown with the update (e.g. "test update")'
         required: false
         default: 'manual update'
+      app:
+        description: 'Which iPhone app: public (Wartabiye TV, channel personal) or admin (Wartabiye Admin, channel admin)'
+        required: false
+        default: 'public'
+        type: choice
+        options: [public, admin]
   workflow_run:
     workflows: ['Mobile app (Android build + tests)']
     types: [completed]
@@ -40,6 +46,9 @@ jobs:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       EAS_PROJECT_ID: ${{ vars.EAS_PROJECT_ID }}
       WTV_FREE_SIGNING: '1'
+      # the owner's admin app (scripts/iphone-admin-install.sh) has its own code and its own channel
+      WTV_APP: ${{ github.event.inputs.app == 'admin' && 'admin' || '' }}
+      CHANNEL: ${{ github.event.inputs.app == 'admin' && 'admin' || 'personal' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -70,12 +79,16 @@ jobs:
         run: |
           npx expo export --platform ios --output-dir /tmp/scan > /tmp/export.log 2>&1 || { tail -40 /tmp/export.log; exit 1; }
           bad=0
-          for s in ghp_ github_pat_ gho_ ghu_ ghs_ x-access-token PUSH_ADMIN_TOKEN SESSION_SECRET VAPID_PRIVATE ANTHROPIC api.anthropic.com sk-ant- CLOUDFLARE_API_TOKEN api.cloudflare.com /api/github /api/me /api/security /api/automation /api/analytics wartabiye-admin.wartabiye.workers.dev/login /admin/ 'BEGIN PRIVATE KEY'; do
+          # never a key or token in any app; the public app also has no admin feature or address at all
+          LIST="ghp_ github_pat_ gho_ ghu_ ghs_ x-access-token PUSH_ADMIN_TOKEN SESSION_SECRET VAPID_PRIVATE ANTHROPIC api.anthropic.com sk-ant- CLOUDFLARE_API_TOKEN api.cloudflare.com BEGIN_PRIVATE_KEY"
+          [ "$WTV_APP" = admin ] || LIST="$LIST /api/github /api/me /api/security /api/automation /api/analytics wartabiye-admin.wartabiye.workers.dev/login /admin/ /auth/logout"
+          for s in $LIST; do
+            [ "$s" = BEGIN_PRIVATE_KEY ] && s='BEGIN PRIVATE KEY'
             if grep -a -r -F -q -- "$s" /tmp/scan/_expo; then echo "FOUND in the app code: $s"; bad=1; fi
           done
           if grep -a -r -F -q -- "$EXPO_TOKEN" /tmp/scan/_expo; then echo "FOUND in the app code: the Expo token"; bad=1; fi
-          [ $bad = 0 ] && echo "No admin feature, address, key or token in the iPhone code"
-      - name: Publish to the iPhone app (channel personal)
+          [ $bad = 0 ] && echo "No key or token in the iPhone code$([ "$WTV_APP" = admin ] || echo ', and no admin feature or address')"
+      - name: Publish to the iPhone app (channel personal, or admin for the admin app)
         id: pub
         if: steps.cfg.outputs.ready == '1'
         env:
@@ -84,12 +97,12 @@ jobs:
           RT=$(node -p "require('./app.config.js')({config: require('./app.json').expo}).runtimeVersion")
           MSG="$(git log -1 --format=%s | cut -c1-70)"
           if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then MSG="${NOTE:0:40}: $MSG"; fi
-          npx eas-cli@latest update --channel personal --platform ios --environment production --message "$MSG" --non-interactive --json > /tmp/update.json \
-            || npx eas-cli@latest update --channel personal --platform ios --message "$MSG" --non-interactive --json > /tmp/update.json
+          npx eas-cli@latest update --channel "$CHANNEL" --platform ios --environment production --message "$MSG" --non-interactive --json > /tmp/update.json \
+            || npx eas-cli@latest update --channel "$CHANNEL" --platform ios --message "$MSG" --non-interactive --json > /tmp/update.json
           cat /tmp/update.json
           ID=$(node -p "const u=require('/tmp/update.json'); const x=(Array.isArray(u)?u:[u]).find(x=>x.platform==='ios')||(Array.isArray(u)?u[0]:u); x.id||''")
           { echo "### iPhone app update published"; echo
-            echo "Update \`${ID:0:8}\` (full id \`$ID\`), channel \`personal\`, runtime version \`$RT\`, commit $(git rev-parse HEAD)."
+            echo "Update \`${ID:0:8}\` (full id \`$ID\`), channel \`$CHANNEL\`, runtime version \`$RT\`, commit $(git rev-parse HEAD)."
             echo; echo "On the iPhone: open the app, close it completely, open it again. Settings → App updates then shows \`${ID:0:8}\`."
             echo "Only iPhone builds with runtime version \`$RT\` take it (built with mobile/IPHONE-FREE-INSTALL.md)."; } >> "$GITHUB_STEP_SUMMARY"
           echo "id=$ID" >> "$GITHUB_OUTPUT"; echo "rt=$RT" >> "$GITHUB_OUTPUT"
@@ -99,16 +112,63 @@ jobs:
           ID='${{ steps.pub.outputs.id }}'; RT='${{ steps.pub.outputs.rt }}'
           [ -n "$ID" ] || { echo "::error::No update id in the publish result"; exit 1; }
           for i in 1 2 3 4 5 6; do
-            curl -sS -H 'expo-platform: ios' -H "expo-runtime-version: $RT" -H 'expo-channel-name: personal' \
+            curl -sS -H 'expo-platform: ios' -H "expo-runtime-version: $RT" -H "expo-channel-name: $CHANNEL" \
               -H 'expo-protocol-version: 1' -H 'accept: multipart/mixed,application/expo+json,application/json' \
               "https://u.expo.dev/$EAS_PROJECT_ID" -o /tmp/manifest.txt -w '%{http_code}\n' > /tmp/code.txt || true
             if grep -q "$ID" /tmp/manifest.txt; then
-              echo "Expo serves update $ID to iPhone apps with runtime $RT on channel personal"
+              echo "Expo serves update $ID to iPhone apps with runtime $RT on channel $CHANNEL"
               echo "Served to the iPhone app: yes (checked $(date -u +%H:%M) UTC)." >> "$GITHUB_STEP_SUMMARY"; exit 0
             fi
             sleep 20
           done
           echo "HTTP $(cat /tmp/code.txt)"; head -c 1500 /tmp/manifest.txt
-          echo "::error::Expo does not serve update $ID for runtime $RT (channel personal). The iPhone app will not receive it."
+          echo "::error::Expo does not serve update $ID for runtime $RT (channel $CHANNEL). The iPhone app will not receive it."
           exit 1
+      - name: Monitoring - every file of the update downloads from Expo (what the iPhone fetches after the check)
+        if: steps.cfg.outputs.ready == '1'
+        env:
+          RT: ${{ steps.pub.outputs.rt }}
+        run: |
+          node - <<'JS'
+          const fs = require('fs');
+          const t = fs.readFileSync('/tmp/manifest.txt', 'utf8');
+          // the manifest is the first JSON object of the multipart answer: find its end by matching braces
+          const obj = start => { const i = t.indexOf(start); if (i < 0) return null; let d = 0, q = false, e = -1;
+            for (let k = i; k < t.length; k++) { const c = t[k];
+              if (q) { if (c === '\\') k++; else if (c === '"') q = false; continue; }
+              if (c === '"') q = true; else if (c === '{') d++; else if (c === '}' && --d === 0) { e = k; break; } }
+            return JSON.parse(t.slice(i, e + 1)); };
+          const m = obj('{"id"');
+          // Expo protects the files: each one needs the headers the answer's "extensions" part gives for it
+          const ah = (obj('{"assetRequestHeaders"') || {}).assetRequestHeaders || {};
+          console.log('files with their own request headers from Expo:', Object.keys(ah).length);
+          const files = [m.launchAsset, ...(m.assets || [])];
+          // the same headers as expo-updates on the iPhone (FileDownloader.swift)
+          const H = { 'expo-platform': 'ios', 'expo-protocol-version': '1', 'expo-api-version': '1', 'expo-updates-environment': 'BARE',
+            'expo-runtime-version': process.env.RT, 'expo-channel-name': process.env.CHANNEL, 'eas-client-id': require('crypto').randomUUID(),
+            'expo-requested-update-id': m.id, 'user-agent': 'WartabiyeTV/1 CFNetwork/3826 Darwin/25.0.0' };
+          (async () => {
+            // first file twice: plain, and with the iPhone's headers, with the start of the answer (to see why it is refused)
+            for (const [name, h] of [['plain', {}], ['as the iPhone', H]]) {
+              try { const r = await fetch(m.launchAsset.url, { headers: name === 'plain' ? h : { ...h, ...(ah[m.launchAsset.key] || {}) }, signal: AbortSignal.timeout(60000) });
+                const b = Buffer.from(await r.arrayBuffer());
+                console.log(`launch asset, ${name}: HTTP ${r.status}, ${b.length} bytes, content-type ${r.headers.get('content-type')}, server ${r.headers.get('server')}, x-cache ${r.headers.get('x-cache')}` + (r.ok ? '' : ': ' + b.toString('utf8').replace(/<style[\s\S]*?<\/style>/, '').replace(/<[^>]+>/g, ' ').slice(0, 500).replace(/\s+/g, ' ')));
+              } catch (e) { console.log(`launch asset, ${name}: FAILED ${e.message}`); }
+            }
+            let bad = 0, bytes = 0; const hosts = new Set(); const t0 = Date.now();
+            for (const a of files) {
+              const s = Date.now(); hosts.add(new URL(a.url).host);
+              try {
+                const r = await fetch(a.url, { headers: { ...H, ...(ah[a.key] || {}) }, signal: AbortSignal.timeout(60000) });
+                const b = Buffer.from(await r.arrayBuffer()); bytes += b.length;
+                if (!r.ok) { bad++; console.log('HTTP', r.status, a.url); }
+                else if (Date.now() - s > 5000) console.log('slow', Date.now() - s, 'ms', a.url);
+              } catch (e) { bad++; console.log('FAILED', a.url, e.message); }
+            }
+            const line = `${files.length} files, ${(bytes / 1e6).toFixed(1)} MB from ${[...hosts].join(', ')} in ${((Date.now() - t0) / 1000).toFixed(1)} s` + (bad ? `, ${bad} failed` : ', all downloaded');
+            console.log(line);
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `\nFiles of the update (with the access headers Expo gives the app; a browser without them gets 403): ${line}.\n`);
+            if (bad) { console.log('::error::Some files of the update do not download from Expo'); process.exit(1); }
+          })();
+          JS
 

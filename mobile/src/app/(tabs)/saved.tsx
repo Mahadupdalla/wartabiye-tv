@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, Pressable, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSettings } from '../../lib/settings';
 import { useContent } from '../../lib/content';
 import { AppHeader } from '../../components/chrome';
