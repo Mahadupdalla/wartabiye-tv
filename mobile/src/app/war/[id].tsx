@@ -139,7 +139,6 @@ export default function ArticleScreen() {
   const textStyle = { fontSize: fontSize + 1, lineHeight: Math.round((fontSize + 1) * 1.7) };
   const seg = { width: 40, height: 32, borderRadius: 999, alignItems: 'center' as const, justifyContent: 'center' as const };
   const round = { width: 40, height: 40, borderRadius: 20, alignItems: 'center' as const, justifyContent: 'center' as const };
-  const note = { backgroundColor: colors.surface, borderLeftWidth: rtl ? 0 : 3, borderRightWidth: rtl ? 3 : 0, borderColor: colors.red, borderRadius: 10, padding: 14 };
 
   // no translation in the chosen language: say so plainly, offer the languages this article exists in (as the website)
   if (!tx) {
@@ -275,18 +274,7 @@ export default function ArticleScreen() {
             {para.slice(1)}
           </T>
         ) : <T key={i} style={[textStyle, textLangProps?.style]} selectable>{para}</T>))}
-        {article.source ? (
-          <View style={[note, { gap: 6 }]}>
-            <T style={{ fontSize: 14.5, lineHeight: 22 }}>{t('srcNote', { src: article.source })}</T>
-            {article.sourceUrl ? (
-              <Pressable onPress={() => openLink(article.sourceUrl)} accessibilityRole="link">
-                <T f="bodyBold" style={{ color: colors.link, fontSize: 14 }}>{t('readOriginal')} ({article.source}) ›</T>
-              </Pressable>
-            ) : null}
-          </View>
-        ) : article.basedOnOthers ? (
-          <View style={note}><T style={{ fontSize: 14.5, lineHeight: 22 }}>{t('basedNote')}</T></View>
-        ) : null}
+        {/* no source note: the app never names, credits or links another media outlet (owner's rule of 23 Nov 2026) */}
         {fromCache && offline ? <T muted style={{ fontSize: 12 }}>{t('savedOffline')}</T> : null}
 
         <View style={{ marginTop: 8, paddingTop: 16, borderTopWidth: 1, borderTopColor: colors.hair, gap: 12 }}>

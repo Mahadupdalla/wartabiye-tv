@@ -114,15 +114,18 @@ collections:
       - {name: originalTitle, label: 'Cinwaanka asalka ah ee isha (gudaha oo kaliya)', widget: string, required: false, hint: 'Cinwaanka sida daabacaha u qoray. Bogga dadweynaha kama muuqdo.'}
       - {name: sourceRights, label: 'Xuquuqda / shuruudaha isha (gudaha oo kaliya)', widget: string, required: false, hint: 'Tusaale: all rights reserved, headline-and-link only. Hawsha wararka waxay ka soo qaadataa data/world/sources.json.'}
       - {name: verification, label: 'Xaqiijinta (gudaha oo kaliya)', widget: text, required: false, hint: 'Ilaha kale ee warka xaqiijiyay iyo sida loo hubiyay. Bogga dadweynaha kama muuqdo.'}
-      - {name: attributionRequired, label: 'Link-ga isha ha la muujiyo (sharci ama heshiis ayaa u baahan)', widget: boolean, default: false, required: false, hint: 'Dami (caadi): qoraalka isha ee hoose wuxuu magacaabaa isha, link la''aan. Shid KALIYA marka ruqsad ama heshiis uu qasab ka dhigo link-ga isha.'}
-      # editorial source management (owner's spec, 19 Nov 2026; tools/attribution.py). The article footer shows
-      # WARBIXINTA / TAARIIKHDA / QAYBTA and, for a story built on other outlets, ONE source note:
-      # "WARTABIYE TV — Iyadoo lagu salaynayo warbixin ay baahisay <isha>." Never in the headline.
+      - {name: attributionRequired, label: 'Link-ga isha ha la muujiyo (sharci ama heshiis ayaa u baahan)', widget: boolean, default: false, required: false, hint: 'Dami (had iyo jeer). Xeerka 23 Nov 2026: bogga iyo app-ka midna ma magacaabaan, link uma sameeyaan warbaahin kale. Haddii ruqsad ama heshiis uu qasab ka dhigo in isha la muujiyo, warka ha la daabicin: tifaftiraha ayaa go''aamiya.'}
+      # owner's rule of 23 Nov 2026 (tools/attribution.py gate): a story that must keep another outlet's name in its text
+      # (e.g. a story ABOUT that outlet) is held here for an editor instead of being published or rewritten automatically
+      - {name: attributionNote, label: 'Dib-u-eegis tifaftir: magac warbaahin kale (gudaha oo kaliya)', widget: string, required: false, hint: 'Hawsha wararka ayaa halkan ku qorta sababta warkan loo hayo: qoraalka wuxuu magacaabayaa warbaahin kale. Dib u qor jumladda (tusaale "Waxaa la sheegay in…"), kadib shid Published. Bogga dadweynaha kama muuqdo.'}
+      # editorial source management (tools/attribution.py). Owner's rule of 23 Nov 2026: the article footer shows only
+      # WARBIXINTA / TAARIIKHDA / QAYBTA; no other media outlet is ever named or linked on the site or in the app.
+      # "sources" and "attribution" are the INTERNAL record (research, fact-checking, /admin/ report).
       - name: attribution
         label: 'Nooca warbixinta (attribution)'
         widget: select
         required: false
-        hint: 'Banaan = si otomaatig ah: warkaaga (Wartabiye TV) = Warbixin asal ah; war hawsha wararka = Laga soo xigtay hal il ama Ilo badan. Qoraalka isha ee hoose ayaa ka muuqda maqaalka (cinwaanka kuma jiro).'
+        hint: 'Banaan = si otomaatig ah: warkaaga (Wartabiye TV) = Warbixin asal ah; war hawsha wararka = Laga soo xigtay hal il ama Ilo badan. Gudaha oo kaliya: bogga ma muujiyo magaca isha (xeerka 23 Nov 2026). Xaqiijiyay = "Xogtan waxaa xaqiijiyay tifaftirka Wartabiye TV" ayaa ka muuqda.'
         options:
           - {label: 'Warbixin asal ah oo Wartabiye TV (original reporting) — isha lama sheego', value: original}
           - {label: 'Dib loo qoray, hal il dibadeed (rewritten from an external source)', value: rewritten}
@@ -130,10 +133,10 @@ collections:
           - {label: 'War rasmi ah (official statement)', value: official}
           - {label: 'Tifaftirku si madax-bannaan ayuu u xaqiijiyay (editorially verified)', value: verified}
       - name: sources
-        label: 'Ilaha la xusayo (source note)'
+        label: 'Ilaha warka (gudaha oo kaliya)'
         widget: list
         required: false
-        hint: 'Banaan = isha warka (kor) iyo ilaha kale ee xogtooda qoraalka lagu isticmaalay. Ku qor halkan haddii aad rabto inaad adigu go''aamiso ilaha la xusayo. War rasmi ah: magaca hay''adda (tusaale Wasaaradda Arrimaha Dibadda).'
+        hint: 'Ilaha xogta warka (diiwaan gudaha ah, bogga dadweynaha kama muuqdaan). War rasmi ah: magaca hay''adda (tusaale Wasaaradda Arrimaha Dibadda) ayaa ka muuqda hoosta maqaalka; warbaahin weligeed lama magacaabo.'
         summary: '{{fields.name}}'
         fields:
           - {name: name, label: 'Magaca isha', widget: string}

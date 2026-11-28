@@ -197,7 +197,7 @@ Work in this order:
 4. Otherwise write the report:
    - in your OWN words, neutral Somali; never copy or translate the publisher's sentences one by one; never quote more than one short sentence and always say who said it;
    - title under 110 characters; summary = the introduction: 1-2 sentences with the main fact (who, what, where, when);
-   - body = the COMPLETE article, paragraphs separated by a blank line ("\n\n"): the verified facts in detail (for a match: the result, the key moments and scorers with minutes only if verified, the competition, what it means for the table or the tournament, and the next fixture if verified; for a transfer, injury or other news: who, what, when, the terms or details that are confirmed, the background such as the player's or club's recent record), the relevant attributed statements and reactions, what happens next (clearly marked as expected or unconfirmed: "waxaa la filayaa...", "lama xaqiijin weli..."), and a natural concluding paragraph. Usually 200-450 words in 3-6 paragraphs; an article of 350 words or more has 2-3 short subheadings, each a line of its own starting with "## ". Every statement attributed to the club, player, coach or body that made it ("Kooxda ayaa sheegtay...", "Tababaraha ayaa yiri..."); a claim only a media report makes is written neutrally ("Waxaa la sheegay in..."). WARTABIYE TV ATTRIBUTION RULE: the title, summary and body never name the outlet the story comes from (no "Sida ay qortay BBC Sport", "X ayaa sheegtay", "according to X", links): the website credits the source once in the article footer. Name an outlet only for a direct quotation it obtained or its exclusive report (e.g. a transfer scoop: "...sida uu markii ugu horreysay qoray The Athletic"). Never write that Wartabiye TV confirmed something itself. Use only facts you verified: never pad, never repeat a sentence, never write general filler. When the verified facts really are few, write a shorter complete article (at least 2 paragraphs and 60 words), set limitedFacts true and say why in lengthNote (Somali); otherwise limitedFacts false and lengthNote "";
+   - body = the COMPLETE article, paragraphs separated by a blank line ("\n\n"): the verified facts in detail (for a match: the result, the key moments and scorers with minutes only if verified, the competition, what it means for the table or the tournament, and the next fixture if verified; for a transfer, injury or other news: who, what, when, the terms or details that are confirmed, the background such as the player's or club's recent record), the relevant attributed statements and reactions, what happens next (clearly marked as expected or unconfirmed: "waxaa la filayaa...", "lama xaqiijin weli..."), and a natural concluding paragraph. Usually 200-450 words in 3-6 paragraphs; an article of 350 words or more has 2-3 short subheadings, each a line of its own starting with "## ". Every statement attributed to the club, player, coach or body that made it ("Kooxda ayaa sheegtay...", "Tababaraha ayaa yiri..."); a claim only a media report makes is written neutrally ("Waxaa la sheegay in..."). WARTABIYE TV BRAND RULE (owner, 23 Nov 2026): the title, summary, body and photo description, in Somali and every translation, NEVER name, credit, quote as a source, link to or promote another media outlet (no "Sida ay qortay BBC Sport", "X ayaa sheegtay", "according to X", "told Sky Sports", "in an interview with X", links); the website credits no outlet anywhere. Clubs, leagues, federations, players and coaches are not media: attribute their statements to them. A claim only media reports make is written neutrally ("Waxaa la sheegay in...", "Wararka la helay ayaa sheegaya..."). If the story is ABOUT an outlet, keep the name accurate: the article is then held for an editor. Never write that Wartabiye TV confirmed something itself. Use only facts you verified: never pad, never repeat a sentence, never write general filler. When the verified facts really are few, write a shorter complete article (at least 2 paragraphs and 60 words), set limitedFacts true and say why in lengthNote (Somali); otherwise limitedFacts false and lengthNote "";
    - never end a paragraph in the middle of a sentence, and never end with "more details coming soon" / "faahfaahin dheeraad ah ayaa soo socota";
    - never invent or guess any fact, score, minute, figure or quote; only what you verified;
    - write every number with Western digits; no graphic detail;
@@ -441,6 +441,23 @@ def label(title, lang):
     return f'{lab} {t}'
 
 
+def attribution_gate(n):
+    """Pre-publish check (owner's rule of 23 Nov 2026, tools/attribution.py gate): no other media outlet is named or linked
+    in the title, summary, body or photo description, in Somali or any translation. Citation phrases are rewritten
+    neutrally in place; when a name is still left (a story ABOUT an outlet), the article is held for editorial review.
+    -> the hold note ('' = clear)."""
+    import attribution
+    return n.get('attributionNote', '') if attribution.gate(n, LANGS) else ''
+
+
+def hold_attribution(nid, note):
+    """keep an article held for editorial review after the photo step (which publishes an article with a photo)"""
+    p = os.path.join(NEWS, nid + '.json')
+    n = json.load(open(p, encoding='utf-8'))
+    n.update({'published': False, 'heldBy': 'attribution-review', 'attributionNote': note})
+    save(n)
+
+
 def save(n):
     with open(os.path.join(NEWS, n['id'] + '.json'), 'w', encoding='utf-8') as f:
         json.dump(n, f, ensure_ascii=False, indent=2)
@@ -640,11 +657,15 @@ def run(cand_path, state_path, dry=False):
             run['counts']['refused'] = run['counts'].get('refused', 0) + 1
             item.update(result='refused', reason='answer failed the checks: ' + ', '.join(bad)); run['items'].insert(0, item); continue
         n, refused_tr = build(c, a, now(), ids)
+        anote = attribution_gate(n)
         qerr = article_check(n)
         save(n)
         ok, note = attach_photo(n, a)
         if not ok:
             ok = hold(n['id'], note)  # always False now: no image, no publication
+        if anote:
+            hold_attribution(n['id'], anote)
+            ok, note = False, anote
         if qerr:
             # an incomplete text (cut off, placeholder ending, too short without a reason) is never published: it waits in
             # /admin/ as a draft with the reason, so the owner can finish it (the money is already spent; nothing is retried)
