@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-28T12:26:31+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-28T12:41:43+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-28T09:04:45Z",
  "newestArticleAt": "2026-11-28T08:47:04+03:00",
- "lastSourceCheckAt": "2026-11-28T12:25:19+03:00",
- "sourceChecks24h": 277,
+ "lastSourceCheckAt": "2026-11-28T12:40:18+03:00",
+ "sourceChecks24h": 278,
  "publishedArticles": 1656,
  "liveArticles": 1656,
- "waitingForImage": 300,
- "liveInSync": true,
+ "waitingForImage": 315,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-28T09:04:45Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/46128757025"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-28T09:41:41+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-28T10:20:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-28T12:39:57+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-28T12:25:12+03:00",
-   "lastSuccessAt": "2026-11-28T12:25:12+03:00",
+   "lastCheckAt": "2026-11-28T12:40:11+03:00",
+   "lastSuccessAt": "2026-11-28T12:40:11+03:00",
    "lastReportAt": "2026-11-28T01:00:10+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-28T10:16:00+03:00",
+  "lastSourceCheckAt": "2026-11-28T12:39:42+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-28T09:09:34+03:00",
-   "sourceName": "Radio Muqdisho (state broadcaster)",
-   "title": "Qodobbada Midowga Afrika ee ku saabsan Soomaaliya",
-   "url": "https://radiomuqdisho.so/qodobbada-midowga-afrika-ee-ku-saabsan-soomaaliya/"
+   "publishedAt": "2026-11-28T12:00:28+03:00",
+   "sourceName": "Caasimada Online",
+   "title": "Sanbaloolshe oo shaaciyay tallaabooyin ay qaadayaan, sheegayna in Hiiraan dowlad tahay",
+   "url": "https://www.caasimada.net/sanbaloolshe-oo-shaaciyay-tallaabooyin-ay-qaadayaan-sheegayna-in-hiiraan-dowlad-tahay/"
   },
   "latestPublished": {
    "id": "2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya",
@@ -65,19 +70,32 @@
    "source": "Goobjoog News",
    "url": "/war/2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya.html"
   },
-  "publishedLastRun": 0,
-  "rejectedLastRun": 54,
+  "publishedLastRun": 1,
+  "rejectedLastRun": 79,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 42,
-   "on-site": 4
+   "old": 10,
+   "duplicate": 66,
+   "on-site": 3
   },
   "taskRejectedReasons": [
-   "Suudaan 6,000 dagaalyahan xadka Itoobiya: sheegasho aan la xaqiijin (pending)",
-   "Waqooyi Bari / Somaliland Shidan-Sanaag: hal il keliya (pending)",
-   "Golaha deegaanka AU: waa la qoray laakiin waa Sugaya sawir"
+   "Wasiir Fiqi oo shaaciyay in Imaaraadku Muqdisho ka fulin jiray howlgallo guri-guri ah: eedeyn culus (jirdil, la qaaday dibadda), hal il (Hiiraan); WebSearch en none -> pending",
+   "Midowga Afrika oo diiday faragelin kasta (Hiiraan/Shabelle/Caasimada): horey ayuu bogga ugu jiray (2026-11-28-midowga-afrika-bogaadiyay-doorashooyinka...)",
+   "Midowga Afrika ansixiyay qorshe saddex marxaladood AUSSOM: horey bogga (2026-11-27)",
+   "Soomaaliya shirweynaha IORA (Hiiraan): horey bogga (2026-11-25 IORA)",
+   "North Eastern State accuses Somaliland Sanaag (Hiiraan en+so): sheegasho siyaasadeed oo muran leh, hal il -> pending",
+   "Golaha Wakiilada Puntland Galkacyo (Horseed): headline-only; Hiiraan/Goobjoog none -> pending",
+   "Wasiiru-dowlaha Madaxtooyada Puntland Imaaraadka (Horseed): headline-only, lama xaqiijin",
+   "Puntland aas qaran Marduuf (Puntland Post): xaflad/aas, qiimo war yar; dhimashadu horey bogga (2026-11-26)",
+   "Sanbaloolshe / Hiiraan dowlad (Caasimada): headline-only, lama xaqiijin",
+   "Turkiga beeniyay dhacdo xasaasi (Caasimada): isla dhacdada Hiiraan -> alsoReportedBy",
+   "Why Dr Micheal Rubin Gets Somalia Wrong (Puntland Post): ra'yi",
+   "Shabelle (Baydhabo, Barwaaqo Cup, Azerbaijan UN-Habitat, Aadan Madoobe): borotokool / headline-only, lama xaqiijin",
+   "AU digniin Al-Shabaab magaalooyin (Shabelle): headline-only; isla bayaanka AU ee horey bogga",
+   "Baasaboorka EAC / elektaroonigga (Caasimada, Horseed, Shabelle): horey bogga (2026-11-27)",
+   "Tansaaniya fiisaha (Goobjoog, catch-up): hal il, lama xaqiijin -> pending",
+   "BBC Somali (warbixino guud, Dunida Iyo Maanta, daraasad): ma aha war cusub / barnaamij"
   ],
-  "waitingForImage": 52,
+  "waitingForImage": 53,
   "waitingIds": [
    "2026-11-28-midowga-afrika-bogaadiyay-doorashooyinka-golayaasha-deegaanka-soomaaliya",
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
@@ -102,7 +120,7 @@
   ],
   "stale": true,
   "problems": [
-   "No new Somalia article for 13 hours although the Somali sources have newer stories (latest: Radio Muqdisho (state broadcaster) 2026-11-28T09:09:34+03:00)."
+   "No new Somalia article for 13 hours although the Somali sources have newer stories (latest: Caasimada Online 2026-11-28T12:00:28+03:00)."
   ],
   "lastSuccessfulPublishAt": "2026-11-28T09:04:45Z"
  }
