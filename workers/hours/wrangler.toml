@@ -1,0 +1,28 @@
+# Wartabiye TV daily opening hours (Cloudflare Worker, free plan is enough).
+# Open 07:00-24:00 Africa/Nairobi. From 00:00 to 07:00 every public page answers "503 Service Unavailable" with
+# Retry-After (the temporary-closure answer search engines understand) and the branded closed page. The decision is made
+# on Cloudflare's server for every request from the clock, so nothing needs GitHub, a cron job or a person to open/close.
+# Nothing in the repository, the articles, the collectors or the statistics is changed.
+#
+# IMPORTANT: a Worker can only sit in front of www.wartabiyetv.com when the domain's DNS is served by Cloudflare
+# (nameservers at the registrar pointed to Cloudflare, same GitHub Pages records kept). Until then this Worker is
+# tested but NOT deployed. Deploy: Actions -> "Saacadaha furitaanka (opening hours)" -> Run workflow, type DEPLOY.
+name = "wartabiye-hours"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = false
+
+routes = [
+  { pattern = "www.wartabiyetv.com/*", zone_name = "wartabiyetv.com" },
+  { pattern = "wartabiyetv.com/*", zone_name = "wartabiyetv.com" }
+]
+
+[vars]
+# Africa/Nairobi is UTC+3 all year (no summer time)
+TZ_OFFSET_MINUTES = "180"
+OPEN = "07:00"
+CLOSE = "00:00"
+# "off" = always open (an emergency switch that needs no code change: Cloudflare dashboard -> Worker -> Settings -> Variables)
+CLOSURE = "on"
+# optional secret OWNER_PREVIEW_KEY (wrangler secret put): opening https://www.wartabiyetv.com/?furo=<key> lets the owner
+# see the normal site at night on that browser for 8 hours. Without the secret there is no way past the closed page.
