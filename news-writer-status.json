@@ -1,0 +1,617 @@
+{
+ "about": "Automatic news writer for World News and Somalia & East Africa (tools/news_writer.py, Claude API). Counts per day (Africa/Nairobi); \"held\" = written but kept as a draft (Sugaya sawir) because no legal, relevant photo was found.",
+ "mode": "fallback",
+ "limits": {
+  "articlesPerDay": 2,
+  "usdPerDay": 1.0,
+  "perScheduledRun": 1,
+  "estimatedMaxPerStoryUsd": 0.6
+ },
+ "schedule": {
+  "times (Africa/Nairobi)": [
+   "08:00",
+   "18:00"
+  ],
+  "windowMinutes": 55,
+  "nextRun": "2026-11-22T18:00+03:00"
+ },
+ "lastCheckAt": "2026-11-22T15:56:51+03:00",
+ "lastRun": {
+  "skipped": 0,
+  "duplicates": 37
+ },
+ "lastWrittenAt": null,
+ "days": {
+  "2026-11-13": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 51,
+   "refused": 0,
+   "failed": 8,
+   "usd": 0
+  },
+  "2026-11-21": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 66,
+   "refused": 0,
+   "failed": 24,
+   "usd": 0
+  },
+  "2026-11-22": {
+   "written": 0,
+   "published": 0,
+   "held": 0,
+   "skipped": 40,
+   "refused": 0,
+   "failed": 24,
+   "usd": 0
+  }
+ },
+ "recent": [
+  {
+   "at": "2026-11-22T00:52:41+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Booliska Sweden oo maxkamad loo soo taagayo kiiska dilka wiil Soomaali ah | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/booliska-sweden-oo-maxkamad-loo-soo-taagayo-kiiska-dilka-wiil-soomaali-ah",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:52:41+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Swedish Police Taken to Court Over Killing of Somali Boy | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/swedish-police-taken-to-court-over-killing-of-somali-boy",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:48:55+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Booliska Sweden oo maxkamad loo soo taagayo kiiska dilka wiil Soomaali ah | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/booliska-sweden-oo-maxkamad-loo-soo-taagayo-kiiska-dilka-wiil-soomaali-ah",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:48:55+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Swedish Police Taken to Court Over Killing of Somali Boy | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/swedish-police-taken-to-court-over-killing-of-somali-boy",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:46:37+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Booliska Sweden oo maxkamad loo soo taagayo kiiska dilka wiil Soomaali ah | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/booliska-sweden-oo-maxkamad-loo-soo-taagayo-kiiska-dilka-wiil-soomaali-ah",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:46:37+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Swedish Police Taken to Court Over Killing of Somali Boy | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/swedish-police-taken-to-court-over-killing-of-somali-boy",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:41:32+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Booliska Sweden oo maxkamad loo soo taagayo kiiska dilka wiil Soomaali ah | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/booliska-sweden-oo-maxkamad-loo-soo-taagayo-kiiska-dilka-wiil-soomaali-ah",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:41:32+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Swedish Police Taken to Court Over Killing of Somali Boy | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/swedish-police-taken-to-court-over-killing-of-somali-boy",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:36:26+03:00",
+   "section": "somalia",
+   "source": "goobjoog",
+   "title": "Madaxweyne Xasan Sheekh oo dhagax-dhigay xarunta cusub ee Taliska Ciidanka Badda Soomaaliyeed",
+   "url": "https://goobjoog.com/2026/11/21/madaxweyne-xasan-sheekh-oo-dhagax-dhigay-xarunta-cusub-ee-taliska-ciidanka-badda-soomaaliyeed",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:36:26+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Booliska Sweden oo maxkamad loo soo taagayo kiiska dilka wiil Soomaali ah | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/booliska-sweden-oo-maxkamad-loo-soo-taagayo-kiiska-dilka-wiil-soomaali-ah",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:31:51+03:00",
+   "section": "somalia",
+   "source": "goobjoog",
+   "title": "Madaxweyne Xasan Sheekh oo dhagax-dhigay xarunta cusub ee Taliska Ciidanka Badda Soomaaliyeed",
+   "url": "https://goobjoog.com/2026/11/21/madaxweyne-xasan-sheekh-oo-dhagax-dhigay-xarunta-cusub-ee-taliska-ciidanka-badda-soomaaliyeed",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:31:51+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Booliska Sweden oo maxkamad loo soo taagayo kiiska dilka wiil Soomaali ah | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/booliska-sweden-oo-maxkamad-loo-soo-taagayo-kiiska-dilka-wiil-soomaali-ah",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:28:14+03:00",
+   "section": "somalia",
+   "source": "goobjoog",
+   "title": "Madaxweyne Xasan Sheekh oo dhagax-dhigay xarunta cusub ee Taliska Ciidanka Badda Soomaaliyeed",
+   "url": "https://goobjoog.com/2026/11/21/madaxweyne-xasan-sheekh-oo-dhagax-dhigay-xarunta-cusub-ee-taliska-ciidanka-badda-soomaaliyeed",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:28:14+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Booliska Sweden oo maxkamad loo soo taagayo kiiska dilka wiil Soomaali ah | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/booliska-sweden-oo-maxkamad-loo-soo-taagayo-kiiska-dilka-wiil-soomaali-ah",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:23:15+03:00",
+   "section": "somalia",
+   "source": "goobjoog",
+   "title": "Madaxweyne Xasan Sheekh oo dhagax-dhigay xarunta cusub ee Taliska Ciidanka Badda Soomaaliyeed",
+   "url": "https://goobjoog.com/2026/11/21/madaxweyne-xasan-sheekh-oo-dhagax-dhigay-xarunta-cusub-ee-taliska-ciidanka-badda-soomaaliyeed",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:23:15+03:00",
+   "section": "somalia",
+   "source": "garoweonline",
+   "title": "Booliska Sweden oo maxkamad loo soo taagayo kiiska dilka wiil Soomaali ah | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/booliska-sweden-oo-maxkamad-loo-soo-taagayo-kiiska-dilka-wiil-soomaali-ah",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:17:58+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Turkey approves deal to build new Somali embassy in Ankara",
+   "url": "https://www.caasimada.net/turkey-approves-deal-to-build-new-somali-embassy-in-ankara/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:17:58+03:00",
+   "section": "somalia",
+   "source": "goobjoog",
+   "title": "Madaxweyne Xasan Sheekh oo dhagax-dhigay xarunta cusub ee Taliska Ciidanka Badda Soomaaliyeed",
+   "url": "https://goobjoog.com/2026/11/21/madaxweyne-xasan-sheekh-oo-dhagax-dhigay-xarunta-cusub-ee-taliska-ciidanka-badda-soomaaliyeed",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:13:09+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Turkey approves deal to build new Somali embassy in Ankara",
+   "url": "https://www.caasimada.net/turkey-approves-deal-to-build-new-somali-embassy-in-ankara/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:13:09+03:00",
+   "section": "somalia",
+   "source": "goobjoog",
+   "title": "Madaxweyne Xasan Sheekh oo dhagax-dhigay xarunta cusub ee Taliska Ciidanka Badda Soomaaliyeed",
+   "url": "https://goobjoog.com/2026/11/21/madaxweyne-xasan-sheekh-oo-dhagax-dhigay-xarunta-cusub-ee-taliska-ciidanka-badda-soomaaliyeed",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:07:50+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Turkey approves deal to build new Somali embassy in Ankara",
+   "url": "https://www.caasimada.net/turkey-approves-deal-to-build-new-somali-embassy-in-ankara/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:07:50+03:00",
+   "section": "somalia",
+   "source": "goobjoog",
+   "title": "Madaxweyne Xasan Sheekh oo dhagax-dhigay xarunta cusub ee Taliska Ciidanka Badda Soomaaliyeed",
+   "url": "https://goobjoog.com/2026/11/21/madaxweyne-xasan-sheekh-oo-dhagax-dhigay-xarunta-cusub-ee-taliska-ciidanka-badda-soomaaliyeed",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:02:44+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Turkey approves deal to build new Somali embassy in Ankara",
+   "url": "https://www.caasimada.net/turkey-approves-deal-to-build-new-somali-embassy-in-ankara/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-22T00:02:44+03:00",
+   "section": "somalia",
+   "source": "goobjoog",
+   "title": "Madaxweyne Xasan Sheekh oo dhagax-dhigay xarunta cusub ee Taliska Ciidanka Badda Soomaaliyeed",
+   "url": "https://goobjoog.com/2026/11/21/madaxweyne-xasan-sheekh-oo-dhagax-dhigay-xarunta-cusub-ee-taliska-ciidanka-badda-soomaaliyeed",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T17:06:41+03:00",
+   "section": "somalia",
+   "source": "puntlandpost",
+   "title": "Xasan Sheekh oo kulan la qaatay taliyaha guud ee ciidanka milatariga Turkiga",
+   "url": "https://puntlandpost.net/2026/11/21/xasan-sheekh-oo-kulan-la-qaatay-taliyaha-guud-ee-ciidanka-milatariga-turkiga/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T17:06:41+03:00",
+   "section": "somalia",
+   "source": "ktpress",
+   "title": "Education Must Go Beyond Personal Success, Kepler College Graduates Told",
+   "url": "https://www.ktpress.rw/2026/11/education-must-go-beyond-personal-success-kepler-college-graduates-told/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T17:02:11+03:00",
+   "section": "somalia",
+   "source": "dailynews-tz",
+   "title": "Tanzania tables measures to ensure its minerals are value-added before being exported",
+   "url": "https://dailynews.co.tz/tanzania-tables-measures-to-ensure-its-minerals-are-value-added-before-being-exported/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T17:02:11+03:00",
+   "section": "somalia",
+   "source": "eyeradio",
+   "title": "H Brothers food products found damaged, not expired, investigation committee says",
+   "url": "https://eyeradio.org/h-brothers-food-products-found-damaged-not-expired-investigation-committee-says/?utm_source=rss&utm_medium=rss&utm_campaign=h-brothers-food-products-found-damaged-not-expired-investigation-committee-says",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:56:43+03:00",
+   "section": "somalia",
+   "source": "dailynews-tz",
+   "title": "Tanzania tables measures to ensure its minerals are value-added before being exported",
+   "url": "https://dailynews.co.tz/tanzania-tables-measures-to-ensure-its-minerals-are-value-added-before-being-exported/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:56:43+03:00",
+   "section": "somalia",
+   "source": "eyeradio",
+   "title": "H Brothers food products found damaged, not expired, investigation committee says",
+   "url": "https://eyeradio.org/h-brothers-food-products-found-damaged-not-expired-investigation-committee-says/?utm_source=rss&utm_medium=rss&utm_campaign=h-brothers-food-products-found-damaged-not-expired-investigation-committee-says",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:51:39+03:00",
+   "section": "somalia",
+   "source": "dailynews-tz",
+   "title": "Tanzania tables measures to ensure its minerals are value-added before being exported",
+   "url": "https://dailynews.co.tz/tanzania-tables-measures-to-ensure-its-minerals-are-value-added-before-being-exported/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:51:39+03:00",
+   "section": "somalia",
+   "source": "eyeradio",
+   "title": "H Brothers food products found damaged, not expired, investigation committee says",
+   "url": "https://eyeradio.org/h-brothers-food-products-found-damaged-not-expired-investigation-committee-says/?utm_source=rss&utm_medium=rss&utm_campaign=h-brothers-food-products-found-damaged-not-expired-investigation-committee-says",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:46:57+03:00",
+   "section": "somalia",
+   "source": "dailynews-tz",
+   "title": "Tanzania tables measures to ensure its minerals are value-added before being exported",
+   "url": "https://dailynews.co.tz/tanzania-tables-measures-to-ensure-its-minerals-are-value-added-before-being-exported/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:46:57+03:00",
+   "section": "somalia",
+   "source": "eyeradio",
+   "title": "H Brothers food products found damaged, not expired, investigation committee says",
+   "url": "https://eyeradio.org/h-brothers-food-products-found-damaged-not-expired-investigation-committee-says/?utm_source=rss&utm_medium=rss&utm_campaign=h-brothers-food-products-found-damaged-not-expired-investigation-committee-says",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:41:48+03:00",
+   "section": "somalia",
+   "source": "bbc-somali",
+   "title": "Feeryahankii Muslimka ahaa ee dhexdhexaadiyey kiisas waaweyn lana kulmay Sadaam Xuseen",
+   "url": "https://www.bbc.com/somali/articles/cqe872nyprwwo?at_medium=RSS&at_campaign=rss",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:41:48+03:00",
+   "section": "somalia",
+   "source": "dailynews-tz",
+   "title": "Tanzania tables measures to ensure its minerals are value-added before being exported",
+   "url": "https://dailynews.co.tz/tanzania-tables-measures-to-ensure-its-minerals-are-value-added-before-being-exported/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:37:02+03:00",
+   "section": "somalia",
+   "source": "eyeradio",
+   "title": "President Kiir urges University of Juba graduates to serve with humility and integrity",
+   "url": "https://eyeradio.org/president-kiir-urges-university-of-juba-graduates-to-serve-with-humility-and-integrity/?utm_source=rss&utm_medium=rss&utm_campaign=president-kiir-urges-university-of-juba-graduates-to-serve-with-humility-and-integrity",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:37:02+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Golaha Mustaqbalka oo shaaciyay sababta ay ku diideen codsiga Xasan + Video",
+   "url": "https://www.caasimada.net/golaha-mustaqbalka-oo-shaaciyay-sababta-ay-ku-diideen-codsiga-xasan-video/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:31:47+03:00",
+   "section": "somalia",
+   "source": "eyeradio",
+   "title": "President Kiir urges University of Juba graduates to serve with humility and integrity",
+   "url": "https://eyeradio.org/president-kiir-urges-university-of-juba-graduates-to-serve-with-humility-and-integrity/?utm_source=rss&utm_medium=rss&utm_campaign=president-kiir-urges-university-of-juba-graduates-to-serve-with-humility-and-integrity",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:31:47+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Golaha Mustaqbalka oo shaaciyay sababta ay ku diideen codsiga Xasan + Video",
+   "url": "https://www.caasimada.net/golaha-mustaqbalka-oo-shaaciyay-sababta-ay-ku-diideen-codsiga-xasan-video/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:26:53+03:00",
+   "section": "somalia",
+   "source": "eyeradio",
+   "title": "President Kiir urges University of Juba graduates to serve with humility and integrity",
+   "url": "https://eyeradio.org/president-kiir-urges-university-of-juba-graduates-to-serve-with-humility-and-integrity/?utm_source=rss&utm_medium=rss&utm_campaign=president-kiir-urges-university-of-juba-graduates-to-serve-with-humility-and-integrity",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:26:53+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Golaha Mustaqbalka oo shaaciyay sababta ay ku diideen codsiga Xasan + Video",
+   "url": "https://www.caasimada.net/golaha-mustaqbalka-oo-shaaciyay-sababta-ay-ku-diideen-codsiga-xasan-video/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:22:28+03:00",
+   "section": "somalia",
+   "source": "fanabc",
+   "title": "Ethiopia Sets Three Priorities for COP32: Restoring Hope, Rebuilding Trust and Mobilizing Collective Climate Action",
+   "url": "https://www.fanamc.com/english/ethiopia-sets-three-priorities-for-cop32-restoring-hope-rebuilding-trust-and-mobilizing-collective-climate-action/?utm_source=rss&utm_medium=rss&utm_campaign=ethiopia-sets-three-priorities-for-cop32-restoring-hope-rebuilding-trust-and-mobilizing-collective-climate-action",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:22:28+03:00",
+   "section": "somalia",
+   "source": "eyeradio",
+   "title": "President Kiir urges University of Juba graduates to serve with humility and integrity",
+   "url": "https://eyeradio.org/president-kiir-urges-university-of-juba-graduates-to-serve-with-humility-and-integrity/?utm_source=rss&utm_medium=rss&utm_campaign=president-kiir-urges-university-of-juba-graduates-to-serve-with-humility-and-integrity",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:16:39+03:00",
+   "section": "somalia",
+   "source": "nilepost",
+   "title": "Uganda Railways Tests Kampala–Jinja Passenger Train Ahead of December Launch",
+   "url": "https://nilepost.co.ug/news/389390/uganda-railways-tests-kampala-jinja-passenger-train-ahead-of-december-launch",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:16:39+03:00",
+   "section": "somalia",
+   "source": "nilepost",
+   "title": "Nakaseke Coffee Farmers Demand Probe Into Faulty Shs1bn Factory Equipment",
+   "url": "https://nilepost.co.ug/news/389395/nakaseke-coffee-farmers-demand-probe-into-faulty-shs1bn-factory-equipment",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:12:02+03:00",
+   "section": "somalia",
+   "source": "dailynews-tz",
+   "title": "TAZARA revival promises stronger Tanzania-China ties and a new trade lifeline across Africa",
+   "url": "https://dailynews.co.tz/tazara-revival-promises-stronger-tanzania-china-ties-and-a-new-trade-lifeline-across-africa-2/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-21T16:12:02+03:00",
+   "section": "somalia",
+   "source": "nilepost",
+   "title": "Former Grace Villa Residents Return to Mentor Girls Who Followed Them",
+   "url": "https://nilepost.co.ug/news/389378/former-grace-villa-residents-return-to-mentor-girls-who-followed-them",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:32:00+03:00",
+   "section": "somalia",
+   "source": "kbc",
+   "title": "Hassan Omar Daffa appointed Kenya’s new Chief Kadhi",
+   "url": "https://www.kbc.co.ke/hassan-omar-daffa-appointed-kenyas-new-chief-kadhi/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:32:00+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Israel miyay ka laabanaysa aqoonsiga Somaliland? – Jawaabta Tel Aviv",
+   "url": "https://www.caasimada.net/israel-miyay-ka-laabanaysa-aqoonsiga-somaliland-jawaabta-tel-aviv/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:27:37+03:00",
+   "section": "somalia",
+   "source": "kbc",
+   "title": "Hassan Omar Daffa appointed Kenya’s new Chief Kadhi",
+   "url": "https://www.kbc.co.ke/hassan-omar-daffa-appointed-kenyas-new-chief-kadhi/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:27:37+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Israel miyay ka laabanaysa aqoonsiga Somaliland? – Jawaabta Tel Aviv",
+   "url": "https://www.caasimada.net/israel-miyay-ka-laabanaysa-aqoonsiga-somaliland-jawaabta-tel-aviv/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:22:08+03:00",
+   "section": "somalia",
+   "source": "kbc",
+   "title": "Hassan Omar Daffa appointed Kenya’s new Chief Kadhi",
+   "url": "https://www.kbc.co.ke/hassan-omar-daffa-appointed-kenyas-new-chief-kadhi/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:22:08+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Israel miyay ka laabanaysa aqoonsiga Somaliland? – Jawaabta Tel Aviv",
+   "url": "https://www.caasimada.net/israel-miyay-ka-laabanaysa-aqoonsiga-somaliland-jawaabta-tel-aviv/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:17:03+03:00",
+   "section": "somalia",
+   "source": "kbc",
+   "title": "Hassan Omar Daffa appointed Kenya’s new Chief Kadhi",
+   "url": "https://www.kbc.co.ke/hassan-omar-daffa-appointed-kenyas-new-chief-kadhi/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  },
+  {
+   "at": "2026-11-13T19:17:03+03:00",
+   "section": "somalia",
+   "source": "caasimada",
+   "title": "Israel miyay ka laabanaysa aqoonsiga Somaliland? – Jawaabta Tel Aviv",
+   "url": "https://www.caasimada.net/israel-miyay-ka-laabanaysa-aqoonsiga-somaliland-jawaabta-tel-aviv/",
+   "api": [],
+   "result": "failed",
+   "reason": "API error: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "routineLastRunMinutesAgo": 1666
+}
