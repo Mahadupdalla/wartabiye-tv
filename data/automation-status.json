@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-28T06:41:47+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-28T07:11:26+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-28T01:36:02Z",
  "newestArticleAt": "2026-11-28T02:58:34+03:00",
- "lastSourceCheckAt": "2026-11-28T06:40:22+03:00",
- "sourceChecks24h": 272,
+ "lastSourceCheckAt": "2026-11-28T07:10:18+03:00",
+ "sourceChecks24h": 273,
  "publishedArticles": 1637,
  "liveArticles": 1637,
- "waitingForImage": 283,
- "liveInSync": true,
+ "waitingForImage": 302,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-28T01:36:02Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/46093915392"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-28T04:11:24+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-28T03:43:34+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-28T07:10:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,15 +46,15 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-28T06:40:15+03:00",
-   "lastSuccessAt": "2026-11-28T06:40:15+03:00",
+   "lastCheckAt": "2026-11-28T07:10:11+03:00",
+   "lastSuccessAt": "2026-11-28T07:10:11+03:00",
    "lastReportAt": "2026-11-28T01:00:10+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-28T03:45:00+03:00",
+  "lastSourceCheckAt": "2026-11-28T07:05:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
@@ -66,29 +71,23 @@
    "url": "/war/2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya.html"
   },
   "publishedLastRun": 1,
-  "rejectedLastRun": 57,
+  "rejectedLastRun": 56,
   "rejectedReasons": {
    "old": 10,
-   "duplicate": 43,
+   "duplicate": 42,
    "on-site": 4
   },
   "taskRejectedReasons": [
-   "Somali Supreme Court judges refuse to return to work after ruling president's term expired (Somali Guardian): headline-only; Hiiraan/Goobjoog none in plan, WebSearch en none (only 6-7 Nov ruling) -> pending",
-   "Wasiirkii Xanaanada Xoolaha Waqooyi Bari oo xilka iska-casiley (Horseed + Caasimada): headline-only; facts-only sources none, WebSearch so none -> pending",
-   "Dowlad-goboleedka Waqooyi Bari oo ka digtay colaad Somaliland (Hiiraan): eedeyn culus oo hal dhinac ah, il madax-bannaan lama helin -> pending (sidii run-kii hore)",
-   "Somaliland: Xasan wuxuu ogaaday wax ... Imaaraadka (Caasimada): headline-only, faallo/mala-awaal -> lama daabicin",
-   "Garnaqsi: Hashu maankay gaddaye (Puntland Post): ra'yi -> maaha war",
-   "Sudanese Army Rejects Ethiopian Proposal (Garowe Online): qoraal ra'yi u eg, Suudaan kuma jirto Bariga Afrika -> lama daabicin",
-   "SAUDI-HOUTHI WAR (Garowe Online): maaha Soomaaliya/Bariga Afrika -> lama daabicin",
-   "Wasiirka Isgaarsiinta ... Golaha Wasiirrada Carabta (Hiiraan): borotokool -> lama daabicin",
-   "Madaxweynaha Puntland oo Galmudug ku ammaanay (Horseed): borotokool, headline-only -> lama daabicin",
-   "Somalia Moves to Protect Faculty of Agriculture Premises (Puntland Post): waqti la'aan run-kan; run-ka xiga ayaa eegi kara",
-   "Madaxweynaha Deegaanka Soomaalida ... xasilloonida (Hiiraan): baaq guud, war cusub ma leh -> lama daabicin",
-   "Tansaaniya fiisaha / baasaboorka / Uganda cirka / AUSSOM / Hindiya: horey bogga ugu jira ama run-kii hore go'aamiyay"
+   "Supreme Court judges (Somali Guardian): headline-only; Hiiraan/Goobjoog none, WebSearch so+en none -> pending",
+   "Wasiirka xoolaha Waqooyi Bari oo is casilay (Horseed/Caasimada): headline-only, no readable source; Hiiraan none, WebSearch so+en none -> pending",
+   "Somaliland ambassador's claim about Israel (Hiiraan): disputed political claim from one outlet, no second source -> pending",
+   "Tanzania visa / baasaboorka / AUSSOM / India / Uganda / Galmudug / Koonfur Galbeed SISA / shirkadda kalluumeysiga Puntland: already on the site (duplicate)",
+   "Turkiga iyo ciidamada badda: published in the previous run (duplicate)"
   ],
-  "waitingForImage": 50,
+  "waitingForImage": 51,
   "waitingIds": [
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
+   "2026-11-27-dowladda-ilaalinta-dhismaha-kulliyadda-beeraha-jaamacadda-ummadda",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
    "2026-11-26-guddiga-shaqaalaha-rayidka-ogeysiis-anshaxa-baraha-bulshada",
    "2026-11-24-baarlamaanka-puntland-wax-ka-beddelka-dastuurka-40-cod-44",
@@ -106,8 +105,7 @@
    "2026-11-12-xawaadle-dibadbax-15-november-hiiraan-hirshabeelle",
    "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
    "2026-11-17-sodma-arc-kulan-cop31-caymiska-musiibooyinka",
-   "2026-11-22-sweden-booliska-maxkamad-dilka-wiil-soomaali-14-jir",
-   "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera"
+   "2026-11-22-sweden-booliska-maxkamad-dilka-wiil-soomaali-14-jir"
   ],
   "stale": false,
   "problems": [],
