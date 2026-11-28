@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-28T09:46:35+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-28T10:16:44+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-28T05:35:24Z",
  "newestArticleAt": "2026-11-28T04:38:27+03:00",
- "lastSourceCheckAt": "2026-11-28T09:45:19+03:00",
+ "lastSourceCheckAt": "2026-11-28T10:15:23+03:00",
  "sourceChecks24h": 275,
- "publishedArticles": 1647,
+ "publishedArticles": 1651,
  "liveArticles": 1647,
- "waitingForImage": 292,
- "liveInSync": true,
+ "waitingForImage": 305,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-28T05:35:24Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/46112792965"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-28T07:16:41+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-28T07:10:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-28T10:20:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-28T09:45:12+03:00",
-   "lastSuccessAt": "2026-11-28T09:45:12+03:00",
+   "lastCheckAt": "2026-11-28T10:15:12+03:00",
+   "lastSuccessAt": "2026-11-28T10:15:12+03:00",
    "lastReportAt": "2026-11-28T01:00:10+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-28T07:05:00+03:00",
+  "lastSourceCheckAt": "2026-11-28T10:16:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-28T00:26:00+03:00",
-   "sourceName": "Garowe Online",
-   "title": "SAUDI–HOUTHI WAR: The fighting has moved inside Saudi Arabia | Garowe Online",
-   "url": "https://www.garoweonline.com/en/news/somalia/saudi-houthi-war-the-fighting-has-moved-inside-saudi-arabia"
+   "publishedAt": "2026-11-28T09:09:34+03:00",
+   "sourceName": "Radio Muqdisho (state broadcaster)",
+   "title": "Qodobbada Midowga Afrika ee ku saabsan Soomaaliya",
+   "url": "https://radiomuqdisho.so/qodobbada-midowga-afrika-ee-ku-saabsan-soomaaliya/"
   },
   "latestPublished": {
    "id": "2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya",
@@ -65,22 +70,21 @@
    "source": "Goobjoog News",
    "url": "/war/2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 56,
+  "publishedLastRun": 0,
+  "rejectedLastRun": 54,
   "rejectedReasons": {
-   "old": 10,
+   "old": 8,
    "duplicate": 42,
    "on-site": 4
   },
   "taskRejectedReasons": [
-   "Supreme Court judges (Somali Guardian): headline-only; Hiiraan/Goobjoog none, WebSearch so+en none -> pending",
-   "Wasiirka xoolaha Waqooyi Bari oo is casilay (Horseed/Caasimada): headline-only, no readable source; Hiiraan none, WebSearch so+en none -> pending",
-   "Somaliland ambassador's claim about Israel (Hiiraan): disputed political claim from one outlet, no second source -> pending",
-   "Tanzania visa / baasaboorka / AUSSOM / India / Uganda / Galmudug / Koonfur Galbeed SISA / shirkadda kalluumeysiga Puntland: already on the site (duplicate)",
-   "Turkiga iyo ciidamada badda: published in the previous run (duplicate)"
+   "Suudaan 6,000 dagaalyahan xadka Itoobiya: sheegasho aan la xaqiijin (pending)",
+   "Waqooyi Bari / Somaliland Shidan-Sanaag: hal il keliya (pending)",
+   "Golaha deegaanka AU: waa la qoray laakiin waa Sugaya sawir"
   ],
-  "waitingForImage": 51,
+  "waitingForImage": 52,
   "waitingIds": [
+   "2026-11-28-midowga-afrika-bogaadiyay-doorashooyinka-golayaasha-deegaanka-soomaaliya",
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
    "2026-11-27-dowladda-ilaalinta-dhismaha-kulliyadda-beeraha-jaamacadda-ummadda",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
@@ -99,8 +103,7 @@
    "2026-11-21-garoonka-ugaas-khaliif-beledweyne-xiran-sabti-axad",
    "2026-11-12-xawaadle-dibadbax-15-november-hiiraan-hirshabeelle",
    "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
-   "2026-11-17-sodma-arc-kulan-cop31-caymiska-musiibooyinka",
-   "2026-11-22-sweden-booliska-maxkamad-dilka-wiil-soomaali-14-jir"
+   "2026-11-17-sodma-arc-kulan-cop31-caymiska-musiibooyinka"
   ],
   "stale": false,
   "problems": [],
