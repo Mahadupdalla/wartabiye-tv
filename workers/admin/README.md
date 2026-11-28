@@ -91,3 +91,11 @@ up a new one.
   real GitHub reads. It saves screenshots to `<dir>`.
 * Files: `src/auth.js` (sign-in, sessions, setup), `src/github.js` (proxy, automation status), `src/analytics.js`
   (counter and reports), `public/` (dashboard), `scripts/prepare.mjs` (copies the CMS and its config at deploy).
+
+## Sign-in shows a GitHub "404 – This is not the web page you are looking for"
+
+1. Check which account you are signed in to on github.com (picture in the top right). The sign-in app is private to
+   `@Mahadupdalla`, so every other GitHub account gets this 404. Switch to `@Mahadupdalla` and try again.
+2. Still a 404 while signed in as `@Mahadupdalla`? The GitHub App was deleted. Open
+   **Actions → Maamulka ammaan ah → Run workflow**, type `RESET` in *reset_github_app*, run it, then open the admin
+   and press **Create the GitHub App** again (steps 6–8 above).
