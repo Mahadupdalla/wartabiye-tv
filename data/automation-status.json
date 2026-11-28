@@ -1,15 +1,15 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-28T15:26:40+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-28T15:51:40+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-28T11:35:23Z",
  "newestArticleAt": "2026-11-28T12:03:53+03:00",
- "lastSourceCheckAt": "2026-11-28T15:25:19+03:00",
- "sourceChecks24h": 275,
+ "lastSourceCheckAt": "2026-11-28T15:50:20+03:00",
+ "sourceChecks24h": 274,
  "publishedArticles": 1666,
  "liveArticles": 1666,
- "waitingForImage": 305,
+ "waitingForImage": 325,
  "liveInSync": true,
  "publishFailures24h": 0,
  "lastPublishRun": {
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/46140599302"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-28T12:51:39+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-28T12:39:57+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-28T15:49:00+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-28T15:25:11+03:00",
-   "lastSuccessAt": "2026-11-28T15:25:11+03:00",
+   "lastCheckAt": "2026-11-28T15:50:13+03:00",
+   "lastSuccessAt": "2026-11-28T15:50:13+03:00",
    "lastReportAt": "2026-11-28T01:00:10+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-28T12:39:42+03:00",
+  "lastSourceCheckAt": "2026-11-28T15:49:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-28T12:00:28+03:00",
-   "sourceName": "Caasimada Online",
-   "title": "Sanbaloolshe oo shaaciyay tallaabooyin ay qaadayaan, sheegayna in Hiiraan dowlad tahay",
-   "url": "https://www.caasimada.net/sanbaloolshe-oo-shaaciyay-tallaabooyin-ay-qaadayaan-sheegayna-in-hiiraan-dowlad-tahay/"
+   "publishedAt": "2026-11-28T14:54:03+03:00",
+   "sourceName": "Goobjoog News",
+   "title": "Madaxweyne Xasan Sheekh oo booqday gogosha tacsida Cali Cabdullaahi Cosoble",
+   "url": "https://goobjoog.com/2026/11/28/madaxweyne-xasan-sheekh-oo-booqday-gogosha-tacsida-cali-cabdullaahi-cosoble"
   },
   "latestPublished": {
    "id": "2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya",
@@ -65,32 +70,28 @@
    "source": "Goobjoog News",
    "url": "/war/2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya.html"
   },
-  "publishedLastRun": 1,
-  "rejectedLastRun": 79,
+  "publishedLastRun": 3,
+  "rejectedLastRun": 89,
   "rejectedReasons": {
-   "old": 10,
-   "duplicate": 66,
+   "old": 16,
+   "duplicate": 70,
    "on-site": 3
   },
   "taskRejectedReasons": [
-   "Wasiir Fiqi oo shaaciyay in Imaaraadku Muqdisho ka fulin jiray howlgallo guri-guri ah: eedeyn culus (jirdil, la qaaday dibadda), hal il (Hiiraan); WebSearch en none -> pending",
-   "Midowga Afrika oo diiday faragelin kasta (Hiiraan/Shabelle/Caasimada): horey ayuu bogga ugu jiray (2026-11-28-midowga-afrika-bogaadiyay-doorashooyinka...)",
-   "Midowga Afrika ansixiyay qorshe saddex marxaladood AUSSOM: horey bogga (2026-11-27)",
-   "Soomaaliya shirweynaha IORA (Hiiraan): horey bogga (2026-11-25 IORA)",
-   "North Eastern State accuses Somaliland Sanaag (Hiiraan en+so): sheegasho siyaasadeed oo muran leh, hal il -> pending",
-   "Golaha Wakiilada Puntland Galkacyo (Horseed): headline-only; Hiiraan/Goobjoog none -> pending",
-   "Wasiiru-dowlaha Madaxtooyada Puntland Imaaraadka (Horseed): headline-only, lama xaqiijin",
-   "Puntland aas qaran Marduuf (Puntland Post): xaflad/aas, qiimo war yar; dhimashadu horey bogga (2026-11-26)",
-   "Sanbaloolshe / Hiiraan dowlad (Caasimada): headline-only, lama xaqiijin",
-   "Turkiga beeniyay dhacdo xasaasi (Caasimada): isla dhacdada Hiiraan -> alsoReportedBy",
-   "Why Dr Micheal Rubin Gets Somalia Wrong (Puntland Post): ra'yi",
-   "Shabelle (Baydhabo, Barwaaqo Cup, Azerbaijan UN-Habitat, Aadan Madoobe): borotokool / headline-only, lama xaqiijin",
-   "AU digniin Al-Shabaab magaalooyin (Shabelle): headline-only; isla bayaanka AU ee horey bogga",
-   "Baasaboorka EAC / elektaroonigga (Caasimada, Horseed, Shabelle): horey bogga (2026-11-27)",
+   "NISA howlgal (Hiiraan): hal il, tiro khasaare; WebSearch so+en none -> pending",
+   "Somali Guardian AK-47 eedeyn: headline-only, eedeyn culus; Hiiraan/Goobjoog none, WebSearch none -> pending",
+   "Caasimada Beledweyne: headline-only, Hiiraan/Goobjoog none -> pending",
+   "DF tiri AU (Caasimada): headline-only; isla bayaanka AU ee horey bogga",
+   "Sanbaloolshe / Hiiraan dowlad (Caasimada): headline-only, lama xaqiijin -> pending",
+   "Xasan Sheekh tacsi Cosoble: borotokool, qiimo war yar",
+   "Radio Daljir Garoowe: warbixin guud, ma aha war cusub",
+   "Wasiir Fiqi Imaaraadka howlgallo guri-guri ah (Hiiraan): eedeyn culus, hal il -> pending",
+   "North Eastern State accuses Somaliland Sanaag (Hiiraan): sheegasho siyaasadeed oo muran leh, hal il -> pending",
    "Tansaaniya fiisaha (Goobjoog, catch-up): hal il, lama xaqiijin -> pending",
-   "BBC Somali (warbixino guud, Dunida Iyo Maanta, daraasad): ma aha war cusub / barnaamij"
+   "Why Dr Micheal Rubin Gets Somalia Wrong (Puntland Post): ra'yi",
+   "BBC Somali (barnaamijyo / warbixino guud): ma aha war cusub"
   ],
-  "waitingForImage": 53,
+  "waitingForImage": 56,
   "waitingIds": [
    "2026-11-28-midowga-afrika-bogaadiyay-doorashooyinka-golayaasha-deegaanka-soomaaliya",
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
@@ -115,7 +116,7 @@
   ],
   "stale": true,
   "problems": [
-   "No new Somalia article for 16 hours although the Somali sources have newer stories (latest: Caasimada Online 2026-11-28T12:00:28+03:00)."
+   "No new Somalia article for 16 hours although the Somali sources have newer stories (latest: Goobjoog News 2026-11-28T14:54:03+03:00)."
   ],
   "lastSuccessfulPublishAt": "2026-11-28T11:35:23Z"
  }
