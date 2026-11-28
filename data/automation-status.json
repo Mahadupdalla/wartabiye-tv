@@ -1,16 +1,16 @@
 {
  "about": "Written every 5 minutes by tools/automation_watchdog.py (GitHub Actions); this copy is saved about once an hour and at once when the state changes. Do not edit.",
- "updatedAt": "2026-11-28T03:06:18+03:00",
- "overall": "ok",
- "overallText": "Wax walba si otomaatig ah ayay u shaqeynayaan",
+ "updatedAt": "2026-11-28T03:46:34+03:00",
+ "overall": "publishing",
+ "overallText": "Daabacaad ayaa socota",
  "lastSuccessfulPublishAt": "2026-11-27T23:02:42Z",
  "newestArticleAt": "2026-11-28T00:40:00+03:00",
- "lastSourceCheckAt": "2026-11-28T03:05:17+03:00",
- "sourceChecks24h": 271,
- "publishedArticles": 1626,
+ "lastSourceCheckAt": "2026-11-28T03:45:23+03:00",
+ "sourceChecks24h": 272,
+ "publishedArticles": 1627,
  "liveArticles": 1626,
- "waitingForImage": 280,
- "liveInSync": true,
+ "waitingForImage": 293,
+ "liveInSync": false,
  "publishFailures24h": 0,
  "lastPublishRun": {
   "created_at": "2026-11-27T23:02:42Z",
@@ -18,9 +18,14 @@
   "event": "workflow_dispatch",
   "html_url": "https://github.com/Mahadupdalla/wartabiye-tv/actions/runs/46080206256"
  },
- "retry": null,
+ "retry": {
+  "attempts": 0,
+  "max": 4,
+  "lastRetryAt": "2026-11-25T15:51:33+00:00",
+  "since": "2026-11-28T00:46:33+00:00"
+ },
  "problems": [],
- "hourlyRoutineLastRunAt": "2026-11-28T01:10:00+03:00",
+ "hourlyRoutineLastRunAt": "2026-11-28T03:43:34+03:00",
  "writers": {
   "news": {
    "mode": "fallback",
@@ -41,22 +46,22 @@
    }
   },
   "sportsResults": {
-   "lastCheckAt": "2026-11-28T03:05:11+03:00",
-   "lastSuccessAt": "2026-11-28T03:05:11+03:00",
+   "lastCheckAt": "2026-11-28T03:45:12+03:00",
+   "lastSuccessAt": "2026-11-28T03:45:12+03:00",
    "lastReportAt": "2026-11-28T01:00:10+03:00",
    "newReports": 0,
    "failed": []
   }
  },
  "somalia": {
-  "lastSourceCheckAt": "2026-11-28T01:01:00+03:00",
+  "lastSourceCheckAt": "2026-11-28T03:45:00+03:00",
   "sourcesWorking": 11,
   "sources": 16,
   "latestDiscovered": {
-   "publishedAt": "2026-11-27T23:42:51+03:00",
+   "publishedAt": "2026-11-28T00:26:00+03:00",
    "sourceName": "Garowe Online",
-   "title": "Sudanese Army Rejects Ethiopian Proposal to End the War in Sudan | Garowe Online",
-   "url": "https://www.garoweonline.com/en/news/somalia/sudanese-army-rejects-ethiopian-proposal-to-end-the-war-in-sudan"
+   "title": "SAUDI–HOUTHI WAR: The fighting has moved inside Saudi Arabia | Garowe Online",
+   "url": "https://www.garoweonline.com/en/news/somalia/saudi-houthi-war-the-fighting-has-moved-inside-saudi-arabia"
   },
   "latestPublished": {
    "id": "2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya",
@@ -65,21 +70,28 @@
    "source": "Goobjoog News",
    "url": "/war/2026-11-27-midowga-afrika-ansixiyay-qorshaha-kala-guurka-aussom-soomaaliya.html"
   },
-  "publishedLastRun": 2,
-  "rejectedLastRun": 58,
+  "publishedLastRun": 1,
+  "rejectedLastRun": 57,
   "rejectedReasons": {
-   "old": 8,
-   "duplicate": 47,
-   "on-site": 3
+   "old": 10,
+   "duplicate": 43,
+   "on-site": 4
   },
   "taskRejectedReasons": [
-   "Waqooyi Bari / Somaliland: eedeyn culus oo Shidan ah (hal il kaliya): eedeyn culus hal il -> pending",
-   "Tansaaniya oo Soomaaliya ka reebtay dalalka fiisaha la'aanta (Goobjoog): boggu lama akhriyi karin, go'aan cusub oo taariikh leh lama xaqiijin",
-   "Soomaaliya oo bilaabeysa baasaboorka elektaroonigga: horey bogga ugu jira",
-   "Cutubyo ciidanka cirka Uganda ee Soomaaliya: horey bogga ugu jira",
-   "Sharciga sirdoonka Koonfur Galbeed: horey bogga ugu jira"
+   "Somali Supreme Court judges refuse to return to work after ruling president's term expired (Somali Guardian): headline-only; Hiiraan/Goobjoog none in plan, WebSearch en none (only 6-7 Nov ruling) -> pending",
+   "Wasiirkii Xanaanada Xoolaha Waqooyi Bari oo xilka iska-casiley (Horseed + Caasimada): headline-only; facts-only sources none, WebSearch so none -> pending",
+   "Dowlad-goboleedka Waqooyi Bari oo ka digtay colaad Somaliland (Hiiraan): eedeyn culus oo hal dhinac ah, il madax-bannaan lama helin -> pending (sidii run-kii hore)",
+   "Somaliland: Xasan wuxuu ogaaday wax ... Imaaraadka (Caasimada): headline-only, faallo/mala-awaal -> lama daabicin",
+   "Garnaqsi: Hashu maankay gaddaye (Puntland Post): ra'yi -> maaha war",
+   "Sudanese Army Rejects Ethiopian Proposal (Garowe Online): qoraal ra'yi u eg, Suudaan kuma jirto Bariga Afrika -> lama daabicin",
+   "SAUDI-HOUTHI WAR (Garowe Online): maaha Soomaaliya/Bariga Afrika -> lama daabicin",
+   "Wasiirka Isgaarsiinta ... Golaha Wasiirrada Carabta (Hiiraan): borotokool -> lama daabicin",
+   "Madaxweynaha Puntland oo Galmudug ku ammaanay (Horseed): borotokool, headline-only -> lama daabicin",
+   "Somalia Moves to Protect Faculty of Agriculture Premises (Puntland Post): waqti la'aan run-kan; run-ka xiga ayaa eegi kara",
+   "Madaxweynaha Deegaanka Soomaalida ... xasilloonida (Hiiraan): baaq guud, war cusub ma leh -> lama daabicin",
+   "Tansaaniya fiisaha / baasaboorka / Uganda cirka / AUSSOM / Hindiya: horey bogga ugu jira ama run-kii hore go'aamiyay"
   ],
-  "waitingForImage": 49,
+  "waitingForImage": 50,
   "waitingIds": [
    "2026-11-26-koonfur-galbeed-golaha-wasiirrada-sharciga-hayadda-sirdoonka-sisa",
    "2026-11-23-daacish-weerar-golis-sheebaab-calmiskaad-afar-dhimasho",
@@ -88,6 +100,7 @@
    "2026-11-26-puntland-wasiir-qarjab-warqadda-guddoomiyaha-mudug-sharci-darro",
    "2026-11-15-fiqi-hindiya-wada-hadal-difaaca-amniga-badda",
    "2026-11-25-turkiga-muuqaal-saldhigga-hawada-sare-spaceport-soomaaliya",
+   "2026-11-27-turkiga-xaqiijiyey-taageerada-ciidamada-badda-ilaalada-xeebaha-soomaaliya",
    "2026-11-25-deni-dhagax-dhigay-garoonka-diyaaradaha-gaalkacyo",
    "2026-11-22-galmudug-liibaan-wareegto-24-wasiir-golaha-cusub",
    "2026-11-14-maxkamadda-ciidamada-dil-toogasho-tahliil-guure",
@@ -99,8 +112,7 @@
    "2026-11-16-cali-balcad-al-jazeera-trump-muwaadin-mareykan",
    "2026-11-17-sodma-arc-kulan-cop31-caymiska-musiibooyinka",
    "2026-11-22-sweden-booliska-maxkamad-dilka-wiil-soomaali-14-jir",
-   "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera",
-   "2026-11-22-dowladda-mamnuucday-hubka-sharci-darrada-muqdisho-fartaag"
+   "2026-11-18-cali-balcad-trump-muwaadin-mareykan-al-jazeera"
   ],
   "stale": false,
   "problems": [],
